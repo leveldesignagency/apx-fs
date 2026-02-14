@@ -1,36 +1,9 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# APX Fire & Security Website
 
-## Getting Started
+Light-mode version of the APX site, rebranded for **APX Fire & Security** (fire safety, CCTV, access control, life safety).
 
-First, run the development server:
+- **Run locally:** `npm run dev` — dev server runs on **port 3002** so you can run the MEP site on 3001 at the same time.
+- **Switch link:** “Switch to APX MEP” in the header goes to the MEP site. Set `NEXT_PUBLIC_APX_MEP_URL` (e.g. `http://localhost:3001`) if needed.
+- **Theme:** Default theme is **light** (no dark mode toggle).
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
-
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
-
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
-
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
-
-## Learn More
-
-To learn more about Next.js, take a look at the following resources:
-
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+On the MEP site, “Switch to APX Fire & Security” links to this site; set `NEXT_PUBLIC_APX_FS_URL` (e.g. `http://localhost:3002`) there for local dev.
