@@ -19,33 +19,50 @@
   --font-sans: var(--font-inter);
 }
 
-/* Section rhythm: generous spacing so sections breathe (clearly visible) */
+/* FS: main content and footer above hero background layers so they sit on top of black mask */
+main,
+footer {
+  position: relative;
+  z-index: 10;
+}
+
+/* Section rhythm: generous top and bottom padding */
 .section-spacing {
-  padding-top: 7rem;
-  padding-bottom: 7rem;
+  padding-top: 6rem;
+  padding-bottom: 6rem;
 }
 @media (min-width: 1024px) {
   .section-spacing {
-    padding-top: 10rem;
-    padding-bottom: 10rem;
+    padding-top: 7rem;
+    padding-bottom: 7rem;
+  }
+}
+
+/* Pull sections together – remove visible gap between sections */
+section + section {
+  margin-top: -4rem;
+}
+@media (min-width: 1024px) {
+  section + section {
+    margin-top: -5rem;
   }
 }
 .section-content-gap {
-  margin-bottom: 5rem;
+  margin-bottom: 4rem;
 }
 @media (min-width: 1024px) {
   .section-content-gap {
-    margin-bottom: 6rem;
+    margin-bottom: 5rem;
   }
 }
 .section-title-gap {
-  margin-bottom: 2rem;
+  margin-bottom: 2.5rem;
 }
 .section-intro-gap {
-  margin-top: 2rem;
+  margin-top: 2.5rem;
 }
 .section-block-gap {
-  margin-top: 5rem;
+  margin-top: 6rem;
 }
 
 /* Slightly more space between consecutive paragraphs in sections */
@@ -64,11 +81,17 @@
   text-transform: none;
 }
 
-/* Section titles: title case (not all caps); keep APX and MEP in caps in the copy */
+/* Section titles: title case (not all caps); keep APX FS / APX Fire & Security in all caps via inline style */
 section h2.font-title,
 section h3.font-title,
 section h4.font-title {
   text-transform: none;
+}
+
+/* Section titles: consistent line height across the site */
+section h1,
+section h2 {
+  line-height: 1.25;
 }
 
 #hero h1 {
@@ -88,6 +111,61 @@ section h4.font-title {
 #hero .text-base,
 #hero .text-xs {
   color: #ffffff !important;
+}
+
+/* Pill CTA (Get a quote): white border on top, black bg, fill runs full size behind border so no gap. */
+.pill-btn {
+  position: relative;
+  isolation: isolate;
+  transition: color 0.125s ease;
+}
+/* Fill layer: full button size, same radius; fill runs edge-to-edge. Clipped to button shape. */
+.pill-btn-inner {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  border-top-left-radius: 1rem;
+  border-bottom-right-radius: 1rem;
+  border-top-right-radius: 0;
+  border-bottom-left-radius: 0;
+  overflow: hidden;
+  pointer-events: none;
+}
+/* Fill: full size so it fills the whole button; no inset so no visible gap at border. Grows from bottom. */
+.pill-btn-inner::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background-color: #ffffff;
+  transform: scale(1, 0);
+  transform-origin: 50% 100%;
+  transition: transform 0.25s ease;
+}
+.pill-btn:hover .pill-btn-inner::before {
+  transform: scale(1, 1);
+}
+/* Border drawn on top of fill so fill goes to edge and border sits cleanly on top. */
+.pill-btn-border {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  border: 2px solid #ffffff;
+  border-top-left-radius: 1rem;
+  border-bottom-right-radius: 1rem;
+  border-top-right-radius: 0;
+  border-bottom-left-radius: 0;
+  pointer-events: none;
+}
+.pill-btn .pill-text {
+  position: relative;
+  z-index: 1;
+  color: #ffffff !important;
+  transition: color 0.125s ease 0.15s;
+}
+.pill-btn:hover .pill-text,
+#hero .pill-btn:hover .pill-text {
+  color: #000000 !important;
+  transition: color 0.125s ease;
 }
 
 /* FS: ABOUT intro – background from placeholder layer; dark text */
@@ -117,17 +195,17 @@ section h4.font-title {
   z-index: 1 !important;
 }
 
-/* FS: Intro paragraph under APX FS SERVICES title – always black */
+/* FS: APX FS SERVICES title and intro – always black */
+#services .services-section-title,
 #services .hero-services-intro,
 #services p.section-intro-gap {
   color: #000000 !important;
 }
 
-/* FS: Service cards – thicker black border, full white text; no black overlay – image visible with black feather bottom */
+/* FS: Service cards – no border; full white text; no black overlay – image visible with black feather bottom */
 #services .service-card-unified,
 #services .service-card-unified:hover {
-  border-color: #000000 !important;
-  border: 2px solid #000000 !important;
+  border: none !important;
   background: transparent !important;
 }
 #services .service-card-unified-title,
@@ -142,22 +220,42 @@ section h4.font-title {
   border-left-color: #ffffff !important;
 }
 
-/* FS: No overlay on image – full opacity; only set background-color so inline background-image is not reset */
+/* FS: No overlay on image – full opacity; blur and glass on hover */
 #services .service-card-unified-bg {
   background-color: transparent !important;
   opacity: 1 !important;
+  filter: blur(0) !important;
+  transition: filter 0.4s ease !important;
 }
 #services .service-card-unified:hover .service-card-unified-bg {
   opacity: 1 !important;
+  filter: blur(8px) !important;
 }
 
-/* FS: Black feathered bottom only – so text reads over the image */
+/* FS: Glassmorphic overlay on hover – frosted glass over the image */
+#services .service-card-unified::before {
+  content: "" !important;
+  position: absolute !important;
+  inset: 0 !important;
+  z-index: 1 !important;
+  pointer-events: none !important;
+  opacity: 0 !important;
+  background: rgba(255, 255, 255, 0.12) !important;
+  backdrop-filter: blur(16px) !important;
+  -webkit-backdrop-filter: blur(16px) !important;
+  transition: opacity 0.35s ease !important;
+}
+#services .service-card-unified:hover::before {
+  opacity: 1 !important;
+}
+
+/* FS: Black feathered bottom only – so text reads over the image (above glass layer) */
 #services .service-card-unified::after {
   content: "" !important;
   position: absolute !important;
   inset: 0 !important;
   pointer-events: none !important;
-  z-index: 1 !important;
+  z-index: 2 !important;
   background: linear-gradient(to bottom, transparent 0%, transparent 35%, rgba(0,0,0,0.3) 65%, rgba(0,0,0,0.92) 100%) !important;
 }
 
@@ -214,14 +312,112 @@ section h4.font-title {
   border-left-color: transparent !important;
 }
 
+/* Services cards: path animation – one card at a time, top row first */
+@keyframes service-in-left {
+  from {
+    opacity: 0;
+    transform: translateX(-60px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+@keyframes service-in-right {
+  from {
+    opacity: 0;
+    transform: translateX(60px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+@keyframes service-in-bottom {
+  from {
+    opacity: 0;
+    transform: translateY(60px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+#services .services-cards-animate .service-card-in {
+  opacity: 0;
+}
+/* Run path animation only when section has been in view (one at a time, top row first) */
+#services .services-cards-animate.services-cards-visible .service-card-in.from-left {
+  animation: service-in-left 0.5s ease-out forwards;
+}
+#services .services-cards-animate.services-cards-visible .service-card-in.from-right {
+  animation: service-in-right 0.5s ease-out forwards;
+}
+#services .services-cards-animate.services-cards-visible .service-card-in.from-bottom {
+  animation: service-in-bottom 0.5s ease-out forwards;
+}
+#services .services-cards-animate.services-cards-visible .service-card-in:nth-child(1) { animation-delay: 0s; }
+#services .services-cards-animate.services-cards-visible .service-card-in:nth-child(2) { animation-delay: 0.3s; }
+#services .services-cards-animate.services-cards-visible .service-card-in:nth-child(3) { animation-delay: 0.6s; }
+#services .services-cards-animate.services-cards-visible .service-card-in:nth-child(4) { animation-delay: 0.9s; }
+#services .services-cards-animate.services-cards-visible .service-card-in:nth-child(5) { animation-delay: 1.2s; }
+
 /* ========== FS: Light theme for all sections below hero – black text, light backgrounds ========== */
 html:not(.dark) #services-drawer,
 html:not(.dark) #services-benefits,
-html:not(.dark) #why-mep,
 html:not(.dark) #about,
-html:not(.dark) #testimonials,
-html:not(.dark) #contact {
+html:not(.dark) #testimonials {
   background-color: #ffffff !important;
+}
+#contact {
+  background-color: #000000 !important;
+}
+
+/* Accreditations: white background, black text, canted top, black border strip along angle */
+#accreditations {
+  position: relative;
+  background-color: #ffffff !important;
+}
+#accreditations.accreditations-section::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 3px;
+  background: #000000;
+  /* Match fixed cant angle: 6vh over 100% width ≈ -4.6deg at typical viewport */
+  transform: skewY(-4.6deg);
+  transform-origin: left top;
+  z-index: 1;
+  pointer-events: none;
+}
+/* Force all text black (ThemeToggle forces span/p/h2 etc to theme.text; override with higher specificity) */
+#accreditations .accreditations-heading,
+#accreditations .accreditations-text,
+#accreditations .accreditations-logos .text-gray-500,
+#accreditations h2,
+#accreditations h3,
+#accreditations p,
+#accreditations span,
+#accreditations li {
+  color: #000000 !important;
+}
+/* Keep CTA button text white */
+#accreditations a.bg-red-600 {
+  color: #ffffff !important;
+}
+#accreditations .accreditations-logos .border-gray-300 {
+  border-color: #333333 !important;
+}
+/* Container: white bg, black border, only top-left and bottom-right rounded */
+#accreditations .accreditations-card {
+  background-color: #ffffff !important;
+  border: 2px solid #000000 !important;
+  border-top-left-radius: 1.75rem;
+  border-top-right-radius: 0;
+  border-bottom-right-radius: 1.75rem;
+  border-bottom-left-radius: 0;
 }
 /* Services drawer: black text, dark dividers */
 html:not(.dark) #services-drawer .apx-mep-services-title-box {
@@ -230,6 +426,10 @@ html:not(.dark) #services-drawer .apx-mep-services-title-box {
 }
 html:not(.dark) #services-drawer .apx-mep-services-title-box h2 {
   color: #ffffff !important;
+}
+#services-drawer .services-drawer-title,
+#services-drawer h2.services-drawer-title {
+  color: #000000 !important;
 }
 html:not(.dark) #services-drawer p,
 html:not(.dark) #services-drawer .text-gray-300 {
@@ -271,27 +471,61 @@ html:not(.dark) #services-benefits .services-benefit-icon-wrap svg {
   color: #ffffff !important;
   stroke: #ffffff !important;
 }
-/* Why MEP / Integrated Security: light section, light cards, black text */
-html:not(.dark) .mep-section-light-bg::after {
+/* Why MEP / Integrated Security: hide light-mode overlay so black section shows */
+html:not(.dark) #why-mep.mep-section-light-bg::after {
   display: none !important;
 }
-html:not(.dark) #why-mep {
-  background-color: #f8f8f8 !important;
+/* News and Articles section: always black mode (dark bg, light text); generous top and bottom padding */
+#why-mep {
+  background-color: #000000 !important;
+  padding-top: 6rem !important;
+  padding-bottom: 14rem !important;
 }
-html:not(.dark) #why-mep h2,
-html:not(.dark) #why-mep .text-gray-300 {
-  color: #1a1a1a !important;
+@media (min-width: 1024px) {
+  #why-mep {
+    padding-top: 8rem !important;
+    padding-bottom: 18rem !important;
+  }
 }
-html:not(.dark) .mep-cards-grid li {
-  background: #ffffff !important;
-  border-color: rgba(0, 0, 0, 0.2) !important;
+#why-mep h2,
+#why-mep .text-gray-300 {
+  color: #ffffff !important;
 }
-html:not(.dark) .mep-cards-section .mep-cards-grid li :is(h3, p, a, a span),
-html:not(.dark) .mep-cards-section .mep-cards-grid li svg {
-  color: #1a1a1a !important;
+#why-mep .services-drawer-list-item,
+#why-mep .services-drawer-list-item[data-active="true"],
+#why-mep .services-drawer-list-item:hover,
+#why-mep .services-drawer-list-item:focus-visible {
+  color: #ffffff !important;
 }
-html:not(.dark) .mep-cards-section .mep-cards-grid li svg {
-  stroke: #1a1a1a !important;
+#why-mep a,
+#why-mep .services-breakdown a,
+#why-mep .services-breakdown a span {
+  color: #ffffff !important;
+}
+#why-mep .mep-cards-grid li {
+  background: #0a0a0a !important;
+  border-color: rgba(255, 255, 255, 0.2) !important;
+}
+#why-mep .mep-cards-grid li :is(h3, p, a, a span),
+#why-mep .mep-cards-grid li svg {
+  color: #ffffff !important;
+}
+#why-mep .mep-cards-grid li svg {
+  stroke: #ffffff !important;
+}
+/* News and Articles: line dividers always white (override light-theme dark dividers) */
+#why-mep .services-drawer-list-item::before {
+  background: rgba(255, 255, 255, 0.9) !important;
+}
+#why-mep .services-drawer-left::after {
+  display: none !important; /* no left border/line on the image panel */
+}
+/* News and Articles: right column + image stretch off the page to the right */
+@media (min-width: 1024px) {
+  #why-mep .services-drawer-right {
+    width: calc(100vw - 50%);
+    min-width: 50%;
+  }
 }
 /* About (Why Choose Us): light section, light cards, black text */
 html:not(.dark) #about h2,
@@ -321,44 +555,59 @@ html:not(.dark) #about .stats-card .text-white {
 html:not(.dark) #about .stats-card .text-gray-300 {
   color: #444444 !important;
 }
-/* Testimonials: light card, black text */
-html:not(.dark) #testimonials h2,
-html:not(.dark) #testimonials .text-gray-300 {
-  color: #1a1a1a !important;
+/* Testimonials: lifted black container – always dark (white text) inside; section bg white */
+#testimonials {
+  background-color: #ffffff !important;
 }
-html:not(.dark) #testimonials .service-card {
-  background: rgba(255, 255, 255, 0.95) !important;
-  border-color: rgba(0, 0, 0, 0.2) !important;
+#testimonials .testimonials-lifted h2 {
+  color: #ffffff !important;
 }
-html:not(.dark) #testimonials .service-card .text-gray-300,
-html:not(.dark) #testimonials .service-card .text-white,
-html:not(.dark) #testimonials .service-card .text-gray-400 {
-  color: #1a1a1a !important;
+#testimonials .testimonials-lifted .text-gray-300 {
+  color: rgba(255, 255, 255, 0.7) !important;
 }
-html:not(.dark) #testimonials .service-card .bg-white {
-  background: #1a1a1a !important;
+html:not(.dark) #testimonials .testimonials-lifted .service-card {
+  background: rgba(255, 255, 255, 0.12) !important;
+  border-color: rgba(255, 255, 255, 0.3) !important;
 }
-html:not(.dark) #testimonials .service-card .bg-gray-600 {
-  background: rgba(0, 0, 0, 0.25) !important;
+#testimonials .testimonials-lifted .service-card .text-gray-300,
+#testimonials .testimonials-lifted .service-card .text-white,
+#testimonials .testimonials-lifted .service-card .text-gray-400 {
+  color: rgba(255, 255, 255, 0.9) !important;
 }
-html:not(.dark) #testimonials .service-card svg {
-  color: #1a1a1a !important;
-  fill: #1a1a1a !important;
-  stroke: #1a1a1a !important;
+#testimonials .testimonials-lifted .service-card .text-gray-400 {
+  color: rgba(255, 255, 255, 0.6) !important;
+}
+#testimonials .testimonials-lifted .service-card .bg-white {
+  background: rgba(255, 255, 255, 0.2) !important;
+}
+#testimonials .testimonials-lifted .service-card .bg-gray-600 {
+  background: rgba(255, 255, 255, 0.15) !important;
+}
+#testimonials .testimonials-lifted .service-card svg {
+  color: #ffffff !important;
+  fill: #ffffff !important;
+  stroke: #ffffff !important;
 }
 /* Contact: black headings and body text */
-html:not(.dark) #contact h2 {
-  color: #1a1a1a !important;
+#contact h2 {
+  color: #ffffff !important;
 }
-html:not(.dark) #contact .text-gray-600,
-html:not(.dark) #contact .text-gray-300 {
-  color: #333333 !important;
+#contact .text-gray-300 {
+  color: rgba(255, 255, 255, 0.85) !important;
 }
-/* Logo marquee: white background, black logos, increased top padding */
+/* Logo marquee: white background, black logos, generous top/bottom padding */
 #logo-marquee {
   background-color: #ffffff !important;
-  padding-top: 6rem !important;
-  padding-bottom: 4rem !important;
+  padding-top: 8rem !important;
+  padding-bottom: 10rem !important;
+}
+@media (min-width: 1024px) {
+  #logo-marquee {
+    padding-bottom: 12rem !important;
+  }
+}
+#logo-marquee .logo-marquee-title {
+  color: #000000 !important;
 }
 #logo-marquee .logo-marquee svg,
 #logo-marquee .logo-marquee svg use {
@@ -369,7 +618,73 @@ html:not(.dark) #contact .text-gray-300 {
   fill: #000000 !important;
 }
 
-/* Quote form: light theme to match page */
+/* Quote form: glassmorphic when inside contact section (black bg, white borders) */
+#contact #quote-form {
+  background: rgba(0, 0, 0, 0.5) !important;
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 2px solid #ffffff !important;
+  border-top-left-radius: 2.25rem;
+  border-top-right-radius: 0;
+  border-bottom-right-radius: 2.25rem;
+  border-bottom-left-radius: 0;
+  box-shadow: 0 25px 50px rgba(0, 0, 0, 0.3);
+}
+#contact #quote-form h3,
+#contact #quote-form label {
+  color: #ffffff !important;
+}
+#contact #quote-form input[type="text"],
+#contact #quote-form input[type="email"],
+#contact #quote-form input[type="tel"],
+#contact #quote-form textarea,
+#contact #quote-form .quote-form-field {
+  background: rgba(0, 0, 0, 0.4) !important;
+  border: 2px solid rgba(255, 255, 255, 0.6) !important;
+  color: #ffffff !important;
+  border-radius: 0.5rem;
+}
+#contact #quote-form input:focus,
+#contact #quote-form textarea:focus,
+#contact #quote-form .quote-form-field:focus {
+  outline: none !important;
+  border-color: #ffffff !important;
+  box-shadow: 0 0 0 1px #ffffff;
+}
+#contact #quote-form input::placeholder,
+#contact #quote-form textarea::placeholder {
+  color: rgba(255, 255, 255, 0.5) !important;
+}
+#contact #quote-form .quote-form-dropdown {
+  background: rgba(0, 0, 0, 0.4) !important;
+  border: 2px solid rgba(255, 255, 255, 0.6) !important;
+  color: #ffffff !important;
+}
+#contact #quote-form .quote-form-dropdown-menu {
+  background: rgba(0, 0, 0, 0.95) !important;
+  backdrop-filter: blur(12px);
+  border: 2px solid #ffffff !important;
+  border-radius: 0.5rem;
+}
+#contact #quote-form .quote-form-dropdown-item {
+  color: #ffffff !important;
+  border-bottom-color: rgba(255, 255, 255, 0.2) !important;
+}
+#contact #quote-form .quote-form-dropdown-item:hover {
+  background: rgba(255, 255, 255, 0.15) !important;
+}
+#contact #quote-form .quote-form-dropdown-item {
+  border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+}
+#contact #quote-form .quote-form-dropdown-item:last-child {
+  border-bottom: none;
+}
+#contact #quote-form input[type="radio"] + label,
+#contact #quote-form label:has(+ input[type="radio"]),
+#contact #quote-form .flex.space-x-6 label {
+  color: #ffffff !important;
+}
+/* Fallback: quote form outside contact (e.g. other pages, light theme) – #contact #quote-form overrides when present */
 html:not(.dark) #quote-form {
   background-color: #ffffff !important;
   border: 1px solid rgba(0, 0, 0, 0.2) !important;
@@ -402,7 +717,88 @@ html:not(.dark) #quote-form button[type="submit"]:hover {
   color: #ffffff !important;
 }
 
-/* Section line dividers: crisp 1px with clear breathing room above/below */
+/* Form submit button – APX branding (black, white border/text) + progress circle + check */
+#quote-form .form-submit-btn,
+.form-submit-btn {
+  position: relative;
+  display: block;
+  width: 100%;
+  max-width: 20rem;
+  height: 3.5rem;
+  margin: 0 auto;
+  background-color: #000000 !important;
+  border: 2px solid #ffffff !important;
+  border-radius: 0;
+  border-top-left-radius: 1rem;
+  border-bottom-right-radius: 1rem;
+  color: #ffffff !important;
+  font-weight: 700;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: width 0.3s ease-in-out, transform 0.1s ease;
+}
+.form-submit-btn:not(:disabled):active {
+  transform: translateY(1px);
+}
+.form-submit-btn__text {
+  display: inline-block;
+  width: 100%;
+  padding: 0.75rem 1.5rem;
+  border-radius: inherit;
+  transition: background-color 0.15s linear, color 0.15s 0.3s ease-in-out;
+}
+.form-submit-btn:not(:disabled):hover .form-submit-btn__text {
+  background-color: rgba(255, 255, 255, 0.1);
+}
+.form-submit-btn__progress {
+  overflow: visible;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  margin-top: -24px;
+  margin-left: -24px;
+  width: 48px;
+  height: 48px;
+  visibility: hidden;
+}
+.form-submit-btn__progress-track {
+  stroke: rgba(255, 255, 255, 0.25);
+}
+.form-submit-btn__progress-fill {
+  stroke: #ffffff;
+  transition: stroke-dashoffset 0.3s linear;
+}
+.form-submit-btn__progress-check {
+  stroke: #ffffff;
+  transition: stroke-dashoffset 0.3s ease-out;
+}
+
+.form-submit-btn--running,
+.form-submit-btn--done {
+  outline: none;
+  pointer-events: none;
+  width: 3.5rem;
+  max-width: 3.5rem;
+  user-select: none;
+}
+.form-submit-btn--running .form-submit-btn__text,
+.form-submit-btn--done .form-submit-btn__text {
+  color: transparent !important;
+  background-color: transparent !important;
+  visibility: hidden;
+}
+.form-submit-btn--running .form-submit-btn__progress,
+.form-submit-btn--done .form-submit-btn__progress {
+  visibility: visible;
+}
+.form-submit-btn--running .form-submit-btn__progress-fill {
+  transition: stroke-dashoffset 2s 0.6s linear;
+}
+.form-submit-btn--done .form-submit-btn__progress-check {
+  transition: stroke-dashoffset 0.3s 0.3s ease-out;
+}
+
+/* Section line dividers: minimal gap */
 .section-divider {
   box-shadow: none !important;
   filter: none !important;
@@ -410,11 +806,57 @@ html:not(.dark) #quote-form button[type="submit"]:hover {
   transform: translateZ(0);
   backface-visibility: hidden;
   margin: 0;
-  padding: 4rem 0;
+  padding: 1.5rem 0;
 }
 @media (min-width: 1024px) {
   .section-divider {
-    padding: 5rem 0;
+    padding: 2rem 0;
+  }
+}
+
+/* Canted section edges – fixed depth (vh) so angle is identical for every section and seams meet */
+:root {
+  --cant-depth: 6vh;
+}
+.section-canted-bottom {
+  clip-path: polygon(0 0, 100% 0, 100% calc(100% - var(--cant-depth)), 0 100%);
+  padding-bottom: 6rem;
+}
+@media (min-width: 1024px) {
+  .section-canted-bottom {
+    padding-bottom: 7rem;
+  }
+}
+.section-canted-top {
+  clip-path: polygon(0 var(--cant-depth), 100% 0, 100% 100%, 0 100%);
+  padding-top: 6rem;
+}
+@media (min-width: 1024px) {
+  .section-canted-top {
+    padding-top: 7rem;
+  }
+}
+.section-canted-top.section-canted-bottom {
+  clip-path: polygon(0 var(--cant-depth), 100% 0, 100% calc(100% - var(--cant-depth)), 0 100%);
+}
+
+/* Where canted-bottom meets canted-top: overlap by cant depth so the two diagonals align */
+.section-canted-bottom + .section-canted-top {
+  margin-top: calc(-4rem - var(--cant-depth)) !important;
+}
+@media (min-width: 1024px) {
+  .section-canted-bottom + .section-canted-top {
+    margin-top: calc(-5rem - var(--cant-depth)) !important;
+  }
+}
+
+/* About: pull up into previous section when it has canted top */
+#about.section-canted-top {
+  margin-top: -5rem;
+}
+@media (min-width: 1024px) {
+  #about.section-canted-top {
+    margin-top: -6rem;
   }
 }
 
@@ -579,16 +1021,23 @@ html.about-page-active {
   from { transform: translateX(0); }
   to { transform: translateX(var(--marquee-scroll-end)); }
 }
-.logo-marquee-section .logo-marquee svg {
+.logo-marquee-section .logo-marquee svg,
+.logo-marquee-section .logo-marquee .logo-marquee__img {
   display: grid;
   place-items: center;
   width: var(--marquee-size);
-  fill: rgba(255, 255, 255, 0.9);
-  background: rgba(255, 255, 255, 0.06);
   aspect-ratio: 16/9;
   padding: calc(var(--marquee-size) / 10);
   border-radius: 0.5rem;
   flex-shrink: 0;
+}
+.logo-marquee-section .logo-marquee svg {
+  fill: rgba(255, 255, 255, 0.9);
+  background: rgba(255, 255, 255, 0.06);
+}
+.logo-marquee-section .logo-marquee .logo-marquee__img {
+  object-fit: contain;
+  background: rgba(255, 255, 255, 0.06);
 }
 .logo-marquee-section .logo-marquee svg use {
   pointer-events: none;
@@ -1084,6 +1533,11 @@ html {
 
     .scrollbar-hide::-webkit-scrollbar {
       display: none;
+}
+
+/* Scroll indicator squares: always black border (overrides theme) */
+.scroll-indicator-square {
+  border: 2px solid #000000 !important;
 }
 
 /* Pulsing glow animation */
@@ -1774,6 +2228,42 @@ html {
     }
     .services-drawer-card .service-card-unified-arrow {
       display: none;
+    }
+    /* Services breakdown: body flows from top, scrollable */
+    .services-drawer-card .service-card-unified-body.services-breakdown-wrapper {
+      display: block !important;
+      justify-content: flex-start !important;
+      padding: 1.25rem 1.25rem 1.5rem !important;
+      overflow-y: auto !important;
+      max-height: 420px !important;
+    }
+    .services-breakdown-heading {
+      font-size: 0.75rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      color: rgba(255, 255, 255, 0.9) !important;
+      margin-bottom: 0.35rem;
+    }
+    .services-breakdown-text {
+      font-size: 0.875rem;
+      line-height: 1.45;
+      color: rgba(255, 255, 255, 0.9) !important;
+      font-weight: 400 !important;
+      margin: 0;
+    }
+    .services-breakdown .services-drawer-bullets {
+      position: static !important;
+      max-width: none !important;
+      max-height: none !important;
+      margin: 0.25rem 0 0 !important;
+      padding-left: 1.25rem;
+      list-style: disc;
+    }
+    .services-breakdown .services-drawer-bullets li {
+      font-weight: 400 !important;
+      font-size: 0.875rem;
+      padding: 0.2rem 0 0.2rem 0;
     }
     /* Image fills full height of column; cover only (no bleed) to avoid weird right edge */
     .services-drawer-card-bg {
@@ -2543,10 +3033,11 @@ html:not(.dark) .mep-cards-section .mep-cards-grid li {
 }
 
 .mep-cards-grid article .mep-card-title-wrap h3 {
-  font-family: inherit !important;
+  font-family: var(--font-menu), sans-serif !important;
+  font-weight: 700 !important;
 }
 
-/* Vertical title: no wrapper when collapsed, just rotated text */
+/* Vertical title: no wrapper when collapsed, just rotated text – Erbaum bold */
 .mep-cards-grid article .mep-title-vertical {
   position: absolute;
   top: 2rem;
@@ -2554,7 +3045,8 @@ html:not(.dark) .mep-cards-section .mep-cards-grid li {
   transform-origin: 0 50%;
   rotate: 90deg;
   font-size: 1.125rem;
-  font-weight: 300;
+  font-weight: 700 !important;
+  font-family: var(--font-menu), sans-serif !important;
   text-transform: uppercase;
   white-space: nowrap;
   margin: 0;
@@ -2566,10 +3058,11 @@ html:not(.dark) .mep-cards-section .mep-cards-grid li {
   pointer-events: none;
 }
 
-/* Horizontal title: inside wrapper, visible when expanded only */
+/* Horizontal title: inside wrapper, visible when expanded only – Erbaum bold */
 .mep-cards-grid article .mep-title-horizontal {
   font-size: 1.125rem;
-  font-weight: 300;
+  font-weight: 700 !important;
+  font-family: var(--font-menu), sans-serif !important;
   text-transform: uppercase;
   white-space: normal;
   margin: 0;
