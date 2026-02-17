@@ -1,54 +1,64 @@
 "use client"
 
+import Image from "next/image";
+import Link from "next/link";
 import { useTheme } from "@/contexts/ThemeContext";
+import { CustomPillButton } from "@/components/ui/CustomPillButton";
 import { Target, Calendar, Users, CheckCircle, ArrowRight, BarChart3, Shield } from "lucide-react";
+
 export default function ProjectManagementPage() {
   const { theme } = useTheme();
+  const heroImageSrc = "/burning-paper-background-still-life%20(1).jpg";
 
   return (
     <div className="min-h-screen overflow-x-hidden" style={{ backgroundColor: theme === 'dark' ? '#000000' : '#ffffff' }}>
       <div className="w-full h-[0.75px] bg-black dark:bg-white"></div>
 
-      <section className={`py-20 ${theme === 'dark' ? 'bg-black' : 'bg-white'}`} style={{ backgroundColor: theme === 'dark' ? '#000000' : '#ffffff' }}>
-        <div className="container mx-auto px-6">
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
-            <div>
-              <h1 className={`text-5xl lg:text-7xl font-bold mb-6 font-title ${theme === 'dark' ? 'text-white' : 'text-black'}`}>
-                Project
-                <br />
-                <span className="text-4xl lg:text-6xl opacity-70">Management</span>
+      <section className="relative h-screen overflow-visible flex flex-col bg-transparent">
+        <div className="fixed inset-0 z-0" aria-hidden>
+          <Image
+            src={heroImageSrc}
+            alt=""
+            fill
+            className="object-cover object-center"
+            priority
+            sizes="100vw"
+          />
+          <div className="absolute inset-0 bg-black/50" aria-hidden />
+        </div>
+        <div className="container mx-auto px-6 flex-1 flex flex-col justify-start pt-44 pb-40 relative z-20">
+          <div className="space-y-4">
+            <div className="max-w-3xl">
+              <h1 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold mb-2 md:mb-3 text-left font-title text-white">
+                Project Management
               </h1>
-              <p className={`text-xl mb-8 leading-relaxed ${theme === 'dark' ? 'text-gray-300' : 'text-gray-600'}`}>
+              <p className="text-sm sm:text-base md:text-lg font-normal mb-4 md:mb-5 text-left tracking-tight max-w-2xl text-white">
                 We deliver fire and security projects on time, on budget, and to the highest standards. Our project managers
                 coordinate design, installation, commissioning, and handover so your fire safety, CCTV, access control,
                 and emergency lighting systems are delivered seamlessly.
               </p>
-              <div className="flex flex-col sm:flex-row gap-4">
-                <button className={`px-8 py-4 rounded-lg font-semibold transition-all duration-300 ${theme === 'dark' ? 'bg-white text-black hover:bg-gray-200' : 'bg-black text-white hover:bg-gray-800'}`}>
-                  Start Your Project
-                </button>
-                <button className={`px-8 py-4 rounded-lg font-semibold border transition-all duration-300 ${theme === 'dark' ? 'border-white text-white hover:bg-white hover:text-black' : 'border-black text-black hover:bg-black hover:text-white'}`}>
-                  View Project Portfolio
-                </button>
-              </div>
-            </div>
-            <div className="relative">
-              <div className={`w-full h-96 rounded-2xl ${theme === 'dark' ? 'bg-gray-800' : 'bg-gray-200'} flex items-center justify-center`}>
-                <div className="text-center">
-                  <Target className="w-24 h-24 mx-auto mb-4 opacity-50" />
-                  <p className="text-lg opacity-70">Project Management Image Placeholder</p>
-                </div>
+              <div className="flex flex-wrap items-center gap-4 sm:gap-6 pt-2">
+                <CustomPillButton href="/contact" size="md">
+                  Get a free quote
+                </CustomPillButton>
+                <Link
+                  href="/contact"
+                  className="text-white font-normal text-base underline underline-offset-4 hover:text-white/90 transition-colors"
+                >
+                  Question? get in touch
+                </Link>
               </div>
             </div>
           </div>
         </div>
       </section>
 
+      <div className="relative z-10 -mt-64 sm:-mt-72">
       <div className="w-full h-[0.75px] bg-black dark:bg-white"></div>
 
-      <section className={`py-20 ${theme === 'dark' ? 'bg-black' : 'bg-white'}`} style={{ backgroundColor: theme === 'dark' ? '#000000' : '#ffffff' }}>
+      <section className={`py-12 lg:py-16 ${theme === 'dark' ? 'bg-black' : 'bg-white'}`} style={{ backgroundColor: theme === 'dark' ? '#000000' : '#ffffff' }}>
         <div className="container mx-auto px-6">
-          <h2 className={`text-4xl font-bold mb-12 text-center font-title ${theme === 'dark' ? 'text-white' : 'text-black'}`}>
+          <h2 className={`text-4xl font-bold mb-10 text-center font-title ${theme === 'dark' ? 'text-white' : 'text-black'}`}>
             Fire & Security Project Management
           </h2>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
@@ -72,9 +82,9 @@ export default function ProjectManagementPage() {
 
       <div className="w-full h-[0.75px] bg-black dark:bg-white"></div>
 
-      <section className={`py-20 ${theme === 'dark' ? 'bg-black' : 'bg-white'}`} style={{ backgroundColor: theme === 'dark' ? '#000000' : '#ffffff' }}>
+      <section className={`py-12 lg:py-16 ${theme === 'dark' ? 'bg-black' : 'bg-white'}`} style={{ backgroundColor: theme === 'dark' ? '#000000' : '#ffffff' }}>
         <div className="container mx-auto px-6">
-          <h2 className={`text-4xl font-bold mb-12 text-center font-title ${theme === 'dark' ? 'text-white' : 'text-black'}`}>
+          <h2 className={`text-4xl font-bold mb-10 text-center font-title ${theme === 'dark' ? 'text-white' : 'text-black'}`}>
             Project Types We Manage
           </h2>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
@@ -98,7 +108,7 @@ export default function ProjectManagementPage() {
 
       <div className="w-full h-[0.75px] bg-black dark:bg-white"></div>
 
-      <section className={`py-20 ${theme === 'dark' ? 'bg-black' : 'bg-white'}`} style={{ backgroundColor: theme === 'dark' ? '#000000' : '#ffffff' }}>
+      <section className={`py-12 lg:py-16 ${theme === 'dark' ? 'bg-black' : 'bg-white'}`} style={{ backgroundColor: theme === 'dark' ? '#000000' : '#ffffff' }}>
         <div className="container mx-auto px-6">
           <div className="max-w-4xl mx-auto text-center">
             <h2 className={`text-4xl font-bold mb-6 font-title ${theme === 'dark' ? 'text-white' : 'text-black'}`}>
@@ -108,16 +118,17 @@ export default function ProjectManagementPage() {
               From single-system installs to full building fire and security packages, we can plan and deliver your project on time and to the right standards.
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
-              <button className={`px-8 py-4 rounded-lg font-semibold transition-all duration-300 ${theme === 'dark' ? 'bg-white text-black hover:bg-gray-200' : 'bg-black text-white hover:bg-gray-800'}`}>
+              <CustomPillButton href="/contact" size="md">
                 Discuss Your Project
-              </button>
-              <button className={`px-8 py-4 rounded-lg font-semibold border transition-all duration-300 ${theme === 'dark' ? 'border-white text-white hover:bg-white hover:text-black' : 'border-black text-black hover:bg-black hover:text-white'}`}>
+              </CustomPillButton>
+              <CustomPillButton href="tel:02045685986" size="md" variant="outline">
                 Call 020 4568 5986
-              </button>
+              </CustomPillButton>
             </div>
           </div>
         </div>
       </section>
+      </div>
     </div>
   );
 }

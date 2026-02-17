@@ -23,7 +23,6 @@ export default function Home() {
   const mepListRef = useRef<HTMLUListElement>(null)
   const projectsScrollRef = useRef<HTMLDivElement>(null)
   const aboutIntroRef = useRef<HTMLElement>(null)
-
   /* Scroll-driven: about intro fade; services cards: path animation when section in view */
   const [aboutScrollProgress, setAboutScrollProgress] = useState(0)
   const [aboutContentFade, setAboutContentFade] = useState(0)
@@ -606,61 +605,53 @@ export default function Home() {
           </div>
         </div>
 
-        {/* Hero accreditations – higher in hero; margin-bottom pulls them up inside viewport */}
-        <div className="container mx-auto px-6 pb-8 mb-24 sm:mb-32 relative z-10">
+        {/* Hero accreditations – NSI, BAFE, Constructionline, FIA (public/accreditations mono/White) */}
+        <div className="container mx-auto px-6 pb-8 mb-24 sm:mb-32 relative z-10 -mt-16 sm:-mt-20">
           <div className="w-1/2 mx-auto h-px bg-white/25 mb-6" aria-hidden />
           <div className="flex flex-wrap items-center justify-center gap-8 sm:gap-12 max-w-6xl mx-auto">
-            {[1, 2, 3, 4, 5].map((i) => (
-              <div
-                key={i}
-                className="flex items-center justify-center w-20 h-12 sm:w-24 sm:h-14 rounded bg-white/10 border border-white/20"
-                aria-hidden
-              >
-                <span className="text-[10px] sm:text-xs font-medium text-white/60 uppercase tracking-wider">Logo</span>
+            {[
+              { src: '/accreditations%20mono/White/NSI-02.svg', alt: 'NSI Gold' },
+              { src: '/accreditations%20mono/White/BAFE-02.svg', alt: 'BAFE' },
+              { src: '/accreditations%20mono/White/ConstructionOnline-02.svg', alt: 'Constructionline' },
+              { src: '/accreditations%20mono/White/FIA-02.svg', alt: 'FIA' }
+            ].map((acc) => (
+              <div key={acc.alt} className="flex items-center justify-center h-14 sm:h-16 w-auto max-w-[150px] sm:max-w-[180px]" aria-hidden>
+                <img src={acc.src} alt={acc.alt} className="h-full w-auto object-contain opacity-90" />
               </div>
             ))}
           </div>
         </div>
         
-        {/* Custom Scroll Indicator – one square per section/anchor */}
-        <div className="fixed right-6 top-1/2 transform -translate-y-1/2 z-40">
-          <div className="flex flex-col items-center max-h-[min(70vh,580px)] relative overflow-y-auto scrollbar-hide">
-            {/* Progress line overlay */}
-            <div className="absolute left-1/2 transform -translate-x-1/2 w-px bg-black/30 dark:bg-white/30" 
-                 style={{ height: `${(sections.length - 1) * 52}px` }}>
-              <div 
-                className="w-px bg-black dark:bg-white transition-all duration-500 ease-out"
-                style={{ 
-                  height: sections.length > 1 ? `${(activeSection / Math.max(sections.length - 1, 1)) * 100}%` : '0%',
-                  boxShadow: theme === 'dark' ? '0 0 10px rgba(255, 255, 255, 0.5)' : '0 0 10px rgba(0, 0, 0, 0.5)'
-                }}
-              ></div>
-      </div>
-
-            {sections.map((section, index) => {
-              const isActive = activeSection === index
-              return (
-                <div key={section.id} className="flex flex-col items-center relative z-10">
-                  {/* Square indicator – black border */}
-                  <button
-                    onClick={() => scrollToSection(section.id)}
-                    className={`scroll-indicator-square w-3 h-3 border-2 border-black transition-all duration-300 hover:scale-110 ${
-                      isActive
-                        ? theme === 'light'
-                          ? 'bg-white'
-                          : 'bg-black dark:bg-white'
-                        : 'bg-transparent'
-                    } ${theme === 'light' ? 'hover:bg-white/20' : 'hover:bg-black/20 dark:hover:bg-white/20'}`}
-                    title={section.name}
-                  />
-                
-                  {/* Faded vertical line connecting to next square */}
-                  {index < sections.length - 1 && (
-                    <div className="w-px h-10 bg-gray-400/30 dark:bg-gray-600/30"></div>
-                  )}
-                </div>
-              )
-            })}
+        {/* Custom Scroll Indicator – pill in track: white border + black fill (track), white pill (tl+br rounded) */}
+        <div className="fixed right-6 top-1/2 -translate-y-1/2 z-40">
+          <div
+            className="relative w-3 sm:w-4 h-[min(70vh,580px)] max-h-[580px] flex-shrink-0"
+            style={{
+              backgroundColor: '#000000',
+              border: '1px solid #ffffff',
+              borderTopLeftRadius: '1rem',
+              borderTopRightRadius: 0,
+              borderBottomRightRadius: '1rem',
+              borderBottomLeftRadius: 0,
+            }}
+          >
+            <div
+              className="absolute left-0.5 right-0.5 w-[calc(100%-4px)] transition-all duration-500 ease-out"
+              style={{
+                height: '10%',
+                minHeight: '28px',
+                maxHeight: '56px',
+                top: sections.length > 1
+                  ? `${(activeSection / Math.max(sections.length - 1, 1)) * 90}%`
+                  : '0%',
+                backgroundColor: '#ffffff',
+                borderTopLeftRadius: '0.5rem',
+                borderTopRightRadius: 0,
+                borderBottomRightRadius: '0.5rem',
+                borderBottomLeftRadius: 0,
+              }}
+              aria-hidden
+            />
           </div>
         </div>
         
@@ -983,130 +974,111 @@ export default function Home() {
               </p>
             </div>
             
-            {/* Benefits Cards - 3 Column Grid */}
+            {/* Benefits Cards - 3 Column Grid: black bg, white border, top-left + bottom-right rounded, white text */}
             <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6 sm:gap-8">
               {/* NSI Gold Accredited */}
-              <div className="service-card text-white">
-                <span className="glow"></span>
-                
-                <div className="flex items-center space-x-3 mb-4 relative z-10">
-                  <CheckCircle className="h-7 w-7 text-white" />
-                  <h4 className={`text-2xl font-semibold text-white font-title`}>NSI Gold Accredited</h4>
-                  </div>
-                <div className="space-y-2 relative z-10">
-                  <div className="text-gray-300 text-xl">• BS EN ISO 9001:2015</div>
-                  <div className="text-gray-300 text-xl">• BAFE Fire Safety Registered</div>
-                  <div className="text-gray-300 text-xl">• UKAS Quality Management</div>
-                  <div className="text-gray-300 text-xl">• FIA Member</div>
+              <div className="why-choose-card bg-black border-2 border-white rounded-tl-[1.75rem] rounded-br-[1.75rem] text-white p-6 sm:p-8">
+                <div className="flex items-center gap-3 mb-5">
+                  <CheckCircle className="h-7 w-7 flex-shrink-0 text-white" />
+                  <h4 className="text-2xl font-semibold text-white font-title">NSI Gold Accredited</h4>
                 </div>
+                <ul className="why-choose-list">
+                  <li>BS EN ISO 9001:2015</li>
+                  <li>BAFE Fire Safety Registered</li>
+                  <li>UKAS Quality Management</li>
+                  <li>FIA Member</li>
+                </ul>
               </div>
-              
+
               {/* 24/7 Emergency Service */}
-              <div className="service-card text-white">
-                <span className="glow"></span>
-                
-                <div className="flex items-center space-x-3 mb-4 relative z-10">
-                  <Clock className="h-7 w-7 text-white" />
-                  <h4 className={`text-2xl font-semibold text-white font-title`}>24/7 Emergency Service</h4>
-                  </div>
-                <div className="space-y-2 relative z-10">
-                  <div className="text-gray-300 text-xl">• Round-the-clock security support</div>
-                  <div className="text-gray-300 text-xl">• Rapid response times</div>
-                  <div className="text-gray-300 text-xl">• Monitored alarm response</div>
-                  <div className="text-gray-300 text-xl">• When you need it most</div>
+              <div className="why-choose-card bg-black border-2 border-white rounded-tl-[1.75rem] rounded-br-[1.75rem] text-white p-6 sm:p-8">
+                <div className="flex items-center gap-3 mb-5">
+                  <Clock className="h-7 w-7 flex-shrink-0 text-white" />
+                  <h4 className="text-2xl font-semibold text-white font-title">24/7 Emergency Service</h4>
                 </div>
+                <ul className="why-choose-list">
+                  <li>Round-the-clock security support</li>
+                  <li>Rapid response times</li>
+                  <li>Monitored alarm response</li>
+                  <li>When you need it most</li>
+                </ul>
               </div>
-              
+
               {/* Quality Guarantee */}
-              <div className="service-card text-white">
-                <span className="glow"></span>
-                
-                <div className="flex items-center space-x-3 mb-4 relative z-10">
-                  <Shield className="h-7 w-7 text-white" />
-                  <h4 className={`text-2xl font-semibold text-white font-title`}>Quality Guarantee</h4>
-                  </div>
-                <div className="space-y-2 relative z-10">
-                  <div className="text-gray-300 text-xl">• Constructionline Gold Member</div>
-                  <div className="text-gray-300 text-xl">• All work to NSI Gold standards</div>
-                  <div className="text-gray-300 text-xl">• Quality assurance</div>
-                  <div className="text-gray-300 text-xl">• Reliable service</div>
+              <div className="why-choose-card bg-black border-2 border-white rounded-tl-[1.75rem] rounded-br-[1.75rem] text-white p-6 sm:p-8">
+                <div className="flex items-center gap-3 mb-5">
+                  <Shield className="h-7 w-7 flex-shrink-0 text-white" />
+                  <h4 className="text-2xl font-semibold text-white font-title">Quality Guarantee</h4>
                 </div>
+                <ul className="why-choose-list">
+                  <li>Constructionline Gold Member</li>
+                  <li>All work to NSI Gold standards</li>
+                  <li>Quality assurance</li>
+                  <li>Reliable service</li>
+                </ul>
               </div>
             </div>
             
-            {/* Stats Section - no border, animated count-up */}
-            <div className="mt-16 sm:mt-20 flex flex-col sm:flex-row items-center justify-center gap-4">
-              <div className="stats-card rounded-xl bg-white/5 px-8 py-6 text-center backdrop-blur-sm animate-stats-in" style={{ animationDelay: '0ms' }}>
-                <div className="text-4xl font-bold text-white leading-none">
+            {/* Stats Section – black text forced via data attribute + inline style */}
+            <div className="mt-16 sm:mt-20 flex flex-col sm:flex-row items-center justify-center gap-4 stats-section" data-stats-section>
+              <div className="stats-card rounded-xl px-8 py-6 text-center animate-stats-in" style={{ animationDelay: '0ms' }}>
+                <div className="stats-card-number text-4xl font-bold leading-none" data-stats-text style={{ color: '#000000' }}>
                   <CountUp target={500} suffix="+" duration={2000} />
                 </div>
-                <div className="text-gray-300 text-sm mt-2">Projects Completed</div>
+                <div className="stats-card-label text-sm mt-2" data-stats-text style={{ color: '#000000' }}>Projects Completed</div>
               </div>
-              <div className="stats-card rounded-xl bg-white/5 px-8 py-6 text-center backdrop-blur-sm animate-stats-in" style={{ animationDelay: '150ms' }}>
-                <div className="text-4xl font-bold text-white leading-none">
+              <div className="stats-card rounded-xl px-8 py-6 text-center animate-stats-in" style={{ animationDelay: '150ms' }}>
+                <div className="stats-card-number text-4xl font-bold leading-none" data-stats-text style={{ color: '#000000' }}>
                   <CountUp target={99} suffix="%" duration={2000} />
                 </div>
-                <div className="text-gray-300 text-sm mt-2">Customer Satisfaction</div>
+                <div className="stats-card-label text-sm mt-2" data-stats-text style={{ color: '#000000' }}>Customer Satisfaction</div>
               </div>
-              <div className="stats-card rounded-xl bg-white/5 px-8 py-6 text-center backdrop-blur-sm animate-stats-in" style={{ animationDelay: '300ms' }}>
-                <div className="text-4xl font-bold text-white leading-none">
+              <div className="stats-card rounded-xl px-8 py-6 text-center animate-stats-in" style={{ animationDelay: '300ms' }}>
+                <div className="stats-card-number text-4xl font-bold leading-none" data-stats-text style={{ color: '#000000' }}>
                   <CountUp target={20} suffix="+" duration={2000} />
                 </div>
-                <div className="text-gray-300 text-sm mt-2">Years Experience</div>
+                <div className="stats-card-label text-sm mt-2" data-stats-text style={{ color: '#000000' }}>Years Experience</div>
               </div>
             </div>
           </div>
         </div>
       </section>
 
-      {/* Accreditations Section – white bg, canted top, black border strip, container tl+br rounded */}
-      <section id="accreditations" className="section-spacing section-canted-top accreditations-section bg-white" style={{ backgroundColor: '#ffffff' }}>
+      {/* Accreditations Section – black bg, white text, two columns */}
+      <section id="accreditations" className="section-spacing section-canted-top accreditations-section bg-black">
         <div className="container mx-auto px-6 lg:px-8">
-          <div className="accreditations-card overflow-hidden">
-            <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 lg:gap-16 p-8 lg:p-12">
-              {/* Left column – qualifications list */}
+          <div className="accreditations-card overflow-hidden py-10 lg:py-14 px-8 lg:px-12">
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 lg:gap-16">
+              {/* Left – qualifications list */}
               <div>
-                <h2 className="accreditations-heading text-xl font-bold mb-6">Qualifications & Accreditations</h2>
-                <ul className="space-y-3">
+                <h2 className="accreditations-heading text-2xl lg:text-3xl font-bold font-title mb-8 text-white">
+                  Qualifications & Accreditations
+                </h2>
+                <ul className="space-y-4">
                   {[1, 2, 3, 4, 5, 6].map((i) => (
-                    <li key={i} className="flex items-center gap-3 accreditations-text">
-                      <CheckCircle className="h-5 w-5 shrink-0 text-emerald-600" aria-hidden />
+                    <li key={i} className="flex items-center gap-3 accreditations-text text-white">
+                      <CheckCircle className="h-5 w-5 shrink-0 text-white" aria-hidden />
                       <span>Accreditation placeholder {i}</span>
                     </li>
                   ))}
                 </ul>
               </div>
-              {/* Right column – copy and CTA */}
+              {/* Right – copy and CTA (white text on black) */}
               <div>
-                <h3 className="accreditations-heading text-2xl lg:text-3xl font-bold mb-4">
+                <h3 className="accreditations-heading text-2xl lg:text-3xl font-bold font-title mb-4 text-white">
                   Trusted & Fully Qualified
                 </h3>
-                <p className="accreditations-text mb-4">
+                <p className="accreditations-text text-white/90 mb-4">
                   Paragraph placeholder. Replace with short intro about quality and safety affiliations.
                 </p>
-                <p className="accreditations-text mb-6">
+                <p className="accreditations-text text-white/90 mb-6">
                   Second paragraph placeholder. Replace with detail on certifications and standards.
                 </p>
-                <Link
-                  href="#"
-                  className="inline-flex items-center justify-center px-6 py-3 rounded-lg bg-red-600 text-white font-semibold hover:bg-red-700 transition-colors"
-                >
+                <CustomPillButton href="#" size="md">
                   View all our accreditations
-                </Link>
+                </CustomPillButton>
               </div>
             </div>
-          </div>
-          {/* Logo strip – placeholders */}
-          <div className="flex flex-wrap items-center justify-center gap-8 sm:gap-12 mt-10 lg:mt-14 accreditations-logos">
-            {[1, 2, 3, 4, 5, 6, 7].map((i) => (
-              <div
-                key={i}
-                className="flex items-center justify-center w-24 h-16 sm:w-28 sm:h-20 rounded-lg bg-gray-100 border border-gray-300"
-                aria-hidden
-              >
-                <span className="text-xs font-medium text-gray-500 uppercase">Logo {i}</span>
-              </div>
-            ))}
           </div>
         </div>
       </section>
@@ -1285,11 +1257,11 @@ export default function Home() {
                         style={{ boxShadow: '0 10px 40px rgba(0, 0, 0, 0.4)' }}
                       >
                         {[
-                          { value: 'electrical', label: 'Electrical Services' },
-                          { value: 'mechanical', label: 'Mechanical Services' },
-                          { value: 'maintenance', label: 'Maintenance' },
-                          { value: 'installation', label: 'Installation' },
-                          { value: 'repair', label: 'Repair Services' },
+                          { value: 'cctv', label: 'CCTV Systems' },
+                          { value: 'access-control', label: 'Access Control Systems' },
+                          { value: 'intruder-alarms', label: 'Intruder Alarm Systems' },
+                          { value: 'fire-alarms', label: 'Fire Alarm Systems' },
+                          { value: 'video-door-entry', label: 'Video Door Entry Systems' },
                           { value: 'other', label: 'Other' }
                         ].map((service, index) => (
                           <button

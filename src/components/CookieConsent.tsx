@@ -85,8 +85,9 @@ const CookieConsent = () => {
   if (!showBanner && !showSettings) {
     return (
       <button
+        type="button"
+        className="cookie-settings-btn cookie-settings-fab"
         onClick={() => setShowSettings(true)}
-        className="cookie-settings-btn"
         style={{
           position: 'fixed',
           bottom: '24px',
@@ -95,27 +96,23 @@ const CookieConsent = () => {
           width: '48px',
           height: '48px',
           borderRadius: '50%',
-          backgroundColor: isDark ? 'rgba(255, 255, 255, 0.1)' : '#ffffff',
-          border: isDark ? '1px solid rgba(255, 255, 255, 0.3)' : '1px solid #000000',
-          color: isDark ? '#ffffff' : '#000000',
+          border: '2px solid #ffffff',
           display: 'flex',
           alignItems: 'center',
           justifyContent: 'center',
           cursor: 'pointer',
-          boxShadow: isDark ? '0 4px 12px rgba(0, 0, 0, 0.3)' : '0 4px 6px rgba(0, 0, 0, 0.1)',
-          transition: 'all 0.3s ease'
+          boxShadow: '0 4px 12px rgba(0, 0, 0, 0.3)',
+          transition: 'background-color 0.3s ease'
         }}
         onMouseEnter={(e) => {
-          e.currentTarget.style.backgroundColor = isDark ? 'rgba(255, 255, 255, 0.2)' : '#000000'
-          e.currentTarget.style.color = isDark ? '#ffffff' : '#ffffff'
+          e.currentTarget.style.backgroundColor = '#111111'
         }}
         onMouseLeave={(e) => {
-          e.currentTarget.style.backgroundColor = isDark ? 'rgba(255, 255, 255, 0.1)' : '#ffffff'
-          e.currentTarget.style.color = isDark ? '#ffffff' : '#000000'
+          e.currentTarget.style.backgroundColor = '#000000'
         }}
         aria-label="Cookie Settings"
       >
-        <Settings style={{ width: '20px', height: '20px' }} />
+        <Settings style={{ width: '20px', height: '20px' }} className="cookie-settings-fab-icon" />
       </button>
     )
   }
@@ -135,140 +132,103 @@ const CookieConsent = () => {
         />
       )}
 
-      {/* Cookie Consent Banner - full-width bar at bottom */}
+      {/* Cookie Consent: always-visible bar at bottom, black background, rounded top-left + bottom-right */}
       {showBanner && !showSettings && (
-        <div 
-          className="cookie-banner"
+        <div
+          className="cookie-banner-wrapper"
           style={{
             position: 'fixed',
             bottom: 0,
             left: 0,
             right: 0,
             zIndex: 9999,
-            width: '100%',
-            padding: '16px 24px',
-            backgroundColor: isDark ? 'rgba(0, 0, 0, 0.95)' : '#ffffff',
-            borderTop: isDark ? '1px solid rgba(255, 255, 255, 0.2)' : '1px solid #e5e5e5',
-            boxShadow: isDark ? '0 -4px 24px rgba(0, 0, 0, 0.4)' : '0 -4px 24px rgba(0, 0, 0, 0.08)',
-            transition: 'all 0.3s ease'
+            display: 'flex',
+            justifyContent: 'center',
+            padding: '0 24px 56px 48px',
+            pointerEvents: 'none',
           }}
         >
-          <div style={{
-            display: 'flex',
-            flexDirection: 'row',
-            alignItems: 'center',
-            justifyContent: 'space-between',
-            gap: '24px',
-            maxWidth: '1400px',
-            margin: '0 auto',
-            flexWrap: 'wrap'
-          }}>
-            <div style={{ flex: '1 1 300px', minWidth: 0 }}>
-              <div style={{
-                display: 'flex',
-                alignItems: 'center',
-                gap: '12px',
-                marginBottom: '8px'
-              }}>
-                <AlertCircle style={{ width: '22px', height: '22px', color: isDark ? '#ffffff' : '#000000', flexShrink: 0 }} />
-                <h3 style={{
-                  fontSize: '18px',
-                  fontWeight: 'bold',
-                  color: isDark ? '#ffffff' : '#000000',
-                  margin: 0
-                }}>
-                  Cookie Consent
-                </h3>
-              </div>
-              <p style={{
-                fontSize: '14px',
-                lineHeight: '1.5',
-                color: isDark ? 'rgba(255, 255, 255, 0.9)' : '#333333',
-                margin: 0
-              }}>
-                We use cookies to enhance your browsing experience, analyze site traffic, and personalize content. 
-                By clicking &quot;Accept All&quot;, you consent to our use of cookies. You can{' '}
-                <button
-                  onClick={() => setShowSettings(true)}
-                  className="cookie-banner-text-link"
-                  style={{
-                    fontSize: '14px',
-                    border: 'none',
-                    cursor: 'pointer',
-                    padding: 0
-                  }}
-                >
-                  customize preferences
-                </button>
-                {' '}or{' '}
-                <Link
-                  href="/cookie-policy"
-                  className="cookie-banner-text-link"
-                  style={{ fontSize: '14px' }}
-                >
-                  learn more
-                </Link>
-                .
-              </p>
-            </div>
+          <div
+            className="cookie-banner"
+            style={{
+              pointerEvents: 'auto',
+              width: '100%',
+              maxWidth: '1400px',
+              marginLeft: 'auto',
+              marginRight: 'auto',
+              backgroundColor: '#000000',
+              border: '1px solid #ffffff',
+              borderTopLeftRadius: '1.75rem',
+              borderTopRightRadius: '0',
+              borderBottomLeftRadius: '0',
+              borderBottomRightRadius: '1.75rem',
+              boxShadow: '0 -4px 24px rgba(0, 0, 0, 0.3)',
+              padding: '24px 24px 32px',
+            }}
+          >
             <div style={{
               display: 'flex',
               flexDirection: 'row',
-              gap: '12px',
-              flexShrink: 0
+              alignItems: 'center',
+              justifyContent: 'space-between',
+              gap: '24px',
+              flexWrap: 'wrap',
             }}>
-              <button
-                onClick={handleRejectAll}
-                style={{
-                  padding: '10px 20px',
-                  borderRadius: '6px',
-                  fontSize: '15px',
-                  fontWeight: '600',
-                  border: isDark ? '1px solid rgba(255, 255, 255, 0.3)' : '1px solid #000000',
-                  backgroundColor: 'transparent',
-                  color: isDark ? '#ffffff' : '#000000',
-                  cursor: 'pointer',
-                  transition: 'all 0.3s ease'
-                }}
-                onMouseEnter={(e) => {
-                  e.currentTarget.style.backgroundColor = isDark ? 'rgba(255, 255, 255, 0.1)' : 'rgba(0, 0, 0, 0.05)'
-                }}
-                onMouseLeave={(e) => {
-                  e.currentTarget.style.backgroundColor = 'transparent'
-                }}
-              >
-                Reject All
-              </button>
-              <button
-                onClick={handleAcceptAll}
-                style={{
-                  padding: '10px 20px',
-                  borderRadius: '6px',
-                  fontSize: '15px',
-                  fontWeight: '600',
-                  border: isDark ? '1px solid #ffffff' : '1px solid #000000',
-                  backgroundColor: isDark ? '#ffffff' : '#000000',
-                  color: isDark ? '#000000' : '#ffffff',
-                  cursor: 'pointer',
-                  transition: 'all 0.3s ease'
-                }}
-                onMouseEnter={(e) => {
-                  e.currentTarget.style.backgroundColor = isDark ? 'rgba(255, 255, 255, 0.9)' : 'transparent'
-                  e.currentTarget.style.color = isDark ? '#000000' : '#000000'
-                }}
-                onMouseLeave={(e) => {
-                  e.currentTarget.style.backgroundColor = isDark ? '#ffffff' : '#000000'
-                  e.currentTarget.style.color = isDark ? '#000000' : '#ffffff'
-                }}
-              >
-                Accept All
-              </button>
+              <div style={{ flex: '1 1 300px', minWidth: 0 }}>
+                <div style={{
+                  display: 'flex',
+                  alignItems: 'center',
+                  gap: '12px',
+                  marginBottom: '8px',
+                }}>
+                  <AlertCircle style={{ width: '22px', height: '22px', color: '#ffffff', flexShrink: 0 }} />
+                  <h3 style={{ fontSize: '18px', fontWeight: 'bold', color: '#ffffff', margin: 0 }}>
+                    Cookie Consent
+                  </h3>
+                </div>
+                <p style={{ fontSize: '14px', lineHeight: '1.5', color: 'rgba(255, 255, 255, 0.9)', margin: 0 }}>
+                  We use cookies to enhance your browsing experience, analyze site traffic, and personalize content.
+                  By clicking &quot;Accept All&quot;, you consent to our use of cookies. You can{' '}
+                  <button
+                    onClick={() => setShowSettings(true)}
+                    className="cookie-banner-text-link"
+                    style={{ fontSize: '14px', border: 'none', cursor: 'pointer', padding: 0, color: 'inherit', textDecoration: 'underline' }}
+                  >
+                    customize preferences
+                  </button>
+                  {' '}or{' '}
+                  <Link href="/cookie-policy" className="cookie-banner-text-link" style={{ fontSize: '14px', color: 'inherit', textDecoration: 'underline' }}>
+                    learn more
+                  </Link>
+                  .
+                </p>
+              </div>
+              <div style={{ display: 'flex', flexDirection: 'row', gap: '12px', flexShrink: 0 }}>
+                <button
+                  type="button"
+                  onClick={handleRejectAll}
+                  className="cookie-banner-pill pill-btn px-6 py-3.5 text-base relative inline-flex items-center justify-center font-bold overflow-hidden rounded-tl-2xl rounded-br-2xl cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/50 focus-visible:ring-offset-2 focus-visible:ring-offset-black"
+                >
+                  <span className="pill-btn-inner" aria-hidden />
+                  <span className="pill-btn-border" aria-hidden />
+                  <span className="pill-text font-bold">Reject All</span>
+                </button>
+                <button
+                  type="button"
+                  onClick={handleAcceptAll}
+                  className="cookie-banner-pill pill-btn px-6 py-3.5 text-base relative inline-flex items-center justify-center font-bold overflow-hidden rounded-tl-2xl rounded-br-2xl cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/50 focus-visible:ring-offset-2 focus-visible:ring-offset-black"
+                >
+                  <span className="pill-btn-inner" aria-hidden />
+                  <span className="pill-btn-border" aria-hidden />
+                  <span className="pill-text font-bold">Accept All</span>
+                </button>
+              </div>
             </div>
           </div>
         </div>
       )}
 
-      {/* Cookie Settings Modal */}
+      {/* Cookie Settings Modal – black bg, white foreground, rounded top-left + bottom-right only */}
       {showSettings && (
         <div 
           className="cookie-settings-modal"
@@ -281,13 +241,14 @@ const CookieConsent = () => {
             width: 'calc(100% - 32px)',
             maxWidth: '900px',
             padding: '24px',
-            borderRadius: '8px',
-            backgroundColor: isDark ? 'rgba(0, 0, 0, 0.85)' : '#ffffff',
-            backdropFilter: isDark ? 'blur(20px)' : 'none',
-            WebkitBackdropFilter: isDark ? 'blur(20px)' : 'none',
-            border: isDark ? '1px solid rgba(255, 255, 255, 0.3)' : '1px solid #000000',
-            boxShadow: isDark ? '0 10px 25px rgba(0, 0, 0, 0.5)' : '0 10px 25px rgba(0, 0, 0, 0.3)',
-            color: isDark ? '#ffffff' : '#000000'
+            borderTopLeftRadius: '1.75rem',
+            borderTopRightRadius: 0,
+            borderBottomRightRadius: '1.75rem',
+            borderBottomLeftRadius: 0,
+            backgroundColor: '#000000',
+            border: '2px solid #ffffff',
+            boxShadow: '0 10px 40px rgba(0, 0, 0, 0.5)',
+            color: '#ffffff'
           }}
           onClick={(e) => e.stopPropagation()}
         >
@@ -300,42 +261,40 @@ const CookieConsent = () => {
             <h2 style={{
               fontSize: '24px',
               fontWeight: 'bold',
-              color: isDark ? '#ffffff' : '#000000',
+              color: '#ffffff',
               margin: 0
             }}>
               Cookie Preferences
             </h2>
             <button
+              type="button"
+              className="cookie-settings-modal-close"
               onClick={() => setShowSettings(false)}
               style={{
                 padding: '8px',
                 borderRadius: '50%',
-                backgroundColor: isDark ? 'rgba(255, 255, 255, 0.2)' : '#000000',
-                border: isDark ? '1px solid rgba(255, 255, 255, 0.3)' : '1px solid #000000',
-                color: isDark ? '#ffffff' : '#ffffff',
+                border: '2px solid #ffffff',
                 cursor: 'pointer',
                 display: 'flex',
                 alignItems: 'center',
                 justifyContent: 'center',
-                transition: 'all 0.3s ease'
+                transition: 'background-color 0.3s ease'
               }}
               onMouseEnter={(e) => {
-                e.currentTarget.style.backgroundColor = isDark ? 'rgba(255, 255, 255, 0.3)' : '#f5f5f5'
-                e.currentTarget.style.color = isDark ? '#ffffff' : '#000000'
+                e.currentTarget.style.backgroundColor = '#111111'
               }}
               onMouseLeave={(e) => {
-                e.currentTarget.style.backgroundColor = isDark ? 'rgba(255, 255, 255, 0.2)' : '#000000'
-                e.currentTarget.style.color = isDark ? '#ffffff' : '#ffffff'
+                e.currentTarget.style.backgroundColor = '#000000'
               }}
               aria-label="Close"
             >
-              <X style={{ width: '20px', height: '20px', color: isDark ? '#000000' : '#ffffff', stroke: isDark ? '#000000' : '#ffffff' }} />
+              <X style={{ width: '20px', height: '20px', color: '#ffffff', stroke: '#ffffff' }} />
             </button>
           </div>
 
           <p style={{
             fontSize: '14px',
-            color: isDark ? '#ffffff' : '#000000',
+            color: 'rgba(255, 255, 255, 0.9)',
             marginBottom: '24px',
             lineHeight: '1.5'
           }}>
@@ -352,10 +311,12 @@ const CookieConsent = () => {
             {/* Essential Cookies */}
             <div style={{
               padding: '16px',
-              borderRadius: '8px',
-              border: isDark ? '1px solid rgba(255, 255, 255, 0.3)' : '1px solid #000000',
-              backgroundColor: isDark ? 'rgba(255, 255, 255, 0.05)' : '#ffffff',
-              boxShadow: isDark ? '0 0 10px rgba(255, 255, 255, 0.2)' : '0 0 10px rgba(0, 0, 0, 0.2)'
+              borderTopLeftRadius: '0.75rem',
+              borderBottomRightRadius: '0.75rem',
+              borderTopRightRadius: 0,
+              borderBottomLeftRadius: 0,
+              border: '1px solid rgba(255, 255, 255, 0.3)',
+              backgroundColor: 'rgba(255, 255, 255, 0.05)'
             }}>
               <div style={{
                 display: 'flex',
@@ -373,7 +334,7 @@ const CookieConsent = () => {
                     <h3 style={{
                       fontSize: '16px',
                       fontWeight: '600',
-                      color: isDark ? '#ffffff' : '#000000',
+                      color: '#ffffff',
                       margin: 0
                     }}>
                       Essential Cookies
@@ -381,17 +342,20 @@ const CookieConsent = () => {
                     <span style={{
                       fontSize: '12px',
                       padding: '4px 8px',
-                      borderRadius: '4px',
-                      backgroundColor: isDark ? 'rgba(255, 255, 255, 0.1)' : '#f5f5f5',
-                      color: isDark ? '#ffffff' : '#000000',
-                      border: isDark ? '1px solid rgba(255, 255, 255, 0.3)' : '1px solid #000000'
+                      borderTopLeftRadius: '0.5rem',
+                      borderBottomRightRadius: '0.5rem',
+                      borderTopRightRadius: 0,
+                      borderBottomLeftRadius: 0,
+                      backgroundColor: 'rgba(255, 255, 255, 0.1)',
+                      color: '#ffffff',
+                      border: '1px solid rgba(255, 255, 255, 0.3)'
                     }}>
                       Always Active
                     </span>
                   </div>
                   <p style={{
                     fontSize: '14px',
-                    color: isDark ? '#ffffff' : '#000000',
+                    color: 'rgba(255, 255, 255, 0.85)',
                     margin: 0,
                     lineHeight: '1.5'
                   }}>
@@ -403,14 +367,14 @@ const CookieConsent = () => {
                 <div style={{
                   padding: '8px',
                   borderRadius: '50%',
-                  border: isDark ? '1px solid rgba(255, 255, 255, 0.3)' : '1px solid #000000',
-                  backgroundColor: isDark ? 'rgba(255, 255, 255, 0.1)' : '#ffffff',
+                  border: '1px solid rgba(255, 255, 255, 0.3)',
+                  backgroundColor: 'rgba(255, 255, 255, 0.1)',
                   display: 'flex',
                   alignItems: 'center',
                   justifyContent: 'center',
                   flexShrink: 0
                 }}>
-                  <Check style={{ width: '20px', height: '20px', color: isDark ? '#ffffff' : '#000000' }} />
+                  <Check style={{ width: '20px', height: '20px', color: '#ffffff', stroke: '#ffffff' }} />
                 </div>
               </div>
             </div>
@@ -418,12 +382,13 @@ const CookieConsent = () => {
             {/* Analytics Cookies */}
             <div style={{
               padding: '16px',
-              borderRadius: '8px',
-              border: isDark ? '1px solid rgba(255, 255, 255, 0.3)' : '1px solid #000000',
-              backgroundColor: isDark ? 'rgba(255, 255, 255, 0.05)' : '#ffffff',
-              boxShadow: preferences.analytics 
-                ? (isDark ? '0 0 15px rgba(255, 255, 255, 0.4)' : '0 0 15px rgba(0, 0, 0, 0.4)')
-                : 'none',
+              borderTopLeftRadius: '0.75rem',
+              borderBottomRightRadius: '0.75rem',
+              borderTopRightRadius: 0,
+              borderBottomLeftRadius: 0,
+              border: '1px solid rgba(255, 255, 255, 0.3)',
+              backgroundColor: 'rgba(255, 255, 255, 0.05)',
+              boxShadow: preferences.analytics ? '0 0 15px rgba(255, 255, 255, 0.2)' : 'none',
               transition: 'box-shadow 0.3s ease'
             }}>
               <div style={{
@@ -436,14 +401,14 @@ const CookieConsent = () => {
                   <h3 style={{
                     fontSize: '16px',
                     fontWeight: '600',
-                    color: isDark ? '#ffffff' : '#000000',
+                    color: '#ffffff',
                     margin: '0 0 8px 0'
                   }}>
                     Analytics Cookies
                   </h3>
                   <p style={{
                     fontSize: '14px',
-                    color: isDark ? '#ffffff' : '#000000',
+                    color: 'rgba(255, 255, 255, 0.85)',
                     margin: 0,
                     lineHeight: '1.5'
                   }}>
@@ -459,8 +424,8 @@ const CookieConsent = () => {
                     alignItems: 'center',
                     width: '60px',
                     height: '30px',
-                    background: preferences.analytics ? (isDark ? '#ffffff' : '#000000') : (isDark ? 'rgba(255, 255, 255, 0.2)' : '#ffffff'),
-                    border: isDark ? '1px solid rgba(255, 255, 255, 0.3)' : '1px solid #000000',
+                    background: preferences.analytics ? '#ffffff' : 'rgba(255, 255, 255, 0.2)',
+                    border: '1px solid rgba(255, 255, 255, 0.5)',
                     borderRadius: '15px',
                     cursor: 'pointer',
                     outline: 'none',
@@ -474,7 +439,7 @@ const CookieConsent = () => {
                       height: '24px',
                       width: '24px',
                       borderRadius: '50%',
-                      background: preferences.analytics ? (isDark ? '#000000' : '#ffffff') : (isDark ? '#ffffff' : '#000000'),
+                      background: '#000000',
                       transform: preferences.analytics ? 'translateX(32px)' : 'translateX(2px)',
                       transition: 'transform 0.3s ease'
                     }}
@@ -486,12 +451,13 @@ const CookieConsent = () => {
             {/* Marketing Cookies */}
             <div style={{
               padding: '16px',
-              borderRadius: '8px',
-              border: isDark ? '1px solid rgba(255, 255, 255, 0.3)' : '1px solid #000000',
-              backgroundColor: isDark ? 'rgba(255, 255, 255, 0.05)' : '#ffffff',
-              boxShadow: preferences.marketing 
-                ? (isDark ? '0 0 15px rgba(255, 255, 255, 0.4)' : '0 0 15px rgba(0, 0, 0, 0.4)')
-                : 'none',
+              borderTopLeftRadius: '0.75rem',
+              borderBottomRightRadius: '0.75rem',
+              borderTopRightRadius: 0,
+              borderBottomLeftRadius: 0,
+              border: '1px solid rgba(255, 255, 255, 0.3)',
+              backgroundColor: 'rgba(255, 255, 255, 0.05)',
+              boxShadow: preferences.marketing ? '0 0 15px rgba(255, 255, 255, 0.2)' : 'none',
               transition: 'box-shadow 0.3s ease'
             }}>
               <div style={{
@@ -504,14 +470,14 @@ const CookieConsent = () => {
                   <h3 style={{
                     fontSize: '16px',
                     fontWeight: '600',
-                    color: isDark ? '#ffffff' : '#000000',
+                    color: '#ffffff',
                     margin: '0 0 8px 0'
                   }}>
                     Marketing Cookies
                   </h3>
                   <p style={{
                     fontSize: '14px',
-                    color: isDark ? '#ffffff' : '#000000',
+                    color: 'rgba(255, 255, 255, 0.85)',
                     margin: 0,
                     lineHeight: '1.5'
                   }}>
@@ -527,8 +493,8 @@ const CookieConsent = () => {
                     alignItems: 'center',
                     width: '60px',
                     height: '30px',
-                    background: preferences.marketing ? (isDark ? '#ffffff' : '#000000') : (isDark ? 'rgba(255, 255, 255, 0.2)' : '#ffffff'),
-                    border: isDark ? '1px solid rgba(255, 255, 255, 0.3)' : '1px solid #000000',
+                    background: preferences.marketing ? '#ffffff' : 'rgba(255, 255, 255, 0.2)',
+                    border: '1px solid rgba(255, 255, 255, 0.5)',
                     borderRadius: '15px',
                     cursor: 'pointer',
                     outline: 'none',
@@ -542,7 +508,7 @@ const CookieConsent = () => {
                       height: '24px',
                       width: '24px',
                       borderRadius: '50%',
-                      background: preferences.marketing ? (isDark ? '#000000' : '#ffffff') : (isDark ? '#ffffff' : '#000000'),
+                      background: '#000000',
                       transform: preferences.marketing ? 'translateX(32px)' : 'translateX(2px)',
                       transition: 'transform 0.3s ease'
                     }}
@@ -554,12 +520,13 @@ const CookieConsent = () => {
             {/* Functional Cookies */}
             <div style={{
               padding: '16px',
-              borderRadius: '8px',
-              border: isDark ? '1px solid rgba(255, 255, 255, 0.3)' : '1px solid #000000',
-              backgroundColor: isDark ? 'rgba(255, 255, 255, 0.05)' : '#ffffff',
-              boxShadow: preferences.functional 
-                ? (isDark ? '0 0 15px rgba(255, 255, 255, 0.4)' : '0 0 15px rgba(0, 0, 0, 0.4)')
-                : 'none',
+              borderTopLeftRadius: '0.75rem',
+              borderBottomRightRadius: '0.75rem',
+              borderTopRightRadius: 0,
+              borderBottomLeftRadius: 0,
+              border: '1px solid rgba(255, 255, 255, 0.3)',
+              backgroundColor: 'rgba(255, 255, 255, 0.05)',
+              boxShadow: preferences.functional ? '0 0 15px rgba(255, 255, 255, 0.2)' : 'none',
               transition: 'box-shadow 0.3s ease'
             }}>
               <div style={{
@@ -572,14 +539,14 @@ const CookieConsent = () => {
                   <h3 style={{
                     fontSize: '16px',
                     fontWeight: '600',
-                    color: isDark ? '#ffffff' : '#000000',
+                    color: '#ffffff',
                     margin: '0 0 8px 0'
                   }}>
                     Functional Cookies
                   </h3>
                   <p style={{
                     fontSize: '14px',
-                    color: isDark ? '#ffffff' : '#000000',
+                    color: 'rgba(255, 255, 255, 0.85)',
                     margin: 0,
                     lineHeight: '1.5'
                   }}>
@@ -595,8 +562,8 @@ const CookieConsent = () => {
                     alignItems: 'center',
                     width: '60px',
                     height: '30px',
-                    background: preferences.functional ? (isDark ? '#ffffff' : '#000000') : (isDark ? 'rgba(255, 255, 255, 0.2)' : '#ffffff'),
-                    border: isDark ? '1px solid rgba(255, 255, 255, 0.3)' : '1px solid #000000',
+                    background: preferences.functional ? '#ffffff' : 'rgba(255, 255, 255, 0.2)',
+                    border: '1px solid rgba(255, 255, 255, 0.5)',
                     borderRadius: '15px',
                     cursor: 'pointer',
                     outline: 'none',
@@ -610,7 +577,7 @@ const CookieConsent = () => {
                       height: '24px',
                       width: '24px',
                       borderRadius: '50%',
-                      background: preferences.functional ? (isDark ? '#000000' : '#ffffff') : (isDark ? '#ffffff' : '#000000'),
+                      background: '#000000',
                       transform: preferences.functional ? 'translateX(32px)' : 'translateX(2px)',
                       transition: 'transform 0.3s ease'
                     }}
@@ -625,31 +592,30 @@ const CookieConsent = () => {
             flexDirection: 'row',
             gap: '12px',
             paddingTop: '16px',
-            borderTop: isDark ? '1px solid rgba(255, 255, 255, 0.3)' : '1px solid #000000'
+            borderTop: '1px solid rgba(255, 255, 255, 0.3)'
           }}>
             <button
+              type="button"
+              className="cookie-settings-cancel"
               onClick={() => setShowSettings(false)}
               style={{
                 padding: '12px 24px',
-                borderRadius: '8px',
+                borderTopLeftRadius: '1rem',
+                borderBottomRightRadius: '1rem',
+                borderTopRightRadius: 0,
+                borderBottomLeftRadius: 0,
                 fontSize: '16px',
                 fontWeight: '600',
-                border: isDark ? '1px solid rgba(255, 255, 255, 0.3)' : '1px solid #000000',
-                backgroundColor: 'transparent',
-                color: isDark ? '#ffffff' : '#000000',
+                border: '2px solid #ffffff',
                 cursor: 'pointer',
-                transition: 'all 0.3s ease',
+                transition: 'background-color 0.3s ease',
                 flex: 1
               }}
               onMouseEnter={(e) => {
-                e.currentTarget.style.backgroundColor = isDark ? 'rgba(255, 255, 255, 0.1)' : 'rgba(0, 0, 0, 0.05)'
-                e.currentTarget.style.color = isDark ? '#ffffff' : '#000000'
-                e.currentTarget.style.borderColor = isDark ? 'rgba(255, 255, 255, 0.5)' : '#000000'
+                e.currentTarget.style.backgroundColor = '#111111'
               }}
               onMouseLeave={(e) => {
-                e.currentTarget.style.backgroundColor = 'transparent'
-                e.currentTarget.style.color = isDark ? '#ffffff' : '#000000'
-                e.currentTarget.style.borderColor = isDark ? 'rgba(255, 255, 255, 0.3)' : '#000000'
+                e.currentTarget.style.backgroundColor = '#000000'
               }}
             >
               Cancel
@@ -658,25 +624,26 @@ const CookieConsent = () => {
               onClick={handleSavePreferences}
               style={{
                 padding: '12px 24px',
-                borderRadius: '8px',
+                borderTopLeftRadius: '1rem',
+                borderBottomRightRadius: '1rem',
+                borderTopRightRadius: 0,
+                borderBottomLeftRadius: 0,
                 fontSize: '16px',
                 fontWeight: '600',
-                border: isDark ? '1px solid #ffffff' : '1px solid #000000',
-                backgroundColor: isDark ? '#ffffff' : '#000000',
-                color: isDark ? '#000000' : '#ffffff',
+                border: '2px solid #ffffff',
+                backgroundColor: '#ffffff',
+                color: '#000000',
                 cursor: 'pointer',
                 transition: 'all 0.3s ease',
                 flex: 1
               }}
               onMouseEnter={(e) => {
-                e.currentTarget.style.backgroundColor = isDark ? 'rgba(255, 255, 255, 0.9)' : 'transparent'
-                e.currentTarget.style.color = isDark ? '#000000' : '#000000'
-                e.currentTarget.style.borderColor = isDark ? '#ffffff' : '#000000'
+                e.currentTarget.style.backgroundColor = 'rgba(255, 255, 255, 0.9)'
+                e.currentTarget.style.color = '#000000'
               }}
               onMouseLeave={(e) => {
-                e.currentTarget.style.backgroundColor = isDark ? '#ffffff' : '#000000'
-                e.currentTarget.style.color = isDark ? '#000000' : '#ffffff'
-                e.currentTarget.style.borderColor = isDark ? '#ffffff' : '#000000'
+                e.currentTarget.style.backgroundColor = '#ffffff'
+                e.currentTarget.style.color = '#000000'
               }}
             >
               Save Preferences

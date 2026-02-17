@@ -26,11 +26,11 @@ export const metadata: Metadata = {
   keywords: "fire safety, security systems, fire alarms, CCTV, access control, UK, APX Fire & Security",
   icons: {
     icon: [
+      { url: '/favicon.png', sizes: '32x32', type: 'image/png' },
       { url: '/favicon.ico', sizes: 'any' },
-      { url: '/apx-logo.svg', type: 'image/svg+xml' }
     ],
-    shortcut: '/favicon.ico',
-    apple: '/apx-logo.svg',
+    shortcut: '/favicon.png',
+    apple: '/apple-touch-icon.png',
   },
   openGraph: {
     title: "APX Fire & Security - Fire Safety & Security Solutions",
@@ -47,18 +47,20 @@ export default function RootLayout({
   return (
     <html lang="en" className={`${inter.variable} ${plusJakartaSans.variable}`}>
       <body className="font-sans antialiased">
-        <ThemeProvider>
-          <TitleFontProvider>
-          <ThemeWrapper>
-        <CustomCursor />
         <HeroVideoBackground />
-        <Header />
-            <main>{children}</main>
-        <Footer />
-            <CookieConsent />
-          </ThemeWrapper>
-          </TitleFontProvider>
-        </ThemeProvider>
+        <div className="relative z-10">
+          <ThemeProvider>
+            <TitleFontProvider>
+              <ThemeWrapper>
+                <CustomCursor />
+                <Header />
+                <main>{children}</main>
+                <Footer />
+                <CookieConsent />
+              </ThemeWrapper>
+            </TitleFontProvider>
+          </ThemeProvider>
+        </div>
       </body>
     </html>
   );

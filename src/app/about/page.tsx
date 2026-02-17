@@ -21,7 +21,7 @@ export default function AboutPage() {
   return (
     <div className="about-parallax-page overflow-x-hidden snap-y snap-mandatory">
       {/* Hero – black, angled bottom */}
-      <section className="about-block about-block--black about-block--angle-bottom min-h-screen flex flex-col justify-center px-6 lg:px-12 pt-24 pb-32 snap-start">
+      <section className="about-block about-block--black about-block--angle-bottom min-h-screen flex flex-col justify-center px-6 lg:px-12 pt-24 pb-20 snap-start">
         <div className="about-parallax-bg" style={{ transform: `translateY(${scrollY * 0.12}px)` }} aria-hidden />
         <div className="relative z-10 max-w-4xl">
           <h1
@@ -38,7 +38,7 @@ export default function AboutPage() {
       </section>
 
       {/* Block 2 – white, angled top & bottom, image placeholder */}
-      <section className="about-block about-block--white about-block--angle-top about-block--angle-bottom-alt min-h-screen flex items-center px-6 lg:px-12 py-24 snap-start">
+      <section className="about-block about-block--white about-block--angle-top about-block--angle-bottom-alt min-h-screen flex items-center px-6 lg:px-12 py-16 snap-start">
         <div className="w-full max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-20 items-center">
           <div>
             <h2 className="text-4xl lg:text-5xl font-bold text-black mb-6" style={{ fontFamily: "var(--font-menu)" }}>
@@ -62,7 +62,7 @@ export default function AboutPage() {
       </section>
 
       {/* Block 3 – black, horizontal scroll strip */}
-      <section className="about-block about-block--black about-block--angle-top min-h-screen flex flex-col justify-center px-0 py-24 snap-start">
+      <section className="about-block about-block--black about-block--angle-top min-h-screen flex flex-col justify-center px-0 py-16 snap-start">
         <div className="px-6 lg:px-12 mb-10">
           <h2 className="text-4xl lg:text-5xl font-bold text-white" style={{ fontFamily: "var(--font-menu)" }}>
             Our Work
@@ -85,7 +85,7 @@ export default function AboutPage() {
       </section>
 
       {/* Block 4 – white, angled top & bottom, text + image */}
-      <section className="about-block about-block--white about-block--angle-bottom about-block--angle-top-alt min-h-screen flex items-center px-6 lg:px-12 py-24 snap-start">
+      <section className="about-block about-block--white about-block--angle-bottom about-block--angle-top-alt min-h-screen flex items-center px-6 lg:px-12 py-16 snap-start">
         <div className="w-full max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-20 items-center">
           <div className="about-image-placeholder aspect-[3/4] bg-black/10 rounded-lg flex items-center justify-center text-black/40 text-sm uppercase tracking-wider order-2 lg:order-1">
             Image placeholder
@@ -103,7 +103,7 @@ export default function AboutPage() {
       </section>
 
       {/* Block 5 – black, angled, stats / quote */}
-      <section className="about-block about-block--black about-block--angle-top about-block--angle-bottom-alt min-h-screen flex flex-col justify-center px-6 lg:px-12 py-24 snap-start">
+      <section className="about-block about-block--black about-block--angle-top about-block--angle-bottom-alt min-h-screen flex flex-col justify-center px-6 lg:px-12 py-16 snap-start">
         <div className="max-w-4xl mx-auto text-center">
           <p className="text-2xl md:text-3xl lg:text-4xl text-white/90 leading-relaxed font-medium">
             &ldquo;We don&apos;t just install systems — we help you stay compliant and keep everyone safe.&rdquo;
@@ -126,7 +126,7 @@ export default function AboutPage() {
       </section>
 
       {/* Block 6 – white, angled, image grid placeholders */}
-      <section className="about-block about-block--white about-block--angle-top about-block--angle-bottom-alt min-h-screen flex items-center px-6 lg:px-12 py-24 snap-start">
+      <section className="about-block about-block--white about-block--angle-top about-block--angle-bottom-alt min-h-screen flex items-center px-6 lg:px-12 py-16 snap-start">
         <div className="w-full max-w-7xl mx-auto">
           <h2 className="text-4xl lg:text-5xl font-bold text-black mb-12" style={{ fontFamily: "var(--font-menu)" }}>
             Quality & Compliance
@@ -145,7 +145,7 @@ export default function AboutPage() {
       </section>
 
       {/* Block 7 – black, angled bottom, CTA */}
-      <section className="about-block about-block--black about-block--angle-top min-h-screen flex flex-col justify-center items-center px-6 py-24 snap-start">
+      <section className="about-block about-block--black about-block--angle-top min-h-screen flex flex-col justify-center items-center px-6 py-16 snap-start">
         <h2 className="text-4xl lg:text-5xl font-bold text-white text-center mb-6" style={{ fontFamily: "var(--font-menu)" }}>
           Get in touch
         </h2>
@@ -153,7 +153,7 @@ export default function AboutPage() {
           Ready to discuss your fire safety or security requirements? We&apos;d love to hear from you.
         </p>
         <Link
-          href="/#contact"
+          href="/contact"
           className="bg-white text-black px-8 py-4 rounded-lg font-semibold text-lg hover:bg-white/90 transition-colors"
         >
           Contact us

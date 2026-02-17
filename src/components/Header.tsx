@@ -2,19 +2,24 @@
 
 import Link from "next/link"
 import Image from "next/image"
+import { usePathname } from "next/navigation"
 import { Button } from "@/components/ui/Button"
-import { Phone, Mail, Menu, X, ArrowRight, Check, Facebook, Instagram, Linkedin } from "lucide-react"
+import { Phone, Mail, Menu, X, ArrowRight, Check, Facebook, Instagram, Linkedin, ChevronDown } from "lucide-react"
 import { useState, useRef } from "react"
 import { useTheme } from '@/contexts/ThemeContext'
 
 export default function Header() {
+  const pathname = usePathname()
   const { theme } = useTheme()
+  const isTransparentHeaderPage = pathname.startsWith("/services/")
+  const isServicesPage = pathname.startsWith("/services/")
   const isDark = theme === 'dark'
   const [isMenuOpen, setIsMenuOpen] = useState(false)
   const [isServicesOpen, setIsServicesOpen] = useState(false)
   const [toast, setToast] = useState<{ message: string; type: 'phone' | 'email' } | null>(null)
   const [contactTabReady, setContactTabReady] = useState(false)
   const servicesCloseTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null)
+  const [isCctvExpanded, setIsCctvExpanded] = useState(false)
 
   const openServices = () => {
     if (servicesCloseTimeoutRef.current) {
@@ -52,7 +57,10 @@ export default function Header() {
   }
 
   return (
-    <header className="relative z-50 bg-transparent" style={{ backgroundColor: 'transparent' }}>
+    <header
+      className={`relative z-50 bg-transparent ${isTransparentHeaderPage ? "header-bg-transparent-page" : ""} ${isServicesPage ? "header--no-animate" : ""}`}
+      style={{ backgroundColor: "transparent" }}
+    >
       {/* ========== SAVED VERSION (original header – not rendered) ========== */}
       {false && (
         <>
@@ -93,7 +101,7 @@ export default function Header() {
                 ></span>
               </div>
               
-              {/* Services Dropdown – top aligns with bottom of header container (same vertical as contact tab) */}
+              {/* Services Dropdown – border on outer so bottom border stays visible during accordion collapse */}
               <div
                 className="absolute z-40 overflow-hidden rounded-br-2xl"
                 style={{
@@ -102,31 +110,27 @@ export default function Header() {
                   width: '264.5px',
                   maxHeight: isServicesOpen ? '320px' : '0',
                   pointerEvents: isServicesOpen ? 'auto' : 'none',
-                  transition: 'max-height 0.4s ease-out',
+                  transition: 'max-height 0.5s cubic-bezier(0.4, 0, 0.2, 1)',
+                  backgroundColor: 'black',
+                  border: '1px solid white',
+                  borderTop: 'none',
                 }}
                 onMouseEnter={openServices}
                 onMouseLeave={closeServices}
               >
-                <div 
-                  className="py-0 rounded-br-2xl"
-                  style={{
-                    backgroundColor: 'black',
-                    border: '1px solid white',
-                  }}
-                >
+                <div className="py-0 rounded-br-2xl">
                   {[
-                    { href: '/services/mechanical-engineering', label: 'MECHANICAL ENGINEERING' },
-                    { href: '/services/electrical-systems', label: 'ELECTRICAL SYSTEMS' },
-                    { href: '/services/energy-efficiency', label: 'ENERGY EFFICIENCY SOLUTIONS' },
-                    { href: '/services/sustainability', label: 'SUSTAINABILITY CONSULTING' },
-                    { href: '/services/maintenance', label: 'MAINTENANCE & SUPPORT' },
-                    { href: '/services/project-management', label: 'PROJECT MANAGEMENT' },
+                    { href: '/services/electrical-systems', label: 'CCTV SYSTEMS' },
+                    { href: '/services/energy-efficiency', label: 'ACCESS CONTROL SYSTEMS' },
+                    { href: '/services/sustainability', label: 'INTRUDER ALARM SYSTEMS' },
+                    { href: '/services/mechanical-engineering', label: 'FIRE ALARM SYSTEMS' },
+                    { href: '/services/maintenance', label: 'VIDEO DOOR ENTRY SYSTEMS' },
                   ].map(({ href, label }, i) => (
                     <a
                       key={href}
                       href={href}
-                      className={`dropdown-item relative group block px-4 py-2 text-sm leading-relaxed cursor-pointer uppercase ${i < 5 ? 'border-b' : ''}`}
-                      style={{ color: 'white', borderBottomColor: i < 5 ? 'rgba(255, 255, 255, 0.2)' : undefined }}
+                      className={`dropdown-item relative group block px-4 py-2 text-sm leading-relaxed cursor-pointer uppercase ${i < 4 ? 'border-b' : ''}`}
+                      style={{ color: 'white', borderBottomColor: i < 4 ? 'rgba(255, 255, 255, 0.2)' : undefined }}
                       onClick={() => {
                         setIsServicesOpen(false)
                         if (servicesCloseTimeoutRef.current) {
@@ -180,13 +184,13 @@ export default function Header() {
               ></span>
             </Link>
             <a href={process.env.NEXT_PUBLIC_APX_MEP_URL || 'http://localhost:3000'} className="group relative header-pill-apx-link" style={{ color: 'white' }}>
-              <div className="flex items-center justify-center overflow-hidden transition-all duration-700 ease-[cubic-bezier(0.25,0.46,0.45,0.94)] w-8 h-8 min-w-8 min-h-8 group-hover:w-72 group-hover:backdrop-blur-sm rounded-full border-2 pulse-glow" style={{ borderColor: 'white' }}>
+              <div className="flex items-center justify-center overflow-hidden transition-all duration-700 ease-[cubic-bezier(0.25,0.46,0.45,0.94)] w-8 h-8 min-w-8 min-h-8 group-hover:w-52 group-hover:backdrop-blur-sm rounded-full border-2 pulse-glow" style={{ borderColor: 'white' }}>
                 <div className="flex items-center justify-center w-8 h-8 rounded-full transition-all duration-700 ease-[cubic-bezier(0.25,0.46,0.45,0.94)] flex-shrink-0 absolute left-0 top-0" style={{ color: 'white' }}>
                   <ArrowRight className="h-3.5 w-3.5 transition-all duration-500 group-hover:opacity-0 group-hover:rotate-180 shrink-0" style={{ color: 'white', stroke: 'white' }} />
                 </div>
                 <div className="absolute inset-0 flex items-center justify-center overflow-hidden">
                   <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-500 delay-200 group-hover:delay-200"></div>
-                  <span className="apx-switch-label text-xs font-bold uppercase tracking-wide opacity-0 group-hover:opacity-100 transition-opacity duration-500 delay-300 group-hover:delay-300 text-disappear relative z-10" style={{ color: 'white' }}>Switch To APX MEP</span>
+                  <span className="apx-switch-label text-xs font-bold uppercase tracking-wide opacity-0 group-hover:opacity-100 transition-opacity duration-500 delay-300 group-hover:delay-300 text-disappear relative z-10" style={{ color: 'white' }}>SWITCH TO APX MEP</span>
                 </div>
               </div>
             </a>
@@ -240,13 +244,13 @@ export default function Header() {
               </Link>
               <div className="pt-4">
                 <a href={process.env.NEXT_PUBLIC_APX_MEP_URL || 'http://localhost:3000'} className="group relative">
-                  <div className="flex items-center overflow-hidden transition-all duration-700 ease-[cubic-bezier(0.25,0.46,0.45,0.94)] group-hover:w-72 w-10 group-hover:backdrop-blur-sm rounded-full border pulse-glow">
+                  <div className="flex items-center overflow-hidden transition-all duration-700 ease-[cubic-bezier(0.25,0.46,0.45,0.94)] group-hover:w-52 w-10 group-hover:backdrop-blur-sm rounded-full border pulse-glow">
                     <div className="flex items-center justify-center w-10 h-10 rounded-full transition-all duration-700 ease-[cubic-bezier(0.25,0.46,0.45,0.94)] flex-shrink-0">
                       <ArrowRight className="h-4 w-4 transition-all duration-500 group-hover:opacity-0 group-hover:rotate-180" />
                     </div>
                     <div className="absolute inset-0 flex items-center justify-center overflow-hidden">
                       <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-500 delay-200 group-hover:delay-200"></div>
-                      <span className="apx-switch-label text-xs font-bold uppercase tracking-wide opacity-0 group-hover:opacity-100 transition-opacity duration-500 delay-300 group-hover:delay-300 text-disappear relative z-10">Switch To APX MEP</span>
+                      <span className="apx-switch-label text-xs font-bold uppercase tracking-wide opacity-0 group-hover:opacity-100 transition-opacity duration-500 delay-300 group-hover:delay-300 text-disappear relative z-10">SWITCH TO APX MEP</span>
                     </div>
                   </div>
                 </a>
@@ -258,14 +262,18 @@ export default function Header() {
         </>
       )}
 
-      {/* New header: bar vertically centered with logo; logo left, menu items right INSIDE the bar */}
       <nav className="relative z-10 w-full px-6 pt-5 pb-4">
         <div className="relative w-full flex items-center min-h-[6.5rem]">
-          {/* Header bar: black same as MEP */}
           <div className="absolute left-[8rem] right-0 h-16 overflow-hidden z-0 top-1/2 -translate-y-1/2">
-            <div className="header-bar-expand h-full w-full rounded-br-[30px] border-2" style={{ backgroundColor: '#000', boxSizing: 'border-box', borderColor: '#fff' }} />
+            <div
+              className="header-bar-expand h-full w-full rounded-br-[30px] border-2"
+              style={{
+                backgroundColor: isTransparentHeaderPage ? "transparent" : "#000",
+                boxSizing: "border-box",
+                borderColor: "#fff",
+              }}
+            />
           </div>
-          {/* Content: logo left, tagline (scrolls in from left behind logo), menu right */}
           <div className="relative z-10 w-full flex items-center justify-between px-6 h-16">
             <Link href="/" className="header-logo-drop-in flex items-center shrink-0 cursor-pointer relative z-10">
               <span className="header-logo-hover-wrap inline-block relative overflow-hidden">
@@ -278,12 +286,16 @@ export default function Header() {
                 />
               </span>
             </Link>
-            {/* FIRE & SECURITY pill: black bg, white text (same as MEP) */}
+            {/* FIRE & SECURITY: absolute, same as MEP – own stack so alignment isn’t affected by switch button */}
+            {/* Same as MEP: top-1/2 with NO transform – tagline top edge at row center, box hangs down */}
             <div
-              className="hidden md:flex absolute left-[12.25rem] top-1/2 z-0 w-fit items-center rounded-br-xl header-mech-security-in pl-7 pr-3.5 py-2"
-              style={{ backgroundColor: 'black', border: '2px solid white' }}
+              className="hidden md:flex absolute left-[12.25rem] top-1/2 z-0 w-fit items-center rounded-br-2xl header-mech-security-in pl-7 pr-3.5 py-1"
+              style={{
+                backgroundColor: "black",
+                border: "2px solid white",
+              }}
             >
-              <span className="inline-block text-base font-semibold tracking-wide uppercase whitespace-nowrap" style={{ fontFamily: 'var(--font-menu)', color: '#fff' }}>
+              <span className="inline-block text-base font-semibold tracking-wide uppercase whitespace-nowrap !text-white" style={{ fontFamily: 'var(--font-menu)', color: '#ffffff' }}>
                 FIRE & SECURITY
               </span>
             </div>
@@ -305,29 +317,119 @@ export default function Header() {
                     top: 'calc(100% + 1.2rem)',
                     left: '-32.5px',
                     width: '264.5px',
-                    maxHeight: isServicesOpen ? '320px' : '0',
+                    maxHeight: isServicesOpen ? (isCctvExpanded ? '420px' : '320px') : '0',
                     pointerEvents: isServicesOpen ? 'auto' : 'none',
-                    transition: 'max-height 0.4s ease-out',
+                    transition: 'max-height 0.5s cubic-bezier(0.4, 0, 0.2, 1)',
+                    backgroundColor: 'black',
+                    border: '1px solid white',
+                    borderTop: 'none',
                   }}
                   onMouseEnter={openServices}
-                  onMouseLeave={closeServices}
+                  onMouseLeave={() => {
+                    closeServices()
+                    setIsCctvExpanded(false)
+                  }}
                 >
-                  <div className="py-0 rounded-br-2xl" style={{ backgroundColor: 'black', border: '1px solid white' }}>
+                  <div className="py-0 rounded-br-2xl">
+                    {/* CCTV SYSTEMS: hover expands to show 3 sub-options underneath; stays open until user leaves dropdown */}
+                    <div
+                      className="border-b transition-colors"
+                      style={{ borderBottomColor: 'rgba(255,255,255,0.2)' }}
+                      onMouseEnter={() => setIsCctvExpanded(true)}
+                    >
+                      <a
+                        href="/services/electrical-systems"
+                        className="dropdown-item relative group flex items-center justify-between gap-2 px-4 py-2 text-sm leading-relaxed cursor-pointer uppercase"
+                        style={{ color: '#fff' }}
+                        onClick={() => {
+                          setIsServicesOpen(false)
+                          setIsCctvExpanded(false)
+                          if (servicesCloseTimeoutRef.current) {
+                            clearTimeout(servicesCloseTimeoutRef.current)
+                            servicesCloseTimeoutRef.current = null
+                          }
+                        }}
+                      >
+                        <span className="absolute top-0 left-0 w-full h-0.5 transform scale-x-0 origin-left transition-transform duration-500 group-hover:scale-x-100" style={{ backgroundColor: '#fff' }} />
+                        <span className="absolute bottom-0 left-0 w-full h-0.5 transform scale-x-0 origin-left transition-transform duration-500 group-hover:scale-x-100" style={{ backgroundColor: '#fff' }} />
+                        <span>CCTV SYSTEMS</span>
+                        <ChevronDown className="w-3.5 h-3.5 flex-shrink-0 opacity-80" style={{ stroke: '#fff', transform: isCctvExpanded ? 'rotate(180deg)' : 'none', transition: 'transform 0.2s ease' }} />
+                      </a>
+                      {isCctvExpanded && (
+                        <>
+                          <a
+                            href="/services/cctv/domestic"
+                            className="dropdown-item dropdown-sub-item relative group block px-4 py-2 pl-6 text-sm leading-relaxed cursor-pointer uppercase border-t"
+                            style={{ color: '#fff', borderTopColor: 'rgba(255,255,255,0.15)' }}
+                            onClick={() => {
+                              setIsServicesOpen(false)
+                              setIsCctvExpanded(false)
+                              if (servicesCloseTimeoutRef.current) {
+                                clearTimeout(servicesCloseTimeoutRef.current)
+                                servicesCloseTimeoutRef.current = null
+                              }
+                            }}
+                          >
+                            <span className="absolute top-0 left-0 w-full h-0.5 transform scale-x-0 origin-left transition-transform duration-500 group-hover:scale-x-100" style={{ backgroundColor: '#fff' }} />
+                            <span className="absolute bottom-0 left-0 w-full h-0.5 transform scale-x-0 origin-left transition-transform duration-500 group-hover:scale-x-100" style={{ backgroundColor: '#fff' }} />
+                            Domestic CCTV systems
+                          </a>
+                          <a
+                            href="/services/cctv/commercial"
+                            className="dropdown-item dropdown-sub-item relative group block px-4 py-2 pl-6 text-sm leading-relaxed cursor-pointer uppercase border-t"
+                            style={{ color: '#fff', borderTopColor: 'rgba(255,255,255,0.15)' }}
+                            onClick={() => {
+                              setIsServicesOpen(false)
+                              setIsCctvExpanded(false)
+                              if (servicesCloseTimeoutRef.current) {
+                                clearTimeout(servicesCloseTimeoutRef.current)
+                                servicesCloseTimeoutRef.current = null
+                              }
+                            }}
+                          >
+                            <span className="absolute top-0 left-0 w-full h-0.5 transform scale-x-0 origin-left transition-transform duration-500 group-hover:scale-x-100" style={{ backgroundColor: '#fff' }} />
+                            <span className="absolute bottom-0 left-0 w-full h-0.5 transform scale-x-0 origin-left transition-transform duration-500 group-hover:scale-x-100" style={{ backgroundColor: '#fff' }} />
+                            Commercial CCTV systems
+                          </a>
+                          <a
+                            href="/services/cctv/advice"
+                            className="dropdown-item dropdown-sub-item relative group block px-4 py-2 pl-6 text-sm leading-relaxed cursor-pointer uppercase border-t"
+                            style={{ color: '#fff', borderTopColor: 'rgba(255,255,255,0.15)' }}
+                            onClick={() => {
+                              setIsServicesOpen(false)
+                              setIsCctvExpanded(false)
+                              if (servicesCloseTimeoutRef.current) {
+                                clearTimeout(servicesCloseTimeoutRef.current)
+                                servicesCloseTimeoutRef.current = null
+                              }
+                            }}
+                          >
+                            <span className="absolute top-0 left-0 w-full h-0.5 transform scale-x-0 origin-left transition-transform duration-500 group-hover:scale-x-100" style={{ backgroundColor: '#fff' }} />
+                            <span className="absolute bottom-0 left-0 w-full h-0.5 transform scale-x-0 origin-left transition-transform duration-500 group-hover:scale-x-100" style={{ backgroundColor: '#fff' }} />
+                            Useful CCTV advice
+                          </a>
+                        </>
+                      )}
+                    </div>
+                    {/* Other services: dim when CCTV expanded */}
                     {[
-                      { href: '/services/mechanical-engineering', label: 'FIRE SAFETY SYSTEMS' },
-                      { href: '/services/electrical-systems', label: 'CCTV & SECURITY' },
-                      { href: '/services/energy-efficiency', label: 'ACCESS CONTROL' },
-                      { href: '/services/sustainability', label: 'EMERGENCY LIGHTING' },
-                      { href: '/services/maintenance', label: 'MAINTENANCE & SUPPORT' },
-                      { href: '/services/project-management', label: 'PROJECT MANAGEMENT' },
+                      { href: '/services/energy-efficiency', label: 'ACCESS CONTROL SYSTEMS' },
+                      { href: '/services/sustainability', label: 'INTRUDER ALARM SYSTEMS' },
+                      { href: '/services/mechanical-engineering', label: 'FIRE ALARM SYSTEMS' },
+                      { href: '/services/maintenance', label: 'VIDEO DOOR ENTRY SYSTEMS' },
                     ].map(({ href, label }, i) => (
                       <a
                         key={href}
                         href={href}
-                        className={`dropdown-item relative group block px-4 py-2 text-sm leading-relaxed cursor-pointer uppercase ${i < 5 ? 'border-b' : ''}`}
-                        style={{ color: '#fff', borderBottomColor: i < 5 ? 'rgba(255,255,255,0.2)' : undefined }}
+                        className={`dropdown-item relative group block px-4 py-2 text-sm leading-relaxed cursor-pointer uppercase transition-opacity duration-200 ${i < 3 ? 'border-b' : ''}`}
+                        style={{
+                          color: '#fff',
+                          borderBottomColor: i < 3 ? 'rgba(255,255,255,0.2)' : undefined,
+                          opacity: isCctvExpanded ? 0.45 : 1,
+                        }}
                         onClick={() => {
                           setIsServicesOpen(false)
+                          setIsCctvExpanded(false)
                           if (servicesCloseTimeoutRef.current) {
                             clearTimeout(servicesCloseTimeoutRef.current)
                             servicesCloseTimeoutRef.current = null
@@ -360,14 +462,14 @@ export default function Header() {
                 <span className="absolute top-0 left-1/2 w-full h-0.5 transform -translate-x-1/2 scale-x-0 origin-center transition-transform duration-500 group-hover:scale-x-100" style={{ backgroundColor: '#fff' }} />
                 <span className="absolute bottom-0 left-1/2 w-full h-0.5 transform -translate-x-1/2 scale-x-0 origin-center transition-transform duration-500 group-hover:scale-x-100" style={{ backgroundColor: '#fff' }} />
               </Link>
-              <a href={process.env.NEXT_PUBLIC_APX_MEP_URL || 'http://localhost:3000'} className="group relative header-pill-apx-link header-nav-item-in" style={{ color: '#fff', animationDelay: '3.46s' }}>
-                <div className="flex items-center justify-center overflow-hidden transition-all duration-700 ease-[cubic-bezier(0.25,0.46,0.45,0.94)] w-8 h-8 min-w-8 min-h-8 group-hover:w-72 group-hover:backdrop-blur-sm rounded-full border-2 pulse-glow" style={{ borderColor: '#fff' }}>
-                  <div className="flex items-center justify-center w-8 h-8 rounded-full transition-all duration-700 ease-[cubic-bezier(0.25,0.46,0.45,0.94)] flex-shrink-0 absolute left-0 top-0" style={{ color: '#fff' }}>
-                    <ArrowRight className="h-3.5 w-3.5 transition-all duration-500 group-hover:opacity-0 group-hover:rotate-180 shrink-0" style={{ color: '#fff', stroke: '#fff' }} />
+              <a href={process.env.NEXT_PUBLIC_APX_MEP_URL || 'http://localhost:3000'} className="group relative header-pill-apx-link header-nav-item-in" style={{ color: 'white', animationDelay: '3.46s' }}>
+                <div className="flex items-center justify-center overflow-hidden transition-all duration-700 ease-[cubic-bezier(0.25,0.46,0.45,0.94)] w-8 h-8 min-w-8 min-h-8 group-hover:w-52 group-hover:backdrop-blur-sm rounded-full border-2 pulse-glow" style={{ borderColor: 'white' }}>
+                  <div className="flex items-center justify-center w-8 h-8 rounded-full transition-all duration-700 ease-[cubic-bezier(0.25,0.46,0.45,0.94)] flex-shrink-0 absolute left-0 top-0" style={{ color: 'white' }}>
+                    <ArrowRight className="h-3.5 w-3.5 transition-all duration-500 group-hover:opacity-0 group-hover:rotate-180 shrink-0" style={{ color: 'white', stroke: 'white' }} />
                   </div>
                   <div className="absolute inset-0 flex items-center justify-center overflow-hidden">
                     <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-500 delay-200 group-hover:delay-200" />
-                    <span className="apx-switch-label text-xs font-bold uppercase tracking-wide opacity-0 group-hover:opacity-100 transition-opacity duration-500 delay-300 group-hover:delay-300 text-disappear relative z-10" style={{ color: '#fff' }}>Switch To APX MEP</span>
+                    <span className="apx-switch-label text-xs font-bold uppercase tracking-wide opacity-0 group-hover:opacity-100 transition-opacity duration-500 delay-300 group-hover:delay-300 text-disappear relative z-10" style={{ color: 'white' }}>SWITCH TO APX MEP</span>
                   </div>
                 </div>
               </a>
@@ -401,12 +503,12 @@ export default function Header() {
               <Link href="/contact" className="nav-menu-item relative text-lg font-medium group uppercase opacity-100 hover:opacity-100" style={{ color: 'white' }}>Contact</Link>
               <div className="pt-4">
                 <a href={process.env.NEXT_PUBLIC_APX_MEP_URL || 'http://localhost:3000'} className="group relative">
-                  <div className="flex items-center overflow-hidden transition-all duration-700 ease-[cubic-bezier(0.25,0.46,0.45,0.94)] group-hover:w-72 w-10 group-hover:backdrop-blur-sm rounded-full border border-white pulse-glow">
+                  <div className="flex items-center overflow-hidden transition-all duration-700 ease-[cubic-bezier(0.25,0.46,0.45,0.94)] group-hover:w-52 w-10 group-hover:backdrop-blur-sm rounded-full border border-white pulse-glow">
                     <div className="flex items-center justify-center w-10 h-10 rounded-full transition-all duration-700 ease-[cubic-bezier(0.25,0.46,0.45,0.94)] flex-shrink-0">
                       <ArrowRight className="h-4 w-4 transition-all duration-500 group-hover:opacity-0 group-hover:rotate-180" />
                     </div>
                     <div className="absolute inset-0 flex items-center justify-center overflow-hidden">
-                      <span className="apx-switch-label text-xs font-bold uppercase tracking-wide opacity-0 group-hover:opacity-100 transition-opacity duration-500 delay-300 group-hover:delay-300 text-disappear relative z-10 text-white">Switch To APX MEP</span>
+                      <span className="apx-switch-label text-xs font-bold uppercase tracking-wide opacity-0 group-hover:opacity-100 transition-opacity duration-500 delay-300 group-hover:delay-300 text-disappear relative z-10 text-white">SWITCH TO APX MEP</span>
                     </div>
                   </div>
                 </a>
@@ -419,8 +521,11 @@ export default function Header() {
       {/* Contact Tab + toast wrapper – toast shows directly under the tab */}
       <div className={`absolute top-full right-[54px] ${contactTabReady ? 'z-20' : 'z-0'}`}>
         <div
-          className="header-contact-tab--dark header-contact-tab-drop-in rounded-t-none rounded-b-xl border-2 border-t-0 px-4 py-2 flex items-center space-x-3 bg-black"
-          style={{ borderColor: '#fff' }}
+          className="header-contact-tab--dark header-contact-tab-drop-in rounded-t-none rounded-b-xl border-2 border-t-0 px-4 py-2 flex items-center space-x-3"
+          style={{
+            borderColor: "#fff",
+            backgroundColor: "#000",
+          }}
           onAnimationEnd={(e) => {
             if (e.animationName === 'header-contact-tab-drop-in') setContactTabReady(true)
           }}
@@ -435,11 +540,11 @@ export default function Header() {
           </button>
           <button
             type="button"
-            onClick={() => handleContactClick('email', 'info@apx-mep.co.uk')}
+            onClick={() => handleContactClick('email', 'info@apx-fs.co.uk')}
             className="header-contact-btn relative flex items-center space-x-1.5 px-2.5 py-1.5 rounded-full cursor-pointer"
           >
             <Mail className="h-3.5 w-3.5" />
-            <span className="text-xs">info@apx-mep.co.uk</span>
+            <span className="text-xs">info@apx-fs.co.uk</span>
           </button>
         </div>
         {toast && (

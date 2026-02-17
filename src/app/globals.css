@@ -82,6 +82,7 @@ section + section {
 }
 
 /* Section titles: title case (not all caps); keep APX FS / APX Fire & Security in all caps via inline style */
+section h1.font-title,
 section h2.font-title,
 section h3.font-title,
 section h4.font-title {
@@ -131,20 +132,23 @@ section h2 {
   overflow: hidden;
   pointer-events: none;
 }
-/* Fill: full size so it fills the whole button; no inset so no visible gap at border. Grows from bottom. */
+/* Fill: white; straight line from bottom on hover. */
 .pill-btn-inner::before {
   content: "";
   position: absolute;
   inset: 0;
   background-color: #ffffff;
-  transform: scale(1, 0);
   transform-origin: 50% 100%;
-  transition: transform 0.25s ease;
+  transform: scaleY(0);
+  transition: transform 0.35s ease-out;
 }
 .pill-btn:hover .pill-btn-inner::before {
-  transform: scale(1, 1);
+  transform: scaleY(1);
 }
-/* Border drawn on top of fill so fill goes to edge and border sits cleanly on top. */
+.pill-btn:not(:hover) .pill-btn-inner::before {
+  transform: scaleY(0);
+}
+/* Border drawn on top of fill so fill goes to edge and border sits cleanly on top. White border by default; black on hover. */
 .pill-btn-border {
   position: absolute;
   inset: 0;
@@ -155,6 +159,10 @@ section h2 {
   border-top-right-radius: 0;
   border-bottom-left-radius: 0;
   pointer-events: none;
+  transition: border-color 0.2s ease;
+}
+.pill-btn:hover .pill-btn-border {
+  border-color: #000000;
 }
 .pill-btn .pill-text {
   position: relative;
@@ -166,6 +174,20 @@ section h2 {
 #hero .pill-btn:hover .pill-text {
   color: #000000 !important;
   transition: color 0.125s ease;
+}
+
+/* Call button variant: white fill + black border off hover; black fill on hover */
+.pill-btn--outline {
+  background-color: #ffffff !important;
+}
+.pill-btn--outline .pill-text {
+  color: #000000 !important;
+}
+.pill-btn--outline .pill-btn-inner::before {
+  background-color: #000000;
+}
+.pill-btn--outline:hover .pill-text {
+  color: #ffffff !important;
 }
 
 /* FS: ABOUT intro – background from placeholder layer; dark text */
@@ -373,10 +395,10 @@ html:not(.dark) #testimonials {
   background-color: #000000 !important;
 }
 
-/* Accreditations: white background, black text, canted top, black border strip along angle */
+/* Accreditations: black background, white text, canted top, white border strip along angle */
 #accreditations {
   position: relative;
-  background-color: #ffffff !important;
+  background-color: #000000 !important;
 }
 #accreditations.accreditations-section::before {
   content: "";
@@ -385,35 +407,28 @@ html:not(.dark) #testimonials {
   left: 0;
   right: 0;
   height: 3px;
-  background: #000000;
-  /* Match fixed cant angle: 6vh over 100% width ≈ -4.6deg at typical viewport */
+  background: #ffffff;
   transform: skewY(-4.6deg);
   transform-origin: left top;
   z-index: 1;
   pointer-events: none;
 }
-/* Force all text black (ThemeToggle forces span/p/h2 etc to theme.text; override with higher specificity) */
 #accreditations .accreditations-heading,
 #accreditations .accreditations-text,
-#accreditations .accreditations-logos .text-gray-500,
 #accreditations h2,
 #accreditations h3,
 #accreditations p,
 #accreditations span,
 #accreditations li {
-  color: #000000 !important;
-}
-/* Keep CTA button text white */
-#accreditations a.bg-red-600 {
   color: #ffffff !important;
 }
-#accreditations .accreditations-logos .border-gray-300 {
-  border-color: #333333 !important;
+#accreditations .pill-btn:hover .pill-text {
+  color: #000000 !important;
 }
-/* Container: white bg, black border, only top-left and bottom-right rounded */
+/* Container: black bg, white border, only top-left and bottom-right rounded */
 #accreditations .accreditations-card {
-  background-color: #ffffff !important;
-  border: 2px solid #000000 !important;
+  background-color: #000000 !important;
+  border: 2px solid #ffffff !important;
   border-top-left-radius: 1.75rem;
   border-top-right-radius: 0;
   border-bottom-right-radius: 1.75rem;
@@ -527,11 +542,38 @@ html:not(.dark) #why-mep.mep-section-light-bg::after {
     min-width: 50%;
   }
 }
-/* About (Why Choose Us): light section, light cards, black text */
+/* About (Why Choose Us): light section; benefit cards are always black with white text */
 html:not(.dark) #about h2,
 html:not(.dark) #about .text-gray-300 {
   color: #1a1a1a !important;
 }
+/* Why Choose Us cards: black bg, white border, top-left + bottom-right rounded only, white text (both themes) */
+#about .why-choose-card {
+  background-color: #000000 !important;
+  border: 2px solid #ffffff !important;
+  border-top-left-radius: 1.75rem;
+  border-top-right-radius: 0;
+  border-bottom-right-radius: 1.75rem;
+  border-bottom-left-radius: 0;
+}
+#about .why-choose-card h4,
+#about .why-choose-card .why-choose-list,
+#about .why-choose-card .why-choose-list li,
+#about .why-choose-card svg {
+  color: #ffffff !important;
+}
+#about .why-choose-card svg {
+  stroke: #ffffff !important;
+}
+html:not(.dark) #about .why-choose-card h4,
+html:not(.dark) #about .why-choose-card .why-choose-list li,
+html:not(.dark) #about .why-choose-card svg {
+  color: #ffffff !important;
+}
+html:not(.dark) #about .why-choose-card svg {
+  stroke: #ffffff !important;
+}
+/* Light theme: other .service-card in #about (if any) stay light */
 html:not(.dark) #about .service-card {
   background: rgba(255, 255, 255, 0.95) !important;
   border-color: rgba(0, 0, 0, 0.2) !important;
@@ -545,14 +587,66 @@ html:not(.dark) #about .service-card svg {
   color: #1a1a1a !important;
   stroke: #1a1a1a !important;
 }
-html:not(.dark) #about .stats-card {
-  background: rgba(0, 0, 0, 0.06) !important;
+/* Why Choose Us benefit list styling */
+#about .why-choose-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
 }
-html:not(.dark) #about .stats-card .text-4xl,
-html:not(.dark) #about .stats-card .text-white {
+#about .why-choose-list li {
+  position: relative;
+  padding-left: 1.25rem;
+  font-size: 1rem;
+  line-height: 1.5;
+  color: rgba(255, 255, 255, 0.9);
+}
+#about .why-choose-list li::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 0.55em;
+  width: 0.35rem;
+  height: 0.35rem;
+  border-radius: 50%;
+  background: #ffffff;
+  opacity: 0.9;
+}
+#about .why-choose-card .why-choose-list li::before {
+  background: #ffffff;
+}
+html:not(.dark) #about .why-choose-card .why-choose-list li {
+  color: rgba(255, 255, 255, 0.9) !important;
+}
+html:not(.dark) #about .why-choose-card .why-choose-list li::before {
+  background: #ffffff;
+}
+#about .stats-card {
+  background: transparent !important;
+}
+/* Stats: always black text (numbers + labels) – body uses --foreground (white), so force black every way */
+#about .stats-card .stats-card-number,
+#about .stats-card .stats-card-label,
+html.dark #about .stats-card .stats-card-number,
+html.dark #about .stats-card .stats-card-label {
+  color: #000000 !important;
+}
+#about [data-stats-section] [data-stats-text],
+#about [data-stats-section] .stats-card-number,
+#about [data-stats-section] .stats-card-label {
+  color: #000000 !important;
+}
+#about .stats-card .stats-card-number *,
+#about .stats-card .stats-card-label * {
+  color: inherit !important;
+}
+#about .stats-card .text-4xl,
+#about .stats-card .text-black {
   color: #1a1a1a !important;
 }
-html:not(.dark) #about .stats-card .text-gray-300 {
+#about .stats-card .text-gray-700 {
   color: #444444 !important;
 }
 /* Testimonials: lifted black container – always dark (white text) inside; section bg white */
@@ -684,6 +778,15 @@ html:not(.dark) #testimonials .testimonials-lifted .service-card {
 #contact #quote-form .flex.space-x-6 label {
   color: #ffffff !important;
 }
+#contact #quote-form .form-submit-btn,
+#contact #quote-form button[type="submit"] {
+  border: 2px solid #ffffff !important;
+}
+#contact #quote-form .form-submit-btn:hover:not(:disabled),
+#contact #quote-form button[type="submit"]:hover:not(:disabled) {
+  border-color: #ffffff !important;
+  background-color: #1a1a1a !important;
+}
 /* Fallback: quote form outside contact (e.g. other pages, light theme) – #contact #quote-form overrides when present */
 html:not(.dark) #quote-form {
   background-color: #ffffff !important;
@@ -735,20 +838,26 @@ html:not(.dark) #quote-form button[type="submit"]:hover {
   font-weight: 700;
   font-size: 1rem;
   cursor: pointer;
-  transition: width 0.3s ease-in-out, transform 0.1s ease;
+  transition: width 0.3s ease-in-out, transform 0.15s ease, background-color 0.2s ease, border-color 0.2s ease, box-shadow 0.2s ease;
+}
+.form-submit-btn:not(:disabled):hover {
+  background-color: #1a1a1a !important;
+  border-color: #ffffff !important;
+  box-shadow: 0 0 0 1px rgba(255, 255, 255, 0.5);
 }
 .form-submit-btn:not(:disabled):active {
-  transform: translateY(1px);
+  transform: translateY(2px);
+  box-shadow: none;
 }
 .form-submit-btn__text {
   display: inline-block;
   width: 100%;
   padding: 0.75rem 1.5rem;
   border-radius: inherit;
-  transition: background-color 0.15s linear, color 0.15s 0.3s ease-in-out;
+  transition: color 0.15s 0.3s ease-in-out;
 }
 .form-submit-btn:not(:disabled):hover .form-submit-btn__text {
-  background-color: rgba(255, 255, 255, 0.1);
+  background-color: transparent;
 }
 .form-submit-btn__progress {
   overflow: visible;
@@ -1406,9 +1515,38 @@ html.cursor-invert.curzr-big-circle-active .apx-cursor-big-circle__dot {
   background-color: #000;
 }
 
-/* FS: Footer always black background; ensure content is visible (light text) */
-footer {
+/* Wrapper so black fill sits behind footer without clipping footer border/radius */
+.footer-outer-wrapper {
+  position: relative;
+  overflow: visible;
+}
+/* FS: Footer – one wrapper: rounded top, border top + sides (no bottom), logo on top */
+footer.footer-expand-wrapper {
+  position: relative;
   background-color: #000000 !important;
+  transform: none !important;
+  border: 2px solid #fff;
+  border-bottom: none;
+  border-top-left-radius: 30px;
+  border-top-right-radius: 30px;
+  isolation: isolate;
+}
+/* Square-edged black fill: full viewport width, behind footer (sibling), so hero never shows through and footer keeps border/radius */
+.footer-black-fill {
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 100vw;
+  top: 0;
+  bottom: 0;
+  background-color: #000000;
+  z-index: 0;
+  pointer-events: none;
+}
+footer.footer-expand-wrapper > .footer-head,
+footer.footer-expand-wrapper > .footer-expand {
+  position: relative;
+  z-index: 1;
 }
 footer, footer *, footer h4, footer p, footer span, footer a, footer li {
   color: #ffffff !important;
@@ -1416,6 +1554,36 @@ footer, footer *, footer h4, footer p, footer span, footer a, footer li {
 footer .text-gray-400,
 footer .text-gray-500 {
   color: rgba(255, 255, 255, 0.8) !important;
+}
+footer a.footer-level-credit {
+  color: rgba(255, 255, 255, 0.8) !important;
+}
+footer a.footer-level-credit:hover {
+  color: #ef4444 !important;
+}
+
+.footer-logo-bridge {
+  z-index: 2;
+}
+
+/* Footer expand: collapse/expand on hover – start behind the bar (negative margin), so bar’s rounded top shows */
+.footer-expand {
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height 0.45s ease-out;
+  background-color: #000000;
+}
+.footer-expand-wrapper:hover .footer-expand {
+  max-height: 1400px;
+}
+.footer-expand-wrapper:hover .footer-hint {
+  opacity: 0.4;
+}
+.footer-expand-wrapper:hover .footer-chevron {
+  transform: rotate(180deg);
+}
+.footer-chevron {
+  transition: transform 0.3s ease;
 }
 
 /* Footer contact links cursor fix - pointer when using image cursor */
@@ -1698,6 +1866,29 @@ html {
       visibility: hidden;
       animation: header-nav-item-in 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards;
       animation-fill-mode: both;
+    }
+
+    /* Services pages: header visible immediately, no entrance animation */
+    .header--no-animate .header-logo-drop-in,
+    .header--no-animate .header-bar-expand,
+    .header--no-animate .header-mech-security-in,
+    .header--no-animate .header-contact-tab-drop-in,
+    .header--no-animate .header-nav-item-in,
+    .header--no-animate .header-nav-in {
+      animation: none !important;
+      opacity: 1 !important;
+      visibility: visible !important;
+      transform: none !important;
+    }
+    .header--no-animate .header-bar-expand {
+      width: 100% !important;
+      min-width: 100% !important;
+    }
+    .header--no-animate .header-mech-security-in {
+      transform: translateY(-50%) !important;
+    }
+    .header--no-animate .header-contact-tab-drop-in {
+      transform: translateY(-36px) !important;
     }
 
     /* Auto-scrolling animation for client logos */
@@ -2648,6 +2839,42 @@ html {
     }
 
 /* Cookie Consent Modal - Ensure all text is visible */
+/* Modal close (X) button: black fill, white border, white icon */
+.cookie-settings-modal-close {
+  background-color: #000000 !important;
+  color: #ffffff !important;
+}
+.cookie-settings-modal-close:hover {
+  background-color: #111111 !important;
+}
+.cookie-settings-modal-close svg {
+  color: #ffffff !important;
+  stroke: #ffffff !important;
+}
+
+/* Floating FAB (gear): black fill, white border, white icon */
+.cookie-settings-fab {
+  background-color: #000000 !important;
+  color: #ffffff !important;
+}
+.cookie-settings-fab:hover {
+  background-color: #111111 !important;
+}
+.cookie-settings-fab-icon,
+.cookie-settings-fab svg {
+  color: #ffffff !important;
+  stroke: #ffffff !important;
+}
+
+/* Modal Cancel button: black fill, white border, white text */
+.cookie-settings-cancel {
+  background-color: #000000 !important;
+  color: #ffffff !important;
+}
+.cookie-settings-cancel:hover {
+  background-color: #111111 !important;
+}
+
 .cookie-settings-modal button[style*="backgroundColor: '#000000'"],
 .cookie-settings-modal button[style*="backgroundColor: \"#000000\""] {
     color: #ffffff !important;
@@ -2666,6 +2893,25 @@ html {
 .cookie-banner button[style*="backgroundColor: 'transparent'"],
 .cookie-banner button[style*="backgroundColor: transparent"] {
     color: #000000 !important;
+}
+
+/* Cookie banner: always black background, no white fill */
+.cookie-banner,
+.cookie-banner-wrapper .cookie-banner,
+.cookie-banner .cookie-banner-tab {
+  background-color: #000000 !important;
+}
+
+/* Cookie banner: pill buttons – black fill by default, white fill on hover only */
+.cookie-banner .pill-btn,
+.cookie-banner .cookie-banner-pill {
+  background-color: #000000 !important;
+}
+.cookie-banner .pill-btn .pill-text {
+  color: #ffffff !important;
+}
+.cookie-banner .pill-btn:hover .pill-text {
+  color: #000000 !important;
 }
 
 /* Cookie banner: no highlight – same as body text, no underline, no background ever */
@@ -2710,11 +2956,20 @@ header nav .nav-menu-item:hover * {
 }
 
 /* Services dropdown items: no background highlight, no text fade */
-header nav .dropdown-item,
-header nav .dropdown-item:hover {
-  transition: none !important;
+header nav .dropdown-item {
+  transition: background-color 0.2s ease !important;
   background-color: transparent !important;
   opacity: 1 !important;
+}
+header nav .dropdown-item:hover {
+  background-color: rgba(255, 255, 255, 0.12) !important;
+  opacity: 1 !important;
+}
+
+/* Contact tab container: always black fill on all pages */
+.header-contact-tab--dark.header-contact-tab-drop-in,
+.header-contact-tab-drop-in.header-contact-tab--dark {
+  background-color: #000 !important;
 }
 
 /* Contact tab pills: transparent by default, white pill on hover (dark tab) */

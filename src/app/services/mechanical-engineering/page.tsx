@@ -1,120 +1,275 @@
 "use client"
 
+import Image from "next/image";
+import Link from "next/link";
 import { useTheme } from "@/contexts/ThemeContext";
-import { Flame, Shield, Bell, CheckCircle, ArrowRight, FileCheck } from "lucide-react";
+import { CustomPillButton } from "@/components/ui/CustomPillButton";
+import { RequestFreeSurvey } from "@/components/ServicePageSharedSections";
+
+const FIRE_SURVEY_TITLE = "Request Your Free Fire Alarm System Survey";
+const FIRE_SURVEY_DESCRIPTION = "Not sure what kind of system you need? There is no 'one size fits all' when it comes to fire safety and the type of fire system we install is dependent on the property and the activity that takes place inside. So we offer a free, no obligation survey to ascertain the type of Fire Alarm System that best suits your needs. Simply contact us for a chat about your requirements.";
+
+const SYSTEM_TYPES = [
+  "Addressable Fire Alarm Systems",
+  "Conventional Fire Alarm Systems",
+  "Wire-Free Fire Alarm Systems",
+  "Air Sampling (sniffer) Fire Alarm Systems",
+];
+
+const FIRE_CUSTOMERS = [
+  { name: "The Mayfair Townhouse", tagline: "Luxury Lifestyle Hotel" },
+  { name: "Hilton DoubleTree", tagline: "Hotel Group" },
+  { name: "Firmdale Hotels", tagline: "Hotel Group" },
+  { name: "United Living", tagline: "Housing & Infrastructure" },
+  { name: "Camden Council", tagline: "Local Authority, London" },
+  { name: "University of West London", tagline: "Higher Education" },
+  { name: "Scape Bloomsbury", tagline: "Student Accommodation" },
+];
+
+const FIRE_INSTALLATIONS = [
+  { title: "Fire Alarm System Dimco Exhibition Building Westfield", org: "Dimco Exhibition Building, Westfield, Stratford" },
+  { title: "Fire Alarm System University of West London", org: "University of West London, Higher Education" },
+  { title: "Fire Alarm System Sancroft Building", org: "Sancroft Building, Office Space, London" },
+  { title: "Fire Alarm System Oaklands House London", org: "Oaklands House, London, Apartment Blocks" },
+  { title: "Fire Alarm System Hilton DoubleTree Kingston", org: "Hilton DoubleTree Kingston, Central London Hotel" },
+  { title: "Fire Alarm System John Keats Primary School", org: "John Keats Primary School, Rotherhithe, London" },
+  { title: "Fire Alarm System Mayfair Townhouse London", org: "Mayfair Townhouse, Luxury Lifestyle Hotel" },
+  { title: "Fire Alarm System Scape Bloomsbury", org: "Scape Bloomsbury, Student Accommodation" },
+  { title: "Fire Alarm System Wembley French School", org: "Wembley French School, International School" },
+];
+
+const FIRE_BRANDS = ["Xtralis", "Vox-Ignis", "Advanced", "Reach Wireless", "Apollo", "EMS"];
+
+const REGULATION_QUESTIONS = [
+  "Are your premises small, single-storey or open-plan?",
+  "Do you have any high-risk substances on-site such as chemicals?",
+  "Are there any high-risk activities on-site, such as cooking?",
+  "Are there vulnerable people in the building (e.g. children, elderly, disabled)?",
+  "If a fire broke out on-site it would be easily spotted straight away?",
+  "Would shouting 'fire' be easily heard by all occupants of the building?",
+];
+
 export default function FireSafetySystemsPage() {
   const { theme } = useTheme();
+  const heroImageSrc = "/client%20logos/service%20pages%20image/home-fire-alarm-system-installer-800x533.jpg";
+  const isDark = theme === "dark";
+  const textClass = isDark ? "text-white" : "text-black";
+  const mutedClass = isDark ? "text-gray-300" : "text-gray-600";
+  const bgStyle = { backgroundColor: isDark ? "#000000" : "#ffffff" };
 
   return (
-    <div className="min-h-screen overflow-x-hidden" style={{ backgroundColor: theme === 'dark' ? '#000000' : '#ffffff' }}>
-      <div className="w-full h-[0.75px] bg-black dark:bg-white"></div>
+    <div className="min-h-screen overflow-x-hidden" style={bgStyle}>
+      <div className="w-full h-[0.75px] bg-black dark:bg-white" />
 
-      <section className={`py-20 ${theme === 'dark' ? 'bg-black' : 'bg-white'}`} style={{ backgroundColor: theme === 'dark' ? '#000000' : '#ffffff' }}>
-        <div className="container mx-auto px-6">
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
-            <div>
-              <h1 className={`text-5xl lg:text-7xl font-bold mb-6 font-title ${theme === 'dark' ? 'text-white' : 'text-black'}`}>
-                Fire Safety
-                <br />
-                <span className="text-4xl lg:text-6xl opacity-70">Systems</span>
+      {/* Hero */}
+      <section className="relative h-screen overflow-visible flex flex-col bg-transparent">
+        <div className="fixed inset-0 z-0" aria-hidden>
+          <Image
+            src={heroImageSrc}
+            alt=""
+            fill
+            className="object-cover object-center"
+            priority
+            sizes="100vw"
+          />
+          <div className="absolute inset-0 bg-black/50" aria-hidden />
+        </div>
+        <div className="container mx-auto px-6 flex-1 flex flex-col justify-start pt-44 pb-40 relative z-20">
+          <div className="space-y-4">
+            <div className="max-w-3xl">
+              <h1 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold mb-2 md:mb-3 text-left font-title text-white">
+                Fire Alarm Systems
               </h1>
-              <p className={`text-xl mb-8 leading-relaxed ${theme === 'dark' ? 'text-gray-300' : 'text-gray-600'}`}>
-                From fire detection and alarm systems to suppression and emergency planning, we design, install, and maintain
-                fire safety solutions that protect people and property. Fully compliant with UK regulations and BAFE standards.
+              <p className="text-sm sm:text-base md:text-lg font-normal mb-3 text-left tracking-tight max-w-2xl text-white">
+                At APX we specialise in designing and installing high quality fire alarm systems for both domestic properties and commercial premises.
               </p>
-              <div className="flex flex-col sm:flex-row gap-4">
-                <button className={`px-8 py-4 rounded-lg font-semibold transition-all duration-300 ${theme === 'dark' ? 'bg-white text-black hover:bg-gray-200' : 'bg-black text-white hover:bg-gray-800'}`}>
-                  Get Quote
-                </button>
-                <button className={`px-8 py-4 rounded-lg font-semibold border transition-all duration-300 ${theme === 'dark' ? 'border-white text-white hover:bg-white hover:text-black' : 'border-black text-black hover:bg-black hover:text-white'}`}>
-                  View Portfolio
-                </button>
+              <p className="text-sm sm:text-base md:text-lg font-normal mb-4 md:mb-5 text-left tracking-tight max-w-2xl text-white">
+                We offer a wide range of conventional and addressable fire alarm systems. Our vast experience in the fire detection industry spans the public and industrial sector, with installations ranging from small domestic systems through to commercial premises such as schools, offices, warehouses, hotels and banks. We are fully accredited to BAFE and FIA for our customers' peace of mind.
+              </p>
+              <div className="flex flex-wrap items-center gap-4 sm:gap-6 pt-2">
+                <CustomPillButton href="/contact" size="md">
+                  Get a free quote
+                </CustomPillButton>
+                <Link
+                  href="/contact"
+                  className="text-white font-normal text-base underline underline-offset-4 hover:text-white/90 transition-colors"
+                >
+                  Question? get in touch
+                </Link>
               </div>
             </div>
-            <div className="relative">
-              <div className={`w-full h-96 rounded-2xl ${theme === 'dark' ? 'bg-gray-800' : 'bg-gray-200'} flex items-center justify-center`}>
-                <div className="text-center">
-                  <Flame className="w-24 h-24 mx-auto mb-4 opacity-50" />
-                  <p className="text-lg opacity-70">Fire Safety Systems Image Placeholder</p>
-                </div>
-              </div>
-            </div>
           </div>
         </div>
       </section>
 
-      <div className="w-full h-[0.75px] bg-black dark:bg-white"></div>
+      <div className="relative z-10 -mt-64 sm:-mt-72">
+        <div className="w-full h-[0.75px] bg-black dark:bg-white" />
 
-      <section className={`py-20 ${theme === 'dark' ? 'bg-black' : 'bg-white'}`} style={{ backgroundColor: theme === 'dark' ? '#000000' : '#ffffff' }}>
-        <div className="container mx-auto px-6">
-          <h2 className={`text-4xl font-bold mb-12 text-center font-title ${theme === 'dark' ? 'text-white' : 'text-black'}`}>
-            Our Fire Safety Services
-          </h2>
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-            {[
-              { icon: <Bell className="w-8 h-8" />, title: "Fire Detection & Alarms", description: "Conventional and addressable fire alarm systems, smoke and heat detection, and 24/7 monitoring integration." },
-              { icon: <Shield className="w-8 h-8" />, title: "Fire Risk Assessments", description: "BS 5839 and regulatory fire risk assessments to identify hazards and ensure compliance." },
-              { icon: <Flame className="w-8 h-8" />, title: "Suppression Systems", description: "Sprinklers, gas suppression, and specialist systems for high-risk and critical environments." },
-              { icon: <FileCheck className="w-8 h-8" />, title: "Compliance & Certification", description: "Annual testing, certification, and documentation to meet fire safety legislation." },
-              { icon: <CheckCircle className="w-8 h-8" />, title: "Emergency Planning", description: "Evacuation strategy, signage, and staff training to support fire safety management." },
-              { icon: <ArrowRight className="w-8 h-8" />, title: "System Upgrades", description: "Modernisation of legacy systems and integration with building management and security." }
-            ].map((service, index) => (
-              <div key={index} className={`p-8 rounded-xl transition-all duration-300 hover:scale-105 ${theme === 'dark' ? 'bg-black border border-gray-700 hover:border-white' : 'bg-white border border-gray-200 hover:border-black'}`}>
-                <div className={`mb-4 ${theme === 'dark' ? 'text-white' : 'text-black'}`}>{service.icon}</div>
-                <h3 className={`text-xl font-semibold mb-3 ${theme === 'dark' ? 'text-white' : 'text-black'}`}>{service.title}</h3>
-                <p className={theme === 'dark' ? 'text-gray-300' : 'text-gray-600'}>{service.description}</p>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      <div className="w-full h-[0.75px] bg-black dark:bg-white"></div>
-
-      <section className={`py-20 ${theme === 'dark' ? 'bg-black' : 'bg-white'}`} style={{ backgroundColor: theme === 'dark' ? '#000000' : '#ffffff' }}>
-        <div className="container mx-auto px-6">
-          <h2 className={`text-4xl font-bold mb-12 text-center font-title ${theme === 'dark' ? 'text-white' : 'text-black'}`}>
-            Our Process
-          </h2>
-          <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
-            {[
-              { step: "01", title: "Risk Assessment", description: "Site visit and fire risk assessment to define scope and compliance requirements." },
-              { step: "02", title: "Design & Specification", description: "System design to BS 5839 and relevant standards, with clear documentation." },
-              { step: "03", title: "Installation & Commissioning", description: "Professional installation, testing, and handover with certification." },
-              { step: "04", title: "Maintenance & Support", description: "Scheduled servicing and 24/7 support to keep systems compliant and reliable." }
-            ].map((step, index) => (
-              <div key={index} className="text-center">
-                <div className={`w-16 h-16 rounded-full mx-auto mb-6 flex items-center justify-center text-2xl font-bold ${theme === 'dark' ? 'bg-white text-black' : 'bg-black text-white'}`}>{step.step}</div>
-                <h3 className={`text-xl font-semibold mb-3 ${theme === 'dark' ? 'text-white' : 'text-black'}`}>{step.title}</h3>
-                <p className={theme === 'dark' ? 'text-gray-300' : 'text-gray-600'}>{step.description}</p>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      <div className="w-full h-[0.75px] bg-black dark:bg-white"></div>
-
-      <section className={`py-20 ${theme === 'dark' ? 'bg-black' : 'bg-white'}`} style={{ backgroundColor: theme === 'dark' ? '#000000' : '#ffffff' }}>
-        <div className="container mx-auto px-6">
-          <div className="max-w-4xl mx-auto text-center">
-            <h2 className={`text-4xl font-bold mb-6 font-title ${theme === 'dark' ? 'text-white' : 'text-black'}`}>
-              Ready To Protect Your Premises?
+        {/* Fire Alarm System Installer London / Bespoke */}
+        <section className="py-12 lg:py-16" style={bgStyle}>
+          <div className="container mx-auto px-6 max-w-4xl">
+            <h2 className={`text-3xl font-bold mb-4 font-title ${textClass}`}>
+              Fire Alarm System Installer London
             </h2>
-            <p className={`text-xl mb-8 ${theme === 'dark' ? 'text-gray-300' : 'text-gray-600'}`}>
-              Contact our fire safety team for a site survey, risk assessment, or detailed quote for your fire detection and alarm systems.
+            <h3 className={`text-2xl font-semibold mb-6 font-title ${textClass}`}>
+              Bespoke Fire Alarm Systems
+            </h3>
+            <div className={`space-y-4 ${mutedClass}`}>
+              <p>
+                Established in 1986 we work throughout London and the Home Counties to install fire protection systems that combine the highest standard of fire protection equipment with high levels of customer care, at affordable prices.
+              </p>
+              <p>
+                Our systems are expertly designed in accordance with NSI Gold standards, covering both the domestic and commercial market. We specialise in the following systems:
+              </p>
+            </div>
+            <ul className={`list-disc list-inside space-y-2 mb-6 ${mutedClass}`}>
+              {SYSTEM_TYPES.map((name, i) => (
+                <li key={i}>{name}</li>
+              ))}
+            </ul>
+            <p className={`${mutedClass}`}>
+              By installing a fire alarm system which will give you an early warning of the outbreak of fire, an effective alarm can prevent a small incident becoming a total devastation.
             </p>
-            <div className="flex flex-col sm:flex-row gap-4 justify-center">
-              <button className={`px-8 py-4 rounded-lg font-semibold transition-all duration-300 ${theme === 'dark' ? 'bg-white text-black hover:bg-gray-200' : 'bg-black text-white hover:bg-gray-800'}`}>
-                Get Free Consultation
-              </button>
-              <button className={`px-8 py-4 rounded-lg font-semibold border transition-all duration-300 ${theme === 'dark' ? 'border-white text-white hover:bg-white hover:text-black' : 'border-black text-black hover:bg-black hover:text-white'}`}>
-                Call 020 4568 5986
-              </button>
+          </div>
+        </section>
+
+        <div className="w-full h-[0.75px] bg-black dark:bg-white" />
+
+        {/* We are BAFE Accredited */}
+        <section className="py-12 lg:py-16" style={bgStyle}>
+          <div className="container mx-auto px-6 max-w-4xl">
+            <h2 className={`text-3xl font-bold mb-8 font-title ${textClass}`}>
+              We are BAFE Accredited
+            </h2>
+            <div className={`space-y-4 ${mutedClass}`}>
+              <p>
+                BAFE (British Approvals for Fire Equipment) is an independent British organisation that publishes and maintains a national register of competent fire safety service providers. We are proud to be BAFE accredited.
+              </p>
+              <p>
+                BAFE registration is very important for those in the UK fire safety and protection industry. Many organisations now require BAFE registration from those who install or maintain their fire safety systems, products and services. For many working in the fire and protection industry, BAFE registration is a commercial imperative.
+              </p>
+              <p>
+                The BAFE register also brings customers together with companies they can trust, with a directory of independently audited and approved providers. If you would like to know more you can view our BAFE registration online.
+              </p>
+            </div>
+            <p className={`mt-6 font-semibold ${textClass}`}>
+              BAFE Fire Safety Register Registered Organisation 301168
+            </p>
+          </div>
+        </section>
+
+        <div className="w-full h-[0.75px] bg-black dark:bg-white" />
+
+        {/* Our Fire Alarm System Customers */}
+        <section className="py-12 lg:py-16" style={bgStyle}>
+          <div className="container mx-auto px-6">
+            <h2 className={`text-3xl font-bold mb-4 font-title text-center ${textClass}`}>
+              Our Fire Alarm System Customers
+            </h2>
+            <p className={`text-center max-w-2xl mx-auto mb-12 ${mutedClass}`}>
+              A small selection of some of our fire alarm system customers:
+            </p>
+            <div className="flex flex-wrap justify-center gap-6 sm:gap-8">
+              {FIRE_CUSTOMERS.map((c, i) => (
+                <div
+                  key={i}
+                  className={`text-center p-6 rounded-xl min-w-[180px] ${isDark ? "bg-white/5 border border-gray-700" : "bg-gray-50 border border-gray-200"}`}
+                >
+                  <p className={`font-semibold ${textClass}`}>{c.name}</p>
+                  <p className={`text-sm mt-1 ${mutedClass}`}>{c.tagline}</p>
+                </div>
+              ))}
             </div>
           </div>
-        </div>
-      </section>
+        </section>
+
+        <div className="w-full h-[0.75px] bg-black dark:bg-white" />
+
+        {/* Our Fire Alarm System Installations */}
+        <section className="py-12 lg:py-16" style={bgStyle}>
+          <div className="container mx-auto px-6">
+            <h2 className={`text-3xl font-bold mb-4 font-title text-center ${textClass}`}>
+              Our Fire Alarm System Installations
+            </h2>
+            <p className={`text-center max-w-2xl mx-auto mb-12 ${mutedClass}`}>
+              Examples of fire alarm systems that we have installed for our customers:
+            </p>
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+              {FIRE_INSTALLATIONS.map((item, index) => (
+                <div
+                  key={index}
+                  className={`p-8 rounded-xl border ${isDark ? "border-gray-700 hover:border-white" : "border-gray-200 hover:border-black"}`}
+                >
+                  <h3 className={`text-lg font-semibold mb-2 ${textClass}`}>
+                    {item.title}
+                  </h3>
+                  <p className={mutedClass}>{item.org}</p>
+                </div>
+              ))}
+            </div>
+          </div>
+        </section>
+
+        <div className="w-full h-[0.75px] bg-black dark:bg-white" />
+
+        {/* Fire Alarm & Detection Systems Equipment */}
+        <section className="py-12 lg:py-16" style={bgStyle}>
+          <div className="container mx-auto px-6">
+            <h2 className={`text-3xl font-bold mb-2 font-title text-center ${textClass}`}>
+              Fire Alarm & Detection Systems Equipment
+            </h2>
+            <p className={`text-center max-w-2xl mx-auto mb-12 ${mutedClass}`}>
+              We are proud to install fire alarm technology from the world's leading brands
+            </p>
+            <div className="flex flex-wrap justify-center items-center gap-8 sm:gap-12">
+              {FIRE_BRANDS.map((name, i) => (
+                <div
+                  key={i}
+                  className={`px-6 py-3 rounded-lg font-semibold ${isDark ? "bg-white/10 text-white" : "bg-gray-100 text-black"}`}
+                >
+                  {name}
+                </div>
+              ))}
+            </div>
+          </div>
+        </section>
+
+        <div className="w-full h-[0.75px] bg-black dark:bg-white" />
+
+        {/* Do all businesses need a fire alarm system? */}
+        <section className="py-12 lg:py-16" style={bgStyle}>
+          <div className="container mx-auto px-6 max-w-4xl">
+            <h2 className={`text-3xl font-bold mb-6 font-title ${textClass}`}>
+              Do all businesses need a fire alarm system?
+            </h2>
+            <div className={`space-y-4 ${mutedClass}`}>
+              <p>
+                Current UK fire alarm regulations state that all business premises must have "an appropriate fire detection system". This basically means that if a fire breaks out, could it easily be detected and could the people within the building easily be told about it?
+              </p>
+              <p>
+                This doesn't mean that all business premises need a fire alarm system. Try asking yourself the following questions to demonstrate potential situations:
+              </p>
+            </div>
+            <ul className={`list-disc list-inside space-y-2 my-6 ${mutedClass}`}>
+              {REGULATION_QUESTIONS.map((q, i) => (
+                <li key={i}>{q}</li>
+              ))}
+            </ul>
+            <p className={`${mutedClass}`}>
+              If your answer to one or more of these questions is "no" then it's likely that you do need a fire alarm system. Our free survey will help to decide the level of protection you need.
+            </p>
+            <div className="mt-8">
+              <CustomPillButton href="/contact" size="md">
+                Get a free survey
+              </CustomPillButton>
+            </div>
+          </div>
+        </section>
+
+        <div className="w-full h-[0.75px] bg-black dark:bg-white" />
+
+        <RequestFreeSurvey title={FIRE_SURVEY_TITLE} description={FIRE_SURVEY_DESCRIPTION} />
+      </div>
     </div>
   );
 }

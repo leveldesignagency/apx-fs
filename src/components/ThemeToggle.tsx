@@ -181,7 +181,7 @@ const GlobalStyles = createGlobalStyle<{ theme: typeof lightTheme }>`
     color: ${({ theme }) => theme.text} !important;
   }
 
-  /* All white background classes should use theme background */
+  /* .bg-white is overridden to theme background (so dark theme = black). For literal white, use inline style or a section-specific rule in globals.css (e.g. #accreditations). */
   .bg-white {
     background: ${({ theme }) => theme.bg} !important;
   }
@@ -203,8 +203,8 @@ const GlobalStyles = createGlobalStyle<{ theme: typeof lightTheme }>`
     border-color: ${({ theme }) => theme.border} !important;
   }
 
-  /* Scroll indicator squares: use theme border */
-  .fixed.right-6 .w-3.h-3 {
+  /* Scroll indicator squares: black border (see .scroll-indicator-square in globals) – do not override */
+  .fixed.right-6 .w-3.h-3:not(.scroll-indicator-square) {
     border-color: ${({ theme }) => theme.border} !important;
   }
 
