@@ -19,7 +19,10 @@ export default function Home() {
   
   const [currentTestimonial, setCurrentTestimonial] = useState(0)
   const [activeMepIndex, setActiveMepIndex] = useState(0)
-  const [hoveredDrawerService, setHoveredDrawerService] = useState<number | null>(0)
+  const [activeNewsIndex, setActiveNewsIndex] = useState(0)
+  const [newsProgress, setNewsProgress] = useState(0)
+  const newsProgressRef = useRef(0)
+  const newsIndexRef = useRef(0)
   const mepListRef = useRef<HTMLUListElement>(null)
   const projectsScrollRef = useRef<HTMLDivElement>(null)
   const aboutIntroRef = useRef<HTMLElement>(null)
@@ -66,22 +69,22 @@ export default function Home() {
   ], [])
 
   const newsArticles = useMemo(() => [
-    { id: 'a1', title: 'Random article 1', description: 'Placeholder description for article 1.', href: '#', icon: ArrowRight, image: '/cctv%20systems.jpg' },
-    { id: 'a2', title: 'Random article 2', description: 'Placeholder description for article 2.', href: '#', icon: ArrowRight, image: '/access%20control%20systems.jpg' },
-    { id: 'a3', title: 'Random article 3', description: 'Placeholder description for article 3.', href: '#', icon: ArrowRight, image: '/home-fire-alarm-system-installer-800x533.jpg' },
-    { id: 'a4', title: 'Random article 4', description: 'Placeholder description for article 4.', href: '#', icon: ArrowRight, image: '/intruder%20alarm%20systems.jpg' },
-    { id: 'a5', title: 'Random article 5', description: 'Placeholder description for article 5.', href: '#', icon: ArrowRight, image: '/video%20door%20entry%20systems.jpg' },
-    { id: 'a6', title: 'Random article 6', description: 'Placeholder description for article 6.', href: '#', icon: ArrowRight, image: '/cctv%20systems.jpg' },
+    { id: 'a1', title: 'Random Article 1', description: 'Placeholder description for article 1.', href: '#', icon: ArrowRight, image: '/cctv%20systems.jpg' },
+    { id: 'a2', title: 'Random Article 2', description: 'Placeholder description for article 2.', href: '#', icon: ArrowRight, image: '/access%20control%20systems.jpg' },
+    { id: 'a3', title: 'Random Article 3', description: 'Placeholder description for article 3.', href: '#', icon: ArrowRight, image: '/home-fire-alarm-system-installer-800x533.jpg' },
+    { id: 'a4', title: 'Random Article 4', description: 'Placeholder description for article 4.', href: '#', icon: ArrowRight, image: '/intruder%20alarm%20systems.jpg' },
+    { id: 'a5', title: 'Random Article 5', description: 'Placeholder description for article 5.', href: '#', icon: ArrowRight, image: '/video%20door%20entry%20systems.jpg' },
+    { id: 'a6', title: 'Random Article 6', description: 'Placeholder description for article 6.', href: '#', icon: ArrowRight, image: '/cctv%20systems.jpg' },
   ], [])
 
   const projects = useMemo(() => [
-    { image: '/cctv%20systems.jpg', stat: '250+', description: 'Security systems installed across London & Home Counties', quote: 'APX delivered a complete CCTV and access control solution on time and to NSI Gold standard.', href: '/projects', title: 'Commercial CCTV & Access' },
-    { image: '/home-fire-alarm-system-installer-800x533.jpg', stat: '99%', description: 'Client satisfaction on fire and security projects', quote: 'From design to commissioning, the team was professional and the system has been fault-free.', href: '/projects', title: 'Fire Alarm & Detection' },
-    { image: '/intruder%20alarm%20systems.jpg', stat: '24/7', description: 'Monitored alarm response and maintenance', quote: 'We rely on APX for ongoing maintenance and emergency call-outs. Always responsive.', href: '/projects', title: 'Intruder & Monitoring' },
-    { image: '/access%20control%20systems.jpg', stat: 'NSI Gold', description: 'Accredited installations and compliance', quote: 'Having NSI Gold accreditation gave us confidence. The installation exceeded expectations.', href: '/projects', title: 'Multi-Site Integration' },
-    { image: '/home-fire-alarm-system-installer-800x533.jpg', stat: '500+', description: 'Fire risk assessments completed', quote: 'Thorough and clear reporting. We use APX for all our fire safety compliance.', href: '/projects', title: 'Fire Risk Assessments' },
-    { image: '/video%20door%20entry%20systems.jpg', stat: '15', description: 'Years of NSI Gold certification', quote: 'Their continued investment in quality and training shows in every project.', href: '/projects', title: 'NSI Gold Certified' },
-    { image: '/cctv%20systems.jpg', stat: '98%', description: 'First-time pass on commissioning', quote: 'Commissioning was smooth and documentation was spot-on. No call-backs.', href: '/projects', title: 'Commissioning & Handover' },
+    { image: '/cctv%20systems.jpg', stat: '250+', description: 'CCTV and access control installation for commercial premises', quote: 'APX delivered a complete CCTV and access control solution on time and to NSI Gold standard.', href: '/projects', title: 'PROJECT 1' },
+    { image: '/home-fire-alarm-system-installer-800x533.jpg', stat: '99%', description: 'Fire alarm system design, installation and commissioning', quote: 'From design to commissioning, the team was professional and the system has been fault-free.', href: '/projects', title: 'PROJECT 2' },
+    { image: '/intruder%20alarm%20systems.jpg', stat: '24/7', description: 'Intruder alarm and 24/7 monitoring solution', quote: 'We rely on APX for ongoing maintenance and emergency call-outs. Always responsive.', href: '/projects', title: 'PROJECT 3' },
+    { image: '/access%20control%20systems.jpg', stat: 'NSI Gold', description: 'Multi-site access control and security integration', quote: 'Having NSI Gold accreditation gave us confidence. The installation exceeded expectations.', href: '/projects', title: 'PROJECT 4' },
+    { image: '/home-fire-alarm-system-installer-800x533.jpg', stat: '500+', description: 'Fire risk assessment and compliance project', quote: 'Thorough and clear reporting. We use APX for all our fire safety compliance.', href: '/projects', title: 'PROJECT 5' },
+    { image: '/video%20door%20entry%20systems.jpg', stat: '15', description: 'Video door entry and access system upgrade', quote: 'Their continued investment in quality and training shows in every project.', href: '/projects', title: 'PROJECT 6' },
+    { image: '/cctv%20systems.jpg', stat: '98%', description: 'Full system commissioning and handover', quote: 'Commissioning was smooth and documentation was spot-on. No call-backs.', href: '/projects', title: 'PROJECT 7' },
   ], [])
 
   const scrollProjects = useCallback((dir: 'left' | 'right') => {
@@ -144,6 +147,26 @@ export default function Home() {
       clearTimeout(timer5)
     }
   }, [])
+
+  // News: buffer fills over 5s, then advances to next article
+  useEffect(() => {
+    const total = Math.min(newsArticles.length, 3)
+    if (total === 0) return
+    newsIndexRef.current = 0
+    newsProgressRef.current = 0
+    setActiveNewsIndex(0)
+    setNewsProgress(0)
+    const id = setInterval(() => {
+      newsProgressRef.current += 0.01
+      if (newsProgressRef.current >= 1) {
+        newsProgressRef.current = 0
+        newsIndexRef.current = (newsIndexRef.current + 1) % total
+        setActiveNewsIndex(newsIndexRef.current)
+      }
+      setNewsProgress(newsProgressRef.current)
+    }, 50)
+    return () => clearInterval(id)
+  }, [newsArticles.length])
 
   const updateActiveSection = useCallback((sectionId: string) => {
     const sectionIndex = sections.findIndex(section => section.id === sectionId)
@@ -622,39 +645,6 @@ export default function Home() {
           </div>
         </div>
         
-        {/* Custom Scroll Indicator – pill in track: white border + black fill (track), white pill (tl+br rounded) */}
-        <div className="fixed right-6 top-1/2 -translate-y-1/2 z-40">
-          <div
-            className="relative w-3 sm:w-4 h-[min(70vh,580px)] max-h-[580px] flex-shrink-0"
-            style={{
-              backgroundColor: '#000000',
-              border: '1px solid #ffffff',
-              borderTopLeftRadius: '1rem',
-              borderTopRightRadius: 0,
-              borderBottomRightRadius: '1rem',
-              borderBottomLeftRadius: 0,
-            }}
-          >
-            <div
-              className="absolute left-0.5 right-0.5 w-[calc(100%-4px)] transition-all duration-500 ease-out"
-              style={{
-                height: '10%',
-                minHeight: '28px',
-                maxHeight: '56px',
-                top: sections.length > 1
-                  ? `${(activeSection / Math.max(sections.length - 1, 1)) * 90}%`
-                  : '0%',
-                backgroundColor: '#ffffff',
-                borderTopLeftRadius: '0.5rem',
-                borderTopRightRadius: 0,
-                borderBottomRightRadius: '0.5rem',
-                borderBottomLeftRadius: 0,
-              }}
-              aria-hidden
-            />
-          </div>
-        </div>
-        
       </section>
 
       {/* Wrapper so CCTV overlay can sit above both about and services */}
@@ -671,17 +661,18 @@ export default function Home() {
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-12 items-center">
             <div className="lg:col-span-5 order-2 lg:order-1" aria-hidden />
             <div className="lg:col-span-7 order-1 lg:order-2 max-w-2xl">
+              <span className="section-label section-label--black" style={{ opacity: aboutScrollProgress, color: '#000000' }}>OUR STORY</span>
               <h2
                 className="text-4xl sm:text-5xl lg:text-6xl font-bold text-black tracking-tight leading-tight mb-6 font-title transition-opacity duration-500"
                 style={{ fontFamily: 'var(--font-title, inherit)', opacity: aboutScrollProgress }}
               >
-                Founded in 1986, APX merged two industry leaders.
+                Where it began.
               </h2>
               <p
                 className="text-lg sm:text-xl text-black/90 leading-relaxed mb-8 transition-opacity duration-700"
                 style={{ opacity: aboutContentFade }}
               >
-                In 2024, APX Fire & Security was formed when two industry-leading companies came together: Harrisons Mechanical and Electrical and Smiths Technical. The merger united decades of expertise in fire safety, security systems, and building services—delivering the same trusted, high-quality solutions under one name across London and the Home Counties.
+                Since 1986 APX Fire & Security have specialised in the design, installation and maintenance of high quality security systems to London and the Home Counties. The quality of our work and our excellent after-sales service has allowed us to build the business on recommendations alone. We have achieved NSI Gold accreditation and are fully accredited to BAFE and FIA for our customers&apos; peace of mind.
               </p>
               <div className="transition-opacity duration-700" style={{ opacity: aboutContentFade }}>
                 <CustomPillButton href="/about" size="md">
@@ -698,7 +689,8 @@ export default function Home() {
         <div className="container mx-auto px-6 lg:px-8">
           <div className="section-content-gap space-y-16 text-black">
             <div>
-              <h2 className="text-5xl font-bold text-left tracking-wide section-title-gap services-section-title leading-tight font-title" style={{ color: '#000000' }}>APX FS Services</h2>
+              <span className="section-label section-label--black">APX FS SERVICES</span>
+              <h2 className="text-5xl font-bold text-left tracking-wide section-title-gap services-section-title leading-tight font-title" style={{ color: '#000000' }}>What we offer</h2>
               <p className="text-base leading-relaxed max-w-xl section-intro-gap hero-services-intro" style={{ color: '#000000' }}>
                 APX FS is your NSI Gold security system installer. We specialise in the design, installation and maintenance of bespoke integrated security systems within London and the Home Counties.
               </p>
@@ -840,9 +832,12 @@ export default function Home() {
       <section id="projects" className="bg-black py-20 lg:py-28 overflow-x-hidden">
         <div className="container mx-auto px-6 lg:px-8">
           <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-6 mb-14 lg:mb-20">
-            <h2 className="text-4xl lg:text-5xl font-bold text-white font-title leading-tight">
-              We have delivered over 250<br /> projects in London
-            </h2>
+            <div>
+              <span className="section-label text-white/80">Projects</span>
+              <h2 className="text-4xl lg:text-5xl font-bold text-white font-title leading-tight">
+                Built to last — delivered with care.
+              </h2>
+            </div>
             <div className="flex items-center gap-3 shrink-0">
               <button
                 type="button"
@@ -877,10 +872,10 @@ export default function Home() {
               className="projects-card group flex-shrink-0 flex flex-col rounded-xl overflow-hidden bg-black"
             >
               <div className="relative aspect-[3/4] min-h-[480px] projects-card__inner">
-                {/* Logo placeholder – top centre */}
-                <div className="projects-card-logo-placeholder absolute top-6 left-1/2 -translate-x-1/2 z-10 flex items-center justify-center w-16 h-16 rounded-lg bg-white/90 border border-white/50 shadow-lg" aria-hidden>
-                  <span className="text-[10px] font-medium text-black/60 uppercase tracking-wider">Logo</span>
-                </div>
+                {/* Project number – top centre, text only */}
+                {/* Project number – top right, same font as titles */}
+                {/* Project number – top right, same font as titles */}
+                <span className="projects-card-number absolute top-6 right-6 z-10 text-5xl sm:text-6xl font-bold text-white tabular-nums drop-shadow-md" style={{ fontFamily: 'var(--font-title, "Outfit", sans-serif)' }} aria-hidden>{(i + 1).toString().padStart(2, '0')}</span>
                 <div
                   className="absolute inset-0 bg-cover bg-center transition-transform duration-500 group-hover:scale-105"
                   style={{ backgroundImage: `url(${p.image})` }}
@@ -893,7 +888,7 @@ export default function Home() {
                     aria-hidden
                   />
                   <div className="projects-card-glass-overlay absolute inset-0" aria-hidden />
-                  <p className="text-4xl font-bold text-white mb-1 relative z-10">{p.stat}</p>
+                  <p className="text-4xl font-bold text-white mb-1 relative z-10">{p.title}</p>
                   <p className="text-white/90 text-sm mb-3 relative z-10">{p.description}</p>
                   <p className="text-white/80 text-sm italic mb-4 line-clamp-2 relative z-10">&ldquo;{p.quote}&rdquo;</p>
                   <span className="projects-card-arrow absolute bottom-5 right-6 z-10 flex items-center justify-center w-10 h-10 rounded-full bg-white/20 text-white transition-transform duration-200 group-hover:rotate-12" aria-hidden>
@@ -907,57 +902,38 @@ export default function Home() {
         </div>
       </section>
 
-      {/* News and Articles – drawer layout, after Projects */}
-      <section id="why-mep" className="section-spacing relative overflow-visible">
+      {/* News and Articles */}
+      <section id="why-mep" className="news-section">
         <div className="container mx-auto px-6 lg:px-8">
-          <div className="section-content-gap">
-            <h2 className="text-5xl font-bold text-left tracking-wide section-title-gap services-drawer-title leading-tight font-title" style={{ color: '#000000' }}>News and Articles</h2>
-            <p className="text-base text-gray-300 leading-relaxed max-w-2xl section-intro-gap">
-              Insights on fire safety, security systems and industry updates. Browse our latest articles below.
-            </p>
-          </div>
-
-          <div className={`services-drawer-split grid grid-cols-1 lg:grid-cols-2 min-h-[380px] section-block-gap ${hoveredDrawerService !== null ? 'has-hovered' : ''}`}>
-          <div className="services-drawer-left relative z-10 flex flex-col min-h-0">
-            <div className="services-drawer-list">
-                {newsArticles.map((card, i) => (
-                  <button
-                    key={card.id}
-                    type="button"
-                    className="services-drawer-list-item text-left"
-                    style={{ fontFamily: 'var(--font-menu)' }}
-                    data-active={hoveredDrawerService === i}
-                    onMouseEnter={() => setHoveredDrawerService(i)}
-                  >
-                    {card.title}
-                  </button>
-                ))}
+          <div className="news-section__grid">
+            <div className="news-section__left">
+              <header className="news-section__header">
+                <span className="news-section__label">News and Articles</span>
+                <h2 className="news-section__title">Insights and updates</h2>
+              </header>
+              <nav aria-label="Articles">
+                <ul className="news-section__list">
+                  {newsArticles.slice(0, 3).map((article, i) => (
+                    <li key={article.id} className={`news-section__item ${activeNewsIndex === i ? 'news-section__item--active' : ''}`}>
+                      <span className={`news-section__link ${activeNewsIndex === i ? 'news-section__link--active' : ''}`}>
+                        {article.title}
+                      </span>
+                      {activeNewsIndex === i && (
+                        <span className="news-section__bar" style={{ width: `${newsProgress * 100}%` }} aria-hidden />
+                      )}
+                    </li>
+                  ))}
+                </ul>
+              </nav>
             </div>
-          </div>
 
-          <div className="services-drawer-right relative overflow-visible">
-            <div className={`services-drawer-panel ${hoveredDrawerService !== null ? 'services-drawer-panel--open' : ''}`}>
-              {hoveredDrawerService !== null && newsArticles[hoveredDrawerService] && (() => {
-                const card = newsArticles[hoveredDrawerService]
-                const Icon = card.icon
-                return (
-                  <div className="service-card-unified services-drawer-card h-full min-h-[380px] w-full">
-                    <div className="service-card-unified-bg services-drawer-card-bg" aria-hidden style={{ backgroundImage: `url('${card.image}')` }} />
-                    <div className="service-card-unified-body services-breakdown-wrapper pr-2">
-                      <div className="services-breakdown space-y-4">
-                        <h4 className="services-breakdown-heading">{card.title}</h4>
-                        <p className="services-breakdown-text">{card.description}</p>
-                        <Link href={card.href} className="inline-flex items-center gap-2 text-white font-semibold mt-4">
-                          <Icon className="h-[18px] w-[18px]" strokeWidth={2} strokeLinecap="round" strokeLinejoin="round" />
-                          <span>Read article</span>
-                        </Link>
-                      </div>
-                    </div>
-                  </div>
-                )
-              })()}
+            <div className="news-section__right">
+              <div
+                className="news-section__image"
+                style={{ backgroundImage: `url('${newsArticles[activeNewsIndex]?.image || newsArticles[0].image}')` }}
+                aria-hidden
+              />
             </div>
-          </div>
           </div>
         </div>
       </section>
@@ -968,7 +944,8 @@ export default function Home() {
           <div className="section-content-gap space-y-16">
             {/* Top Section - Title and Description */}
             <div>
-              <h2 className="text-5xl font-bold text-left font-title section-title-gap leading-tight">Why Choose APX Fire & Security?</h2>
+              <span className="section-label section-label--black">Why Choose Us</span>
+              <h2 className="text-5xl font-bold text-left font-title section-title-gap leading-tight">Trust, quality, peace of mind.</h2>
               <p className="text-base text-gray-300 leading-relaxed max-w-xl section-intro-gap">
                 We have been providing bespoke integrated security systems to London and the Home Counties since 1986. Our extensive knowledge and decades of real world experience allow us to deliver high quality security systems to the domestic and commercial sector.
               </p>
@@ -1047,12 +1024,14 @@ export default function Home() {
       {/* Accreditations Section – black bg, white text, two columns */}
       <section id="accreditations" className="section-spacing section-canted-top accreditations-section bg-black">
         <div className="container mx-auto px-6 lg:px-8">
-          <div className="accreditations-card overflow-hidden py-10 lg:py-14 px-8 lg:px-12">
-            <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 lg:gap-16">
+          <div className="accreditations-card service-card overflow-hidden py-10 lg:py-14 px-8 lg:px-12">
+            <span className="glow"></span>
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 lg:gap-16 relative z-10">
               {/* Left – qualifications list */}
               <div>
+                <span className="section-label text-white/80 mb-4 block">Accreditations</span>
                 <h2 className="accreditations-heading text-2xl lg:text-3xl font-bold font-title mb-8 text-white">
-                  Qualifications & Accreditations
+                  Qualifications that speak for themselves
                 </h2>
                 <ul className="space-y-4">
                   {[1, 2, 3, 4, 5, 6].map((i) => (
@@ -1090,7 +1069,8 @@ export default function Home() {
             <div className="section-content-gap space-y-16">
               {/* Top Section - Title and Description */}
               <div className="text-left">
-                <h2 className="text-5xl font-bold font-title section-title-gap leading-tight text-white">What Our Clients Say</h2>
+                <span className="section-label text-white/80">Testimonials</span>
+                <h2 className="text-5xl font-bold font-title section-title-gap leading-tight text-white">What our clients say</h2>
                 <p className="text-base text-gray-300 leading-relaxed max-w-xl section-intro-gap">
                   Don&apos;t just take our word for it - hear from our satisfied clients about their experience with APX MEP.
                 </p>
@@ -1142,8 +1122,9 @@ export default function Home() {
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 sm:gap-12 lg:gap-16 items-start">
             {/* Left side - Title and Button */}
             <div className="space-y-8 pt-16 lg:pt-24">
+              <span className="section-label text-white/80">Contact</span>
               <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold font-title leading-tight text-left text-white">
-                Ready to Get Started?
+                Ready to get started?
               </h2>
               
               <div className="space-y-6 max-w-lg">
