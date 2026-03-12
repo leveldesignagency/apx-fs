@@ -411,7 +411,7 @@ export default function Header() {
                         </>
                       )}
                     </div>
-                    {/* Other services: dim when CCTV expanded */}
+                    {/* Other services: same UI, links disabled – only CCTV goes to pages */}
                     {[
                       { href: '/services/energy-efficiency', label: 'ACCESS CONTROL SYSTEMS' },
                       { href: '/services/sustainability', label: 'INTRUDER ALARM SYSTEMS' },
@@ -420,14 +420,16 @@ export default function Header() {
                     ].map(({ href, label }, i) => (
                       <a
                         key={href}
-                        href={href}
+                        href="#"
+                        role="button"
                         className={`dropdown-item relative group block px-4 py-2 text-sm leading-relaxed cursor-pointer uppercase transition-opacity duration-200 ${i < 3 ? 'border-b' : ''}`}
                         style={{
                           color: '#fff',
                           borderBottomColor: i < 3 ? 'rgba(255,255,255,0.2)' : undefined,
                           opacity: isCctvExpanded ? 0.45 : 1,
                         }}
-                        onClick={() => {
+                        onClick={(e) => {
+                          e.preventDefault()
                           setIsServicesOpen(false)
                           setIsCctvExpanded(false)
                           if (servicesCloseTimeoutRef.current) {
@@ -451,7 +453,7 @@ export default function Header() {
                 <span className="absolute bottom-0 left-1/2 w-full h-0.5 transform -translate-x-1/2 scale-x-0 origin-center transition-transform duration-500 group-hover:scale-x-100" style={{ backgroundColor: '#fff' }} />
               </Link>
               <div className="h-5 w-px flex-shrink-0 header-nav-item-in bg-white/90" style={{ animationDelay: '3.14s' }} aria-hidden />
-              <Link href="/projects" className="nav-menu-item relative text-sm font-medium leading-relaxed cursor-pointer group uppercase header-nav-item-in" style={{ color: '#fff', animationDelay: '3.22s' }}>
+              <Link href="#" className="nav-menu-item relative text-sm font-medium leading-relaxed cursor-pointer group uppercase header-nav-item-in pointer-events-auto" style={{ color: '#fff', animationDelay: '3.22s' }} onClick={(e) => e.preventDefault()}>
                 Projects
                 <span className="absolute top-0 left-1/2 w-full h-0.5 transform -translate-x-1/2 scale-x-0 origin-center transition-transform duration-500 group-hover:scale-x-100" style={{ backgroundColor: '#fff' }} />
                 <span className="absolute bottom-0 left-1/2 w-full h-0.5 transform -translate-x-1/2 scale-x-0 origin-center transition-transform duration-500 group-hover:scale-x-100" style={{ backgroundColor: '#fff' }} />
@@ -497,9 +499,9 @@ export default function Header() {
         {isMenuOpen && (
           <div className="md:hidden mt-6 pb-6 border-t border-t-white/20 pt-6" style={{ backgroundColor: 'black' }}>
             <div className="flex flex-col space-y-4">
-              <Link href="/services" className="nav-menu-item relative text-lg font-medium group uppercase opacity-100 hover:opacity-100" style={{ color: 'white' }}>Services</Link>
+              <Link href="#" className="nav-menu-item relative text-lg font-medium group uppercase opacity-100 hover:opacity-100" style={{ color: 'white' }} onClick={(e) => e.preventDefault()}>Services</Link>
               <Link href="/about" className="nav-menu-item relative text-lg font-medium group uppercase opacity-100 hover:opacity-100" style={{ color: 'white' }}>About</Link>
-              <Link href="/projects" className="nav-menu-item relative text-lg font-medium group uppercase opacity-100 hover:opacity-100" style={{ color: 'white' }}>Projects</Link>
+              <Link href="#" className="nav-menu-item relative text-lg font-medium group uppercase opacity-100 hover:opacity-100" style={{ color: 'white' }} onClick={(e) => e.preventDefault()}>Projects</Link>
               <Link href="/contact" className="nav-menu-item relative text-lg font-medium group uppercase opacity-100 hover:opacity-100" style={{ color: 'white' }}>Contact</Link>
               <div className="pt-4">
                 <a href={process.env.NEXT_PUBLIC_APX_MEP_URL || 'http://localhost:3000'} className="group relative">

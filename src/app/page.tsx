@@ -868,8 +868,9 @@ export default function Home() {
           {projects.map((p, i) => (
             <Link
               key={i}
-              href={p.href}
+              href="#"
               className="projects-card group flex-shrink-0 flex flex-col rounded-xl overflow-hidden bg-black"
+              onClick={(e) => e.preventDefault()}
             >
               <div className="relative aspect-[3/4] min-h-[480px] projects-card__inner">
                 {/* Project number – top centre, text only */}
