@@ -5,7 +5,7 @@ import Link from "next/link";
 import { useTheme } from "@/contexts/ThemeContext";
 import { CustomPillButton } from "@/components/ui/CustomPillButton";
 import { OurCustomers, RequestFreeSurvey } from "@/components/ServicePageSharedSections";
-import { Shield, Bell, CheckCircle, ArrowRight, Lock, Monitor, Smartphone, Package } from "lucide-react";
+import { Shield, CheckCircle, Monitor, Smartphone, Package } from "lucide-react";
 
 const INTRUDER_SURVEY_TITLE = "Request Your Free Intruder Alarm Survey";
 const INTRUDER_SURVEY_DESCRIPTION = "As one of the leading intruder alarm installers in London and the south east, we are pleased to offer a free survey and a report for your property. Our systems are expertly designed in accordance with NSI Gold standards, covering both the domestic and commercial market. Simply contact us for a chat about your requirements.";
@@ -193,7 +193,7 @@ export default function IntruderAlarmSystemsPage() {
               Intruder Alarm Technology
             </h2>
             <p className={`text-center max-w-2xl mx-auto mb-12 ${mutedClass}`}>
-              We are proud to install the latest intruder alarm technology from the world's leading brands
+              We are proud to install the latest intruder alarm technology from the world&apos;s leading brands
             </p>
             <div className="flex flex-wrap justify-center items-center gap-8 sm:gap-12">
               {BRANDS.map((name, i) => (

@@ -3,17 +3,34 @@
 import Link from "next/link"
 import Image from "next/image"
 import { usePathname } from "next/navigation"
-import { Button } from "@/components/ui/Button"
-import { Phone, Mail, Menu, X, ArrowRight, Check, Facebook, Instagram, Linkedin, ChevronDown } from "lucide-react"
+import { Phone, Mail, Menu, X, ArrowRight, Facebook, Instagram, Linkedin, ChevronDown } from "lucide-react"
 import { useState, useRef } from "react"
 import { useTheme } from '@/contexts/ThemeContext'
 
 export default function Header() {
   const pathname = usePathname()
   const { theme } = useTheme()
-  const isTransparentHeaderPage = pathname.startsWith("/services/")
-  const isServicesPage = pathname.startsWith("/services/")
-  const isDark = theme === 'dark'
+  /** Strip trailing slash so `/services` and `/services/` match the hub, etc. */
+  const path = pathname.replace(/\/$/, "") || "/"
+  const isCapabilityDetailPage =
+    path === "/services/security-systems" ||
+    path === "/services/fire-life-safety" ||
+    path === "/services/maintenance-support"
+  const isServicesHubPage = path === "/services"
+  const isMethodologyPage = path === "/delivery-methodology"
+  const isAboutPage = path === "/about"
+  const isProjectsPage = path === "/projects" || path.startsWith("/projects/")
+  const isProjectDetailPage = path.startsWith("/projects/") && path !== "/projects"
+  const isBlackHeaderCanvas =
+    isCapabilityDetailPage ||
+    isServicesHubPage ||
+    isMethodologyPage ||
+    isAboutPage ||
+    isProjectsPage
+  const isTransparentHeaderPage =
+    (path.startsWith("/services/") && !isCapabilityDetailPage) || isProjectDetailPage
+  const isServicesPage = pathname.startsWith("/services/") || isProjectDetailPage
+  const useBlackHeaderCanvas = isBlackHeaderCanvas && !isProjectDetailPage
   const [isMenuOpen, setIsMenuOpen] = useState(false)
   const [isServicesOpen, setIsServicesOpen] = useState(false)
   const [toast, setToast] = useState<{ message: string; type: 'phone' | 'email' } | null>(null)
@@ -56,10 +73,15 @@ export default function Header() {
     }
   }
 
+  /** Project detail: fixed overlay so hero imagery shows through; listing /projects keeps solid bar */
+  const headerLayoutClass = isProjectDetailPage
+    ? "fixed inset-x-0 top-0 z-[100]"
+    : "relative z-50"
+
   return (
     <header
-      className={`relative z-50 bg-transparent ${isTransparentHeaderPage ? "header-bg-transparent-page" : ""} ${isServicesPage ? "header--no-animate" : ""}`}
-      style={{ backgroundColor: "transparent" }}
+      className={`${headerLayoutClass} ${useBlackHeaderCanvas ? "bg-black fs-black-header-canvas" : "bg-transparent"} ${isTransparentHeaderPage ? "header-bg-transparent-page" : ""} ${isServicesPage ? "header--no-animate" : ""} ${isProjectDetailPage ? "fs-project-detail-header" : ""}`}
+      style={{ backgroundColor: useBlackHeaderCanvas ? "#000000" : "transparent" }}
     >
       {/* ========== SAVED VERSION (original header – not rendered) ========== */}
       {false && (
@@ -264,13 +286,16 @@ export default function Header() {
 
       <nav className="relative z-10 w-full px-6 pt-5 pb-4">
         <div className="relative w-full flex items-center min-h-[6.5rem]">
-          <div className="absolute left-[8rem] right-0 h-16 overflow-hidden z-0 top-1/2 -translate-y-1/2">
+            <div className="absolute left-[8rem] right-0 h-16 overflow-hidden z-0 top-1/2 -translate-y-1/2">
             <div
               className="header-bar-expand h-full w-full rounded-br-[30px] border-2"
               style={{
                 backgroundColor: isTransparentHeaderPage ? "transparent" : "#000",
                 boxSizing: "border-box",
                 borderColor: "#fff",
+                ...(isProjectDetailPage
+                  ? { backdropFilter: "blur(10px)", WebkitBackdropFilter: "blur(10px)" as const }
+                  : {}),
               }}
             />
           </div>
@@ -288,20 +313,26 @@ export default function Header() {
             </Link>
             {/* FIRE & SECURITY: absolute, same as MEP – own stack so alignment isn’t affected by switch button */}
             {/* Same as MEP: top-1/2 with NO transform – tagline top edge at row center, box hangs down */}
-            <div
-              className="hidden md:flex absolute left-[12.25rem] top-1/2 z-0 w-fit items-center rounded-br-2xl header-mech-security-in pl-7 pr-3.5 py-1"
-              style={{
-                backgroundColor: "black",
-                border: "2px solid white",
-              }}
-            >
-              <span className="inline-block text-base font-semibold tracking-wide uppercase whitespace-nowrap !text-white" style={{ fontFamily: 'var(--font-menu)', color: '#ffffff' }}>
-                FIRE & SECURITY
-              </span>
+            <div className="hidden md:block absolute left-[12.25rem] top-1/2 -translate-y-1/2 z-0 w-[17rem] overflow-hidden pointer-events-none">
+              <div
+                className="flex w-fit items-center rounded-br-2xl header-mech-security-in pl-7 pr-3.5 py-1"
+                style={{
+                  backgroundColor: isProjectDetailPage ? "rgba(0,0,0,0.42)" : "black",
+                  border: "2px solid white",
+                  ...(isProjectDetailPage
+                    ? { backdropFilter: "blur(10px)", WebkitBackdropFilter: "blur(10px)" as const }
+                    : {}),
+                }}
+              >
+                <span className="inline-block text-base font-semibold tracking-wide uppercase whitespace-nowrap !text-white" style={{ fontFamily: 'var(--font-menu)', color: '#ffffff' }}>
+                  FIRE & SECURITY
+                </span>
+              </div>
             </div>
             <div className="hidden md:flex items-center space-x-8 text-white [&_a]:!text-white [&_.nav-menu-item]:!text-white [&_svg]:stroke-white flex-shrink-0 relative z-10">
               <div className="relative header-nav-item-in flex items-center" style={{ animationDelay: '2.9s' }}>
-                <div
+                <Link
+                  href="/services"
                   className="nav-menu-item relative text-sm font-medium leading-relaxed cursor-pointer group uppercase opacity-100 hover:opacity-100"
                   style={{ color: '#fff' }}
                   onMouseEnter={openServices}
@@ -310,7 +341,7 @@ export default function Header() {
                   Services
                   <span className="absolute top-0 left-1/2 w-full h-0.5 transform -translate-x-1/2 scale-x-0 origin-center transition-transform duration-500 group-hover:scale-x-100" style={{ backgroundColor: '#fff' }} />
                   <span className="absolute bottom-0 left-1/2 w-full h-0.5 transform -translate-x-1/2 scale-x-0 origin-center transition-transform duration-500 group-hover:scale-x-100" style={{ backgroundColor: '#fff' }} />
-                </div>
+                </Link>
                 <div
                   className="absolute z-40 overflow-hidden rounded-br-2xl"
                   style={{
@@ -411,7 +442,6 @@ export default function Header() {
                         </>
                       )}
                     </div>
-                    {/* Other services: same UI, links disabled – only CCTV goes to pages */}
                     {[
                       { href: '/services/energy-efficiency', label: 'ACCESS CONTROL SYSTEMS' },
                       { href: '/services/sustainability', label: 'INTRUDER ALARM SYSTEMS' },
@@ -420,16 +450,14 @@ export default function Header() {
                     ].map(({ href, label }, i) => (
                       <a
                         key={href}
-                        href="#"
-                        role="button"
+                        href={href}
                         className={`dropdown-item relative group block px-4 py-2 text-sm leading-relaxed cursor-pointer uppercase transition-opacity duration-200 ${i < 3 ? 'border-b' : ''}`}
                         style={{
                           color: '#fff',
                           borderBottomColor: i < 3 ? 'rgba(255,255,255,0.2)' : undefined,
                           opacity: isCctvExpanded ? 0.45 : 1,
                         }}
-                        onClick={(e) => {
-                          e.preventDefault()
+                        onClick={() => {
                           setIsServicesOpen(false)
                           setIsCctvExpanded(false)
                           if (servicesCloseTimeoutRef.current) {
@@ -453,7 +481,13 @@ export default function Header() {
                 <span className="absolute bottom-0 left-1/2 w-full h-0.5 transform -translate-x-1/2 scale-x-0 origin-center transition-transform duration-500 group-hover:scale-x-100" style={{ backgroundColor: '#fff' }} />
               </Link>
               <div className="h-5 w-px flex-shrink-0 header-nav-item-in bg-white/90" style={{ animationDelay: '3.14s' }} aria-hidden />
-              <Link href="#" className="nav-menu-item relative text-sm font-medium leading-relaxed cursor-pointer group uppercase header-nav-item-in pointer-events-auto" style={{ color: '#fff', animationDelay: '3.22s' }} onClick={(e) => e.preventDefault()}>
+              <Link href="/delivery-methodology" className="nav-menu-item relative text-sm font-medium leading-relaxed cursor-pointer group uppercase header-nav-item-in" style={{ color: '#fff', animationDelay: '3.18s' }}>
+                Methodology
+                <span className="absolute top-0 left-1/2 w-full h-0.5 transform -translate-x-1/2 scale-x-0 origin-center transition-transform duration-500 group-hover:scale-x-100" style={{ backgroundColor: '#fff' }} />
+                <span className="absolute bottom-0 left-1/2 w-full h-0.5 transform -translate-x-1/2 scale-x-0 origin-center transition-transform duration-500 group-hover:scale-x-100" style={{ backgroundColor: '#fff' }} />
+              </Link>
+              <div className="h-5 w-px flex-shrink-0 header-nav-item-in bg-white/90" style={{ animationDelay: '3.2s' }} aria-hidden />
+              <Link href="/projects" className="nav-menu-item relative text-sm font-medium leading-relaxed cursor-pointer group uppercase header-nav-item-in pointer-events-auto" style={{ color: '#fff', animationDelay: '3.22s' }}>
                 Projects
                 <span className="absolute top-0 left-1/2 w-full h-0.5 transform -translate-x-1/2 scale-x-0 origin-center transition-transform duration-500 group-hover:scale-x-100" style={{ backgroundColor: '#fff' }} />
                 <span className="absolute bottom-0 left-1/2 w-full h-0.5 transform -translate-x-1/2 scale-x-0 origin-center transition-transform duration-500 group-hover:scale-x-100" style={{ backgroundColor: '#fff' }} />
@@ -499,9 +533,10 @@ export default function Header() {
         {isMenuOpen && (
           <div className="md:hidden mt-6 pb-6 border-t border-t-white/20 pt-6" style={{ backgroundColor: 'black' }}>
             <div className="flex flex-col space-y-4">
-              <Link href="#" className="nav-menu-item relative text-lg font-medium group uppercase opacity-100 hover:opacity-100" style={{ color: 'white' }} onClick={(e) => e.preventDefault()}>Services</Link>
+              <Link href="/services" className="nav-menu-item relative text-lg font-medium group uppercase opacity-100 hover:opacity-100" style={{ color: 'white' }}>Services</Link>
               <Link href="/about" className="nav-menu-item relative text-lg font-medium group uppercase opacity-100 hover:opacity-100" style={{ color: 'white' }}>About</Link>
-              <Link href="#" className="nav-menu-item relative text-lg font-medium group uppercase opacity-100 hover:opacity-100" style={{ color: 'white' }} onClick={(e) => e.preventDefault()}>Projects</Link>
+              <Link href="/delivery-methodology" className="nav-menu-item relative text-lg font-medium group uppercase opacity-100 hover:opacity-100" style={{ color: 'white' }}>Methodology</Link>
+              <Link href="/projects" className="nav-menu-item relative text-lg font-medium group uppercase opacity-100 hover:opacity-100" style={{ color: 'white' }}>Projects</Link>
               <Link href="/contact" className="nav-menu-item relative text-lg font-medium group uppercase opacity-100 hover:opacity-100" style={{ color: 'white' }}>Contact</Link>
               <div className="pt-4">
                 <a href={process.env.NEXT_PUBLIC_APX_MEP_URL || 'http://localhost:3000'} className="group relative">
@@ -542,11 +577,11 @@ export default function Header() {
           </button>
           <button
             type="button"
-            onClick={() => handleContactClick('email', 'info@apx-fs.co.uk')}
+            onClick={() => handleContactClick('email', 'enquiries@apx-fs.co.uk')}
             className="header-contact-btn relative flex items-center space-x-1.5 px-2.5 py-1.5 rounded-full cursor-pointer"
           >
             <Mail className="h-3.5 w-3.5" />
-            <span className="text-xs">info@apx-fs.co.uk</span>
+            <span className="text-xs">enquiries@apx-fs.co.uk</span>
           </button>
         </div>
         {toast && (

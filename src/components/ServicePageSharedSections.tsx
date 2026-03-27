@@ -1,5 +1,6 @@
 "use client"
 
+import Image from "next/image"
 import { useTheme } from "@/contexts/ThemeContext"
 import { CustomPillButton } from "@/components/ui/CustomPillButton"
 
@@ -39,13 +40,14 @@ export function OurCustomers() {
             {CLIENT_LOGO_PATHS.map((src, i) => (
               <div
                 key={i}
-                className={`flex items-center justify-center w-28 h-16 sm:w-32 sm:h-20 rounded-lg overflow-hidden ${isDark ? "bg-white/5" : "bg-gray-100"}`}
+                className={`relative flex items-center justify-center w-28 h-16 sm:w-32 sm:h-20 rounded-lg overflow-hidden ${isDark ? "bg-white/5" : "bg-gray-100"}`}
               >
-                <img
+                <Image
                   src={src}
                   alt=""
-                  className="w-full h-full object-contain p-2"
-                  loading="lazy"
+                  fill
+                  sizes="128px"
+                  className="object-contain p-2"
                 />
               </div>
             ))}

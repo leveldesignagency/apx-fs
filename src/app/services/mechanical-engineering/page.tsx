@@ -84,7 +84,7 @@ export default function FireSafetySystemsPage() {
                 At APX we specialise in designing and installing high quality fire alarm systems for both domestic properties and commercial premises.
               </p>
               <p className="text-sm sm:text-base md:text-lg font-normal mb-4 md:mb-5 text-left tracking-tight max-w-2xl text-white">
-                We offer a wide range of conventional and addressable fire alarm systems. Our vast experience in the fire detection industry spans the public and industrial sector, with installations ranging from small domestic systems through to commercial premises such as schools, offices, warehouses, hotels and banks. We are fully accredited to BAFE and FIA for our customers' peace of mind.
+                We offer a wide range of conventional and addressable fire alarm systems. Our vast experience in the fire detection industry spans the public and industrial sector, with installations ranging from small domestic systems through to commercial premises such as schools, offices, warehouses, hotels and banks. We are fully accredited to BAFE and FIA for our customers&apos; peace of mind.
               </p>
               <div className="flex flex-wrap items-center gap-4 sm:gap-6 pt-2">
                 <CustomPillButton href="/contact" size="md">
@@ -219,7 +219,7 @@ export default function FireSafetySystemsPage() {
               Fire Alarm & Detection Systems Equipment
             </h2>
             <p className={`text-center max-w-2xl mx-auto mb-12 ${mutedClass}`}>
-              We are proud to install fire alarm technology from the world's leading brands
+              We are proud to install fire alarm technology from the world&apos;s leading brands
             </p>
             <div className="flex flex-wrap justify-center items-center gap-8 sm:gap-12">
               {FIRE_BRANDS.map((name, i) => (
@@ -244,10 +244,10 @@ export default function FireSafetySystemsPage() {
             </h2>
             <div className={`space-y-4 ${mutedClass}`}>
               <p>
-                Current UK fire alarm regulations state that all business premises must have "an appropriate fire detection system". This basically means that if a fire breaks out, could it easily be detected and could the people within the building easily be told about it?
+                Current UK fire alarm regulations state that all business premises must have &ldquo;an appropriate fire detection system&rdquo;. This basically means that if a fire breaks out, could it easily be detected and could the people within the building easily be told about it?
               </p>
               <p>
-                This doesn't mean that all business premises need a fire alarm system. Try asking yourself the following questions to demonstrate potential situations:
+                This doesn&apos;t mean that all business premises need a fire alarm system. Try asking yourself the following questions to demonstrate potential situations:
               </p>
             </div>
             <ul className={`list-disc list-inside space-y-2 my-6 ${mutedClass}`}>
@@ -256,7 +256,7 @@ export default function FireSafetySystemsPage() {
               ))}
             </ul>
             <p className={`${mutedClass}`}>
-              If your answer to one or more of these questions is "no" then it's likely that you do need a fire alarm system. Our free survey will help to decide the level of protection you need.
+              If your answer to one or more of these questions is &ldquo;no&rdquo; then it&apos;s likely that you do need a fire alarm system. Our free survey will help to decide the level of protection you need.
             </p>
             <div className="mt-8">
               <CustomPillButton href="/contact" size="md">

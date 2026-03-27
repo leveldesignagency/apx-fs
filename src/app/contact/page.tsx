@@ -34,9 +34,9 @@ export default function ContactPage() {
                   <Phone className="w-6 h-6 flex-shrink-0" />
                   <span className="text-lg">020 4568 5986</span>
                 </a>
-                <a href="mailto:info@apx-fs.co.uk" className={`flex items-center gap-4 ${mutedClass} hover:opacity-90 transition-opacity`}>
+                <a href="mailto:enquiries@apx-fs.co.uk" className={`flex items-center gap-4 ${mutedClass} hover:opacity-90 transition-opacity`}>
                   <Mail className="w-6 h-6 flex-shrink-0" />
-                  <span className="text-lg">info@apx-fs.co.uk</span>
+                  <span className="text-lg">enquiries@apx-fs.co.uk</span>
                 </a>
                 <a
                   href="https://maps.google.com/?q=365-369+Bexley+Road+Northumberland+Heath+Erith+Kent+DA8+3EZ"
@@ -55,7 +55,7 @@ export default function ContactPage() {
 
               <div className="mt-10 flex flex-wrap gap-4">
                 <CustomPillButton href="tel:02045685986" size="md" variant="outline">Call us</CustomPillButton>
-                <CustomPillButton href="mailto:info@apx-fs.co.uk" size="md">Email us</CustomPillButton>
+                <CustomPillButton href="mailto:enquiries@apx-fs.co.uk" size="md">Email us</CustomPillButton>
               </div>
             </div>
 

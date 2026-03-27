@@ -4,10 +4,7 @@ import Link from "next/link"
 import Image from "next/image"
 import { useRef } from "react"
 import { Phone, Mail, MapPin, Facebook, Instagram, Linkedin, ChevronUp } from "lucide-react"
-import { useTheme } from '@/contexts/ThemeContext'
-
 export default function Footer() {
-  const { theme } = useTheme()
   const footerRef = useRef<HTMLElement>(null)
 
   const scrollFooterIntoView = () => {
@@ -51,10 +48,7 @@ export default function Footer() {
             {/* Company Info */}
             <div className="space-y-6">
               <p className="text-gray-400 leading-relaxed">
-                We have been providing bespoke integrated security systems to London and the Home Counties since 1986.
-              </p>
-              <p className="text-gray-400 leading-relaxed">
-                Our extensive knowledge and decades of real world experience allows us to deliver high quality security systems to the domestic and commercial sector.
+                APX Fire and Security is a specialist provider of fire and security system installation, commissioning, and maintenance.
               </p>
               <div className="flex space-x-6">
                 <Facebook className="h-6 w-6 hover:text-white cursor-pointer transition-colors" />
@@ -80,6 +74,7 @@ export default function Footer() {
               <h4 className="text-xl font-semibold">Quick Links</h4>
               <ul className="space-y-3 text-gray-400">
                 <li><Link href="/about" className="relative group hover:text-white transition-colors text-sm cursor-pointer pb-1">About Us<span className="absolute bottom-0 left-1/2 w-full h-0.5 transform -translate-x-1/2 scale-x-0 origin-center transition-transform duration-500 group-hover:scale-x-100" style={{ backgroundColor: 'white' }}></span></Link></li>
+                <li><Link href="/delivery-methodology" className="relative group hover:text-white transition-colors text-sm cursor-pointer pb-1">Delivery methodology<span className="absolute bottom-0 left-1/2 w-full h-0.5 transform -translate-x-1/2 scale-x-0 origin-center transition-transform duration-500 group-hover:scale-x-100" style={{ backgroundColor: 'white' }}></span></Link></li>
                 <li><Link href="#" className="relative group hover:text-white transition-colors text-sm cursor-pointer pb-1" onClick={(e) => e.preventDefault()}>Our Projects<span className="absolute bottom-0 left-1/2 w-full h-0.5 transform -translate-x-1/2 scale-x-0 origin-center transition-transform duration-500 group-hover:scale-x-100" style={{ backgroundColor: 'white' }}></span></Link></li>
                 <li><Link href="/certifications" className="relative group hover:text-white transition-colors text-sm cursor-pointer pb-1">Certifications<span className="absolute bottom-0 left-1/2 w-full h-0.5 transform -translate-x-1/2 scale-x-0 origin-center transition-transform duration-500 group-hover:scale-x-100" style={{ backgroundColor: 'white' }}></span></Link></li>
                 <li><Link href="/careers" className="relative group hover:text-white transition-colors text-sm cursor-pointer pb-1">Careers<span className="absolute bottom-0 left-1/2 w-full h-0.5 transform -translate-x-1/2 scale-x-0 origin-center transition-transform duration-500 group-hover:scale-x-100" style={{ backgroundColor: 'white' }}></span></Link></li>
@@ -95,9 +90,9 @@ export default function Footer() {
                   <Phone className="h-6 w-6 flex-shrink-0" />
                   <span className="text-sm">020 4568 5986</span>
                 </a>
-                <a href="mailto:info@apx-fs.co.uk" className="flex items-center space-x-4 hover:text-white transition-colors cursor-pointer" style={{ cursor: 'pointer !important' }}>
+                <a href="mailto:enquiries@apx-fs.co.uk" className="flex items-center space-x-4 hover:text-white transition-colors cursor-pointer" style={{ cursor: 'pointer !important' }}>
                   <Mail className="h-6 w-6 flex-shrink-0" />
-                  <span className="text-sm">info@apx-fs.co.uk</span>
+                  <span className="text-sm">enquiries@apx-fs.co.uk</span>
                 </a>
                 <a href="https://maps.google.com/?q=365-369+Bexley+Road+Northumberland+Heath+Erith+Kent+DA8+3EZ" target="_blank" rel="noopener noreferrer" className="flex items-start space-x-4 hover:text-white transition-colors cursor-pointer" style={{ cursor: 'pointer !important' }}>
                   <MapPin className="h-6 w-6 mt-1 flex-shrink-0" />

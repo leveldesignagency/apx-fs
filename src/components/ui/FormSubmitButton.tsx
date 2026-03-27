@@ -35,7 +35,7 @@ export function FormSubmitButton({
     if (onSubmit) {
       try {
         await onSubmit()
-      } catch (_) {
+      } catch {
         setState("idle")
         return
       }

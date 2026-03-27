@@ -2,7 +2,7 @@
 
 import { useTheme } from "@/contexts/ThemeContext"
 import Link from "next/link"
-import { ArrowLeft, Cookie, Shield, BarChart, Megaphone, Settings } from "lucide-react"
+import { ArrowLeft, Shield, BarChart, Megaphone, Settings } from "lucide-react"
 
 export default function CookiePolicyPage() {
   const { theme } = useTheme()
@@ -117,7 +117,7 @@ export default function CookiePolicyPage() {
                         </h3>
                         <p className="mb-2">
                           These cookies help us understand how visitors interact with our website by collecting and reporting 
-                          information anonymously. This helps us improve our website's performance and user experience.
+                          information anonymously. This helps us improve our website&apos;s performance and user experience.
                         </p>
                         <p className="text-sm">
                           <strong>Purpose:</strong> Website analytics, performance monitoring, and user behavior analysis
@@ -249,7 +249,7 @@ export default function CookiePolicyPage() {
                 <p>
                   We may update this Cookie Policy from time to time to reflect changes in our practices or for other operational, 
                   legal, or regulatory reasons. We will notify you of any material changes by posting the new Cookie Policy on this page 
-                  and updating the "Last updated" date.
+                  and updating the &ldquo;Last updated&rdquo; date.
                 </p>
               </section>
 
@@ -266,7 +266,7 @@ export default function CookiePolicyPage() {
                   theme === 'dark' ? 'bg-gray-900 border border-gray-700' : 'bg-gray-50 border border-gray-300'
                 }`}>
                   <p className="mb-2">
-                    <strong>Email:</strong> info@apx-mep.co.uk
+                    <strong>Email:</strong> enquiries@apx-fs.co.uk
                   </p>
                   <p>
                     <strong>Phone:</strong> 020 4568 5986

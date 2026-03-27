@@ -1,5 +1,6 @@
 "use client"
 
+import Image from "next/image"
 import { useEffect, useState } from "react"
 import { createPortal } from "react-dom"
 import { usePathname } from "next/navigation"
@@ -53,14 +54,19 @@ export default function HeroVideoBackground() {
         style={{ zIndex: 1, opacity: heroVisible ? 1 : 0 }}
         aria-hidden
       >
-        {/* Flipped horizontally */}
-        <img
-          src="/male-electrician-overalls-focused-work-switchboard-with-fuses-using-tablet.jpg"
-          alt=""
-          className="absolute inset-0 w-full h-full object-cover origin-center"
-          style={{ transform: "scaleX(-1)" }}
-          fetchPriority="high"
-        />
+        <div className="absolute inset-0">
+          <div className="relative h-full w-full">
+          <Image
+            src="/male-electrician-overalls-focused-work-switchboard-with-fuses-using-tablet.jpg"
+            alt=""
+            fill
+            priority
+            sizes="100vw"
+            className="object-cover origin-center"
+            style={{ transform: "scaleX(-1)" }}
+          />
+          </div>
+        </div>
         {/* Black feather on left edge */}
         <div
           className="absolute inset-0 pointer-events-none"

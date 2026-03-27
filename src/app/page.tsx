@@ -8,17 +8,23 @@ import { useTheme } from '@/contexts/ThemeContext'
 import { CountUp } from '@/components/ui/CountUp'
 import { CustomPillButton } from '@/components/ui/CustomPillButton'
 import { FormSubmitButton } from '@/components/ui/FormSubmitButton'
+import { Button } from '@/components/ui/Button'
+import { MAIN_CASE_STUDIES } from "@/data/projects"
+
+/** Core capabilities cards: white outline + white label; hover = white fill + black text. Sharp TR + BL; rounded TL + BR only */
+const CORE_CAPS_LEARN_MORE_CLASS =
+  "h-auto min-h-9 rounded-none rounded-tl-xl rounded-tr-none rounded-br-xl rounded-bl-none border-2 border-white border-solid bg-transparent px-5 py-2.5 text-xs font-semibold uppercase tracking-normal text-white shadow-none transition-colors duration-200 hover:!bg-white hover:!text-black focus-visible:ring-2 focus-visible:ring-white/50 focus-visible:ring-offset-2 focus-visible:ring-offset-black"
 
 export default function Home() {
   const { theme } = useTheme()
   const themeMode = theme === "light" ? lightTheme : darkTheme
   
-  const [activeSection, setActiveSection] = useState(0)
+  const [, setActiveSection] = useState(0)
   const [isServicesDropdownOpen, setIsServicesDropdownOpen] = useState(false)
   const [selectedService, setSelectedService] = useState('')
   
   const [currentTestimonial, setCurrentTestimonial] = useState(0)
-  const [activeMepIndex, setActiveMepIndex] = useState(0)
+  const [activeMepIndex] = useState(0)
   const [activeNewsIndex, setActiveNewsIndex] = useState(0)
   const [newsProgress, setNewsProgress] = useState(0)
   const newsProgressRef = useRef(0)
@@ -26,9 +32,8 @@ export default function Home() {
   const mepListRef = useRef<HTMLUListElement>(null)
   const projectsScrollRef = useRef<HTMLDivElement>(null)
   const aboutIntroRef = useRef<HTMLElement>(null)
-  /* Scroll-driven: about intro fade; services cards: path animation when section in view */
+  /* Scroll-driven: about intro reveal; services cards: path animation when section in view */
   const [aboutScrollProgress, setAboutScrollProgress] = useState(0)
-  const [aboutContentFade, setAboutContentFade] = useState(0)
   const [servicesInView, setServicesInView] = useState(false)
 
   const [heroAnimation, setHeroAnimation] = useState({
@@ -37,6 +42,14 @@ export default function Home() {
     subtitleVisible: false,
     statsVisible: false,
     clientsVisible: false
+  })
+  const [heroScrollProgress, setHeroScrollProgress] = useState(0)
+  const [sectionMotion, setSectionMotion] = useState({
+    core: false,
+    benefits: false,
+    projects: false,
+    news: false,
+    about: false,
   })
   const clientLogoPaths = useMemo(() => {
     const base = ['_-01', '_-02', '_-03', '_-04', '_-05', '_-06', '_-07', '_-08', '_-09', '_-10', '_-11']
@@ -77,15 +90,19 @@ export default function Home() {
     { id: 'a6', title: 'Random Article 6', description: 'Placeholder description for article 6.', href: '#', icon: ArrowRight, image: '/cctv%20systems.jpg' },
   ], [])
 
-  const projects = useMemo(() => [
-    { image: '/cctv%20systems.jpg', stat: '250+', description: 'CCTV and access control installation for commercial premises', quote: 'APX delivered a complete CCTV and access control solution on time and to NSI Gold standard.', href: '/projects', title: 'PROJECT 1' },
-    { image: '/home-fire-alarm-system-installer-800x533.jpg', stat: '99%', description: 'Fire alarm system design, installation and commissioning', quote: 'From design to commissioning, the team was professional and the system has been fault-free.', href: '/projects', title: 'PROJECT 2' },
-    { image: '/intruder%20alarm%20systems.jpg', stat: '24/7', description: 'Intruder alarm and 24/7 monitoring solution', quote: 'We rely on APX for ongoing maintenance and emergency call-outs. Always responsive.', href: '/projects', title: 'PROJECT 3' },
-    { image: '/access%20control%20systems.jpg', stat: 'NSI Gold', description: 'Multi-site access control and security integration', quote: 'Having NSI Gold accreditation gave us confidence. The installation exceeded expectations.', href: '/projects', title: 'PROJECT 4' },
-    { image: '/home-fire-alarm-system-installer-800x533.jpg', stat: '500+', description: 'Fire risk assessment and compliance project', quote: 'Thorough and clear reporting. We use APX for all our fire safety compliance.', href: '/projects', title: 'PROJECT 5' },
-    { image: '/video%20door%20entry%20systems.jpg', stat: '15', description: 'Video door entry and access system upgrade', quote: 'Their continued investment in quality and training shows in every project.', href: '/projects', title: 'PROJECT 6' },
-    { image: '/cctv%20systems.jpg', stat: '98%', description: 'Full system commissioning and handover', quote: 'Commissioning was smooth and documentation was spot-on. No call-backs.', href: '/projects', title: 'PROJECT 7' },
-  ], [])
+  const projects = useMemo(
+    () =>
+      MAIN_CASE_STUDIES.map((project) => ({
+        image: project.heroImage,
+        stat: project.sector,
+        location: project.location,
+        description: project.shortDescription,
+        quote: project.summary,
+        href: `/projects/${project.slug}`,
+        title: project.title,
+      })),
+    []
+  )
 
   const scrollProjects = useCallback((dir: 'left' | 'right') => {
     const el = projectsScrollRef.current
@@ -121,23 +138,23 @@ export default function Home() {
   useEffect(() => {
     const timer1 = setTimeout(() => {
       setHeroAnimation(prev => ({ ...prev, videoVisible: true }))
-    }, 100)
+    }, 120)
 
     const timer2 = setTimeout(() => {
       setHeroAnimation(prev => ({ ...prev, titleVisible: true }))
-    }, 2000)
+    }, 520)
 
     const timer3 = setTimeout(() => {
       setHeroAnimation(prev => ({ ...prev, subtitleVisible: true }))
-    }, 2500)
+    }, 840)
 
     const timer4 = setTimeout(() => {
       setHeroAnimation(prev => ({ ...prev, statsVisible: true }))
-    }, 3000)
+    }, 1100)
 
     const timer5 = setTimeout(() => {
       setHeroAnimation(prev => ({ ...prev, clientsVisible: true }))
-    }, 5000)
+    }, 1360)
 
     return () => {
       clearTimeout(timer1)
@@ -146,6 +163,44 @@ export default function Home() {
       clearTimeout(timer4)
       clearTimeout(timer5)
     }
+  }, [])
+
+  // Hero parallax: subtle layered movement/fade on scroll
+  useEffect(() => {
+    const onScroll = () => {
+      const progress = Math.min((window.scrollY || 0) / 520, 1)
+      setHeroScrollProgress(progress)
+    }
+    onScroll()
+    window.addEventListener("scroll", onScroll, { passive: true })
+    return () => window.removeEventListener("scroll", onScroll)
+  }, [])
+
+  // Scroll-in effects for content only (never section backgrounds)
+  useEffect(() => {
+    const sectionIds = [
+      { id: "core-capabilities", key: "core" as const },
+      { id: "services-benefits", key: "benefits" as const },
+      { id: "projects", key: "projects" as const },
+      { id: "why-mep", key: "news" as const },
+      { id: "about", key: "about" as const },
+    ]
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (!entry.isIntersecting) return
+          const hit = sectionIds.find((s) => s.id === entry.target.id)
+          if (!hit) return
+          setSectionMotion((prev) => (prev[hit.key] ? prev : { ...prev, [hit.key]: true }))
+        })
+      },
+      { threshold: 0.2, rootMargin: "0px 0px -10% 0px" }
+    )
+    sectionIds.forEach(({ id }) => {
+      const el = document.getElementById(id)
+      if (el) observer.observe(el)
+    })
+    return () => observer.disconnect()
   }, [])
 
   // News: buffer fills over 5s, then advances to next article
@@ -317,7 +372,6 @@ export default function Home() {
             const ratio = Math.max(0, Math.min(1, entry.intersectionRatio))
             if (entry.target.id === 'about-intro') {
               setAboutScrollProgress(ratio)
-              setAboutContentFade(Math.max(0, (ratio - 0.05) / 0.95))
             } else if (entry.target.id === 'services' && ratio > 0.15) {
               setServicesInView(true)
             }
@@ -363,19 +417,19 @@ export default function Home() {
         
         // Labels
         const labels = form.querySelectorAll('label');
-        labels.forEach((label: any) => {
-          label.style.color = '#ffffff';
+        labels.forEach((label) => {
+          (label as HTMLLabelElement).style.color = '#ffffff';
         });
         
         // Text inputs and textarea
         const textInputs = form.querySelectorAll('input[type="text"], input[type="email"], input[type="tel"], textarea');
-        textInputs.forEach((input: any) => {
-          input.style.backgroundColor = '#000000';
-          input.style.border = '2px solid #ffffff';
-          input.style.color = '#ffffff';
-          input.style.outline = 'none';
-          input.style.boxShadow = 'none';
-          input.style.setProperty('--tw-ring-color', 'transparent', 'important');
+        textInputs.forEach((input) => {
+          (input as HTMLInputElement | HTMLTextAreaElement).style.backgroundColor = '#000000';
+          (input as HTMLInputElement | HTMLTextAreaElement).style.border = '2px solid #ffffff';
+          (input as HTMLInputElement | HTMLTextAreaElement).style.color = '#ffffff';
+          (input as HTMLInputElement | HTMLTextAreaElement).style.outline = 'none';
+          (input as HTMLInputElement | HTMLTextAreaElement).style.boxShadow = 'none';
+          (input as HTMLInputElement | HTMLTextAreaElement).style.setProperty('--tw-ring-color', 'transparent', 'important');
         });
         
         // Select dropdown - custom styling
@@ -394,29 +448,7 @@ export default function Home() {
           select.style.paddingRight = '50px';
         }
         
-        // Radio buttons - custom styling
-        const radios = form.querySelectorAll('input[type="radio"]');
-        radios.forEach((radio: any) => {
-          radio.style.appearance = 'none';
-          radio.style.width = '20px';
-          radio.style.height = '20px';
-          radio.style.border = '2px solid #ffffff';
-          radio.style.borderRadius = '50%';
-          radio.style.backgroundColor = '#000000';
-          radio.style.outline = 'none';
-          radio.style.boxShadow = 'none';
-          radio.style.cursor = 'pointer';
-          
-          // Checked state
-          radio.addEventListener('change', () => {
-            radios.forEach((r: any) => {
-              r.style.backgroundColor = '#000000';
-            });
-            if (radio.checked) {
-              radio.style.backgroundColor = '#ffffff';
-            }
-          });
-        });
+        // Preferred contact radios: styled in globals.css (#contact #quote-form) — white fill when checked
         
         // Submit button
         const button = form.querySelector('button');
@@ -438,18 +470,18 @@ export default function Home() {
         
         // Labels
         const labels = form.querySelectorAll('label');
-        labels.forEach((label: any) => {
-          label.style.color = '#000000';
+        labels.forEach((label) => {
+          (label as HTMLLabelElement).style.color = '#000000';
         });
         
         // Text inputs and textarea
         const textInputs = form.querySelectorAll('input[type="text"], input[type="email"], input[type="tel"], textarea');
-        textInputs.forEach((input: any) => {
-          input.style.backgroundColor = '#ffffff';
-          input.style.border = '1px solid #000000';
-          input.style.color = '#000000';
-          input.style.outline = 'none';
-          input.style.boxShadow = 'none';
+        textInputs.forEach((input) => {
+          (input as HTMLInputElement | HTMLTextAreaElement).style.backgroundColor = '#ffffff';
+          (input as HTMLInputElement | HTMLTextAreaElement).style.border = '1px solid #000000';
+          (input as HTMLInputElement | HTMLTextAreaElement).style.color = '#000000';
+          (input as HTMLInputElement | HTMLTextAreaElement).style.outline = 'none';
+          (input as HTMLInputElement | HTMLTextAreaElement).style.boxShadow = 'none';
         });
         
         // Select dropdown - reset to default browser styling
@@ -468,19 +500,7 @@ export default function Home() {
           select.style.paddingRight = 'initial';
         }
         
-        // Radio buttons - reset to default browser styling
-        const radios = form.querySelectorAll('input[type="radio"]');
-        radios.forEach((radio: any) => {
-          radio.style.appearance = 'auto'; // Reset to browser default
-          radio.style.width = 'initial';
-          radio.style.height = 'initial';
-          radio.style.border = 'initial';
-          radio.style.borderRadius = 'initial';
-          radio.style.backgroundColor = 'initial';
-          radio.style.outline = 'initial';
-          radio.style.boxShadow = 'initial';
-          radio.style.cursor = 'initial';
-        });
+        // Preferred contact radios: styled in globals.css (#contact #quote-form)
         
         // Submit button
         const button = form.querySelector('button');
@@ -542,7 +562,7 @@ export default function Home() {
       list.style.setProperty('--article-width', String(w))
     }
     requestAnimationFrame(() => requestAnimationFrame(resync))
-  }, [activeMepIndex, mepCards.length])
+  }, [activeMepIndex, mepCards])
 
   useEffect(() => {
     const list = mepListRef.current
@@ -570,22 +590,9 @@ export default function Home() {
     return () => document.removeEventListener('mousedown', handleClickOutside);
   }, [isServicesDropdownOpen]);
 
-  const scrollToSection = (sectionId: string) => {
-    // Update the active section immediately
-    updateActiveSection(sectionId)
-    
-    const element = document.getElementById(sectionId)
-    if (!element) return
-
-    // Hero: scroll to top of page so hero is in view
-    if (sectionId === 'hero') {
-      element.scrollIntoView({ behavior: 'smooth', block: 'start' })
-      return
-    }
-
-    // Other sections: center in view
-    element.scrollIntoView({ behavior: 'smooth', block: 'center' })
-  }
+  const aboutReveal = Math.max(0, Math.min(1, aboutScrollProgress))
+  const aboutShift = (1 - aboutReveal) * 44
+  const aboutClip = `inset(${Math.max(0, (1 - aboutReveal) * 100)}% 0 0 0)`
 
   return (
     <>
@@ -595,31 +602,51 @@ export default function Home() {
       {/* Hero Section – transparent so video layer shows; video fades to white on scroll */}
       <section id="hero" className="relative h-screen overflow-visible bg-transparent flex flex-col" style={{ background: 'transparent' }}>
         {/* Content */}
-        <div className="container mx-auto px-6 flex-1 flex flex-col justify-start pt-44 pb-40 relative z-20">
+        <div
+          className={`container mx-auto px-6 flex-1 flex flex-col justify-start pt-44 pb-40 relative z-20 transition-all duration-1000 ${
+            heroAnimation.videoVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-6"
+          }`}
+        >
           <div className="space-y-4">
             {/* Title + paragraph: white text on hero image */}
             <div className="max-w-2xl">
-              <h1 className={`text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold mb-2 md:mb-3 text-left transition-opacity duration-1000 font-title text-white ${
-                heroAnimation.titleVisible ? 'opacity-100' : 'opacity-0'
-              }`}>
+              <h1 className={`hero-title-reveal text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold mb-2 md:mb-3 text-left transition-all duration-[1200ms] font-title text-white ${
+                heroAnimation.titleVisible ? 'opacity-100 translate-y-0 blur-0 scale-100' : 'opacity-0 translate-y-10 blur-[8px] scale-[0.985]'
+              }`}
+              style={{
+                transform: heroAnimation.titleVisible
+                  ? `translateY(${heroScrollProgress * -34}px) scale(${1 - heroScrollProgress * 0.03})`
+                  : undefined,
+                opacity: heroAnimation.titleVisible ? Math.max(0.18, 1 - heroScrollProgress * 0.9) : undefined,
+              }}>
                 APX FS is your NSI Gold security system installer.
               </h1>
-              <p className={`text-base sm:text-lg md:text-xl font-normal mb-4 md:mb-5 text-left tracking-tight transition-opacity duration-1000 max-w-lg text-white ${
-                heroAnimation.subtitleVisible ? 'opacity-100' : 'opacity-0'
-              }`}>
+              <p className={`hero-copy-reveal text-base sm:text-lg md:text-xl font-normal mb-4 md:mb-5 text-left tracking-tight transition-all duration-1000 max-w-lg text-white ${
+                heroAnimation.subtitleVisible ? 'opacity-100 translate-y-0 blur-0' : 'opacity-0 translate-y-7 blur-[6px]'
+              }`}
+              style={{
+                transform: heroAnimation.subtitleVisible ? `translateY(${heroScrollProgress * -20}px)` : undefined,
+                opacity: heroAnimation.subtitleVisible ? Math.max(0.12, 1 - heroScrollProgress * 0.95) : undefined,
+              }}>
                 We are specialists in the design, installation and maintenance of bespoke integrated security systems within London and the Home Counties.
               </p>
 
               {/* Hero CTAs – side by side */}
-              <div className={`flex flex-wrap items-center gap-4 sm:gap-6 pt-2 transition-opacity duration-1000 ${
-                heroAnimation.subtitleVisible ? 'opacity-100' : 'opacity-0'
-              }`}>
-                <CustomPillButton href="/contact" size="md">
-                  Get a free quote
-                </CustomPillButton>
+              <div className={`hero-cta-reveal flex flex-wrap items-center gap-4 sm:gap-6 pt-2 transition-all duration-1000 ${
+                heroAnimation.statsVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'
+              }`}
+              style={{
+                transform: heroAnimation.statsVisible ? `translateY(${heroScrollProgress * -14}px)` : undefined,
+                opacity: heroAnimation.statsVisible ? Math.max(0.08, 1 - heroScrollProgress * 1.05) : undefined,
+              }}>
+                <div className="transition-transform duration-700 hover:-translate-y-0.5">
+                  <CustomPillButton href="/contact" size="md">
+                    Get a free quote
+                  </CustomPillButton>
+                </div>
                 <Link
                   href="/contact"
-                  className="text-white font-normal text-base underline underline-offset-4 hover:text-white/90 transition-colors"
+                  className="text-white font-normal text-base underline underline-offset-4 hover:text-white/90 transition-all duration-300 hover:-translate-y-0.5"
                 >
                   Question? get in touch
                 </Link>
@@ -629,22 +656,159 @@ export default function Home() {
         </div>
 
         {/* Hero accreditations – NSI, BAFE, Constructionline, FIA (public/accreditations mono/White) */}
-        <div className="container mx-auto px-6 pb-8 mb-24 sm:mb-32 relative z-10 -mt-16 sm:-mt-20">
-          <div className="w-1/2 mx-auto h-px bg-white/25 mb-6" aria-hidden />
+        <div
+          className={`container mx-auto px-6 pb-8 mb-24 sm:mb-32 relative z-10 -mt-16 sm:-mt-20 transition-all duration-[1100ms] ${
+            heroAnimation.clientsVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-10"
+          }`}
+          style={{
+            transform: heroAnimation.clientsVisible
+              ? `translateY(${heroScrollProgress * -10}px)`
+              : undefined,
+            opacity: heroAnimation.clientsVisible ? Math.max(0.05, 1 - heroScrollProgress * 1.2) : undefined,
+          }}
+        >
+          <div className={`w-1/2 mx-auto h-px bg-white/25 mb-6 transition-all duration-1000 ${heroAnimation.clientsVisible ? "scale-x-100 opacity-100" : "scale-x-0 opacity-0"}`} aria-hidden />
           <div className="flex flex-wrap items-center justify-center gap-8 sm:gap-12 max-w-6xl mx-auto">
             {[
               { src: '/accreditations%20mono/White/NSI-02.svg', alt: 'NSI Gold' },
               { src: '/accreditations%20mono/White/BAFE-02.svg', alt: 'BAFE' },
               { src: '/accreditations%20mono/White/ConstructionOnline-02.svg', alt: 'Constructionline' },
               { src: '/accreditations%20mono/White/FIA-02.svg', alt: 'FIA' }
-            ].map((acc) => (
-              <div key={acc.alt} className="flex items-center justify-center h-14 sm:h-16 w-auto max-w-[150px] sm:max-w-[180px]" aria-hidden>
-                <img src={acc.src} alt={acc.alt} className="h-full w-auto object-contain opacity-90" />
+            ].map((acc, idx) => (
+              <div
+                key={acc.alt}
+                className={`flex items-center justify-center h-14 sm:h-16 w-auto max-w-[150px] sm:max-w-[180px] transition-all duration-700 ${
+                  heroAnimation.clientsVisible ? "opacity-100 translate-y-0 blur-0" : "opacity-0 translate-y-6 blur-[4px]"
+                }`}
+                style={{ transitionDelay: `${idx * 120}ms` }}
+                aria-hidden
+              >
+                {/* eslint-disable-next-line @next/next/no-img-element */}
+                <img src={acc.src} alt={acc.alt} className="h-full w-auto object-contain opacity-90 transition-transform duration-500 hover:scale-105" />
               </div>
             ))}
           </div>
         </div>
         
+      </section>
+
+      {/* Core capabilities – black section blended from hero before Our Story */}
+      <section
+        id="core-capabilities"
+        className="relative bg-black py-20 lg:py-24 overflow-hidden"
+      >
+        {/* Top feather to blend hero into this black section */}
+        <div
+          className="pointer-events-none absolute top-0 left-0 right-0 h-28 sm:h-36"
+          style={{
+            background:
+              "linear-gradient(to bottom, rgba(0,0,0,0) 0%, rgba(0,0,0,0.82) 52%, rgba(0,0,0,1) 100%)",
+          }}
+          aria-hidden
+        />
+
+        <div className="container mx-auto px-6 lg:px-8 relative z-10">
+          <div className={`max-w-3xl transition-all duration-900 ${sectionMotion.core ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"}`}>
+            <span
+              className="section-label text-white/80 font-bold"
+              style={{ fontFamily: "var(--font-menu), sans-serif" }}
+            >
+              Core capabilities
+            </span>
+            <h2
+              className="text-4xl sm:text-5xl font-bold text-white leading-tight mt-3"
+              style={{ fontFamily: "var(--font-menu), sans-serif" }}
+            >
+              Where We Thrive
+            </h2>
+            <p className="mt-4 text-sm sm:text-base text-white/70 leading-relaxed max-w-2xl">
+              APX Fire and Security understands the importance of delivering compliant, reliable systems that integrate seamlessly with wider building services. We recognise the need for clear coordination, minimal disruption, and accurate installation aligned with design intent.
+            </p>
+          </div>
+
+          <div className="mt-12 grid grid-cols-1 md:grid-cols-3 gap-6">
+            <article
+              className={`bg-black border-2 border-white rounded-tl-[1.5rem] rounded-br-[1.5rem] p-6 flex flex-col overflow-visible transition-all duration-700 ${sectionMotion.core ? "opacity-100 translate-y-0" : "opacity-0 translate-y-10"}`}
+              style={{ transitionDelay: "70ms" }}
+            >
+              <h3
+                className="text-2xl sm:text-[1.65rem] font-bold text-white mb-4 tracking-normal leading-tight"
+                style={{ fontFamily: "var(--font-menu), sans-serif" }}
+              >
+                Fire &amp; Life Safety Systems
+              </h3>
+              <ul className="apx-capability-list">
+                <li className="apx-capability-list__item">Fire alarm systems (addressable and conventional)</li>
+                <li className="apx-capability-list__item">EVAC and voice evacuation systems</li>
+                <li className="apx-capability-list__item">Refuge and disabled communication systems</li>
+              </ul>
+              <div className="mt-auto flex justify-end pt-6">
+                <Button
+                  href="/services/fire-life-safety"
+                  variant="ghost"
+                  size="sm"
+                  className={CORE_CAPS_LEARN_MORE_CLASS}
+                >
+                  Learn more
+                </Button>
+              </div>
+            </article>
+
+            <article
+              className={`bg-black border-2 border-white rounded-tl-[1.5rem] rounded-br-[1.5rem] p-6 flex flex-col overflow-visible transition-all duration-700 ${sectionMotion.core ? "opacity-100 translate-y-0" : "opacity-0 translate-y-10"}`}
+              style={{ transitionDelay: "150ms" }}
+            >
+              <h3
+                className="text-2xl sm:text-[1.65rem] font-bold text-white mb-4 tracking-normal leading-tight"
+                style={{ fontFamily: "var(--font-menu), sans-serif" }}
+              >
+                Security Systems
+              </h3>
+              <ul className="apx-capability-list">
+                <li className="apx-capability-list__item">CCTV (IP and analogue)</li>
+                <li className="apx-capability-list__item">Intruder alarm systems (Grade 2 and Grade 3)</li>
+                <li className="apx-capability-list__item">Video entry and access control</li>
+              </ul>
+              <div className="mt-auto flex justify-end pt-6">
+                <Button
+                  href="/services/security-systems"
+                  variant="ghost"
+                  size="sm"
+                  className={CORE_CAPS_LEARN_MORE_CLASS}
+                >
+                  Learn more
+                </Button>
+              </div>
+            </article>
+
+            <article
+              className={`bg-black border-2 border-white rounded-tl-[1.5rem] rounded-br-[1.5rem] p-6 flex flex-col overflow-visible transition-all duration-700 ${sectionMotion.core ? "opacity-100 translate-y-0" : "opacity-0 translate-y-10"}`}
+              style={{ transitionDelay: "230ms" }}
+            >
+              <h3
+                className="text-2xl sm:text-[1.65rem] font-bold text-white mb-4 tracking-normal leading-tight"
+                style={{ fontFamily: "var(--font-menu), sans-serif" }}
+              >
+                Maintenance &amp; Support
+              </h3>
+              <ul className="apx-capability-list">
+                <li className="apx-capability-list__item">Planned preventative maintenance</li>
+                <li className="apx-capability-list__item">24/7 call-out support</li>
+                <li className="apx-capability-list__item">System upgrades and compliance checks</li>
+              </ul>
+              <div className="mt-auto flex justify-end pt-6">
+                <Button
+                  href="/services/maintenance-support"
+                  variant="ghost"
+                  size="sm"
+                  className={CORE_CAPS_LEARN_MORE_CLASS}
+                >
+                  Learn more
+                </Button>
+              </div>
+            </article>
+          </div>
+        </div>
       </section>
 
       {/* Wrapper so CCTV overlay can sit above both about and services */}
@@ -661,20 +825,42 @@ export default function Home() {
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-12 items-center">
             <div className="lg:col-span-5 order-2 lg:order-1" aria-hidden />
             <div className="lg:col-span-7 order-1 lg:order-2 max-w-2xl">
-              <span className="section-label section-label--black" style={{ opacity: aboutScrollProgress, color: '#000000' }}>OUR STORY</span>
+              <span
+                className="section-label section-label--black transition-transform duration-500"
+                style={{
+                  color: '#000000',
+                  transform: `translateY(${aboutShift * 0.35}px)`,
+                  clipPath: aboutClip,
+                }}
+              >
+                OUR STORY
+              </span>
               <h2
-                className="text-4xl sm:text-5xl lg:text-6xl font-bold text-black tracking-tight leading-tight mb-6 font-title transition-opacity duration-500"
-                style={{ fontFamily: 'var(--font-title, inherit)', opacity: aboutScrollProgress }}
+                className="text-4xl lg:text-5xl font-bold text-black leading-tight mb-6 font-title transition-all duration-500"
+                style={{
+                  fontFamily: 'var(--font-title, inherit)',
+                  transform: `translateY(${aboutShift}px)`,
+                  clipPath: aboutClip,
+                }}
               >
                 Where it began.
               </h2>
               <p
-                className="text-lg sm:text-xl text-black/90 leading-relaxed mb-8 transition-opacity duration-700"
-                style={{ opacity: aboutContentFade }}
+                className="text-lg sm:text-xl text-black/90 leading-relaxed mb-8 transition-all duration-700"
+                style={{
+                  transform: `translateY(${aboutShift * 0.7}px)`,
+                  clipPath: aboutClip,
+                }}
               >
-                Since 1986 APX Fire & Security have specialised in the design, installation and maintenance of high quality security systems to London and the Home Counties. The quality of our work and our excellent after-sales service has allowed us to build the business on recommendations alone. We have achieved NSI Gold accreditation and are fully accredited to BAFE and FIA for our customers&apos; peace of mind.
+                APX Fire and Security is a specialist provider of fire and security system installation, commissioning, and maintenance. We support M&E contractors, facility management teams, architects, consultants, and main contractors across commercial, industrial, and public-sector environments. Our engineers are fully trained across all disciplines, ensuring every project is delivered with precision, professionalism, and full compliance with relevant British Standards.
               </p>
-              <div className="transition-opacity duration-700" style={{ opacity: aboutContentFade }}>
+              <div
+                className="transition-all duration-700"
+                style={{
+                  transform: `translateY(${aboutShift * 0.45}px)`,
+                  clipPath: aboutClip,
+                }}
+              >
                 <CustomPillButton href="/about" size="md">
                   Our story
                 </CustomPillButton>
@@ -690,7 +876,7 @@ export default function Home() {
           <div className="section-content-gap space-y-16 text-black">
             <div>
               <span className="section-label section-label--black">APX FS SERVICES</span>
-              <h2 className="text-5xl font-bold text-left tracking-wide section-title-gap services-section-title leading-tight font-title" style={{ color: '#000000' }}>What we offer</h2>
+              <h2 className="text-4xl lg:text-5xl font-bold text-left tracking-normal section-title-gap services-section-title leading-tight font-title" style={{ color: '#000000' }}>What we offer</h2>
               <p className="text-base leading-relaxed max-w-xl section-intro-gap hero-services-intro" style={{ color: '#000000' }}>
                 APX FS is your NSI Gold security system installer. We specialise in the design, installation and maintenance of bespoke integrated security systems within London and the Home Counties.
               </p>
@@ -768,7 +954,7 @@ export default function Home() {
         <div className="container mx-auto px-6 lg:px-8">
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8 md:gap-10">
             <div className="services-benefit-card" style={{ animationDelay: '0.1s' }}>
-              <div className="services-benefit-card-inner">
+              <div className={`services-benefit-card-inner transition-all duration-700 ${sectionMotion.benefits ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"}`} style={{ transitionDelay: "50ms" }}>
                 <div className="services-benefit-icon-wrap">
                   <CheckCircle className="h-7 w-7 text-white" strokeWidth={2} />
                 </div>
@@ -777,7 +963,7 @@ export default function Home() {
               </div>
             </div>
             <div className="services-benefit-card" style={{ animationDelay: '0.25s' }}>
-              <div className="services-benefit-card-inner">
+              <div className={`services-benefit-card-inner transition-all duration-700 ${sectionMotion.benefits ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"}`} style={{ transitionDelay: "140ms" }}>
                 <div className="services-benefit-icon-wrap">
                   <CheckCircle className="h-7 w-7 text-white" strokeWidth={2} />
                 </div>
@@ -786,7 +972,7 @@ export default function Home() {
               </div>
             </div>
             <div className="services-benefit-card" style={{ animationDelay: '0.4s' }}>
-              <div className="services-benefit-card-inner">
+              <div className={`services-benefit-card-inner transition-all duration-700 ${sectionMotion.benefits ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"}`} style={{ transitionDelay: "230ms" }}>
                 <div className="services-benefit-icon-wrap">
                   <CheckCircle className="h-7 w-7 text-white" strokeWidth={2} />
                 </div>
@@ -804,11 +990,13 @@ export default function Home() {
           <div className="logo-marquee">
             <div className="logo-marquee__group">
               {clientLogoPaths.map((src, i) => (
+                // eslint-disable-next-line @next/next/no-img-element -- marquee strip; many dynamic paths
                 <img key={`a-${i}`} src={src} alt="" className="logo-marquee__img" aria-hidden />
               ))}
             </div>
             <div className="logo-marquee__group" aria-hidden="true">
               {clientLogoPaths.map((src, i) => (
+                // eslint-disable-next-line @next/next/no-img-element
                 <img key={`b-${i}`} src={src} alt="" className="logo-marquee__img" />
               ))}
             </div>
@@ -816,11 +1004,13 @@ export default function Home() {
           <div className="logo-marquee logo-marquee--reverse">
             <div className="logo-marquee__group">
               {[...clientLogoPaths].reverse().map((src, i) => (
+                // eslint-disable-next-line @next/next/no-img-element
                 <img key={`c-${i}`} src={src} alt="" className="logo-marquee__img" aria-hidden />
               ))}
             </div>
             <div className="logo-marquee__group" aria-hidden="true">
               {[...clientLogoPaths].reverse().map((src, i) => (
+                // eslint-disable-next-line @next/next/no-img-element
                 <img key={`d-${i}`} src={src} alt="" className="logo-marquee__img" />
               ))}
             </div>
@@ -831,7 +1021,7 @@ export default function Home() {
       {/* Projects – scroll view with glass blur cards; strip bleeds full viewport, offset start */}
       <section id="projects" className="bg-black py-20 lg:py-28 overflow-x-hidden">
         <div className="container mx-auto px-6 lg:px-8">
-          <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-6 mb-14 lg:mb-20">
+          <div className={`flex flex-col sm:flex-row sm:items-center sm:justify-between gap-6 mb-14 lg:mb-20 transition-all duration-900 ${sectionMotion.projects ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"}`}>
             <div>
               <span className="section-label text-white/80">Projects</span>
               <h2 className="text-4xl lg:text-5xl font-bold text-white font-title leading-tight">
@@ -868,9 +1058,9 @@ export default function Home() {
           {projects.map((p, i) => (
             <Link
               key={i}
-              href="#"
-              className="projects-card group flex-shrink-0 flex flex-col rounded-xl overflow-hidden bg-black"
-              onClick={(e) => e.preventDefault()}
+              href={p.href}
+              className={`projects-card group flex-shrink-0 flex flex-col rounded-xl overflow-hidden bg-black transition-all duration-700 ${sectionMotion.projects ? "opacity-100 translate-y-0" : "opacity-0 translate-y-10"}`}
+              style={{ transitionDelay: `${Math.min(i, 5) * 90}ms` }}
             >
               <div className="relative aspect-[3/4] min-h-[480px] projects-card__inner">
                 {/* Project number – top centre, text only */}
@@ -889,10 +1079,14 @@ export default function Home() {
                     aria-hidden
                   />
                   <div className="projects-card-glass-overlay absolute inset-0" aria-hidden />
-                  <p className="text-4xl font-bold text-white mb-1 relative z-10">{p.title}</p>
-                  <p className="text-white/90 text-sm mb-3 relative z-10">{p.description}</p>
-                  <p className="text-white/80 text-sm italic mb-4 line-clamp-2 relative z-10">&ldquo;{p.quote}&rdquo;</p>
-                  <span className="projects-card-arrow absolute bottom-5 right-6 z-10 flex items-center justify-center w-10 h-10 rounded-full bg-white/20 text-white transition-transform duration-200 group-hover:rotate-12" aria-hidden>
+                  <div className="relative z-20">
+                    <p className="text-[11px] uppercase tracking-[0.14em] text-white mb-2">{p.stat}</p>
+                    <p className="text-[clamp(1.45rem,2.4vw,2rem)] font-bold text-white mb-1.5 leading-[1.12] min-h-[4.8rem]">{p.title}</p>
+                    <p className="text-white/90 text-xs uppercase tracking-[0.11em] mb-2.5">{p.location}</p>
+                    <p className="text-white text-sm mb-3 line-clamp-2 min-h-[2.6rem]">{p.description}</p>
+                    <p className="text-white text-sm italic mb-4 line-clamp-2 min-h-[2.7rem]">&ldquo;{p.quote}&rdquo;</p>
+                  </div>
+                  <span className="projects-card-arrow absolute bottom-5 right-6 z-20 flex items-center justify-center w-10 h-10 rounded-full bg-white/20 text-white transition-transform duration-200 group-hover:rotate-12" aria-hidden>
                     <ChevronRight className="w-5 h-5" />
                   </span>
                 </div>
@@ -907,7 +1101,7 @@ export default function Home() {
       <section id="why-mep" className="news-section">
         <div className="container mx-auto px-6 lg:px-8">
           <div className="news-section__grid">
-            <div className="news-section__left">
+            <div className={`news-section__left transition-all duration-900 ${sectionMotion.news ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"}`}>
               <header className="news-section__header">
                 <span className="news-section__label">News and Articles</span>
                 <h2 className="news-section__title">Insights and updates</h2>
@@ -928,7 +1122,7 @@ export default function Home() {
               </nav>
             </div>
 
-            <div className="news-section__right">
+            <div className={`news-section__right transition-all duration-900 ${sectionMotion.news ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"}`} style={{ transitionDelay: "120ms" }}>
               <div
                 className="news-section__image"
                 style={{ backgroundImage: `url('${newsArticles[activeNewsIndex]?.image || newsArticles[0].image}')` }}
@@ -942,7 +1136,7 @@ export default function Home() {
       {/* Why Choose Us – canted top and bottom */}
       <section id="about" className="section-spacing section-canted-top section-canted-bottom">
         <div className="container mx-auto px-6 lg:px-8">
-          <div className="section-content-gap space-y-16">
+          <div className={`section-content-gap space-y-16 transition-all duration-900 ${sectionMotion.about ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"}`}>
             {/* Top Section - Title and Description */}
             <div>
               <span className="section-label section-label--black">Why Choose Us</span>
@@ -1245,7 +1439,7 @@ export default function Home() {
                           { value: 'fire-alarms', label: 'Fire Alarm Systems' },
                           { value: 'video-door-entry', label: 'Video Door Entry Systems' },
                           { value: 'other', label: 'Other' }
-                        ].map((service, index) => (
+                        ].map((service) => (
                           <button
                             key={service.value}
                             type="button"
