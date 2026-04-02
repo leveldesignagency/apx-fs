@@ -1,11 +1,13 @@
 import type { Metadata } from "next"
 import { CapabilityServicePageLayout } from "@/components/CapabilityServicePageLayout"
+import { buildFsMetadata } from "@/lib/seo-metadata"
 
-export const metadata: Metadata = {
-  title: "Security Systems | APX Fire & Security",
+export const metadata: Metadata = buildFsMetadata({
+  title: "CCTV, Access Control & Intruder Alarms | London | APX",
   description:
-    "CCTV, intruder alarms, and video entry and access control systems for commercial, industrial, and public-sector environments.",
-}
+    "CCTV, intruder alarms, video door entry and access control for commercial, industrial and public-sector sites across Greater London, Kent, Essex and the Home Counties.",
+  pathname: "/services/security-systems",
+})
 
 const capabilities = [
   "CCTV systems (IP and analogue)",

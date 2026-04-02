@@ -1,11 +1,13 @@
 import type { Metadata } from "next"
 import { CapabilityServicePageLayout } from "@/components/CapabilityServicePageLayout"
+import { buildFsMetadata } from "@/lib/seo-metadata"
 
-export const metadata: Metadata = {
-  title: "Maintenance & Support | APX Fire & Security",
+export const metadata: Metadata = buildFsMetadata({
+  title: "Fire & Security Maintenance & Support | PPM London | APX",
   description:
-    "Planned preventative maintenance, 24/7 call-out support, upgrades, and compliance checks to keep fire and security systems fully operational.",
-}
+    "Planned maintenance, 24/7 call-out, upgrades and compliance checks for fire alarms, CCTV and access control — across London boroughs and the South East.",
+  pathname: "/services/maintenance-support",
+})
 
 const capabilities = [
   "Planned preventative maintenance (PPM)",

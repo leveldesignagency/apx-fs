@@ -21,16 +21,18 @@ export default function Header() {
   const isAboutPage = path === "/about"
   const isProjectsPage = path === "/projects" || path.startsWith("/projects/")
   const isProjectDetailPage = path.startsWith("/projects/") && path !== "/projects"
+  /** Any URL under /services/… (not the hub) — hero image sits full viewport under a fixed transparent header */
+  const isServiceSubpage = path.startsWith("/services/")
   const isBlackHeaderCanvas =
     isCapabilityDetailPage ||
     isServicesHubPage ||
     isMethodologyPage ||
     isAboutPage ||
     isProjectsPage
-  const isTransparentHeaderPage =
-    (path.startsWith("/services/") && !isCapabilityDetailPage) || isProjectDetailPage
+  const isTransparentHeaderPage = isServiceSubpage || isProjectDetailPage
   const isServicesPage = pathname.startsWith("/services/") || isProjectDetailPage
-  const useBlackHeaderCanvas = isBlackHeaderCanvas && !isProjectDetailPage
+  /** Solid black header shell — not on service subpages where hero imagery sits under a fixed transparent bar */
+  const useBlackHeaderCanvas = isBlackHeaderCanvas && !isProjectDetailPage && !isServiceSubpage
   const [isMenuOpen, setIsMenuOpen] = useState(false)
   const [isServicesOpen, setIsServicesOpen] = useState(false)
   const [toast, setToast] = useState<{ message: string; type: 'phone' | 'email' } | null>(null)
@@ -73,14 +75,13 @@ export default function Header() {
     }
   }
 
-  /** Project detail: fixed overlay so hero imagery shows through; listing /projects keeps solid bar */
-  const headerLayoutClass = isProjectDetailPage
-    ? "fixed inset-x-0 top-0 z-[100]"
-    : "relative z-50"
+  /** Project detail + service subpages: fixed overlay so hero imagery shows through */
+  const headerLayoutClass =
+    isProjectDetailPage || isServiceSubpage ? "fixed inset-x-0 top-0 z-[100]" : "relative z-50"
 
   return (
     <header
-      className={`${headerLayoutClass} ${useBlackHeaderCanvas ? "bg-black fs-black-header-canvas" : "bg-transparent"} ${isTransparentHeaderPage ? "header-bg-transparent-page" : ""} ${isServicesPage ? "header--no-animate" : ""} ${isProjectDetailPage ? "fs-project-detail-header" : ""}`}
+      className={`${headerLayoutClass} ${useBlackHeaderCanvas ? "bg-black fs-black-header-canvas" : "bg-transparent"} ${isTransparentHeaderPage ? "header-bg-transparent-page" : ""} ${isServicesPage ? "header--no-animate" : ""} ${isProjectDetailPage || isServiceSubpage ? "fs-project-detail-header" : ""}`}
       style={{ backgroundColor: useBlackHeaderCanvas ? "#000000" : "transparent" }}
     >
       {/* ========== SAVED VERSION (original header – not rendered) ========== */}
@@ -293,7 +294,7 @@ export default function Header() {
                 backgroundColor: isTransparentHeaderPage ? "transparent" : "#000",
                 boxSizing: "border-box",
                 borderColor: "#fff",
-                ...(isProjectDetailPage
+                ...(isProjectDetailPage || isServiceSubpage
                   ? { backdropFilter: "blur(10px)", WebkitBackdropFilter: "blur(10px)" as const }
                   : {}),
               }}
@@ -317,9 +318,9 @@ export default function Header() {
               <div
                 className="flex w-fit items-center rounded-br-2xl header-mech-security-in pl-7 pr-3.5 py-1"
                 style={{
-                  backgroundColor: isProjectDetailPage ? "rgba(0,0,0,0.42)" : "black",
+                  backgroundColor: isProjectDetailPage || isServiceSubpage ? "rgba(0,0,0,0.42)" : "black",
                   border: "2px solid white",
-                  ...(isProjectDetailPage
+                  ...(isProjectDetailPage || isServiceSubpage
                     ? { backdropFilter: "blur(10px)", WebkitBackdropFilter: "blur(10px)" as const }
                     : {}),
                 }}

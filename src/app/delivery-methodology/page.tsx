@@ -1,11 +1,13 @@
 import type { Metadata } from "next"
 import { DeliveryMethodologyPageContent } from "@/components/DeliveryMethodologyPageContent"
+import { buildFsMetadata } from "@/lib/seo-metadata"
 
-export const metadata: Metadata = {
-  title: "Delivery Methodology | APX Fire & Security",
+export const metadata: Metadata = buildFsMetadata({
+  title: "Delivery Methodology | Fire & Security Projects | London & South East | APX",
   description:
-    "How we deliver fire and security projects: from pre-construction and planning through installation, commissioning, handover and aftercare.",
-}
+    "How APX delivers fire and security: pre-construction, design coordination, installation, commissioning, handover and aftercare — for sites across Greater London, Kent, Essex and the Home Counties.",
+  pathname: "/delivery-methodology",
+})
 
 export default function DeliveryMethodologyPage() {
   return <DeliveryMethodologyPageContent />

@@ -155,7 +155,7 @@ export function DeliveryMethodologyJourney({ steps }: Props) {
 
           <div
             className={cn(
-              "relative min-h-[min(32vh,26rem)] min-w-0 flex-1 border-l border-white/[0.08] pl-6 sm:min-h-[28rem] sm:pl-8 md:min-h-[30rem] md:pl-10 md:pt-0 lg:pl-12"
+              "relative min-h-[min(24vh,18rem)] min-w-0 flex-1 border-l border-white/[0.08] pl-6 sm:min-h-[22rem] sm:pl-8 md:min-h-[24rem] md:pl-10 md:pt-0 lg:pl-12"
             )}
           >
             <div className="relative overflow-hidden">
@@ -187,7 +187,7 @@ export function DeliveryMethodologyJourney({ steps }: Props) {
         </div>
 
         {/* Dots above arrows — shrink-0 + stable content min-h above keeps this from jumping */}
-        <div className="mt-1.5 flex shrink-0 flex-col items-center gap-3 sm:mt-2 md:mt-2">
+        <div className="-mt-5 flex shrink-0 flex-col items-center gap-3 sm:-mt-6 md:-mt-8">
           <div
             className="flex flex-wrap justify-center gap-2.5 md:gap-3"
             role="tablist"

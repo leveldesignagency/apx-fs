@@ -9,6 +9,8 @@ import ThemeWrapper from "@/components/ThemeWrapper";
 import HeroVideoBackground from "@/components/HeroVideoBackground";
 import CustomCursor from "@/components/CustomCursor";
 import HeaderClient from "@/components/HeaderClient";
+import { RootJsonLd } from "@/components/RootJsonLd";
+import { FS_SITE_NAME, fsDefaultDescription, fsKeywordsMetaString, getFsSiteUrl } from "@/lib/seo";
 
 const inter = Inter({
   subsets: ["latin"],
@@ -27,22 +29,40 @@ const bebasNeue = Bebas_Neue({
   variable: "--font-bebas-neue",
 });
 
+const fsSiteUrl = getFsSiteUrl();
+
 export const metadata: Metadata = {
-  title: "APX Fire & Security - Professional Fire Safety & Security Systems | UK",
-  description: "Professional fire safety and security systems across the UK. Fire alarms, CCTV, access control, and life safety solutions. Trusted for over 20 years.",
-  keywords: "fire safety, security systems, fire alarms, CCTV, access control, UK, APX Fire & Security",
+  metadataBase: new URL(fsSiteUrl),
+  title: {
+    default: `${FS_SITE_NAME} | Fire Alarms, CCTV & Access Control | London & South East`,
+    template: `%s | ${FS_SITE_NAME}`,
+  },
+  description: fsDefaultDescription(),
+  keywords: fsKeywordsMetaString(),
+  applicationName: FS_SITE_NAME,
+  authors: [{ name: FS_SITE_NAME }],
+  creator: FS_SITE_NAME,
+  robots: { index: true, follow: true, googleBot: { index: true, follow: true } },
   icons: {
     icon: [
-      { url: '/favicon.png', sizes: '32x32', type: 'image/png' },
-      { url: '/favicon.ico', sizes: 'any' },
+      { url: "/favicon.png", sizes: "32x32", type: "image/png" },
+      { url: "/favicon.ico", sizes: "any" },
     ],
-    shortcut: '/favicon.png',
-    apple: '/apple-touch-icon.png',
+    shortcut: "/favicon.png",
+    apple: "/apple-touch-icon.png",
   },
   openGraph: {
-    title: "APX Fire & Security - Fire Safety & Security Solutions",
-    description: "Professional fire safety and security systems across the UK.",
     type: "website",
+    locale: "en_GB",
+    url: fsSiteUrl,
+    siteName: FS_SITE_NAME,
+    title: `${FS_SITE_NAME} | Fire & Security | London, Kent, Essex & Home Counties`,
+    description: fsDefaultDescription(),
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: `${FS_SITE_NAME} | London & South East`,
+    description: fsDefaultDescription(),
   },
 };
 
@@ -52,8 +72,9 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" className={`${inter.variable} ${plusJakartaSans.variable} ${bebasNeue.variable}`}>
+    <html lang="en-GB" className={`${inter.variable} ${plusJakartaSans.variable} ${bebasNeue.variable}`}>
       <body className="font-sans antialiased">
+        <RootJsonLd />
         <HeroVideoBackground />
         <div className="relative z-10">
           <ThemeProvider>

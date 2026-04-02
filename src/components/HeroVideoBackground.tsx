@@ -4,6 +4,7 @@ import Image from "next/image"
 import { useEffect, useState } from "react"
 import { createPortal } from "react-dom"
 import { usePathname } from "next/navigation"
+import { HERO_BG_GRADIENT_BOTTOM, HERO_BG_GRADIENT_LEFT } from "@/lib/heroBackgroundGradients"
 
 /**
  * Fixed hero background image (FS site). Image fades out once scrolled past hero so it never shows through below.
@@ -18,8 +19,11 @@ export default function HeroVideoBackground() {
     setMounted(true)
   }, [])
 
+  /** Homepage only — service pages use per-route hero imagery in ServicePageHero */
+  const showHeroBackdrop = pathname === "/"
+
   useEffect(() => {
-    if (pathname !== "/" || typeof window === "undefined") return
+    if (!showHeroBackdrop || typeof window === "undefined") return
     const heroHeight = window.innerHeight
     const threshold = heroHeight * 0.85
 
@@ -29,9 +33,9 @@ export default function HeroVideoBackground() {
     onScroll()
     window.addEventListener("scroll", onScroll, { passive: true })
     return () => window.removeEventListener("scroll", onScroll)
-  }, [pathname])
+  }, [pathname, showHeroBackdrop])
 
-  if (pathname !== "/") return null
+  if (!showHeroBackdrop) return null
   if (!mounted || typeof document === "undefined") return null
 
   const layer = (
@@ -67,19 +71,8 @@ export default function HeroVideoBackground() {
           />
           </div>
         </div>
-        {/* Black feather on left edge */}
-        <div
-          className="absolute inset-0 pointer-events-none"
-          style={{
-            background: "linear-gradient(to right, rgba(0,0,0,0.55) 0%, rgba(0,0,0,0.2) 12%, transparent 28%)",
-          }}
-        />
-        <div
-          className="absolute inset-0 pointer-events-none"
-          style={{
-            background: "linear-gradient(to bottom, transparent 0%, transparent 50%, rgba(0,0,0,0.35) 75%, rgba(0,0,0,0.92) 100%)",
-          }}
-        />
+        <div className="absolute inset-0 pointer-events-none" style={{ background: HERO_BG_GRADIENT_LEFT }} />
+        <div className="absolute inset-0 pointer-events-none" style={{ background: HERO_BG_GRADIENT_BOTTOM }} />
       </div>
     </>
   )

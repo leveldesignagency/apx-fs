@@ -6,19 +6,19 @@ import { DeliveryMethodologyJourney } from "@/components/DeliveryMethodologyJour
 
 export function DeliveryMethodologyPageContent() {
   return (
-    <div className="dm-page min-h-screen bg-black text-white pb-16 md:pb-20">
-      <section className="mx-auto w-full max-w-[min(100%,90rem)] px-3 pb-7 pt-20 sm:px-4 sm:pb-8 md:px-5 md:pb-9 lg:px-6 lg:pt-[5.25rem]">
+    <div className="dm-page min-h-screen bg-black text-white pt-28 pb-16 md:pb-20">
+      <section className="container mx-auto px-6 lg:px-8 pb-7 sm:pb-8 md:pb-9">
         <div className="flex flex-col gap-5 lg:flex-row lg:items-start lg:justify-between lg:gap-8">
           <div className="min-w-0 max-w-4xl">
-            <span className="section-label text-white/75">Methodology</span>
-            <h1 className="mt-2 text-4xl font-title font-bold tracking-tight text-white normal-case sm:text-5xl lg:text-6xl [line-height:0.9]">
-              Delivery Methodology
+            <span className="section-label mb-3 block text-white/75">Delivery methodology</span>
+            <h1 className="mt-3 text-4xl font-title font-bold tracking-tight text-white normal-case sm:text-5xl lg:text-6xl [line-height:0.9]">
+              Evidence-led delivery — from first survey to compliant handover
             </h1>
           </div>
         </div>
       </section>
 
-      <div className="relative mx-auto w-full max-w-[min(100%,90rem)] px-3 sm:px-4 md:px-5 lg:px-6">
+      <div className="container relative mx-auto px-6 lg:px-8">
         <DeliveryMethodologyJourney steps={DELIVERY_METHODOLOGY_STEPS} />
 
         <footer className="mt-8 border-t border-white/10 pt-8 text-center md:mt-10 md:pt-10">

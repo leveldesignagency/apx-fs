@@ -1,8 +1,7 @@
 "use client"
 
-import Image from "next/image"
+import { usePathname } from "next/navigation"
 import { useTheme } from "@/contexts/ThemeContext"
-import { CustomPillButton } from "@/components/ui/CustomPillButton"
 
 const CLIENT_LOGO_PATHS = [
   "/Clients/_-01.png",
@@ -18,83 +17,44 @@ const CLIENT_LOGO_PATHS = [
   "/Clients/_-11.png",
 ]
 
-export function OurCustomers() {
-  const { theme } = useTheme()
-  const isDark = theme === "dark"
-  const textClass = isDark ? "text-white" : "text-black"
-  const mutedClass = isDark ? "text-gray-300" : "text-gray-600"
-  const bgColor = isDark ? "#000000" : "#ffffff"
-
+function OurCustomersMarquee() {
   return (
-    <>
-      <div className="w-full h-[0.75px] bg-black dark:bg-white" />
-      <section className="py-12 lg:py-16" style={{ backgroundColor: bgColor }}>
-        <div className="container mx-auto px-6">
-          <h2 className={`text-4xl font-bold mb-6 text-center font-title ${textClass}`}>
-            Our Customers
-          </h2>
-          <p className={`text-center max-w-2xl mx-auto mb-12 ${mutedClass}`}>
-            A small selection of some of our customers:
-          </p>
-          <div className="flex flex-wrap justify-center items-center gap-8 sm:gap-12">
+    <div className="logo-marquee-section our-customers-marquee w-full overflow-hidden py-2">
+      <div className="logo-marquee-wrapper max-w-none">
+        <div className="logo-marquee">
+          <div className="logo-marquee__group">
             {CLIENT_LOGO_PATHS.map((src, i) => (
-              <div
-                key={i}
-                className={`relative flex items-center justify-center w-28 h-16 sm:w-32 sm:h-20 rounded-lg overflow-hidden ${isDark ? "bg-white/5" : "bg-gray-100"}`}
-              >
-                <Image
-                  src={src}
-                  alt=""
-                  fill
-                  sizes="128px"
-                  className="object-contain p-2"
-                />
-              </div>
+              // eslint-disable-next-line @next/next/no-img-element -- seamless CSS marquee; matches homepage strip
+              <img key={`oc-a-${i}`} src={src} alt="" className="logo-marquee__img" />
+            ))}
+          </div>
+          <div className="logo-marquee__group" aria-hidden="true">
+            {CLIENT_LOGO_PATHS.map((src, i) => (
+              // eslint-disable-next-line @next/next/no-img-element
+              <img key={`oc-b-${i}`} src={src} alt="" className="logo-marquee__img" />
             ))}
           </div>
         </div>
-      </section>
-    </>
+      </div>
+    </div>
   )
 }
 
-type RequestFreeSurveyProps = {
-  title?: string
-  description?: string
-}
-
-const DEFAULT_SURVEY_TITLE = "Request Your Free Survey"
-const DEFAULT_SURVEY_DESCRIPTION = "Not sure what kind of system you need? We offer a free, no obligation survey to ascertain the type of system that best suits your needs. This ensures the systems we provide offer the most efficient and convenient way of securing your building and assets. Simply contact us for a no-obligation chat about your individual requirements."
-
-export function RequestFreeSurvey({ title = DEFAULT_SURVEY_TITLE, description = DEFAULT_SURVEY_DESCRIPTION }: RequestFreeSurveyProps) {
+export function OurCustomers() {
+  const pathname = usePathname()
   const { theme } = useTheme()
-  const isDark = theme === "dark"
+  const isDark = (pathname?.startsWith("/services") ?? false) || theme === "dark"
   const textClass = isDark ? "text-white" : "text-black"
-  const mutedClass = isDark ? "text-gray-300" : "text-gray-600"
   const bgColor = isDark ? "#000000" : "#ffffff"
 
   return (
     <>
       <div className="w-full h-[0.75px] bg-black dark:bg-white" />
-      <section className="py-12 lg:py-16" style={{ backgroundColor: bgColor }}>
+      <section className="pt-12 pb-20 sm:pb-24 lg:pt-16 lg:pb-32" style={{ backgroundColor: bgColor }}>
         <div className="container mx-auto px-6">
-          <div className="max-w-3xl mx-auto text-center">
-            <h2 className={`text-4xl font-bold mb-6 font-title ${textClass}`}>
-              {title}
-            </h2>
-            <p className={`text-lg mb-8 leading-relaxed ${mutedClass}`}>
-              {description}
-            </p>
-            <div className="flex flex-col sm:flex-row gap-4 justify-center">
-              <CustomPillButton href="/contact" size="md">
-                Get a free quote
-              </CustomPillButton>
-              <CustomPillButton href="tel:02045685986" size="md" variant="outline">
-                Call 020 4568 5986
-              </CustomPillButton>
-            </div>
-          </div>
+          <h2 className={`mb-10 text-center font-title text-4xl font-bold ${textClass}`}>Our Customers</h2>
         </div>
+        <OurCustomersMarquee />
       </section>
     </>
   )

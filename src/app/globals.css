@@ -31,9 +31,7 @@
 }
 /* White-background sections: dark highlight so selection is visible on white */
 .about-block--white ::selection,
-#about-intro ::selection,
 #about ::selection,
-#services ::selection,
 #testimonials ::selection,
 .logo-marquee-section ::selection,
 section.bg-white ::selection {
@@ -41,9 +39,7 @@ section.bg-white ::selection {
   color: inherit;
 }
 .about-block--white ::-moz-selection,
-#about-intro ::-moz-selection,
 #about ::-moz-selection,
-#services ::-moz-selection,
 #testimonials ::-moz-selection,
 .logo-marquee-section ::-moz-selection,
 section.bg-white ::-moz-selection {
@@ -166,6 +162,15 @@ section h2 {
   font-weight: 400;
 }
 
+/* Service page heroes — match homepage #hero copy treatment */
+.service-page-hero h1 {
+  font-weight: 700;
+}
+.service-page-hero .service-page-hero__intro,
+.service-page-hero .service-page-hero__intro p {
+  font-weight: 400;
+}
+
 /* FS: hero text white on hero image */
 #hero h1,
 #hero h2,
@@ -173,6 +178,13 @@ section h2 {
 #hero p,
 #hero .text-base,
 #hero .text-xs {
+  color: #ffffff !important;
+}
+
+.service-page-hero h1,
+.service-page-hero .service-page-hero__intro,
+.service-page-hero .service-page-hero__intro p,
+.service-page-hero .service-page-hero__intro a {
   color: #ffffff !important;
 }
 
@@ -252,38 +264,42 @@ section h2 {
   color: #ffffff !important;
 }
 
-/* FS: ABOUT intro – background from placeholder layer; dark text */
-#about-intro {
-  /* Background is the full-section placeholder div; no fill so placeholder shows */
+/* Square variant (e.g. projects hub): same fill + border as .pill-btn, no corner radius */
+.pill-btn--square {
+  border-radius: 0 !important;
 }
-#about-intro h2 {
-  color: #000000 !important;
+.pill-btn--square .pill-btn-inner {
+  border-radius: 0 !important;
 }
-#about-intro p {
-  color: rgba(0, 0, 0, 0.9) !important;
-}
-#about-intro a[href="/about"] {
-  background-color: #000000 !important;
-  color: #ffffff !important;
+.pill-btn--square .pill-btn-border {
+  border-radius: 0 !important;
 }
 
-/* FS: APX FS Services – hard edge at top, no feather/crescent */
+/* FS: ABOUT intro – black panel, light text */
+#about-intro h2 {
+  color: #ffffff !important;
+}
+#about-intro p {
+  color: rgba(255, 255, 255, 0.9) !important;
+}
+
+/* FS: APX FS Services – black background, light text */
 #services {
   position: relative !important;
   overflow: hidden !important;
-  background: #ffffff !important;
-  background-color: #ffffff !important;
+  background: #000000 !important;
+  background-color: #000000 !important;
 }
 #services > .container {
   position: relative !important;
   z-index: 1 !important;
 }
 
-/* FS: APX FS SERVICES title and intro – always black */
+/* FS: APX FS SERVICES title and intro – light on black */
 #services .services-section-title,
 #services .hero-services-intro,
 #services p.section-intro-gap {
-  color: #000000 !important;
+  color: #ffffff !important;
 }
 
 /* FS: Service cards – no border; full white text; no black overlay – image visible with black feather bottom */
@@ -1002,14 +1018,45 @@ html:not(.dark) #testimonials .testimonials-lifted .service-card {
   }
 }
 /* Light theme forces white body site-wide; capability pages need true black behind header + glass (avoids blue-ish blur) */
-html:not(.dark) body:has(.fs-capability-page) {
+html:not(.dark) body:has(.fs-capability-page),
+html:not(.dark) body:has(.service-page-root) {
   background: #000000 !important;
   background-color: #000000 !important;
+}
+
+.fs-capability-page.fs-capability-page--section {
+  min-height: auto;
 }
 html:not(.dark) body:has(.fs-projects-page) {
   background: #000000 !important;
   background-color: #000000 !important;
 }
+
+/* Project detail hero: title link wraps to multiple lines — per-line underline (footer’s single bar would span full block width) */
+.fs-project-detail-page .fs-project-hero-title-link {
+  display: inline;
+  text-decoration: none;
+  color: inherit;
+  cursor: pointer;
+  background-image: linear-gradient(to right, rgba(255, 255, 255, 0.95), rgba(255, 255, 255, 0.95));
+  background-position: 0 calc(100% - 0.06em);
+  background-repeat: no-repeat;
+  background-size: 0% 2px;
+  transition: background-size 0.5s cubic-bezier(0.22, 0.61, 0.36, 1), color 0.25s ease;
+  box-decoration-break: clone;
+  -webkit-box-decoration-break: clone;
+}
+.fs-project-detail-page .fs-project-hero-title-link:hover {
+  color: #ffffff;
+  background-size: 100% 2px;
+}
+.fs-project-detail-page .fs-project-hero-title-link:focus-visible {
+  color: #ffffff;
+  background-size: 100% 2px;
+  outline: 2px solid rgba(255, 255, 255, 0.45);
+  outline-offset: 4px;
+}
+
 .fs-capability-page .font-title {
   text-transform: none;
 }
@@ -1434,7 +1481,8 @@ html:not(.dark) .section-divider {
 
 /* ========== About page – parallax, angled blocks, horizontal scroll ========== */
 html.about-page-active {
-  scroll-snap-type: y mandatory;
+  /* snap disabled: it interfered with scroll-driven parallax + continuous scroll events */
+  scroll-snap-type: none;
   scroll-behavior: smooth;
 }
 .about-parallax-page {
@@ -1472,6 +1520,34 @@ html.about-page-active {
   z-index: 0;
   background: radial-gradient(ellipse 80% 50% at 50% 120%, rgba(255,255,255,0.06) 0%, transparent 50%);
   pointer-events: none;
+}
+/* About hero: taller glow layer so translateY parallax doesn’t show gaps */
+.about-hero-parallax .about-hero-parallax__bg {
+  left: 0;
+  right: 0;
+  top: -15%;
+  height: 130%;
+  min-height: 130%;
+}
+/* Mount / scroll fade-in — see components/Reveal.tsx */
+.about-reveal {
+  opacity: 0;
+  transform: translate3d(0, 20px, 0);
+  transition-property: opacity, transform;
+  transition-duration: 0.65s;
+  transition-timing-function: cubic-bezier(0.22, 1, 0.36, 1);
+}
+.about-reveal--visible {
+  opacity: 1;
+  transform: translate3d(0, 0, 0);
+}
+@media (prefers-reduced-motion: reduce) {
+  .about-reveal {
+    opacity: 1;
+    transform: none;
+    transition: none !important;
+    transition-delay: 0ms !important;
+  }
 }
 /* Horizontal scroll strip */
 .about-horizontal-scroll {
@@ -1513,15 +1589,34 @@ html.about-page-active {
 
 /* About page – shared horizontal padding + vertical rhythm (FS + MEP) */
 .about-page-shell {
-  --about-px: clamp(1.25rem, 5vw, 3.25rem);
+  --about-px: clamp(1.25rem, 3vw, 2.35rem);
 }
 .about-section-px {
   padding-left: var(--about-px);
   padding-right: var(--about-px);
 }
 .about-section-y {
-  padding-top: clamp(3.75rem, 10vw, 7rem);
-  padding-bottom: clamp(3.75rem, 10vw, 7rem);
+  padding-top: clamp(3.5rem, 9vw, 6.75rem);
+  padding-bottom: clamp(3.5rem, 9vw, 6.75rem);
+}
+/* Angled top (left rises from 8%): extra top inset so labels/copy clear the diagonal */
+.about-block--white.about-block--angle-top.about-section-y {
+  padding-top: clamp(6rem, 16vw, 11rem);
+}
+/* Expertise only: less “air” above headline, more below copy/logos so the bottom angle doesn’t crowd content */
+.about-page-shell .about-block--white.about-expertise-section.about-section-y {
+  padding-top: clamp(3.75rem, 9vw, 6.25rem);
+  padding-bottom: clamp(4.25rem, 11vw, 7.5rem);
+}
+/* Commitments: pull heading up (diagonal splice reads as empty space otherwise) */
+.about-block--black.about-commitments-section.about-section-y {
+  padding-top: clamp(2.25rem, 5.5vw, 3.75rem);
+  padding-bottom: clamp(2.5rem, 7vw, 4.5rem);
+}
+/* Quote + stats black section directly under commitments */
+.about-page-shell .about-block--black.about-proof-section.about-section-y {
+  padding-top: clamp(1.75rem, 4.5vw, 3rem);
+  padding-bottom: clamp(3.5rem, 8vw, 6rem);
 }
 .about-hero {
   padding-top: clamp(5.25rem, 11vh, 8.5rem);
@@ -1529,7 +1624,7 @@ html.about-page-active {
 }
 .about-section-inner {
   width: 100%;
-  max-width: 80rem;
+  max-width: min(100%, 92rem);
   margin-left: auto;
   margin-right: auto;
 }
@@ -1634,6 +1729,14 @@ html.about-page-active {
 .logo-marquee-section .logo-marquee .logo-marquee__img {
   object-fit: contain;
   background: rgba(255, 255, 255, 0.06);
+}
+/* Service pages — Our Customers strip: solid white tile behind each logo */
+.logo-marquee-section.our-customers-marquee {
+  --marquee-duration: 50s;
+}
+.logo-marquee-section.our-customers-marquee .logo-marquee .logo-marquee__img {
+  background: #ffffff;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.06);
 }
 .logo-marquee-section .logo-marquee svg use {
   pointer-events: none;

@@ -1,11 +1,13 @@
 import type { Metadata } from "next"
 import { CapabilityServicePageLayout } from "@/components/CapabilityServicePageLayout"
+import { buildFsMetadata } from "@/lib/seo-metadata"
 
-export const metadata: Metadata = {
-  title: "Fire & Life Safety Systems | APX Fire & Security",
+export const metadata: Metadata = buildFsMetadata({
+  title: "Fire Alarm Systems & Life Safety | London Installers | APX",
   description:
-    "Addressable and conventional fire alarm systems, EVAC and voice evacuation, and refuge and disabled communication systems.",
-}
+    "Addressable and conventional fire alarms, EVAC, voice evacuation, refuge systems — design, installation and commissioning across London boroughs, Kent, Essex and the Home Counties.",
+  pathname: "/services/fire-life-safety",
+})
 
 const capabilities = [
   "Addressable fire alarm systems",

@@ -4,6 +4,8 @@ export type FsProjectClientReview = {
   author: string
   role: string
   organization: string
+  /** Official site for the organization name in the review footer */
+  organizationUrl?: string
 }
 
 export type FsProject = {
@@ -22,6 +24,14 @@ export type FsProject = {
   heroImage: string
   gallery: string[]
   clientReview?: FsProjectClientReview
+  /** Official site for the hero title; if unknown, use a Maps search URL */
+  heroTitleLinkUrl?: string
+  /** Maps (or other) URL for the location line under the title */
+  heroLocationLinkUrl?: string
+}
+
+export function mapsSearchUrl(query: string): string {
+  return `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(query)}`
 }
 
 export const MAIN_CASE_STUDY_SLUGS = [
@@ -50,17 +60,8 @@ export const FS_PROJECTS: FsProject[] = [
       "APX Fire & Security carried out the fire installation using Advanced fire panels and Apollo detection, linked to a TOA PAVA system across all floors. The system was connected to ten master PAVA panels and ten fire alarm panels, all interfaced with the PAVA and controlled from a specialised Fire Control Room on the ground floor. Refuge and disabled toilet alarms were installed across all floors using Vox Ignis controls and handsets, again linked to and controlled from the ground floor Fire Control Room.",
     outcome:
       "A robust integrated life-safety solution was delivered with complete floor coverage, centralised control, and a clear, operationally resilient handover for the building team.",
-    clientReview: {
-      paragraphs: [
-        "I have had the pleasure of working with Paul and his team at APX Fire & Security for over 20 years — here at LJJ Ltd for the last 18 years, and for 2 years prior to this at IES in London.",
-        "In this time they have carried out over 30 projects for me and have always completed on time and to a very high standard of installation. Even if at the end of projects, when commissioning time has been squeezed, the team have stayed and worked through the night to ensure that all services have been completed, certified and demonstrated to the client.",
-        "They have worked on projects ranging from hospitals, schools, hotels, student accommodation, offices and residential apartment developments. Contract values have been from £5k up to £750k and covered all aspects of LV Electrical Works including Fire Alarms, Intruder, CCTV, Access Control, Disabled and Refuge Alarm Systems, IRS and DATA installations.",
-        "APX Fire & Security is an important member of our supply chain and I recommend them for the services provided.",
-      ],
-      author: "Richard Helm",
-      role: "Operations Manager",
-      organization: "LJJ Mechanical & Electrical Contractors",
-    },
+    heroTitleLinkUrl: "https://sancroftlondon.co.uk/",
+    heroLocationLinkUrl: mapsSearchUrl("Sancroft Building, Paternoster Square, London"),
     heroImage:
       "/projects/case-studies/sancroft-building/case-study-sancroft-building-fire-alarm-installation-exterior.jpg",
     gallery: [
@@ -102,7 +103,10 @@ export const FS_PROJECTS: FsProject[] = [
       author: "Ian Taylor",
       role: "Head of Security & Helideck Operation",
       organization: "King's College Hospital NHS Foundation Trust",
+      organizationUrl: "https://www.kch.nhs.uk/",
     },
+    heroTitleLinkUrl: "https://www.kch.nhs.uk/",
+    heroLocationLinkUrl: mapsSearchUrl("King's College Hospital, Denmark Hill, London"),
     heroImage:
       "/projects/case-studies/kings-college-hospital/case-study-kings-college-hospital-nhs-foundation-trust.jpg",
     gallery: [
@@ -131,6 +135,20 @@ export const FS_PROJECTS: FsProject[] = [
       "APX Fire & Security was responsible for the design, installation and commissioning of the village’s CCTV and access control systems. The system uses Paxton access control combined with Hikvision CCTV dome and bullet cameras, integrated with a fully controlled PC-based platform linked to smartphones and tablets.",
     outcome:
       "Cameras were discreetly positioned to avoid intrusiveness while still delivering the required level of security, resulting in an effective and easy-to-manage 24-hour security solution for residents and visitors.",
+    clientReview: {
+      paragraphs: [
+        "I have had the pleasure of working with Paul and his team at APX Fire & Security for over 20 years — here at LJJ Ltd for the last 18 years, and for 2 years prior to this at IES in London.",
+        "In this time they have carried out over 30 projects for me and have always completed on time and to a very high standard of installation. Even if at the end of projects, when commissioning time has been squeezed, the team have stayed and worked through the night to ensure that all services have been completed, certified and demonstrated to the client.",
+        "They have worked on projects ranging from hospitals, schools, hotels, student accommodation, offices and residential apartment developments. Contract values have been from £5k up to £750k and covered all aspects of LV Electrical Works including Fire Alarms, Intruder, CCTV, Access Control, Disabled and Refuge Alarm Systems, IRS and DATA installations.",
+        "APX Fire & Security is an important member of our supply chain and I recommend them for the services provided.",
+      ],
+      author: "Richard Helm",
+      role: "Operations Manager",
+      organization: "LJJ Mechanical & Electrical Contractors",
+      organizationUrl: "https://www.ljjcontractors.com/",
+    },
+    heroTitleLinkUrl: "https://www.inspiredvillages.co.uk/village/ledian-gardens",
+    heroLocationLinkUrl: mapsSearchUrl("Ledian Farm, Leeds, Maidstone, Kent"),
     heroImage:
       "/projects/case-studies/ledian-farm/case-study-ledian-farm-cctv-access-control-exterior.jpg",
     gallery: [
@@ -164,6 +182,8 @@ export const FS_PROJECTS: FsProject[] = [
       "Coordinated sequencing with property management and focused zone-based commissioning.",
     outcome:
       "Strengthened system reliability and operational visibility for building teams.",
+    heroTitleLinkUrl: "https://www.scape.com/student-accommodation-bloomsbury/",
+    heroLocationLinkUrl: mapsSearchUrl("Scape Bloomsbury, London"),
     heroImage:
       "/projects/case-studies/scape-bloomsbury/fire-alarm-system-installation-scape-bloomsbury-exterior.jpg",
     gallery: [
@@ -191,6 +211,8 @@ export const FS_PROJECTS: FsProject[] = [
       "Sequenced installation windows, close coordination with facilities teams and targeted commissioning by zone.",
     outcome:
       "Improved safety and access resilience with minimal operational interruption.",
+    heroTitleLinkUrl: "https://www.themayfairtownhouse.co.uk/",
+    heroLocationLinkUrl: mapsSearchUrl("The Mayfair Townhouse, London"),
     heroImage:
       "/projects/case-studies/mayfair-townhouse/fire-alarm-system-mayfair-townhouse-london.jpg",
     gallery: [
@@ -217,6 +239,8 @@ export const FS_PROJECTS: FsProject[] = [
       "Phased installation planning aligned to building use patterns and stakeholder coordination.",
     outcome:
       "Reliable upgraded fire detection with clean handover and minimal impact on day-to-day operations.",
+    heroTitleLinkUrl: "https://www.uwl.ac.uk/",
+    heroLocationLinkUrl: mapsSearchUrl("University of West London, London"),
     heroImage:
       "/projects/case-studies/university-of-west-london/fire-alarm-installation-university-of-west-london-exterior.jpg",
     gallery: [
@@ -242,6 +266,8 @@ export const FS_PROJECTS: FsProject[] = [
       "A wall-mount PA/VA system was installed on each floor and linked back to the Fire Control Centre Room on the ground floor. Interlinked systems were connected via fire-rated copper Cat5 cabling, reducing long-distance cable requirements and avoiding a full fibre network approach. Each VX-3308WM unit integrated pre-assembled components including dual 300W amplifiers and power supply, with additional standby amplifiers and VX-3065BB battery boxes for enhanced resilience and backup power. The ground floor control hub included the RM-200SF fire microphone with extension units for expanded emergency control and zoning.",
     outcome:
       "The completed system provided a flexible, standards-compliant PA/VA infrastructure with efficient floor-by-floor commissioning, simpler fault-finding, reduced installation complexity and long-term operational resilience.",
+    heroTitleLinkUrl: mapsSearchUrl("Emergency PA VA system, City of London office"),
+    heroLocationLinkUrl: mapsSearchUrl("City of London"),
     heroImage: "/projects/library/case-study-pa-va-system-installation-reception.jpg",
     gallery: [
       "/projects/library/case-study-pa-va-system-installation-reception.jpg",
@@ -268,6 +294,8 @@ export const FS_PROJECTS: FsProject[] = [
       "Phased installation and coordinated engineer attendance to minimize disruption to staff and visitors.",
     outcome:
       "Improved site security performance and operational confidence for the facilities and management teams.",
+    heroTitleLinkUrl: "https://www.camden.gov.uk/",
+    heroLocationLinkUrl: mapsSearchUrl("Greenwood Centre, Camden, London"),
     heroImage:
       "/projects/case-studies/camden-council-greenwood-centre/intruder-alarm-greenwood-centre-camden-council-interior.jpg",
     gallery: [
@@ -293,6 +321,8 @@ export const FS_PROJECTS: FsProject[] = [
       "Combined access control and video entry installations across key perimeter and reception points.",
     outcome:
       "Clearer building access management, improved resident confidence and stronger front-of-house control.",
+    heroTitleLinkUrl: mapsSearchUrl("Aspire Herschel Street, Slough, Berkshire"),
+    heroLocationLinkUrl: mapsSearchUrl("Herschel Street, Slough, Berkshire"),
     heroImage:
       "/projects/case-studies/aspire-herschel-street/access-control-system-installation-aspire-herschel-street-exterior.jpg",
     gallery: [

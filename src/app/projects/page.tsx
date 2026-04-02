@@ -7,6 +7,10 @@ import { ChevronLeft, ChevronRight, X } from "lucide-react"
 import { CustomPillButton } from "@/components/ui/CustomPillButton"
 import { MAIN_CASE_STUDIES } from "@/data/projects"
 
+/** Same hover fill as homepage `CustomPillButton` / `.pill-btn`, square corners via `.pill-btn--square` */
+const PROJECTS_GRID_CTA_CLASS =
+  "pill-btn pill-btn--square relative inline-flex cursor-pointer items-center justify-center overflow-hidden bg-black px-4 py-2.5 text-xs uppercase tracking-[0.12em] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/50 focus-visible:ring-offset-2 focus-visible:ring-offset-black"
+
 export default function ProjectsPage() {
   const [activeProjectSlug, setActiveProjectSlug] = useState<string | null>(null)
   const [activeImageIndex, setActiveImageIndex] = useState(0)
@@ -44,12 +48,12 @@ export default function ProjectsPage() {
       <section className="py-20 lg:py-28 px-4 sm:px-6 lg:px-8">
         <div className="mx-auto w-full max-w-[min(100%,92rem)]">
           <div className="max-w-2xl">
-            <span className="section-label mb-3 block text-white/75">Projects</span>
+            <span className="section-label mb-3 block text-white/75">Work in focus</span>
             <h1
               className={`text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold mb-2 md:mb-3 text-left ${textClass}`}
               style={{ fontFamily: "var(--font-menu)" }}
             >
-              Our Projects
+              Built to sign off — fire & security that endures
             </h1>
             <p className={`text-base sm:text-lg md:text-xl font-normal text-left tracking-tight ${mutedClass}`}>
               A selection of fire and security installations we have delivered for commercial, public sector, and domestic clients across London and the Home Counties.
@@ -93,22 +97,26 @@ export default function ProjectsPage() {
                       </Link>
                     </h2>
                     <p className={`mt-4 text-base leading-relaxed ${mutedClass}`}>{project.shortDescription}</p>
-                    <p className={`mt-3 text-sm leading-relaxed ${mutedClass}`}>{project.summary}</p>
+                    <p className={`mt-3 text-base leading-relaxed ${mutedClass}`}>{project.summary}</p>
                   </div>
 
-                  <div className="mt-6 flex items-center gap-3">
+                  <div className="mt-6 flex flex-wrap items-center gap-3">
                     <Link
                       href={`/projects/${project.slug}`}
-                      className="inline-flex items-center border-2 border-white/75 px-4 py-2 text-xs uppercase tracking-[0.12em] text-white hover:border-white"
+                      className={PROJECTS_GRID_CTA_CLASS}
                     >
-                      View Project
+                      <span className="pill-btn-inner" aria-hidden />
+                      <span className="pill-btn-border" aria-hidden />
+                      <span className="pill-text font-bold">View Project</span>
                     </Link>
                     <button
                       type="button"
                       onClick={() => openGallery(project.slug, 0)}
-                      className="inline-flex items-center border-2 border-white/75 px-4 py-2 text-xs uppercase tracking-[0.12em] text-white hover:border-white"
+                      className={PROJECTS_GRID_CTA_CLASS}
                     >
-                      Open Gallery
+                      <span className="pill-btn-inner" aria-hidden />
+                      <span className="pill-btn-border" aria-hidden />
+                      <span className="pill-text font-bold">Open Gallery</span>
                     </button>
                   </div>
                 </div>

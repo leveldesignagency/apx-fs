@@ -1,0 +1,35 @@
+"use client"
+
+import Link from "next/link"
+import { usePathname } from "next/navigation"
+import { FS_CCTV_TAB_LINKS, normalizeFsPath } from "@/lib/fs-service-navigation"
+import { fsServiceHeroPillLinkClass } from "@/components/FsServiceHeroQuickNav"
+
+const activePillClass = "border-white/85 bg-black/65 ring-1 ring-white/40"
+
+/** Bottom-of-hero CCTV pills — same layout and style as FsServiceHeroQuickNav */
+export function FsCctvHeroNav() {
+  const path = normalizeFsPath(usePathname())
+
+  return (
+    <nav aria-label="CCTV section" className="w-full min-w-0">
+      <p className="mb-3 text-[10px] font-semibold uppercase tracking-[0.2em] text-white/45">Quick navigation</p>
+      <ul className="flex flex-wrap items-center gap-2 sm:gap-2.5">
+        {FS_CCTV_TAB_LINKS.map(({ href, label }) => {
+          const active = path === href
+          return (
+            <li key={href}>
+              <Link
+                href={href}
+                className={`${fsServiceHeroPillLinkClass} ${active ? activePillClass : ""}`}
+                aria-current={active ? "page" : undefined}
+              >
+                {label}
+              </Link>
+            </li>
+          )
+        })}
+      </ul>
+    </nav>
+  )
+}

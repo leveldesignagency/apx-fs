@@ -1,7 +1,15 @@
+import type { Metadata } from "next"
 import Image from "next/image"
 import Link from "next/link"
 import { notFound } from "next/navigation"
 import { MAIN_CASE_STUDIES, getProjectBySlug } from "@/data/projects"
+import { buildFsMetadata } from "@/lib/seo-metadata"
+
+/** Matches Footer.tsx quick links: grow-from-centre underline on hover */
+const FS_FOOTER_STYLE_EXT_LINK =
+  "relative group inline-block max-w-full cursor-pointer pb-1 text-inherit no-underline transition-colors hover:text-white focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-white/50"
+const FS_FOOTER_STYLE_EXT_LINK_LINE =
+  "pointer-events-none absolute bottom-0 left-1/2 h-0.5 w-full -translate-x-1/2 origin-center scale-x-0 bg-white transition-transform duration-500 group-hover:scale-x-100"
 
 type Props = {
   params: Promise<{ slug: string }>
@@ -9,6 +17,23 @@ type Props = {
 
 export function generateStaticParams() {
   return MAIN_CASE_STUDIES.map((project) => ({ slug: project.slug }))
+}
+
+export async function generateMetadata({ params }: Props): Promise<Metadata> {
+  const { slug } = await params
+  const project = getProjectBySlug(slug)
+  if (!project) {
+    return { title: "Project | APX Fire & Security" }
+  }
+  const desc =
+    project.shortDescription.length > 160
+      ? `${project.shortDescription.slice(0, 157)}…`
+      : project.shortDescription
+  return buildFsMetadata({
+    title: `${project.title} | Fire & Security Case Study | APX`,
+    description: `${desc} ${project.location} — London & South East.`,
+    pathname: `/projects/${slug}`,
+  })
 }
 
 export default async function ProjectDetailPage({ params }: Props) {
@@ -32,10 +57,35 @@ export default async function ProjectDetailPage({ params }: Props) {
             Back to projects
           </Link>
           <h1 className="mt-3 max-w-full text-4xl font-title font-bold leading-tight min-[900px]:max-w-[75%] md:text-6xl">
-            {project.title}
+            {project.heroTitleLinkUrl ? (
+              <a
+                href={project.heroTitleLinkUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="fs-project-hero-title-link"
+              >
+                {project.title}
+              </a>
+            ) : (
+              project.title
+            )}
           </h1>
           <p className="mt-2 text-sm uppercase tracking-[0.16em] text-white/75">
-            {project.sector} · {project.location}
+            <span>{project.sector}</span>
+            <span aria-hidden="true"> · </span>
+            {project.heroLocationLinkUrl ? (
+              <a
+                href={project.heroLocationLinkUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+                className={FS_FOOTER_STYLE_EXT_LINK}
+              >
+                {project.location}
+                <span className={FS_FOOTER_STYLE_EXT_LINK_LINE} aria-hidden />
+              </a>
+            ) : (
+              project.location
+            )}
           </p>
           <p className="mt-5 max-w-3xl text-base leading-relaxed text-white/90 md:text-lg">{project.summary}</p>
         </div>
@@ -90,10 +140,10 @@ export default async function ProjectDetailPage({ params }: Props) {
 
       {project.clientReview && (
         <section
-          className="fs-project-client-review relative border-t-2 border-white/25 bg-white/[0.06]"
+          className="fs-project-client-review relative border-t border-white/10 bg-black"
           aria-labelledby="project-client-review-heading"
         >
-          <div className="mx-auto w-full max-w-[min(100%,52rem)] px-4 py-16 sm:px-6 md:py-24 lg:px-8">
+          <div className="mx-auto w-full max-w-[min(100%,92rem)] px-4 py-16 sm:px-6 md:py-24 lg:px-8">
             <p
               id="project-client-review-heading"
               className="text-[11px] font-bold uppercase tracking-[0.22em] text-white/80"
@@ -101,18 +151,30 @@ export default async function ProjectDetailPage({ params }: Props) {
             >
               Client review
             </p>
-            <blockquote className="mt-6 border-l-4 border-white pl-6 md:pl-8">
-              <div className="space-y-6 text-lg font-semibold leading-[1.55] text-white md:text-xl md:leading-[1.55]">
+            <blockquote className="mt-6 border-l border-white/25 pl-5 md:pl-7">
+              <div className="space-y-5 text-sm font-normal leading-relaxed text-white/85 md:text-base md:leading-relaxed">
                 {project.clientReview.paragraphs.map((p, i) => (
                   <p key={i}>{p}</p>
                 ))}
               </div>
-              <footer className="mt-12 border-t border-white/20 pt-8">
-                <p className="text-2xl font-bold font-title leading-tight text-white md:text-3xl">
-                  {project.clientReview.organization}
+              <footer className="mt-10 border-t border-white/15 pt-7">
+                <p className="text-xl font-semibold font-title leading-snug text-white md:text-2xl">
+                  {project.clientReview.organizationUrl ? (
+                    <a
+                      href={project.clientReview.organizationUrl}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className={FS_FOOTER_STYLE_EXT_LINK}
+                    >
+                      {project.clientReview.organization}
+                      <span className={FS_FOOTER_STYLE_EXT_LINK_LINE} aria-hidden />
+                    </a>
+                  ) : (
+                    project.clientReview.organization
+                  )}
                 </p>
-                <p className="mt-4 text-lg font-semibold text-white md:text-xl">{project.clientReview.author}</p>
-                <p className="mt-1 text-sm text-white/70 md:text-base">{project.clientReview.role}</p>
+                <p className="mt-3 text-base font-medium text-white md:text-lg">{project.clientReview.author}</p>
+                <p className="mt-1 text-sm text-white/65">{project.clientReview.role}</p>
               </footer>
             </blockquote>
           </div>
