@@ -1,20 +1,126 @@
 "use client"
 
 import Link from "next/link"
-import { Shield, CheckCircle, Star, ArrowRight, Clock, Cog, Zap, Wind, Leaf, Wrench, ChevronLeft, ChevronRight } from "lucide-react"
+import {
+  Shield,
+  CheckCircle,
+  Star,
+  ArrowRight,
+  Clock,
+  Cog,
+  Zap,
+  Wind,
+  Leaf,
+  Wrench,
+  ChevronLeft,
+  ChevronRight,
+  Flame,
+  BadgeCheck,
+  type LucideIcon,
+} from "lucide-react"
 import { useEffect, useState, useMemo, useCallback, useRef } from "react"
 import { GlobalStyles, lightTheme, darkTheme } from '@/components/ThemeToggle'
 import { useTheme } from '@/contexts/ThemeContext'
 import { CountUp } from '@/components/ui/CountUp'
 import { CustomPillButton } from '@/components/ui/CustomPillButton'
 import { FormSubmitButton } from '@/components/ui/FormSubmitButton'
-import { Button } from '@/components/ui/Button'
 import { MAIN_CASE_STUDIES } from "@/data/projects"
-import { AboutIntroShutter } from "@/components/home/AboutIntroShutter"
+import { AboutIntroSection } from "@/components/home/AboutIntroSection"
+import HeroVideoBackground from "@/components/HeroVideoBackground"
+import { WhatWeOfferSection } from "@/components/home/WhatWeOfferSection"
+import { FS_SERVICE_SHIMMER_CARD } from "@/lib/fsServicePageCards"
 
-/** Core capabilities cards: white outline + white label; hover = white fill + black text. Sharp TR + BL; rounded TL + BR only */
-const CORE_CAPS_LEARN_MORE_CLASS =
-  "h-auto min-h-9 rounded-none rounded-tl-xl rounded-tr-none rounded-br-xl rounded-bl-none border-2 border-white border-solid bg-transparent px-5 py-2.5 text-xs font-semibold uppercase tracking-normal text-white shadow-none transition-colors duration-200 hover:!bg-white hover:!text-black focus-visible:ring-2 focus-visible:ring-white/50 focus-visible:ring-offset-2 focus-visible:ring-offset-black"
+const SERVICES_BENEFITS_FS: {
+  title: string
+  description: string
+  Icon: LucideIcon
+  animationDelay: string
+  motionDelay: string
+}[] = [
+  {
+    title: "Expert Installation",
+    description: "Professional installation of fire and security systems with precision and care",
+    Icon: Wrench,
+    animationDelay: "0.1s",
+    motionDelay: "50ms",
+  },
+  {
+    title: "24/7 Maintenance",
+    description: "Round-the-clock maintenance and emergency repair services",
+    Icon: Clock,
+    animationDelay: "0.25s",
+    motionDelay: "140ms",
+  },
+  {
+    title: "Quality Assurance",
+    description: "All work backed by comprehensive warranties and quality guarantees",
+    Icon: BadgeCheck,
+    animationDelay: "0.4s",
+    motionDelay: "230ms",
+  },
+]
+
+const FS_THRIVE_CARDS: {
+  title: string
+  href: string
+  Icon: LucideIcon
+  bullets: string[]
+  delay: string
+}[] = [
+  {
+    title: "Fire & Life Safety Systems",
+    href: "/services/fire-life-safety",
+    Icon: Flame,
+    bullets: [
+      "Fire alarm systems (addressable and conventional)",
+      "Cause-and-effect programming and commissioning",
+      "BS 5839-aligned documentation and handover",
+    ],
+    delay: "70ms",
+  },
+  {
+    title: "Security Systems",
+    href: "/services/security-systems",
+    Icon: Shield,
+    bullets: ["CCTV (IP and analogue)", "Intruder alarm systems (Grade 2 and Grade 3)", "Video entry and access control"],
+    delay: "150ms",
+  },
+  {
+    title: "Maintenance & Support",
+    href: "/services/maintenance-support",
+    Icon: Wrench,
+    bullets: ["Planned preventative maintenance", "24/7 call-out support", "System upgrades and compliance checks"],
+    delay: "230ms",
+  },
+]
+
+const WHY_CHOOSE_CARDS: { Icon: LucideIcon; title: string; bullets: string[] }[] = [
+  {
+    Icon: CheckCircle,
+    title: "NSI Gold Accredited",
+    bullets: ["BS EN ISO 9001:2015", "BAFE Fire Safety Registered", "UKAS Quality Management", "FIA Member"],
+  },
+  {
+    Icon: Clock,
+    title: "24/7 Emergency Service",
+    bullets: [
+      "Round-the-clock security support",
+      "Rapid response times",
+      "Monitored alarm response",
+      "When you need it most",
+    ],
+  },
+  {
+    Icon: Shield,
+    title: "Quality Guarantee",
+    bullets: [
+      "Constructionline Gold Member",
+      "All work to NSI Gold standards",
+      "Quality assurance",
+      "Reliable service",
+    ],
+  },
+]
 
 export default function Home() {
   const { theme } = useTheme()
@@ -25,6 +131,7 @@ export default function Home() {
   const [selectedService, setSelectedService] = useState('')
   
   const [currentTestimonial, setCurrentTestimonial] = useState(0)
+  const [testimonialsPaused, setTestimonialsPaused] = useState(false)
   const [activeMepIndex] = useState(0)
   const [activeNewsIndex, setActiveNewsIndex] = useState(0)
   const [newsProgress, setNewsProgress] = useState(0)
@@ -32,9 +139,8 @@ export default function Home() {
   const newsIndexRef = useRef(0)
   const mepListRef = useRef<HTMLUListElement>(null)
   const projectsScrollRef = useRef<HTMLDivElement>(null)
-  /* Services cards: path animation when section in view */
-  const [servicesInView, setServicesInView] = useState(false)
-
+  const projectsSectionRef = useRef<HTMLElement>(null)
+  const projectsLabelRef = useRef<HTMLSpanElement>(null)
   const [heroAnimation, setHeroAnimation] = useState({
     videoVisible: false,
     titleVisible: false,
@@ -46,7 +152,6 @@ export default function Home() {
   const [sectionMotion, setSectionMotion] = useState({
     core: false,
     benefits: false,
-    projects: false,
     news: false,
     about: false,
   })
@@ -112,12 +217,54 @@ export default function Home() {
     el.scrollBy({ left: dir === 'left' ? -step : step, behavior: 'smooth' })
   }, [])
 
+  // Same as MEP: when Projects is in view, vertical wheel drives horizontal strip until ends
+  useEffect(() => {
+    const section = projectsSectionRef.current
+    const strip = projectsScrollRef.current
+    if (!section || !strip) return
+
+    const inZone = () => {
+      const label = projectsLabelRef.current
+      if (label) {
+        const r = label.getBoundingClientRect()
+        return r.top <= 80 && r.bottom > 0
+      }
+      const rect = section.getBoundingClientRect()
+      return rect.top <= 80 && rect.bottom > 200
+    }
+
+    const onWheel = (e: WheelEvent) => {
+      if (!inZone()) return
+
+      const maxScroll = strip.scrollWidth - strip.clientWidth
+      const atStart = strip.scrollLeft <= 5
+      const atEnd = maxScroll <= 0 || strip.scrollLeft >= maxScroll - 5
+
+      const scale = 2.2
+      let amount = e.deltaY * scale
+      amount = Math.sign(amount) * Math.min(400, Math.abs(amount))
+
+      if (e.deltaY > 0) {
+        if (atEnd) return
+        e.preventDefault()
+        strip.scrollLeft = Math.min(strip.scrollLeft + amount, maxScroll)
+      } else {
+        if (atStart) return
+        e.preventDefault()
+        strip.scrollLeft = Math.max(strip.scrollLeft + amount, 0)
+      }
+    }
+
+    window.addEventListener("wheel", onWheel, { passive: false })
+    return () => window.removeEventListener("wheel", onWheel)
+  }, [])
+
   const testimonials = [
     {
       name: "Sarah Johnson",
       role: "Office Manager, TechCorp",
       text: "APX Fire & Security provided an exceptional CCTV and access control system for our office. NSI Gold standard, professional and reliable.",
-      rating: 5
+      rating: 5,
     },
     {
       name: "Michael Chen",
@@ -129,9 +276,17 @@ export default function Home() {
       name: "Emma Williams",
       role: "Property Manager, Retail Group",
       text: "Our integrated security system was designed and installed flawlessly. Great communication throughout and excellent after-sales support.",
-      rating: 5
-    }
+      rating: 5,
+    },
   ]
+
+  const testimonialPrev = useCallback(() => {
+    setCurrentTestimonial((p) => (p - 1 + testimonials.length) % testimonials.length)
+  }, [testimonials.length])
+
+  const testimonialNext = useCallback(() => {
+    setCurrentTestimonial((p) => (p + 1) % testimonials.length)
+  }, [testimonials.length])
 
   // Hero animation sequence
   useEffect(() => {
@@ -180,7 +335,6 @@ export default function Home() {
     const sectionIds = [
       { id: "core-capabilities", key: "core" as const },
       { id: "services-benefits", key: "benefits" as const },
-      { id: "projects", key: "projects" as const },
       { id: "why-mep", key: "news" as const },
       { id: "about", key: "about" as const },
     ]
@@ -346,33 +500,15 @@ export default function Home() {
     }
   }, [sections, updateActiveSection])
 
-  // Testimonial carousel effect
+  // Testimonial carousel — pauses while pointer is over the section
   useEffect(() => {
+    if (testimonialsPaused) return
     const interval = setInterval(() => {
       setCurrentTestimonial((prev) => (prev + 1) % testimonials.length)
-    }, 3000)
+    }, 6000)
 
     return () => clearInterval(interval)
-  }, [testimonials.length])
-
-  // Services: trigger path animation when section in view
-  useEffect(() => {
-    const servicesEl = document.getElementById("services")
-    if (!servicesEl) return
-    const observer = new IntersectionObserver(
-      (entries) => {
-        for (const entry of entries) {
-          const ratio = Math.max(0, Math.min(1, entry.intersectionRatio))
-          if (entry.target.id === "services" && ratio > 0.15) {
-            setServicesInView(true)
-          }
-        }
-      },
-      { root: null, rootMargin: "0px", threshold: [0, 0.15, 0.25, 0.5, 1] }
-    )
-    observer.observe(servicesEl)
-    return () => observer.disconnect()
-  }, [])
+  }, [testimonials.length, testimonialsPaused])
 
   // Force dark mode styling for form
   useEffect(() => {
@@ -404,15 +540,25 @@ export default function Home() {
         // Text inputs and textarea
         const textInputs = form.querySelectorAll('input[type="text"], input[type="email"], input[type="tel"], textarea');
         textInputs.forEach((input) => {
-          (input as HTMLInputElement | HTMLTextAreaElement).style.backgroundColor = '#000000';
-          (input as HTMLInputElement | HTMLTextAreaElement).style.border = '2px solid #ffffff';
-          (input as HTMLInputElement | HTMLTextAreaElement).style.color = '#ffffff';
-          (input as HTMLInputElement | HTMLTextAreaElement).style.outline = 'none';
-          (input as HTMLInputElement | HTMLTextAreaElement).style.boxShadow = 'none';
-          (input as HTMLInputElement | HTMLTextAreaElement).style.setProperty('--tw-ring-color', 'transparent', 'important');
-        });
-        
-        // Select dropdown - custom styling
+          const el = input as HTMLInputElement | HTMLTextAreaElement
+          el.style.backgroundColor = '#000000'
+          el.style.border = '2px solid #ffffff'
+          el.style.color = '#ffffff'
+          el.style.fontSize = '1.0625rem'
+          el.style.fontWeight = '600'
+          el.style.outline = 'none'
+          el.style.boxShadow = 'none'
+          el.style.setProperty('--tw-ring-color', 'transparent', 'important')
+        })
+
+        const serviceDropdown = form.querySelector('.quote-form-dropdown') as HTMLElement | null
+        if (serviceDropdown) {
+          serviceDropdown.style.backgroundColor = '#000000'
+          serviceDropdown.style.fontSize = '1.0625rem'
+          serviceDropdown.style.fontWeight = '600'
+        }
+
+        // Select dropdown - custom styling (if present)
         const select = form.querySelector('select');
         if (select) {
           select.style.backgroundColor = '#000000';
@@ -457,13 +603,22 @@ export default function Home() {
         // Text inputs and textarea
         const textInputs = form.querySelectorAll('input[type="text"], input[type="email"], input[type="tel"], textarea');
         textInputs.forEach((input) => {
-          (input as HTMLInputElement | HTMLTextAreaElement).style.backgroundColor = '#ffffff';
-          (input as HTMLInputElement | HTMLTextAreaElement).style.border = '1px solid #000000';
-          (input as HTMLInputElement | HTMLTextAreaElement).style.color = '#000000';
-          (input as HTMLInputElement | HTMLTextAreaElement).style.outline = 'none';
-          (input as HTMLInputElement | HTMLTextAreaElement).style.boxShadow = 'none';
-        });
-        
+          const el = input as HTMLInputElement | HTMLTextAreaElement
+          el.style.backgroundColor = '#ffffff'
+          el.style.border = '1px solid #000000'
+          el.style.color = '#000000'
+          el.style.fontSize = ''
+          el.style.fontWeight = ''
+          el.style.outline = 'none'
+          el.style.boxShadow = 'none'
+        })
+
+        const serviceDropdownLight = form.querySelector('.quote-form-dropdown') as HTMLElement | null
+        if (serviceDropdownLight) {
+          serviceDropdownLight.style.fontSize = ''
+          serviceDropdownLight.style.fontWeight = ''
+        }
+
         // Select dropdown - reset to default browser styling
         const select = form.querySelector('select');
         if (select) {
@@ -573,13 +728,14 @@ export default function Home() {
   return (
     <>
       <GlobalStyles theme={themeMode} />
-      <div className="min-h-screen overflow-x-hidden relative z-10">
+      <div className="min-h-screen overflow-x-clip relative z-10">
       
-      {/* Hero Section – transparent so video layer shows; video fades to white on scroll */}
+      {/* Hero Section – background image scrolls with this section (not viewport-fixed) */}
       <section id="hero" className="relative h-screen overflow-visible bg-transparent flex flex-col" style={{ background: 'transparent' }}>
+        <HeroVideoBackground />
         {/* Content */}
         <div
-          className={`container mx-auto px-6 flex-1 flex flex-col justify-start pt-44 pb-40 relative z-20 transition-all duration-1000 ${
+          className={`container mx-auto px-6 flex-1 flex flex-col justify-start pt-52 pb-40 relative z-20 transition-all duration-1000 ${
             heroAnimation.videoVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-6"
           }`}
         >
@@ -700,208 +856,102 @@ export default function Home() {
             </p>
           </div>
 
-          <div className="mt-12 grid grid-cols-1 md:grid-cols-3 gap-6">
-            <article
-              className={`bg-black border-2 border-white rounded-tl-[1.5rem] rounded-br-[1.5rem] p-6 flex flex-col overflow-visible transition-all duration-700 ${sectionMotion.core ? "opacity-100 translate-y-0" : "opacity-0 translate-y-10"}`}
-              style={{ transitionDelay: "70ms" }}
-            >
-              <h3
-                className="text-2xl sm:text-[1.65rem] font-bold text-white mb-4 tracking-normal leading-tight"
-                style={{ fontFamily: "var(--font-menu), sans-serif" }}
-              >
-                Fire &amp; Life Safety Systems
-              </h3>
-              <ul className="apx-capability-list">
-                <li className="apx-capability-list__item">Fire alarm systems (addressable and conventional)</li>
-                <li className="apx-capability-list__item">EVAC and voice evacuation systems</li>
-                <li className="apx-capability-list__item">Refuge and disabled communication systems</li>
-              </ul>
-              <div className="mt-auto flex justify-end pt-6">
-                <Button
-                  href="/services/fire-life-safety"
-                  variant="ghost"
-                  size="sm"
-                  className={CORE_CAPS_LEARN_MORE_CLASS}
+          <div className="mt-14 grid grid-cols-1 gap-y-12 gap-x-3 sm:gap-x-4 md:grid-cols-3 md:gap-x-4 md:gap-y-14 lg:gap-x-5">
+            {FS_THRIVE_CARDS.map((card) => {
+              const CapIcon = card.Icon
+              return (
+                <div
+                  key={card.title}
+                  className={`flex h-full flex-col items-center transition-all duration-700 ${sectionMotion.core ? "opacity-100 translate-y-0" : "opacity-0 translate-y-10"}`}
+                  style={{ transitionDelay: card.delay }}
                 >
-                  Learn more
-                </Button>
-              </div>
-            </article>
-
-            <article
-              className={`bg-black border-2 border-white rounded-tl-[1.5rem] rounded-br-[1.5rem] p-6 flex flex-col overflow-visible transition-all duration-700 ${sectionMotion.core ? "opacity-100 translate-y-0" : "opacity-0 translate-y-10"}`}
-              style={{ transitionDelay: "150ms" }}
-            >
-              <h3
-                className="text-2xl sm:text-[1.65rem] font-bold text-white mb-4 tracking-normal leading-tight"
-                style={{ fontFamily: "var(--font-menu), sans-serif" }}
-              >
-                Security Systems
-              </h3>
-              <ul className="apx-capability-list">
-                <li className="apx-capability-list__item">CCTV (IP and analogue)</li>
-                <li className="apx-capability-list__item">Intruder alarm systems (Grade 2 and Grade 3)</li>
-                <li className="apx-capability-list__item">Video entry and access control</li>
-              </ul>
-              <div className="mt-auto flex justify-end pt-6">
-                <Button
-                  href="/services/security-systems"
-                  variant="ghost"
-                  size="sm"
-                  className={CORE_CAPS_LEARN_MORE_CLASS}
-                >
-                  Learn more
-                </Button>
-              </div>
-            </article>
-
-            <article
-              className={`bg-black border-2 border-white rounded-tl-[1.5rem] rounded-br-[1.5rem] p-6 flex flex-col overflow-visible transition-all duration-700 ${sectionMotion.core ? "opacity-100 translate-y-0" : "opacity-0 translate-y-10"}`}
-              style={{ transitionDelay: "230ms" }}
-            >
-              <h3
-                className="text-2xl sm:text-[1.65rem] font-bold text-white mb-4 tracking-normal leading-tight"
-                style={{ fontFamily: "var(--font-menu), sans-serif" }}
-              >
-                Maintenance &amp; Support
-              </h3>
-              <ul className="apx-capability-list">
-                <li className="apx-capability-list__item">Planned preventative maintenance</li>
-                <li className="apx-capability-list__item">24/7 call-out support</li>
-                <li className="apx-capability-list__item">System upgrades and compliance checks</li>
-              </ul>
-              <div className="mt-auto flex justify-end pt-6">
-                <Button
-                  href="/services/maintenance-support"
-                  variant="ghost"
-                  size="sm"
-                  className={CORE_CAPS_LEARN_MORE_CLASS}
-                >
-                  Learn more
-                </Button>
-              </div>
-            </article>
+                  <div
+                    className="relative z-10 flex h-14 w-14 shrink-0 items-center justify-center rounded-xl border border-white/25 bg-black shadow-[0_8px_28px_rgba(0,0,0,0.55)]"
+                    aria-hidden
+                  >
+                    <CapIcon className="h-7 w-7 shrink-0 text-white/90" strokeWidth={1.5} />
+                  </div>
+                  <article
+                    className={`${FS_SERVICE_SHIMMER_CARD} -mt-7 flex w-full min-w-0 flex-1 flex-col px-6 pb-6 pt-11 text-center md:min-h-[22rem] md:px-7 md:pb-7 md:pt-12`}
+                  >
+                    <h3
+                      className="text-lg font-semibold leading-snug text-white md:text-xl"
+                      style={{ fontFamily: "var(--font-menu), sans-serif" }}
+                    >
+                      {card.title}
+                    </h3>
+                    <ul className="apx-capability-list mt-6 flex-1 text-center sm:mt-7">
+                      {card.bullets.map((line) => (
+                        <li key={line} className="apx-capability-list__item">
+                          {line}
+                        </li>
+                      ))}
+                    </ul>
+                    <div className="mt-6 flex justify-end border-t border-white/10 pt-6 md:mt-8">
+                      <CustomPillButton
+                        href={card.href}
+                        size="sm"
+                        className="pill-btn--corners-sm text-xs font-semibold uppercase tracking-normal [&_span.pill-text]:!font-semibold"
+                      >
+                        Learn more
+                      </CustomPillButton>
+                    </div>
+                  </article>
+                </div>
+              )
+            })}
           </div>
         </div>
       </section>
 
       {/* Wrapper so CCTV overlay can sit above both about and services */}
       <div className="relative">
-        {/* ABOUT – scroll-scrubbed shutter → split title → cinematic body (extended min-height only on this block) */}
-        <AboutIntroShutter effectScrollVh={2.0} scrollContinueAfterVh={0.45} />
+        <AboutIntroSection />
 
         {/* Services Section – cards animate in one at a time (path animation), top row first */}
         <section id="services" className="section-spacing relative overflow-visible bg-black" style={{ backgroundColor: "#000000" }}>
         <div className="container mx-auto px-6 lg:px-8">
           <div className="section-content-gap space-y-16 text-white">
-            <div>
-              <span className="section-label text-white/80">APX FS SERVICES</span>
-              <h2 className="text-4xl lg:text-5xl font-bold text-left tracking-normal section-title-gap services-section-title leading-tight font-title text-white">
-                What we offer
-              </h2>
-              <p className="text-base leading-relaxed max-w-xl section-intro-gap hero-services-intro text-white/90">
-                APX FS is your NSI Gold security system installer. We specialise in the design, installation and maintenance of bespoke integrated security systems within London and the Home Counties.
-              </p>
-            </div>
-            
-            <div className={`services-cards-animate grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-6 gap-4 sm:gap-6 ${servicesInView ? 'services-cards-visible' : ''}`}>
-              {/* 1. CCTV – from left */}
-              <div className="service-card-unified service-card-in from-left lg:col-span-4 lg:row-start-1">
-                <div className="service-card-unified-bg" aria-hidden style={{ backgroundImage: "url('/cctv%20systems.jpg')" }} />
-                <div className="service-card-unified-body">
-                  <h4 className="service-card-unified-title font-title">CCTV Systems</h4>
-                  <ul className="service-card-unified-list">
-                    <li>We offer the latest in CCTV technology, specialising in the design and installation of high performance CCTV systems that meet your requirements. Choosing the right CCTV system and having it professionally installed will provide you with superior results and will save you time and money in the long run.</li>
-                  </ul>
-                </div>
-                <span className="service-card-unified-arrow" aria-hidden />
-              </div>
-
-              {/* 2. Access Control – from right */}
-              <div className="service-card-unified service-card-in from-right lg:col-span-2 lg:col-start-5 lg:row-start-1">
-                <div className="service-card-unified-bg" aria-hidden style={{ backgroundImage: "url('/access%20control%20systems.jpg')" }} />
-                <div className="service-card-unified-body">
-                  <h4 className="service-card-unified-title font-title">Access Control Systems</h4>
-                  <ul className="service-card-unified-list">
-                    <li>We are one of the leading installers of electronic access control systems in the UK. Our installations are uniquely designed for each client, whatever the size. From simple stand-alone systems to fully networked installations with features such as automatic time and attendance reports linked to payroll.</li>
-                  </ul>
-                </div>
-                <span className="service-card-unified-arrow" aria-hidden />
-              </div>
-
-              {/* 3. Intruder – from left */}
-              <div className="service-card-unified service-card-in from-left lg:col-span-2 lg:col-start-1 lg:row-start-2">
-                <div className="service-card-unified-bg" aria-hidden style={{ backgroundImage: "url('/intruder%20alarm%20systems.jpg')" }} />
-                <div className="service-card-unified-body">
-                  <h4 className="service-card-unified-title font-title">Intruder Alarm Systems</h4>
-                  <ul className="service-card-unified-list">
-                    <li>Our tailor-made intruder alarms systems are expertly designed in accordance with NSI Gold Standards and are fully BS and EN compliant. From a basic system protecting a one bedroom apartment, through to fully monitored emergency response systems covering multi-occupancy offices, we have you covered.</li>
-                  </ul>
-                </div>
-                <span className="service-card-unified-arrow" aria-hidden />
-              </div>
-
-              {/* 4. Fire – from left */}
-              <div className="service-card-unified service-card-in from-left lg:col-span-2 lg:col-start-3 lg:row-start-2">
-                <div className="service-card-unified-bg" aria-hidden style={{ backgroundImage: "url('/home-fire-alarm-system-installer-800x533.jpg')" }} />
-                <div className="service-card-unified-body">
-                  <h4 className="service-card-unified-title font-title">Fire Alarm Systems</h4>
-                  <ul className="service-card-unified-list">
-                    <li>We offer a wide range of conventional and addressable fire alarm systems. Our vast experience in the fire detection industry spans the public and industrial sector, with installations ranging from small domestic systems through to large commercial premises such as schools, offices, warehouses and banks.</li>
-                  </ul>
-                </div>
-                <span className="service-card-unified-arrow" aria-hidden />
-              </div>
-
-              {/* 5. Video Door Entry – from bottom */}
-              <div className="service-card-unified service-card-in from-bottom lg:col-span-2 lg:col-start-5 lg:row-start-2">
-                <div className="service-card-unified-bg" aria-hidden style={{ backgroundImage: "url('/video%20door%20entry%20systems.jpg')" }} />
-                <div className="service-card-unified-body">
-                  <h4 className="service-card-unified-title font-title">Video Door Entry Systems</h4>
-                  <ul className="service-card-unified-list">
-                    <li>Our custom-designed video entry systems provide secure access to buildings and premises. We offer a wide range of products to suit any size of application, from simple one-way video door access for the rightful occupants though to multi-caller digital systems restricted to individually authorised personnel.</li>
-                  </ul>
-                </div>
-                <span className="service-card-unified-arrow" aria-hidden />
-              </div>
-            </div>
+            <WhatWeOfferSection />
           </div>
         </div>
         </section>
       </div>
 
-      {/* Benefits strip: “What is” */}
-      {/* Benefits strip: Expert Installation, 24/7 Maintenance, Quality Assurance */}
+      {/* Benefits strip: Expert Installation, 24/7 Maintenance, Quality Assurance — icon + shimmer card (matches core capabilities) */}
       <section id="services-benefits" className="section-spacing relative overflow-hidden">
         <div className="container mx-auto px-6 lg:px-8">
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8 md:gap-10">
-            <div className="services-benefit-card" style={{ animationDelay: '0.1s' }}>
-              <div className={`services-benefit-card-inner transition-all duration-700 ${sectionMotion.benefits ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"}`} style={{ transitionDelay: "50ms" }}>
-                <div className="services-benefit-icon-wrap">
-                  <CheckCircle className="h-7 w-7 text-white" strokeWidth={2} />
+          <div className="grid grid-cols-1 gap-y-14 gap-x-6 md:grid-cols-3 md:gap-x-7 md:gap-y-16 lg:gap-x-8">
+            {SERVICES_BENEFITS_FS.map(({ title, description, Icon, animationDelay, motionDelay }) => (
+              <div
+                key={title}
+                className="services-benefit-card flex h-full flex-col items-center"
+                style={{ animationDelay }}
+              >
+                <div
+                  className={`flex w-full flex-col items-center transition-all duration-700 ${sectionMotion.benefits ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"}`}
+                  style={{ transitionDelay: motionDelay }}
+                >
+                  <div
+                    className="services-benefit-icon-badge relative z-10 flex h-14 w-14 shrink-0 items-center justify-center rounded-xl border border-white/25 bg-black shadow-[0_8px_28px_rgba(0,0,0,0.55)]"
+                    aria-hidden
+                  >
+                    <Icon className="h-7 w-7 shrink-0 text-white/90" strokeWidth={1.5} />
+                  </div>
+                  <article
+                    className={`${FS_SERVICE_SHIMMER_CARD} services-benefit-article -mt-7 flex w-full min-w-0 flex-1 flex-col px-6 pb-6 pt-11 text-center md:px-7 md:pb-7 md:pt-12`}
+                  >
+                    <h3
+                      className="services-benefit-title text-lg font-semibold leading-snug text-white md:text-xl"
+                      style={{ fontFamily: "var(--font-menu)" }}
+                    >
+                      {title}
+                    </h3>
+                    <p className="services-benefit-desc mt-6 text-center sm:mt-7">{description}</p>
+                  </article>
                 </div>
-                <h3 className="services-benefit-title" style={{ fontFamily: 'var(--font-menu)' }}>Expert Installation</h3>
-                <p className="services-benefit-desc">Professional installation of all MEP systems with precision and care</p>
               </div>
-            </div>
-            <div className="services-benefit-card" style={{ animationDelay: '0.25s' }}>
-              <div className={`services-benefit-card-inner transition-all duration-700 ${sectionMotion.benefits ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"}`} style={{ transitionDelay: "140ms" }}>
-                <div className="services-benefit-icon-wrap">
-                  <CheckCircle className="h-7 w-7 text-white" strokeWidth={2} />
-                </div>
-                <h3 className="services-benefit-title" style={{ fontFamily: 'var(--font-menu)' }}>24/7 Maintenance</h3>
-                <p className="services-benefit-desc">Round-the-clock maintenance and emergency repair services</p>
-              </div>
-            </div>
-            <div className="services-benefit-card" style={{ animationDelay: '0.4s' }}>
-              <div className={`services-benefit-card-inner transition-all duration-700 ${sectionMotion.benefits ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"}`} style={{ transitionDelay: "230ms" }}>
-                <div className="services-benefit-icon-wrap">
-                  <CheckCircle className="h-7 w-7 text-white" strokeWidth={2} />
-                </div>
-                <h3 className="services-benefit-title" style={{ fontFamily: 'var(--font-menu)' }}>Quality Assurance</h3>
-                <p className="services-benefit-desc">All work backed by comprehensive warranties and quality guarantees</p>
-              </div>
-            </div>
+            ))}
           </div>
         </div>
       </section>
@@ -940,12 +990,12 @@ export default function Home() {
         </div>
       </section>
 
-      {/* Projects – scroll view with glass blur cards; strip bleeds full viewport, offset start */}
-      <section id="projects" className="bg-black py-20 lg:py-28 overflow-x-hidden">
+      {/* Projects – horizontal strip + wheel maps vertical→horizontal (same behaviour as MEP homepage) */}
+      <section ref={projectsSectionRef} id="projects" className="bg-black py-20 lg:py-28 overflow-x-hidden">
         <div className="container mx-auto px-6 lg:px-8">
-          <div className={`flex flex-col sm:flex-row sm:items-center sm:justify-between gap-6 mb-14 lg:mb-20 transition-all duration-900 ${sectionMotion.projects ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"}`}>
+          <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-6 mb-14 lg:mb-20">
             <div>
-              <span className="section-label text-white/80">Projects</span>
+              <span ref={projectsLabelRef} className="section-label text-white/80">Projects</span>
               <h2 className="text-4xl lg:text-5xl font-bold text-white font-title leading-tight">
                 Built to last — delivered with care.
               </h2>
@@ -974,15 +1024,14 @@ export default function Home() {
         <div className="w-screen relative left-1/2 -translate-x-1/2">
           <div
             ref={projectsScrollRef}
-            className="flex gap-6 overflow-x-auto overflow-y-hidden pb-4 pl-6 lg:pl-8 pr-6 lg:pr-8 scroll-smooth scrollbar-hide"
+            className="flex gap-6 overflow-x-auto overflow-y-hidden pb-4 pl-6 lg:pl-8 pr-6 lg:pr-8 scrollbar-hide"
             style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}
           >
           {projects.map((p, i) => (
             <Link
               key={i}
               href={p.href}
-              className={`projects-card group flex-shrink-0 flex flex-col rounded-xl overflow-hidden bg-black transition-all duration-700 ${sectionMotion.projects ? "opacity-100 translate-y-0" : "opacity-0 translate-y-10"}`}
-              style={{ transitionDelay: `${Math.min(i, 5) * 90}ms` }}
+              className="projects-card group flex-shrink-0 flex flex-col rounded-xl overflow-hidden bg-black transition-transform duration-300 hover:-translate-y-1"
             >
               <div className="relative aspect-[3/4] min-h-[480px] projects-card__inner">
                 {/* Project number – top centre, text only */}
@@ -1068,49 +1117,30 @@ export default function Home() {
               </p>
             </div>
             
-            {/* Benefits Cards - 3 Column Grid: black bg, white border, top-left + bottom-right rounded, white text */}
-            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6 sm:gap-8">
-              {/* NSI Gold Accredited */}
-              <div className="why-choose-card bg-black border-2 border-white rounded-tl-[1.75rem] rounded-br-[1.75rem] text-white p-6 sm:p-8">
-                <div className="flex items-center gap-3 mb-5">
-                  <CheckCircle className="h-7 w-7 flex-shrink-0 text-white" />
-                  <h4 className="text-2xl font-semibold text-white font-title">NSI Gold Accredited</h4>
+            {/* Benefits cards — icon badge + shimmer panel (same pattern as core capabilities) */}
+            <div className="grid grid-cols-1 gap-y-12 gap-x-4 sm:grid-cols-2 sm:gap-x-5 md:grid-cols-3 md:gap-x-5 md:gap-y-14">
+              {WHY_CHOOSE_CARDS.map(({ Icon, title, bullets }) => (
+                <div key={title} className="flex flex-col items-center">
+                  <div
+                    className="why-choose-icon-badge relative z-10 flex h-14 w-14 shrink-0 items-center justify-center rounded-xl border border-white/25 bg-black shadow-[0_8px_28px_rgba(0,0,0,0.55)]"
+                    aria-hidden
+                  >
+                    <Icon className="h-7 w-7 shrink-0 text-white/90" strokeWidth={1.5} />
+                  </div>
+                  <article
+                    className="why-choose-card -mt-7 flex w-full min-w-0 flex-col rounded-tl-[1.75rem] rounded-br-[1.75rem] border-2 border-white bg-black px-6 pb-6 pt-11 text-center text-white md:px-7 md:pb-7 md:pt-12"
+                  >
+                    <h4 className="text-lg font-semibold leading-snug text-white md:text-xl font-title">{title}</h4>
+                    <ul className="apx-capability-list mt-6 flex-1 text-center sm:mt-7">
+                      {bullets.map((line) => (
+                        <li key={line} className="apx-capability-list__item">
+                          {line}
+                        </li>
+                      ))}
+                    </ul>
+                  </article>
                 </div>
-                <ul className="why-choose-list">
-                  <li>BS EN ISO 9001:2015</li>
-                  <li>BAFE Fire Safety Registered</li>
-                  <li>UKAS Quality Management</li>
-                  <li>FIA Member</li>
-                </ul>
-              </div>
-
-              {/* 24/7 Emergency Service */}
-              <div className="why-choose-card bg-black border-2 border-white rounded-tl-[1.75rem] rounded-br-[1.75rem] text-white p-6 sm:p-8">
-                <div className="flex items-center gap-3 mb-5">
-                  <Clock className="h-7 w-7 flex-shrink-0 text-white" />
-                  <h4 className="text-2xl font-semibold text-white font-title">24/7 Emergency Service</h4>
-                </div>
-                <ul className="why-choose-list">
-                  <li>Round-the-clock security support</li>
-                  <li>Rapid response times</li>
-                  <li>Monitored alarm response</li>
-                  <li>When you need it most</li>
-                </ul>
-              </div>
-
-              {/* Quality Guarantee */}
-              <div className="why-choose-card bg-black border-2 border-white rounded-tl-[1.75rem] rounded-br-[1.75rem] text-white p-6 sm:p-8">
-                <div className="flex items-center gap-3 mb-5">
-                  <Shield className="h-7 w-7 flex-shrink-0 text-white" />
-                  <h4 className="text-2xl font-semibold text-white font-title">Quality Guarantee</h4>
-                </div>
-                <ul className="why-choose-list">
-                  <li>Constructionline Gold Member</li>
-                  <li>All work to NSI Gold standards</li>
-                  <li>Quality assurance</li>
-                  <li>Reliable service</li>
-                </ul>
-              </div>
+              ))}
             </div>
             
             {/* Stats Section – black text forced via data attribute + inline style */}
@@ -1142,7 +1172,22 @@ export default function Home() {
       <section id="accreditations" className="section-spacing section-canted-top accreditations-section bg-black">
         <div className="container mx-auto px-6 lg:px-8 py-10 lg:py-14">
           <div className="grid grid-cols-1 gap-10 lg:grid-cols-2 lg:gap-16 items-start">
-            {/* Left – qualifications list (card frame) */}
+            {/* Left – copy and CTA (no card; sits on section background) */}
+            <div className="pt-0 lg:pt-2">
+              <h3 className="accreditations-heading text-2xl lg:text-3xl font-bold font-title mb-4 text-white">
+                Trusted & Fully Qualified
+              </h3>
+              <p className="accreditations-text text-white/90 mb-4">
+                We maintain independent certification and industry alignment so your fire and security packages are delivered with clear governance, competent engineers and documentation that stands up to handover and audit.
+              </p>
+              <p className="accreditations-text text-white/90 mb-6">
+                Each accreditation page explains what the body requires, why it matters on your project, and how APX applies those expectations from design intent through commissioning and maintenance.
+              </p>
+              <CustomPillButton href="/accreditations" size="md">
+                View all our accreditations
+              </CustomPillButton>
+            </div>
+            {/* Right – qualifications list (card frame) */}
             <div className="accreditations-card service-card overflow-hidden py-10 lg:py-14 px-8 lg:px-12 relative">
               <span className="glow"></span>
               <div className="relative z-10">
@@ -1172,72 +1217,103 @@ export default function Home() {
                 </ul>
               </div>
             </div>
-            {/* Right – copy and CTA (no card; sits on section background) */}
-            <div className="pt-0 lg:pt-2">
-              <h3 className="accreditations-heading text-2xl lg:text-3xl font-bold font-title mb-4 text-white">
-                Trusted & Fully Qualified
-              </h3>
-              <p className="accreditations-text text-white/90 mb-4">
-                We maintain independent certification and industry alignment so your fire and security packages are delivered with clear governance, competent engineers and documentation that stands up to handover and audit.
-              </p>
-              <p className="accreditations-text text-white/90 mb-6">
-                Each accreditation page explains what the body requires, why it matters on your project, and how APX applies those expectations from design intent through commissioning and maintenance.
-              </p>
-              <CustomPillButton href="/accreditations" size="md">
-                View all our accreditations
-              </CustomPillButton>
-            </div>
           </div>
         </div>
       </section>
 
-      {/* Testimonials Section – white bg; black box bleeds into sections above/below */}
-      <section id="testimonials" className="section-spacing bg-white overflow-visible">
-        <div className="container mx-auto px-6 lg:px-8">
-          <div className="testimonials-lifted relative z-10 -mt-16 -mb-16 bg-black border-2 border-white rounded-tl-[2.25rem] rounded-br-[2.25rem] shadow-[0_20px_50px_rgba(0,0,0,0.4)] py-12 sm:py-14 lg:py-16 px-8 sm:px-10 lg:px-12">
-            <div className="section-content-gap space-y-16">
-              {/* Top Section - Title and Description */}
-              <div className="text-left">
-                <span className="section-label text-white/80">Testimonials</span>
-                <h2 className="text-5xl font-bold font-title section-title-gap leading-tight text-white">What our clients say</h2>
-                <p className="text-base text-gray-300 leading-relaxed max-w-xl section-intro-gap">
-                  Don&apos;t just take our word for it - hear from our satisfied clients about their experience with APX MEP.
-                </p>
+      {/* Testimonials — full-bleed black, large display type, arrows + fade */}
+      <section
+        id="testimonials"
+        className="relative overflow-hidden bg-black py-20 sm:py-24 lg:py-32"
+        onMouseEnter={() => setTestimonialsPaused(true)}
+        onMouseLeave={() => setTestimonialsPaused(false)}
+      >
+        <div
+          className="pointer-events-none absolute inset-0 bg-[radial-gradient(ellipse_90%_60%_at_50%_-10%,rgba(255,255,255,0.07),transparent_55%)]"
+          aria-hidden
+        />
+        <div
+          className="pointer-events-none absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-white/25 to-transparent"
+          aria-hidden
+        />
+        <div className="relative z-10 container mx-auto px-6 lg:px-8">
+          <div className="grid items-end gap-14 lg:grid-cols-12 lg:gap-x-16 lg:gap-y-12">
+            <div className="lg:col-span-5">
+              <span className="section-label text-white/70">Testimonials</span>
+              <h2
+                className="mt-4 font-title text-[clamp(2.75rem,8vw,5.5rem)] font-bold leading-[0.92] tracking-tight text-white"
+                style={{ fontFamily: "var(--font-menu)" }}
+              >
+                What our
+                <span className="block text-white/90">clients say</span>
+              </h2>
+              <p className="mt-8 max-w-md text-base leading-relaxed text-white/55">
+                Don&apos;t just take our word for it — hear from clients who&apos;ve worked with APX Fire &amp; Security
+                across London and the Home Counties.
+              </p>
+            </div>
+
+            <div className="relative lg:col-span-7">
+              <div className="mb-8 flex flex-wrap items-center gap-2 sm:gap-2.5">
+                {[...Array(5)].map((_, i) => (
+                  <Star
+                    key={i}
+                    fill="white"
+                    className="h-8 w-8 shrink-0 stroke-white stroke-[1.25] text-white sm:h-10 sm:w-10 sm:stroke-[1.2]"
+                    strokeLinejoin="miter"
+                    strokeLinecap="butt"
+                    style={{ vectorEffect: "non-scaling-stroke" }}
+                    aria-hidden
+                  />
+                ))}
+                <span className="ml-2 text-sm font-semibold uppercase tracking-[0.2em] text-white/40 sm:ml-3">5.0</span>
               </div>
-              
-              {/* Testimonial Carousel - Single View */}
-              <div className="max-w-4xl mx-auto">
-                <div className="service-card text-white relative overflow-hidden">
-                  <span className="glow"></span>
-                  
-                  <div className="flex items-center space-x-2 mb-4 relative z-10">
-                  {[...Array(5)].map((_, i) => (
-                      <Star key={i} className="h-5 w-5 text-white fill-current" />
-                  ))}
+
+              <div key={currentTestimonial} className="apx-testimonial-fade">
+                <blockquote className="apx-testimonials-quote text-2xl font-medium leading-snug text-white/95 sm:text-3xl lg:text-[1.85rem] lg:leading-relaxed xl:text-4xl">
+                  <span className="text-white/20">&ldquo;</span>
+                  {testimonials[currentTestimonial].text}
+                  <span className="text-white/20">&rdquo;</span>
+                </blockquote>
+                <footer className="mt-10 border-t border-white/10 pt-8">
+                  <div className="text-lg font-semibold text-white">{testimonials[currentTestimonial].name}</div>
+                  <div className="mt-1 text-sm text-white/45">{testimonials[currentTestimonial].role}</div>
+                </footer>
+              </div>
+
+              <div className="mt-10 flex flex-wrap items-center justify-between gap-6">
+                <div className="flex items-center gap-3">
+                  <button
+                    type="button"
+                    aria-label="Previous testimonial"
+                    onClick={testimonialPrev}
+                    className="projects-nav-btn w-12 h-12 rounded-full border border-white bg-transparent text-white flex items-center justify-center transition-colors hover:bg-white hover:text-black focus:bg-white focus:text-black"
+                  >
+                    <ChevronLeft className="w-6 h-6" />
+                  </button>
+                  <button
+                    type="button"
+                    aria-label="Next testimonial"
+                    onClick={testimonialNext}
+                    className="projects-nav-btn w-12 h-12 rounded-full border border-white bg-transparent text-white flex items-center justify-center transition-colors hover:bg-white hover:text-black focus:bg-white focus:text-black"
+                  >
+                    <ChevronRight className="w-6 h-6" />
+                  </button>
                 </div>
-                  
-                  <div className="space-y-3 relative z-10">
-                    <p className="text-gray-300 text-lg leading-relaxed">
-                      &ldquo;{testimonials[currentTestimonial].text}&rdquo;
-                    </p>
-                    <div className="pt-2">
-                      <div className="font-semibold text-white text-lg">{testimonials[currentTestimonial].name}</div>
-                      <div className="text-gray-400">{testimonials[currentTestimonial].role}</div>
-                    </div>
-                  </div>
-            
-                  {/* Navigation dots */}
-                  <div className="flex justify-center space-x-2 mt-6 relative z-10">
-                    {testimonials.map((_, index) => (
-                      <button
-                        key={index}
-                        onClick={() => setCurrentTestimonial(index)}
-                        className={`w-2 h-2 rounded-full transition-all duration-300 ${
-                          index === currentTestimonial ? 'bg-white' : 'bg-gray-600'
-                        }`}
-                      />
-                    ))}
-                  </div>
+                <div className="flex items-center gap-2" role="tablist" aria-label="Choose testimonial">
+                  {testimonials.map((_, index) => (
+                    <button
+                      key={index}
+                      type="button"
+                      role="tab"
+                      aria-selected={index === currentTestimonial}
+                      aria-label={`Testimonial ${index + 1}`}
+                      onClick={() => setCurrentTestimonial(index)}
+                      className={`h-2 rounded-full transition-all duration-300 ${
+                        index === currentTestimonial ? "w-8 bg-white" : "w-2 bg-white/25 hover:bg-white/40"
+                      }`}
+                    />
+                  ))}
                 </div>
               </div>
             </div>
@@ -1363,7 +1439,7 @@ export default function Home() {
                     
                     {isServicesDropdownOpen && (
                       <div 
-                        className="quote-form-dropdown-menu absolute left-0 right-0 top-full mt-1 z-50 py-2"
+                        className="quote-form-dropdown-menu absolute left-0 right-0 top-full mt-1 z-50 overflow-hidden rounded-lg py-0"
                         style={{ boxShadow: '0 10px 40px rgba(0, 0, 0, 0.4)' }}
                       >
                         {[
@@ -1372,6 +1448,10 @@ export default function Home() {
                           { value: 'intruder-alarms', label: 'Intruder Alarm Systems' },
                           { value: 'fire-alarms', label: 'Fire Alarm Systems' },
                           { value: 'video-door-entry', label: 'Video Door Entry Systems' },
+                          { value: 'refuge-evc', label: 'Refuge & Disabled Communication Systems' },
+                          { value: 'evac-voice', label: 'EVAC & Voice Evacuation Systems' },
+                          { value: 'fire-life-safety', label: 'Fire & Life Safety (Overview)' },
+                          { value: 'maintenance-support', label: 'Maintenance & Support' },
                           { value: 'other', label: 'Other' }
                         ].map((service) => (
                           <button
@@ -1407,17 +1487,17 @@ export default function Home() {
                   <label className="block text-sm font-medium mb-2">
                     Preferred Contact Method
                   </label>
-                  <div className="flex space-x-6">
-                    <label className="flex items-center">
-                      <input type="radio" name="contact-method" value="phone" className="mr-2" />
+                  <div className="flex flex-wrap gap-6">
+                    <label className="flex cursor-pointer items-center gap-2">
+                      <input type="radio" name="contact-method" value="phone" className="mr-0" />
                       Phone Call
                     </label>
-                    <label className="flex items-center">
-                      <input type="radio" name="contact-method" value="email" className="mr-2" />
+                    <label className="flex cursor-pointer items-center gap-2">
+                      <input type="radio" name="contact-method" value="email" defaultChecked className="mr-0" />
                       Email
                     </label>
-                    <label className="flex items-center">
-                      <input type="radio" name="contact-method" value="text" className="mr-2" />
+                    <label className="flex cursor-pointer items-center gap-2">
+                      <input type="radio" name="contact-method" value="text" className="mr-0" />
                       Text Message
                     </label>
                   </div>
@@ -1426,7 +1506,7 @@ export default function Home() {
                 <FormSubmitButton onSubmit={async () => {
                   /* Wire your real submit here (e.g. fetch or form action) */
                 }}>
-                  Submit Quote Request
+                  Send message
                 </FormSubmitButton>
               </form>
             </div>

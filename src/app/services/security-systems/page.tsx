@@ -1,4 +1,5 @@
 import type { Metadata } from "next"
+import Link from "next/link"
 import { CapabilityServicePageLayout } from "@/components/CapabilityServicePageLayout"
 import { buildFsMetadata } from "@/lib/seo-metadata"
 
@@ -23,11 +24,29 @@ const capabilities = [
 const compliance = ["BS EN 62676", "PD 6662", "BS EN 50131", "BS EN 60839", "GDPR-compliant data handling"]
 const deliverables = ["Camera schedules", "Network diagrams", "Recording retention setup", "System design proposal", "Commissioning certificates", "User training"]
 
+const intro = (
+  <>
+    <p>
+      We design and install integrated security systems that provide dependable protection while fitting seamlessly with wider building operations. APX delivers structured, compliant installations from design through commissioning and handover — including CCTV, intruder alarms, video entry and access control in coordinated packages.
+    </p>
+    <p className="text-white/85">
+      For how these disciplines connect across fire, security and building systems, see{" "}
+      <Link
+        href="/about#disciplines-and-integration"
+        className="underline decoration-white/45 underline-offset-[3px] transition-colors hover:decoration-white"
+      >
+        Disciplines &amp; integrated delivery
+      </Link>{" "}
+      on our About page.
+    </p>
+  </>
+)
+
 export default function SecuritySystemsPage() {
   return (
     <CapabilityServicePageLayout
       title="Security systems"
-      intro="We design and install integrated security systems that provide dependable protection while fitting seamlessly with wider building operations. APX delivers structured, compliant installations from design through commissioning and handover."
+      intro={intro}
       capabilities={capabilities}
       compliance={compliance}
       deliverables={deliverables}

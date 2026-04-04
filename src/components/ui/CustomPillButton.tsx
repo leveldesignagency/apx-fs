@@ -2,10 +2,10 @@
 
 import { cn } from "@/lib/utils"
 import Link from "next/link"
-import { forwardRef } from "react"
+import { forwardRef, type ButtonHTMLAttributes } from "react"
 
-/** Pill CTA: white border, black bg, white text. Hover: white fill slides in from left, text turns black. */
-const baseStyles = [
+/** Same shell as hero CTAs — white border, black bg, white text; hover: white fill rises from bottom (see `.pill-btn-inner::before` in globals). */
+const pillBaseStyles = [
   "pill-btn",
   "relative inline-flex items-center justify-center font-bold",
   "overflow-hidden",
@@ -35,7 +35,7 @@ const sizeClasses = {
 const CustomPillButton = forwardRef<HTMLAnchorElement, CustomPillButtonProps>(
   ({ href, children, className, size = "md", variant = "default", ...props }, ref) => {
     const sizeClass = sizeClasses[size]
-    const classes = cn(baseStyles, sizeClass, variant === "outline" && "pill-btn--outline", className)
+    const classes = cn(pillBaseStyles, sizeClass, variant === "outline" && "pill-btn--outline", className)
     return (
       <Link ref={ref} href={href} className={classes} {...props}>
         <span className="pill-btn-inner" aria-hidden />
@@ -47,5 +47,29 @@ const CustomPillButton = forwardRef<HTMLAnchorElement, CustomPillButtonProps>(
 )
 
 CustomPillButton.displayName = "CustomPillButton"
+
+export type PillSubmitButtonProps = Omit<ButtonHTMLAttributes<HTMLButtonElement>, "type"> & {
+  size?: "sm" | "md" | "lg"
+  variant?: "default" | "outline"
+}
+
+/** Native submit — same pill animation as `CustomPillButton` / hero (fill from bottom). */
+export function PillSubmitButton({
+  children,
+  className,
+  size = "md",
+  variant = "default",
+  ...props
+}: PillSubmitButtonProps) {
+  const sizeClass = sizeClasses[size]
+  const classes = cn(pillBaseStyles, sizeClass, variant === "outline" && "pill-btn--outline", className)
+  return (
+    <button type="submit" className={classes} {...props}>
+      <span className="pill-btn-inner" aria-hidden />
+      <span className="pill-btn-border" aria-hidden />
+      <span className="pill-text font-bold">{children}</span>
+    </button>
+  )
+}
 
 export { CustomPillButton }

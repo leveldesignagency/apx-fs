@@ -45,7 +45,7 @@ export default function ProjectsPage() {
 
   return (
     <div className="fs-projects-page min-h-screen overflow-x-hidden" style={bgStyle}>
-      <section className="py-20 lg:py-28 px-4 sm:px-6 lg:px-8">
+      <section className="page-title-band px-4 sm:px-6 lg:px-8">
         <div className="mx-auto w-full max-w-[min(100%,92rem)]">
           <div className="max-w-2xl">
             <span className="section-label mb-3 block text-white/75">Work in focus</span>

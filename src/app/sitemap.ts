@@ -17,6 +17,8 @@ const STATIC_PATHS = [
   "services/mechanical-engineering",
   "services/maintenance-support",
   "services/fire-life-safety",
+  "services/refuge-disabled-communication",
+  "services/evac-voice-evacuation",
   "services/security-systems",
   "services/electrical-systems",
   "services/project-management",

@@ -152,8 +152,8 @@ export default function VideoDoorEntrySystemsPage() {
           <CustomPillButton href="/contact" size="md">
             Get a free quote
           </CustomPillButton>
-          <CustomPillButton href="tel:02045685986" size="md" variant="outline">
-            Call 020 4568 5986
+          <CustomPillButton href="tel:02083032280" size="md" variant="outline">
+            Call 020 8303 2280
           </CustomPillButton>
         </ServicePageBottomCta>
 

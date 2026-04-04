@@ -24,7 +24,7 @@ export function FsCctvHeroNav() {
                 className={`${fsServiceHeroPillLinkClass} ${active ? activePillClass : ""}`}
                 aria-current={active ? "page" : undefined}
               >
-                {label}
+                <span className="relative z-10">{label}</span>
               </Link>
             </li>
           )

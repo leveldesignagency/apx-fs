@@ -3,8 +3,12 @@
 import { useState, useRef } from "react"
 import { cn } from "@/lib/utils"
 
-const CIRCLE_CIRCUMFERENCE = 2 * Math.PI * 20 // r=20 → ~125.66
-const CHECK_LENGTH = 34
+/** Compact progress ring (r=12 in 32×32 viewBox) */
+const R = 12
+const CX = 16
+const CY = 16
+const CIRCLE_CIRCUMFERENCE = 2 * Math.PI * R
+const CHECK_LENGTH = 24
 const RUN_DURATION_MS = 2000
 const RESET_AFTER_DONE_MS = 1500
 
@@ -66,31 +70,31 @@ export function FormSubmitButton({
       aria-live="polite"
     >
       <span className="form-submit-btn__text">{children}</span>
-      <svg className="form-submit-btn__progress" viewBox="0 0 48 48" width={48} height={48} aria-hidden>
+      <svg className="form-submit-btn__progress" viewBox="0 0 32 32" width={32} height={32} aria-hidden>
         <circle
           className="form-submit-btn__progress-track"
-          r={20}
-          cx={24}
-          cy={24}
+          r={R}
+          cx={CX}
+          cy={CY}
           fill="none"
-          strokeWidth={8}
+          strokeWidth={5}
         />
         <circle
           className="form-submit-btn__progress-fill"
-          r={20}
-          cx={24}
-          cy={24}
+          r={R}
+          cx={CX}
+          cy={CY}
           fill="none"
-          strokeWidth={8}
-          transform="rotate(-90 24 24)"
+          strokeWidth={5}
+          transform={`rotate(-90 ${CX} ${CY})`}
           strokeDasharray={`${CIRCLE_CIRCUMFERENCE} ${CIRCLE_CIRCUMFERENCE}`}
           strokeDashoffset={state === "idle" || state === "done" ? CIRCLE_CIRCUMFERENCE : 0}
         />
         <polyline
           className="form-submit-btn__progress-check"
-          points="12,24 20,32 36,16"
+          points="8,16 13,21 24,11"
           fill="none"
-          strokeWidth={4}
+          strokeWidth={3}
           strokeLinecap="round"
           strokeLinejoin="round"
           strokeDasharray={`${CHECK_LENGTH} ${CHECK_LENGTH}`}

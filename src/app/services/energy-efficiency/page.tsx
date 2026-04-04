@@ -1,5 +1,6 @@
 "use client"
 
+import Link from "next/link"
 import { ServicePageBottomCta } from "@/components/ServicePageBottomCta"
 import { CustomPillButton } from "@/components/ui/CustomPillButton"
 import { OurCustomers } from "@/components/ServicePageSharedSections"
@@ -7,6 +8,7 @@ import { ServicePageHero } from "@/components/ServicePageHero"
 import { serviceHeroImages } from "@/lib/serviceHeroImages"
 import { ApxPartnerLogoStrip } from "@/components/ApxPartnerLogoStrip"
 import { APX_PARTNER_LOGO_DIR, type PartnerLogoEntry } from "@/lib/apx-partner-logos"
+import { FS_SERVICE_SHIMMER_CARD } from "@/lib/fsServicePageCards"
 import {
   Key,
   Shield,
@@ -21,11 +23,9 @@ import {
   type LucideIcon,
 } from "lucide-react"
 
-const cardClass =
-  "rounded-tl-[1.5rem] rounded-br-[1.5rem] border-2 border-white/20 bg-black p-6 text-white transition-colors hover:border-white/45"
+const benefitSummaryCardClass = `${FS_SERVICE_SHIMMER_CARD} flex h-full flex-col p-6 sm:p-7`
 
-const benefitDetailCardClass =
-  "flex h-full flex-col gap-4 rounded-tl-[1.25rem] rounded-br-[1.25rem] border border-white/18 bg-[linear-gradient(145deg,rgba(255,255,255,0.07)_0%,rgba(0,0,0,0.4)_100%)] p-6 sm:p-7"
+const benefitDetailCardClass = `${FS_SERVICE_SHIMMER_CARD} flex h-full flex-col gap-4 p-6 sm:p-7`
 
 const ACCESS_CONTROL_PARTNERS: readonly PartnerLogoEntry[] = [
   { name: "TDSi", href: "https://www.tdsi.co.uk/", logoSrc: `${APX_PARTNER_LOGO_DIR}/tdsi.svg`, size: "lg" },
@@ -114,7 +114,7 @@ export default function AccessControlPage() {
 
         <section className="container relative z-[1] mx-auto px-6 py-8 lg:py-10">
           <h2 className="mb-4 text-left font-title text-3xl font-bold text-white sm:text-4xl">Bespoke Access Control Systems</h2>
-          <div className="max-w-5xl space-y-4 text-base leading-relaxed text-gray-300 sm:text-lg">
+          <div className="max-w-7xl space-y-4 text-base leading-relaxed text-gray-300 sm:text-lg">
             <p>
               We have a vast amount of experience in designing high quality and effective access control systems for business and homeowners alike. Established in 1986 we work throughout London and the Home Counties, in all market sectors, ranging from single doors through to fully networked systems that integrate with intruder alarms and CCTV systems.
             </p>
@@ -125,6 +125,17 @@ export default function AccessControlPage() {
               Simply complete the Access Control System enquiry form and we will contact you and arrange to meet you, discuss your requirements and carry out a survey of your property.
             </p>
           </div>
+          <p className="mt-8 max-w-3xl border-t border-white/10 pt-8 text-base leading-relaxed text-gray-300">
+            Installations are specified and handed over with reference to BS EN 60839 for electronic access control systems where applicable. Video entry, multi-tenant panels, proximity readers and fob/card systems can be delivered with access schedules, user permission setup and structured training — coordinated with CCTV and intruder systems where required. See also our{" "}
+            <Link href="/services/maintenance" className="text-white underline decoration-white/35 underline-offset-2 hover:decoration-white">
+              video door entry
+            </Link>{" "}
+            and{" "}
+            <Link href="/services/security-systems" className="text-white underline decoration-white/35 underline-offset-2 hover:decoration-white">
+              security systems overview
+            </Link>
+            .
+          </p>
         </section>
 
         <div className="border-t border-white/15" />
@@ -138,7 +149,7 @@ export default function AccessControlPage() {
               { icon: Shield, title: "Better Security", text: "Less likely that unwanted visitors will enter your facility." },
               { icon: Clock, title: "24 Hour Access", text: "Avoid security staff having to unlock doors or stay late to lock up." },
             ].map(({ icon: Icon, title, text }, i) => (
-              <div key={i} className={cardClass}>
+              <div key={i} className={benefitSummaryCardClass}>
                 <Icon className="mb-4 h-10 w-10 text-white" strokeWidth={1.75} />
                 <h3 className="mb-2 text-left text-xl font-semibold text-white">{title}</h3>
                 <p className="text-left text-gray-300">{text}</p>
@@ -215,8 +226,8 @@ export default function AccessControlPage() {
           <CustomPillButton href="/contact" size="md">
             Get a free quote
           </CustomPillButton>
-          <CustomPillButton href="tel:02045685986" size="md" variant="outline">
-            Call 020 4568 5986
+          <CustomPillButton href="tel:02083032280" size="md" variant="outline">
+            Call 020 8303 2280
           </CustomPillButton>
         </ServicePageBottomCta>
 

@@ -18,6 +18,11 @@ export type ServicePageHeroProps = {
    * `cctv-tabs` — same bottom pill row for CCTV subpages.
    */
   heroNav?: "quick-links" | "cctv-tabs" | false
+  /**
+   * Pillar / text-only heroes: no 70vh band — keeps title+intro tight to the section below (e.g. capability tables).
+   * Use with no `imageSrc` and `heroNav={false}`.
+   */
+  compact?: boolean
 }
 
 function HeroIntro({ children }: { children: ReactNode }) {
@@ -29,7 +34,7 @@ function HeroIntro({ children }: { children: ReactNode }) {
 }
 
 /**
- * Same text block as homepage #hero. Band is 70vh. No CTAs, no accreditations.
+ * Same text block as homepage #hero. Band is 70vh unless `compact` (no photo, no bottom nav).
  * With `imageSrc`: photo + gradients. Without: solid black (capability pillars).
  */
 export function ServicePageHero({
@@ -39,12 +44,18 @@ export function ServicePageHero({
   imageAlt = "",
   imageClassName,
   heroNav = "quick-links",
+  compact = false,
 }: ServicePageHeroProps) {
   const showImage = Boolean(imageSrc)
+  const compactLayout = Boolean(compact && !showImage && heroNav === false)
 
   return (
     <section
-      className="service-page-hero relative flex h-[70vh] min-h-0 flex-col overflow-hidden bg-transparent"
+      className={
+        compactLayout
+          ? "service-page-hero relative flex min-h-0 flex-col overflow-hidden bg-transparent"
+          : "service-page-hero relative flex h-[70vh] min-h-0 flex-col overflow-hidden bg-transparent"
+      }
       style={{ background: "transparent" }}
       aria-label="Introduction"
     >
@@ -68,7 +79,13 @@ export function ServicePageHero({
         )}
       </div>
 
-      <div className="container relative z-20 mx-auto flex h-full min-h-0 flex-1 flex-col px-6 pt-44 pb-8 sm:pb-10">
+      <div
+        className={
+          compactLayout
+            ? "container relative z-20 mx-auto flex flex-col px-6 pt-28 pb-5 sm:pt-32 sm:pb-6"
+            : "container relative z-20 mx-auto flex h-full min-h-0 flex-1 flex-col px-6 pt-44 pb-8 sm:pb-10"
+        }
+      >
         <div
           className={
             heroNav === "quick-links" || heroNav === "cctv-tabs"

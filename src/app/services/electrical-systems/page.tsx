@@ -1,5 +1,6 @@
 "use client"
 
+import Link from "next/link"
 import { ServicePageBottomCta } from "@/components/ServicePageBottomCta"
 import { CustomPillButton } from "@/components/ui/CustomPillButton"
 import { OurCustomers } from "@/components/ServicePageSharedSections"
@@ -76,23 +77,44 @@ export default function CctvSecurityPage() {
         <div className="border-t border-white/15" />
 
         <section className="container mx-auto px-6 py-12 lg:py-16">
-          <h2 className="mb-10 text-left font-title text-3xl font-bold text-white sm:text-4xl">Standards & compliance</h2>
-          <div className="grid grid-cols-1 gap-12 lg:grid-cols-2">
-            <div>
-              <h3 className="mb-6 text-left text-2xl font-semibold text-white">Certifications</h3>
+          <p className="mb-10 max-w-3xl text-left text-gray-300">
+            We design, install, and maintain CCTV systems that provide high-definition surveillance and secure monitoring for commercial and industrial sites — including IP and analogue architectures, NVR/DVR platforms, remote monitoring, perimeter protection, ANPR and multi-site networks with secure configuration.
+          </p>
+          <div className="grid grid-cols-1 gap-10 border-t border-white/15 pt-10 lg:grid-cols-[1fr_auto_1fr] lg:items-start lg:gap-0 lg:border-t-0 lg:pt-0">
+            <div className="min-w-0 lg:pr-10">
+              <h2 className="mb-6 text-left font-title text-3xl font-bold text-white sm:text-4xl">Standards &amp; compliance</h2>
+              <p className="mb-4 text-left text-sm font-semibold uppercase tracking-wide text-white/55">CCTV &amp; surveillance alignment</p>
               <ul className="space-y-4">
-                {["NSI approved installers", "SSAIB certification", "BS EN 50131 compliant systems", "GDPR-compliant data handling"].map((item, index) => (
+                {["NSI approved installers", "BS EN 62676 (video surveillance systems)", "GDPR-compliant data handling and retention design"].map((item, index) => (
                   <li key={index} className="flex items-start gap-3 text-left text-gray-300">
                     <CheckCircle className="mt-0.5 h-5 w-5 shrink-0 text-white/50" strokeWidth={2} />
                     <span>{item}</span>
                   </li>
                 ))}
               </ul>
+              <p className="mt-6 text-sm leading-relaxed text-gray-400">
+                Intruder alarm installations follow PD 6662 and BS EN 50131 — see our{" "}
+                <Link href="/services/sustainability" className="text-white underline decoration-white/30 underline-offset-2 hover:decoration-white">
+                  intruder alarm systems
+                </Link>{" "}
+                page.
+              </p>
             </div>
-            <div>
-              <h3 className="mb-6 text-left text-2xl font-semibold text-white">What we offer</h3>
+            <div
+              className="hidden w-px shrink-0 self-stretch bg-white/15 lg:block"
+              aria-hidden
+            />
+            <div className="min-w-0 border-t border-white/15 pt-10 lg:border-t-0 lg:pl-10 lg:pt-0">
+              <h2 className="mb-6 text-left font-title text-3xl font-bold text-white sm:text-4xl">Deliverables &amp; lifecycle</h2>
               <ul className="space-y-4">
-                {["Site survey and system design", "Installation and commissioning", "User training and handover", "Ongoing maintenance and monitoring"].map((item, index) => (
+                {[
+                  "Camera schedules and network diagrams",
+                  "Recording retention setup",
+                  "Site survey and system design",
+                  "Installation and commissioning",
+                  "User training and handover",
+                  "Ongoing maintenance and monitoring",
+                ].map((item, index) => (
                   <li key={index} className="flex items-start gap-3 text-left text-gray-300">
                     <CheckCircle className="mt-0.5 h-5 w-5 shrink-0 text-white/50" strokeWidth={2} />
                     <span>{item}</span>
@@ -113,8 +135,8 @@ export default function CctvSecurityPage() {
           <CustomPillButton href="/contact" size="md">
             Get free consultation
           </CustomPillButton>
-          <CustomPillButton href="tel:02045685986" size="md" variant="outline">
-            Call 020 4568 5986
+          <CustomPillButton href="tel:02083032280" size="md" variant="outline">
+            Call 020 8303 2280
           </CustomPillButton>
         </ServicePageBottomCta>
       </div>

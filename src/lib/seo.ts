@@ -63,7 +63,7 @@ export function fsJsonLdGraph(): Record<string, unknown> {
         url,
         logo: `${url}/__APX%20Web%20Logo%20FS.svg`,
         email: "enquiries@apx-fs.co.uk",
-        telephone: "+442045685986",
+        telephone: "+442083032280",
         address: {
           "@type": "PostalAddress",
           addressLocality: "London",
@@ -94,7 +94,7 @@ export function fsJsonLdGraph(): Record<string, unknown> {
         name: FS_SITE_NAME,
         image: `${url}/__APX%20Web%20Logo%20FS.svg`,
         url,
-        telephone: "+442045685986",
+        telephone: "+442083032280",
         email: "enquiries@apx-fs.co.uk",
         priceRange: "$$",
         address: {

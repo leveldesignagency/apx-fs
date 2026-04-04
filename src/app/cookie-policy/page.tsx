@@ -12,7 +12,7 @@ export default function CookiePolicyPage() {
       {/* Section Separator - Top */}
       <div className="w-full h-[0.75px] bg-black dark:bg-white"></div>
       
-      <section className={`py-20 ${
+      <section className={`page-title-band ${
         theme === 'dark' ? 'bg-black' : 'bg-white'
       }`} style={{ backgroundColor: theme === 'dark' ? '#000000' : '#ffffff' }}>
         <div className="container mx-auto px-6 max-w-4xl">
@@ -269,7 +269,7 @@ export default function CookiePolicyPage() {
                     <strong>Email:</strong> enquiries@apx-fs.co.uk
                   </p>
                   <p>
-                    <strong>Phone:</strong> 020 4568 5986
+                    <strong>Phone:</strong> 020 8303 2280
                   </p>
                 </div>
               </section>

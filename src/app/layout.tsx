@@ -6,7 +6,6 @@ import CookieConsent from "@/components/CookieConsent";
 import { ThemeProvider } from "@/contexts/ThemeContext";
 import { TitleFontProvider } from "@/contexts/TitleFontContext";
 import ThemeWrapper from "@/components/ThemeWrapper";
-import HeroVideoBackground from "@/components/HeroVideoBackground";
 import CustomCursor from "@/components/CustomCursor";
 import HeaderClient from "@/components/HeaderClient";
 import { RootJsonLd } from "@/components/RootJsonLd";
@@ -72,23 +71,29 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en-GB" className={`${inter.variable} ${plusJakartaSans.variable} ${bebasNeue.variable}`}>
-      <body className="font-sans antialiased">
+    <html
+      lang="en-GB"
+      className={`${inter.variable} ${plusJakartaSans.variable} ${bebasNeue.variable}`}
+      suppressHydrationWarning
+    >
+      <body className="font-sans antialiased" suppressHydrationWarning>
         <RootJsonLd />
-        <HeroVideoBackground />
-        <div className="relative z-10">
-          <ThemeProvider>
-            <TitleFontProvider>
-              <ThemeWrapper>
-                <CustomCursor />
-                  <HeaderClient />
-                <main>{children}</main>
-                <Footer />
-                <CookieConsent />
-              </ThemeWrapper>
-            </TitleFontProvider>
-          </ThemeProvider>
-        </div>
+        <ThemeProvider>
+          <TitleFontProvider>
+            <ThemeWrapper>
+              {/* site-shell: absolute header overlays hero; bar scrolls with page (not position:fixed) */}
+              <div className="site-shell relative">
+                <HeaderClient />
+                <div className="relative z-10">
+                  <CustomCursor />
+                  <main>{children}</main>
+                  <Footer />
+                  <CookieConsent />
+                </div>
+              </div>
+            </ThemeWrapper>
+          </TitleFontProvider>
+        </ThemeProvider>
       </body>
     </html>
   );

@@ -12,6 +12,7 @@ export default function Header() {
   const { theme } = useTheme()
   /** Strip trailing slash so `/services` and `/services/` match the hub, etc. */
   const path = pathname.replace(/\/$/, "") || "/"
+  const isHomePage = path === "/"
   const isCapabilityDetailPage =
     path === "/services/security-systems" ||
     path === "/services/fire-life-safety" ||
@@ -21,7 +22,7 @@ export default function Header() {
   const isAboutPage = path === "/about"
   const isProjectsPage = path === "/projects" || path.startsWith("/projects/")
   const isProjectDetailPage = path.startsWith("/projects/") && path !== "/projects"
-  /** Any URL under /services/… (not the hub) — hero image sits full viewport under a fixed transparent header */
+  /** Any URL under /services/… (not the hub) — transparent header over hero; header scrolls away with the page */
   const isServiceSubpage = path.startsWith("/services/")
   const isBlackHeaderCanvas =
     isCapabilityDetailPage ||
@@ -31,7 +32,7 @@ export default function Header() {
     isProjectsPage
   const isTransparentHeaderPage = isServiceSubpage || isProjectDetailPage
   const isServicesPage = pathname.startsWith("/services/") || isProjectDetailPage
-  /** Solid black header shell — not on service subpages where hero imagery sits under a fixed transparent bar */
+  /** Solid black header shell — not on service subpages where a transparent bar sits over the hero */
   const useBlackHeaderCanvas = isBlackHeaderCanvas && !isProjectDetailPage && !isServiceSubpage
   const [isMenuOpen, setIsMenuOpen] = useState(false)
   const [isServicesOpen, setIsServicesOpen] = useState(false)
@@ -75,13 +76,15 @@ export default function Header() {
     }
   }
 
-  /** Project detail + service subpages: fixed overlay so hero imagery shows through */
+  /**
+   * Absolute top of .site-shell — full-bleed heroes sit underneath; not `fixed`, so the bar scrolls with the page.
+   */
   const headerLayoutClass =
-    isProjectDetailPage || isServiceSubpage ? "fixed inset-x-0 top-0 z-[100]" : "relative z-50"
+    "absolute top-0 left-0 right-0 z-[100] w-full max-w-[100vw] pointer-events-auto"
 
   return (
     <header
-      className={`${headerLayoutClass} ${useBlackHeaderCanvas ? "bg-black fs-black-header-canvas" : "bg-transparent"} ${isTransparentHeaderPage ? "header-bg-transparent-page" : ""} ${isServicesPage ? "header--no-animate" : ""} ${isProjectDetailPage || isServiceSubpage ? "fs-project-detail-header" : ""}`}
+      className={`site-header ${headerLayoutClass} ${useBlackHeaderCanvas ? "bg-black fs-black-header-canvas" : "bg-transparent"} ${isHomePage || isTransparentHeaderPage ? "header-bg-transparent-page" : ""} ${isServicesPage ? "header--no-animate" : ""} ${isHomePage || isProjectDetailPage || isServiceSubpage ? "fs-project-detail-header" : ""}`}
       style={{ backgroundColor: useBlackHeaderCanvas ? "#000000" : "transparent" }}
     >
       {/* ========== SAVED VERSION (original header – not rendered) ========== */}
@@ -131,7 +134,7 @@ export default function Header() {
                   top: 'calc(100% + 1.2rem)',
                   left: '-32.5px',
                   width: '264.5px',
-                  maxHeight: isServicesOpen ? '320px' : '0',
+                  maxHeight: isServicesOpen ? '460px' : '0',
                   pointerEvents: isServicesOpen ? 'auto' : 'none',
                   transition: 'max-height 0.5s cubic-bezier(0.4, 0, 0.2, 1)',
                   backgroundColor: 'black',
@@ -141,19 +144,21 @@ export default function Header() {
                 onMouseEnter={openServices}
                 onMouseLeave={closeServices}
               >
-                <div className="py-0 rounded-br-2xl">
+                <div className="divide-y divide-white/[0.1] rounded-br-2xl">
                   {[
                     { href: '/services/electrical-systems', label: 'CCTV SYSTEMS' },
                     { href: '/services/energy-efficiency', label: 'ACCESS CONTROL SYSTEMS' },
                     { href: '/services/sustainability', label: 'INTRUDER ALARM SYSTEMS' },
                     { href: '/services/mechanical-engineering', label: 'FIRE ALARM SYSTEMS' },
                     { href: '/services/maintenance', label: 'VIDEO DOOR ENTRY SYSTEMS' },
-                  ].map(({ href, label }, i) => (
+                    { href: '/services/refuge-disabled-communication', label: 'REFUGE & DISABLED COMMS' },
+                    { href: '/services/evac-voice-evacuation', label: 'EVAC & VOICE EVACUATION' },
+                  ].map(({ href, label }) => (
                     <a
                       key={href}
                       href={href}
-                      className={`dropdown-item relative group block px-4 py-2 text-sm leading-relaxed cursor-pointer uppercase ${i < 4 ? 'border-b' : ''}`}
-                      style={{ color: 'white', borderBottomColor: i < 4 ? 'rgba(255, 255, 255, 0.2)' : undefined }}
+                      className="dropdown-item relative group block px-4 py-2 text-sm leading-relaxed cursor-pointer uppercase"
+                      style={{ color: 'white' }}
                       onClick={() => {
                         setIsServicesOpen(false)
                         if (servicesCloseTimeoutRef.current) {
@@ -291,10 +296,10 @@ export default function Header() {
             <div
               className="header-bar-expand h-full w-full rounded-br-[30px] border-2"
               style={{
-                backgroundColor: isTransparentHeaderPage ? "transparent" : "#000",
+                backgroundColor: isHomePage || isTransparentHeaderPage ? "transparent" : "#000",
                 boxSizing: "border-box",
                 borderColor: "#fff",
-                ...(isProjectDetailPage || isServiceSubpage
+                ...(isHomePage || isProjectDetailPage || isServiceSubpage
                   ? { backdropFilter: "blur(10px)", WebkitBackdropFilter: "blur(10px)" as const }
                   : {}),
               }}
@@ -349,7 +354,7 @@ export default function Header() {
                     top: 'calc(100% + 1.2rem)',
                     left: '-32.5px',
                     width: '264.5px',
-                    maxHeight: isServicesOpen ? (isCctvExpanded ? '420px' : '320px') : '0',
+                    maxHeight: isServicesOpen ? (isCctvExpanded ? '560px' : '460px') : '0',
                     pointerEvents: isServicesOpen ? 'auto' : 'none',
                     transition: 'max-height 0.5s cubic-bezier(0.4, 0, 0.2, 1)',
                     backgroundColor: 'black',
@@ -362,11 +367,10 @@ export default function Header() {
                     setIsCctvExpanded(false)
                   }}
                 >
-                  <div className="py-0 rounded-br-2xl">
+                  <div className="divide-y divide-white/[0.1] rounded-br-2xl">
                     {/* CCTV SYSTEMS: hover expands to show 3 sub-options underneath; stays open until user leaves dropdown */}
                     <div
-                      className="border-b transition-colors"
-                      style={{ borderBottomColor: 'rgba(255,255,255,0.2)' }}
+                      className="transition-colors"
                       onMouseEnter={() => setIsCctvExpanded(true)}
                     >
                       <a
@@ -391,8 +395,8 @@ export default function Header() {
                         <>
                           <a
                             href="/services/cctv/domestic"
-                            className="dropdown-item dropdown-sub-item relative group block px-4 py-2 pl-6 text-sm leading-relaxed cursor-pointer uppercase border-t"
-                            style={{ color: '#fff', borderTopColor: 'rgba(255,255,255,0.15)' }}
+                            className="dropdown-item dropdown-sub-item relative group block px-4 py-2 pl-6 text-sm leading-relaxed cursor-pointer uppercase border-t border-white/[0.08]"
+                            style={{ color: '#fff' }}
                             onClick={() => {
                               setIsServicesOpen(false)
                               setIsCctvExpanded(false)
@@ -408,8 +412,8 @@ export default function Header() {
                           </a>
                           <a
                             href="/services/cctv/commercial"
-                            className="dropdown-item dropdown-sub-item relative group block px-4 py-2 pl-6 text-sm leading-relaxed cursor-pointer uppercase border-t"
-                            style={{ color: '#fff', borderTopColor: 'rgba(255,255,255,0.15)' }}
+                            className="dropdown-item dropdown-sub-item relative group block px-4 py-2 pl-6 text-sm leading-relaxed cursor-pointer uppercase border-t border-white/[0.08]"
+                            style={{ color: '#fff' }}
                             onClick={() => {
                               setIsServicesOpen(false)
                               setIsCctvExpanded(false)
@@ -425,8 +429,8 @@ export default function Header() {
                           </a>
                           <a
                             href="/services/cctv/advice"
-                            className="dropdown-item dropdown-sub-item relative group block px-4 py-2 pl-6 text-sm leading-relaxed cursor-pointer uppercase border-t"
-                            style={{ color: '#fff', borderTopColor: 'rgba(255,255,255,0.15)' }}
+                            className="dropdown-item dropdown-sub-item relative group block px-4 py-2 pl-6 text-sm leading-relaxed cursor-pointer uppercase border-t border-white/[0.08]"
+                            style={{ color: '#fff' }}
                             onClick={() => {
                               setIsServicesOpen(false)
                               setIsCctvExpanded(false)
@@ -448,14 +452,15 @@ export default function Header() {
                       { href: '/services/sustainability', label: 'INTRUDER ALARM SYSTEMS' },
                       { href: '/services/mechanical-engineering', label: 'FIRE ALARM SYSTEMS' },
                       { href: '/services/maintenance', label: 'VIDEO DOOR ENTRY SYSTEMS' },
-                    ].map(({ href, label }, i) => (
+                      { href: '/services/refuge-disabled-communication', label: 'REFUGE & DISABLED COMMS' },
+                      { href: '/services/evac-voice-evacuation', label: 'EVAC & VOICE EVACUATION' },
+                    ].map(({ href, label }) => (
                       <a
                         key={href}
                         href={href}
-                        className={`dropdown-item relative group block px-4 py-2 text-sm leading-relaxed cursor-pointer uppercase transition-opacity duration-200 ${i < 3 ? 'border-b' : ''}`}
+                        className="dropdown-item relative group block px-4 py-2 text-sm leading-relaxed cursor-pointer uppercase transition-opacity duration-200"
                         style={{
                           color: '#fff',
-                          borderBottomColor: i < 3 ? 'rgba(255,255,255,0.2)' : undefined,
                           opacity: isCctvExpanded ? 0.45 : 1,
                         }}
                         onClick={() => {
@@ -570,11 +575,11 @@ export default function Header() {
         >
           <button
             type="button"
-            onClick={() => handleContactClick('phone', '020 4568 5986')}
+            onClick={() => handleContactClick('phone', '020 8303 2280')}
             className="header-contact-btn relative flex items-center space-x-1.5 px-2.5 py-1.5 rounded-full cursor-pointer"
           >
             <Phone className="h-3.5 w-3.5" />
-            <span className="text-xs">020 4568 5986</span>
+            <span className="text-xs">020 8303 2280</span>
           </button>
           <button
             type="button"

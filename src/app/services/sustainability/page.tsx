@@ -1,10 +1,12 @@
 "use client"
 
+import Link from "next/link"
 import { ServicePageBottomCta } from "@/components/ServicePageBottomCta"
 import { CustomPillButton } from "@/components/ui/CustomPillButton"
 import { OurCustomers } from "@/components/ServicePageSharedSections"
 import { ServicePageHero } from "@/components/ServicePageHero"
 import { serviceHeroImages } from "@/lib/serviceHeroImages"
+import { FS_SERVICE_SHIMMER_CARD } from "@/lib/fsServicePageCards"
 import { Shield, CheckCircle, Monitor, Smartphone, Package } from "lucide-react"
 
 const MONITORING_BENEFITS = [
@@ -23,8 +25,7 @@ const INSTALLATIONS = [
   { title: "Intruder Alarm Greenwood Centre Camden Council", org: "Greenwood Centre, Camden Council" },
 ]
 
-const cardClass =
-  "rounded-tl-[1.5rem] rounded-br-[1.5rem] border-2 border-white/20 bg-black p-8 text-white transition-colors hover:border-white/45"
+const monitoringCardClass = `${FS_SERVICE_SHIMMER_CARD} p-8 transition-transform duration-300 hover:scale-[1.02]`
 
 const heroBridge = (
   <div
@@ -57,10 +58,10 @@ export default function IntruderAlarmSystemsPage() {
       <div className="relative bg-black">
         {heroBridge}
 
-        <section className="container relative z-[1] mx-auto max-w-4xl px-6 py-12 lg:py-16">
+        <section className="container relative z-[1] mx-auto px-6 py-8 lg:py-10">
           <h2 className="mb-4 text-left font-title text-3xl font-bold text-white sm:text-4xl">Intruder Alarm System Installer London</h2>
           <h3 className="mb-6 text-left font-title text-2xl font-semibold text-white">Bespoke Intruder Alarm Systems</h3>
-          <div className="space-y-4 text-lg leading-relaxed text-gray-300">
+          <div className="max-w-7xl space-y-4 text-base leading-relaxed text-gray-300 sm:text-lg">
             <p>
               We are proud to provide all of our customers, whether they are commercial or domestic, with custom-built Intruder Alarm systems to meet their requirements and deliver the peace of mind that a well designed, well installed and reliable security system can bring.
             </p>
@@ -80,9 +81,9 @@ export default function IntruderAlarmSystemsPage() {
 
         <div className="border-t border-white/15" />
 
-        <section className="container mx-auto max-w-4xl px-6 py-12 lg:py-16">
+        <section className="container mx-auto px-6 py-12 lg:py-16">
           <h2 className="mb-8 text-left font-title text-3xl font-bold text-white sm:text-4xl">Why use APX Fire & Security?</h2>
-          <div className="space-y-4 text-lg leading-relaxed text-gray-300">
+          <div className="max-w-7xl space-y-4 text-base leading-relaxed text-gray-300 sm:text-lg">
             <p>
               Established in 1986 we have vast experience in this sector and have installed a wide variety of systems during this time. After each survey that we carry out, every one of our intruder alarm installations is individually designed to suit the specific requirements of our customers, whether they are domestic, industrial or commercial properties.
             </p>
@@ -98,11 +99,72 @@ export default function IntruderAlarmSystemsPage() {
         <div className="border-t border-white/15" />
 
         <section className="container mx-auto px-6 py-12 lg:py-16">
+          <p className="mb-10 max-w-3xl text-left text-gray-300">
+            Commercial and industrial intruder systems are designed and commissioned against recognised UK expectations for insurance-grade detection, signalling and integration — including Grade 2 and Grade 3 systems, PIR and dual-tech detectors, magnetic contacts, shock sensors, panic facilities and monitoring with police response where required.
+          </p>
+          <div className="grid grid-cols-1 gap-10 border-t border-white/15 pt-10 lg:grid-cols-[1fr_auto_1fr] lg:items-start lg:gap-0 lg:border-t-0 lg:pt-0">
+            <div className="min-w-0 lg:pr-10">
+              <h2 className="mb-6 text-left font-title text-3xl font-bold text-white sm:text-4xl">Standards &amp; compliance alignment</h2>
+              <p className="mb-4 text-left text-sm font-semibold uppercase tracking-wide text-white/55">
+                Intruder alarm systems alignment
+              </p>
+              <ul className="space-y-4">
+                {[
+                  "PD 6662 — scheme document for application of European standards for intruder alarms",
+                  "BS EN 50131 — intruder and hold-up alarm systems",
+                ].map((line) => (
+                  <li key={line} className="flex items-start gap-3 text-left text-gray-300">
+                    <CheckCircle className="mt-0.5 h-5 w-5 shrink-0 text-white/50" strokeWidth={2} />
+                    <span>{line}</span>
+                  </li>
+                ))}
+              </ul>
+              <p className="mt-6 text-sm leading-relaxed text-gray-400">
+                Typical deliverables include system design proposals, commissioning certificates and user training — aligned with the structured capability lists on our{" "}
+                <Link href="/services/security-systems" className="text-white underline decoration-white/30 underline-offset-2 hover:decoration-white">
+                  security systems
+                </Link>{" "}
+                overview.
+              </p>
+            </div>
+            <div
+              className="hidden w-px shrink-0 self-stretch bg-white/15 lg:block"
+              aria-hidden
+            />
+            <div className="min-w-0 border-t border-white/15 pt-10 lg:border-t-0 lg:pl-10 lg:pt-0">
+              <h2 className="mb-6 text-left font-title text-3xl font-bold text-white sm:text-4xl">Deliverables &amp; lifecycle</h2>
+              <ul className="space-y-4">
+                {[
+                  "Survey-led design proposals and graded system options",
+                  "Installation, commissioning certificates and user training",
+                  "ARC signalling and police response set-up where required",
+                  "Planned maintenance and system upgrades",
+                ].map((item) => (
+                  <li key={item} className="flex items-start gap-3 text-left text-gray-300">
+                    <CheckCircle className="mt-0.5 h-5 w-5 shrink-0 text-white/50" strokeWidth={2} />
+                    <span>{item}</span>
+                  </li>
+                ))}
+              </ul>
+              <p className="mt-6 text-sm leading-relaxed text-gray-400">
+                Integrated packages often include CCTV — see our{" "}
+                <Link href="/services/electrical-systems" className="text-white underline decoration-white/30 underline-offset-2 hover:decoration-white">
+                  CCTV systems
+                </Link>{" "}
+                overview.
+              </p>
+            </div>
+          </div>
+        </section>
+
+        <div className="border-t border-white/15" />
+
+        <section className="container mx-auto px-6 py-12 lg:py-16">
           <h2 className="mb-2 text-left font-title text-3xl font-bold text-white sm:text-4xl">Intruder Alarm Monitoring Company</h2>
           <p className="mb-10 text-left text-xl font-semibold text-white">Constant Protection</p>
           <div className="grid grid-cols-1 gap-8 md:grid-cols-2 lg:grid-cols-3">
             {MONITORING_BENEFITS.map((item, index) => (
-              <div key={index} className={`${cardClass} transition-transform duration-300 hover:scale-[1.02]`}>
+              <div key={index} className={monitoringCardClass}>
                 <div className="mb-4 text-white">
                   <item.icon className="h-8 w-8" strokeWidth={1.75} />
                 </div>
@@ -115,9 +177,9 @@ export default function IntruderAlarmSystemsPage() {
 
         <div className="border-t border-white/15" />
 
-        <section className="container mx-auto max-w-4xl px-6 py-12 lg:py-16">
+        <section className="container mx-auto px-6 py-12 lg:py-16">
           <h2 className="mb-8 text-left font-title text-3xl font-bold text-white sm:text-4xl">External Intruder Alarm Protection</h2>
-          <div className="space-y-4 text-lg leading-relaxed text-gray-300">
+          <div className="max-w-7xl space-y-4 text-base leading-relaxed text-gray-300 sm:text-lg">
             <p>
               We have installed a number of high quality external intruder protection systems but due to the confidential nature of the properties, the type of system installed and the areas they protect, we can only show a limited number of images.
             </p>
@@ -153,10 +215,7 @@ export default function IntruderAlarmSystemsPage() {
           <p className="mb-8 max-w-2xl text-left text-gray-300">Examples of intruder alarm systems that we have installed for our customers:</p>
           <div className="grid grid-cols-1 gap-8 md:grid-cols-3">
             {INSTALLATIONS.map((item, index) => (
-              <div
-                key={index}
-                className="rounded-tl-[1.5rem] rounded-br-[1.5rem] border-2 border-white/20 bg-black p-8 text-white transition-colors hover:border-white/45"
-              >
+              <div key={index} className={`${FS_SERVICE_SHIMMER_CARD} p-8`}>
                 <h3 className="mb-2 text-lg font-semibold text-white">{item.title}</h3>
                 <p className="text-gray-300">{item.org}</p>
               </div>
@@ -174,8 +233,8 @@ export default function IntruderAlarmSystemsPage() {
           <CustomPillButton href="/contact" size="md">
             Get a free quote
           </CustomPillButton>
-          <CustomPillButton href="tel:02045685986" size="md" variant="outline">
-            Call 020 4568 5986
+          <CustomPillButton href="tel:02083032280" size="md" variant="outline">
+            Call 020 8303 2280
           </CustomPillButton>
         </ServicePageBottomCta>
 

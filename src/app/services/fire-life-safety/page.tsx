@@ -1,11 +1,12 @@
 import type { Metadata } from "next"
+import Link from "next/link"
 import { CapabilityServicePageLayout } from "@/components/CapabilityServicePageLayout"
 import { buildFsMetadata } from "@/lib/seo-metadata"
 
 export const metadata: Metadata = buildFsMetadata({
   title: "Fire Alarm Systems & Life Safety | London Installers | APX",
   description:
-    "Addressable and conventional fire alarms, EVAC, voice evacuation, refuge systems — design, installation and commissioning across London boroughs, Kent, Essex and the Home Counties.",
+    "Addressable and conventional fire alarms — design, installation, commissioning and certification across London boroughs, Kent, Essex and the Home Counties. BS 5839-1 aligned delivery.",
   pathname: "/services/fire-life-safety",
 })
 
@@ -15,19 +16,46 @@ const capabilities = [
   "Cause-and-effect programming",
   "System integration with EVAC, access control, and BMS",
   "Fire detection device installation (smoke, heat, multi-sensor)",
-  "Manual call point installation, sounder and VAD installation",
+  "Manual call point installation",
+  "Sounder and VAD installation",
   "Networked fire alarm systems",
   "Full commissioning and certification",
 ]
 
-const compliance = ["BS 5839-1", "BS 5839-6 (where applicable)", "BS 5839-8", "BS 5839-9"]
-const deliverables = ["As-built drawings", "Zone charts", "Commissioning certificates", "O&M manuals", "Audio testing reports"]
+/** Fire detection & alarm focus; refuge/EVAC standards sit on their own service pages */
+const compliance = ["BS 5839-1", "BS 5839-6 (where applicable)"]
+const deliverables = ["As-built drawings", "Zone charts", "Commissioning certificates", "O&M manuals"]
+
+const intro = (
+  <>
+    <p>
+      APX Fire and Security delivers fully compliant fire alarm installations across commercial, industrial, and public-sector environments. Our engineers are trained in both addressable and conventional systems, ensuring accurate installation, configuration, and commissioning.
+    </p>
+    <p className="text-white/85">
+      For dedicated{" "}
+      <Link
+        href="/services/refuge-disabled-communication"
+        className="underline decoration-white/45 underline-offset-[3px] transition-colors hover:decoration-white"
+      >
+        refuge and disabled communication (EVC)
+      </Link>{" "}
+      or{" "}
+      <Link
+        href="/services/evac-voice-evacuation"
+        className="underline decoration-white/45 underline-offset-[3px] transition-colors hover:decoration-white"
+      >
+        EVAC and voice evacuation
+      </Link>
+      , we maintain standalone scopes and documentation — follow the links for capabilities, standards and handover packs.
+    </p>
+  </>
+)
 
 export default function FireLifeSafetyPage() {
   return (
     <CapabilityServicePageLayout
       title="Fire & life safety systems"
-      intro="APX Fire and Security delivers compliant fire and life safety systems across commercial, industrial, and public-sector environments. Our engineers install, configure, test, and commission systems with clear coordination and minimal disruption."
+      intro={intro}
       capabilities={capabilities}
       compliance={compliance}
       deliverables={deliverables}

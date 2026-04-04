@@ -34,6 +34,20 @@ const SERVICE_ROWS = [
     cta: "Go to fire alarms",
   },
   {
+    title: "Refuge & disabled communication systems",
+    description:
+      "Emergency voice communication (EVC) — disabled refuge points, fire telephones, toilet alarms and central panels to BS 5839-9.",
+    href: "/services/refuge-disabled-communication",
+    cta: "Go to refuge & EVC",
+  },
+  {
+    title: "EVAC & voice evacuation systems",
+    description:
+      "Voice evacuation and PA integration with zoned messaging, amplifiers and speakers — aligned with BS 5839-8 and your fire strategy.",
+    href: "/services/evac-voice-evacuation",
+    cta: "Go to EVAC & voice",
+  },
+  {
     title: "Video door entry systems",
     description:
       "Video entry and door access systems from single-door installations through to integrated, multi-user deployments.",
@@ -64,7 +78,7 @@ export default function ServicesHubPage() {
       <div className="h-[0.75px] w-full bg-white/30" aria-hidden />
 
       <main className="pb-20">
-        <section className="container mx-auto px-6 pt-16 lg:px-8 lg:pt-24">
+        <section className="container mx-auto px-6 page-title-top lg:px-8">
           <h1 className="font-title text-4xl font-bold tracking-tight text-white md:text-5xl">
             APX Fire & Security Services
           </h1>

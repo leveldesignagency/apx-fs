@@ -5,6 +5,8 @@ export const FS_SERVICE_QUICK_LINKS = [
   { href: "/services/sustainability", label: "Intruder alarm systems" },
   { href: "/services/mechanical-engineering", label: "Fire alarm systems" },
   { href: "/services/maintenance", label: "Video door entry systems" },
+  { href: "/services/refuge-disabled-communication", label: "Refuge & disabled communication" },
+  { href: "/services/evac-voice-evacuation", label: "EVAC & voice evacuation" },
   { href: "/services/project-management", label: "Project management" },
 ] as const
 

@@ -8,6 +8,60 @@
   --accent: #ffffff;
   --font-title: "Outfit", sans-serif;
   --font-menu: "Erbaum", sans-serif;
+  /* In-page anchor targets (#section): modest offset so headings aren’t flush to the top */
+  --site-header-offset: 1.25rem;
+}
+
+html {
+  scroll-padding-top: var(--site-header-offset);
+}
+
+/*
+ * Header is `absolute` within `.site-shell` (layout): overlays the top of main so hero imagery runs edge-to-edge.
+ * Scrolling uses the document — the shell grows with content — so the bar is not `fixed` to the viewport.
+ */
+.site-shell > header.site-header,
+header.site-header {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 100;
+  width: 100%;
+  max-width: 100vw;
+}
+
+/*
+ * Inner pages: clears absolute header + contact strip (nav is tall; tab is position:absolute below nav).
+ * Previous 5rem/7rem sat under the real header stack — keep top generous in sync with both sites.
+ */
+.page-title-top {
+  padding-top: clamp(7.5rem, 14vh, 10rem);
+}
+@media (min-width: 768px) {
+  .page-title-top {
+    padding-top: clamp(8.5rem, 13vh, 11rem);
+  }
+}
+@media (min-width: 1024px) {
+  .page-title-top {
+    padding-top: clamp(9rem, 12vh, 11.5rem);
+  }
+}
+.page-title-band {
+  padding-top: clamp(7.5rem, 14vh, 10rem);
+  padding-bottom: 5rem;
+}
+@media (min-width: 768px) {
+  .page-title-band {
+    padding-top: clamp(8.5rem, 13vh, 11rem);
+  }
+}
+@media (min-width: 1024px) {
+  .page-title-band {
+    padding-top: clamp(9rem, 12vh, 11.5rem);
+    padding-bottom: 7rem;
+  }
 }
 
 @theme inline {
@@ -32,7 +86,6 @@
 /* White-background sections: dark highlight so selection is visible on white */
 .about-block--white ::selection,
 #about ::selection,
-#testimonials ::selection,
 .logo-marquee-section ::selection,
 section.bg-white ::selection {
   background: rgba(0, 0, 0, 0.22);
@@ -40,7 +93,6 @@ section.bg-white ::selection {
 }
 .about-block--white ::-moz-selection,
 #about ::-moz-selection,
-#testimonials ::-moz-selection,
 .logo-marquee-section ::-moz-selection,
 section.bg-white ::-moz-selection {
   background: rgba(0, 0, 0, 0.22);
@@ -55,17 +107,16 @@ section.bg-white ::-moz-selection {
   background: rgba(255, 255, 255, 0.25);
   color: inherit;
 }
-/* Testimonials: black lifted box needs light selection so white text selection is visible */
-#testimonials .testimonials-lifted ::selection {
+/* Testimonials: full-bleed black — light selection on white text */
+#testimonials ::selection {
   background: rgba(255, 255, 255, 0.25);
   color: inherit;
 }
-#testimonials .testimonials-lifted ::-moz-selection {
+#testimonials ::-moz-selection {
   background: rgba(255, 255, 255, 0.25);
   color: inherit;
 }
 
-/* FS: main content and footer above hero background layers so they sit on top of black mask */
 main,
 footer {
   position: relative;
@@ -92,6 +143,10 @@ section + section {
   section + section {
     margin-top: -5rem;
   }
+}
+/* Accreditations hub: two stacked sections must not overlap (global pull would cut hero copy) */
+main.accreditations-hub section + section {
+  margin-top: 0;
 }
 .section-content-gap {
   margin-bottom: 4rem;
@@ -275,6 +330,92 @@ section h2 {
   border-radius: 0 !important;
 }
 
+/* Slightly tighter TL/BR radius than default pill (1rem) — homepage capability cards */
+.pill-btn--corners-sm {
+  border-top-left-radius: 0.75rem !important;
+  border-bottom-right-radius: 0.75rem !important;
+  border-top-right-radius: 0 !important;
+  border-bottom-left-radius: 0 !important;
+}
+.pill-btn--corners-sm .pill-btn-inner {
+  border-top-left-radius: 0.75rem !important;
+  border-bottom-right-radius: 0.75rem !important;
+  border-top-right-radius: 0 !important;
+  border-bottom-left-radius: 0 !important;
+}
+.pill-btn--corners-sm .pill-btn-border {
+  border-top-left-radius: 0.75rem !important;
+  border-bottom-right-radius: 0.75rem !important;
+  border-top-right-radius: 0 !important;
+  border-bottom-left-radius: 0 !important;
+}
+
+/* Service hero “Quick navigation” pills — subtle fill + light sweep on hover */
+.quick-nav-pill-shimmer {
+  position: relative;
+  z-index: 0;
+  overflow: hidden;
+  isolation: isolate;
+}
+.quick-nav-pill-shimmer::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  border-radius: inherit;
+  background-color: rgba(255, 255, 255, 0);
+  transition: background-color 0.3s ease;
+  pointer-events: none;
+}
+.quick-nav-pill-shimmer:hover::after {
+  background-color: rgba(255, 255, 255, 0.1);
+}
+.quick-nav-pill-shimmer::before {
+  content: "";
+  position: absolute;
+  inset: -20% -40%;
+  z-index: 1;
+  background: linear-gradient(
+    105deg,
+    transparent 0%,
+    transparent 38%,
+    rgba(255, 255, 255, 0.07) 48%,
+    rgba(255, 255, 255, 0.14) 50%,
+    rgba(255, 255, 255, 0.07) 52%,
+    transparent 62%,
+    transparent 100%
+  );
+  transform: translateX(-55%) skewX(-14deg);
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.2s ease;
+}
+.quick-nav-pill-shimmer:hover::before {
+  opacity: 1;
+  animation: quick-nav-shimmer-sweep 0.75s ease-out forwards;
+}
+@keyframes quick-nav-shimmer-sweep {
+  0% {
+    transform: translateX(-55%) skewX(-14deg);
+  }
+  100% {
+    transform: translateX(155%) skewX(-14deg);
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .quick-nav-pill-shimmer::before {
+    animation: none !important;
+    transition: none;
+  }
+  .quick-nav-pill-shimmer:hover::before {
+    opacity: 0.35;
+    transform: translateX(0) skewX(-14deg);
+  }
+  .quick-nav-pill-shimmer:hover::after {
+    background-color: rgba(255, 255, 255, 0.12);
+  }
+}
+
 /* FS: ABOUT intro – black panel, light text */
 #about-intro h2 {
   color: #ffffff !important;
@@ -300,6 +441,39 @@ section h2 {
 #services .hero-services-intro,
 #services p.section-intro-gap {
   color: #ffffff !important;
+}
+
+/*
+ * What we offer — tab pills (override ThemeToggle GlobalStyles):
+ * - Do NOT use Tailwind bg-white / text-black here: .bg-white is remapped to theme bg (black).
+ * - Spans inside buttons were forced to theme white while button fill was white → invisible text.
+ */
+#services .fs-what-we-offer button.fs-offer-tab {
+  background: transparent !important;
+  color: #ffffff !important;
+  border-color: rgba(255, 255, 255, 0.75) !important;
+}
+#services .fs-what-we-offer button.fs-offer-tab:hover {
+  background: rgba(255, 255, 255, 0.07) !important;
+  border-color: #ffffff !important;
+  color: #ffffff !important;
+}
+/* Selected: white border + white fill + black text (explicit border — ThemeToggle sets button border) */
+#services .fs-what-we-offer button.fs-offer-tab.fs-offer-tab--active {
+  background: #ffffff !important;
+  color: #000000 !important;
+  border: 2px solid #ffffff !important;
+}
+#services .fs-what-we-offer button.fs-offer-tab.fs-offer-tab--active:hover {
+  background: #ffffff !important;
+  color: #000000 !important;
+  border: 2px solid #ffffff !important;
+}
+#services .fs-what-we-offer button.fs-offer-tab .fs-offer-tab__label {
+  color: inherit !important;
+}
+#services .fs-what-we-offer button.fs-offer-tab.fs-offer-tab--active .fs-offer-tab__label {
+  color: #000000 !important;
 }
 
 /* FS: Service cards – no border; full white text; no black overlay – image visible with black feather bottom */
@@ -465,8 +639,7 @@ section h2 {
 /* ========== FS: Light theme for all sections below hero – black text, light backgrounds ========== */
 html:not(.dark) #services-drawer,
 html:not(.dark) #services-benefits,
-html:not(.dark) #about,
-html:not(.dark) #testimonials {
+html:not(.dark) #about {
   background-color: #ffffff !important;
 }
 #contact {
@@ -551,23 +724,23 @@ html:not(.dark) .services-drawer-list-item::before {
 }
 /* Services benefits: light cards, black text */
 /* Benefit cards: black background, white foreground */
-html:not(.dark) #services-benefits .services-benefit-card-inner {
+html:not(.dark) #services-benefits .services-benefit-article {
   background: #000000 !important;
   border-color: rgba(255, 255, 255, 0.25) !important;
 }
-html:not(.dark) #services-benefits .services-benefit-card-inner:hover {
+html:not(.dark) #services-benefits .services-benefit-article:hover {
   background: #0a0a0a !important;
   border-color: rgba(255, 255, 255, 0.4) !important;
 }
-html:not(.dark) #services-benefits .services-benefit-icon-wrap {
+html:not(.dark) #services-benefits .services-benefit-icon-badge {
   border-color: rgba(255, 255, 255, 0.4) !important;
-  background: rgba(255, 255, 255, 0.1) !important;
+  background: #000000 !important;
 }
 html:not(.dark) #services-benefits .services-benefit-title,
 html:not(.dark) #services-benefits .services-benefit-desc {
   color: #ffffff !important;
 }
-html:not(.dark) #services-benefits .services-benefit-icon-wrap svg {
+html:not(.dark) #services-benefits .services-benefit-icon-badge svg {
   color: #ffffff !important;
   stroke: #ffffff !important;
 }
@@ -677,7 +850,7 @@ html:not(.dark) #about .text-gray-300 {
 #about .section-label {
   color: inherit;
 }
-/* Why Choose Us cards: black bg, white border, top-left + bottom-right rounded only, white text (both themes) */
+/* Why Choose Us: solid black panel + white border; icon in .why-choose-icon-badge above the card */
 #about .why-choose-card {
   background-color: #000000 !important;
   border: 2px solid #ffffff !important;
@@ -687,20 +860,20 @@ html:not(.dark) #about .text-gray-300 {
   border-bottom-left-radius: 0;
 }
 #about .why-choose-card h4,
-#about .why-choose-card .why-choose-list,
-#about .why-choose-card .why-choose-list li,
-#about .why-choose-card svg {
+#about .why-choose-card .apx-capability-list,
+#about .why-choose-card .apx-capability-list__item {
   color: #ffffff !important;
 }
-#about .why-choose-card svg {
+#about .why-choose-icon-badge svg {
+  color: #ffffff !important;
   stroke: #ffffff !important;
 }
 html:not(.dark) #about .why-choose-card h4,
-html:not(.dark) #about .why-choose-card .why-choose-list li,
-html:not(.dark) #about .why-choose-card svg {
+html:not(.dark) #about .why-choose-card .apx-capability-list__item {
   color: #ffffff !important;
 }
-html:not(.dark) #about .why-choose-card svg {
+html:not(.dark) #about .why-choose-icon-badge svg {
+  color: #ffffff !important;
   stroke: #ffffff !important;
 }
 /* Light theme: other .service-card in #about (if any) stay light */
@@ -716,42 +889,6 @@ html:not(.dark) #about .service-card .text-gray-300 {
 html:not(.dark) #about .service-card svg {
   color: #1a1a1a !important;
   stroke: #1a1a1a !important;
-}
-/* Why Choose Us benefit list styling */
-#about .why-choose-list {
-  list-style: none;
-  margin: 0;
-  padding: 0;
-  display: flex;
-  flex-direction: column;
-  gap: 0.5rem;
-}
-#about .why-choose-list li {
-  position: relative;
-  padding-left: 1.25rem;
-  font-size: 1rem;
-  line-height: 1.5;
-  color: rgba(255, 255, 255, 0.9);
-}
-#about .why-choose-list li::before {
-  content: "";
-  position: absolute;
-  left: 0;
-  top: 0.55em;
-  width: 0.35rem;
-  height: 0.35rem;
-  border-radius: 50%;
-  background: #ffffff;
-  opacity: 0.9;
-}
-#about .why-choose-card .why-choose-list li::before {
-  background: #ffffff;
-}
-html:not(.dark) #about .why-choose-card .why-choose-list li {
-  color: rgba(255, 255, 255, 0.9) !important;
-}
-html:not(.dark) #about .why-choose-card .why-choose-list li::before {
-  background: #ffffff;
 }
 #about .stats-card {
   background: transparent !important;
@@ -779,39 +916,26 @@ html.dark #about .stats-card .stats-card-label {
 #about .stats-card .text-gray-700 {
   color: #444444 !important;
 }
-/* Testimonials: lifted black container – always dark (white text) inside; section bg white */
+/* Testimonials: full-bleed black band */
 #testimonials {
-  background-color: #ffffff !important;
+  background-color: #000000 !important;
 }
-#testimonials .testimonials-lifted h2 {
+#testimonials h2,
+#testimonials .apx-testimonials-quote {
   color: #ffffff !important;
 }
-#testimonials .testimonials-lifted .text-gray-300 {
-  color: rgba(255, 255, 255, 0.7) !important;
+@keyframes apx-testimonial-fade {
+  from {
+    opacity: 0;
+    transform: translateY(22px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
-#testimonials .testimonials-lifted .service-card,
-html:not(.dark) #testimonials .testimonials-lifted .service-card {
-  background: #000000 !important;
-  border-color: rgba(255, 255, 255, 0.3) !important;
-}
-#testimonials .testimonials-lifted .service-card .text-gray-300,
-#testimonials .testimonials-lifted .service-card .text-white,
-#testimonials .testimonials-lifted .service-card .text-gray-400 {
-  color: rgba(255, 255, 255, 0.9) !important;
-}
-#testimonials .testimonials-lifted .service-card .text-gray-400 {
-  color: rgba(255, 255, 255, 0.6) !important;
-}
-#testimonials .testimonials-lifted .service-card .bg-white {
-  background: rgba(255, 255, 255, 0.2) !important;
-}
-#testimonials .testimonials-lifted .service-card .bg-gray-600 {
-  background: rgba(255, 255, 255, 0.15) !important;
-}
-#testimonials .testimonials-lifted .service-card svg {
-  color: #ffffff !important;
-  fill: #ffffff !important;
-  stroke: #ffffff !important;
+.apx-testimonial-fade {
+  animation: apx-testimonial-fade 0.65s cubic-bezier(0.22, 1, 0.36, 1) both;
 }
 /* Contact: black headings and body text */
 #contact h2 {
@@ -866,6 +990,7 @@ html:not(.dark) #testimonials .testimonials-lifted .service-card {
   flex-wrap: wrap;
   justify-content: flex-start;
   align-items: center;
+  gap: 0.35rem 0.5rem;
   padding: 0.55rem 0.75rem 0.6rem;
   border-bottom: 1px solid rgba(255, 255, 255, 0.14);
   box-sizing: border-box;
@@ -1150,6 +1275,44 @@ html:not(.dark) body:has(.fs-projects-page) {
   }
 }
 
+/* About intro — “Where it began”: line-by-line blur → sharp + fade (stagger via --about-intro-delay) */
+.about-intro-line {
+  transition:
+    opacity 0.85s cubic-bezier(0.22, 0.61, 0.36, 1),
+    filter 0.9s cubic-bezier(0.22, 0.61, 0.36, 1),
+    transform 0.85s cubic-bezier(0.22, 0.61, 0.36, 1);
+  transition-delay: var(--about-intro-delay, 0ms);
+  will-change: opacity, filter, transform;
+}
+.about-intro-line--hidden {
+  opacity: 0;
+  filter: blur(12px);
+  transform: translate3d(0, 14px, 0);
+}
+.about-intro-line--visible {
+  opacity: 1;
+  filter: blur(0);
+  transform: translate3d(0, 0, 0);
+}
+@media (prefers-reduced-motion: reduce) {
+  .about-intro-line {
+    transition: opacity 0.35s ease;
+    transition-delay: var(--about-intro-delay, 0ms) !important;
+    filter: none !important;
+    transform: none !important;
+  }
+  .about-intro-line--hidden {
+    opacity: 0;
+    filter: none;
+    transform: none;
+  }
+  .about-intro-line--visible {
+    opacity: 1;
+    filter: none;
+    transform: none;
+  }
+}
+
 /* Core capabilities & capability detail lists: left border rail + hover lift */
 .apx-border-list {
   list-style: none;
@@ -1210,26 +1373,130 @@ html:not(.dark) body:has(.fs-projects-page) {
 #contact #quote-form input[type="tel"],
 #contact #quote-form textarea,
 #contact #quote-form .quote-form-field {
-  background: rgba(0, 0, 0, 0.4) !important;
+  background-color: #000000 !important;
   border: 2px solid rgba(255, 255, 255, 0.6) !important;
   color: #ffffff !important;
   border-radius: 0.5rem;
+  font-size: 1.0625rem !important;
+  font-weight: 600 !important;
+  caret-color: #ffffff;
 }
 #contact #quote-form input:focus,
 #contact #quote-form textarea:focus,
 #contact #quote-form .quote-form-field:focus {
   outline: none !important;
   border-color: #ffffff !important;
-  box-shadow: 0 0 0 1px #ffffff;
+  background-color: #000000 !important;
+  box-shadow: 0 0 0 1px rgba(255, 255, 255, 0.85) !important;
 }
 #contact #quote-form input::placeholder,
 #contact #quote-form textarea::placeholder {
-  color: rgba(255, 255, 255, 0.5) !important;
+  color: rgba(255, 255, 255, 0.45) !important;
+  font-weight: 400 !important;
+}
+/* Kill WebKit autofill yellow/blue; keep black field + white value text */
+#contact #quote-form input:-webkit-autofill,
+#contact #quote-form input:-webkit-autofill:hover,
+#contact #quote-form input:-webkit-autofill:focus,
+#contact #quote-form textarea:-webkit-autofill,
+#contact #quote-form textarea:-webkit-autofill:hover,
+#contact #quote-form textarea:-webkit-autofill:focus {
+  -webkit-text-fill-color: #ffffff !important;
+  caret-color: #ffffff;
+  box-shadow: 0 0 0 1000px #000000 inset !important;
+  transition: background-color 99999s ease-out;
+}
+#contact #quote-form input::selection,
+#contact #quote-form textarea::selection {
+  background: rgba(255, 255, 255, 0.28) !important;
+  color: #ffffff !important;
+}
+#contact #quote-form input::-moz-selection,
+#contact #quote-form textarea::-moz-selection {
+  background: rgba(255, 255, 255, 0.28) !important;
+  color: #ffffff !important;
 }
 #contact #quote-form .quote-form-dropdown {
-  background: rgba(0, 0, 0, 0.4) !important;
+  background-color: #000000 !important;
   border: 2px solid rgba(255, 255, 255, 0.6) !important;
   color: #ffffff !important;
+  font-size: 1.0625rem !important;
+  font-weight: 600 !important;
+}
+
+/* Dedicated /contact page form (same treatment as homepage quote) */
+.contact-page-form input[type="text"],
+.contact-page-form input[type="email"],
+.contact-page-form input[type="tel"],
+.contact-page-form textarea {
+  font-size: 1.0625rem !important;
+  font-weight: 700 !important;
+  background-color: #000000 !important;
+  caret-color: #ffffff;
+}
+.contact-page-form input:focus,
+.contact-page-form textarea:focus {
+  background-color: #000000 !important;
+}
+.contact-page-form input:-webkit-autofill,
+.contact-page-form input:-webkit-autofill:hover,
+.contact-page-form input:-webkit-autofill:focus,
+.contact-page-form textarea:-webkit-autofill,
+.contact-page-form textarea:-webkit-autofill:hover,
+.contact-page-form textarea:-webkit-autofill:focus {
+  -webkit-text-fill-color: #ffffff !important;
+  caret-color: #ffffff;
+  box-shadow: 0 0 0 1000px #000000 inset !important;
+  transition: background-color 99999s ease-out;
+}
+.contact-page-form input::selection,
+.contact-page-form textarea::selection {
+  background: rgba(255, 255, 255, 0.28) !important;
+  color: #ffffff !important;
+}
+.contact-page-form input::-moz-selection,
+.contact-page-form textarea::-moz-selection {
+  background: rgba(255, 255, 255, 0.28) !important;
+  color: #ffffff !important;
+}
+.contact-page-form button#service {
+  background-color: #000000 !important;
+  font-size: 1.0625rem !important;
+  font-weight: 700 !important;
+}
+.contact-page-form button#service:focus {
+  background-color: #000000 !important;
+}
+/* Contact page (no #quote-form): same preferred-contact radio treatment */
+.contact-page-form input[type="radio"] {
+  appearance: none !important;
+  -webkit-appearance: none !important;
+  width: 20px !important;
+  height: 20px !important;
+  min-width: 20px !important;
+  min-height: 20px !important;
+  border-radius: 50% !important;
+  background: #ffffff !important;
+  border: 2px solid #ffffff !important;
+  cursor: pointer !important;
+  flex-shrink: 0 !important;
+  box-shadow: none !important;
+}
+.contact-page-form input[type="radio"]:checked {
+  background: #000000 !important;
+  border: 2px solid #ffffff !important;
+}
+.contact-page-form input[type="radio"]:focus-visible {
+  outline: 2px solid rgba(255, 255, 255, 0.6) !important;
+  outline-offset: 2px !important;
+}
+.dark .contact-page-form input[type="radio"] {
+  background: #ffffff !important;
+  border: 2px solid #ffffff !important;
+}
+.dark .contact-page-form input[type="radio"]:checked {
+  background: #000000 !important;
+  border: 2px solid #ffffff !important;
 }
 #contact #quote-form .quote-form-dropdown-menu {
   background: rgba(0, 0, 0, 0.95) !important;
@@ -1239,16 +1506,16 @@ html:not(.dark) body:has(.fs-projects-page) {
 }
 #contact #quote-form .quote-form-dropdown-item {
   color: #ffffff !important;
-  border-bottom-color: rgba(255, 255, 255, 0.2) !important;
+  background-color: transparent !important;
+  border: none !important;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.2) !important;
+  border-radius: 0 !important;
 }
 #contact #quote-form .quote-form-dropdown-item:hover {
   background: rgba(255, 255, 255, 0.15) !important;
 }
-#contact #quote-form .quote-form-dropdown-item {
-  border-bottom: 1px solid rgba(255, 255, 255, 0.2);
-}
 #contact #quote-form .quote-form-dropdown-item:last-child {
-  border-bottom: none;
+  border-bottom: none !important;
 }
 #contact #quote-form input[type="radio"] + label,
 #contact #quote-form label:has(+ input[type="radio"]),
@@ -1256,7 +1523,7 @@ html:not(.dark) body:has(.fs-projects-page) {
   color: #ffffff !important;
 }
 
-/* Preferred contact method: unchecked = dark ring, checked = white fill (not black) */
+/* Preferred contact: unchecked = all white; checked = white border + black fill (readable on dark) */
 #contact #quote-form input[type="radio"] {
   appearance: none !important;
   -webkit-appearance: none !important;
@@ -1265,23 +1532,25 @@ html:not(.dark) body:has(.fs-projects-page) {
   min-width: 20px !important;
   min-height: 20px !important;
   border-radius: 50% !important;
-  background: #000000 !important;
+  background: #ffffff !important;
   border: 2px solid #ffffff !important;
   cursor: pointer !important;
   vertical-align: middle !important;
   flex-shrink: 0 !important;
+  box-shadow: none !important;
 }
 #contact #quote-form input[type="radio"]:checked {
-  background: #ffffff !important;
+  background: #000000 !important;
   border: 2px solid #ffffff !important;
 }
 html:not(.dark) #contact #quote-form input[type="radio"] {
   background: #ffffff !important;
-  border: 2px solid rgba(0, 0, 0, 0.35) !important;
+  border: 2px solid rgba(0, 0, 0, 0.25) !important;
 }
 html:not(.dark) #contact #quote-form input[type="radio"]:checked {
-  background: #ffffff !important;
-  border: 3px solid #000000 !important;
+  background: #000000 !important;
+  border: 2px solid #000000 !important;
+  box-shadow: inset 0 0 0 2px #ffffff !important;
 }
 #contact #quote-form .form-submit-btn,
 #contact #quote-form button[type="submit"] {
@@ -1369,10 +1638,10 @@ html:not(.dark) #quote-form button[type="submit"]:hover {
   position: absolute;
   top: 50%;
   left: 50%;
-  margin-top: -24px;
-  margin-left: -24px;
-  width: 48px;
-  height: 48px;
+  margin-top: -16px;
+  margin-left: -16px;
+  width: 32px;
+  height: 32px;
   visibility: hidden;
 }
 .form-submit-btn__progress-track {
@@ -1391,8 +1660,8 @@ html:not(.dark) #quote-form button[type="submit"]:hover {
 .form-submit-btn--done {
   outline: none;
   pointer-events: none;
-  width: 3.5rem;
-  max-width: 3.5rem;
+  width: 2.75rem;
+  max-width: 2.75rem;
   user-select: none;
 }
 .form-submit-btn--running .form-submit-btn__text,
@@ -1773,11 +2042,13 @@ html.about-page-active {
     min-height: 560px;
   }
 }
-/* Projects nav arrows: static = white border, no fill, white icon; hover = white fill, black icon, white border */
-#projects .projects-nav-btn {
+/* Projects + testimonials nav arrows: static = white border, no fill, white icon; hover = white fill, black icon */
+#projects .projects-nav-btn,
+#testimonials .projects-nav-btn {
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
 }
-#projects .projects-nav-btn:hover {
+#projects .projects-nav-btn:hover,
+#testimonials .projects-nav-btn:hover {
   background-color: white;
   color: black;
   border-color: white;
@@ -1866,7 +2137,7 @@ html.about-page-active {
   }
 }
 
-/* ========== Services benefits section (Expert Installation, 24/7 Maintenance, Quality Assurance) ========== */
+/* ========== Services benefits section (icon badge + shimmer article; same rhythm as core capabilities) ========== */
 .services-benefit-card {
   opacity: 0;
   transform: translateY(24px);
@@ -1880,47 +2151,10 @@ html.about-page-active {
   }
 }
 
-.services-benefit-card-inner {
-  height: 100%;
-  padding: 2rem 1.75rem;
-  border: 1px solid rgba(255, 255, 255, 0.25);
-  border-top-left-radius: 1.25rem;
-  border-top-right-radius: 0;
-  border-bottom-right-radius: 1.25rem;
-  border-bottom-left-radius: 0;
-  background: rgba(0, 0, 0, 0.35);
-  backdrop-filter: blur(8px);
-  -webkit-backdrop-filter: blur(8px);
-  transition: border-color 0.25s ease, background 0.25s ease, transform 0.25s ease;
-}
-
-.services-benefit-card-inner:hover {
-  border-color: rgba(255, 255, 255, 0.5);
-  background: rgba(0, 0, 0, 0.5);
-  transform: translateY(-2px);
-}
-
-.services-benefit-icon-wrap {
-  width: 3rem;
-  height: 3rem;
-  border-radius: 50%;
-  border: 1px solid rgba(255, 255, 255, 0.4);
-  background: rgba(255, 255, 255, 0.08);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  margin-bottom: 1.25rem;
-  flex-shrink: 0;
-}
-
 .services-benefit-title {
-  font-size: 1.125rem;
-  font-weight: 600;
-  text-transform: uppercase;
-  letter-spacing: 0.02em;
-  color: #fff;
-  margin: 0 0 0.5rem 0;
+  margin: 0;
   line-height: 1.3;
+  text-align: center;
 }
 
 .services-benefit-desc {
@@ -1928,6 +2162,7 @@ html.about-page-active {
   line-height: 1.5;
   color: rgba(255, 255, 255, 0.78);
   margin: 0;
+  text-align: center;
 }
 
 /* Header logo: subtle grow on hover */
@@ -1941,19 +2176,25 @@ html.about-page-active {
 
 html {
   width: 100%;
-  height: 100%;
+  min-height: 100%;
   scroll-behavior: smooth;
-  overflow-x: hidden;
+  /* Avoid `overflow-x: hidden` on html — it breaks `position:fixed` in WebKit; body still hides horizontal overflow */
+  overflow-x: visible;
+}
+@supports (overflow: clip) {
+  html {
+    overflow-x: clip;
+  }
 }
 
 body {
-  background: 
+  background:
     radial-gradient(ellipse 2000px 1500px at 20% 30%, rgba(255, 255, 255, 0.02) 0%, transparent 60%),
     radial-gradient(ellipse 1500px 2000px at 80% 70%, rgba(255, 255, 255, 0.015) 0%, transparent 60%),
     radial-gradient(ellipse 2500px 1000px at 50% 50%, rgba(255, 255, 255, 0.01) 0%, transparent 70%),
-    linear-gradient(135deg, #000000 0%, #0a0a0a 25%, #000000 50%, #0a0a0a 75%, #000000 100%);
+    #000000;
   background-attachment: fixed;
-  height: 100%;
+  min-height: 100%;
   width: 100%;
   color: var(--foreground);
   font-family: var(--font-inter), system-ui, sans-serif;
@@ -1967,6 +2208,16 @@ body {
 html:not(.dark) body {
   background: #ffffff !important;
   background-attachment: fixed;
+}
+
+/* Touch / iOS: `background-attachment: fixed` on body can jank or mis-render; scroll is safer */
+@media (hover: none) and (pointer: coarse) {
+  body {
+    background-attachment: scroll !important;
+  }
+  html:not(.dark) body {
+    background-attachment: scroll !important;
+  }
 }
 
 /* Custom Cursor - Curzr BigCircle: white circle + black dot (cursor-2 style) */
@@ -2047,8 +2298,9 @@ html:not(.curzr-big-circle-active) .cursor-auto {
   will-change: transform;
 }
 
-/* Hover (text / links / buttons): outer circle grows, border only (no fill) */
-.apx-cursor-big-circle--hover .apx-cursor-big-circle__circle {
+/* Hover (links / buttons / inputs): outer circle grows, border only (no fill) — light / image surfaces */
+.apx-cursor-big-circle--surface-light.apx-cursor-big-circle--hover .apx-cursor-big-circle__circle,
+.apx-cursor-big-circle--surface-image.apx-cursor-big-circle--hover .apx-cursor-big-circle__circle {
   width: 64px;
   height: 64px;
   top: -32px;
@@ -2058,20 +2310,39 @@ html:not(.curzr-big-circle-active) .cursor-auto {
   box-sizing: border-box;
 }
 
-/* Section-aware: header – default circle white so it reads on dark nav; hover = border only, white border */
+/* Dark surfaces (black UI, header): white ring + black dot; hover = white ring outline */
+.apx-cursor-big-circle--surface-dark .apx-cursor-big-circle__circle,
 .apx-cursor-big-circle--header .apx-cursor-big-circle__circle {
   background-color: rgba(255, 255, 255, 0.95);
   border-color: rgba(255, 255, 255, 0.9);
 }
+.apx-cursor-big-circle--surface-dark.apx-cursor-big-circle--hover .apx-cursor-big-circle__circle,
 .apx-cursor-big-circle--header.apx-cursor-big-circle--hover .apx-cursor-big-circle__circle {
+  width: 64px;
+  height: 64px;
+  top: -32px;
+  left: -32px;
   background-color: transparent !important;
   border: 2px solid rgba(255, 255, 255, 0.95) !important;
+  box-sizing: border-box;
 }
+.apx-cursor-big-circle--surface-dark .apx-cursor-big-circle__dot,
 .apx-cursor-big-circle--header .apx-cursor-big-circle__dot {
   background-color: #000;
 }
 
-/* Middle dot: white */
+/* Images / light backgrounds: black ring + white dot (default fill) */
+.apx-cursor-big-circle--surface-image .apx-cursor-big-circle__circle,
+.apx-cursor-big-circle--surface-light .apx-cursor-big-circle__circle {
+  background-color: rgba(0, 0, 0, 0.95);
+  border-color: rgba(0, 0, 0, 0.9);
+}
+.apx-cursor-big-circle--surface-image .apx-cursor-big-circle__dot,
+.apx-cursor-big-circle--surface-light .apx-cursor-big-circle__dot {
+  background-color: #fff;
+}
+
+/* Middle dot — transform scale for “magnify” on text (see CustomCursor.tsx) */
 .apx-cursor-big-circle__dot {
   position: fixed;
   top: -3px;
@@ -2083,6 +2354,15 @@ html:not(.curzr-big-circle-active) .cursor-auto {
   box-sizing: border-box;
   pointer-events: none;
   will-change: transform;
+  transition: transform 140ms cubic-bezier(0.22, 1, 0.36, 1);
+}
+.apx-cursor-big-circle--text-mag .apx-cursor-big-circle__circle {
+  transition:
+    width 200ms,
+    height 200ms,
+    background-color 200ms,
+    border-color 200ms,
+    transform 140ms ease;
 }
 
 /* Optional: invert for light backgrounds (add .cursor-invert to html if needed) */
@@ -2180,67 +2460,6 @@ html:not(.curzr-big-circle-active) footer a[href*="maps.google.com"] {
   -webkit-user-select: none !important;
   -moz-user-select: none !important;
   -ms-user-select: none !important;
-}
-
-/* LIGHT MODE - black background, white text (same as dark) */
-html:not(.dark) .services-dropdown-container button {
-  background-color: black !important;
-  color: white !important;
-  border: 1px solid white !important;
-}
-
-/* DARK MODE - Force button colors */
-html.dark .services-dropdown-container button {
-  background-color: black !important;
-  color: white !important;
-  border: 1px solid white !important;
-}
-
-html:not(.dark) .services-dropdown-container .dropdown-menu {
-  background-color: black !important;
-  border: 1px solid white !important;
-}
-
-html:not(.dark) .services-dropdown-container .dropdown-item {
-  color: white !important;
-  background-color: transparent !important;
-  border-left: none !important;
-  border-right: none !important;
-  border-top: none !important;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.2) !important;
-}
-
-html:not(.dark) .services-dropdown-container .dropdown-item:last-child {
-  border-bottom: none !important;
-}
-
-html:not(.dark) .services-dropdown-container .dropdown-item:hover {
-  background-color: #333333 !important;
-  color: white !important;
-}
-
-/* DARK MODE - Force black background and white text */
-html.dark .services-dropdown-container .dropdown-menu {
-  background-color: black !important;
-  border: 1px solid white !important;
-}
-
-html.dark .services-dropdown-container .dropdown-item {
-  color: white !important;
-  background-color: transparent !important;
-  border-left: none !important;
-  border-right: none !important;
-  border-top: none !important;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.3) !important;
-}
-
-html.dark .services-dropdown-container .dropdown-item:last-child {
-  border-bottom: none !important;
-}
-
-html.dark .services-dropdown-container .dropdown-item:hover {
-  background-color: #333333 !important;
-  color: white !important;
 }
 
 /* Override for footer contact links hover (image cursor only) */

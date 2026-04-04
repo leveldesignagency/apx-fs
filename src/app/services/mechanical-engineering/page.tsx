@@ -1,10 +1,12 @@
 "use client"
 
+import Link from "next/link"
 import { ServicePageBottomCta } from "@/components/ServicePageBottomCta"
 import { OurCustomers } from "@/components/ServicePageSharedSections"
 import { CustomPillButton } from "@/components/ui/CustomPillButton"
 import { ServicePageHero } from "@/components/ServicePageHero"
 import { serviceHeroImages } from "@/lib/serviceHeroImages"
+import { FS_SERVICE_SHIMMER_CARD } from "@/lib/fsServicePageCards"
 import { Check } from "lucide-react"
 
 const SYSTEM_TYPES = [
@@ -78,10 +80,10 @@ export default function FireSafetySystemsPage() {
       <div className="relative bg-black">
         {heroBridge}
 
-        <section className="container relative z-[1] mx-auto max-w-4xl px-6 py-12 lg:py-16">
+        <section className="container relative z-[1] mx-auto px-6 py-8 lg:py-10">
           <h2 className="mb-4 text-left font-title text-3xl font-bold text-white sm:text-4xl">Fire Alarm System Installer London</h2>
           <h3 className="mb-6 text-left font-title text-2xl font-semibold text-white">Bespoke Fire Alarm Systems</h3>
-          <div className="space-y-4 text-lg leading-relaxed text-gray-300">
+          <div className="max-w-7xl space-y-4 text-base leading-relaxed text-gray-300 sm:text-lg">
             <p>
               Established in 1986 we work throughout London and the Home Counties to install fire protection systems that combine the highest standard of fire protection equipment with high levels of customer care, at affordable prices.
             </p>
@@ -99,9 +101,61 @@ export default function FireSafetySystemsPage() {
 
         <div className="border-t border-white/15" />
 
-        <section className="container mx-auto max-w-4xl px-6 py-12 lg:py-16">
+        <section className="container mx-auto px-6 py-12 lg:py-16">
+          <h2 className="mb-4 text-left font-title text-3xl font-bold text-white sm:text-4xl">Compliance, certification &amp; handover</h2>
+          <p className="mb-8 max-w-3xl text-left text-gray-300">
+            Our fire alarm installations are delivered against recognised UK standards with clear records for approval, handover and audit. Typical deliverables include as-built drawings, zone charts, commissioning certificates and O&amp;M manuals — aligned with BS 5839-1 and BS 5839-6 where domestic or mixed-use elements apply.
+          </p>
+          <div className="grid grid-cols-1 gap-10 lg:grid-cols-2">
+            <div>
+              <h3 className="mb-4 text-xl font-semibold text-white">Typical scope</h3>
+              <p className="mb-3 text-left text-sm font-semibold uppercase tracking-wide text-white/55">
+                Design, install &amp; commission
+              </p>
+              <ul className="space-y-2 list-inside list-disc text-gray-300">
+                <li>Addressable and conventional fire alarm systems</li>
+                <li>Cause-and-effect programming and witnessed testing</li>
+                <li>Fire detection devices (smoke, heat, multi-sensor)</li>
+                <li>Manual call points, sounders and VADs</li>
+                <li>Integration with EVAC, access control and BMS where specified</li>
+                <li>Networked fire alarm systems and phased handover support</li>
+              </ul>
+            </div>
+            <div>
+              <h3 className="mb-4 text-xl font-semibold text-white">Standards reference</h3>
+              <p className="mb-3 text-left text-sm font-semibold uppercase tracking-wide text-white/55">
+                Fire detection &amp; BS 5839
+              </p>
+              <ul className="space-y-2 text-gray-300">
+                <li className="flex items-start gap-2">
+                  <Check className="mt-0.5 h-5 w-5 shrink-0 text-white/50" strokeWidth={2} />
+                  <span>BS 5839-1 — Fire detection and fire alarm systems for buildings (non-domestic)</span>
+                </li>
+                <li className="flex items-start gap-2">
+                  <Check className="mt-0.5 h-5 w-5 shrink-0 text-white/50" strokeWidth={2} />
+                  <span>BS 5839-6 — Where domestic or dwelling-related elements apply</span>
+                </li>
+              </ul>
+              <p className="mt-6 text-sm leading-relaxed text-gray-400">
+                Dedicated refuge and disabled communication (BS 5839-9) and voice evacuation (BS 5839-8) scopes are covered on their own service pages — see{" "}
+                <Link href="/services/refuge-disabled-communication" className="text-white underline decoration-white/30 underline-offset-2 hover:decoration-white">
+                  refuge &amp; disabled communication
+                </Link>{" "}
+                and{" "}
+                <Link href="/services/evac-voice-evacuation" className="text-white underline decoration-white/30 underline-offset-2 hover:decoration-white">
+                  EVAC &amp; voice evacuation
+                </Link>
+                .
+              </p>
+            </div>
+          </div>
+        </section>
+
+        <div className="border-t border-white/15" />
+
+        <section className="container mx-auto px-6 py-12 lg:py-16">
           <h2 className="mb-8 text-left font-title text-3xl font-bold text-white sm:text-4xl">We are BAFE Accredited</h2>
-          <div className="space-y-4 text-lg leading-relaxed text-gray-300">
+          <div className="max-w-7xl space-y-4 text-base leading-relaxed text-gray-300 sm:text-lg">
             <p>
               BAFE (British Approvals for Fire Equipment) is an independent British organisation that publishes and maintains a national register of competent fire safety service providers. We are proud to be BAFE accredited.
             </p>
@@ -122,10 +176,7 @@ export default function FireSafetySystemsPage() {
           <p className="mb-8 max-w-2xl text-left text-gray-300">A small selection of some of our fire alarm system customers:</p>
           <div className="flex flex-wrap gap-6 sm:gap-8">
             {FIRE_CUSTOMERS.map((c, i) => (
-              <div
-                key={i}
-                className="min-w-[180px] rounded-xl border border-white/20 bg-black p-6 text-left text-white"
-              >
+              <div key={i} className={`${FS_SERVICE_SHIMMER_CARD} min-w-[180px] p-6 text-left`}>
                 <p className="font-semibold">{c.name}</p>
                 <p className="mt-1 text-sm text-gray-300">{c.tagline}</p>
               </div>
@@ -140,10 +191,7 @@ export default function FireSafetySystemsPage() {
           <p className="mb-8 max-w-2xl text-left text-gray-300">Examples of fire alarm systems that we have installed for our customers:</p>
           <div className="grid grid-cols-1 gap-8 md:grid-cols-2 lg:grid-cols-3">
             {FIRE_INSTALLATIONS.map((item, index) => (
-              <div
-                key={index}
-                className="rounded-tl-[1.5rem] rounded-br-[1.5rem] border-2 border-white/20 bg-black p-8 text-white transition-colors hover:border-white/45"
-              >
+              <div key={index} className={`${FS_SERVICE_SHIMMER_CARD} p-8`}>
                 <h3 className="mb-2 text-lg font-semibold text-white">{item.title}</h3>
                 <p className="text-gray-300">{item.org}</p>
               </div>
@@ -169,9 +217,9 @@ export default function FireSafetySystemsPage() {
 
         <div className="border-t border-white/15" />
 
-        <section className="container mx-auto max-w-4xl px-6 py-12 lg:py-16">
+        <section className="container mx-auto px-6 py-12 lg:py-16">
           <h2 className="mb-6 text-left font-title text-3xl font-bold text-white sm:text-4xl">Do all businesses need a fire alarm system?</h2>
-          <div className="space-y-4 text-lg leading-relaxed text-gray-300">
+          <div className="max-w-7xl space-y-4 text-base leading-relaxed text-gray-300 sm:text-lg">
             <p>
               Current UK fire alarm regulations state that all business premises must have &ldquo;an appropriate fire detection system&rdquo;. This basically means that if a fire breaks out, could it easily be detected and could the people within the building easily be told about it?
             </p>
@@ -207,8 +255,8 @@ export default function FireSafetySystemsPage() {
           <CustomPillButton href="/contact" size="md">
             Get a free quote
           </CustomPillButton>
-          <CustomPillButton href="tel:02045685986" size="md" variant="outline">
-            Call 020 4568 5986
+          <CustomPillButton href="tel:02083032280" size="md" variant="outline">
+            Call 020 8303 2280
           </CustomPillButton>
         </ServicePageBottomCta>
 

@@ -15,6 +15,7 @@ const capabilities = [
   "System health checks",
   "Firmware and software updates",
   "Fault diagnostics and repairs",
+  "Compliance testing",
   "System upgrades and compliance checks",
 ]
 

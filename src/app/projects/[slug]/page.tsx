@@ -52,7 +52,7 @@ export default async function ProjectDetailPage({ params }: Props) {
           <div className="absolute inset-0 bg-black/30" />
           <div className="absolute inset-0 bg-gradient-to-b from-black/45 via-black/20 to-black/55" />
         </div>
-        <div className="relative z-10 mx-auto w-full max-w-[min(100%,92rem)] px-4 pb-14 pt-28 sm:px-6 md:pb-16 md:pt-32 lg:px-8">
+        <div className="relative z-10 mx-auto w-full max-w-[min(100%,92rem)] px-4 pb-14 page-title-top sm:px-6 md:pb-16 lg:px-8">
           <Link href="/projects" className="text-sm uppercase tracking-[0.18em] text-white/70 hover:text-white">
             Back to projects
           </Link>

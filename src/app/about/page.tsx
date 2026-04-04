@@ -3,7 +3,14 @@
 import Image from "next/image";
 import Link from "next/link";
 import { useState, useEffect, useRef } from "react";
+import { Building2, DraftingCompass, HardHat, Wrench, type LucideIcon } from "lucide-react";
 import { Reveal } from "@/components/Reveal";
+import { CustomPillButton } from "@/components/ui/CustomPillButton";
+import { FS_SERVICE_SHIMMER_CARD } from "@/lib/fsServicePageCards";
+
+/** Inline links in heritage / why-choose copy — bold + underline on dark background */
+const ABOUT_TEXT_LINK =
+  "font-semibold text-white underline decoration-white/40 underline-offset-[3px] transition-colors hover:decoration-white hover:text-white focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white/50 rounded-sm";
 
 /** Commitment icons: public/__quality assurance.svg, __health and safety.svg, __environmental.svg */
 const ABOUT_COMMITMENTS = [
@@ -23,6 +30,44 @@ const EXPERTISE_ACCRED_LOGOS = [
   { href: "/accreditations/constructionline", src: `${ACC_MONO}/Coloured/ConstructionOnline-01.svg`, alt: "Constructionline" },
   { href: "/accreditations/fia", src: `${ACC_MONO}/Coloured/FIA-01.svg`, alt: "FIA" },
 ] as const;
+
+type WhoWeSupportItem = {
+  title: string;
+  description: string;
+  highlights: string;
+  Icon: LucideIcon;
+};
+
+const WHO_WE_SUPPORT: WhoWeSupportItem[] = [
+  {
+    title: "M&E contractors",
+    description:
+      "We slot into wider MEP programmes with coordinated installs, commissioning packs, and handover documentation that matches your testing strategy — from containment and risers through to integrated fire and security interfaces.",
+    highlights: "Integrated delivery · Commissioning & O&M",
+    Icon: Wrench,
+  },
+  {
+    title: "Facility management teams",
+    description:
+      "Ongoing maintenance, upgrades, and clear records for multi-site portfolios. We help keep systems compliant, minimise downtime, and plan lifecycle replacements without surprises for building users.",
+    highlights: "Planned maintenance · Emergency response",
+    Icon: Building2,
+  },
+  {
+    title: "Consultants and architects",
+    description:
+      "Early input on coverage, cause-and-effect, and system architecture so specifications stay buildable. We support RIBA stages, tender reviews, and design-team workshops where fire and security must align with the wider brief.",
+    highlights: "Design stages · Specification support",
+    Icon: DraftingCompass,
+  },
+  {
+    title: "Main contractors",
+    description:
+      "Programme-led delivery with disciplined site coordination, clear interfaces with other trades, and predictable milestones from first fix to client handover — including the documentation package your package needs to close out.",
+    highlights: "Site coordination · Handover packages",
+    Icon: HardHat,
+  },
+];
 
 function readDocumentScrollY(): number {
   if (typeof window === "undefined") return 0;
@@ -118,7 +163,7 @@ export default function AboutPage() {
       {/* overflow-visible on the section keeps angled splice + margin behaviour with the next block; parallax is clipped inside inner layers only */}
       <section
         ref={heroRef}
-        className="about-block about-block--black about-block--angle-bottom about-hero-parallax relative h-screen overflow-visible flex flex-col"
+        className="about-block about-block--black about-block--angle-bottom about-hero-parallax relative flex min-h-screen min-h-[100svh] flex-col overflow-visible"
       >
         <div className="pointer-events-none absolute inset-0 z-0 overflow-hidden" aria-hidden>
           <div
@@ -126,9 +171,9 @@ export default function AboutPage() {
             style={{ transform: `translate3d(0, ${py * PARALLAX.bg}px, 0)` }}
           />
         </div>
-        <div className="container mx-auto px-6 flex-1 flex flex-col justify-start pt-8 pb-10 sm:pt-10 sm:pb-12 lg:pt-12 lg:pb-14 relative z-20 w-full">
+        <div className="container mx-auto px-6 flex-1 flex flex-col justify-start pt-20 pb-10 sm:pt-24 sm:pb-12 lg:pt-28 lg:pb-14 xl:pt-32 relative z-20 w-full">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-16 xl:gap-20 items-start w-full">
-            <div className="mt-8 space-y-5 max-w-2xl sm:mt-10 lg:mt-14 xl:mt-20 lg:max-w-none">
+            <div className="mt-10 space-y-5 max-w-2xl sm:mt-12 lg:mt-16 xl:mt-24 lg:max-w-none">
               <h1
                 className="mb-3 md:mb-4 text-left text-white leading-[0.95]"
                 style={{ fontFamily: "var(--font-menu)" }}
@@ -232,11 +277,27 @@ export default function AboutPage() {
               </h2>
             </div>
           </Reveal>
-          <div className="grid grid-cols-1 gap-6 md:grid-cols-2 md:gap-7 xl:grid-cols-4 xl:gap-8">
-            {["M&E contractors", "Facility management teams", "Consultants and architects", "Main contractors"].map((client, i) => (
-              <Reveal key={client} delayMs={i * 55}>
-                <div className="rounded-2xl border border-white/25 bg-white/[0.06] p-7 text-white backdrop-blur-md md:p-8">
-                  <p className="text-lg font-semibold leading-snug">{client}</p>
+          <div className="grid grid-cols-1 gap-y-12 gap-x-6 pt-6 md:grid-cols-2 md:gap-x-7 md:gap-y-14 xl:grid-cols-4 xl:gap-x-8">
+            {WHO_WE_SUPPORT.map(({ title, description, highlights, Icon }, i) => (
+              <Reveal key={title} delayMs={i * 55}>
+                <div className="flex h-full flex-col items-center">
+                  <div
+                    className="relative z-10 flex h-14 w-14 shrink-0 items-center justify-center rounded-xl border border-white/25 bg-black shadow-[0_8px_28px_rgba(0,0,0,0.55)]"
+                    aria-hidden
+                  >
+                    <Icon className="h-7 w-7 shrink-0 text-white/90" strokeWidth={1.5} />
+                  </div>
+                  <article
+                    className={`${FS_SERVICE_SHIMMER_CARD} -mt-7 flex w-full min-w-0 flex-1 flex-col px-6 pb-6 pt-11 text-center md:px-7 md:pb-7 md:pt-12`}
+                  >
+                    <h3 className="text-lg font-semibold leading-snug text-white md:text-xl">{title}</h3>
+                    <p className="mb-5 mt-3 flex-1 text-left text-sm leading-relaxed text-white/80 md:mt-4 md:text-[0.9375rem]">
+                      {description}
+                    </p>
+                    <p className="border-t border-white/10 pt-4 text-center text-xs font-medium uppercase tracking-[0.14em] text-white/55">
+                      {highlights}
+                    </p>
+                  </article>
                 </div>
               </Reveal>
             ))}
@@ -286,7 +347,7 @@ export default function AboutPage() {
         </div>
       </section>
 
-      <section className="about-block about-block--black about-section-y about-section-px">
+      <section className="about-block about-block--black about-section-y about-section-px !pb-[clamp(4.5rem,11vw,8.5rem)]">
         <div className="about-section-inner rounded-3xl border border-white/20 bg-white/[0.04] p-8 text-center sm:p-10 lg:p-14 backdrop-blur-md">
           <Reveal>
             <p className="mx-auto max-w-4xl text-2xl font-medium leading-relaxed text-white/90 md:text-3xl lg:text-[2.45rem]">
@@ -307,6 +368,261 @@ export default function AboutPage() {
               </Reveal>
             ))}
           </div>
+        </div>
+      </section>
+
+      {/* Heritage & quality — half-width imagery + long-form copy (above Assurance) */}
+      <section className="about-block about-block--black overflow-hidden border-t border-white/10">
+        <div className="grid min-h-0 grid-cols-1 items-stretch lg:grid-cols-2 lg:min-h-[min(100svh,920px)]">
+          <Reveal className="h-full min-h-[50vh]">
+            <div className="relative h-full min-h-[50vh] border-b border-white/10 lg:min-h-full lg:border-b-0 lg:border-r lg:border-white/10">
+              <Image
+                src="/projects/library/apx-fire-security-alarm-box.jpg"
+                alt="Fire and security alarm system"
+                fill
+                className="object-cover object-center"
+                sizes="(max-width: 1024px) 100vw, 50vw"
+              />
+              <div
+                className="pointer-events-none absolute inset-0 bg-gradient-to-r from-transparent via-transparent to-black/25 lg:to-black/35"
+                aria-hidden
+              />
+            </div>
+          </Reveal>
+          <div className="about-section-inner flex h-full min-h-0 flex-col justify-center px-6 py-12 sm:px-8 lg:max-w-none lg:min-h-0 lg:py-12 lg:pl-12 lg:pr-10 xl:pl-16 xl:pr-14">
+            <Reveal>
+              <p className="text-base leading-relaxed text-white/85 md:text-lg">
+                Since 1986 APX Fire &amp; Security have specialised in the design, installation and maintenance of high quality{" "}
+                <Link href="/services" className={ABOUT_TEXT_LINK}>
+                  security systems
+                </Link>{" "}
+                to London and the Home Counties. The quality of our work and our excellent{" "}
+                <Link href="/services/maintenance-support" className={ABOUT_TEXT_LINK}>
+                  after-sales service
+                </Link>{" "}
+                has allowed us to build the business on recommendations alone. We have achieved{" "}
+                <Link href="/accreditations/nsi" className={ABOUT_TEXT_LINK}>
+                  NSI Gold
+                </Link>{" "}
+                accreditation and are fully accredited to{" "}
+                <Link href="/accreditations/bafe" className={ABOUT_TEXT_LINK}>
+                  BAFE
+                </Link>{" "}
+                and{" "}
+                <Link href="/accreditations/fia" className={ABOUT_TEXT_LINK}>
+                  FIA
+                </Link>{" "}
+                for our customers&apos; peace of mind.
+              </p>
+            </Reveal>
+            <Reveal delayMs={60}>
+              <h2
+                className="mt-10 text-2xl font-bold leading-tight text-white md:mt-12 md:text-3xl"
+                style={{ fontFamily: "var(--font-menu)" }}
+              >
+                Recognition of Quality and Service
+              </h2>
+              <p className="mt-4 text-base leading-relaxed text-white/82 md:text-lg">
+                APX has been chosen by hundreds of householders and private businesses throughout the UK. We have a vast amount of experience, designing and installing{" "}
+                <Link href="/services" className={ABOUT_TEXT_LINK}>
+                  security and safety systems
+                </Link>{" "}
+                of all sizes and our{" "}
+                <Link href="/accreditations" className={ABOUT_TEXT_LINK}>
+                  accreditations
+                </Link>{" "}
+                reflect the level of quality and professionalism we offer.
+              </p>
+            </Reveal>
+            <Reveal delayMs={100}>
+              <p className="mt-6 text-base leading-relaxed text-white/82 md:mt-8 md:text-lg">
+                We are proud to meet the high standards of{" "}
+                <Link href="/accreditations/nsi" className={ABOUT_TEXT_LINK}>
+                  NSI Gold
+                </Link>{" "}
+                accreditation which is the ultimate hallmark of excellence for providers of{" "}
+                <Link href="/services" className={ABOUT_TEXT_LINK}>
+                  security and fire safety services
+                </Link>
+                . Our commitment to adhering to the{" "}
+                <Link href="/accreditations" className={ABOUT_TEXT_LINK}>
+                  BS EN ISO 9001:2015
+                </Link>{" "}
+                quality management system has made us a preferred installer of{" "}
+                <Link href="/services/sustainability" className={ABOUT_TEXT_LINK}>
+                  intruder alarms
+                </Link>
+                ,{" "}
+                <Link href="/services/electrical-systems" className={ABOUT_TEXT_LINK}>
+                  CCTV
+                </Link>
+                ,{" "}
+                <Link href="/services/energy-efficiency" className={ABOUT_TEXT_LINK}>
+                  access control
+                </Link>
+                ,{" "}
+                <Link href="/services/mechanical-engineering" className={ABOUT_TEXT_LINK}>
+                  fire alarms
+                </Link>{" "}
+                and{" "}
+                <Link href="/services/maintenance" className={ABOUT_TEXT_LINK}>
+                  video entry systems
+                </Link>
+                .
+              </p>
+            </Reveal>
+            <Reveal delayMs={140}>
+              <p className="mt-6 text-base leading-relaxed text-white/82 md:text-lg">
+                With technology constantly evolving in all areas of{" "}
+                <Link href="/services/security-systems" className={ABOUT_TEXT_LINK}>
+                  security
+                </Link>
+                , we ensure that our installers are regularly trained to maintain the highest levels of skills and product knowledge. Our customers can trust us to deliver
+                their requirements.
+              </p>
+            </Reveal>
+          </div>
+        </div>
+      </section>
+
+      <section
+        id="disciplines-and-integration"
+        className="about-block about-block--black about-section-y about-section-px border-t border-white/10"
+      >
+        <div className="about-section-inner max-w-5xl">
+          <Reveal>
+            <span className="section-label mb-4 block text-white/70">How we work</span>
+            <h2
+              className="text-2xl font-bold leading-tight text-white md:text-3xl lg:text-4xl"
+              style={{ fontFamily: "var(--font-menu)" }}
+            >
+              Disciplines &amp; integrated delivery
+            </h2>
+          </Reveal>
+          <Reveal delayMs={60}>
+            <p className="mt-6 text-base leading-relaxed text-white/82 md:text-lg">
+              APX specialises in integrated fire and security solutions that work across multiple systems. Typical interfaces include fire alarm to access control release,
+              CCTV event-triggered recording, intruder alarm signalling to the monitoring station, EVAC coordinated with fire cause-and-effect, and BMS integration — helping
+              reduce false alarms, improve site security, streamline building management and support emergency response.
+            </p>
+          </Reveal>
+          <Reveal delayMs={100}>
+            <div className="mt-10 overflow-x-auto rounded-2xl border border-white/15 bg-black/35">
+              <table className="w-full min-w-[min(100%,560px)] text-left text-sm text-white/88 md:text-base">
+                <thead>
+                  <tr className="border-b border-white/15 bg-white/[0.04]">
+                    <th scope="col" className="px-4 py-3 font-title font-semibold tracking-tight">
+                      Discipline
+                    </th>
+                    <th scope="col" className="px-4 py-3 font-title font-semibold tracking-tight">
+                      Services included
+                    </th>
+                  </tr>
+                </thead>
+                <tbody className="divide-y divide-white/10">
+                  {(
+                    [
+                      ["Fire alarms", "Addressable, conventional, commissioning, cause-and-effect"],
+                      ["CCTV", "IP/analogue, monitoring, ANPR, networking"],
+                      ["Intruder alarms", "Grade 2–3, monitoring, sensors, integration"],
+                      ["Refuge systems", "EVC, disabled refuge, fire telephones"],
+                      ["EVAC systems", "Voice evacuation, PA integration"],
+                      ["Video entry", "Multi-tenant, access control, networked systems"],
+                      ["Maintenance", "PPM, 24/7 support, compliance testing"],
+                    ] as const
+                  ).map(([discipline, services]) => (
+                    <tr key={discipline}>
+                      <td className="px-4 py-3 align-top font-medium text-white">{discipline}</td>
+                      <td className="px-4 py-3 text-white/80">{services}</td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+          </Reveal>
+          <Reveal delayMs={140}>
+            <p className="mt-8 text-sm leading-relaxed text-white/65 md:text-base">
+              For dedicated capability lists, standards and deliverables, browse the{" "}
+              <Link href="/services" className={ABOUT_TEXT_LINK}>
+                services hub
+              </Link>{" "}
+              — including{" "}
+              <Link href="/services/fire-life-safety" className={ABOUT_TEXT_LINK}>
+                fire &amp; life safety
+              </Link>
+              ,{" "}
+              <Link href="/services/refuge-disabled-communication" className={ABOUT_TEXT_LINK}>
+                refuge &amp; disabled communication
+              </Link>
+              ,{" "}
+              <Link href="/services/evac-voice-evacuation" className={ABOUT_TEXT_LINK}>
+                EVAC &amp; voice evacuation
+              </Link>
+              ,{" "}
+              <Link href="/services/security-systems" className={ABOUT_TEXT_LINK}>
+                security systems
+              </Link>{" "}
+              and{" "}
+              <Link href="/services/maintenance-support" className={ABOUT_TEXT_LINK}>
+                maintenance &amp; support
+              </Link>
+              .
+            </p>
+          </Reveal>
+        </div>
+      </section>
+
+      <section className="about-block about-block--black about-section-y about-section-px border-t border-white/10">
+        <div className="about-section-inner max-w-4xl">
+          <Reveal>
+            <h2 className="text-2xl font-bold leading-tight text-white md:text-3xl lg:text-4xl" style={{ fontFamily: "var(--font-menu)" }}>
+              Why choose APX Fire &amp; Security?
+            </h2>
+          </Reveal>
+          <Reveal delayMs={60}>
+            <p className="mt-6 text-base leading-relaxed text-white/82 md:mt-8 md:text-lg">
+              APX Fire &amp; Security have been providing bespoke high quality integrated{" "}
+              <Link href="/services" className={ABOUT_TEXT_LINK}>
+                security systems
+              </Link>{" "}
+              to London and the Home Counties since 1986. Our knowledge and years of experience means that we can offer advice in all aspects of security, from small
+              domestic systems through to large-scale{" "}
+              <Link href="/services" className={ABOUT_TEXT_LINK}>
+                commercial installations
+              </Link>
+              .
+            </p>
+          </Reveal>
+          <Reveal delayMs={100}>
+            <p className="mt-6 text-base leading-relaxed text-white/82 md:text-lg">
+              Our service commitment and reliable{" "}
+              <Link href="/services/maintenance-support" className={ABOUT_TEXT_LINK}>
+                after-sales support
+              </Link>{" "}
+              provide an unrivalled service within the{" "}
+              <Link href="/services" className={ABOUT_TEXT_LINK}>
+                security systems industry
+              </Link>{" "}
+              and by adopting a customer-centred approach to our work within both the{" "}
+              <Link href="/services/cctv/domestic" className={ABOUT_TEXT_LINK}>
+                domestic
+              </Link>{" "}
+              and{" "}
+              <Link href="/services/cctv/commercial" className={ABOUT_TEXT_LINK}>
+                commercial
+              </Link>{" "}
+              sectors, we have been able to build the company on the strength of recommendations alone.
+            </p>
+          </Reveal>
+          <Reveal delayMs={140}>
+            <p className="mt-6 text-base leading-relaxed text-white/82 md:text-lg">
+              Our systems provide our customers the peace of mind that a well designed, well installed and reliable{" "}
+              <Link href="/services" className={ABOUT_TEXT_LINK}>
+                security system
+              </Link>{" "}
+              can bring. You are safe and secure with APX.
+            </p>
+          </Reveal>
         </div>
       </section>
 
@@ -337,7 +653,7 @@ export default function AboutPage() {
       </section>
 
       <section className="about-block about-block--black about-section-y about-section-px">
-        <div className="about-section-inner rounded-3xl border border-white/25 bg-white/[0.05] px-6 py-12 text-center sm:px-10 md:py-16 backdrop-blur-md">
+        <div className="about-section-inner text-center">
           <Reveal>
             <h2 className="mb-6 text-4xl font-bold text-white lg:mb-8 lg:text-5xl" style={{ fontFamily: "var(--font-menu)" }}>
               Get in touch
@@ -349,12 +665,9 @@ export default function AboutPage() {
             </p>
           </Reveal>
           <Reveal delayMs={140}>
-            <Link
-              href="/contact"
-              className="inline-flex rounded-xl border border-white bg-white px-10 py-4 text-lg font-semibold text-black transition-colors hover:bg-black hover:text-white"
-            >
+            <CustomPillButton href="/contact" size="md">
               Contact us
-            </Link>
+            </CustomPillButton>
           </Reveal>
         </div>
       </section>

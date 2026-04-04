@@ -122,14 +122,17 @@ const GlobalStyles = createGlobalStyle<{ theme: typeof lightTheme }>`
     background: ${({ theme }) => theme.buttonHover} !important;
   }
 
-  /* Projects section nav arrows: white border, no fill, white icon; hover = white fill, black icon (override global button) */
-  #projects .projects-nav-btn {
+  /* Projects + testimonials nav arrows: white border, no fill, white icon; hover = white fill, black icon (override global button) */
+  #projects .projects-nav-btn,
+  #testimonials .projects-nav-btn {
     background: transparent !important;
     color: white !important;
     border-color: white !important;
   }
   #projects .projects-nav-btn:hover,
-  #projects .projects-nav-btn:focus {
+  #projects .projects-nav-btn:focus,
+  #testimonials .projects-nav-btn:hover,
+  #testimonials .projects-nav-btn:focus {
     background: white !important;
     color: black !important;
     border-color: white !important;

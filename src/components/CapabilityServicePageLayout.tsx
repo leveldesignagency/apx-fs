@@ -1,3 +1,4 @@
+import type { ReactNode } from "react"
 import Link from "next/link"
 import { ListChecks, ShieldCheck, Package, Check } from "lucide-react"
 import { CapabilityServiceTabs } from "@/components/CapabilityServiceTabs"
@@ -6,10 +7,10 @@ import { ServicePageHero, type ServicePageHeroProps } from "@/components/Service
 export type CapabilityServicePageLayoutProps = {
   /** Page title — sentence case, homepage title font */
   title: string
-  intro: string
+  intro: ReactNode
   /** Optional hero photo; omit for text-only hero on black (capability pillars) */
   heroImageSrc?: string
-  /** Passed to ServicePageHero — defaults to quick-links */
+  /** Passed to ServicePageHero — core capability pillars omit bottom quick nav by default */
   heroNav?: ServicePageHeroProps["heroNav"]
   capabilities: string[]
   compliance: string[]
@@ -51,7 +52,8 @@ export function CapabilityServicePageLayout({
       <ServicePageHero
         title={title}
         intro={intro}
-        {...(heroNav !== undefined ? { heroNav } : {})}
+        heroNav={heroNav ?? false}
+        compact={!heroImageSrc}
         {...(heroImageSrc ? { imageSrc: heroImageSrc } : {})}
       />
 
@@ -65,7 +67,7 @@ export function CapabilityServicePageLayout({
           aria-hidden
         />
 
-        <div className="fs-capability-page fs-capability-page--section relative z-[1] pt-10 pb-28 sm:pt-14 sm:pb-32 lg:pb-40">
+        <div className="fs-capability-page fs-capability-page--section relative z-[1] pt-4 pb-20 sm:pt-5 sm:pb-24 lg:pb-28">
           <div className={outerClass}>
             <div className="fs-capability-unified mt-0 sm:mt-1">
               <div className="fs-capability-tabs-row">
