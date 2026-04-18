@@ -42,7 +42,8 @@ export function buildFsMetadata({
       description,
     },
     alternates: {
-      canonical: path,
+      /** Absolute URL — avoids mismatches with path-only canonicals in audits */
+      canonical: url,
     },
   }
 }

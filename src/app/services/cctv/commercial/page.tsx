@@ -2,12 +2,12 @@
 
 import Link from "next/link"
 import { CctvWhatWeOfferSection } from "@/components/CctvWhatWeOfferSection"
+import { FsCctvCameraTypesStrip } from "@/components/FsCctvCameraTypesStrip"
+import { FsServiceFaqByRoute } from "@/components/FsServiceFaqByRoute"
 import { ServicePageHero } from "@/components/ServicePageHero"
+import { FS_SERVICE_SHIMMER_CARD_FEATURE } from "@/lib/fsServicePageCards"
 import { serviceHeroImages } from "@/lib/serviceHeroImages"
 import { Building2, CheckCircle, Monitor, Lock } from "lucide-react"
-
-const cardClass =
-  "rounded-tl-[1.5rem] rounded-br-[1.5rem] border-2 border-white/20 bg-black p-8 text-white transition-colors hover:border-white/45"
 
 const WHAT_WE_OFFER_ITEMS = [
   "Site survey and system design",
@@ -16,17 +16,23 @@ const WHAT_WE_OFFER_ITEMS = [
   "GDPR-compliant data handling",
   "Installation, commissioning and training",
   "Ongoing maintenance and support",
+  "Multi-site roll-out and centralised monitoring options",
+  "Integration with access control and intruder alarms",
+  "Documentation and handover packs aligned with NSI expectations",
 ]
 
 export default function CommercialCctvPage() {
   return (
     <div className="service-page-root min-h-screen overflow-x-hidden text-white">
-      <ServicePageHero
-        title="Commercial CCTV systems"
-        imageSrc={serviceHeroImages.cctv}
-        heroNav="cctv-tabs"
-        intro="High-performance CCTV for offices, retail, warehouses, and multi-site operations. We design and install scalable systems with remote monitoring, integration with access control and intruder alarms, and compliance with GDPR and industry standards."
-      />
+      <div className="relative">
+        <ServicePageHero
+          title="Commercial CCTV systems"
+          imageSrc={serviceHeroImages.cctv}
+          heroNav="cctv-tabs"
+          intro="High-performance CCTV for offices, retail, warehouses, and multi-site operations. We design and install scalable systems with remote monitoring, integration with access control and intruder alarms, and compliance with GDPR and industry standards."
+        />
+        <FsCctvCameraTypesStrip />
+      </div>
 
       <div className="relative bg-black">
         <div
@@ -50,7 +56,7 @@ export default function CommercialCctvPage() {
               { icon: Monitor, title: "24/7 monitoring", text: "Optional alarm receiving and video monitoring with rapid response." },
               { icon: Lock, title: "Integration", text: "CCTV working with access control, intruder alarms, and fire systems." },
             ].map((item, i) => (
-              <div key={i} className={cardClass}>
+              <div key={i} className={FS_SERVICE_SHIMMER_CARD_FEATURE}>
                 <item.icon className="mb-4 h-8 w-8 text-white" strokeWidth={1.75} />
                 <h3 className="mb-3 text-left text-xl font-semibold text-white">{item.title}</h3>
                 <p className="text-left text-gray-300">{item.text}</p>
@@ -121,6 +127,8 @@ export default function CommercialCctvPage() {
         </section>
 
         <CctvWhatWeOfferSection eyebrow="Commercial" items={WHAT_WE_OFFER_ITEMS} />
+
+        <FsServiceFaqByRoute />
       </div>
     </div>
   )

@@ -11,26 +11,39 @@ export const metadata: Metadata = buildFsMetadata({
 })
 
 const capabilities = [
-  "CCTV systems (IP and analogue)",
-  "NVR and DVR installation",
-  "Remote monitoring integration",
-  "Perimeter protection and ANPR",
-  "Intruder alarm systems (Grade 2 and Grade 3)",
-  "Monitoring and police response integration",
-  "Video entry and door access control",
-  "Integration with fire alarms and building systems",
+  "Fire alarm to access control release",
+  "CCTV event-triggered recording",
+  "Intruder alarm to monitoring station",
+  "EVAC to fire alarm cause-and-effect",
+  "BMS integration",
+  "Networked multi-system solutions",
+  "Reduced false alarms",
+  "Improved site security",
+  "Streamlined building management",
+  "Enhanced emergency response",
 ]
 
-const compliance = ["BS EN 62676", "PD 6662", "BS EN 50131", "BS EN 60839", "GDPR-compliant data handling"]
-const deliverables = ["Camera schedules", "Network diagrams", "Recording retention setup", "System design proposal", "Commissioning certificates", "User training"]
+const compliance = ["BS 5839-1", "BS EN 62676", "PD 6662", "BS EN 50131", "BS EN 60839", "GDPR-compliant data handling"]
+const deliverables = [
+  "Integration test records",
+  "Interface schedules",
+  "Commissioning certificates",
+  "Cause-and-effect matrices",
+  "O&M and user training",
+]
 
 const intro = (
   <>
     <p>
-      We design and install integrated security systems that provide dependable protection while fitting seamlessly with wider building operations. APX delivers structured, compliant installations from design through commissioning and handover — including CCTV, intruder alarms, video entry and access control in coordinated packages.
+      APX specialises in delivering integrated fire and security solutions that operate seamlessly across multiple systems — from coordinated interfaces and monitoring to
+      handover documentation that reflects how your site actually runs.
     </p>
     <p className="text-white/85">
-      For how these disciplines connect across fire, security and building systems, see{" "}
+      For how each discipline is delivered on its own, browse the{" "}
+      <Link href="/services" className="underline decoration-white/45 underline-offset-[3px] transition-colors hover:decoration-white">
+        services hub
+      </Link>{" "}
+      or see{" "}
       <Link
         href="/about#disciplines-and-integration"
         className="underline decoration-white/45 underline-offset-[3px] transition-colors hover:decoration-white"

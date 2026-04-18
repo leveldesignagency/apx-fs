@@ -2,12 +2,11 @@
 
 import Link from "next/link"
 import { CctvWhatWeOfferSection } from "@/components/CctvWhatWeOfferSection"
+import { FsServiceFaqByRoute } from "@/components/FsServiceFaqByRoute"
 import { ServicePageHero } from "@/components/ServicePageHero"
+import { FS_SERVICE_SHIMMER_CARD_FEATURE } from "@/lib/fsServicePageCards"
 import { serviceHeroImages } from "@/lib/serviceHeroImages"
 import { Camera, CheckCircle, FileCheck, HelpCircle } from "lucide-react"
-
-const cardClass =
-  "rounded-tl-[1.5rem] rounded-br-[1.5rem] border-2 border-white/20 bg-black p-8 text-white transition-colors hover:border-white/45"
 
 const WHAT_WE_OFFER_ITEMS = [
   "Free, no-obligation survey of your property",
@@ -15,6 +14,10 @@ const WHAT_WE_OFFER_ITEMS = [
   "Guidance on camera types, resolution and night vision",
   "Advice on recording, retention, signage and GDPR",
   "What to expect from a professional installer",
+  "Wired vs wireless options and cabling considerations",
+  "Indoor, outdoor and low-light placement guidance",
+  "Lawful recording, signage and sharing footage",
+  "Clear next steps: specification, quote and installation",
 ]
 
 export default function UsefulCctvAdvicePage() {
@@ -57,7 +60,7 @@ export default function UsefulCctvAdvicePage() {
                 text: "GDPR, signage, retention periods, and sharing footage with police or insurers.",
               },
             ].map((item, i) => (
-              <div key={i} className={cardClass}>
+              <div key={i} className={FS_SERVICE_SHIMMER_CARD_FEATURE}>
                 <item.icon className="mb-4 h-8 w-8 text-white" strokeWidth={1.75} />
                 <h3 className="mb-3 text-left text-xl font-semibold text-white">{item.title}</h3>
                 <p className="text-left text-gray-300">{item.text}</p>
@@ -132,6 +135,8 @@ export default function UsefulCctvAdvicePage() {
           description="The best way to get advice tailored to your property is a free, no-obligation survey. We assess your site, discuss your requirements, and recommend the right CCTV approach."
           items={WHAT_WE_OFFER_ITEMS}
         />
+
+        <FsServiceFaqByRoute />
       </div>
     </div>
   )

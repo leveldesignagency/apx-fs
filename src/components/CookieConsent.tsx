@@ -81,38 +81,17 @@ const CookieConsent = () => {
   // Don't render until we've checked localStorage (client-only)
   if (!mounted) return null
 
-  // Settings button when banner is hidden (user already has preferences saved)
+  // Settings button when banner is hidden — desktop/tablet: bottom-left; hidden on mobile (homepage uses contact FAB)
   if (!showBanner && !showSettings) {
     return (
       <button
         type="button"
-        className="cookie-settings-btn cookie-settings-fab"
+        className="cookie-settings-btn cookie-settings-fab fixed bottom-6 left-6 z-[9999] hidden h-12 w-12 items-center justify-center rounded-full border-2 border-white shadow-[0_4px_12px_rgba(0,0,0,0.3)] transition-colors duration-300 hover:bg-[#111] md:flex"
+        style={{ backgroundColor: "#000000" }}
         onClick={() => setShowSettings(true)}
-        style={{
-          position: 'fixed',
-          bottom: '24px',
-          right: '24px',
-          zIndex: 9999,
-          width: '48px',
-          height: '48px',
-          borderRadius: '50%',
-          border: '2px solid #ffffff',
-          display: 'flex',
-          alignItems: 'center',
-          justifyContent: 'center',
-          cursor: 'pointer',
-          boxShadow: '0 4px 12px rgba(0, 0, 0, 0.3)',
-          transition: 'background-color 0.3s ease'
-        }}
-        onMouseEnter={(e) => {
-          e.currentTarget.style.backgroundColor = '#111111'
-        }}
-        onMouseLeave={(e) => {
-          e.currentTarget.style.backgroundColor = '#000000'
-        }}
         aria-label="Cookie Settings"
       >
-        <Settings style={{ width: '20px', height: '20px' }} className="cookie-settings-fab-icon" />
+        <Settings style={{ width: "20px", height: "20px" }} className="cookie-settings-fab-icon" />
       </button>
     )
   }

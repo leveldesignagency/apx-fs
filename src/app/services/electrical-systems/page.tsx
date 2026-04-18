@@ -5,11 +5,9 @@ import { ServicePageBottomCta } from "@/components/ServicePageBottomCta"
 import { CustomPillButton } from "@/components/ui/CustomPillButton"
 import { OurCustomers } from "@/components/ServicePageSharedSections"
 import { ServicePageHero } from "@/components/ServicePageHero"
+import { FS_SERVICE_SHIMMER_CARD_FEATURE } from "@/lib/fsServicePageCards"
 import { serviceHeroImages } from "@/lib/serviceHeroImages"
 import { Video, Shield, Monitor, CheckCircle, ArrowRight, Smartphone } from "lucide-react"
-
-const cardClass =
-  "rounded-tl-[1.5rem] rounded-br-[1.5rem] border-2 border-white/20 bg-black p-8 text-white transition-colors hover:border-white/45"
 
 export default function CctvSecurityPage() {
   return (
@@ -17,7 +15,8 @@ export default function CctvSecurityPage() {
       <ServicePageHero
         title="CCTV systems"
         imageSrc={serviceHeroImages.cctv}
-        intro="We offer the latest in CCTV technology, specialising in the design and installation of high performance CCTV systems that meet your requirements. Choosing the right CCTV system and having it professionally installed will provide you with superior results and will save you time and money in the long run."
+        heroCompliance={["GDPR", "BS EN 62676"]}
+        intro="We design, install, and maintain CCTV systems that provide high-definition surveillance and secure monitoring for commercial and industrial sites — with secure network configuration, retention design and user training aligned to your operational needs."
       />
 
       <div className="relative bg-black">
@@ -65,7 +64,7 @@ export default function CctvSecurityPage() {
                 description: "CCTV and alarms integrated with access control and fire systems for a single security platform.",
               },
             ].map((service, index) => (
-              <div key={index} className={`${cardClass} transition-transform duration-300 hover:scale-[1.02]`}>
+              <div key={index} className={`${FS_SERVICE_SHIMMER_CARD_FEATURE} transition-transform duration-300 hover:scale-[1.02]`}>
                 <div className="mb-4 text-white">{service.icon}</div>
                 <h3 className="mb-3 text-left text-xl font-semibold text-white">{service.title}</h3>
                 <p className="text-left text-gray-300">{service.description}</p>
@@ -125,7 +124,7 @@ export default function CctvSecurityPage() {
           </div>
         </section>
 
-        <OurCustomers />
+        <OurCustomers serviceTitleShort="CCTV" />
 
         <ServicePageBottomCta
           imageSrc={serviceHeroImages.cctv}

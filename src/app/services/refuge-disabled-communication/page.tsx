@@ -24,15 +24,15 @@ export default function RefugeDisabledCommunicationPage() {
       <ServicePageHero
         title="Refuge & disabled communication systems"
         imageSrc={serviceHeroImages.fireAlarm}
+        heroCompliance={["BS 5839-9"]}
         intro={
           <>
             <p className="mb-4">
-              We install fully compliant Emergency Voice Communication (EVC) systems to support safe evacuation for disabled persons during emergencies — from disabled refuge
-              points and fire telephones through to disabled toilet alarms and central control equipment.
+              We install fully compliant Emergency Voice Communication (EVC) systems to support safe evacuation for disabled persons during emergencies.
             </p>
             <p>
-              APX Fire and Security delivers structured design, installation, testing and commissioning across commercial, industrial and public-sector buildings, with
-              documentation that stands up to handover, audit and ongoing operation.
+              Capabilities include disabled refuge points, fire telephones, disabled toilet alarms and central EVC control panels — with multi-storey integration, structured
+              commissioning and documentation for handover and audit.
             </p>
           </>
         }
@@ -152,7 +152,7 @@ export default function RefugeDisabledCommunicationPage() {
           </div>
         </section>
 
-        <OurCustomers />
+        <OurCustomers serviceTitleShort="Refuge & EVC" />
 
         <ServicePageBottomCta
           imageSrc={serviceHeroImages.fireAlarm}

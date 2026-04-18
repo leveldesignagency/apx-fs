@@ -10,23 +10,25 @@ export const metadata: Metadata = buildFsMetadata({
 })
 
 const capabilities = [
-  "Planned preventative maintenance (PPM)",
+  "Planned Preventative Maintenance (PPM)",
   "24/7 call-out support",
   "System health checks",
   "Firmware and software updates",
   "Fault diagnostics and repairs",
   "Compliance testing",
-  "System upgrades and compliance checks",
 ]
 
 const compliance = ["BS 5839 maintenance requirements", "Manufacturer maintenance guidelines"]
 const deliverables = ["Maintenance reports", "Asset registers", "Compliance certificates"]
 
+const intro =
+  "APX provides ongoing maintenance and support to ensure systems remain compliant, reliable, and fully operational. We structure programmes around your site risk profile and operating hours, with clear reporting and responsive fault support."
+
 export default function MaintenanceSupportPage() {
   return (
     <CapabilityServicePageLayout
-      title="Maintenance & support"
-      intro="APX provides ongoing support to keep critical fire and security systems compliant, reliable, and fully operational. We structure maintenance around your site risk profile and operating needs, with clear reporting and responsive fault support."
+      title="Maintenance & support services"
+      intro={intro}
       capabilities={capabilities}
       compliance={compliance}
       deliverables={deliverables}

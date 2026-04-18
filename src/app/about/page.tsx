@@ -2,7 +2,7 @@
 
 import Image from "next/image";
 import Link from "next/link";
-import { useState, useEffect, useRef } from "react";
+import { useState, useEffect } from "react";
 import { Building2, DraftingCompass, HardHat, Wrench, type LucideIcon } from "lucide-react";
 import { Reveal } from "@/components/Reveal";
 import { CustomPillButton } from "@/components/ui/CustomPillButton";
@@ -19,8 +19,8 @@ const ABOUT_COMMITMENTS = [
   { line1: "ENVIRONMENTAL", line2: "COMMITMENT", iconSrc: "/__environmental.svg", iconAlt: "Environmental commitment" },
 ] as const;
 
-/** Background layer only (`bg`) — headline, copy, and hero photo stay fixed within the hero while scrolling. */
-const PARALLAX = { bg: 0.38 } as const;
+/** Full-bleed About hero (fire & security) */
+const ABOUT_HERO_BG_SRC = "/home-fire-alarm-system-installer-800x533.jpg";
 
 /** Public folder uses a space in "accreditations mono" — literal paths load reliably in <img> */
 const ACC_MONO = "/accreditations mono";
@@ -69,22 +69,47 @@ const WHO_WE_SUPPORT: WhoWeSupportItem[] = [
   },
 ];
 
-function readDocumentScrollY(): number {
-  if (typeof window === "undefined") return 0;
-  return (
-    window.pageYOffset ||
-    document.documentElement.scrollTop ||
-    document.body.scrollTop ||
-    0
-  );
-}
+const DISCIPLINES_INTEGRATION_ROWS = [
+  {
+    discipline: "Fire alarms",
+    services: "Addressable, conventional, commissioning, cause-and-effect",
+    standards: "BS 5839-1 · BS 5839-6 (where applicable)",
+  },
+  {
+    discipline: "CCTV",
+    services: "IP/analogue, monitoring, ANPR, networking",
+    standards: "BS EN 62676",
+  },
+  {
+    discipline: "Intruder alarms",
+    services: "Grade 2–3, monitoring, sensors, integration",
+    standards: "BS EN 50131 · PD 6662",
+  },
+  {
+    discipline: "Refuge systems",
+    services: "EVC, disabled refuge, fire telephones",
+    standards: "BS 5839-9",
+  },
+  {
+    discipline: "EVAC systems",
+    services: "Voice evacuation, PA integration",
+    standards: "BS 5839-8",
+  },
+  {
+    discipline: "Video entry",
+    services: "Multi-tenant, access control, networked systems",
+    standards: "BS EN 60839",
+  },
+  {
+    discipline: "Maintenance",
+    services: "PPM, 24/7 support, compliance testing",
+    standards: "BS 5839 maintenance · manufacturer · NSI",
+  },
+] as const;
 
 export default function AboutPage() {
-  const [parallaxY, setParallaxY] = useState(0);
   const [reduceMotion, setReduceMotion] = useState(false);
   const [heroReveal, setHeroReveal] = useState(false);
-  const heroRef = useRef<HTMLElement>(null);
-  const rafRef = useRef(0);
 
   useEffect(() => {
     const mq = window.matchMedia("(prefers-reduced-motion: reduce)");
@@ -104,118 +129,61 @@ export default function AboutPage() {
   }, [reduceMotion]);
 
   useEffect(() => {
-    const update = () => {
-      rafRef.current = 0;
-      if (reduceMotion) {
-        setParallaxY(0);
-        return;
-      }
-      const scrollY = readDocumentScrollY();
-      const hero = heroRef.current;
-      if (!hero) {
-        setParallaxY(scrollY);
-        return;
-      }
-      const rect = hero.getBoundingClientRect();
-      const vh = window.innerHeight;
-      const h = Math.max(rect.height, 1);
-      // Distance the hero block has moved up past the viewport top (0 while hero top is still below/at top edge)
-      const scrolledPastHeroTop = Math.max(0, -rect.top);
-      // While hero is still entering (top below viewport top), blend in movement from document scroll
-      const leadIn = rect.top > 0 ? scrollY * 0.45 : 0;
-      const t = Math.min(scrolledPastHeroTop + leadIn, h + vh * 0.35);
-      setParallaxY(t);
-    };
-
-    const onScroll = () => {
-      if (rafRef.current) return;
-      rafRef.current = requestAnimationFrame(update);
-    };
-
-    update();
-    window.addEventListener("scroll", onScroll, { passive: true });
-    document.addEventListener("scroll", onScroll, { passive: true, capture: true });
-    window.addEventListener("resize", onScroll, { passive: true });
-    const vv = window.visualViewport;
-    vv?.addEventListener("scroll", onScroll, { passive: true });
-    vv?.addEventListener("resize", onScroll, { passive: true });
-
-    return () => {
-      cancelAnimationFrame(rafRef.current);
-      window.removeEventListener("scroll", onScroll);
-      document.removeEventListener("scroll", onScroll, { capture: true });
-      window.removeEventListener("resize", onScroll);
-      vv?.removeEventListener("scroll", onScroll);
-      vv?.removeEventListener("resize", onScroll);
-    };
-  }, [reduceMotion]);
-
-  const py = reduceMotion ? 0 : parallaxY;
-
-  useEffect(() => {
     document.documentElement.classList.add("about-page-active");
     return () => document.documentElement.classList.remove("about-page-active");
   }, []);
 
   return (
     <div className="about-parallax-page about-page-shell overflow-x-hidden">
-      {/* Hero – same vertical rhythm/structure as homepage hero */}
-      {/* overflow-visible on the section keeps angled splice + margin behaviour with the next block; parallax is clipped inside inner layers only */}
-      <section
-        ref={heroRef}
-        className="about-block about-block--black about-block--angle-bottom about-hero-parallax relative flex min-h-screen min-h-[100svh] flex-col overflow-visible"
-      >
-        <div className="pointer-events-none absolute inset-0 z-0 overflow-hidden" aria-hidden>
+      {/* Hero — full-viewport background */}
+      <section className="about-block about-block--black about-hero-parallax relative flex min-h-[100dvh] flex-col overflow-hidden">
+        <div className="pointer-events-none absolute inset-0 z-0" aria-hidden>
+          <div className="about-parallax-bg about-hero-parallax__bg about-hero-parallax__bg--photo relative">
+            <Image
+              src={ABOUT_HERO_BG_SRC}
+              alt=""
+              fill
+              priority
+              className="about-hero-parallax__photo object-cover object-center"
+              sizes="100vw"
+            />
+          </div>
           <div
-            className="about-parallax-bg about-hero-parallax__bg will-change-transform"
-            style={{ transform: `translate3d(0, ${py * PARALLAX.bg}px, 0)` }}
+            className="absolute inset-0 z-[1] bg-gradient-to-b from-black/80 via-black/55 to-black/85"
+            aria-hidden
           />
         </div>
-        <div className="container mx-auto px-6 flex-1 flex flex-col justify-start pt-20 pb-10 sm:pt-24 sm:pb-12 lg:pt-28 lg:pb-14 xl:pt-32 relative z-20 w-full">
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-16 xl:gap-20 items-start w-full">
-            <div className="mt-10 space-y-5 max-w-2xl sm:mt-12 lg:mt-16 xl:mt-24 lg:max-w-none">
-              <h1
-                className="mb-3 md:mb-4 text-left text-white leading-[0.95]"
+        <div className="container relative z-20 mx-auto flex w-full min-h-0 flex-1 flex-col justify-start px-6 pt-44 pb-16 sm:pt-48 sm:pb-20 lg:pt-52 lg:pb-24">
+          <div className="max-w-3xl space-y-5">
+            <h1
+              className="mb-3 text-left leading-[0.95] text-white drop-shadow-sm md:mb-4"
                 style={{ fontFamily: "var(--font-menu)" }}
               >
-                <Reveal show={heroReveal} delayMs={0}>
-                  <span className="block text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-normal italic text-white/75">
-                    everything you
-                  </span>
-                </Reveal>
-                <Reveal show={heroReveal} delayMs={75}>
-                  <span className="block text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-normal italic text-white/75">
-                    need to know
-                  </span>
-                </Reveal>
-                <Reveal show={heroReveal} delayMs={150}>
-                  <span className="mt-1 block text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-bold not-italic">
-                    ABOUT APX
-                  </span>
-                </Reveal>
-                <Reveal show={heroReveal} delayMs={225}>
-                  <span className="block whitespace-nowrap text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-bold not-italic">
-                    FIRE &amp; SECURITY
-                  </span>
-                </Reveal>
-              </h1>
-              <Reveal show={heroReveal} delayMs={300}>
-                <p className="text-lg sm:text-xl md:text-xl font-normal text-left tracking-tight max-w-xl text-white/90">
-                  With over 20 years of experience, APX Fire and Security is a specialist provider of fire and security system installation, commissioning, and maintenance. We support M&amp;E contractors, facility management teams, architects, consultants, and main contractors across commercial, industrial, and public-sector environments.
-                </p>
+              <Reveal show={heroReveal} delayMs={0}>
+                <span className="block text-4xl font-normal italic text-white/95 sm:text-5xl md:text-6xl lg:text-7xl">
+                  everything you
+                </span>
               </Reveal>
-            </div>
-            <Reveal show={heroReveal} delayMs={200} className="self-start">
-              <div className="relative w-full max-w-md mx-auto lg:max-w-none aspect-[3/4] sm:aspect-[4/5] lg:aspect-[5/6] overflow-hidden rounded-2xl shadow-[0_20px_48px_rgba(0,0,0,0.35)]">
-                <Image
-                  src="/about%20page%20cctv%20camera.png"
-                  alt="CCTV camera"
-                  fill
-                  className="object-cover object-center"
-                  sizes="(max-width: 1024px) 90vw, 44vw"
-                  priority
-                />
-              </div>
+              <Reveal show={heroReveal} delayMs={75}>
+                <span className="block text-4xl font-normal italic text-white/95 sm:text-5xl md:text-6xl lg:text-7xl">
+                  need to know
+                </span>
+              </Reveal>
+              <Reveal show={heroReveal} delayMs={150}>
+                <span className="mt-1 block text-4xl font-bold not-italic sm:text-5xl md:text-6xl lg:text-7xl">
+                  About APX
+                </span>
+              </Reveal>
+              <Reveal show={heroReveal} delayMs={225}>
+                <span className="block whitespace-nowrap text-4xl font-bold not-italic sm:text-5xl md:text-6xl lg:text-7xl">
+                  Fire &amp; Security
+                </span>
+              </Reveal>
+              </h1>
+            <Reveal show={heroReveal} delayMs={300}>
+              <p className="max-w-xl text-left text-lg font-normal tracking-tight text-white/95 drop-shadow-sm sm:text-xl md:text-xl">
+                With over 20 years of experience, APX Fire and Security is a specialist provider of fire and security system installation, commissioning, and maintenance. We support M&amp;E contractors, facility management teams, architects, consultants, and main contractors across commercial, industrial, and public-sector environments.
+              </p>
             </Reveal>
           </div>
         </div>
@@ -228,38 +196,38 @@ export default function AboutPage() {
             <div className="w-full max-w-xl text-center lg:max-w-none lg:text-left">
               <span className="section-label section-label--black mb-4 block leading-none tracking-[0.12em]">Accreditations</span>
               <h2 className="mb-8 text-4xl font-bold leading-tight text-black lg:text-5xl" style={{ fontFamily: "var(--font-menu)" }}>
-                Certified Fire &amp; Security Specialists
-              </h2>
+              Certified Fire &amp; Security Specialists
+            </h2>
               <p className="mb-8 text-lg leading-relaxed text-black/80">
                 Our engineers are fully trained across all disciplines, ensuring every project is delivered with precision,
                 professionalism, and full compliance with relevant British Standards.
-              </p>
+            </p>
               <ul className="space-y-3.5 text-black/90">
-                <li>• Fully qualified fire &amp; security engineers</li>
-                <li>• BAFE, NSI and industry certifications</li>
-                <li>• Regular training and compliance updates</li>
-              </ul>
-            </div>
+              <li>• Fully qualified fire &amp; security engineers</li>
+              <li>• BAFE, NSI and industry certifications</li>
+              <li>• Regular training and compliance updates</li>
+            </ul>
+          </div>
           </Reveal>
           <div className="grid w-full min-w-0 max-w-md grid-cols-2 justify-items-center gap-3 sm:gap-4 lg:max-w-none">
             {EXPERTISE_ACCRED_LOGOS.map((item, i) => (
               <Reveal key={item.alt} delayMs={i * 70}>
-                <Link
-                  href={item.href}
+              <Link
+                href={item.href}
                   className="group flex w-full max-w-[210px] items-center justify-center px-5 py-6 transition-opacity hover:opacity-90"
-                  aria-label={`Learn more about ${item.alt}`}
-                >
+                aria-label={`Learn more about ${item.alt}`}
+              >
                   {/* eslint-disable-next-line @next/next/no-img-element */}
-                  <img
-                    src={item.src}
-                    alt={item.alt}
+                <img
+                  src={item.src}
+                  alt={item.alt}
                     width={280}
                     height={180}
                     loading="eager"
                     decoding="async"
                     className="h-auto max-h-24 w-full max-w-full object-contain transition-transform duration-300 group-hover:scale-[1.03] sm:max-h-28 lg:max-h-32"
-                  />
-                </Link>
+                />
+              </Link>
               </Reveal>
             ))}
           </div>
@@ -274,8 +242,8 @@ export default function AboutPage() {
               <span className="section-label mb-4 block text-white/65">Who we support</span>
               <h2 className="text-3xl font-bold leading-tight text-white md:text-4xl lg:text-5xl" style={{ fontFamily: "var(--font-menu)" }}>
                 Delivery-first partner for complex projects
-              </h2>
-            </div>
+          </h2>
+        </div>
           </Reveal>
           <div className="grid grid-cols-1 gap-y-12 gap-x-6 pt-6 md:grid-cols-2 md:gap-x-7 md:gap-y-14 xl:grid-cols-4 xl:gap-x-8">
             {WHO_WE_SUPPORT.map(({ title, description, highlights, Icon }, i) => (
@@ -316,30 +284,30 @@ export default function AboutPage() {
               Quality, safety &amp; environment
             </h2>
           </Reveal>
-          <div className="grid grid-cols-1 gap-9 md:grid-cols-3 md:gap-7 lg:gap-9">
+          <div className="mx-auto flex w-full max-w-6xl flex-col items-center gap-16 md:flex-row md:flex-wrap md:justify-center md:gap-x-16 md:gap-y-12 lg:max-w-7xl lg:gap-x-28 xl:gap-x-32">
             {ABOUT_COMMITMENTS.map((item, i) => (
               <Reveal key={item.line1} delayMs={i * 85}>
-                <div className="text-center">
-                  <div className="mx-auto mb-4 flex justify-center">
-                    {/* eslint-disable-next-line @next/next/no-img-element -- local SVG commitment artwork */}
-                    <img
-                      src={item.iconSrc}
-                      alt={item.iconAlt}
-                      className="h-20 w-auto max-w-[5.75rem] object-contain object-center sm:h-24 sm:max-w-[6.5rem] md:max-w-[7rem]"
-                    />
+                <div className="group flex w-full max-w-[12.5rem] flex-col items-center gap-3 text-center sm:max-w-[13rem] md:w-auto md:max-w-none md:shrink-0">
+                  {/* eslint-disable-next-line @next/next/no-img-element -- local SVG commitment artwork */}
+                  <img
+                    src={item.iconSrc}
+                    alt={item.iconAlt}
+                    className="h-28 w-auto max-w-[7.5rem] origin-center object-contain object-center transition-transform duration-300 ease-out motion-reduce:transition-none sm:h-32 sm:max-w-[8.75rem] md:h-36 md:max-w-[10rem] motion-safe:group-hover:scale-[1.07]"
+                  />
+                  <div className="flex flex-col items-center gap-1.5">
+                    <p
+                      className="text-base font-bold uppercase leading-none tracking-[0.12em] text-white"
+                      style={{ fontFamily: "var(--font-menu)" }}
+                    >
+                      {item.line1}
+                    </p>
+                    <p
+                      className="text-base uppercase leading-none tracking-[0.12em] text-white/85"
+                      style={{ fontFamily: "var(--font-menu)" }}
+                    >
+                      {item.line2}
+                    </p>
                   </div>
-                  <p
-                    className="text-base font-bold uppercase tracking-[0.12em] text-white"
-                    style={{ fontFamily: "var(--font-menu)" }}
-                  >
-                    {item.line1}
-                  </p>
-                  <p
-                    className="mt-1 text-base uppercase tracking-[0.12em] text-white/85"
-                    style={{ fontFamily: "var(--font-menu)" }}
-                  >
-                    {item.line2}
-                  </p>
                 </div>
               </Reveal>
             ))}
@@ -367,11 +335,11 @@ export default function AboutPage() {
                 </div>
               </Reveal>
             ))}
-          </div>
-        </div>
+            </div>
+            </div>
       </section>
 
-      {/* Heritage & quality — half-width imagery + long-form copy (above Assurance) */}
+      {/* Heritage & quality — half-width imagery + long-form copy */}
       <section className="about-block about-block--black overflow-hidden border-t border-white/10">
         <div className="grid min-h-0 grid-cols-1 items-stretch lg:grid-cols-2 lg:min-h-[min(100svh,920px)]">
           <Reveal className="h-full min-h-[50vh]">
@@ -489,7 +457,7 @@ export default function AboutPage() {
         id="disciplines-and-integration"
         className="about-block about-block--black about-section-y about-section-px border-t border-white/10"
       >
-        <div className="about-section-inner max-w-5xl">
+        <div className="about-section-inner max-w-7xl">
           <Reveal>
             <span className="section-label mb-4 block text-white/70">How we work</span>
             <h2
@@ -500,40 +468,34 @@ export default function AboutPage() {
             </h2>
           </Reveal>
           <Reveal delayMs={60}>
-            <p className="mt-6 text-base leading-relaxed text-white/82 md:text-lg">
+            <p className="mt-6 max-w-4xl text-base leading-relaxed text-white/82 md:text-lg">
               APX specialises in integrated fire and security solutions that work across multiple systems. Typical interfaces include fire alarm to access control release,
               CCTV event-triggered recording, intruder alarm signalling to the monitoring station, EVAC coordinated with fire cause-and-effect, and BMS integration — helping
               reduce false alarms, improve site security, streamline building management and support emergency response.
             </p>
           </Reveal>
           <Reveal delayMs={100}>
-            <div className="mt-10 overflow-x-auto rounded-2xl border border-white/15 bg-black/35">
-              <table className="w-full min-w-[min(100%,560px)] text-left text-sm text-white/88 md:text-base">
+            <div className="mt-10 overflow-x-auto rounded-tl-xl rounded-br-xl border border-white/12">
+              <table className="w-full min-w-[min(100%,720px)] text-left text-sm text-white/85 md:min-w-[860px] md:text-base">
                 <thead>
-                  <tr className="border-b border-white/15 bg-white/[0.04]">
-                    <th scope="col" className="px-4 py-3 font-title font-semibold tracking-tight">
+                  <tr className="border-b border-white/12">
+                    <th scope="col" className="w-[18%] px-4 py-3 font-title text-xs font-semibold uppercase tracking-[0.12em] text-white/45">
                       Discipline
                     </th>
-                    <th scope="col" className="px-4 py-3 font-title font-semibold tracking-tight">
+                    <th scope="col" className="px-4 py-3 font-title text-xs font-semibold uppercase tracking-[0.12em] text-white/45">
                       Services included
+                    </th>
+                    <th scope="col" className="w-[28%] px-4 py-3 font-title text-xs font-semibold uppercase tracking-[0.12em] text-white/45">
+                      Standards (typical)
                     </th>
                   </tr>
                 </thead>
-                <tbody className="divide-y divide-white/10">
-                  {(
-                    [
-                      ["Fire alarms", "Addressable, conventional, commissioning, cause-and-effect"],
-                      ["CCTV", "IP/analogue, monitoring, ANPR, networking"],
-                      ["Intruder alarms", "Grade 2–3, monitoring, sensors, integration"],
-                      ["Refuge systems", "EVC, disabled refuge, fire telephones"],
-                      ["EVAC systems", "Voice evacuation, PA integration"],
-                      ["Video entry", "Multi-tenant, access control, networked systems"],
-                      ["Maintenance", "PPM, 24/7 support, compliance testing"],
-                    ] as const
-                  ).map(([discipline, services]) => (
-                    <tr key={discipline}>
-                      <td className="px-4 py-3 align-top font-medium text-white">{discipline}</td>
-                      <td className="px-4 py-3 text-white/80">{services}</td>
+                <tbody className="divide-y divide-white/[0.07]">
+                  {DISCIPLINES_INTEGRATION_ROWS.map((row) => (
+                    <tr key={row.discipline} className="align-top">
+                      <td className="px-4 py-3.5 font-medium text-white">{row.discipline}</td>
+                      <td className="px-4 py-3.5 text-white/75">{row.services}</td>
+                      <td className="px-4 py-3.5 text-sm text-white/65 md:text-[0.9375rem]">{row.standards}</td>
                     </tr>
                   ))}
                 </tbody>
@@ -627,46 +589,20 @@ export default function AboutPage() {
       </section>
 
       <section className="about-block about-block--black about-section-y about-section-px">
-        <div className="about-section-inner">
-          <Reveal>
-            <span className="section-label mb-4 block text-white/70">Assurance</span>
-            <h2 className="mb-10 text-4xl font-bold text-white lg:mb-12 lg:text-5xl" style={{ fontFamily: "var(--font-menu)" }}>
-              Quality &amp; Compliance
-            </h2>
-          </Reveal>
-          <div className="grid grid-cols-1 gap-8 sm:grid-cols-2 sm:gap-8 lg:grid-cols-3 lg:gap-10">
-            {["/cctv%20systems.jpg", "/access%20control%20systems.jpg", "/video%20door%20entry%20systems.jpg"].map((src, i) => (
-              <Reveal key={src} delayMs={i * 75}>
-                <div className="relative aspect-[4/3] overflow-hidden rounded-2xl border border-white/20">
-                  <div className="absolute inset-0 bg-cover bg-center" style={{ backgroundImage: `url(${src})` }} />
-                  <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-black/15 to-transparent" />
-                </div>
-              </Reveal>
-            ))}
-          </div>
-          <Reveal>
-            <p className="mt-10 max-w-2xl text-base leading-relaxed text-white/80 md:mt-12 md:text-lg">
-              Comprehensive warranties on all fire and security work. BAFE and industry standards you can trust.
-            </p>
-          </Reveal>
-        </div>
-      </section>
-
-      <section className="about-block about-block--black about-section-y about-section-px">
         <div className="about-section-inner text-center">
           <Reveal>
             <h2 className="mb-6 text-4xl font-bold text-white lg:mb-8 lg:text-5xl" style={{ fontFamily: "var(--font-menu)" }}>
-              Get in touch
-            </h2>
+          Get in touch
+        </h2>
           </Reveal>
           <Reveal delayMs={80}>
             <p className="mx-auto mb-10 max-w-xl text-base leading-relaxed text-white/75 md:text-lg">
-              Ready to discuss your fire safety or security requirements? We&apos;d love to hear from you.
-            </p>
+          Ready to discuss your fire safety or security requirements? We&apos;d love to hear from you.
+        </p>
           </Reveal>
           <Reveal delayMs={140}>
             <CustomPillButton href="/contact" size="md">
-              Contact us
+          Contact us
             </CustomPillButton>
           </Reveal>
         </div>

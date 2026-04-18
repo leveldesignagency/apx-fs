@@ -1,8 +1,9 @@
 "use client"
 
+import Image from "next/image"
 import Link from "next/link"
 import { ServicePageBottomCta } from "@/components/ServicePageBottomCta"
-import { OurCustomers } from "@/components/ServicePageSharedSections"
+import { ClientLogosMarqueeStrip, OurCustomers } from "@/components/ServicePageSharedSections"
 import { CustomPillButton } from "@/components/ui/CustomPillButton"
 import { ServicePageHero } from "@/components/ServicePageHero"
 import { serviceHeroImages } from "@/lib/serviceHeroImages"
@@ -16,26 +17,116 @@ const SYSTEM_TYPES = [
   "Air Sampling (sniffer) Fire Alarm Systems",
 ]
 
-const FIRE_CUSTOMERS = [
-  { name: "The Mayfair Townhouse", tagline: "Luxury Lifestyle Hotel" },
-  { name: "Hilton DoubleTree", tagline: "Hotel Group" },
-  { name: "Firmdale Hotels", tagline: "Hotel Group" },
-  { name: "United Living", tagline: "Housing & Infrastructure" },
-  { name: "Camden Council", tagline: "Local Authority, London" },
-  { name: "University of West London", tagline: "Higher Education" },
-  { name: "Scape Bloomsbury", tagline: "Student Accommodation" },
-]
+/** URL-encoded — folder in /public is `fire alarm system installations` */
+const FIRE_ALARM_INSTALLATIONS_DIR = "/fire%20alarm%20system%20installations" as const
 
-const FIRE_INSTALLATIONS = [
-  { title: "Fire Alarm System Dimco Exhibition Building Westfield", org: "Dimco Exhibition Building, Westfield, Stratford" },
-  { title: "Fire Alarm System University of West London", org: "University of West London, Higher Education" },
-  { title: "Fire Alarm System Sancroft Building", org: "Sancroft Building, Office Space, London" },
-  { title: "Fire Alarm System Oaklands House London", org: "Oaklands House, London, Apartment Blocks" },
-  { title: "Fire Alarm System Hilton DoubleTree Kingston", org: "Hilton DoubleTree Kingston, Central London Hotel" },
-  { title: "Fire Alarm System John Keats Primary School", org: "John Keats Primary School, Rotherhithe, London" },
-  { title: "Fire Alarm System Mayfair Townhouse London", org: "Mayfair Townhouse, Luxury Lifestyle Hotel" },
-  { title: "Fire Alarm System Scape Bloomsbury", org: "Scape Bloomsbury, Student Accommodation" },
-  { title: "Fire Alarm System Wembley French School", org: "Wembley French School, International School" },
+/** One card per asset in /public/fire alarm system installations/ */
+const FIRE_INSTALLATIONS: { title: string; org: string; imageSrc: string }[] = [
+  {
+    title: "Dimco Exhibition Building, Westfield Stratford — exterior",
+    org: "Fire alarm installation · exhibition / retail",
+    imageSrc: `${FIRE_ALARM_INSTALLATIONS_DIR}/fire-alarm-system-dimco-exhibition-westfield-exterior-600x400.jpg`,
+  },
+  {
+    title: "Dimco Exhibition Building, Westfield Stratford — interior",
+    org: "Fire alarm installation · exhibition / retail",
+    imageSrc: `${FIRE_ALARM_INSTALLATIONS_DIR}/fire-alarm-system-dimco-exhibition-westfield-interior-600x400.jpg`,
+  },
+  {
+    title: "Hilton DoubleTree Kingston — external",
+    org: "Hotel · Kingston",
+    imageSrc: `${FIRE_ALARM_INSTALLATIONS_DIR}/fire-alarm-installation-hilton-doubletree-kingston-external-600x400.jpg`,
+  },
+  {
+    title: "Hilton DoubleTree Kingston — restaurant",
+    org: "Hotel · Kingston",
+    imageSrc: `${FIRE_ALARM_INSTALLATIONS_DIR}/fire-alarm-installation-hilton-doubletree-kingston-restaurant-600x400.jpg`,
+  },
+  {
+    title: "John Keats Primary School — classroom",
+    org: "Rotherhithe, London",
+    imageSrc: `${FIRE_ALARM_INSTALLATIONS_DIR}/fire-alarm-installation-john-keats-primary-school-classroom-600x400.jpg`,
+  },
+  {
+    title: "John Keats Primary School — playground",
+    org: "Rotherhithe, London",
+    imageSrc: `${FIRE_ALARM_INSTALLATIONS_DIR}/fire-alarm-installation-john-keats-primary-school-playground-600x400.jpg`,
+  },
+  {
+    title: "The Mayfair Townhouse — garden suite",
+    org: "Luxury lifestyle hotel · Mayfair, London",
+    imageSrc: `${FIRE_ALARM_INSTALLATIONS_DIR}/fire-alarm-system-mayfair-townhouse-garden-suite-600x400.jpg`,
+  },
+  {
+    title: "The Mayfair Townhouse — London",
+    org: "Luxury lifestyle hotel · Mayfair, London",
+    imageSrc: `${FIRE_ALARM_INSTALLATIONS_DIR}/fire-alarm-system-mayfair-townhouse-london-600x400.jpg`,
+  },
+  {
+    title: "Oaklands House — London",
+    org: "Apartment blocks · London",
+    imageSrc: `${FIRE_ALARM_INSTALLATIONS_DIR}/fire-alarm-installation-oaklands-house-london-600x400.jpg`,
+  },
+  {
+    title: "Oaklands House — distance view",
+    org: "Apartment blocks · London",
+    imageSrc: `${FIRE_ALARM_INSTALLATIONS_DIR}/fire-alarm-installation-oaklands-house-london-distance-600x400.jpg`,
+  },
+  {
+    title: "Sancroft Building — collage",
+    org: "Paternoster Square, City of London",
+    imageSrc: `${FIRE_ALARM_INSTALLATIONS_DIR}/fire-alarm-system-sancroft-building-collage-600x400.jpg`,
+  },
+  {
+    title: "Sancroft Building — exterior",
+    org: "Paternoster Square, City of London",
+    imageSrc: `${FIRE_ALARM_INSTALLATIONS_DIR}/fire-alarm-system-sancroft-building-exterior-600x400.jpg`,
+  },
+  {
+    title: "Sancroft Building — interior",
+    org: "Paternoster Square, City of London",
+    imageSrc: `${FIRE_ALARM_INSTALLATIONS_DIR}/fire-alarm-system-sancroft-building-interior-600x400.jpg`,
+  },
+  {
+    title: "Sancroft Building — restrooms",
+    org: "Paternoster Square, City of London",
+    imageSrc: `${FIRE_ALARM_INSTALLATIONS_DIR}/fire-alarm-system-sancroft-building-restrooms-600x400.jpg`,
+  },
+  {
+    title: "Scape Bloomsbury — exterior",
+    org: "Student accommodation · Bloomsbury, London",
+    imageSrc: `${FIRE_ALARM_INSTALLATIONS_DIR}/fire-alarm-system-installation-scape-bloomsbury-exterior-600x400.jpg`,
+  },
+  {
+    title: "Scape Bloomsbury — lounge",
+    org: "Student accommodation · Bloomsbury, London",
+    imageSrc: `${FIRE_ALARM_INSTALLATIONS_DIR}/fire-alarm-system-installation-scape-bloomsbury-lounge-600x400.jpg`,
+  },
+  {
+    title: "University of West London — exterior",
+    org: "Higher education · West London",
+    imageSrc: `${FIRE_ALARM_INSTALLATIONS_DIR}/fire-alarm-installation-university-of-west-london-exterior-600x400.jpg`,
+  },
+  {
+    title: "University of West London — reception",
+    org: "Higher education · West London",
+    imageSrc: `${FIRE_ALARM_INSTALLATIONS_DIR}/fire-alarm-installation-university-of-west-london-reception-600x400.jpg`,
+  },
+  {
+    title: "Wembley French School — exterior",
+    org: "International school · Wembley, London",
+    imageSrc: `${FIRE_ALARM_INSTALLATIONS_DIR}/fire-alarm-installation-wembley-french-school-exterior-600x400.jpg`,
+  },
+  {
+    title: "Wembley French School — interior",
+    org: "International school · Wembley, London",
+    imageSrc: `${FIRE_ALARM_INSTALLATIONS_DIR}/fire-alarm-installation-wembley-french-school-interior-600x400.jpg`,
+  },
+  {
+    title: "Aspire Herschel Street — exterior",
+    org: "Apartment block · Slough, Berkshire",
+    imageSrc: `${FIRE_ALARM_INSTALLATIONS_DIR}/access-control-system-installation-aspire-herschel-street-exterior-800x533.jpg`,
+  },
 ]
 
 const FIRE_BRANDS = ["Xtralis", "Vox-Ignis", "Advanced", "Reach Wireless", "Apollo", "EMS"]
@@ -65,13 +156,16 @@ export default function FireSafetySystemsPage() {
       <ServicePageHero
         title="Fire Alarm Systems"
         imageSrc={serviceHeroImages.fireAlarm}
+        heroCompliance={["BS 5839-1", "BS 5839-6"]}
         intro={
           <>
             <p className="mb-4">
-              At APX we specialise in designing and installing high quality fire alarm systems for both domestic properties and commercial premises.
+              APX Fire and Security delivers fully compliant fire alarm installations across commercial, industrial, and public-sector environments. Our engineers are trained
+              in both addressable and conventional systems, ensuring accurate installation, configuration, and commissioning.
             </p>
             <p>
-              We offer a wide range of conventional and addressable fire alarm systems. Our vast experience in the fire detection industry spans the public and industrial sector, with installations ranging from small domestic systems through to commercial premises such as schools, offices, warehouses, hotels and banks. We are fully accredited to BAFE and FIA for our customers&apos; peace of mind.
+              We also design and install high quality systems for domestic properties. Our experience spans the public and industrial sectors — from small domestic systems
+              through to schools, offices, warehouses, hotels and banks. We are fully accredited to BAFE and FIA for our customers&apos; peace of mind.
             </p>
           </>
         }
@@ -174,14 +268,7 @@ export default function FireSafetySystemsPage() {
         <section className="container mx-auto px-6 py-12 lg:py-16">
           <h2 className="mb-4 text-left font-title text-3xl font-bold text-white sm:text-4xl">Our Fire Alarm System Customers</h2>
           <p className="mb-8 max-w-2xl text-left text-gray-300">A small selection of some of our fire alarm system customers:</p>
-          <div className="flex flex-wrap gap-6 sm:gap-8">
-            {FIRE_CUSTOMERS.map((c, i) => (
-              <div key={i} className={`${FS_SERVICE_SHIMMER_CARD} min-w-[180px] p-6 text-left`}>
-                <p className="font-semibold">{c.name}</p>
-                <p className="mt-1 text-sm text-gray-300">{c.tagline}</p>
-              </div>
-            ))}
-          </div>
+          <ClientLogosMarqueeStrip />
         </section>
 
         <div className="border-t border-white/15" />
@@ -191,10 +278,21 @@ export default function FireSafetySystemsPage() {
           <p className="mb-8 max-w-2xl text-left text-gray-300">Examples of fire alarm systems that we have installed for our customers:</p>
           <div className="grid grid-cols-1 gap-8 md:grid-cols-2 lg:grid-cols-3">
             {FIRE_INSTALLATIONS.map((item, index) => (
-              <div key={index} className={`${FS_SERVICE_SHIMMER_CARD} p-8`}>
-                <h3 className="mb-2 text-lg font-semibold text-white">{item.title}</h3>
-                <p className="text-gray-300">{item.org}</p>
-              </div>
+              <article key={index} className={`${FS_SERVICE_SHIMMER_CARD} overflow-hidden p-0`}>
+                <div className="relative aspect-[4/3] w-full bg-white/5">
+                  <Image
+                    src={item.imageSrc}
+                    alt=""
+                    fill
+                    className="object-cover object-center"
+                    sizes="(min-width: 1024px) 33vw, (min-width: 768px) 50vw, 100vw"
+                  />
+                </div>
+                <div className="p-6 md:p-8">
+                  <h3 className="mb-2 text-lg font-semibold text-white">{item.title}</h3>
+                  <p className="text-gray-300">{item.org}</p>
+                </div>
+              </article>
             ))}
           </div>
         </section>
@@ -245,7 +343,7 @@ export default function FireSafetySystemsPage() {
           </div>
         </section>
 
-        <OurCustomers />
+        <OurCustomers serviceTitleShort="Fire alarm" />
 
         <ServicePageBottomCta
           imageSrc={serviceHeroImages.fireAlarm}

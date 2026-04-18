@@ -6,6 +6,10 @@ import { fileURLToPath } from "url";
 const appDir = path.dirname(fileURLToPath(import.meta.url));
 
 const nextConfig: NextConfig = {
+  /** Aligns styled-components with SWC; avoids odd client-bundle behaviour with CSS-in-JS. */
+  compiler: {
+    styledComponents: true,
+  },
   turbopack: {
     root: appDir,
   },

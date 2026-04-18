@@ -8,6 +8,7 @@ import { TitleFontProvider } from "@/contexts/TitleFontContext";
 import ThemeWrapper from "@/components/ThemeWrapper";
 import CustomCursor from "@/components/CustomCursor";
 import HeaderClient from "@/components/HeaderClient";
+import { PremiumScroll } from "@/components/PremiumScroll";
 import { RootJsonLd } from "@/components/RootJsonLd";
 import { FS_SITE_NAME, fsDefaultDescription, fsKeywordsMetaString, getFsSiteUrl } from "@/lib/seo";
 
@@ -78,22 +79,24 @@ export default function RootLayout({
     >
       <body className="font-sans antialiased" suppressHydrationWarning>
         <RootJsonLd />
-        <ThemeProvider>
-          <TitleFontProvider>
-            <ThemeWrapper>
-              {/* site-shell: absolute header overlays hero; bar scrolls with page (not position:fixed) */}
-              <div className="site-shell relative">
-                <HeaderClient />
-                <div className="relative z-10">
-                  <CustomCursor />
-                  <main>{children}</main>
-                  <Footer />
-                  <CookieConsent />
+        <PremiumScroll>
+          <ThemeProvider>
+            <TitleFontProvider>
+              <ThemeWrapper>
+                {/* site-shell: absolute header overlays hero; bar scrolls with page (not position:fixed) */}
+                <div className="site-shell relative">
+                  <HeaderClient />
+                  <div className="relative z-10">
+                    <CustomCursor />
+                    <main>{children}</main>
+                    <Footer />
+                    <CookieConsent />
+                  </div>
                 </div>
-              </div>
-            </ThemeWrapper>
-          </TitleFontProvider>
-        </ThemeProvider>
+              </ThemeWrapper>
+            </TitleFontProvider>
+          </ThemeProvider>
+        </PremiumScroll>
       </body>
     </html>
   );

@@ -7,7 +7,7 @@ import { ChevronLeft, ChevronRight, X } from "lucide-react"
 import { CustomPillButton } from "@/components/ui/CustomPillButton"
 import { MAIN_CASE_STUDIES } from "@/data/projects"
 
-/** Same hover fill as homepage `CustomPillButton` / `.pill-btn`, square corners via `.pill-btn--square` */
+/** Grid card CTAs only — square corners; “Get in touch” uses `CustomPillButton` (TL/BR rounded like hero). */
 const PROJECTS_GRID_CTA_CLASS =
   "pill-btn pill-btn--square relative inline-flex cursor-pointer items-center justify-center overflow-hidden bg-black px-4 py-2.5 text-xs uppercase tracking-[0.12em] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/50 focus-visible:ring-offset-2 focus-visible:ring-offset-black"
 

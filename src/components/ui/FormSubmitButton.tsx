@@ -63,13 +63,20 @@ export function FormSubmitButton({
   return (
     <button
       type="submit"
-      className={cn("form-submit-btn", state === "running" && "form-submit-btn--running", state === "done" && "form-submit-btn--done", className)}
+      className={cn(
+        "form-submit-btn pill-btn",
+        state === "running" && "form-submit-btn--running",
+        state === "done" && "form-submit-btn--done",
+        className
+      )}
       disabled={disabled || isBusy}
       onClick={handleClick}
       aria-busy={state === "running"}
       aria-live="polite"
     >
-      <span className="form-submit-btn__text">{children}</span>
+      <span className="pill-btn-inner" aria-hidden />
+      <span className="pill-btn-border" aria-hidden />
+      <span className="form-submit-btn__text pill-text font-bold">{children}</span>
       <svg className="form-submit-btn__progress" viewBox="0 0 32 32" width={32} height={32} aria-hidden>
         <circle
           className="form-submit-btn__progress-track"

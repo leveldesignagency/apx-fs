@@ -4,40 +4,40 @@ import type { PartnerLogoEntry } from "@/lib/apx-partner-logos"
 
 export function ApxPartnerLogoStrip({ partners }: { partners: readonly PartnerLogoEntry[] }) {
   return (
-    <div className="flex flex-wrap items-center gap-x-6 gap-y-8 sm:gap-x-10 sm:gap-y-10">
+    <ul
+      role="list"
+      className="m-0 grid w-full list-none grid-cols-[repeat(auto-fit,minmax(9.5rem,1fr))] gap-x-8 gap-y-10 p-0 sm:gap-x-10 sm:gap-y-12"
+    >
       {partners.map(({ name, href, logoSrc, size }) => {
         const isLg = size === "lg"
         return (
-          <a
-            key={name}
-            href={href}
-            target="_blank"
-            rel="noopener noreferrer"
-            title={`${name} — visit website`}
-            aria-label={`${name} (opens in new tab)`}
-            className={`flex shrink-0 items-center justify-center transition-opacity hover:opacity-85 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/45 focus-visible:ring-offset-2 focus-visible:ring-offset-black ${
-              isLg
-                ? "h-16 w-[11rem] sm:h-[4.5rem] sm:w-[12.5rem]"
-                : "h-14 w-[9.25rem] sm:h-16 sm:w-[10.5rem]"
-            }`}
-          >
-            {logoSrc ? (
-              // eslint-disable-next-line @next/next/no-img-element -- mixed SVG/PNG partner marks from /public
-              <img
-                src={logoSrc}
-                alt=""
-                className={`w-auto max-w-full object-contain object-center ${
-                  isLg ? "h-14 sm:h-[4.5rem]" : "h-12 sm:h-14"
-                }`}
-              />
-            ) : (
-              <span className="border-b border-white/35 pb-1 text-center text-xs font-semibold uppercase tracking-[0.14em] text-white sm:text-sm">
-                {name}
-              </span>
-            )}
-          </a>
+          <li key={name} className="min-w-0">
+            <a
+              href={href}
+              target="_blank"
+              rel="noopener noreferrer"
+              title={`${name} — visit website`}
+              aria-label={`${name} (opens in new tab)`}
+              className="flex min-h-[5.5rem] w-full items-center justify-center px-3 py-2 transition-opacity hover:opacity-85 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/45 focus-visible:ring-offset-2 focus-visible:ring-offset-black sm:min-h-[6rem]"
+            >
+              {logoSrc ? (
+                // eslint-disable-next-line @next/next/no-img-element -- mixed SVG/PNG partner marks from /public
+                <img
+                  src={logoSrc}
+                  alt=""
+                  className={`w-auto max-w-[min(100%,10.5rem)] object-contain object-center ${
+                    isLg ? "max-h-[3.25rem] sm:max-h-14" : "max-h-11 sm:max-h-12"
+                  }`}
+                />
+              ) : (
+                <span className="max-w-[10.5rem] border-b border-white/35 pb-1 text-center text-[0.65rem] font-semibold uppercase leading-snug tracking-[0.12em] text-white sm:text-xs">
+                  {name}
+                </span>
+              )}
+            </a>
+          </li>
         )
       })}
-    </div>
+    </ul>
   )
 }

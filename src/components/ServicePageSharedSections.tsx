@@ -17,7 +17,8 @@ const CLIENT_LOGO_PATHS = [
   "/Clients/_-11.png",
 ]
 
-function OurCustomersMarquee() {
+/** Same logo strip as “Our Customers” on service pages — reusable under section-specific headings */
+export function ClientLogosMarqueeStrip() {
   return (
     <div className="logo-marquee-section our-customers-marquee w-full overflow-hidden py-2">
       <div className="logo-marquee-wrapper max-w-none">
@@ -40,7 +41,11 @@ function OurCustomersMarquee() {
   )
 }
 
-export function OurCustomers() {
+function OurCustomersMarquee() {
+  return <ClientLogosMarqueeStrip />
+}
+
+export function OurCustomers({ serviceTitleShort }: { serviceTitleShort: string }) {
   const pathname = usePathname()
   const { theme } = useTheme()
   const isDark = (pathname?.startsWith("/services") ?? false) || theme === "dark"
@@ -51,8 +56,10 @@ export function OurCustomers() {
     <>
       <div className="w-full h-[0.75px] bg-black dark:bg-white" />
       <section className="pt-12 pb-20 sm:pb-24 lg:pt-16 lg:pb-32" style={{ backgroundColor: bgColor }}>
-        <div className="container mx-auto px-6">
-          <h2 className={`mb-10 text-center font-title text-4xl font-bold ${textClass}`}>Our Customers</h2>
+        <div className="container relative mx-auto mb-10 w-full px-6 lg:px-8">
+          <h2 className={`text-left font-title text-4xl font-bold ${textClass}`}>
+            Our {serviceTitleShort} customers
+          </h2>
         </div>
         <OurCustomersMarquee />
       </section>

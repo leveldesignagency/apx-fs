@@ -1,14 +1,7 @@
 "use client"
 
-import { useGSAP } from "@gsap/react"
-import gsap from "gsap"
-import { ScrollTrigger } from "gsap/ScrollTrigger"
-import { useRef, useState } from "react"
+import { useState } from "react"
 import { CustomPillButton } from "@/components/ui/CustomPillButton"
-
-if (typeof window !== "undefined") {
-  gsap.registerPlugin(ScrollTrigger)
-}
 
 export type WhatWeOfferItem = {
   tabLabel: string
@@ -93,116 +86,18 @@ const OFFERS: WhatWeOfferItem[] = [
   },
 ]
 
-/** LTR row: index 4 is rightmost — animate right → left */
-const TAB_ENTRANCE_ORDER = [4, 3, 2, 1, 0] as const
-
 export function WhatWeOfferSection() {
   const [active, setActive] = useState(0)
   const item = OFFERS[active]!
 
-  const rootRef = useRef<HTMLDivElement>(null)
-  const headerRef = useRef<HTMLDivElement>(null)
-  const panelRef = useRef<HTMLDivElement>(null)
-  const panelCopyRef = useRef<HTMLDivElement>(null)
-  const panelFeaturesRef = useRef<HTMLDivElement>(null)
-  const tabRefs = useRef<(HTMLButtonElement | null)[]>([])
-
-  useGSAP(
-    () => {
-      const root = rootRef.current
-      const header = headerRef.current
-      const panel = panelRef.current
-      const copyCol = panelCopyRef.current
-      const featCol = panelFeaturesRef.current
-      if (!root || !header || !panel || !copyCol || !featCol) return
-
-      if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
-        return
-      }
-
-      const headerEls = Array.from(header.children) as HTMLElement[]
-      const tabs = TAB_ENTRANCE_ORDER.map((i) => tabRefs.current[i]).filter(Boolean) as HTMLElement[]
-      const featureRows = Array.from(featCol.querySelectorAll("li[data-offer-feature]"))
-      const featuresLabel = featCol.querySelector('[data-offer-features="label"]') as HTMLElement | null
-
-      gsap.set(headerEls, { autoAlpha: 0, filter: "blur(12px)", y: 18 })
-      gsap.set(tabs, { autoAlpha: 0, x: -36 })
-      gsap.set(panel, { autoAlpha: 0, scale: 0.94, transformOrigin: "50% 0%" })
-      gsap.set(copyCol, { autoAlpha: 0, filter: "blur(10px)", y: 14 })
-      if (featuresLabel) gsap.set(featuresLabel, { autoAlpha: 0 })
-      gsap.set(featureRows, { autoAlpha: 0, filter: "blur(8px)", y: 8 })
-
-      const tl = gsap.timeline({
-        scrollTrigger: {
-          trigger: root,
-          start: "top 78%",
-          once: true,
-        },
-        defaults: { ease: "power2.out" },
-      })
-
-      tl.to(headerEls, {
-        autoAlpha: 1,
-        filter: "blur(0px)",
-        y: 0,
-        duration: 0.38,
-        stagger: 0.06,
-      })
-
-      tabs.forEach((tab, i) => {
-        tl.to(
-          tab,
-          { autoAlpha: 1, x: 0, duration: 0.26, ease: "power2.out" },
-          i === 0 ? ">0.02" : ">0.03"
-        )
-      })
-
-      tl.to(
-        panel,
-        {
-          autoAlpha: 1,
-          scale: 1,
-          duration: 0.42,
-          ease: "power3.out",
-        },
-        ">0.02"
-      )
-
-      tl.to(
-        copyCol,
-        {
-          autoAlpha: 1,
-          filter: "blur(0px)",
-          y: 0,
-          duration: 0.32,
-        },
-        "-=0.22"
-      )
-
-      if (featuresLabel) {
-        tl.to(featuresLabel, { autoAlpha: 1, duration: 0.2 }, "<0.06")
-      }
-
-      tl.to(featureRows, {
-        autoAlpha: 1,
-        filter: "blur(0px)",
-        y: 0,
-        duration: 0.26,
-        stagger: 0.04,
-        ease: "power2.out",
-      })
-    },
-    { scope: rootRef, dependencies: [] }
-  )
-
   return (
-    <div ref={rootRef} className="fs-what-we-offer w-full space-y-8 lg:space-y-10">
-      <div ref={headerRef} className="space-y-0">
-        <span className="section-label text-white/80">APX FS SERVICES</span>
-        <h2 className="text-4xl lg:text-5xl font-bold text-left tracking-normal section-title-gap services-section-title leading-tight font-title text-white">
-          What we offer
+    <div className="fs-what-we-offer w-full space-y-8 lg:space-y-10">
+      <div className="space-y-0">
+        <span className="section-label text-white">Services</span>
+        <h2 className="home-section-title section-title-gap services-section-title text-left font-title text-white">
+          Security designed around your site
         </h2>
-        <p className="text-base leading-relaxed max-w-xl section-intro-gap hero-services-intro text-white/90">
+        <p className="text-base leading-relaxed max-w-xl section-intro-gap hero-services-intro text-white">
           APX FS is your NSI Gold security system installer. We specialise in the design, installation and maintenance of bespoke integrated security systems within
           London and the Home Counties.
         </p>
@@ -218,9 +113,6 @@ export function WhatWeOfferSection() {
           return (
             <button
               key={o.tabLabel}
-              ref={(el) => {
-                tabRefs.current[i] = el
-              }}
               type="button"
               role="tab"
               aria-selected={isSelected}
@@ -238,11 +130,10 @@ export function WhatWeOfferSection() {
       </div>
 
       <div
-        ref={panelRef}
         role="tabpanel"
         id={`fs-offer-panel-${active}`}
         aria-labelledby={`fs-offer-tab-${active}`}
-        className="overflow-hidden rounded-tl-[1.5rem] rounded-br-[1.5rem] border-2 border-white bg-black"
+        className="apx-home-card-light-edge overflow-hidden rounded-tl-[1.5rem] rounded-br-[1.5rem] border-2 border-white bg-black"
       >
         <div className="relative min-h-[min(520px,85vh)] lg:min-h-[440px]">
           <div
@@ -256,15 +147,15 @@ export function WhatWeOfferSection() {
           />
 
           <div className="relative grid gap-0 lg:min-h-[440px] lg:grid-cols-[1.1fr_0.9fr]">
-            <div ref={panelCopyRef} className="flex flex-col justify-center px-6 py-10 sm:px-10 lg:px-12 lg:py-14">
+            <div className="flex flex-col justify-center px-6 py-10 sm:px-10 lg:px-12 lg:py-14">
               <div className="mb-5 inline-flex w-fit items-center justify-center rounded-full border-2 border-white/70 bg-black/50 py-1.5 pl-4 pr-[calc(1rem+0.12em)] text-center text-[11px] font-semibold uppercase tracking-[0.12em] text-white sm:pl-5 sm:pr-[calc(1.25rem+0.12em)] sm:text-xs">
                 {item.tagLabel}
               </div>
 
-              <h3 className="font-title text-2xl font-bold uppercase leading-[1.12] tracking-tight text-white sm:text-3xl md:text-[clamp(1.75rem,4vw,2.75rem)]">
+              <h3 className="font-title text-2xl font-bold leading-[1.03] tracking-tight text-white sm:text-3xl md:text-[clamp(1.75rem,4vw,2.75rem)]">
                 {item.headline}
               </h3>
-              <p className="mt-4 max-w-xl text-sm leading-relaxed text-white/90 sm:text-base">{item.description}</p>
+              <p className="mt-4 max-w-xl text-sm leading-relaxed text-white sm:text-base">{item.description}</p>
 
               <div className="mt-8 flex flex-wrap items-center gap-3">
                 <CustomPillButton href={item.href} size="md">
@@ -276,7 +167,7 @@ export function WhatWeOfferSection() {
               </div>
             </div>
 
-            <div ref={panelFeaturesRef} className="flex flex-col justify-center px-6 py-10 sm:px-10 lg:px-10 lg:py-14 lg:pl-6">
+            <div className="flex flex-col justify-center px-6 py-10 sm:px-10 lg:px-10 lg:py-14 lg:pl-6">
               <p data-offer-features="label" className="text-xs font-bold uppercase tracking-[0.2em] text-white">
                 The features
               </p>

@@ -22,14 +22,14 @@ const capabilities = [
   "Full commissioning and certification",
 ]
 
-/** Fire detection & alarm focus; refuge/EVAC standards sit on their own service pages */
 const compliance = ["BS 5839-1", "BS 5839-6 (where applicable)"]
 const deliverables = ["As-built drawings", "Zone charts", "Commissioning certificates", "O&M manuals"]
 
 const intro = (
   <>
     <p>
-      APX Fire and Security delivers fully compliant fire alarm installations across commercial, industrial, and public-sector environments. Our engineers are trained in both addressable and conventional systems, ensuring accurate installation, configuration, and commissioning.
+      APX Fire and Security delivers fully compliant fire alarm installations across commercial, industrial, and public-sector environments. Our engineers are trained in
+      both addressable and conventional systems, ensuring accurate installation, configuration, and commissioning.
     </p>
     <p className="text-white/85">
       For dedicated{" "}
@@ -54,7 +54,7 @@ const intro = (
 export default function FireLifeSafetyPage() {
   return (
     <CapabilityServicePageLayout
-      title="Fire & life safety systems"
+      title="Fire alarm systems"
       intro={intro}
       capabilities={capabilities}
       compliance={compliance}

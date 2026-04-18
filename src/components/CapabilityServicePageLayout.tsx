@@ -2,6 +2,7 @@ import type { ReactNode } from "react"
 import Link from "next/link"
 import { ListChecks, ShieldCheck, Package, Check } from "lucide-react"
 import { CapabilityServiceTabs } from "@/components/CapabilityServiceTabs"
+import { FsServiceFaqByRoute } from "@/components/FsServiceFaqByRoute"
 import { ServicePageHero, type ServicePageHeroProps } from "@/components/ServicePageHero"
 
 export type CapabilityServicePageLayoutProps = {
@@ -12,6 +13,8 @@ export type CapabilityServicePageLayoutProps = {
   heroImageSrc?: string
   /** Passed to ServicePageHero — core capability pillars omit bottom quick nav by default */
   heroNav?: ServicePageHeroProps["heroNav"]
+  /** Short refs for hero corner; defaults to `compliance` */
+  heroCompliance?: readonly string[]
   capabilities: string[]
   compliance: string[]
   deliverables: string[]
@@ -42,11 +45,13 @@ export function CapabilityServicePageLayout({
   intro,
   heroImageSrc,
   heroNav,
+  heroCompliance,
   capabilities,
   compliance,
   deliverables,
   ctaLabel,
 }: CapabilityServicePageLayoutProps) {
+  const heroComplianceLine = heroCompliance ?? compliance
   return (
     <div className="service-page-root bg-black text-white">
       <ServicePageHero
@@ -54,6 +59,7 @@ export function CapabilityServicePageLayout({
         intro={intro}
         heroNav={heroNav ?? false}
         compact={!heroImageSrc}
+        heroCompliance={heroComplianceLine}
         {...(heroImageSrc ? { imageSrc: heroImageSrc } : {})}
       />
 
@@ -126,6 +132,8 @@ export function CapabilityServicePageLayout({
             </div>
           </div>
         </div>
+
+        <FsServiceFaqByRoute />
       </div>
     </div>
   )

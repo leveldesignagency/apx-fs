@@ -1,21 +1,67 @@
 "use client"
 
+import Image from "next/image"
 import { ServicePageBottomCta } from "@/components/ServicePageBottomCta"
 import { CustomPillButton } from "@/components/ui/CustomPillButton"
 import { OurCustomers } from "@/components/ServicePageSharedSections"
 import { ServicePageHero } from "@/components/ServicePageHero"
 import { serviceHeroImages } from "@/lib/serviceHeroImages"
+import { FS_SERVICE_SHIMMER_CARD, FS_SERVICE_SHIMMER_CARD_FEATURE } from "@/lib/fsServicePageCards"
 import { ApxPartnerLogoStrip } from "@/components/ApxPartnerLogoStrip"
 import { APX_PARTNER_LOGO_DIR, type PartnerLogoEntry } from "@/lib/apx-partner-logos"
 import { Eye, Bell, Shield, Link2, Smartphone } from "lucide-react"
 
-const cardClass =
-  "rounded-tl-[1.5rem] rounded-br-[1.5rem] border-2 border-white/20 bg-black p-6 text-white transition-colors hover:border-white/45"
+const videoEntryFeatureCardClass = `${FS_SERVICE_SHIMMER_CARD_FEATURE} transition-transform duration-300 hover:scale-[1.02]`
+
+const VIDEO_DOOR_INSTALLATIONS: { title: string; venue: string; context: string; imageSrc: string }[] = [
+  {
+    title: "Video Door Entry Installation Aspire Herschel Street",
+    venue: "Aspire Herschel Street",
+    context: "Apartment Block",
+    imageSrc:
+      "/projects/case-studies/aspire-herschel-street/video-door-entry-installation-aspire-herschel-street-exterior.jpg",
+  },
+  {
+    title: "Video Door Entry Installation Fizzy Living Lewisham",
+    venue: "Fizzy Living, Lewisham",
+    context: "Apartment Blocks",
+    imageSrc:
+      "/projects/case-studies/fizzy-living-lewisham/video-door-entry-installation-fizzy-living-lewisham-exterior.jpg",
+  },
+  {
+    title: "Video Entry Installation Fizzy Living Lewisham",
+    venue: "Fizzy Living, Lewisham",
+    context: "Apartment Blocks",
+    imageSrc:
+      "/projects/case-studies/fizzy-living-lewisham/video-door-entry-installation-fizzy-living-lewisham-interior.jpg",
+  },
+  {
+    title: "Video Door Entry Installation Firmdale Hotels Richmond Buildings Workspace",
+    venue: "Richmond Buildings Workspace",
+    context: "Firmdale Hotels",
+    imageSrc:
+      "/projects/case-studies/firmdale-richmond-buildings/video-door-entry-systems-firmdale-richmond-buildings-workspace-exterior.jpg",
+  },
+  {
+    title: "Video Entry Installation Firmdale Hotels Richmond Buildings Workspace",
+    venue: "Richmond Buildings Workspace",
+    context: "Firmdale Hotels",
+    imageSrc:
+      "/projects/case-studies/firmdale-richmond-buildings/video-door-entry-systems-firmdale-richmond-buildings-workspace-interior.jpg",
+  },
+  {
+    title: "Video Door Entry Installation United Living Welbourne",
+    venue: "United Living Welbourne",
+    context: "Apartment Block",
+    imageSrc:
+      "/projects/case-studies/united-living-welbourne/video-door-entry-systems-installation-united-living-welbourne.jpg",
+  },
+]
 
 /** Same partner assets as Access Control — shared folder in /public */
 const VIDEO_DOOR_TECH_PARTNERS: readonly PartnerLogoEntry[] = [
   { name: "CAME Entrotec", href: "https://www.came.com/uk", logoSrc: `${APX_PARTNER_LOGO_DIR}/logo-entrotec.svg`, size: "lg" },
-  { name: "Videx", href: "https://www.videxuk.com/", logoSrc: null },
+  { name: "Videx", href: "https://www.videxuk.com/", logoSrc: `${APX_PARTNER_LOGO_DIR}/videx.svg` },
   { name: "CDVI", href: "https://www.cdvi.co.uk/", logoSrc: `${APX_PARTNER_LOGO_DIR}/cdvi.svg` },
   { name: "PAC", href: "https://www.pac.co.uk/", logoSrc: null },
   { name: "Paxton", href: "https://www.paxton-access.co.uk/", logoSrc: `${APX_PARTNER_LOGO_DIR}/paxton-logo.svg` },
@@ -37,13 +83,16 @@ export default function VideoDoorEntrySystemsPage() {
       <ServicePageHero
         title="Video Door Entry Systems"
         imageSrc={serviceHeroImages.videoDoor}
+        heroCompliance={["BS EN 60839"]}
         intro={
           <>
             <p className="mb-4">
-              Our video entry systems secure your buildings, from basic occupant access through to multi-caller business systems restricted to authorised personnel.
+              We install secure video entry systems for commercial, residential, and multi-tenant environments — from multi-tenant entry panels through to integration with
+              access control, CCTV and intruder alarms.
             </p>
             <p>
-              We work closely with our domestic and commercial customers to understand exactly what they require from their video door entry systems. From small domestic systems through to large commercial premises, our vast experience in the industry means we offer the very best and latest in video door entry technology that you can rely on.
+              We work closely with domestic and commercial customers across London and the Home Counties, from small systems through to large commercial premises, with
+              options to suit your building and duty-holder workflows.
             </p>
           </>
         }
@@ -51,6 +100,27 @@ export default function VideoDoorEntrySystemsPage() {
 
       <div className="relative bg-black">
         {heroBridge}
+
+        <section className="container relative z-[1] mx-auto px-6 py-12 lg:py-16">
+          <h2 className="mb-10 text-left font-title text-3xl font-bold text-white sm:text-4xl">Video Entry Systems</h2>
+          <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-5">
+            {[
+              { icon: Eye, title: "Check Visitors", text: "See exactly who's at the front door before deciding whether to open it." },
+              { icon: Bell, title: "Silent Alerts", text: "Discreetly monitor and report any intruders to the police in real time." },
+              { icon: Shield, title: "Prevent Crime", text: "Video recording acts as a visual deterrent to any potential criminals." },
+              { icon: Link2, title: "Link Systems", text: "Our systems interface with other security systems and devices you have." },
+              { icon: Smartphone, title: "Remote Control", text: "Control the whole system remotely via your tablet or smartphone." },
+            ].map(({ icon: Icon, title, text }, i) => (
+              <div key={i} className={videoEntryFeatureCardClass}>
+                <Icon className="mb-4 h-10 w-10 text-white" strokeWidth={1.75} />
+                <h3 className="mb-2 text-left text-xl font-semibold text-white">{title}</h3>
+                <p className="text-left text-gray-300">{text}</p>
+              </div>
+            ))}
+          </div>
+        </section>
+
+        <div className="border-t border-white/15" />
 
         <section className="container relative z-[1] mx-auto px-6 py-8 lg:py-10">
           <h2 className="mb-4 text-left font-title text-3xl font-bold text-white sm:text-4xl">Bespoke Video Door Entry Systems</h2>
@@ -97,52 +167,33 @@ export default function VideoDoorEntrySystemsPage() {
         <div className="border-t border-white/15" />
 
         <section className="container mx-auto px-6 py-12 lg:py-16">
-          <h2 className="mb-10 text-left font-title text-3xl font-bold text-white sm:text-4xl">Video Entry Systems</h2>
-          <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-5">
-            {[
-              { icon: Eye, title: "Check Visitors", text: "See exactly who's at the front door before deciding whether to open it." },
-              { icon: Bell, title: "Silent Alerts", text: "Discreetly monitor and report any intruders to the police in real time." },
-              { icon: Shield, title: "Prevent Crime", text: "Video recording acts as a visual deterrent to any potential criminals." },
-              { icon: Link2, title: "Link Systems", text: "Our systems interface with other security systems and devices you have." },
-              { icon: Smartphone, title: "Remote Control", text: "Control the whole system remotely via your tablet or smartphone." },
-            ].map(({ icon: Icon, title, text }, i) => (
-              <div key={i} className={cardClass}>
-                <Icon className="mb-4 h-10 w-10 text-white" strokeWidth={1.75} />
-                <h3 className="mb-2 text-left text-xl font-semibold text-white">{title}</h3>
-                <p className="text-left text-gray-300">{text}</p>
-              </div>
-            ))}
-          </div>
-        </section>
-
-        <div className="border-t border-white/15" />
-
-        <section className="container mx-auto px-6 py-12 lg:py-16">
-          <h2 className="mb-10 text-left font-title text-3xl font-bold text-white sm:text-4xl">Our Video Entry Installations</h2>
+          <h2 className="mb-4 text-left font-title text-3xl font-bold text-white sm:text-4xl">Our Video Entry Installations</h2>
           <p className="mb-8 max-w-2xl text-left text-gray-300">
             Examples of video door entry systems that we have installed for our customers:
           </p>
-          <div className="grid grid-cols-1 gap-8 sm:grid-cols-2 lg:grid-cols-3">
-            {[
-              { title: "Aspire Herschel Street", subtitle: "Apartment Block" },
-              { title: "Fizzy Living, Lewisham", subtitle: "Apartment Blocks" },
-              { title: "Richmond Buildings Workspace", subtitle: "Firmdale Hotels" },
-              { title: "United Living Welbourne", subtitle: "Apartment Block" },
-            ].map((project, i) => (
-              <div key={i} className="overflow-hidden rounded-tl-[1.5rem] rounded-br-[1.5rem] border-2 border-white/20 bg-black">
-                <div className="flex aspect-video items-center justify-center bg-white/5">
-                  <span className="text-sm text-gray-400">Image placeholder</span>
+          <div className="grid grid-cols-1 gap-8 md:grid-cols-2 lg:grid-cols-3">
+            {VIDEO_DOOR_INSTALLATIONS.map((item, index) => (
+              <article key={`${item.imageSrc}-${index}`} className={`${FS_SERVICE_SHIMMER_CARD} overflow-hidden p-0`}>
+                <div className="relative aspect-[4/3] w-full bg-white/5">
+                  <Image
+                    src={item.imageSrc}
+                    alt=""
+                    fill
+                    className="object-cover object-center"
+                    sizes="(min-width: 1024px) 33vw, (min-width: 768px) 50vw, 100vw"
+                  />
                 </div>
-                <div className="p-6">
-                  <h3 className="mb-1 text-xl font-semibold text-white">{project.title}</h3>
-                  <p className="text-gray-300">{project.subtitle}</p>
+                <div className="p-6 md:p-8">
+                  <h3 className="mb-2 text-base font-semibold leading-snug text-white sm:text-lg">{item.title}</h3>
+                  <p className="font-medium text-white/95">{item.venue}</p>
+                  <p className="mt-1 text-gray-300">{item.context}</p>
                 </div>
-              </div>
+              </article>
             ))}
           </div>
         </section>
 
-        <OurCustomers />
+        <OurCustomers serviceTitleShort="Video door entry" />
 
         <ServicePageBottomCta
           imageSrc={serviceHeroImages.videoDoor}

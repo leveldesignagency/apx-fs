@@ -324,9 +324,9 @@ export const FS_PROJECTS: FsProject[] = [
     heroTitleLinkUrl: mapsSearchUrl("Aspire Herschel Street, Slough, Berkshire"),
     heroLocationLinkUrl: mapsSearchUrl("Herschel Street, Slough, Berkshire"),
     heroImage:
-      "/projects/case-studies/aspire-herschel-street/access-control-system-installation-aspire-herschel-street-exterior.jpg",
+      "/fire%20alarm%20system%20installations/access-control-system-installation-aspire-herschel-street-exterior-800x533.jpg",
     gallery: [
-      "/projects/case-studies/aspire-herschel-street/access-control-system-installation-aspire-herschel-street-exterior.jpg",
+      "/fire%20alarm%20system%20installations/access-control-system-installation-aspire-herschel-street-exterior-800x533.jpg",
       "/projects/case-studies/aspire-herschel-street/video-door-entry-installation-aspire-herschel-street-exterior.jpg",
     ],
   },

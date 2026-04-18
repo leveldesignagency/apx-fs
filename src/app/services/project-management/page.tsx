@@ -119,7 +119,7 @@ export default function ProjectManagementPage() {
           </div>
         </section>
 
-        <OurCustomers />
+        <OurCustomers serviceTitleShort="Project management" />
 
         <ServicePageBottomCta
           imageSrc={serviceHeroImages.cctv}

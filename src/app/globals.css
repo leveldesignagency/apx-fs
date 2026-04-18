@@ -171,6 +171,49 @@ main.accreditations-hub section + section {
 .section-title-gap {
   margin-bottom: 2.5rem;
 }
+
+/* Homepage services: stay on true black — previous mid-stops read grey on some displays */
+section#services.home-services-band.section-spacing {
+  background: linear-gradient(180deg, #000000 0%, #030303 48%, #000000 100%) !important;
+  background-color: transparent !important;
+  padding-top: clamp(7.25rem, 13vh, 10.5rem) !important;
+}
+@media (min-width: 1024px) {
+  section#services.home-services-band.section-spacing {
+    padding-top: clamp(8.5rem, 12vh, 11.5rem) !important;
+  }
+}
+
+/* Subtle right-edge light wash on dark homepage cards (no drop shadow) */
+.apx-home-card-light-edge {
+  position: relative;
+  overflow: hidden;
+}
+.apx-home-card-light-edge::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  border-radius: inherit;
+  background: linear-gradient(
+    100deg,
+    transparent 0%,
+    transparent 52%,
+    rgba(255, 255, 255, 0.04) 72%,
+    rgba(255, 255, 255, 0.09) 100%
+  );
+}
+
+/* Homepage major section titles — same scale as About intro (“Built on experience…”), title case */
+.home-section-title {
+  font-family: var(--font-title, "Outfit", sans-serif);
+  font-size: clamp(2.25rem, 8vw, 4rem);
+  line-height: 1.03;
+  letter-spacing: -0.025em;
+  font-weight: 700;
+  text-transform: none;
+}
+
 .section-intro-gap {
   margin-top: 2.5rem;
 }
@@ -187,6 +230,35 @@ main.accreditations-hub section + section {
 .font-title {
   font-family: var(--font-title, "Outfit", sans-serif);
   text-transform: uppercase;
+}
+
+/* Black base under hero media so light-theme body and header stack show imagery, not white */
+#hero {
+  background-color: #000000;
+}
+
+/* Homepage hero: subtle grow (Ken Burns) — top-aligned; no horizontal pan */
+@keyframes fs-hero-bg-drift {
+  0% {
+    transform: scale3d(1, 1, 1) translate3d(0.35%, 0, 0);
+  }
+  100% {
+    transform: scale3d(1.03, 1.03, 1) translate3d(-0.45%, 0, 0);
+  }
+}
+
+.fs-hero-bg-motion-layer {
+  transform-origin: top center;
+  will-change: transform;
+  backface-visibility: hidden;
+  animation: fs-hero-bg-drift 44s ease-in-out infinite alternate;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .fs-hero-bg-motion-layer {
+    animation: none !important;
+    transform: none !important;
+  }
 }
 
 /* Hero section: Title Case (no all caps), regular weight */
@@ -300,9 +372,18 @@ section h2 {
   transition: color 0.125s ease 0.15s;
 }
 .pill-btn:hover .pill-text,
-#hero .pill-btn:hover .pill-text {
+#hero .pill-btn:hover .pill-text,
+#services .pill-btn:hover .pill-text {
   color: #000000 !important;
   transition: color 0.125s ease;
+}
+
+/*
+ * Services outline CTA (Contact): must beat `#services .pill-btn:hover .pill-text` so label stays white on black fill.
+ */
+#services .pill-btn.pill-btn--outline:hover .pill-text,
+#services .fs-what-we-offer .pill-btn.pill-btn--outline:hover .pill-text {
+  color: #ffffff !important;
 }
 
 /* Call button variant: white fill + black border off hover; black fill on hover */
@@ -315,7 +396,27 @@ section h2 {
 .pill-btn--outline .pill-btn-inner::before {
   background-color: #000000;
 }
-.pill-btn--outline:hover .pill-text {
+.pill-btn.pill-btn--outline:hover .pill-text {
+  color: #ffffff !important;
+}
+
+/* White-background sections: black border, white fill, black text; hover black fill, white text (border stays black) */
+.pill-btn--onLight {
+  background-color: #ffffff !important;
+}
+.pill-btn--onLight .pill-btn-border {
+  border-color: #000000 !important;
+}
+.pill-btn--onLight:hover .pill-btn-border {
+  border-color: #000000 !important;
+}
+.pill-btn--onLight .pill-text {
+  color: #000000 !important;
+}
+.pill-btn--onLight .pill-btn-inner::before {
+  background-color: #000000;
+}
+.pill-btn--onLight:hover .pill-text {
   color: #ffffff !important;
 }
 
@@ -436,7 +537,8 @@ section h2 {
   z-index: 1 !important;
 }
 
-/* FS: APX FS SERVICES title and intro – light on black */
+/* FS: APX FS SERVICES — full white on black */
+#services .section-label,
 #services .services-section-title,
 #services .hero-services-intro,
 #services p.section-intro-gap {
@@ -637,19 +739,43 @@ section h2 {
 #services .services-cards-animate.services-cards-visible .service-card-in:nth-child(5) { animation-delay: 1.2s; }
 
 /* ========== FS: Light theme for all sections below hero – black text, light backgrounds ========== */
+/* Service promise band — full black + same glow + top hairline as #testimonials */
+#services-benefits {
+  position: relative;
+  overflow: hidden;
+  background-color: #000000 !important;
+  background-image: radial-gradient(
+    ellipse 90% 60% at 50% -10%,
+    rgba(255, 255, 255, 0.07),
+    transparent 55%
+  ) !important;
+}
+#services-benefits::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 0;
+  height: 1px;
+  background: linear-gradient(to right, transparent, rgba(255, 255, 255, 0.25), transparent);
+  pointer-events: none;
+  z-index: 1;
+}
 html:not(.dark) #services-drawer,
-html:not(.dark) #services-benefits,
 html:not(.dark) #about {
+  background-color: #ffffff !important;
+}
+html.dark #about {
   background-color: #ffffff !important;
 }
 #contact {
   background-color: #000000 !important;
 }
 
-/* Accreditations: black background, white text, canted top, white border strip along angle */
+/* Accreditations home section: white background, dark text, canted top, dark accent strip */
 #accreditations {
   position: relative;
-  background-color: #000000 !important;
+  background-color: #ffffff !important;
 }
 #accreditations.accreditations-section::before {
   content: "";
@@ -658,29 +784,43 @@ html:not(.dark) #about {
   left: 0;
   right: 0;
   height: 3px;
-  background: #ffffff;
+  background: #000000;
   transform: skewY(-4.6deg);
   transform-origin: left top;
   z-index: 1;
   pointer-events: none;
 }
-#accreditations .accreditations-heading,
-#accreditations .accreditations-text,
-#accreditations h2,
-#accreditations h3,
-#accreditations p,
-#accreditations span,
-#accreditations li {
-  color: #ffffff !important;
+/* Homepage join tune: blend Trusted & Fully Qualified into Why Choose Us without touching #about styles */
+#accreditations.home-accreditations-blend {
+  margin-top: calc(-1.5rem - var(--cant-depth)) !important;
 }
-#accreditations .pill-btn:hover .pill-text {
+@media (min-width: 1024px) {
+  #accreditations.home-accreditations-blend {
+    margin-top: calc(-2rem - var(--cant-depth)) !important;
+  }
+}
+#accreditations.home-accreditations-blend.accreditations-section::before {
+  opacity: 0.38;
+}
+
+#accreditations .accreditations-heading,
+#accreditations h2,
+#accreditations h3 {
   color: #000000 !important;
 }
-/* Container: black bg, white border, only top-left and bottom-right rounded */
+#accreditations .accreditations-text,
+#accreditations p {
+  color: rgba(0, 0, 0, 0.78) !important;
+}
+#accreditations span,
+#accreditations li {
+  color: #000000 !important;
+}
+/* Container: light surface, dark border, only top-left and bottom-right rounded */
 #accreditations .accreditations-card {
-  background-color: #000000 !important;
-  background: #000000 !important;
-  border: 2px solid #ffffff !important;
+  background-color: #ffffff !important;
+  background: #ffffff !important;
+  border: 2px solid #000000 !important;
   border-top-left-radius: 1.75rem;
   border-top-right-radius: 0;
   border-bottom-right-radius: 1.75rem;
@@ -688,7 +828,7 @@ html:not(.dark) #about {
   height: auto !important;
 }
 #accreditations .accreditations-card.service-card {
-  background: #000000 !important;
+  background: #ffffff !important;
   backdrop-filter: none !important;
   -webkit-backdrop-filter: none !important;
 }
@@ -722,25 +862,24 @@ html:not(.dark) .services-drawer-left::after {
 html:not(.dark) .services-drawer-list-item::before {
   background: rgba(0, 0, 0, 0.2) !important;
 }
-/* Services benefits: light cards, black text */
-/* Benefit cards: black background, white foreground */
-html:not(.dark) #services-benefits .services-benefit-article {
+/* Benefit cards on black band — white foreground (all themes) */
+#services-benefits .services-benefit-article {
   background: #000000 !important;
   border-color: rgba(255, 255, 255, 0.25) !important;
 }
-html:not(.dark) #services-benefits .services-benefit-article:hover {
+#services-benefits .services-benefit-article:hover {
   background: #0a0a0a !important;
   border-color: rgba(255, 255, 255, 0.4) !important;
 }
-html:not(.dark) #services-benefits .services-benefit-icon-badge {
+#services-benefits .services-benefit-icon-badge {
   border-color: rgba(255, 255, 255, 0.4) !important;
   background: #000000 !important;
 }
-html:not(.dark) #services-benefits .services-benefit-title,
-html:not(.dark) #services-benefits .services-benefit-desc {
+#services-benefits .services-benefit-title,
+#services-benefits .services-benefit-desc {
   color: #ffffff !important;
 }
-html:not(.dark) #services-benefits .services-benefit-icon-badge svg {
+#services-benefits .services-benefit-icon-badge svg {
   color: #ffffff !important;
   stroke: #ffffff !important;
 }
@@ -768,11 +907,14 @@ html:not(.dark) #services-benefits .services-benefit-icon-badge svg {
   margin-bottom: 0.75rem;
 }
 .news-section__title {
-  font-size: clamp(2rem, 4vw, 3rem);
+  font-family: var(--font-title, "Outfit", sans-serif);
+  font-size: clamp(2.25rem, 8vw, 4rem);
   font-weight: 700;
   color: #fff;
   margin: 0;
-  line-height: 1.2;
+  line-height: 1.03;
+  letter-spacing: -0.025em;
+  text-transform: none;
 }
 .news-section__grid {
   display: grid;
@@ -847,6 +989,13 @@ html:not(.dark) #about h2,
 html:not(.dark) #about .text-gray-300 {
   color: #1a1a1a !important;
 }
+#about .why-choose-us-copy,
+#about .why-choose-us-copy .section-label,
+#about .why-choose-us-copy h2,
+#about .why-choose-us-copy h2 span,
+#about .why-choose-us-copy p {
+  color: #000000 !important;
+}
 #about .section-label {
   color: inherit;
 }
@@ -868,6 +1017,52 @@ html:not(.dark) #about .text-gray-300 {
   color: #ffffff !important;
   stroke: #ffffff !important;
 }
+
+/* Why Choose Us: fade/slide when #about scrolls into view (.home-about--in-view on section) */
+#about .about-reveal {
+  opacity: 0;
+  transform: translateY(18px);
+  transition: opacity 0.65s cubic-bezier(0.22, 0.61, 0.36, 1), transform 0.65s cubic-bezier(0.22, 0.61, 0.36, 1);
+}
+#about.home-about--in-view .about-reveal {
+  opacity: 1;
+  transform: translateY(0);
+}
+@media (prefers-reduced-motion: reduce) {
+  #about .about-reveal {
+    opacity: 1;
+    transform: none;
+    transition: none;
+  }
+}
+/* Stats: run only after section is in view */
+#about:not(.home-about--in-view) .animate-stats-in {
+  opacity: 0;
+  animation: none;
+}
+#about.home-about--in-view .animate-stats-in {
+  animation: stats-in 0.6s ease-out forwards;
+}
+
+/* Why Choose Us cards: subtle hover grow + tilt */
+#about .why-choose-card-shell {
+  transition: transform 280ms ease;
+  transform-origin: 50% 65%;
+}
+#about .why-choose-card-shell .why-choose-card,
+#about .why-choose-card-shell .why-choose-icon-badge {
+  transition: transform 280ms ease, box-shadow 280ms ease;
+}
+#about .why-choose-card-shell:hover {
+  transform: translateY(-2px);
+}
+#about .why-choose-card-shell:hover .why-choose-card {
+  transform: scale(1.028);
+  box-shadow: 0 14px 28px rgba(0, 0, 0, 0.24);
+}
+#about .why-choose-card-shell:hover .why-choose-icon-badge {
+  transform: translateY(-1px) scale(1.04);
+}
 html:not(.dark) #about .why-choose-card h4,
 html:not(.dark) #about .why-choose-card .apx-capability-list__item {
   color: #ffffff !important;
@@ -876,6 +1071,81 @@ html:not(.dark) #about .why-choose-icon-badge svg {
   color: #ffffff !important;
   stroke: #ffffff !important;
 }
+
+/* Google reviews slot — real glassmorphism (blur + translucent stack + specular edge) */
+#about .why-choose-google-glass.why-choose-card {
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
+  background: linear-gradient(
+    142deg,
+    rgba(255, 255, 255, 0.34) 0%,
+    rgba(255, 255, 255, 0.08) 38%,
+    rgba(12, 14, 22, 0.42) 100%
+  ) !important;
+  backdrop-filter: blur(24px) saturate(175%);
+  -webkit-backdrop-filter: blur(24px) saturate(175%);
+  border: 1px solid rgba(255, 255, 255, 0.52) !important;
+  box-shadow:
+    0 14px 44px rgba(0, 0, 0, 0.18),
+    0 4px 16px rgba(0, 0, 0, 0.08),
+    inset 0 1px 0 rgba(255, 255, 255, 0.55),
+    inset 0 -1px 0 rgba(0, 0, 0, 0.12);
+}
+#about .why-choose-google-glass.why-choose-card::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  pointer-events: none;
+  z-index: 0;
+  background: linear-gradient(
+    118deg,
+    rgba(255, 255, 255, 0.42) 0%,
+    rgba(255, 255, 255, 0) 42%,
+    rgba(255, 255, 255, 0.06) 100%
+  );
+  opacity: 0.55;
+}
+#about .why-choose-google-glass.why-choose-card::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  pointer-events: none;
+  z-index: 0;
+  box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.12);
+}
+#about .why-choose-google-glass.why-choose-card > * {
+  position: relative;
+  z-index: 1;
+}
+#about .why-choose-google-glass-badge.why-choose-icon-badge {
+  background: linear-gradient(
+    155deg,
+    rgba(255, 255, 255, 0.38) 0%,
+    rgba(255, 255, 255, 0.06) 45%,
+    rgba(0, 0, 0, 0.2) 100%
+  ) !important;
+  backdrop-filter: blur(16px) saturate(160%);
+  -webkit-backdrop-filter: blur(16px) saturate(160%);
+  border: 1px solid rgba(255, 255, 255, 0.48) !important;
+  box-shadow:
+    0 8px 28px rgba(0, 0, 0, 0.16),
+    inset 0 1px 0 rgba(255, 255, 255, 0.45);
+}
+#about .why-choose-google-glass-badge.why-choose-icon-badge svg {
+  color: unset !important;
+  stroke: unset !important;
+}
+#about .why-choose-google-glass-badge.why-choose-icon-badge svg path {
+  filter: drop-shadow(0 1px 1px rgba(0, 0, 0, 0.35));
+}
+#about .why-choose-google-glass.why-choose-card h4,
+#about .why-choose-google-glass.why-choose-card p {
+  text-shadow: 0 1px 3px rgba(0, 0, 0, 0.45);
+}
+
 /* Light theme: other .service-card in #about (if any) stay light */
 html:not(.dark) #about .service-card {
   background: rgba(255, 255, 255, 0.95) !important;
@@ -1357,13 +1627,77 @@ html:not(.dark) body:has(.fs-projects-page) {
   background: rgba(0, 0, 0, 0.5) !important;
   backdrop-filter: blur(16px);
   -webkit-backdrop-filter: blur(16px);
-  border: 2px solid #ffffff !important;
+  border: 1px solid #ffffff !important;
   border-top-left-radius: 2.25rem;
   border-top-right-radius: 0;
   border-bottom-right-radius: 2.25rem;
   border-bottom-left-radius: 0;
   box-shadow: 0 25px 50px rgba(0, 0, 0, 0.3);
 }
+
+/* Homepage: SVG draws the frame — strip legacy glass on #quote-form wrapper (fill lives in GlassFormPanel). */
+#contact .quote-form-draw-shell #quote-form {
+  border: none !important;
+  background: transparent !important;
+  backdrop-filter: none !important;
+  -webkit-backdrop-filter: none !important;
+  box-shadow: none !important;
+  border-radius: 0 !important;
+}
+
+/* Inner panel fades in after stroke draw (fill-mode both = hold opacity 0 during delay, then ease). */
+.quote-form-draw-shell__inner--fade {
+  animation: quote-form-draw-shell-inner-fade 0.55s ease-out var(--quote-inner-delay, 897ms) both;
+}
+.quote-form-draw-shell__inner--off {
+  animation: none !important;
+}
+
+@keyframes quote-form-draw-shell-inner-fade {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .quote-form-draw-shell__inner--fade {
+    animation: none;
+    opacity: 1;
+  }
+}
+
+.home-quote-form-stroke {
+  stroke-dasharray: var(--quote-path-len, 380);
+  stroke-dashoffset: var(--quote-path-len, 380);
+}
+.home-quote-form-stroke--run {
+  animation: home-quote-form-stroke-draw 1.15s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+}
+.home-quote-form-stroke--done {
+  stroke-dasharray: none;
+  stroke-dashoffset: 0;
+}
+@keyframes home-quote-form-stroke-draw {
+  from {
+    stroke-dashoffset: var(--quote-path-len, 380);
+  }
+  to {
+    stroke-dashoffset: 0;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .home-quote-form-stroke--run {
+    animation: none;
+    stroke-dashoffset: 0;
+  }
+  .contact-section-head {
+    transition-delay: 0ms !important;
+  }
+}
+
 #contact #quote-form h3,
 #contact #quote-form label {
   color: #ffffff !important;
@@ -1374,7 +1708,7 @@ html:not(.dark) body:has(.fs-projects-page) {
 #contact #quote-form textarea,
 #contact #quote-form .quote-form-field {
   background-color: #000000 !important;
-  border: 2px solid rgba(255, 255, 255, 0.6) !important;
+  border: 1px solid rgba(255, 255, 255, 0.65) !important;
   color: #ffffff !important;
   border-radius: 0.5rem;
   font-size: 1.0625rem !important;
@@ -1416,12 +1750,16 @@ html:not(.dark) body:has(.fs-projects-page) {
   background: rgba(255, 255, 255, 0.28) !important;
   color: #ffffff !important;
 }
+#contact #quote-form textarea,
+.contact-page-form textarea {
+  resize: none !important;
+}
 #contact #quote-form .quote-form-dropdown {
   background-color: #000000 !important;
-  border: 2px solid rgba(255, 255, 255, 0.6) !important;
+  border: 1px solid rgba(255, 255, 255, 0.65) !important;
   color: #ffffff !important;
   font-size: 1.0625rem !important;
-  font-weight: 600 !important;
+  font-weight: 700 !important;
 }
 
 /* Dedicated /contact page form (same treatment as homepage quote) */
@@ -1503,6 +1841,9 @@ html:not(.dark) body:has(.fs-projects-page) {
   backdrop-filter: blur(12px);
   border: 2px solid #ffffff !important;
   border-radius: 0.5rem;
+  /* Keep wheel/trackpad scroll inside the list; pairs with data-lenis-prevent on the node */
+  overscroll-behavior: contain;
+  -webkit-overflow-scrolling: touch;
 }
 #contact #quote-form .quote-form-dropdown-item {
   color: #ffffff !important;
@@ -1510,6 +1851,9 @@ html:not(.dark) body:has(.fs-projects-page) {
   border: none !important;
   border-bottom: 1px solid rgba(255, 255, 255, 0.2) !important;
   border-radius: 0 !important;
+  font-size: 1.0625rem !important;
+  font-weight: 700 !important;
+  padding: 0.75rem 1rem !important;
 }
 #contact #quote-form .quote-form-dropdown-item:hover {
   background: rgba(255, 255, 255, 0.15) !important;
@@ -1554,11 +1898,18 @@ html:not(.dark) #contact #quote-form input[type="radio"]:checked {
 }
 #contact #quote-form .form-submit-btn,
 #contact #quote-form button[type="submit"] {
-  border: 2px solid #ffffff !important;
+  border: 1px solid #ffffff !important;
+  box-sizing: border-box !important;
+  isolation: isolate;
+  transform: translateZ(0);
+  backface-visibility: hidden;
 }
 #contact #quote-form .form-submit-btn:hover:not(:disabled),
 #contact #quote-form button[type="submit"]:hover:not(:disabled) {
   border-color: #ffffff !important;
+}
+/* Flat hover only if not using pill slide-up fill */
+#contact #quote-form .form-submit-btn:not(.pill-btn):hover:not(:disabled) {
   background-color: #1a1a1a !important;
 }
 /* Fallback: quote form outside contact (e.g. other pages, light theme) – #contact #quote-form overrides when present */
@@ -1585,13 +1936,17 @@ html:not(.dark) #quote-form textarea::placeholder {
 }
 html:not(.dark) #quote-form button[type="submit"] {
   background-color: #000000 !important;
-  border: 2px solid #000000 !important;
+  border: 1px solid #000000 !important;
   color: #ffffff !important;
 }
-html:not(.dark) #quote-form button[type="submit"]:hover {
+html:not(.dark) #quote-form button[type="submit"]:not(.pill-btn):hover {
   background-color: #333333 !important;
   border-color: #333333 !important;
   color: #ffffff !important;
+}
+html:not(.dark) #quote-form .form-submit-btn.pill-btn:hover:not(:disabled) {
+  background-color: #000000 !important;
+  border-color: #000000 !important;
 }
 
 /* Form submit button – APX branding (black, white border/text) + progress circle + check */
@@ -1604,7 +1959,11 @@ html:not(.dark) #quote-form button[type="submit"]:hover {
   height: 3.5rem;
   margin: 0 auto;
   background-color: #000000 !important;
-  border: 2px solid #ffffff !important;
+  border: 1px solid #ffffff !important;
+  box-sizing: border-box;
+  isolation: isolate;
+  transform: translateZ(0);
+  backface-visibility: hidden;
   border-radius: 0;
   border-top-left-radius: 1rem;
   border-bottom-right-radius: 1rem;
@@ -1614,10 +1973,15 @@ html:not(.dark) #quote-form button[type="submit"]:hover {
   cursor: pointer;
   transition: width 0.3s ease-in-out, transform 0.15s ease, background-color 0.2s ease, border-color 0.2s ease, box-shadow 0.2s ease;
 }
-.form-submit-btn:not(:disabled):hover {
+.form-submit-btn:not(.pill-btn):not(:disabled):hover {
   background-color: #1a1a1a !important;
   border-color: #ffffff !important;
   box-shadow: 0 0 0 1px rgba(255, 255, 255, 0.5);
+}
+.form-submit-btn.pill-btn:not(:disabled):hover {
+  background-color: #000000 !important;
+  border-color: #ffffff !important;
+  box-shadow: none;
 }
 .form-submit-btn:not(:disabled):active {
   transform: translateY(2px);
@@ -1638,6 +2002,7 @@ html:not(.dark) #quote-form button[type="submit"]:hover {
   position: absolute;
   top: 50%;
   left: 50%;
+  z-index: 3;
   margin-top: -16px;
   margin-left: -16px;
   width: 32px;
@@ -1679,6 +2044,27 @@ html:not(.dark) #quote-form button[type="submit"]:hover {
 }
 .form-submit-btn--done .form-submit-btn__progress-check {
   transition: stroke-dashoffset 0.3s 0.3s ease-out;
+}
+
+/* Same slide-up fill as hero `.pill-btn` — 1px border on contact form */
+.form-submit-btn.pill-btn .pill-btn-border {
+  border-width: 1px;
+}
+.form-submit-btn--running.pill-btn .pill-btn-inner,
+.form-submit-btn--running.pill-btn .pill-btn-border,
+.form-submit-btn--done.pill-btn .pill-btn-inner,
+.form-submit-btn--done.pill-btn .pill-btn-border {
+  opacity: 0;
+  transition: opacity 0.15s ease;
+}
+.form-submit-btn.pill-btn:hover .pill-btn-border {
+  border-color: #ffffff;
+}
+html:not(.dark) #quote-form .form-submit-btn.pill-btn:hover .pill-btn-border {
+  border-color: #000000 !important;
+}
+html:not(.dark) #quote-form .form-submit-btn.pill-btn .pill-btn-border {
+  border-color: #000000 !important;
 }
 
 /* Section line dividers: minimal gap */
@@ -1743,6 +2129,18 @@ html:not(.dark) #quote-form button[type="submit"]:hover {
   }
 }
 
+/* Why Choose Us (home): more space above; tighter below before next section */
+#about.section-canted-top.section-canted-bottom {
+  padding-top: 8rem !important;
+  padding-bottom: 4rem !important;
+}
+@media (min-width: 1024px) {
+  #about.section-canted-top.section-canted-bottom {
+    padding-top: 9.5rem !important;
+    padding-bottom: 5rem !important;
+  }
+}
+
 /* Light mode: no black band – transparent so gap matches page background */
 html:not(.dark) .section-divider {
   background-color: transparent !important;
@@ -1790,13 +2188,21 @@ html.about-page-active {
   background: radial-gradient(ellipse 80% 50% at 50% 120%, rgba(255,255,255,0.06) 0%, transparent 50%);
   pointer-events: none;
 }
-/* About hero: taller glow layer so translateY parallax doesn’t show gaps */
+/* About hero: background fills the section edge-to-edge (no parallax offset) */
 .about-hero-parallax .about-hero-parallax__bg {
   left: 0;
   right: 0;
-  top: -15%;
-  height: 130%;
-  min-height: 130%;
+  top: 0;
+  height: 100%;
+  min-height: 100%;
+}
+/* Full-bleed hero photo: no radial wash on this layer */
+.about-hero-parallax .about-hero-parallax__bg--photo {
+  background: none !important;
+}
+.about-hero-parallax .about-hero-parallax__bg--photo .about-hero-parallax__photo {
+  position: absolute;
+  inset: 0;
 }
 /* Mount / scroll fade-in — see components/Reveal.tsx */
 .about-reveal {
@@ -1861,8 +2267,9 @@ html.about-page-active {
   --about-px: clamp(1.25rem, 3vw, 2.35rem);
 }
 .about-section-px {
-  padding-left: var(--about-px);
-  padding-right: var(--about-px);
+  /* Match .about-page-shell --about-px when used outside that wrapper (e.g. accreditations) */
+  padding-left: var(--about-px, clamp(1.25rem, 3vw, 2.35rem));
+  padding-right: var(--about-px, clamp(1.25rem, 3vw, 2.35rem));
 }
 .about-section-y {
   padding-top: clamp(3.5rem, 9vw, 6.75rem);
@@ -3458,7 +3865,7 @@ html {
     /* FORCE DARK MODE STYLING - OVERRIDE EVERYTHING */
     .dark #quote-form {
         background-color: #000000 !important;
-        border: 2px solid #ffffff !important;
+        border: 1px solid #ffffff !important;
     }
     
     .dark #quote-form h3 {
@@ -3475,7 +3882,7 @@ html {
     .dark #quote-form select,
     .dark #quote-form textarea {
         background-color: #000000 !important;
-        border: 2px solid #ffffff !important;
+        border: 1px solid #ffffff !important;
         color: #ffffff !important;
         outline: none !important;
         box-shadow: none !important;
@@ -3487,7 +3894,7 @@ html {
     .dark #quote-form select:focus,
     .dark #quote-form textarea:focus {
         background-color: #000000 !important;
-        border: 2px solid #ffffff !important;
+        border: 1px solid #ffffff !important;
         color: #ffffff !important;
         outline: none !important;
         box-shadow: none !important;
@@ -3502,13 +3909,13 @@ html {
     
     .dark #quote-form button[type="submit"] {
         background-color: #000000 !important;
-        border: 2px solid #ffffff !important;
+        border: 1px solid #ffffff !important;
         color: #ffffff !important;
     }
     
     .dark #quote-form button[type="submit"]:hover {
         background-color: #333333 !important;
-        border: 2px solid #ffffff !important;
+        border: 1px solid #ffffff !important;
         color: #ffffff !important;
     }
 
@@ -4191,50 +4598,50 @@ html:not(.dark) body:has(.dm-page) {
   opacity: 0;
   transform: translateY(-0.2rem);
   transition:
-    opacity 0.38s cubic-bezier(0.45, 0, 0.2, 1),
-    transform 0.38s cubic-bezier(0.45, 0, 0.2, 1);
+    opacity 0.19s cubic-bezier(0.45, 0, 0.2, 1),
+    transform 0.19s cubic-bezier(0.45, 0, 0.2, 1);
   transition-delay: 0ms;
 }
 .dm-journey-content[data-phase="exiting"] .dm-journey-item {
   opacity: 0;
   transform: translateY(0.45rem);
   transition:
-    opacity 0.26s cubic-bezier(0.45, 0, 0.55, 1),
-    transform 0.26s cubic-bezier(0.45, 0, 0.55, 1);
+    opacity 0.13s cubic-bezier(0.45, 0, 0.55, 1),
+    transform 0.13s cubic-bezier(0.45, 0, 0.55, 1);
 }
-/* Items begin after title (≈0.4s), then cascade */
+/* Items begin after title (≈0.2s), then cascade */
 .dm-journey-content[data-phase="exiting"] .dm-journey-item:nth-child(1) {
-  transition-delay: 0.4s;
+  transition-delay: 0.2s;
 }
 .dm-journey-content[data-phase="exiting"] .dm-journey-item:nth-child(2) {
-  transition-delay: 0.46s;
+  transition-delay: 0.23s;
 }
 .dm-journey-content[data-phase="exiting"] .dm-journey-item:nth-child(3) {
-  transition-delay: 0.52s;
+  transition-delay: 0.26s;
 }
 .dm-journey-content[data-phase="exiting"] .dm-journey-item:nth-child(4) {
-  transition-delay: 0.58s;
+  transition-delay: 0.29s;
 }
 
 /* Enter: same moment as digit tick — slide in from top, light stagger */
 .dm-journey-content[data-phase="entering"] h2 {
-  animation: dmJourneyInFromTop 0.52s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+  animation: dmJourneyInFromTop 0.26s cubic-bezier(0.22, 1, 0.36, 1) forwards;
   animation-delay: 0ms;
 }
 .dm-journey-content[data-phase="entering"] .dm-journey-item {
-  animation: dmJourneyInFromTop 0.48s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+  animation: dmJourneyInFromTop 0.24s cubic-bezier(0.22, 1, 0.36, 1) forwards;
 }
 .dm-journey-content[data-phase="entering"] .dm-journey-item:nth-child(1) {
-  animation-delay: 0.04s;
+  animation-delay: 0.02s;
 }
 .dm-journey-content[data-phase="entering"] .dm-journey-item:nth-child(2) {
-  animation-delay: 0.09s;
+  animation-delay: 0.045s;
 }
 .dm-journey-content[data-phase="entering"] .dm-journey-item:nth-child(3) {
-  animation-delay: 0.14s;
+  animation-delay: 0.07s;
 }
 .dm-journey-content[data-phase="entering"] .dm-journey-item:nth-child(4) {
-  animation-delay: 0.19s;
+  animation-delay: 0.095s;
 }
 
 .dm-journey-content[data-phase="idle"] h2 {
@@ -4260,7 +4667,7 @@ html:not(.dark) body:has(.dm-page) {
 .dm-journey-digit-inner {
   display: inline-block;
   /* Same window as enter slide-from-top so digit + copy read as one beat */
-  animation: dmJourneyDigitTick 0.52s cubic-bezier(0.2, 0.85, 0.2, 1) both;
+  animation: dmJourneyDigitTick 0.26s cubic-bezier(0.2, 0.85, 0.2, 1) both;
 }
 @keyframes dmJourneyDigitTick {
   from {

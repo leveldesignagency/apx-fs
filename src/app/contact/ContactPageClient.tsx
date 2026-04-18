@@ -1,9 +1,11 @@
 "use client"
 
-import { useEffect, useState } from "react"
+import { useEffect, useRef, useState } from "react"
 import { useSearchParams } from "next/navigation"
+import { HomeQuoteFormDrawShell } from "@/components/home/HomeQuoteFormDrawShell"
 import { Reveal } from "@/components/Reveal"
 import { FormSubmitButton } from "@/components/ui/FormSubmitButton"
+import { GlassFormPanel } from "@/components/ui/GlassFormPanel"
 import { ArrowUpRight, Mail, MapPin, Phone } from "lucide-react"
 
 /** Values match `/services/…` paths from the services hub for `?service=` deep links */
@@ -24,10 +26,12 @@ const fieldClass =
 
 export function ContactPageClient() {
   const searchParams = useSearchParams()
+  const formRef = useRef<HTMLFormElement>(null)
   const [mounted, setMounted] = useState(false)
   const [service, setService] = useState("")
   const [serviceDropdownOpen, setServiceDropdownOpen] = useState(false)
   const [contactMethod, setContactMethod] = useState<"phone" | "email" | "text">("email")
+  const [submitError, setSubmitError] = useState<string | null>(null)
 
   useEffect(() => {
     setMounted(true)
@@ -68,14 +72,11 @@ export function ContactPageClient() {
       <div className="relative z-10">
         <section className="about-section-px page-title-top pb-16 md:pb-24 lg:pb-28">
           <div className="about-section-inner mx-auto max-w-6xl">
-            <div className="grid grid-cols-1 gap-14 lg:grid-cols-12 lg:gap-12 xl:gap-16">
-              <div className="lg:col-span-5">
+            <div className="grid grid-cols-1 gap-8 sm:gap-12 lg:grid-cols-2 lg:gap-16 items-start">
+              <div>
                 <Reveal show={mounted} delayMs={0}>
                   <span className="section-label mb-5 block text-white/55">Contact</span>
-                  <h1
-                    className="text-[2.35rem] font-bold leading-[1.06] tracking-tight text-white sm:text-5xl md:text-[3.25rem] lg:text-[3.5rem]"
-                    style={{ fontFamily: "var(--font-menu)" }}
-                  >
+                  <h1 className="mb-2 font-title text-left text-3xl font-bold text-white sm:mb-3 sm:text-4xl md:text-5xl lg:text-6xl">
                     Let&apos;s start a{" "}
                     <span className="bg-gradient-to-r from-white via-white to-white/55 bg-clip-text text-transparent">
                       conversation
@@ -155,25 +156,23 @@ export function ContactPageClient() {
                 </div>
               </div>
 
-              <div className="lg:col-span-7">
-                <Reveal show={mounted} delayMs={120}>
-                  <div className="relative overflow-hidden rounded-3xl border border-white/10 bg-white/[0.045] p-8 shadow-[0_32px_120px_rgba(0,0,0,0.5)] backdrop-blur-md md:p-10">
-                    <div
-                      className="pointer-events-none absolute -right-16 top-0 h-48 w-48 rounded-full opacity-40 blur-2xl"
-                      style={{
-                        background: "radial-gradient(circle, rgba(255,255,255,0.15) 0%, transparent 70%)",
-                      }}
-                    />
-                    <div className="relative">
-                      <div className="mb-8 flex items-end justify-between gap-4 border-b border-white/10 pb-6">
-                        <div>
-                          <h2 className="text-2xl font-bold text-white md:text-3xl" style={{ fontFamily: "var(--font-menu)" }}>
-                            Send a message
-                          </h2>
-                          <p className="mt-2 text-sm text-white/55">We&apos;ll get back to you within one working day.</p>
-                        </div>
-                      </div>
-                      <form className="contact-page-form space-y-5" onSubmit={(e) => e.preventDefault()}>
+              <div className="w-full">
+                <Reveal show={mounted} delayMs={120} className="w-full">
+                  <HomeQuoteFormDrawShell active>
+                    <div className="relative w-full">
+                      <GlassFormPanel>
+                        <form ref={formRef} className="contact-page-form space-y-5" onSubmit={(e) => e.preventDefault()}>
+                        <label className="sr-only" htmlFor="contact-company-hp">
+                          Company
+                        </label>
+                        <input
+                          id="contact-company-hp"
+                          name="company"
+                          type="text"
+                          tabIndex={-1}
+                          autoComplete="off"
+                          className="absolute -left-[9999px] h-px w-px opacity-0"
+                        />
                         <div>
                           <label htmlFor="name" className="mb-2 block text-xs font-semibold uppercase tracking-[0.12em] text-white/50">
                             Name
@@ -318,19 +317,52 @@ export function ContactPageClient() {
                             placeholder="Tell us about your project or enquiry…"
                           />
                         </div>
+                        {submitError ? (
+                          <p className="text-center text-sm text-red-300" role="alert">
+                            {submitError}
+                          </p>
+                        ) : null}
                         <div className="flex w-full justify-center">
                           <FormSubmitButton
                             className="w-full max-w-[14rem]"
                             onSubmit={async () => {
-                              /* Wire your real submit here */
+                              setSubmitError(null)
+                              const form = formRef.current
+                              if (!form) throw new Error("missing-form")
+                              const fd = new FormData(form)
+                              const hp = String(fd.get("company") ?? "").trim()
+                              if (hp.length > 0) return
+                              const res = await fetch("/api/contact", {
+                                method: "POST",
+                                headers: { "Content-Type": "application/json" },
+                                body: JSON.stringify({
+                                  name: String(fd.get("name") ?? "").trim(),
+                                  email: String(fd.get("email") ?? "").trim(),
+                                  phone: String(fd.get("phone") ?? "").trim(),
+                                  service,
+                                  serviceLabel,
+                                  contactMethod,
+                                  message: String(fd.get("message") ?? "").trim(),
+                                  company: hp,
+                                }),
+                              })
+                              const data = (await res.json().catch(() => ({}))) as { error?: string }
+                              if (!res.ok) {
+                                setSubmitError(data.error ?? "Could not send. Please try again or email us directly.")
+                                throw new Error("contact-failed")
+                              }
+                              form.reset()
+                              setService("")
+                              setContactMethod("email")
                             }}
                           >
                             Send message
                           </FormSubmitButton>
                         </div>
-                      </form>
+                        </form>
+                      </GlassFormPanel>
                     </div>
-                  </div>
+                  </HomeQuoteFormDrawShell>
                 </Reveal>
               </div>
             </div>

@@ -32,8 +32,7 @@ export function AccreditationDetailClient({
   }, [])
 
   return (
-    <main className="min-h-screen bg-zinc-100 text-black">
-      {/* Extra top padding so back link clears the site header — header component unchanged */}
+    <main className="min-h-screen bg-white text-black">
       <section className="bg-black text-white about-section-px page-title-top pb-10 md:pb-12">
         <div className="about-section-inner">
           <Reveal show={mounted} delayMs={0}>
@@ -63,63 +62,52 @@ export function AccreditationDetailClient({
         </div>
       </section>
 
-      <section className="about-section-px pb-20 pt-10 md:pb-28 md:pt-14">
+      <section className="about-section-px mt-10 pb-20 pt-20 text-black md:mt-12 md:pb-28 md:pt-28 lg:mt-14 lg:pt-36">
         <div className="about-section-inner">
-          <div className="mx-auto max-w-3xl">
-            <Reveal show={mounted} delayMs={80}>
-              <div className="flex flex-col items-center gap-6 md:gap-7">
-                {/* Rectangular mark — fully rounded corners (no sharp / cut corners) */}
-                <div className="flex h-32 w-44 shrink-0 items-center justify-center overflow-hidden rounded-3xl border border-black/12 bg-zinc-50 px-4 py-3 shadow-sm sm:h-36 sm:w-52 md:h-40 md:w-56 md:px-5 md:py-4">
-                  <Image
-                    src={accred.icon}
-                    alt={accred.name}
-                    width={320}
-                    height={180}
-                    className="max-h-full max-w-full object-contain"
-                    priority
-                  />
-                </div>
-                <div className="w-full rounded-3xl border border-black/10 bg-white p-8 shadow-[0_8px_40px_rgba(0,0,0,0.06)] md:p-10 lg:p-12">
-                  <p className="text-center text-xs font-semibold uppercase tracking-[0.14em] text-black/45 md:text-left">
-                    {accred.shortLabel}
-                  </p>
-                  <h1
-                    className="mt-2 text-center text-3xl font-bold leading-tight text-black md:text-left md:text-4xl lg:text-[2.75rem]"
-                    style={{ fontFamily: "var(--font-menu)" }}
-                  >
-                    {accred.title}
-                  </h1>
-                  <p className="mt-5 text-center text-lg leading-relaxed text-black/78 md:text-left md:text-xl">
-                    {accred.intro}
-                  </p>
-                </div>
+          <Reveal show={mounted} delayMs={60}>
+            <div className="grid grid-cols-1 items-start gap-12 lg:grid-cols-2 lg:items-start lg:gap-x-16 xl:gap-x-24">
+              <div className="min-w-0 max-w-2xl lg:max-w-none">
+                <p className="text-xs font-semibold uppercase tracking-[0.14em] text-black/45">{accred.shortLabel}</p>
+                <h1
+                  className="mt-3 text-3xl font-bold leading-[1.1] text-black md:text-4xl lg:text-[2.65rem]"
+                  style={{ fontFamily: "var(--font-menu)" }}
+                >
+                  {accred.title}
+                </h1>
+                <p className="mt-6 text-lg leading-relaxed text-black/78 md:text-xl">{accred.intro}</p>
               </div>
-            </Reveal>
 
-            <div className="mt-8 space-y-6 md:mt-10 md:space-y-8">
-              {accred.sections.map((section, i) => (
-                <Reveal key={section.heading} show={mounted} delayMs={120 + i * 50}>
-                  <article className="relative overflow-visible rounded-xl border border-black/8 bg-white p-7 shadow-sm md:p-8 lg:p-9">
-                    <span
-                      className="absolute left-1/2 top-0 z-10 flex h-9 w-9 -translate-x-1/2 -translate-y-1/2 items-center justify-center rounded-lg border-2 border-white bg-black text-sm font-bold text-white shadow-md md:h-10 md:w-10 md:text-base"
-                      aria-hidden
-                    >
-                      {i + 1}
-                    </span>
-                    <div className="min-w-0">
-                      <h2
-                        className="text-xl font-bold leading-snug text-black md:text-2xl"
-                        style={{ fontFamily: "var(--font-menu)" }}
-                      >
-                        {section.heading}
-                      </h2>
-                      <p className="mt-4 text-base leading-relaxed text-black/75 md:text-lg">{section.body}</p>
-                    </div>
-                  </article>
-                </Reveal>
-              ))}
+              <div className="flex w-full justify-center px-2 lg:px-6">
+                <Image
+                  src={accred.icon}
+                  alt={accred.name}
+                  width={280}
+                  height={120}
+                  className="h-auto w-auto max-h-[104px] max-w-[240px] object-contain sm:max-h-[112px] sm:max-w-[260px] md:max-h-[120px] md:max-w-[280px] lg:max-h-[128px] lg:max-w-[300px]"
+                  sizes="(min-width: 1024px) 300px, 260px"
+                  priority
+                />
+              </div>
             </div>
-          </div>
+          </Reveal>
+
+          <Reveal show={mounted} delayMs={100}>
+            <div className="mt-16 border-t border-black/10 pt-16 md:mt-20 md:pt-20">
+              <div className="grid grid-cols-1 gap-12 md:grid-cols-2 md:gap-x-14 md:gap-y-16 lg:gap-x-20">
+                {accred.sections.map((section) => (
+                  <article key={section.heading} className="min-w-0">
+                    <h2
+                      className="text-xl font-bold leading-snug text-black md:text-2xl"
+                      style={{ fontFamily: "var(--font-menu)" }}
+                    >
+                      {section.heading}
+                    </h2>
+                    <p className="mt-4 text-base leading-relaxed text-black/75 md:text-[1.05rem]">{section.body}</p>
+                  </article>
+                ))}
+              </div>
+            </div>
+          </Reveal>
         </div>
       </section>
     </main>

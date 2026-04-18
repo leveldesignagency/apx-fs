@@ -7,15 +7,28 @@ import { fsServiceHeroPillLinkClass } from "@/components/FsServiceHeroQuickNav"
 
 const activePillClass = "border-white/85 bg-black/65 ring-1 ring-white/40"
 
+type CctvNavLink = { href: string; label: string }
+
+type FsCctvHeroNavProps = {
+  /** Defaults to Domestic / Commercial / Useful advice; pass camera-type links from `cctvCameraTypePages` on guide pages. */
+  links?: readonly CctvNavLink[]
+  eyebrow?: string
+  ariaLabel?: string
+}
+
 /** Bottom-of-hero CCTV pills — same layout and style as FsServiceHeroQuickNav */
-export function FsCctvHeroNav() {
+export function FsCctvHeroNav({
+  links = FS_CCTV_TAB_LINKS,
+  eyebrow = "Quick navigation",
+  ariaLabel = "CCTV section",
+}: FsCctvHeroNavProps) {
   const path = normalizeFsPath(usePathname())
 
   return (
-    <nav aria-label="CCTV section" className="w-full min-w-0">
-      <p className="mb-3 text-[10px] font-semibold uppercase tracking-[0.2em] text-white/45">Quick navigation</p>
+    <nav aria-label={ariaLabel} className="w-full min-w-0">
+      <p className="mb-3 text-[10px] font-semibold uppercase tracking-[0.2em] text-white/45">{eyebrow}</p>
       <ul className="flex flex-wrap items-center gap-2 sm:gap-2.5">
-        {FS_CCTV_TAB_LINKS.map(({ href, label }) => {
+        {links.map(({ href, label }) => {
           const active = path === href
           return (
             <li key={href}>

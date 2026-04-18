@@ -12,6 +12,7 @@ export default function Header() {
   const { theme } = useTheme()
   /** Strip trailing slash so `/services` and `/services/` match the hub, etc. */
   const path = pathname.replace(/\/$/, "") || "/"
+  const isCareersPage = path === "/careers"
   const isHomePage = path === "/"
   const isCapabilityDetailPage =
     path === "/services/security-systems" ||
@@ -28,7 +29,6 @@ export default function Header() {
     isCapabilityDetailPage ||
     isServicesHubPage ||
     isMethodologyPage ||
-    isAboutPage ||
     isProjectsPage
   const isTransparentHeaderPage = isServiceSubpage || isProjectDetailPage
   const isServicesPage = pathname.startsWith("/services/") || isProjectDetailPage
@@ -82,9 +82,13 @@ export default function Header() {
   const headerLayoutClass =
     "absolute top-0 left-0 right-0 z-[100] w-full max-w-[100vw] pointer-events-auto"
 
+  if (isCareersPage) {
+    return null
+  }
+
   return (
     <header
-      className={`site-header ${headerLayoutClass} ${useBlackHeaderCanvas ? "bg-black fs-black-header-canvas" : "bg-transparent"} ${isHomePage || isTransparentHeaderPage ? "header-bg-transparent-page" : ""} ${isServicesPage ? "header--no-animate" : ""} ${isHomePage || isProjectDetailPage || isServiceSubpage ? "fs-project-detail-header" : ""}`}
+      className={`site-header ${headerLayoutClass} ${useBlackHeaderCanvas ? "bg-black fs-black-header-canvas" : "bg-transparent"} ${isHomePage || isTransparentHeaderPage || isAboutPage ? "header-bg-transparent-page" : ""} ${isServicesPage ? "header--no-animate" : ""} ${isHomePage || isProjectDetailPage || isServiceSubpage ? "fs-project-detail-header" : ""}`}
       style={{ backgroundColor: useBlackHeaderCanvas ? "#000000" : "transparent" }}
     >
       {/* ========== SAVED VERSION (original header – not rendered) ========== */}
@@ -296,10 +300,10 @@ export default function Header() {
             <div
               className="header-bar-expand h-full w-full rounded-br-[30px] border-2"
               style={{
-                backgroundColor: isHomePage || isTransparentHeaderPage ? "transparent" : "#000",
+                backgroundColor: isHomePage || isTransparentHeaderPage || isAboutPage ? "transparent" : "#000",
                 boxSizing: "border-box",
                 borderColor: "#fff",
-                ...(isHomePage || isProjectDetailPage || isServiceSubpage
+                ...(isHomePage || isProjectDetailPage || isServiceSubpage || isAboutPage
                   ? { backdropFilter: "blur(10px)", WebkitBackdropFilter: "blur(10px)" as const }
                   : {}),
               }}
@@ -561,40 +565,50 @@ export default function Header() {
         )}
       </nav>
 
-      {/* Contact Tab + toast wrapper – toast shows directly under the tab */}
+      {/* Contact Tab + toast: pill sits tight under the tab */}
       <div className={`absolute top-full right-[54px] ${contactTabReady ? 'z-20' : 'z-0'}`}>
-        <div
-          className="header-contact-tab--dark header-contact-tab-drop-in rounded-t-none rounded-b-xl border-2 border-t-0 px-4 py-2 flex items-center space-x-3"
-          style={{
-            borderColor: "#fff",
-            backgroundColor: "#000",
-          }}
-          onAnimationEnd={(e) => {
-            if (e.animationName === 'header-contact-tab-drop-in') setContactTabReady(true)
-          }}
-        >
-          <button
-            type="button"
-            onClick={() => handleContactClick('phone', '020 8303 2280')}
-            className="header-contact-btn relative flex items-center space-x-1.5 px-2.5 py-1.5 rounded-full cursor-pointer"
+        <div className="relative">
+          <div
+            className="header-contact-tab--dark header-contact-tab-drop-in rounded-t-none rounded-b-xl border-2 border-t-0 px-4 py-2 flex items-center space-x-3"
+            style={{
+              borderColor: "#fff",
+              backgroundColor: "#000",
+            }}
+            onAnimationEnd={(e) => {
+              if (e.animationName === 'header-contact-tab-drop-in') setContactTabReady(true)
+            }}
           >
-            <Phone className="h-3.5 w-3.5" />
-            <span className="text-xs">020 8303 2280</span>
-          </button>
-          <button
-            type="button"
-            onClick={() => handleContactClick('email', 'enquiries@apx-fs.co.uk')}
-            className="header-contact-btn relative flex items-center space-x-1.5 px-2.5 py-1.5 rounded-full cursor-pointer"
-          >
-            <Mail className="h-3.5 w-3.5" />
-            <span className="text-xs">enquiries@apx-fs.co.uk</span>
-          </button>
+            <button
+              type="button"
+              onClick={() => handleContactClick('phone', '020 8303 2280')}
+              className="header-contact-btn relative flex items-center space-x-1.5 px-2.5 py-1.5 rounded-full cursor-pointer"
+            >
+              <Phone className="h-3.5 w-3.5" />
+              <span className="text-xs">020 8303 2280</span>
+            </button>
+            <button
+              type="button"
+              onClick={() => handleContactClick('email', 'enquiries@apx-fs.co.uk')}
+              className="header-contact-btn relative flex items-center space-x-1.5 px-2.5 py-1.5 rounded-full cursor-pointer"
+            >
+              <Mail className="h-3.5 w-3.5" />
+              <span className="text-xs">enquiries@apx-fs.co.uk</span>
+            </button>
+          </div>
+          {toast && (
+            <div
+              role="status"
+              aria-live="polite"
+              className="absolute left-1/2 z-[110] -translate-x-1/2 whitespace-nowrap rounded-full border border-black/10 bg-white px-3.5 py-1.5 text-xs font-semibold text-black shadow-md"
+              style={{
+                /* Tab uses translateY(-36px); layout box is still full height — anchor toast to visual bottom + ~5px */
+                top: "calc(100% - 36px + 0.3125rem)",
+              }}
+            >
+              {toast.message}
+            </div>
+          )}
         </div>
-        {toast && (
-          <span className="absolute top-full left-0 mt-1.5 w-full text-center text-sm text-white whitespace-nowrap z-50">
-            {toast.message}
-          </span>
-        )}
       </div>
     </header>
   )

@@ -11,12 +11,18 @@ type Props = {
   steps: readonly Step[]
 }
 
+function splitStepTitle(title: string): { main: string; sub?: string } {
+  const m = title.match(/^(.+?)\s*[—–]\s*(.+)$/)
+  if (!m) return { main: title }
+  return { main: m[1]!.trim(), sub: m[2]!.trim() }
+}
+
 type Phase = "idle" | "exiting" | "entering"
 
-/** Title fades first, then items (last item ends ≈0.84s — keep in sync with globals exit delays) */
-const MS_OUT = 860
+/** Title fades first, then items (last item ends ≈0.42s — keep in sync with globals exit delays) */
+const MS_OUT = 450
 /** Enter overlaps digit tick: slide-from-top + stagger (≥ last delay + duration) */
-const MS_IN = 720
+const MS_IN = 360
 
 function RollingPair({
   value,
@@ -80,6 +86,7 @@ export function DeliveryMethodologyJourney({ steps }: Props) {
   useEffect(() => () => clearTimers(), [clearTimers])
 
   const step = steps[index]!
+  const { main: stepTitleMain, sub: stepTitleSub } = splitStepTitle(step.title)
 
   useEffect(() => {
     return () => {
@@ -169,8 +176,13 @@ export function DeliveryMethodologyJourney({ steps }: Props) {
                     "font-title text-[clamp(1.85rem,5vw,3.35rem)] font-semibold leading-[1.08] tracking-tight text-white normal-case md:text-[clamp(2rem,3.6vw,3.5rem)]"
                   )}
                 >
-                  {step.title}
+                  {stepTitleMain}
                 </h2>
+                {stepTitleSub ? (
+                  <p className="mt-2 max-w-2xl font-title text-[clamp(0.95rem,2vw,1.2rem)] font-medium uppercase leading-snug tracking-[0.14em] text-white/65 md:mt-2.5 md:tracking-[0.16em]">
+                    {stepTitleSub}
+                  </p>
+                ) : null}
                 <ul className="mt-5 space-y-3.5 text-[clamp(1rem,2.2vw,1.15rem)] leading-relaxed text-white/82 md:mt-6 md:space-y-4 md:leading-[1.65]">
                   {step.items.map((line) => (
                     <li

@@ -101,13 +101,9 @@ export function AboutIntroSection({ bodyLines = DEFAULT_BODY_LINES }: AboutIntro
             index={1}
             active={on}
             as="h2"
-            className="font-title font-bold uppercase leading-[1.08] tracking-tight text-white"
-            style={{
-              fontFamily: "var(--font-title, Outfit, sans-serif)",
-              fontSize: "clamp(2.25rem, 8vw, 4rem)",
-            }}
+            className="home-section-title font-title font-bold text-white"
           >
-            Where it began
+            Built on experience. Driven by standards.
           </Line>
 
           <div className="mx-auto mt-8 max-w-2xl space-y-4 text-left text-base leading-relaxed text-white/90 sm:text-center sm:text-lg md:text-xl">

@@ -1,5 +1,6 @@
 "use client"
 
+import Image from "next/image"
 import Link from "next/link"
 import { ServicePageBottomCta } from "@/components/ServicePageBottomCta"
 import { CustomPillButton } from "@/components/ui/CustomPillButton"
@@ -8,76 +9,130 @@ import { ServicePageHero } from "@/components/ServicePageHero"
 import { serviceHeroImages } from "@/lib/serviceHeroImages"
 import { ApxPartnerLogoStrip } from "@/components/ApxPartnerLogoStrip"
 import { APX_PARTNER_LOGO_DIR, type PartnerLogoEntry } from "@/lib/apx-partner-logos"
-import { FS_SERVICE_SHIMMER_CARD } from "@/lib/fsServicePageCards"
+import { FsServiceTextImageSection } from "@/components/FsServiceTextImageSection"
+import { FS_SERVICE_SHIMMER_CARD, FS_SERVICE_SHIMMER_CARD_FEATURE } from "@/lib/fsServicePageCards"
 import {
   Key,
-  Shield,
   Clock,
-  Users,
-  DoorOpen,
   Flame,
   ShieldCheck,
-  Cpu,
   ClipboardList,
-  CalendarClock,
+  Cpu,
   type LucideIcon,
 } from "lucide-react"
 
-const benefitSummaryCardClass = `${FS_SERVICE_SHIMMER_CARD} flex h-full flex-col p-6 sm:p-7`
+const benefitFeatureCardClass = `${FS_SERVICE_SHIMMER_CARD_FEATURE} transition-transform duration-300 hover:scale-[1.02]`
 
-const benefitDetailCardClass = `${FS_SERVICE_SHIMMER_CARD} flex h-full flex-col gap-4 p-6 sm:p-7`
+const ACCESS_CONTROL_BENEFITS: { Icon: LucideIcon; title: string; text: string }[] = [
+  {
+    Icon: Key,
+    title: "Credentials instead of keys",
+    text:
+      "Revoke or replace a lost fob or card without rekeying every door — avoiding the cost and disruption of wholesale lock changes.",
+  },
+  {
+    Icon: Clock,
+    title: "Smarter schedules",
+    text:
+      "Reduce reliance on staff for manual unlock and lock-up; grant access by day, time and zone so doors match how your building actually runs.",
+  },
+  {
+    Icon: Flame,
+    title: "Safer evacuation",
+    text:
+      "Fail-safe locking can release doors in a fire or other emergency so people are not held up searching for keys.",
+  },
+  {
+    Icon: ShieldCheck,
+    title: "Authorised entry",
+    text:
+      "Credentials at controlled doors make unauthorised visitors far less likely; lost access can be disabled immediately without new keys for everyone.",
+  },
+  {
+    Icon: ClipboardList,
+    title: "Audit and accountability",
+    text:
+      "See who accessed sensitive areas and when — valuable for investigations, contractor visits and compliance reporting.",
+  },
+  {
+    Icon: Cpu,
+    title: "Networked integration",
+    text:
+      "On larger sites, systems can support time and attendance, payroll feeds and sit alongside CCTV and intruder alarms on one coherent platform.",
+  },
+]
 
 const ACCESS_CONTROL_PARTNERS: readonly PartnerLogoEntry[] = [
   { name: "TDSi", href: "https://www.tdsi.co.uk/", logoSrc: `${APX_PARTNER_LOGO_DIR}/tdsi.svg`, size: "lg" },
   { name: "CAME Entrotec", href: "https://www.came.com/uk", logoSrc: `${APX_PARTNER_LOGO_DIR}/logo-entrotec.svg`, size: "lg" },
   { name: "PAC", href: "https://www.pac.co.uk/", logoSrc: null },
   { name: "ASSA ABLOY", href: "https://www.assaabloy.com/", logoSrc: `${APX_PARTNER_LOGO_DIR}/assa-abloy-access-blue-logo.svg` },
-  { name: "Videx", href: "https://www.videxuk.com/", logoSrc: null },
+  { name: "Videx", href: "https://www.videxuk.com/", logoSrc: `${APX_PARTNER_LOGO_DIR}/videx.svg` },
   { name: "CDVI", href: "https://www.cdvi.co.uk/", logoSrc: `${APX_PARTNER_LOGO_DIR}/cdvi.svg` },
 ]
 
-const ACCESS_CONTROL_BENEFIT_DETAILS: { Icon: LucideIcon; title: string; body: string }[] = [
+/** Case study imagery under /public/projects/case-studies/… */
+const ACCESS_CONTROL_INSTALLATIONS: { title: string; venue: string; context: string; imageSrc: string }[] = [
   {
-    Icon: Key,
-    title: "No hassle with traditional keys",
-    body:
-      "Traditional keys require extra work and can pose several security threats. For example, if a key holder loses their key, you may have to change all the locks to maintain the security of the building, which would incur a substantial cost.",
+    title: "Access Control System Mayfair Townhouse London",
+    venue: "Mayfair Townhouse",
+    context: "Luxury Lifestyle Hotel",
+    imageSrc:
+      "/projects/case-studies/mayfair-townhouse/access-control-system-installation-mayfair-townhouse-exterior.jpg",
   },
   {
-    Icon: DoorOpen,
-    title: "Give employees the freedom to come and go",
-    body:
-      "With keyed systems, security staff will sometimes have to start early to unlock doors or stay late to lock up. With access control systems, it is easier to give everyone a programmed card, offering employees more flexibility in their schedules, removing the need for additional staff to allow access.",
+    title: "Access Control System Installation Scape Bloomsbury",
+    venue: "Scape Bloomsbury",
+    context: "Student Accommodation",
+    imageSrc:
+      "/projects/case-studies/scape-bloomsbury/access-control-system-installation-scape-bloomsbury-exterior.jpg",
   },
   {
-    Icon: Flame,
-    title: "Safe working environment",
-    body:
-      "Keep your employees safe in the case of an emergency. Doors locked with keys can be unsafe if a fire or other emergency requires a quick escape. With access control system fail safe locks, the doors will automatically unlock so all people can exit a building without having to waste time searching for their keys.",
+    title: "Access Control System Installation Scape Bloomsbury",
+    venue: "Scape Bloomsbury",
+    context: "Student Accommodation",
+    imageSrc:
+      "/projects/case-studies/scape-bloomsbury/access-control-system-installation-scape-bloomsbury-library.jpg",
   },
   {
-    Icon: ShieldCheck,
-    title: "Keep unwanted visitors out",
-    body:
-      "Access control systems make it less likely that an unwanted visitor will enter your facility. If every door requires credentials before it unlocks, you will know everyone in the building is authorised to be there. Unlike key systems, access control systems allow you to deactivate an access card and assign a new one. No need to change locks or issue new keys to everyone.",
+    title: "Access Control System Installation John Keats Primary School",
+    venue: "John Keats Primary School",
+    context: "Rotherhithe, London",
+    imageSrc:
+      "/projects/case-studies/john-keats-primary-school/access-control-system-installation-john-keats-primary-school-exterior.jpg",
   },
   {
-    Icon: Cpu,
-    title: "Advanced automation",
-    body:
-      "Our fully networked access control installations offer advanced features such as automatic time and attendance reports linked to payroll.",
+    title: "Access Control System Installation John Keats Primary School",
+    venue: "John Keats Primary School",
+    context: "Rotherhithe, London",
+    imageSrc:
+      "/projects/case-studies/john-keats-primary-school/access-control-system-installation-john-keats-primary-school-classroom.jpg",
   },
   {
-    Icon: ClipboardList,
-    title: "Keep track of who enters the facility",
-    body:
-      "Another benefit of access control systems is that you can keep track of who is coming and going. In the event of a security incident, you will be able to see exactly who swiped their card to access a specific area.",
+    title: "Access Control Systems for Ledian Farm Retirement Village",
+    venue: "Ledian Farm",
+    context: "Retirement Village, Kent",
+    imageSrc: "/projects/case-studies/ledian-farm/access-control-system-installation-ledian-farm-exterior.jpg",
   },
   {
-    Icon: CalendarClock,
-    title: "Set specialised access parameters",
-    body:
-      "Unlike keyed systems, access control systems allow you to grant access to certain people on specific days and times. You can programme any door or any card to meet your exact needs.",
+    title: "Access Control Systems for Ledian Farm Retirement Village",
+    venue: "Ledian Farm",
+    context: "Retirement Village, Kent",
+    imageSrc: "/projects/case-studies/ledian-farm/access-control-system-installation-ledian-farm-reception.jpg",
+  },
+  {
+    title: "Access Control System Installation United Living Welbourne",
+    venue: "United Living Welbourne",
+    context: "Apartment Block",
+    imageSrc:
+      "/projects/case-studies/united-living-welbourne/access-control-system-installation-united-living-welbourne.jpg",
+  },
+  {
+    title: "Access Control System Installation Aspire Herschel Street",
+    venue: "Aspire Herschel Street",
+    context: "Apartment Block",
+    imageSrc:
+      "/fire%20alarm%20system%20installations/access-control-system-installation-aspire-herschel-street-exterior-800x533.jpg",
   },
 ]
 
@@ -95,15 +150,18 @@ export default function AccessControlPage() {
   return (
     <div className="service-page-root min-h-screen overflow-x-hidden bg-black text-white">
       <ServicePageHero
-        title="Access Control Systems"
+        title="Video entry & access control systems"
         imageSrc={serviceHeroImages.accessControl}
+        heroCompliance={["BS EN 60839"]}
         intro={
           <>
             <p className="mb-4">
-              Uniquely designed for each client, whatever the size. From simple stand-alone systems to fully networked installations.
+              We install secure, reliable access control and video entry systems for commercial, residential, and multi-tenant environments — from door control and readers
+              through to networked systems integrated with CCTV and intruder alarms.
             </p>
             <p>
-              APX Fire & Security offer the best and latest in Access Control technology, from large commercial properties through to small domestic properties and everything in between. We specialise in the design and installation of high-performance access systems that provide our customers with superior results, peace of mind and unrivaled after-sales support.
+              Established in 1986 we work throughout London and the Home Counties, designing systems alongside architects and consultants to meet your security and operational
+              requirements.
             </p>
           </>
         }
@@ -112,70 +170,45 @@ export default function AccessControlPage() {
       <div className="relative bg-black">
         {heroBridge}
 
-        <section className="container relative z-[1] mx-auto px-6 py-8 lg:py-10">
-          <h2 className="mb-4 text-left font-title text-3xl font-bold text-white sm:text-4xl">Bespoke Access Control Systems</h2>
-          <div className="max-w-7xl space-y-4 text-base leading-relaxed text-gray-300 sm:text-lg">
-            <p>
-              We have a vast amount of experience in designing high quality and effective access control systems for business and homeowners alike. Established in 1986 we work throughout London and the Home Counties, in all market sectors, ranging from single doors through to fully networked systems that integrate with intruder alarms and CCTV systems.
-            </p>
-            <p>
-              Working alongside architects and consultants, we design systems to meet and exceed our clients expectations, ensuring our electronic access control systems provide the most efficient and convenient way of securing your building and assets.
-            </p>
-            <p>
-              Simply complete the Access Control System enquiry form and we will contact you and arrange to meet you, discuss your requirements and carry out a survey of your property.
-            </p>
-          </div>
-          <p className="mt-8 max-w-3xl border-t border-white/10 pt-8 text-base leading-relaxed text-gray-300">
-            Installations are specified and handed over with reference to BS EN 60839 for electronic access control systems where applicable. Video entry, multi-tenant panels, proximity readers and fob/card systems can be delivered with access schedules, user permission setup and structured training — coordinated with CCTV and intruder systems where required. See also our{" "}
-            <Link href="/services/maintenance" className="text-white underline decoration-white/35 underline-offset-2 hover:decoration-white">
-              video door entry
-            </Link>{" "}
-            and{" "}
-            <Link href="/services/security-systems" className="text-white underline decoration-white/35 underline-offset-2 hover:decoration-white">
-              security systems overview
-            </Link>
-            .
-          </p>
-        </section>
-
-        <div className="border-t border-white/15" />
-
-        <section className="container mx-auto px-6 py-12 lg:py-16">
+        <section className="container relative z-[1] mx-auto px-6 py-12 lg:py-16">
           <h2 className="mb-10 text-left font-title text-3xl font-bold text-white sm:text-4xl">Benefits of Access Control Systems</h2>
-          <div className="mb-12 grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-4">
-            {[
-              { icon: Key, title: "No Keys", text: "No more lost keys or expensive replacement locks to worry about." },
-              { icon: Users, title: "Monitor Access", text: "Control who comes and goes and record when they access." },
-              { icon: Shield, title: "Better Security", text: "Less likely that unwanted visitors will enter your facility." },
-              { icon: Clock, title: "24 Hour Access", text: "Avoid security staff having to unlock doors or stay late to lock up." },
-            ].map(({ icon: Icon, title, text }, i) => (
-              <div key={i} className={benefitSummaryCardClass}>
-                <Icon className="mb-4 h-10 w-10 text-white" strokeWidth={1.75} />
-                <h3 className="mb-2 text-left text-xl font-semibold text-white">{title}</h3>
+          <div className="grid grid-cols-1 gap-8 md:grid-cols-2 lg:grid-cols-3">
+            {ACCESS_CONTROL_BENEFITS.map(({ Icon, title, text }, i) => (
+              <div key={i} className={benefitFeatureCardClass}>
+                <Icon className="mb-4 h-8 w-8 text-white" strokeWidth={1.75} />
+                <h3 className="mb-3 text-left text-xl font-semibold text-white">{title}</h3>
                 <p className="text-left text-gray-300">{text}</p>
               </div>
             ))}
           </div>
-          <div className="grid grid-cols-1 gap-5 lg:grid-cols-2 lg:gap-6">
-            {ACCESS_CONTROL_BENEFIT_DETAILS.map(({ Icon, title, body }, i) => (
-              <article key={i} className={benefitDetailCardClass}>
-                <div className="flex items-start gap-4">
-                  <Icon
-                    className="mt-0.5 h-6 w-6 shrink-0 text-white/80 sm:h-7 sm:w-7"
-                    strokeWidth={1.75}
-                    aria-hidden
-                  />
-                  <div className="min-w-0 flex-1">
-                    <h3 className="mb-3 text-left font-title text-xl font-semibold leading-snug tracking-tight text-white sm:text-[1.35rem]">
-                      {title}
-                    </h3>
-                    <p className="text-left text-base leading-relaxed text-gray-300">{body}</p>
-                  </div>
-                </div>
-              </article>
-            ))}
-          </div>
         </section>
+
+        <div className="border-t border-white/15" />
+
+        <FsServiceTextImageSection title="Bespoke Access Control Systems" titleId="bespoke-access-control-heading">
+          <p>
+            We have a vast amount of experience in designing high quality and effective access control systems for business and homeowners alike. Established in 1986 we work throughout London and the Home Counties, in all market sectors, ranging from single doors through to fully networked systems that integrate with intruder alarms and CCTV systems.
+          </p>
+          <p>
+            Working alongside architects and consultants, we design systems to meet and exceed our clients expectations, ensuring our electronic access control systems provide the most efficient and convenient way of securing your building and assets.
+          </p>
+          <p>
+            Simply complete the Access Control System enquiry form and we will contact you and arrange to meet you, discuss your requirements and carry out a survey of your property.
+          </p>
+          <div className="mt-8 max-w-3xl border-t border-white/10 pt-8">
+            <p className="text-base leading-relaxed text-gray-300">
+              Installations are specified and handed over with reference to BS EN 60839 for electronic access control systems where applicable. Video entry, multi-tenant panels, proximity readers and fob/card systems can be delivered with access schedules, user permission setup and structured training — coordinated with CCTV and intruder systems where required. See also our{" "}
+              <Link href="/services/maintenance" className="text-white underline decoration-white/35 underline-offset-2 hover:decoration-white">
+                video door entry
+              </Link>{" "}
+              and{" "}
+              <Link href="/services/security-systems" className="text-white underline decoration-white/35 underline-offset-2 hover:decoration-white">
+                security systems overview
+              </Link>
+              .
+            </p>
+          </div>
+        </FsServiceTextImageSection>
 
         <div className="border-t border-white/15" />
 
@@ -190,33 +223,33 @@ export default function AccessControlPage() {
         <div className="border-t border-white/15" />
 
         <section className="container mx-auto px-6 py-12 lg:py-16">
-          <h2 className="mb-10 text-left font-title text-3xl font-bold text-white sm:text-4xl">Our Access Control System Installations</h2>
+          <h2 className="mb-4 text-left font-title text-3xl font-bold text-white sm:text-4xl">Our Access Control System Installations</h2>
           <p className="mb-8 max-w-2xl text-left text-gray-300">
-            Examples of the Access Control Systems that we have installed for our customers:
+            Examples of the access control systems that we have installed for our customers:
           </p>
-          <div className="grid grid-cols-1 gap-8 sm:grid-cols-2 lg:grid-cols-3">
-            {[
-              { title: "Mayfair Townhouse", subtitle: "Luxury Lifestyle Hotel, London" },
-              { title: "Scape Bloomsbury", subtitle: "Student Accommodation" },
-              { title: "John Keats Primary School", subtitle: "Rotherhithe, London" },
-              { title: "Ledian Farm", subtitle: "Retirement Village, Kent" },
-              { title: "United Living Welbourne", subtitle: "Apartment Block" },
-              { title: "Aspire Herschel Street", subtitle: "Apartment Block" },
-            ].map((project, i) => (
-              <div key={i} className="overflow-hidden rounded-tl-[1.5rem] rounded-br-[1.5rem] border-2 border-white/20 bg-black">
-                <div className="flex aspect-video items-center justify-center bg-white/5">
-                  <span className="text-sm text-gray-400">Image placeholder</span>
+          <div className="grid grid-cols-1 gap-8 md:grid-cols-2 lg:grid-cols-3">
+            {ACCESS_CONTROL_INSTALLATIONS.map((item, index) => (
+              <article key={`${item.imageSrc}-${index}`} className={`${FS_SERVICE_SHIMMER_CARD} overflow-hidden p-0`}>
+                <div className="relative aspect-[4/3] w-full bg-white/5">
+                  <Image
+                    src={item.imageSrc}
+                    alt=""
+                    fill
+                    className="object-cover object-center"
+                    sizes="(min-width: 1024px) 33vw, (min-width: 768px) 50vw, 100vw"
+                  />
                 </div>
-                <div className="p-6">
-                  <h3 className="mb-1 text-xl font-semibold text-white">{project.title}</h3>
-                  <p className="text-gray-300">{project.subtitle}</p>
+                <div className="p-6 md:p-8">
+                  <h3 className="mb-2 text-base font-semibold leading-snug text-white sm:text-lg">{item.title}</h3>
+                  <p className="font-medium text-white/95">{item.venue}</p>
+                  <p className="mt-1 text-gray-300">{item.context}</p>
                 </div>
-              </div>
+              </article>
             ))}
           </div>
         </section>
 
-        <OurCustomers />
+        <OurCustomers serviceTitleShort="Video entry & access" />
 
         <ServicePageBottomCta
           imageSrc={serviceHeroImages.accessControl}

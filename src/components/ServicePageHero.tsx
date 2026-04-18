@@ -23,6 +23,8 @@ export type ServicePageHeroProps = {
    * Use with no `imageSrc` and `heroNav={false}`.
    */
   compact?: boolean
+  /** Short standard references — subtle, bottom-right of hero (above quick nav when present) */
+  heroCompliance?: readonly string[]
 }
 
 function HeroIntro({ children }: { children: ReactNode }) {
@@ -45,6 +47,7 @@ export function ServicePageHero({
   imageClassName,
   heroNav = "quick-links",
   compact = false,
+  heroCompliance,
 }: ServicePageHeroProps) {
   const showImage = Boolean(imageSrc)
   const compactLayout = Boolean(compact && !showImage && heroNav === false)
@@ -72,6 +75,18 @@ export function ServicePageHero({
             />
             <div className="pointer-events-none absolute inset-0" style={{ background: HERO_BG_GRADIENT_LEFT }} />
             <div className="pointer-events-none absolute inset-0" style={{ background: HERO_BG_GRADIENT_BOTTOM }} />
+            <div
+              className="pointer-events-none absolute inset-0 opacity-40 mix-blend-overlay"
+              style={{
+                backgroundImage: [
+                  "radial-gradient(circle at 0 0, rgba(255,255,255,0.28) 0.8px, transparent 1px)",
+                  "radial-gradient(circle at 1px 1px, rgba(0,0,0,0.42) 0.9px, transparent 1.2px)",
+                ].join(", "),
+                backgroundSize: "3px 3px, 4px 4px",
+                backgroundPosition: "0 0, 1px 1px",
+              }}
+              aria-hidden
+            />
             <div className="pointer-events-none absolute inset-0 bg-black/45" aria-hidden />
           </>
         ) : (
@@ -89,8 +104,8 @@ export function ServicePageHero({
         <div
           className={
             heroNav === "quick-links" || heroNav === "cctv-tabs"
-              ? "flex min-h-0 w-full min-w-0 flex-1 flex-col"
-              : "space-y-4"
+              ? "relative flex min-h-0 w-full min-w-0 flex-1 flex-col"
+              : "relative w-full space-y-4"
           }
         >
           <div className="w-full min-w-0 max-w-full space-y-4 md:max-w-[min(52rem,68vw)] lg:max-w-[min(60rem,72vw)]">
@@ -99,6 +114,21 @@ export function ServicePageHero({
             </h1>
             <HeroIntro>{intro}</HeroIntro>
           </div>
+          {heroCompliance?.length && compactLayout ? (
+            <p className="ml-auto mt-3 max-w-lg text-right text-xs font-medium uppercase leading-snug tracking-[0.1em] text-white/50 sm:mt-4 sm:text-sm sm:tracking-[0.12em]">
+              {heroCompliance.join(" · ")}
+            </p>
+          ) : null}
+          {heroCompliance?.length && !compactLayout && showImage ? (
+            <div
+              className="pointer-events-none absolute bottom-[5.25rem] right-0 z-30 max-w-[min(100%,22rem)] pl-4 text-right sm:bottom-[6rem] md:max-w-[26rem]"
+              aria-hidden
+            >
+              <p className="text-xs font-medium uppercase leading-snug tracking-[0.1em] text-white/50 sm:text-sm sm:tracking-[0.12em] md:text-[0.9375rem] md:leading-relaxed">
+                {heroCompliance.join(" · ")}
+              </p>
+            </div>
+          ) : null}
           {heroNav === "quick-links" ? (
             <div className="mt-auto shrink-0 border-t border-white/15 pt-6 sm:pt-8">
               <FsServiceHeroQuickNav />

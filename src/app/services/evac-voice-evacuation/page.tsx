@@ -24,15 +24,15 @@ export default function EvacVoiceEvacuationPage() {
       <ServicePageHero
         title="EVAC & voice evacuation systems"
         imageSrc={serviceHeroImages.fireAlarm}
+        heroCompliance={["BS 5839-8"]}
         intro={
           <>
             <p className="mb-4">
-              APX provides voice evacuation systems designed to deliver clear, controlled messaging during emergency situations — integrating public address, zoned
-              loudspeaker networks and control equipment with your fire detection and building management strategy.
+              APX provides voice evacuation systems designed to deliver clear, controlled messaging during emergency situations.
             </p>
             <p>
-              We support commercial, industrial and public-sector clients across London and the Home Counties with structured design, installation, audio testing and
-              commissioning — plus the documentation package your project needs for sign-off.
+              We integrate public address, zoned messaging, amplifiers and speakers with your fire alarm strategy — with structured design, audio testing, commissioning and
+              documentation for commercial, industrial and public-sector projects across London and the Home Counties.
             </p>
           </>
         }
@@ -152,7 +152,7 @@ export default function EvacVoiceEvacuationPage() {
           </div>
         </section>
 
-        <OurCustomers />
+        <OurCustomers serviceTitleShort="EVAC & voice" />
 
         <ServicePageBottomCta
           imageSrc={serviceHeroImages.fireAlarm}
