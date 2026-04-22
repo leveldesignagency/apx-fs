@@ -53,14 +53,20 @@ export function HomeQuoteFormDrawShell({ active, children }: HomeQuoteFormDrawSh
       : "home-quote-form-stroke"
 
   return (
-    <div className="quote-form-draw-shell relative" style={shellStyle}>
+    <div
+      className="quote-form-draw-shell relative overflow-hidden max-lg:rounded-tl-[1.5rem] max-lg:rounded-br-[1.5rem] max-lg:outline max-lg:outline-1 max-lg:outline-white/45 max-lg:outline-offset-0 rounded-tr-none rounded-bl-none lg:rounded-tl-[8%] lg:rounded-br-[8%] lg:outline-none"
+      style={shellStyle}
+    >
+      {/*
+        Keep in sync with MepHomeQuoteFormDrawShell: below lg hide SVG; 1.5rem + outline; lg+ 8% matches path r=8 in 0–100 viewBox.
+      */}
       <svg
-        className="pointer-events-none absolute inset-0 z-[2] h-full w-full overflow-visible"
+        className="pointer-events-none absolute inset-0 z-[2] hidden h-full w-full overflow-visible lg:block"
         viewBox="0 0 100 100"
         preserveAspectRatio="none"
         aria-hidden
       >
-        {/* Stroke in user units (~hairline). Avoid vectorEffect + non-uniform scale — breaks dashed stroke. */}
+        {/* Stroke in user units (~hairline after scale). Avoid vectorEffect + non-uniform scale — breaks dashed stroke continuity. */}
         <path
           ref={pathRef}
           d={BORDER_PATH}

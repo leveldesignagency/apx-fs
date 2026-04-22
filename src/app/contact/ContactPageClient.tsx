@@ -70,7 +70,10 @@ export function ContactPageClient() {
       </div>
 
       <div className="relative z-10">
-        <section className="about-section-px page-title-top pb-16 md:pb-24 lg:pb-28">
+        <section
+          id="contact"
+          className="about-section-px page-title-top pb-16 md:pb-24 lg:pb-28"
+        >
           <div className="about-section-inner mx-auto max-w-6xl">
             <div className="grid grid-cols-1 gap-8 sm:gap-12 lg:grid-cols-2 lg:gap-16 items-start">
               <div>
@@ -159,7 +162,7 @@ export function ContactPageClient() {
               <div className="w-full">
                 <Reveal show={mounted} delayMs={120} className="w-full">
                   <HomeQuoteFormDrawShell active>
-                    <div className="relative w-full">
+                    <div id="quote-form" className="relative w-full">
                       <GlassFormPanel>
                         <form ref={formRef} className="contact-page-form space-y-5" onSubmit={(e) => e.preventDefault()}>
                         <label className="sr-only" htmlFor="contact-company-hp">
