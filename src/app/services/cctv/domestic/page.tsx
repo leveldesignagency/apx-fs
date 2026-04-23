@@ -44,7 +44,7 @@ export default function DomesticCctvPage() {
           aria-hidden
         />
 
-        <section className="container relative z-[1] mx-auto px-6 py-12 lg:py-16">
+        <section className="container relative z-[1] mx-auto px-6 py-16 lg:py-16">
           <h2 className="mb-10 text-left font-title text-3xl font-bold text-white sm:text-4xl">Why choose domestic CCTV?</h2>
           <div className="grid grid-cols-1 gap-8 md:grid-cols-3">
             {[
@@ -75,7 +75,7 @@ export default function DomesticCctvPage() {
 
         <div className="border-t border-white/15" />
 
-        <section className="container mx-auto px-6 py-12 lg:py-16">
+        <section className="container mx-auto px-6 py-16 lg:py-16">
           <p className="mb-10 max-w-3xl text-left text-gray-300">
             Domestic CCTV should be proportionate, lawful and clearly communicated — we design and install home systems with sensible coverage, signage and retention explained at handover, aligned with data protection expectations and professional installation practice.
           </p>

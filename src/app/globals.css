@@ -50,7 +50,7 @@ header.site-header {
 }
 .page-title-band {
   padding-top: clamp(7.5rem, 14vh, 10rem);
-  padding-bottom: 5rem;
+  padding-bottom: 6rem;
 }
 @media (min-width: 768px) {
   .page-title-band {
@@ -123,10 +123,10 @@ footer {
   z-index: 10;
 }
 
-/* Section rhythm: generous top and bottom padding */
+/* Section rhythm: generous top and bottom padding (slightly more on <lg for phones) */
 .section-spacing {
-  padding-top: 6rem;
-  padding-bottom: 6rem;
+  padding-top: 6.75rem;
+  padding-bottom: 6.75rem;
 }
 @media (min-width: 1024px) {
   .section-spacing {
@@ -135,9 +135,9 @@ footer {
   }
 }
 
-/* Pull sections together – remove visible gap between sections */
+/* Pull sections together on large screens only */
 section + section {
-  margin-top: -4rem;
+  margin-top: 0;
 }
 @media (min-width: 1024px) {
   section + section {
@@ -149,7 +149,7 @@ main.accreditations-hub section + section {
   margin-top: 0;
 }
 .section-content-gap {
-  margin-bottom: 4rem;
+  margin-bottom: 4.5rem;
 }
 @media (min-width: 1024px) {
   .section-content-gap {
@@ -886,7 +886,7 @@ html:not(.dark) .services-drawer-list-item::before {
 /* News and Articles – layout and spacing only (id="why-mep" for nav) */
 .news-section {
   background: #000;
-  padding: 6rem 0 14rem;
+  padding: 7.25rem 0 16rem;
 }
 @media (min-width: 1024px) {
   .news-section {
@@ -2089,7 +2089,7 @@ html:not(.dark) #quote-form .form-submit-btn.pill-btn .pill-btn-border {
 }
 .section-canted-bottom {
   clip-path: polygon(0 0, 100% 0, 100% calc(100% - var(--cant-depth)), 0 100%);
-  padding-bottom: 6rem;
+  padding-bottom: 6.75rem;
 }
 @media (min-width: 1024px) {
   .section-canted-bottom {
@@ -2098,7 +2098,7 @@ html:not(.dark) #quote-form .form-submit-btn.pill-btn .pill-btn-border {
 }
 .section-canted-top {
   clip-path: polygon(0 var(--cant-depth), 100% 0, 100% 100%, 0 100%);
-  padding-top: 6rem;
+  padding-top: 6.75rem;
 }
 @media (min-width: 1024px) {
   .section-canted-top {
@@ -2118,6 +2118,11 @@ html:not(.dark) #quote-form .form-submit-btn.pill-btn .pill-btn-border {
     margin-top: calc(-5rem - var(--cant-depth)) !important;
   }
 }
+@media (max-width: 1023px) {
+  .section-canted-bottom + .section-canted-top {
+    margin-top: calc(0px - var(--cant-depth)) !important;
+  }
+}
 
 /* About: pull up into previous section when it has canted top */
 #about.section-canted-top {
@@ -2126,6 +2131,11 @@ html:not(.dark) #quote-form .form-submit-btn.pill-btn .pill-btn-border {
 @media (min-width: 1024px) {
   #about.section-canted-top {
     margin-top: -6rem;
+  }
+}
+@media (max-width: 1023px) {
+  #about.section-canted-top {
+    margin-top: 0;
   }
 }
 
@@ -2138,6 +2148,12 @@ html:not(.dark) #quote-form .form-submit-btn.pill-btn .pill-btn-border {
   #about.section-canted-top.section-canted-bottom {
     padding-top: 9.5rem !important;
     padding-bottom: 5rem !important;
+  }
+}
+@media (max-width: 1023px) {
+  #about.section-canted-top.section-canted-bottom {
+    padding-top: 9.5rem !important;
+    padding-bottom: 6.5rem !important;
   }
 }
 
@@ -2803,12 +2819,12 @@ footer.footer-expand-wrapper {
   border-top-right-radius: 30px;
   isolation: isolate;
 }
-/* Square-edged black fill: full viewport width, behind footer (sibling), so hero never shows through and footer keeps border/radius */
+/* Black fill behind footer: use inset + % width (not 100vw) to avoid a stray edge strip on mobile when layout width ≠ layout viewport (scrollbar / iOS). */
 .footer-black-fill {
   position: absolute;
-  left: 50%;
-  transform: translateX(-50%);
-  width: 100vw;
+  left: 0;
+  right: 0;
+  width: 100%;
   top: 0;
   bottom: 0;
   background-color: #000000;

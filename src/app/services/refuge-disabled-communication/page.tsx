@@ -48,7 +48,7 @@ export default function RefugeDisabledCommunicationPage() {
           aria-hidden
         />
 
-        <section className="container relative z-[1] mx-auto px-6 py-12 lg:py-16">
+        <section className="container relative z-[1] mx-auto px-6 py-16 lg:py-16">
           <h2 className="mb-4 text-left font-title text-3xl font-bold text-white sm:text-4xl">What we install &amp; integrate</h2>
           <p className="mb-10 max-w-3xl text-left text-gray-300">
             EVC systems link refuge areas, WC alarms and fire telephones to central control so staff and the fire service can communicate clearly during an incident. We align
@@ -98,7 +98,7 @@ export default function RefugeDisabledCommunicationPage() {
 
         <div className="border-t border-white/15" />
 
-        <section className="container mx-auto px-6 py-12 lg:py-16">
+        <section className="container mx-auto px-6 py-16 lg:py-16">
           <p className="mb-10 max-w-3xl text-left text-gray-300">
             Emergency voice communication for disabled people is subject to dedicated British Standard guidance. We work to BS 5839-9 for design, installation, commissioning
             and maintenance of these systems, coordinated with your fire risk assessment and evacuation plans.

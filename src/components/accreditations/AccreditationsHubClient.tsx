@@ -49,14 +49,14 @@ export function AccreditationsHubClient() {
                       href={`/accreditations/${slug}`}
                       className="group flex h-full flex-col rounded-3xl border border-black/10 bg-white p-8 shadow-[0_4px_40px_rgba(0,0,0,0.06)] transition-all duration-300 hover:-translate-y-0.5 hover:border-black/20 hover:shadow-[0_12px_48px_rgba(0,0,0,0.1)] md:p-9"
                     >
-                      <div className="mb-6 flex min-h-[5.5rem] items-center justify-center border-b border-black/[0.06] pb-6">
+                      <div className="mb-6 flex min-h-[6.5rem] items-center justify-center border-b border-black/[0.06] pb-6">
                         <Image
                           src={item.icon}
                           alt={item.name}
                           width={400}
                           height={180}
-                          className={`h-auto w-auto max-w-[168px] object-contain transition-transform duration-300 group-hover:scale-[1.02] sm:max-w-[188px] ${
-                            logoTight ? "max-h-[5.25rem] sm:max-h-[5.75rem]" : "max-h-[6rem] sm:max-h-[6.5rem]"
+                          className={`h-auto w-auto max-w-[210px] object-contain transition-transform duration-300 group-hover:scale-[1.02] sm:max-w-[240px] ${
+                            logoTight ? "max-h-[6.25rem] sm:max-h-[6.75rem]" : "max-h-[7rem] sm:max-h-[7.5rem]"
                           }`}
                         />
                       </div>

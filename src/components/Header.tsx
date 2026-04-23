@@ -4,14 +4,27 @@ import Link from "next/link"
 import Image from "next/image"
 import { usePathname } from "next/navigation"
 import { Phone, Mail, Menu, X, ArrowRight, Facebook, Instagram, Linkedin, ChevronDown } from "lucide-react"
-import { useState, useRef } from "react"
+import { useState, useRef, useEffect, useLayoutEffect, useCallback, type TransitionEvent } from "react"
+import { createPortal } from "react-dom"
 import { useTheme } from '@/contexts/ThemeContext'
+import { cn } from "@/lib/utils"
 
 export default function Header() {
   const pathname = usePathname()
   const { theme } = useTheme()
   /** Strip trailing slash so `/services` and `/services/` match the hub, etc. */
   const path = pathname.replace(/\/$/, "") || "/"
+  const isFsNavActive = (href: string) =>
+    href === "/" ? path === "/" : path === href || path.startsWith(`${href}/`)
+
+  /** Mobile drawer: matches MEP slide-over pattern */
+  const FS_MOBILE_PRIMARY_LINKS = [
+    { href: "/services", label: "Services" },
+    { href: "/about", label: "About" },
+    { href: "/delivery-methodology", label: "Methodology" },
+    { href: "/projects", label: "Projects" },
+    { href: "/contact", label: "Contact" },
+  ] as const
   const isCareersPage = path === "/careers"
   const isHomePage = path === "/"
   const isCapabilityDetailPage =
@@ -35,11 +48,24 @@ export default function Header() {
   /** Solid black header shell — not on service subpages where a transparent bar sits over the hero */
   const useBlackHeaderCanvas = isBlackHeaderCanvas && !isProjectDetailPage && !isServiceSubpage
   const [isMenuOpen, setIsMenuOpen] = useState(false)
+  const [fsMenuPanelIn, setFsMenuPanelIn] = useState(false)
+  const fsMenuPanelInRef = useRef(false)
+  fsMenuPanelInRef.current = fsMenuPanelIn
+  const [fsMenuPortalReady, setFsMenuPortalReady] = useState(false)
   const [isServicesOpen, setIsServicesOpen] = useState(false)
   const [toast, setToast] = useState<{ message: string; type: 'phone' | 'email' } | null>(null)
   const [contactTabReady, setContactTabReady] = useState(false)
   const servicesCloseTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null)
+  /** Fallback if `transitionend` for the panel transform is missed (browser / stacking quirks). */
+  const fsMenuCloseTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null)
   const [isCctvExpanded, setIsCctvExpanded] = useState(false)
+
+  const clearFsMenuCloseTimer = useCallback(() => {
+    if (fsMenuCloseTimerRef.current) {
+      clearTimeout(fsMenuCloseTimerRef.current)
+      fsMenuCloseTimerRef.current = null
+    }
+  }, [])
 
   const openServices = () => {
     if (servicesCloseTimeoutRef.current) {
@@ -52,6 +78,70 @@ export default function Header() {
     servicesCloseTimeoutRef.current = setTimeout(() => setIsServicesOpen(false), 280)
   }
 
+  const closeFsMenu = useCallback(() => {
+    clearFsMenuCloseTimer()
+    if (!isMenuOpen) return
+    if (!fsMenuPanelInRef.current) {
+      setIsMenuOpen(false)
+      return
+    }
+    setFsMenuPanelIn(false)
+    // Panel uses `duration-300`; always unmount after close so one tap is enough.
+    fsMenuCloseTimerRef.current = setTimeout(() => {
+      fsMenuCloseTimerRef.current = null
+      setIsMenuOpen(false)
+    }, 340)
+  }, [isMenuOpen, clearFsMenuCloseTimer])
+
+  useEffect(() => {
+    setFsMenuPortalReady(true)
+  }, [])
+
+  useLayoutEffect(() => {
+    if (!isMenuOpen) return
+    clearFsMenuCloseTimer()
+    setFsMenuPanelIn(false)
+    const raf = requestAnimationFrame(() => {
+      requestAnimationFrame(() => setFsMenuPanelIn(true))
+    })
+    return () => cancelAnimationFrame(raf)
+  }, [isMenuOpen, clearFsMenuCloseTimer])
+
+  const handleFsMenuPanelTransitionEnd = (e: TransitionEvent<HTMLDivElement>) => {
+    if (e.target !== e.currentTarget) return
+    if (e.propertyName !== "transform") return
+    if (fsMenuPanelInRef.current) return
+    clearFsMenuCloseTimer()
+    setIsMenuOpen(false)
+  }
+
+  useEffect(() => {
+    if (!isMenuOpen) return
+    const onKey = (e: KeyboardEvent) => {
+      if (e.key === "Escape") {
+        e.preventDefault()
+        closeFsMenu()
+      }
+    }
+    window.addEventListener("keydown", onKey)
+    return () => window.removeEventListener("keydown", onKey)
+  }, [isMenuOpen, closeFsMenu])
+
+  useEffect(() => {
+    if (!isMenuOpen) return
+    const prev = document.body.style.overflow
+    document.body.style.overflow = "hidden"
+    return () => {
+      document.body.style.overflow = prev
+    }
+  }, [isMenuOpen])
+
+  useEffect(() => {
+    clearFsMenuCloseTimer()
+    setFsMenuPanelIn(false)
+    setIsMenuOpen(false)
+  }, [pathname, clearFsMenuCloseTimer])
+
   const copyToClipboard = async (text: string, type: 'phone' | 'email') => {
     try {
       await navigator.clipboard.writeText(text)
@@ -63,8 +153,8 @@ export default function Header() {
   }
 
   const handleContactClick = (type: 'phone' | 'email', value: string) => {
-    // Check if mobile (screen width < 768px)
-    if (window.innerWidth < 768) {
+    // Aligned with MEP: same breakpoint as `lg` nav / contact tab
+    if (window.innerWidth < 1024) {
       if (type === 'phone') {
         window.open(`tel:${value}`, '_self')
       } else {
@@ -87,6 +177,7 @@ export default function Header() {
   }
 
   return (
+    <>
     <header
       className={`site-header ${headerLayoutClass} ${useBlackHeaderCanvas ? "bg-black fs-black-header-canvas" : "bg-transparent"} ${isHomePage || isTransparentHeaderPage || isAboutPage ? "header-bg-transparent-page" : ""} ${isServicesPage ? "header--no-animate" : ""} ${isHomePage || isProjectDetailPage || isServiceSubpage ? "fs-project-detail-header" : ""}`}
       style={{ backgroundColor: useBlackHeaderCanvas ? "#000000" : "transparent" }}
@@ -294,9 +385,9 @@ export default function Header() {
         </>
       )}
 
-      <nav className="relative z-10 w-full px-6 pt-5 pb-4">
-        <div className="relative w-full flex items-center min-h-[6.5rem]">
-            <div className="absolute left-[8rem] right-0 h-16 overflow-hidden z-0 top-1/2 -translate-y-1/2">
+      <nav className="relative z-10 w-full px-4 pt-4 pb-3 sm:px-6 lg:px-6 lg:pt-5 lg:pb-4">
+        <div className="relative flex w-full min-h-[4.75rem] items-center lg:min-h-[6.5rem]">
+            <div className="pointer-events-none absolute left-[8rem] right-0 top-1/2 z-0 hidden h-16 -translate-y-1/2 overflow-hidden lg:block">
             <div
               className="header-bar-expand h-full w-full rounded-br-[30px] border-2"
               style={{
@@ -309,21 +400,28 @@ export default function Header() {
               }}
             />
           </div>
-          <div className="relative z-10 w-full flex items-center justify-between px-6 h-16">
-            <Link href="/" className="header-logo-drop-in flex items-center shrink-0 cursor-pointer relative z-10">
-              <span className="header-logo-hover-wrap inline-block relative overflow-hidden">
-                <Image
-                  src="/__APX Web Logo FS.svg"
-                  alt="APX Fire & Security Logo"
-                  width={334}
-                  height={112}
-                  className="h-28 w-auto relative z-10"
-                />
+          <div className="relative z-10 flex h-14 min-h-[3.5rem] w-full items-center justify-center px-2 sm:h-16 sm:px-4 lg:h-16 lg:min-h-0 lg:justify-between lg:px-6">
+            <Link
+              href="/"
+              className="absolute left-1/2 top-1/2 z-10 flex -translate-x-1/2 -translate-y-1/2 shrink-0 cursor-pointer items-center lg:static lg:translate-x-0 lg:translate-y-0"
+              onClick={() => {
+                if (isMenuOpen) closeFsMenu()
+              }}
+            >
+              <span className="header-logo-drop-in inline-block">
+                <span className="header-logo-hover-wrap relative inline-block overflow-hidden">
+                  <Image
+                    src="/__APX Web Logo FS.svg"
+                    alt="APX Fire & Security Logo"
+                    width={334}
+                    height={112}
+                    className="relative z-10 h-20 w-auto sm:h-24 lg:h-28"
+                  />
+                </span>
               </span>
             </Link>
-            {/* FIRE & SECURITY: absolute, same as MEP – own stack so alignment isn’t affected by switch button */}
-            {/* Same as MEP: top-1/2 with NO transform – tagline top edge at row center, box hangs down */}
-            <div className="hidden md:block absolute left-[12.25rem] top-1/2 -translate-y-1/2 z-0 w-[17rem] overflow-hidden pointer-events-none">
+            {/* FIRE & SECURITY: same positioning as MEP mech tag — only at lg+ (web); hidden on phone/tablet */}
+            <div className="hidden lg:block absolute left-[12.25rem] top-1/2 -translate-y-1/2 z-0 w-[17rem] overflow-hidden pointer-events-none">
               <div
                 className="flex w-fit items-center rounded-br-2xl header-mech-security-in pl-7 pr-3.5 py-1"
                 style={{
@@ -339,7 +437,7 @@ export default function Header() {
                 </span>
               </div>
             </div>
-            <div className="hidden md:flex items-center space-x-8 text-white [&_a]:!text-white [&_.nav-menu-item]:!text-white [&_svg]:stroke-white flex-shrink-0 relative z-10">
+            <div className="hidden lg:flex items-center space-x-8 text-white [&_a]:!text-white [&_.nav-menu-item]:!text-white [&_svg]:stroke-white flex-shrink-0 relative z-10">
               <div className="relative header-nav-item-in flex items-center" style={{ animationDelay: '2.9s' }}>
                 <Link
                   href="/services"
@@ -531,42 +629,30 @@ export default function Header() {
                 </a>
               </div>
             </div>
+            <button
+              type="button"
+              onClick={() => (isMenuOpen ? closeFsMenu() : setIsMenuOpen(true))}
+              className={cn(
+                "fs-header-menu-trigger absolute right-2 top-1/2 z-20 -translate-y-1/2 flex h-10 w-10 items-center justify-center sm:right-4 lg:hidden",
+                "rounded-lg border-2 border-white bg-black text-white",
+                "transition-transform duration-200 active:scale-[0.97]"
+              )}
+              aria-expanded={isMenuOpen}
+              aria-controls="fs-mobile-nav"
+              aria-label={isMenuOpen ? "Close navigation" : "Open navigation"}
+            >
+              {isMenuOpen ? (
+                <X className="h-5 w-5" strokeWidth={1.75} aria-hidden />
+              ) : (
+                <Menu className="h-5 w-5" strokeWidth={1.75} aria-hidden />
+              )}
+            </button>
           </div>
         </div>
-        <button
-          onClick={() => setIsMenuOpen(!isMenuOpen)}
-          className="md:hidden p-2 absolute right-6 top-10"
-          style={{ color: 'white' }}
-        >
-          {isMenuOpen ? <X className="h-6 w-6" /> : <Menu className="h-6 w-6" />}
-        </button>
-        {isMenuOpen && (
-          <div className="md:hidden mt-6 pb-6 border-t border-t-white/20 pt-6" style={{ backgroundColor: 'black' }}>
-            <div className="flex flex-col space-y-4">
-              <Link href="/services" className="nav-menu-item relative text-lg font-medium group uppercase opacity-100 hover:opacity-100" style={{ color: 'white' }}>Services</Link>
-              <Link href="/about" className="nav-menu-item relative text-lg font-medium group uppercase opacity-100 hover:opacity-100" style={{ color: 'white' }}>About</Link>
-              <Link href="/delivery-methodology" className="nav-menu-item relative text-lg font-medium group uppercase opacity-100 hover:opacity-100" style={{ color: 'white' }}>Methodology</Link>
-              <Link href="/projects" className="nav-menu-item relative text-lg font-medium group uppercase opacity-100 hover:opacity-100" style={{ color: 'white' }}>Projects</Link>
-              <Link href="/contact" className="nav-menu-item relative text-lg font-medium group uppercase opacity-100 hover:opacity-100" style={{ color: 'white' }}>Contact</Link>
-              <div className="pt-4">
-                <a href={process.env.NEXT_PUBLIC_APX_MEP_URL || 'http://localhost:3000'} className="group relative">
-                  <div className="flex items-center overflow-hidden transition-all duration-700 ease-[cubic-bezier(0.25,0.46,0.45,0.94)] group-hover:w-52 w-10 group-hover:backdrop-blur-sm rounded-full border border-white pulse-glow">
-                    <div className="flex items-center justify-center w-10 h-10 rounded-full transition-all duration-700 ease-[cubic-bezier(0.25,0.46,0.45,0.94)] flex-shrink-0">
-                      <ArrowRight className="h-4 w-4 transition-all duration-500 group-hover:opacity-0 group-hover:rotate-180" />
-                    </div>
-                    <div className="absolute inset-0 flex items-center justify-center overflow-hidden">
-                      <span className="apx-switch-label text-xs font-bold uppercase tracking-wide opacity-0 group-hover:opacity-100 transition-opacity duration-500 delay-300 group-hover:delay-300 text-disappear relative z-10 text-white">SWITCH TO APX MEP</span>
-                    </div>
-                  </div>
-                </a>
-              </div>
-            </div>
-          </div>
-        )}
       </nav>
 
       {/* Contact Tab + toast: pill sits tight under the tab */}
-      <div className={`absolute top-full right-[54px] ${contactTabReady ? 'z-20' : 'z-0'}`}>
+      <div className={`absolute top-full right-[54px] hidden lg:block ${contactTabReady ? 'z-20' : 'z-0'}`}>
         <div className="relative">
           <div
             className="header-contact-tab--dark header-contact-tab-drop-in rounded-t-none rounded-b-xl border-2 border-t-0 px-4 py-2 flex items-center space-x-3"
@@ -611,5 +697,80 @@ export default function Header() {
         </div>
       </div>
     </header>
+    {isMenuOpen && fsMenuPortalReady
+      ? createPortal(
+          <div
+            className="fixed inset-0 z-[200] lg:hidden"
+            id="fs-mobile-nav"
+            role="dialog"
+            aria-modal="true"
+            aria-label="Site navigation"
+          >
+            <div
+              className={cn(
+                "absolute inset-0 z-0 transition-opacity duration-300 ease-out",
+                fsMenuPanelIn ? "bg-black/60 opacity-100 backdrop-blur-[2px]" : "bg-black/0 opacity-0"
+              )}
+              onClick={closeFsMenu}
+              aria-hidden
+            />
+            <div
+              className={cn(
+                "absolute z-10 flex min-h-0 min-w-0 flex-col overflow-hidden",
+                "left-3 right-3 sm:left-4 sm:right-4",
+                "top-[max(0.75rem,env(safe-area-inset-top,0px))] bottom-[max(0.75rem,env(safe-area-inset-bottom,0px))]",
+                "rounded-2xl border border-white/15 bg-[#0a0a0a]/96 shadow-[0_24px_80px_rgba(0,0,0,0.5)] backdrop-blur-xl",
+                "transition-transform duration-300 ease-[cubic-bezier(0.4,0,0.2,1)]",
+                fsMenuPanelIn ? "translate-x-0" : "translate-x-full"
+              )}
+              onTransitionEnd={handleFsMenuPanelTransitionEnd}
+            >
+              <div className="flex shrink-0 items-center justify-end border-b border-white/10 px-4 py-3 sm:px-5">
+                <button
+                  type="button"
+                  onClick={closeFsMenu}
+                  className="fs-header-menu-trigger flex h-9 w-9 shrink-0 items-center justify-center rounded-lg border-2 border-white bg-black text-white transition active:scale-[0.98]"
+                  aria-label="Close"
+                >
+                  <X className="h-4 w-4" strokeWidth={1.75} aria-hidden />
+                </button>
+              </div>
+              <div className="min-h-0 flex-1 overflow-y-auto overscroll-y-contain px-2 pb-2 sm:px-3 sm:pb-3">
+                <nav className="flex flex-col" aria-label="Main">
+                  {FS_MOBILE_PRIMARY_LINKS.map(({ href, label }, i) => {
+                    const active = isFsNavActive(href)
+                    return (
+                      <Link
+                        key={href}
+                        href={href}
+                        onClick={closeFsMenu}
+                        className={cn(
+                          "relative block border-b border-white/10 py-3.5 pl-3 pr-5 text-right text-sm font-semibold uppercase tracking-wide !text-white transition-[background-color,opacity] duration-150",
+                          "hover:bg-white/5",
+                          "last:border-b-0",
+                          i === 0 && "pt-3",
+                          active && "bg-white/[0.06]"
+                        )}
+                        style={{ fontFamily: "var(--font-menu), sans-serif" }}
+                        aria-current={active ? "page" : undefined}
+                      >
+                        {active && (
+                          <span
+                            className="absolute top-0 bottom-0 left-0 w-0.5 bg-white"
+                            aria-hidden
+                          />
+                        )}
+                        {label}
+                      </Link>
+                    )
+                  })}
+                </nav>
+              </div>
+            </div>
+          </div>,
+          document.body
+        )
+      : null}
+    </>
   )
 }

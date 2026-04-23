@@ -195,7 +195,7 @@ export default function FireSafetySystemsPage() {
 
         <div className="border-t border-white/15" />
 
-        <section className="container mx-auto px-6 py-12 lg:py-16">
+        <section className="container mx-auto px-6 py-16 lg:py-16">
           <h2 className="mb-4 text-left font-title text-3xl font-bold text-white sm:text-4xl">Compliance, certification &amp; handover</h2>
           <p className="mb-8 max-w-3xl text-left text-gray-300">
             Our fire alarm installations are delivered against recognised UK standards with clear records for approval, handover and audit. Typical deliverables include as-built drawings, zone charts, commissioning certificates and O&amp;M manuals — aligned with BS 5839-1 and BS 5839-6 where domestic or mixed-use elements apply.
@@ -247,7 +247,7 @@ export default function FireSafetySystemsPage() {
 
         <div className="border-t border-white/15" />
 
-        <section className="container mx-auto px-6 py-12 lg:py-16">
+        <section className="container mx-auto px-6 py-16 lg:py-16">
           <h2 className="mb-8 text-left font-title text-3xl font-bold text-white sm:text-4xl">We are BAFE Accredited</h2>
           <div className="max-w-7xl space-y-4 text-base leading-relaxed text-gray-300 sm:text-lg">
             <p>
@@ -265,7 +265,7 @@ export default function FireSafetySystemsPage() {
 
         <div className="border-t border-white/15" />
 
-        <section className="container mx-auto px-6 py-12 lg:py-16">
+        <section className="container mx-auto px-6 py-16 lg:py-16">
           <h2 className="mb-4 text-left font-title text-3xl font-bold text-white sm:text-4xl">Our Fire Alarm System Customers</h2>
           <p className="mb-8 max-w-2xl text-left text-gray-300">A small selection of some of our fire alarm system customers:</p>
           <ClientLogosMarqueeStrip />
@@ -273,7 +273,7 @@ export default function FireSafetySystemsPage() {
 
         <div className="border-t border-white/15" />
 
-        <section className="container mx-auto px-6 py-12 lg:py-16">
+        <section className="container mx-auto px-6 py-16 lg:py-16">
           <h2 className="mb-4 text-left font-title text-3xl font-bold text-white sm:text-4xl">Our Fire Alarm System Installations</h2>
           <p className="mb-8 max-w-2xl text-left text-gray-300">Examples of fire alarm systems that we have installed for our customers:</p>
           <div className="grid grid-cols-1 gap-8 md:grid-cols-2 lg:grid-cols-3">
@@ -299,7 +299,7 @@ export default function FireSafetySystemsPage() {
 
         <div className="border-t border-white/15" />
 
-        <section className="container mx-auto px-6 py-12 lg:py-16">
+        <section className="container mx-auto px-6 py-16 lg:py-16">
           <h2 className="mb-2 text-left font-title text-3xl font-bold text-white sm:text-4xl">Fire Alarm & Detection Systems Equipment</h2>
           <p className="mb-8 max-w-2xl text-left text-gray-300">
             We are proud to install fire alarm technology from the world&apos;s leading brands
@@ -315,7 +315,7 @@ export default function FireSafetySystemsPage() {
 
         <div className="border-t border-white/15" />
 
-        <section className="container mx-auto px-6 py-12 lg:py-16">
+        <section className="container mx-auto px-6 py-16 lg:py-16">
           <h2 className="mb-6 text-left font-title text-3xl font-bold text-white sm:text-4xl">Do all businesses need a fire alarm system?</h2>
           <div className="max-w-7xl space-y-4 text-base leading-relaxed text-gray-300 sm:text-lg">
             <p>

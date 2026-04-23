@@ -48,7 +48,7 @@ export default function EvacVoiceEvacuationPage() {
           aria-hidden
         />
 
-        <section className="container relative z-[1] mx-auto px-6 py-12 lg:py-16">
+        <section className="container relative z-[1] mx-auto px-6 py-16 lg:py-16">
           <h2 className="mb-4 text-left font-title text-3xl font-bold text-white sm:text-4xl">Capabilities</h2>
           <p className="mb-10 max-w-3xl text-left text-gray-300">
             From amplifier and speaker installation through to cause-and-effect with the fire alarm, we deliver voice evacuation that is intelligible, zoned and testable —
@@ -98,7 +98,7 @@ export default function EvacVoiceEvacuationPage() {
 
         <div className="border-t border-white/15" />
 
-        <section className="container mx-auto px-6 py-12 lg:py-16">
+        <section className="container mx-auto px-6 py-16 lg:py-16">
           <p className="mb-10 max-w-3xl text-left text-gray-300">
             Voice alarm systems are covered by BS 5839-8. We align installation, testing and documentation with that standard and with your project&apos;s fire engineering
             inputs — including interfaces to disabled communication and building systems where applicable.

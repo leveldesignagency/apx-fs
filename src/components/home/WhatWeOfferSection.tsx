@@ -103,30 +103,36 @@ export function WhatWeOfferSection() {
         </p>
       </div>
 
-      <div
-        className="grid w-full grid-cols-2 gap-1.5 sm:grid-cols-3 sm:gap-2 md:grid-cols-5 md:gap-3"
-        role="tablist"
-        aria-label="Service categories"
-      >
-        {OFFERS.map((o, i) => {
-          const isSelected = i === active
-          return (
-            <button
-              key={o.tabLabel}
-              type="button"
-              role="tab"
-              aria-selected={isSelected}
-              id={`fs-offer-tab-${i}`}
-              aria-controls={`fs-offer-panel-${i}`}
-              onClick={() => setActive(i)}
-              className={`fs-offer-tab flex min-h-[44px] w-full min-w-0 shrink-0 items-center justify-center rounded-full border-2 px-2 py-2.5 text-center text-[10px] font-semibold uppercase leading-tight tracking-wide transition-colors sm:px-3 sm:text-xs md:text-sm ${
-                isSelected ? "fs-offer-tab--active" : "fs-offer-tab--inactive"
-              }`}
-            >
-              <span className="fs-offer-tab__label block w-full text-center line-clamp-2 sm:line-clamp-none">{o.tabLabel}</span>
-            </button>
-          )
-        })}
+      {/* Full-width scroll on small screens — equal tab widths, same idea as MEP what-we-offer strip */}
+      <div className="-mx-4 w-full min-w-0 max-w-full sm:-mx-6 lg:mx-0">
+        <div
+          data-lenis-prevent=""
+          role="tablist"
+          aria-label="Service categories"
+          className="flex max-w-full min-w-0 touch-pan-x snap-x snap-mandatory flex-nowrap gap-2 overflow-x-auto overflow-y-hidden scroll-smooth overscroll-x-contain px-4 pb-2 scrollbar-hide sm:gap-2.5 sm:px-6 md:grid md:min-w-0 md:max-w-full md:grid-cols-5 md:gap-2 md:overflow-x-visible md:px-0 lg:gap-3"
+        >
+          {OFFERS.map((o, i) => {
+            const isSelected = i === active
+            return (
+              <button
+                key={o.tabLabel}
+                type="button"
+                role="tab"
+                aria-selected={isSelected}
+                id={`fs-offer-tab-${i}`}
+                aria-controls={`fs-offer-panel-${i}`}
+                onClick={() => setActive(i)}
+                className={`fs-offer-tab flex h-[2.75rem] min-h-[44px] w-28 min-w-28 max-w-28 flex-none snap-start items-center justify-center rounded-full border-2 px-2 py-1.5 text-center text-[10px] font-semibold uppercase leading-tight tracking-wide transition-colors sm:min-w-[7.5rem] sm:max-w-[7.5rem] sm:w-[7.5rem] md:col-span-1 md:h-11 md:min-h-[44px] md:w-full md:min-w-0 md:max-w-none ${
+                  isSelected ? "fs-offer-tab--active" : "fs-offer-tab--inactive"
+                }`}
+              >
+                <span className="fs-offer-tab__label line-clamp-2 text-balance sm:line-clamp-none sm:px-0.5 md:whitespace-normal">
+                  {o.tabLabel}
+                </span>
+              </button>
+            )
+          })}
+        </div>
       </div>
 
       <div

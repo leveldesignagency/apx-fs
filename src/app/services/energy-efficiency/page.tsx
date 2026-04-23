@@ -170,7 +170,7 @@ export default function AccessControlPage() {
       <div className="relative bg-black">
         {heroBridge}
 
-        <section className="container relative z-[1] mx-auto px-6 py-12 lg:py-16">
+        <section className="container relative z-[1] mx-auto px-6 py-16 lg:py-16">
           <h2 className="mb-10 text-left font-title text-3xl font-bold text-white sm:text-4xl">Benefits of Access Control Systems</h2>
           <div className="grid grid-cols-1 gap-8 md:grid-cols-2 lg:grid-cols-3">
             {ACCESS_CONTROL_BENEFITS.map(({ Icon, title, text }, i) => (
@@ -212,7 +212,7 @@ export default function AccessControlPage() {
 
         <div className="border-t border-white/15" />
 
-        <section className="container mx-auto px-6 py-12 lg:py-16">
+        <section className="container mx-auto px-6 py-16 lg:py-16">
           <h2 className="mb-10 text-left font-title text-3xl font-bold text-white sm:text-4xl">Access Control System Products</h2>
           <p className="mb-10 max-w-2xl text-left text-gray-300">
             We are proud to install access control technology from the world&apos;s leading brands
@@ -222,7 +222,7 @@ export default function AccessControlPage() {
 
         <div className="border-t border-white/15" />
 
-        <section className="container mx-auto px-6 py-12 lg:py-16">
+        <section className="container mx-auto px-6 py-16 lg:py-16">
           <h2 className="mb-4 text-left font-title text-3xl font-bold text-white sm:text-4xl">Our Access Control System Installations</h2>
           <p className="mb-8 max-w-2xl text-left text-gray-300">
             Examples of the access control systems that we have installed for our customers:

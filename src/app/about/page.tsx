@@ -3,10 +3,8 @@
 import Image from "next/image";
 import Link from "next/link";
 import { useState, useEffect } from "react";
-import { Building2, DraftingCompass, HardHat, Wrench, type LucideIcon } from "lucide-react";
 import { Reveal } from "@/components/Reveal";
 import { CustomPillButton } from "@/components/ui/CustomPillButton";
-import { FS_SERVICE_SHIMMER_CARD } from "@/lib/fsServicePageCards";
 
 /** Inline links in heritage / why-choose copy — bold + underline on dark background */
 const ABOUT_TEXT_LINK =
@@ -22,6 +20,13 @@ const ABOUT_COMMITMENTS = [
 /** Full-bleed About hero (fire & security) */
 const ABOUT_HERO_BG_SRC = "/home-fire-alarm-system-installer-800x533.jpg";
 
+/** `public/Who we support/` — filenames must match on disk (spaces / & encoded for URLs). */
+const WHO_SUPPORT_DIR = "/Who%20we%20support" as const;
+
+function whoSupportImage(filename: string): string {
+  return `${WHO_SUPPORT_DIR}/${encodeURIComponent(filename)}`;
+}
+
 /** Public folder uses a space in "accreditations mono" — literal paths load reliably in <img> */
 const ACC_MONO = "/accreditations mono";
 const EXPERTISE_ACCRED_LOGOS = [
@@ -35,7 +40,7 @@ type WhoWeSupportItem = {
   title: string;
   description: string;
   highlights: string;
-  Icon: LucideIcon;
+  imageSrc: string;
 };
 
 const WHO_WE_SUPPORT: WhoWeSupportItem[] = [
@@ -44,28 +49,28 @@ const WHO_WE_SUPPORT: WhoWeSupportItem[] = [
     description:
       "We slot into wider MEP programmes with coordinated installs, commissioning packs, and handover documentation that matches your testing strategy — from containment and risers through to integrated fire and security interfaces.",
     highlights: "Integrated delivery · Commissioning & O&M",
-    Icon: Wrench,
+    imageSrc: whoSupportImage("M&E contractors.jpg"),
   },
   {
     title: "Facility management teams",
     description:
       "Ongoing maintenance, upgrades, and clear records for multi-site portfolios. We help keep systems compliant, minimise downtime, and plan lifecycle replacements without surprises for building users.",
     highlights: "Planned maintenance · Emergency response",
-    Icon: Building2,
+    imageSrc: whoSupportImage("Facility management teams.jpg"),
   },
   {
     title: "Consultants and architects",
     description:
       "Early input on coverage, cause-and-effect, and system architecture so specifications stay buildable. We support RIBA stages, tender reviews, and design-team workshops where fire and security must align with the wider brief.",
     highlights: "Design stages · Specification support",
-    Icon: DraftingCompass,
+    imageSrc: whoSupportImage("Consultants and architects.jpg"),
   },
   {
     title: "Main contractors",
     description:
       "Programme-led delivery with disciplined site coordination, clear interfaces with other trades, and predictable milestones from first fix to client handover — including the documentation package your package needs to close out.",
     highlights: "Site coordination · Handover packages",
-    Icon: HardHat,
+    imageSrc: whoSupportImage("Main contractors.jpg"),
   },
 ];
 
@@ -239,34 +244,57 @@ export default function AboutPage() {
         <div className="about-section-inner space-y-10 md:space-y-12">
           <Reveal>
             <div className="max-w-3xl">
-              <span className="section-label mb-4 block text-white/65">Who we support</span>
+              <span className="section-label mb-3 block text-white/65">Who we support</span>
               <h2 className="text-3xl font-bold leading-tight text-white md:text-4xl lg:text-5xl" style={{ fontFamily: "var(--font-menu)" }}>
                 Delivery-first partner for complex projects
-          </h2>
-        </div>
+              </h2>
+            </div>
           </Reveal>
-          <div className="grid grid-cols-1 gap-y-12 gap-x-6 pt-6 md:grid-cols-2 md:gap-x-7 md:gap-y-14 xl:grid-cols-4 xl:gap-x-8">
-            {WHO_WE_SUPPORT.map(({ title, description, highlights, Icon }, i) => (
-              <Reveal key={title} delayMs={i * 55}>
-                <div className="flex h-full flex-col items-center">
+          <div className="grid grid-cols-1 gap-6 pt-6 sm:gap-7 md:grid-cols-2 md:gap-x-8 md:gap-y-8 lg:gap-x-10 lg:gap-y-10">
+            {WHO_WE_SUPPORT.map(({ title, description, highlights, imageSrc }, i) => (
+              <Reveal key={title} delayMs={i * 55} className="h-full min-h-0">
+                <article
+                  className="relative flex min-h-[21rem] flex-col overflow-hidden rounded-[1.85rem] border border-white/[0.1] bg-[#0a0a0a] shadow-[0_18px_50px_rgba(0,0,0,0.45)] sm:min-h-[22rem] md:grid md:min-h-[23rem] md:grid-cols-[minmax(0,1fr)_11.25rem] md:grid-rows-[auto_auto] md:gap-x-5 md:gap-y-4 md:p-6 lg:min-h-[24rem] lg:grid-cols-[minmax(0,1fr)_14.25rem] lg:gap-x-6 lg:gap-y-5 lg:p-7"
+                >
                   <div
-                    className="relative z-10 flex h-14 w-14 shrink-0 items-center justify-center rounded-xl border border-white/25 bg-black shadow-[0_8px_28px_rgba(0,0,0,0.55)]"
+                    className="pointer-events-none absolute inset-0 opacity-[0.18] mix-blend-overlay"
+                    style={{
+                      backgroundImage: [
+                        "radial-gradient(circle at 0 0, rgba(255,255,255,0.35) 0.8px, transparent 1px)",
+                        "radial-gradient(circle at 1px 1px, rgba(0,0,0,0.12) 0.9px, transparent 1.2px)",
+                      ].join(", "),
+                      backgroundSize: "3px 3px, 4px 4px",
+                      backgroundPosition: "0 0, 1px 1px",
+                    }}
                     aria-hidden
-                  >
-                    <Icon className="h-7 w-7 shrink-0 text-white/90" strokeWidth={1.5} />
-                  </div>
-                  <article
-                    className={`${FS_SERVICE_SHIMMER_CARD} -mt-7 flex w-full min-w-0 flex-1 flex-col px-6 pb-6 pt-11 text-center md:px-7 md:pb-7 md:pt-12`}
-                  >
-                    <h3 className="text-lg font-semibold leading-snug text-white md:text-xl">{title}</h3>
-                    <p className="mb-5 mt-3 flex-1 text-left text-sm leading-relaxed text-white/80 md:mt-4 md:text-[0.9375rem]">
+                  />
+
+                  <div className="relative z-10 order-1 min-w-0 px-6 pb-2 pt-8 sm:px-8 sm:pt-10 md:col-start-1 md:row-start-1 md:px-0 md:pb-0 md:pt-1">
+                    <h3
+                      className="text-left text-2xl font-bold leading-[1.12] tracking-tight text-white drop-shadow-[0_1px_12px_rgba(0,0,0,0.18)] sm:text-3xl"
+                      style={{ fontFamily: "var(--font-menu)" }}
+                    >
+                      {title}
+                    </h3>
+                    <p className="mt-4 min-w-0 max-w-full text-left text-sm leading-relaxed text-white/95 drop-shadow-sm sm:text-[0.9375rem]">
                       {description}
                     </p>
-                    <p className="border-t border-white/10 pt-4 text-center text-xs font-medium uppercase tracking-[0.14em] text-white/55">
-                      {highlights}
-                    </p>
-                  </article>
-                </div>
+                  </div>
+
+                  <div className="relative z-[5] order-2 mx-6 mt-3 h-48 min-h-0 shrink-0 overflow-hidden rounded-2xl shadow-[0_14px_44px_rgba(0,0,0,0.22)] sm:mt-4 sm:h-52 md:col-start-2 md:row-span-2 md:row-start-1 md:mx-0 md:mt-0 md:min-h-[20rem] md:h-full md:self-stretch md:shadow-[0_20px_55px_rgba(0,0,0,0.28)] lg:min-h-[21rem]">
+                    <Image src={imageSrc} alt="" fill className="object-cover object-center" sizes="(min-width: 768px) 28vw, 100vw" />
+                  </div>
+
+                  <div className="relative z-20 order-3 mx-6 mb-7 mt-2 min-w-0 sm:mb-8 md:col-start-1 md:row-start-2 md:mx-0 md:mb-1 md:mt-0 md:self-start">
+                    <div className="max-w-full overflow-x-auto pb-0.5 [scrollbar-width:none] [-ms-overflow-style:none] [&::-webkit-scrollbar]:hidden">
+                      <div className="inline-block w-max max-w-none rounded-2xl bg-white px-3.5 py-2.5 text-left shadow-[0_12px_36px_rgba(0,0,0,0.14)] sm:px-4 sm:py-3 md:px-3.5 md:py-2.5">
+                        <p className="whitespace-nowrap text-[0.62rem] font-semibold uppercase leading-snug tracking-[0.08em] text-black/88 sm:text-[0.68rem] md:text-[0.62rem] lg:text-[0.7rem]">
+                          {highlights}
+                        </p>
+                      </div>
+                    </div>
+                  </div>
+                </article>
               </Reveal>
             ))}
           </div>

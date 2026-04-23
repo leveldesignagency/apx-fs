@@ -40,7 +40,7 @@ export default function UsefulCctvAdvicePage() {
           aria-hidden
         />
 
-        <section className="container relative z-[1] mx-auto px-6 py-12 lg:py-16">
+        <section className="container relative z-[1] mx-auto px-6 py-16 lg:py-16">
           <h2 className="mb-10 text-left font-title text-3xl font-bold text-white sm:text-4xl">CCTV advice & guidance</h2>
           <div className="grid grid-cols-1 gap-8 md:grid-cols-3">
             {[
@@ -71,7 +71,7 @@ export default function UsefulCctvAdvicePage() {
 
         <div className="border-t border-white/15" />
 
-        <section className="container mx-auto px-6 py-12 lg:py-16">
+        <section className="container mx-auto px-6 py-16 lg:py-16">
           <p className="mb-10 max-w-3xl text-left text-gray-300">
             Whether you are comparing installers or planning coverage, the same standards apply to lawful recording, retention and signage — understanding them helps you choose a system that is evidence-ready and aligned with GDPR and industry expectations for video surveillance.
           </p>

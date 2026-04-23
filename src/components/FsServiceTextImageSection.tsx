@@ -49,7 +49,7 @@ export function FsServiceTextImageSection({
             imageMinHeightClassName
           )}
         >
-          <div className="flex w-full min-w-0 flex-col justify-center py-12 lg:py-16 lg:pr-8 xl:pr-12">
+          <div className="flex w-full min-w-0 flex-col justify-center py-16 lg:py-16 lg:pr-8 xl:pr-12">
             <h2 id={headingId} className="mb-6 text-left font-title text-3xl font-bold text-white sm:text-4xl">
               {title}
             </h2>

@@ -27,7 +27,6 @@ import { FormSubmitButton } from '@/components/ui/FormSubmitButton'
 import { GlassFormPanel } from "@/components/ui/GlassFormPanel"
 import { MAIN_CASE_STUDIES } from "@/data/projects"
 import { AboutIntroSection } from "@/components/home/AboutIntroSection"
-import { MobileHomeContactFab } from "@/components/MobileHomeContactFab"
 import { GoogleBusinessReviewsSlot } from "@/components/home/GoogleBusinessReviewsSlot"
 import HeroVideoBackground from "@/components/HeroVideoBackground"
 import { WhatWeOfferSection } from "@/components/home/WhatWeOfferSection"
@@ -163,7 +162,6 @@ export default function Home() {
     statsVisible: false,
     clientsVisible: false
   })
-  const [heroScrollProgress, setHeroScrollProgress] = useState(0)
   const [sectionMotion, setSectionMotion] = useState({
     core: false,
     aboutIntro: false,
@@ -362,17 +360,6 @@ export default function Home() {
       clearTimeout(timer4)
       clearTimeout(timer5)
     }
-  }, [])
-
-  // Hero parallax: subtle layered movement/fade on scroll
-  useEffect(() => {
-    const onScroll = () => {
-      const progress = Math.min((window.scrollY || 0) / 520, 1)
-      setHeroScrollProgress(progress)
-    }
-    onScroll()
-    window.addEventListener("scroll", onScroll, { passive: true })
-    return () => window.removeEventListener("scroll", onScroll)
   }, [])
 
   // Scroll-in effects for content only (never section backgrounds)
@@ -793,97 +780,87 @@ export default function Home() {
       <GlobalStyles theme={themeMode} />
       <div className="min-h-screen overflow-x-clip relative z-10">
 
-      {/* Hero Section – background image scrolls with this section (not viewport-fixed) */}
-      <section id="hero" className="relative h-screen overflow-visible bg-transparent flex flex-col" style={{ background: 'transparent' }}>
+      {/* Hero Section – matches MEP: centred copy/CTAs on small screens, left-aligned from lg; accreditations stacked in same container */}
+      <section
+        id="hero"
+        className="relative flex min-h-0 flex-col overflow-visible bg-transparent md:min-h-[100dvh]"
+        style={{ background: "transparent" }}
+      >
         <HeroVideoBackground />
-        {/* Content */}
         <div
-          className={`container mx-auto px-6 flex-1 flex flex-col justify-start pt-52 pb-40 relative z-20 transition-all duration-1000 ${
+          className={`relative z-20 container mx-auto flex flex-col px-4 pt-36 pb-10 min-[400px]:pt-40 sm:px-6 sm:pb-12 sm:pt-40 md:pt-44 lg:pt-52 lg:pb-14 transition-all duration-1000 ${
             heroAnimation.videoVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-6"
           }`}
         >
-          <div className="space-y-4">
-            {/* Title + paragraph: white text on hero image */}
-            <div className="max-w-2xl">
-              <h1 className={`hero-title-reveal text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold mb-2 md:mb-3 text-left transition-all duration-[1200ms] font-title text-white ${
-                heroAnimation.titleVisible ? 'opacity-100 translate-y-0 blur-0 scale-100' : 'opacity-0 translate-y-10 blur-[8px] scale-[0.985]'
+          <div className="mx-auto flex w-full max-w-2xl flex-col items-center space-y-4 text-center lg:mx-0 lg:items-start lg:text-left">
+            <h1
+              className={`hero-title-reveal text-3xl font-bold mb-2 font-title text-white transition-all duration-[1200ms] sm:text-4xl md:mb-3 md:text-5xl lg:text-6xl ${
+                heroAnimation.titleVisible ? "opacity-100 translate-y-0 blur-0 scale-100" : "opacity-0 translate-y-10 blur-[8px] scale-[0.985]"
               }`}
-              style={{
-                transform: heroAnimation.titleVisible
-                  ? `translateY(${heroScrollProgress * -34}px) scale(${1 - heroScrollProgress * 0.03})`
-                  : undefined,
-                opacity: heroAnimation.titleVisible ? Math.max(0.18, 1 - heroScrollProgress * 0.9) : undefined,
-              }}>
-                APX FS is your NSI Gold security system installer.
-              </h1>
-              <p className={`hero-copy-reveal text-base sm:text-lg md:text-xl font-normal mb-4 md:mb-5 text-left tracking-tight transition-all duration-1000 max-w-lg text-white ${
-                heroAnimation.subtitleVisible ? 'opacity-100 translate-y-0 blur-0' : 'opacity-0 translate-y-7 blur-[6px]'
+            >
+              APX FS is your NSI Gold security system installer.
+            </h1>
+            <p
+              className={`hero-copy-reveal mx-auto max-w-lg text-base font-normal tracking-tight text-white transition-all duration-1000 sm:text-lg md:mb-5 md:text-xl mb-4 lg:mx-0 ${
+                heroAnimation.subtitleVisible ? "opacity-100 translate-y-0 blur-0" : "opacity-0 translate-y-7 blur-[6px]"
               }`}
-              style={{
-                transform: heroAnimation.subtitleVisible ? `translateY(${heroScrollProgress * -20}px)` : undefined,
-                opacity: heroAnimation.subtitleVisible ? Math.max(0.12, 1 - heroScrollProgress * 0.95) : undefined,
-              }}>
-                We are specialists in the design, installation and maintenance of bespoke integrated security systems within London and the Home Counties.
-              </p>
+            >
+              We are specialists in the design, installation and maintenance of bespoke integrated security systems within London and the Home Counties.
+            </p>
 
-              {/* Hero CTAs – side by side */}
-              <div className={`hero-cta-reveal flex flex-wrap items-center gap-4 sm:gap-6 pt-2 transition-all duration-1000 ${
-                heroAnimation.statsVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'
+            <div
+              className={`hero-cta-reveal flex flex-wrap items-center justify-center gap-4 pt-2 transition-all duration-1000 sm:gap-6 lg:justify-start ${
+                heroAnimation.statsVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"
               }`}
-              style={{
-                transform: heroAnimation.statsVisible ? `translateY(${heroScrollProgress * -14}px)` : undefined,
-                opacity: heroAnimation.statsVisible ? Math.max(0.08, 1 - heroScrollProgress * 1.05) : undefined,
-              }}>
-                <CustomPillButton href="/contact" size="md">
-                  Get a free quote
-                </CustomPillButton>
+            >
+              <CustomPillButton href="/contact" size="md">
+                Get a free quote
+              </CustomPillButton>
+              <Link
+                href="/contact"
+                className="text-white font-normal text-base underline underline-offset-4 transition-colors duration-300 hover:text-white/90"
+              >
+                Question? get in touch
+              </Link>
+            </div>
+          </div>
+
+          {/* Hero accreditations – NSI white; BAFE / Constructionline / FIA coloured (stacked under copy like MEP) */}
+          <div
+            className={`mt-10 transition-all duration-700 ease-out sm:mt-12 md:mt-14 ${
+              heroAnimation.clientsVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-10"
+            }`}
+          >
+            <div
+              className={`mx-auto mb-6 h-px w-1/2 bg-white/25 transition-all duration-500 ${
+                heroAnimation.clientsVisible ? "scale-x-100 opacity-100" : "scale-x-0 opacity-0"
+              }`}
+              aria-hidden
+            />
+            <div className="mx-auto flex max-w-6xl flex-wrap items-center justify-center gap-6 sm:gap-10 md:gap-12 lg:gap-14">
+              {HERO_ACCREDITATION_LOGOS.map((acc, idx) => (
                 <Link
-                  href="/contact"
-                  className="text-white font-normal text-base underline underline-offset-4 hover:text-white/90 transition-colors duration-300"
+                  key={acc.slug}
+                  href={`/accreditations/${acc.slug}`}
+                  className={`flex h-16 max-h-16 items-center justify-center sm:h-20 sm:max-h-none md:h-[5.25rem] w-auto max-w-[150px] transition-all duration-500 ease-out sm:max-w-[200px] md:max-w-[230px] ${
+                    heroAnimation.clientsVisible ? "opacity-100 translate-y-0 blur-0" : "opacity-0 translate-y-6 blur-[4px]"
+                  }`}
+                  style={{ transitionDelay: `${idx * 55}ms` }}
+                  aria-label={`${acc.alt} — view dedicated accreditation page`}
                 >
-                  Question? get in touch
+                  {/* eslint-disable-next-line @next/next/no-img-element */}
+                  <img src={acc.src} alt={acc.alt} className="h-full w-auto object-contain opacity-90" />
                 </Link>
-              </div>
+              ))}
             </div>
           </div>
         </div>
-
-        {/* Hero accreditations – NSI white; BAFE / Constructionline / FIA coloured (sizes unchanged) */}
-        <div
-          className={`container mx-auto px-6 pb-10 sm:pb-12 mb-24 sm:mb-32 relative z-10 transition-all duration-700 ease-out ${
-            heroAnimation.clientsVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-10"
-          }`}
-          style={{
-            transform: heroAnimation.clientsVisible
-              ? `translateY(${heroScrollProgress * -10}px)`
-              : undefined,
-            opacity: heroAnimation.clientsVisible ? Math.max(0.05, 1 - heroScrollProgress * 1.2) : undefined,
-          }}
-        >
-          <div className={`w-1/2 mx-auto h-px bg-white/25 mb-6 transition-all duration-500 ${heroAnimation.clientsVisible ? "scale-x-100 opacity-100" : "scale-x-0 opacity-0"}`} aria-hidden />
-          <div className="flex flex-wrap items-center justify-center gap-8 sm:gap-12 max-w-6xl mx-auto">
-            {HERO_ACCREDITATION_LOGOS.map((acc, idx) => (
-              <div
-                key={acc.slug}
-                className={`flex items-center justify-center h-14 sm:h-16 w-auto max-w-[150px] sm:max-w-[180px] transition-all duration-500 ease-out ${
-                  heroAnimation.clientsVisible ? "opacity-100 translate-y-0 blur-0" : "opacity-0 translate-y-6 blur-[4px]"
-                }`}
-                style={{ transitionDelay: `${idx * 55}ms` }}
-                aria-hidden
-              >
-                {/* eslint-disable-next-line @next/next/no-img-element */}
-                <img src={acc.src} alt={acc.alt} className="h-full w-auto object-contain opacity-90 transition-transform duration-500 hover:scale-105" />
-              </div>
-            ))}
-          </div>
-        </div>
-        
       </section>
 
       {/* Core capabilities – black section blended from hero before Our Story */}
       <section
         id="core-capabilities"
-        className="relative bg-black py-20 lg:py-24 overflow-hidden"
+        className="relative bg-black pt-24 pb-16 md:py-20 lg:py-24 overflow-hidden"
       >
         {/* Top feather to blend hero into this black section */}
         <div
@@ -1028,7 +1005,7 @@ export default function Home() {
       </section>
 
       {/* Projects – horizontal strip + wheel maps vertical→horizontal (same behaviour as MEP homepage) */}
-      <section ref={projectsSectionRef} id="projects" className="bg-black overflow-x-hidden pt-20 pb-32 lg:pt-28 lg:pb-44">
+      <section ref={projectsSectionRef} id="projects" className="bg-black overflow-x-hidden pt-24 pb-36 sm:pt-24 sm:pb-36 lg:pt-28 lg:pb-44">
         <div className="container mx-auto px-6 lg:px-8">
           <div
             className={`flex flex-col sm:flex-row sm:items-center sm:justify-between gap-6 mb-14 lg:mb-20 transition-all duration-[900ms] ease-out ${
@@ -1202,12 +1179,12 @@ export default function Home() {
                   We maintain independent certification and industry alignment so your fire and security packages are delivered with clear governance, competent engineers and documentation that stands up to handover and audit.
                 </p>
 
-                <div className="mx-auto mt-10 flex w-full max-w-5xl flex-wrap items-center justify-center gap-x-10 gap-y-8 sm:gap-x-14 sm:gap-y-10 md:gap-x-16 lg:max-w-6xl">
+                <div className="mx-auto mt-10 flex w-full max-w-5xl max-lg:flex-col max-lg:flex-nowrap max-lg:items-center max-lg:gap-8 lg:max-w-6xl lg:flex-row lg:flex-wrap lg:items-center lg:justify-center lg:gap-x-16 lg:gap-y-10">
                   {ACCREDITATIONS_HOME_LOGOS.map(({ slug, src, alt }) => (
                     <Link
                       key={slug}
                       href={`/accreditations/${slug}`}
-                      className="group flex h-[4.5rem] min-w-[7.5rem] items-center justify-center px-2 sm:h-20 sm:min-w-[9rem] md:h-[5.25rem] md:min-w-[10rem]"
+                      className="group flex h-[4.5rem] min-w-[7.5rem] items-center justify-center px-2 sm:h-20 sm:min-w-[9rem] md:h-[5.25rem] md:min-w-[10rem] max-lg:!min-w-0 max-lg:w-full max-lg:max-w-sm"
                       aria-label={`${alt} — view dedicated accreditation page`}
                     >
                       <img
@@ -1277,7 +1254,7 @@ export default function Home() {
       </section>
 
       {/* Logo marquee — above testimonials */}
-      <section id="logo-marquee" className="logo-marquee-section py-12 overflow-hidden" aria-label="Trusted by leading brands">
+      <section id="logo-marquee" className="logo-marquee-section py-16 overflow-hidden lg:py-12" aria-label="Trusted by leading brands">
         <div
           className={`logo-marquee-wrapper transition-all duration-[900ms] ease-out ${
             sectionMotion.marquee ? "opacity-100 translate-y-0" : "opacity-0 translate-y-6"
@@ -1317,7 +1294,7 @@ export default function Home() {
       {/* Testimonials — full-bleed black, large display type, arrows + fade */}
       <section
         id="testimonials"
-        className="relative overflow-hidden bg-black py-20 sm:py-24 lg:py-32"
+        className="relative overflow-hidden bg-black py-24 sm:py-24 lg:py-32"
         onMouseEnter={() => setTestimonialsPaused(true)}
         onMouseLeave={() => setTestimonialsPaused(false)}
       >
@@ -1635,14 +1612,6 @@ export default function Home() {
       </section>
 
     </div>
-
-      <MobileHomeContactFab
-        logoSrc="/__APX Web Logo FS.svg"
-        logoAlt="APX Fire & Security"
-        phoneDisplay="020 8303 2280"
-        phoneHref="tel:02083032280"
-        email="enquiries@apx-fs.co.uk"
-      />
     </>
   );
 }

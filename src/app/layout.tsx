@@ -3,6 +3,7 @@ import { Bebas_Neue, Inter, Plus_Jakarta_Sans } from "next/font/google";
 import "./globals.css";
 import Footer from "@/components/Footer";
 import CookieConsent from "@/components/CookieConsent";
+import { MobileHomeContactFab } from "@/components/MobileHomeContactFab";
 import { ThemeProvider } from "@/contexts/ThemeContext";
 import { TitleFontProvider } from "@/contexts/TitleFontContext";
 import ThemeWrapper from "@/components/ThemeWrapper";
@@ -91,6 +92,13 @@ export default function RootLayout({
                     <main>{children}</main>
                     <Footer />
                     <CookieConsent />
+                    <MobileHomeContactFab
+                      logoSrc="/__APX Web Logo FS.svg"
+                      logoAlt="APX Fire & Security"
+                      phoneDisplay="020 8303 2280"
+                      phoneHref="tel:02083032280"
+                      email="enquiries@apx-fs.co.uk"
+                    />
                   </div>
                 </div>
               </ThemeWrapper>

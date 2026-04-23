@@ -138,6 +138,61 @@ const GlobalStyles = createGlobalStyle<{ theme: typeof lightTheme }>`
     border-color: white !important;
   }
 
+  /*
+   * FS header hamburger + mobile menu close: same as MEP — global button rule is white fill / black text (!important).
+   * Force black fill, white border, white icon to match MEP mobile chrome.
+   */
+  .fs-header-menu-trigger {
+    background: #000000 !important;
+    background-color: #000000 !important;
+    color: #ffffff !important;
+    border: 2px solid #ffffff !important;
+    border-color: #ffffff !important;
+    box-shadow: none !important;
+  }
+  .fs-header-menu-trigger:hover {
+    background: #111111 !important;
+    background-color: #111111 !important;
+    color: #ffffff !important;
+    border-color: #ffffff !important;
+  }
+  .fs-header-menu-trigger:focus,
+  .fs-header-menu-trigger:focus-visible {
+    background: #000000 !important;
+    color: #ffffff !important;
+    border-color: #ffffff !important;
+    outline: 2px solid rgba(255, 255, 255, 0.45) !important;
+    outline-offset: 2px !important;
+  }
+  .fs-header-menu-trigger svg {
+    color: #ffffff !important;
+    stroke: #ffffff !important;
+  }
+
+  /* Mobile contact FAB: global button rule is white — force square black + white border (see MobileHomeContactFab) */
+  .apx-mobile-contact-fab {
+    background: #000000 !important;
+    background-color: #000000 !important;
+    color: #ffffff !important;
+    border: 2px solid #ffffff !important;
+    border-color: #ffffff !important;
+    border-radius: 0 !important;
+  }
+  .apx-mobile-contact-fab:hover {
+    background: #111111 !important;
+    background-color: #111111 !important;
+    color: #ffffff !important;
+    border-color: #ffffff !important;
+  }
+  .apx-mobile-contact-fab:focus,
+  .apx-mobile-contact-fab:focus-visible {
+    background: #000000 !important;
+    color: #ffffff !important;
+    border-color: #ffffff !important;
+    outline: 2px solid rgba(255, 255, 255, 0.45) !important;
+    outline-offset: 2px !important;
+  }
+
   /* Form inputs: theme background and text */
   input, textarea, select {
     background: ${({ theme }) => theme.cardBg} !important;

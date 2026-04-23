@@ -27,22 +27,30 @@ export function FsCctvHeroNav({
   return (
     <nav aria-label={ariaLabel} className="w-full min-w-0">
       <p className="mb-3 text-[10px] font-semibold uppercase tracking-[0.2em] text-white/45">{eyebrow}</p>
-      <ul className="flex flex-wrap items-center gap-2 sm:gap-2.5">
-        {links.map(({ href, label }) => {
-          const active = path === href
-          return (
-            <li key={href}>
-              <Link
-                href={href}
-                className={`${fsServiceHeroPillLinkClass} ${active ? activePillClass : ""}`}
-                aria-current={active ? "page" : undefined}
+      <div className="-mx-4 w-full min-w-0 max-w-full sm:-mx-0">
+        <ul
+          data-lenis-prevent=""
+          className="flex max-w-full min-w-0 touch-pan-x flex-nowrap items-stretch gap-2 overflow-x-auto overflow-y-hidden overscroll-x-contain scroll-smooth px-4 pb-0.5 scrollbar-hide sm:gap-2.5 sm:px-0 sm:flex-wrap"
+        >
+          {links.map(({ href, label }) => {
+            const active = path === href
+            return (
+              <li
+                key={href}
+                className="inline-flex w-[8.5rem] min-w-[8.5rem] max-w-[8.5rem] shrink-0 sm:w-auto sm:min-w-0 sm:max-w-none"
               >
-                <span className="relative z-10">{label}</span>
-              </Link>
-            </li>
-          )
-        })}
-      </ul>
+                <Link
+                  href={href}
+                  className={`${fsServiceHeroPillLinkClass} ${active ? activePillClass : ""} sm:min-w-0 sm:w-auto sm:shrink-0`}
+                  aria-current={active ? "page" : undefined}
+                >
+                  <span className="relative z-10 line-clamp-2 text-balance sm:line-clamp-none">{label}</span>
+                </Link>
+              </li>
+            )
+          })}
+        </ul>
+      </div>
     </nav>
   )
 }

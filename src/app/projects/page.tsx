@@ -62,7 +62,7 @@ export default function ProjectsPage() {
         </div>
       </section>
 
-      <section className="py-12 lg:py-16 px-4 sm:px-6 lg:px-8" style={bgStyle}>
+      <section className="py-16 lg:py-16 px-4 sm:px-6 lg:px-8" style={bgStyle}>
         <div className="mx-auto w-full max-w-[min(100%,92rem)]">
           <div className="space-y-8 md:space-y-10">
             {projects.map((project) => (
@@ -180,7 +180,7 @@ export default function ProjectsPage() {
               </button>
             </div>
 
-            <div className="mt-3 flex gap-2 overflow-x-auto pb-1">
+            <div className="mt-3 flex gap-2 overflow-x-auto pb-1 scrollbar-hide">
               {activeGallery.map((img, idx) => (
                 <button
                   key={`${img}-${idx}`}

@@ -101,7 +101,7 @@ export default function VideoDoorEntrySystemsPage() {
       <div className="relative bg-black">
         {heroBridge}
 
-        <section className="container relative z-[1] mx-auto px-6 py-12 lg:py-16">
+        <section className="container relative z-[1] mx-auto px-6 py-16 lg:py-16">
           <h2 className="mb-10 text-left font-title text-3xl font-bold text-white sm:text-4xl">Video Entry Systems</h2>
           <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-5">
             {[
@@ -139,7 +139,7 @@ export default function VideoDoorEntrySystemsPage() {
 
         <div className="border-t border-white/15" />
 
-        <section className="container mx-auto px-6 py-12 lg:py-16">
+        <section className="container mx-auto px-6 py-16 lg:py-16">
           <h2 className="mb-6 text-left font-title text-3xl font-bold text-white sm:text-4xl">The Latest Technology</h2>
           <p className="mb-10 max-w-2xl text-left text-gray-300">
             We are proud to install the latest video entry technology from the world&apos;s leading brands
@@ -149,7 +149,7 @@ export default function VideoDoorEntrySystemsPage() {
 
         <div className="border-t border-white/15" />
 
-        <section className="container mx-auto px-6 py-12 lg:py-16">
+        <section className="container mx-auto px-6 py-16 lg:py-16">
           <h2 className="mb-4 text-left font-title text-3xl font-bold text-white sm:text-4xl">Comprehensive Security Systems</h2>
           <div className="max-w-5xl space-y-4 text-base leading-relaxed text-gray-300 sm:text-lg">
             <p>
@@ -166,7 +166,7 @@ export default function VideoDoorEntrySystemsPage() {
 
         <div className="border-t border-white/15" />
 
-        <section className="container mx-auto px-6 py-12 lg:py-16">
+        <section className="container mx-auto px-6 py-16 lg:py-16">
           <h2 className="mb-4 text-left font-title text-3xl font-bold text-white sm:text-4xl">Our Video Entry Installations</h2>
           <p className="mb-8 max-w-2xl text-left text-gray-300">
             Examples of video door entry systems that we have installed for our customers:
