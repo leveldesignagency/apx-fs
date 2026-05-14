@@ -1,6 +1,7 @@
 "use client"
 
 import Link from "next/link"
+import { FsCctvCameraTypesStrip } from "@/components/FsCctvCameraTypesStrip"
 import { ServicePageBottomCta } from "@/components/ServicePageBottomCta"
 import { CustomPillButton } from "@/components/ui/CustomPillButton"
 import { OurCustomers } from "@/components/ServicePageSharedSections"
@@ -12,12 +13,15 @@ import { Video, Shield, Monitor, CheckCircle, ArrowRight, Smartphone } from "luc
 export default function CctvSecurityPage() {
   return (
     <div className="service-page-root min-h-screen overflow-x-hidden bg-black text-white">
-      <ServicePageHero
-        title="CCTV systems"
-        imageSrc={serviceHeroImages.cctv}
-        heroCompliance={["GDPR", "BS EN 62676"]}
-        intro="We design, install, and maintain CCTV systems that provide high-definition surveillance and secure monitoring for commercial and industrial sites — with secure network configuration, retention design and user training aligned to your operational needs."
-      />
+      <div className="relative">
+        <ServicePageHero
+          title="CCTV systems"
+          imageSrc={serviceHeroImages.cctv}
+          heroCompliance={["GDPR", "BS EN 62676"]}
+          intro="We design, install, and maintain CCTV systems that provide high-definition surveillance and secure monitoring for commercial and industrial sites — with secure network configuration, retention design and user training aligned to your operational needs."
+        />
+        <FsCctvCameraTypesStrip />
+      </div>
 
       <div className="relative bg-black">
         <div

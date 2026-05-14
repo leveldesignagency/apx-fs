@@ -23,7 +23,7 @@ export default function Footer() {
         onMouseEnter={scrollFooterIntoView}
       >
       {/* Top strip: logo (over junction) + hover hint — centred on narrow viewports */}
-      <div className="footer-head relative flex min-h-[6rem] items-end justify-center overflow-visible px-4 sm:px-6">
+      <div className="footer-head relative flex min-h-[6rem] items-end justify-center overflow-visible px-6 lg:px-8">
         <div className="footer-logo-bridge absolute left-1/2 top-0 -translate-x-1/2 -translate-y-1/2">
           <Link href="/" className="flex cursor-pointer items-center">
             <Image
@@ -35,7 +35,7 @@ export default function Footer() {
             />
           </Link>
         </div>
-        <div className="footer-hint flex max-w-full flex-wrap items-center justify-center gap-2 px-1 pb-3 text-center opacity-70 sm:px-0">
+        <div className="footer-hint flex max-w-full flex-wrap items-center justify-center gap-2 px-0 pb-3 text-center opacity-70">
           <span className="text-xs uppercase tracking-wide">Hover to expand</span>
           <ChevronUp className="h-4 w-4 shrink-0 footer-chevron" />
         </div>
@@ -43,7 +43,7 @@ export default function Footer() {
 
       {/* Expandable content: visible on footer hover */}
       <div className="footer-expand">
-        <div className="container mx-auto w-full min-w-0 max-w-7xl px-4 py-12 pt-16 sm:px-6">
+        <div className="container mx-auto w-full min-w-0 max-w-7xl px-6 py-12 pt-16 lg:px-8">
           <div className="grid w-full min-w-0 grid-cols-1 gap-10 text-left md:grid-cols-4 md:gap-x-8 md:gap-y-12 lg:gap-x-10">
             {/* Company Info */}
             <div className="min-w-0 space-y-6">
@@ -134,7 +134,45 @@ export default function Footer() {
           <div className="mt-16 border-t border-t-white/10 pt-8 text-center text-gray-500 md:text-left">
             <div className="flex flex-col items-center justify-between gap-4 md:flex-row md:items-start">
               <p className="max-w-2xl text-sm leading-relaxed">
-                &copy; 2025 APX. All rights reserved. | Privacy Policy | Terms of Service
+                <span className="text-inherit">&copy; 2025 APX. All rights reserved.</span>
+                <span className="text-inherit" aria-hidden>
+                  {" "}|{" "}
+                </span>
+                <Link
+                  href="/privacy"
+                  className="relative group inline hover:text-white transition-colors cursor-pointer pb-1"
+                >
+                  Privacy Policy
+                  <span
+                    className="absolute top-0 left-1/2 w-full h-0.5 transform -translate-x-1/2 scale-x-0 origin-center transition-transform duration-500 group-hover:scale-x-100"
+                    style={{ backgroundColor: "white" }}
+                    aria-hidden
+                  />
+                  <span
+                    className="absolute bottom-0 left-1/2 w-full h-0.5 transform -translate-x-1/2 scale-x-0 origin-center transition-transform duration-500 group-hover:scale-x-100"
+                    style={{ backgroundColor: "white" }}
+                    aria-hidden
+                  />
+                </Link>
+                <span className="text-inherit" aria-hidden>
+                  {" "}|{" "}
+                </span>
+                <Link
+                  href="/terms"
+                  className="relative group inline hover:text-white transition-colors cursor-pointer pb-1"
+                >
+                  Terms of Service
+                  <span
+                    className="absolute top-0 left-1/2 w-full h-0.5 transform -translate-x-1/2 scale-x-0 origin-center transition-transform duration-500 group-hover:scale-x-100"
+                    style={{ backgroundColor: "white" }}
+                    aria-hidden
+                  />
+                  <span
+                    className="absolute bottom-0 left-1/2 w-full h-0.5 transform -translate-x-1/2 scale-x-0 origin-center transition-transform duration-500 group-hover:scale-x-100"
+                    style={{ backgroundColor: "white" }}
+                    aria-hidden
+                  />
+                </Link>
               </p>
               <span className="shrink-0 text-xs opacity-80">
                 <span className="transition-opacity duration-200 hover:opacity-100">Designed by </span>

@@ -9,7 +9,7 @@ export const fsServiceHeroPillLinkClass =
 
 const pillClass = fsServiceHeroPillLinkClass
 
-/** Same horizontal scroll + equal-width mobile pills as MEP service hero quick nav. */
+/** Same as MEP: scroll strip on small screens only; `sm+` wraps, no scroll container. */
 export function FsServiceHeroQuickNav() {
   const path = normalizeFsPath(usePathname())
   const items = FS_SERVICE_QUICK_LINKS.filter((l) => l.href !== path)
@@ -20,7 +20,7 @@ export function FsServiceHeroQuickNav() {
       <div className="-mx-4 w-full min-w-0 max-w-full sm:-mx-0">
         <ul
           data-lenis-prevent=""
-          className="flex max-w-full min-w-0 touch-pan-x flex-nowrap items-stretch gap-2 overflow-x-auto overflow-y-hidden overscroll-x-contain scroll-smooth px-4 pb-0.5 scrollbar-hide sm:gap-2.5 sm:px-0"
+          className="flex max-w-full min-w-0 flex-nowrap items-stretch gap-2 touch-pan-x overflow-x-auto overflow-y-hidden overscroll-x-contain scroll-smooth px-4 pb-0.5 scrollbar-hide sm:flex-wrap sm:overflow-visible sm:overscroll-auto sm:scroll-auto sm:touch-auto sm:gap-2.5 sm:px-0"
         >
           {items.map(({ href, label }) => (
             <li
@@ -33,6 +33,14 @@ export function FsServiceHeroQuickNav() {
             </li>
           ))}
         </ul>
+        {items.length > 1 ? (
+          <p
+            className="mt-2 px-4 text-center text-[9px] font-medium uppercase tracking-[0.18em] text-white/35 sm:hidden"
+            aria-hidden
+          >
+            Scroll for more
+          </p>
+        ) : null}
       </div>
     </nav>
   )

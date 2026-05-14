@@ -6,6 +6,9 @@ import { CCTV_CAMERA_TYPE_PAGES } from "@/data/cctvCameraTypePages"
 
 const CCTV_TYPES_FOLDER = "/cctv%20camera%20types"
 
+/** Matches domestic / commercial hub cards — diagonal corners only. */
+const CCTV_TILE_CORNERS = "rounded-tl-2xl rounded-br-2xl"
+
 const jsonLd = {
   "@context": "https://schema.org",
   "@type": "ItemList",
@@ -49,14 +52,14 @@ export function FsCctvCameraTypesStrip() {
                   aria-label={`${label} CCTV - full guide`}
                 >
                   <div
-                    className="relative aspect-square w-full overflow-hidden rounded-none border border-white/25 shadow-[0_14px_36px_rgba(0,0,0,0.65),0_2px_0_rgba(255,255,255,0.06)_inset] transition-transform duration-300 ease-out will-change-transform group-hover:scale-[1.06] group-focus-visible:scale-[1.04] group-focus-visible:outline group-focus-visible:outline-2 group-focus-visible:outline-offset-4 group-focus-visible:outline-white/40"
+                    className={`relative aspect-square w-full overflow-hidden ${CCTV_TILE_CORNERS} border border-white/25 shadow-[0_14px_36px_rgba(0,0,0,0.65),0_2px_0_rgba(255,255,255,0.06)_inset] transition-transform duration-300 ease-out will-change-transform group-hover:scale-[1.06] group-focus-visible:scale-[1.04] group-focus-visible:outline group-focus-visible:outline-2 group-focus-visible:outline-offset-4 group-focus-visible:outline-white/40`}
                     style={{
                       background:
                         "linear-gradient(165deg, rgba(255,255,255,0.12) 0%, rgba(15,15,15,0.95) 38%, rgba(0,0,0,0.98) 100%)",
                     }}
                   >
                     <div
-                      className="pointer-events-none absolute inset-0 rounded-none opacity-90"
+                      className={`pointer-events-none absolute inset-0 ${CCTV_TILE_CORNERS} opacity-90`}
                       style={{
                         background:
                           "linear-gradient(to bottom, rgba(255,255,255,0.06) 0%, transparent 45%, rgba(0,0,0,0.35) 100%)",
@@ -68,7 +71,7 @@ export function FsCctvCameraTypesStrip() {
                       alt={imageAlt}
                       fill
                       sizes="(min-width: 1024px) 16vw, (min-width: 640px) 28vw, 45vw"
-                      className="relative z-[1] object-contain p-3 drop-shadow-[0_6px_16px_rgba(0,0,0,0.75)]"
+                      className={`relative z-[1] object-contain p-3 drop-shadow-[0_6px_16px_rgba(0,0,0,0.75)] ${CCTV_TILE_CORNERS}`}
                     />
                   </div>
                   <span className="mt-3 text-[11px] font-semibold uppercase tracking-[0.12em] text-white/85 underline-offset-4 group-hover:text-white group-hover:underline sm:text-xs">
