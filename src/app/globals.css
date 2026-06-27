@@ -135,6 +135,46 @@ footer {
   }
 }
 
+/* Homepage trial: thin section dividers */
+.home-page-trial .home-section-divider {
+  position: relative;
+  z-index: 25;
+  pointer-events: none;
+}
+
+.home-page-trial .home-section-divider__line {
+  height: 1px;
+  width: 100%;
+}
+
+.home-page-trial .home-section-divider__line--dark {
+  background: rgba(255, 255, 255, 0.2);
+}
+
+.home-page-trial .home-section-divider__line--light {
+  background: rgba(0, 0, 0, 0.12);
+}
+
+.home-page-trial .home-section-divider--on-dark-band {
+  background: #000000;
+}
+
+.home-page-trial .home-section-divider--on-light-band {
+  background: #ffffff;
+}
+
+.home-page-trial .home-section-divider--inset {
+  padding-block: 0.25rem;
+}
+
+.home-page-trial .home-section-divider--full .home-section-divider__line {
+  opacity: 1;
+}
+
+.home-page-trial .home-section-divider--bare {
+  background: transparent !important;
+}
+
 /* Pull sections together on large screens only */
 section + section {
   margin-top: 0;
@@ -147,6 +187,12 @@ section + section {
 /* Accreditations hub: two stacked sections must not overlap (global pull would cut hero copy) */
 main.accreditations-hub section + section {
   margin-top: 0;
+}
+/* Homepage trial dividers sit between sections — disable negative overlap */
+.home-page-trial section + section,
+.home-page-trial section + .home-section-divider,
+.home-page-trial .home-section-divider + section {
+  margin-top: 0 !important;
 }
 .section-content-gap {
   margin-bottom: 4.5rem;
@@ -578,25 +624,59 @@ section h2 {
   background: transparent !important;
   color: #ffffff !important;
   border-color: rgba(255, 255, 255, 0.75) !important;
+  font-size: 0.75rem !important;
+  line-height: 1.25 !important;
+  transition:
+    background-color 0.28s ease,
+    color 0.28s ease,
+    border-color 0.28s ease,
+    transform 0.28s ease,
+    box-shadow 0.28s ease !important;
+  will-change: transform;
 }
-#services .fs-what-we-offer button.fs-offer-tab:hover {
-  background: rgba(255, 255, 255, 0.07) !important;
+@media (min-width: 640px) {
+  #services .fs-what-we-offer button.fs-offer-tab {
+    font-size: 0.875rem !important;
+  }
+}
+#services .fs-what-we-offer button.fs-offer-tab:not(.fs-offer-tab--active):hover,
+#services .fs-what-we-offer button.fs-offer-tab:not(.fs-offer-tab--active):focus-visible {
+  background: #ffffff !important;
   border-color: #ffffff !important;
-  color: #ffffff !important;
+  color: #000000 !important;
+  transform: translateY(-2px);
+  box-shadow: 0 10px 28px rgba(0, 0, 0, 0.4);
+}
+#services .fs-what-we-offer button.fs-offer-tab:not(.fs-offer-tab--active):hover .fs-offer-tab__label,
+#services .fs-what-we-offer button.fs-offer-tab:not(.fs-offer-tab--active):focus-visible .fs-offer-tab__label {
+  color: #000000 !important;
 }
 /* Selected: white border + white fill + black text (explicit border — ThemeToggle sets button border) */
 #services .fs-what-we-offer button.fs-offer-tab.fs-offer-tab--active {
   background: #ffffff !important;
   color: #000000 !important;
   border: 2px solid #ffffff !important;
+  box-shadow: 0 4px 18px rgba(255, 255, 255, 0.12);
 }
-#services .fs-what-we-offer button.fs-offer-tab.fs-offer-tab--active:hover {
+#services .fs-what-we-offer button.fs-offer-tab.fs-offer-tab--active:hover,
+#services .fs-what-we-offer button.fs-offer-tab.fs-offer-tab--active:focus-visible {
   background: #ffffff !important;
   color: #000000 !important;
   border: 2px solid #ffffff !important;
+  transform: translateY(-2px);
+  box-shadow: 0 12px 32px rgba(255, 255, 255, 0.22);
+}
+#services .fs-what-we-offer button.fs-offer-tab:active:not(.fs-offer-tab--active) {
+  transform: translateY(0);
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.28);
+}
+#services .fs-what-we-offer button.fs-offer-tab.fs-offer-tab--active:active {
+  transform: translateY(0);
+  box-shadow: 0 6px 18px rgba(255, 255, 255, 0.16);
 }
 #services .fs-what-we-offer button.fs-offer-tab .fs-offer-tab__label {
   color: inherit !important;
+  transition: color 0.28s ease;
 }
 #services .fs-what-we-offer button.fs-offer-tab.fs-offer-tab--active .fs-offer-tab__label {
   color: #000000 !important;
@@ -1096,78 +1176,66 @@ html:not(.dark) #about .why-choose-icon-badge svg {
   stroke: #ffffff !important;
 }
 
-/* Google reviews slot — real glassmorphism (blur + translucent stack + specular edge) */
-#about .why-choose-google-glass.why-choose-card {
+/* Google reviews slot — clean Google-branded white card */
+#about .google-reviews-card.why-choose-card {
   position: relative;
   isolation: isolate;
   overflow: hidden;
-  background: linear-gradient(
-    142deg,
-    rgba(255, 255, 255, 0.34) 0%,
-    rgba(255, 255, 255, 0.08) 38%,
-    rgba(12, 14, 22, 0.42) 100%
-  ) !important;
-  backdrop-filter: blur(24px) saturate(175%);
-  -webkit-backdrop-filter: blur(24px) saturate(175%);
-  border: 1px solid rgba(255, 255, 255, 0.52) !important;
+  background: #ffffff !important;
+  border: 1px solid #dadce0 !important;
   box-shadow:
-    0 14px 44px rgba(0, 0, 0, 0.18),
-    0 4px 16px rgba(0, 0, 0, 0.08),
-    inset 0 1px 0 rgba(255, 255, 255, 0.55),
-    inset 0 -1px 0 rgba(0, 0, 0, 0.12);
+    0 1px 2px rgba(60, 64, 67, 0.18),
+    0 4px 16px rgba(60, 64, 67, 0.08) !important;
 }
-#about .why-choose-google-glass.why-choose-card::before {
+#about .google-reviews-card.why-choose-card::before {
   content: "";
   position: absolute;
-  inset: 0;
-  border-radius: inherit;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 4px;
+  z-index: 2;
   pointer-events: none;
-  z-index: 0;
-  background: linear-gradient(
-    118deg,
-    rgba(255, 255, 255, 0.42) 0%,
-    rgba(255, 255, 255, 0) 42%,
-    rgba(255, 255, 255, 0.06) 100%
-  );
-  opacity: 0.55;
+  background: linear-gradient(90deg, #4285f4 0%, #ea4335 38%, #fbbc05 68%, #34a853 100%);
+  border-top-left-radius: inherit;
 }
-#about .why-choose-google-glass.why-choose-card::after {
-  content: "";
-  position: absolute;
-  inset: 0;
-  border-radius: inherit;
-  pointer-events: none;
-  z-index: 0;
-  box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.12);
-}
-#about .why-choose-google-glass.why-choose-card > * {
+#about .google-reviews-card.why-choose-card > * {
   position: relative;
   z-index: 1;
 }
-#about .why-choose-google-glass-badge.why-choose-icon-badge {
-  background: linear-gradient(
-    155deg,
-    rgba(255, 255, 255, 0.38) 0%,
-    rgba(255, 255, 255, 0.06) 45%,
-    rgba(0, 0, 0, 0.2) 100%
-  ) !important;
-  backdrop-filter: blur(16px) saturate(160%);
-  -webkit-backdrop-filter: blur(16px) saturate(160%);
-  border: 1px solid rgba(255, 255, 255, 0.48) !important;
-  box-shadow:
-    0 8px 28px rgba(0, 0, 0, 0.16),
-    inset 0 1px 0 rgba(255, 255, 255, 0.45);
+#about .google-reviews-card__brand-label {
+  color: #5f6368 !important;
+  letter-spacing: 0.01em;
 }
-#about .why-choose-google-glass-badge.why-choose-icon-badge svg {
-  color: unset !important;
-  stroke: unset !important;
+#about .google-reviews-card.why-choose-card h4,
+#about .google-reviews-card__title {
+  color: #202124 !important;
+  text-shadow: none !important;
 }
-#about .why-choose-google-glass-badge.why-choose-icon-badge svg path {
-  filter: drop-shadow(0 1px 1px rgba(0, 0, 0, 0.35));
+#about .google-reviews-card.why-choose-card p,
+#about .google-reviews-card__copy {
+  color: #5f6368 !important;
+  text-shadow: none !important;
 }
-#about .why-choose-google-glass.why-choose-card h4,
-#about .why-choose-google-glass.why-choose-card p {
-  text-shadow: 0 1px 3px rgba(0, 0, 0, 0.45);
+#about .google-reviews-card__star {
+  fill: #fbbc04 !important;
+  color: #fbbc04 !important;
+  filter: none !important;
+}
+#about .google-reviews-card__btn {
+  background: #1a73e8 !important;
+  color: #ffffff !important;
+  border: none !important;
+  box-shadow: 0 1px 2px rgba(26, 115, 232, 0.35);
+}
+#about .google-reviews-card__btn:hover {
+  background: #1765cc !important;
+  color: #ffffff !important;
+  box-shadow: 0 2px 8px rgba(26, 115, 232, 0.38);
+}
+#about .google-reviews-card__btn:focus-visible {
+  outline: 2px solid #1a73e8;
+  outline-offset: 2px;
 }
 
 /* Light theme: other .service-card in #about (if any) stay light */
@@ -1238,16 +1306,39 @@ html.dark #about .stats-card .stats-card-label {
 #contact .text-gray-300 {
   color: rgba(255, 255, 255, 0.85) !important;
 }
-/* Logo marquee: white background, black logos, generous top/bottom padding */
-#logo-marquee {
+/* Logo marquee: white band, bare logos — homepage client strip */
+#logo-marquee.logo-marquee-home {
   background-color: #ffffff !important;
-  padding-top: 8rem !important;
-  padding-bottom: 10rem !important;
 }
-@media (min-width: 1024px) {
-  #logo-marquee {
-    padding-bottom: 12rem !important;
-  }
+#logo-marquee.logo-marquee-home .logo-marquee-wrapper {
+  gap: 0;
+}
+#logo-marquee.logo-marquee-home .logo-marquee {
+  --marquee-gap: clamp(2.5rem, 5vw, 4rem);
+  --marquee-duration: 50s;
+}
+#logo-marquee.logo-marquee-home .logo-marquee .logo-marquee__img {
+  display: block !important;
+  width: auto !important;
+  height: clamp(2rem, 3.6vw, 2.75rem) !important;
+  max-width: clamp(4.5rem, 12vw, 8.5rem) !important;
+  aspect-ratio: auto !important;
+  padding: 0 !important;
+  border: none !important;
+  border-radius: 0 !important;
+  background: transparent !important;
+  box-shadow: none !important;
+  object-fit: contain;
+  opacity: 0.8;
+  transition: opacity 0.2s ease;
+}
+#logo-marquee.logo-marquee-home .logo-marquee .logo-marquee__img:hover {
+  opacity: 1;
+  transform: none;
+  box-shadow: none;
+}
+#logo-marquee.logo-marquee-home .logo-marquee__group {
+  align-items: center;
 }
 #logo-marquee .logo-marquee-title {
   color: #000000 !important;

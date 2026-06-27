@@ -4,7 +4,11 @@ import type { ReactNode } from "react"
 import Image from "next/image"
 import { FsCctvHeroNav } from "@/components/FsCctvHeroNav"
 import { FsServiceHeroQuickNav } from "@/components/FsServiceHeroQuickNav"
-import { HERO_BG_GRADIENT_BOTTOM, HERO_BG_GRADIENT_LEFT } from "@/lib/heroBackgroundGradients"
+import {
+  SERVICE_HERO_BG_GRADIENT_BOTTOM,
+  SERVICE_HERO_BG_GRADIENT_LEFT,
+  SERVICE_HERO_IMAGE_FILTERS,
+} from "@/lib/heroBackgroundGradients"
 
 export type ServicePageHeroProps = {
   title: string
@@ -71,23 +75,11 @@ export function ServicePageHero({
               fill
               priority
               sizes="100vw"
-              className={imageClassName ?? "object-cover object-center"}
+              className={`${imageClassName ?? "object-cover object-center"} ${SERVICE_HERO_IMAGE_FILTERS}`}
             />
-            <div className="pointer-events-none absolute inset-0" style={{ background: HERO_BG_GRADIENT_LEFT }} />
-            <div className="pointer-events-none absolute inset-0" style={{ background: HERO_BG_GRADIENT_BOTTOM }} />
-            <div
-              className="pointer-events-none absolute inset-0 opacity-40 mix-blend-overlay"
-              style={{
-                backgroundImage: [
-                  "radial-gradient(circle at 0 0, rgba(255,255,255,0.28) 0.8px, transparent 1px)",
-                  "radial-gradient(circle at 1px 1px, rgba(0,0,0,0.42) 0.9px, transparent 1.2px)",
-                ].join(", "),
-                backgroundSize: "3px 3px, 4px 4px",
-                backgroundPosition: "0 0, 1px 1px",
-              }}
-              aria-hidden
-            />
-            <div className="pointer-events-none absolute inset-0 bg-black/45" aria-hidden />
+            <div className="pointer-events-none absolute inset-0" style={{ background: SERVICE_HERO_BG_GRADIENT_LEFT }} />
+            <div className="pointer-events-none absolute inset-0" style={{ background: SERVICE_HERO_BG_GRADIENT_BOTTOM }} />
+            <div className="pointer-events-none absolute inset-0 bg-black/32" aria-hidden />
           </>
         ) : (
           <div className="absolute inset-0 bg-black" aria-hidden />

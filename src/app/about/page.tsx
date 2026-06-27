@@ -256,19 +256,6 @@ export default function AboutPage() {
                 <article
                   className="relative flex min-h-[21rem] flex-col overflow-hidden rounded-[1.85rem] border border-white/[0.1] bg-[#0a0a0a] shadow-[0_18px_50px_rgba(0,0,0,0.45)] sm:min-h-[22rem] md:grid md:min-h-[23rem] md:grid-cols-[minmax(0,1fr)_11.25rem] md:grid-rows-[auto_auto] md:gap-x-5 md:gap-y-4 md:p-6 lg:min-h-[24rem] lg:grid-cols-[minmax(0,1fr)_14.25rem] lg:gap-x-6 lg:gap-y-5 lg:p-7"
                 >
-                  <div
-                    className="pointer-events-none absolute inset-0 opacity-[0.18] mix-blend-overlay"
-                    style={{
-                      backgroundImage: [
-                        "radial-gradient(circle at 0 0, rgba(255,255,255,0.35) 0.8px, transparent 1px)",
-                        "radial-gradient(circle at 1px 1px, rgba(0,0,0,0.12) 0.9px, transparent 1.2px)",
-                      ].join(", "),
-                      backgroundSize: "3px 3px, 4px 4px",
-                      backgroundPosition: "0 0, 1px 1px",
-                    }}
-                    aria-hidden
-                  />
-
                   <div className="relative z-10 order-1 min-w-0 px-6 pb-2 pt-8 sm:px-8 sm:pt-10 md:col-start-1 md:row-start-1 md:px-0 md:pb-0 md:pt-1">
                     <h3
                       className="text-left text-2xl font-bold leading-[1.12] tracking-tight text-white drop-shadow-[0_1px_12px_rgba(0,0,0,0.18)] sm:text-3xl"

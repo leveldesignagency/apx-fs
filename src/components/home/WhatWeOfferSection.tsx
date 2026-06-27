@@ -122,11 +122,11 @@ export function WhatWeOfferSection() {
                 id={`fs-offer-tab-${i}`}
                 aria-controls={`fs-offer-panel-${i}`}
                 onClick={() => setActive(i)}
-                className={`fs-offer-tab flex h-[2.75rem] min-h-[44px] w-28 min-w-28 max-w-28 flex-none snap-start items-center justify-center rounded-full border-2 px-2 py-1.5 text-center text-[10px] font-semibold uppercase leading-tight tracking-wide transition-colors sm:min-w-[7.5rem] sm:max-w-[7.5rem] sm:w-[7.5rem] md:col-span-1 md:h-11 md:min-h-[44px] md:w-full md:min-w-0 md:max-w-none ${
+                className={`fs-offer-tab flex h-12 min-h-[44px] w-[7.75rem] min-w-[7.75rem] max-w-[7.75rem] flex-none snap-start items-center justify-center rounded-full border-2 px-2.5 py-2 text-center text-xs font-semibold uppercase leading-snug tracking-wide transition-all duration-300 ease-out sm:min-w-[8.75rem] sm:max-w-[8.75rem] sm:w-[8.75rem] sm:text-sm md:col-span-1 md:h-12 md:min-h-[44px] md:w-full md:min-w-0 md:max-w-none md:px-3 md:text-sm ${
                   isSelected ? "fs-offer-tab--active" : "fs-offer-tab--inactive"
                 }`}
               >
-                <span className="fs-offer-tab__label line-clamp-2 text-balance sm:line-clamp-none sm:px-0.5 md:whitespace-normal">
+                <span className="fs-offer-tab__label line-clamp-2 text-balance sm:line-clamp-none sm:px-1 md:whitespace-normal">
                   {o.tabLabel}
                 </span>
               </button>
@@ -154,14 +154,14 @@ export function WhatWeOfferSection() {
 
           <div className="relative grid gap-0 lg:min-h-[440px] lg:grid-cols-[1.1fr_0.9fr]">
             <div className="flex flex-col justify-center px-6 py-10 sm:px-10 lg:px-12 lg:py-14">
-              <div className="mb-5 inline-flex w-fit items-center justify-center rounded-full border-2 border-white/70 bg-black/50 py-1.5 pl-4 pr-[calc(1rem+0.12em)] text-center text-[11px] font-semibold uppercase tracking-[0.12em] text-white sm:pl-5 sm:pr-[calc(1.25rem+0.12em)] sm:text-xs">
+              <div className="mb-5 inline-flex w-fit items-center justify-center rounded-full border-2 border-white/70 bg-black/50 py-1.5 pl-4 pr-[calc(1rem+0.12em)] text-center text-xs font-semibold uppercase tracking-[0.12em] text-white sm:pl-5 sm:pr-[calc(1.25rem+0.12em)] sm:text-sm">
                 {item.tagLabel}
               </div>
 
               <h3 className="font-title text-2xl font-bold leading-[1.03] tracking-tight text-white sm:text-3xl md:text-[clamp(1.75rem,4vw,2.75rem)]">
                 {item.headline}
               </h3>
-              <p className="mt-4 max-w-xl text-sm leading-relaxed text-white sm:text-base">{item.description}</p>
+              <p className="mt-4 max-w-xl text-base leading-relaxed text-white sm:text-lg">{item.description}</p>
 
               <div className="mt-8 flex flex-wrap items-center gap-3">
                 <CustomPillButton href={item.href} size="md">
@@ -174,7 +174,7 @@ export function WhatWeOfferSection() {
             </div>
 
             <div className="flex flex-col justify-center px-6 py-10 sm:px-10 lg:px-10 lg:py-14 lg:pl-6">
-              <p data-offer-features="label" className="text-xs font-bold uppercase tracking-[0.2em] text-white">
+              <p data-offer-features="label" className="text-sm font-bold uppercase tracking-[0.2em] text-white">
                 The features
               </p>
               <ul className="mt-5 space-y-3">
@@ -182,7 +182,7 @@ export function WhatWeOfferSection() {
                   <li
                     key={line}
                     data-offer-feature
-                    className="rounded-xl border border-white/30 bg-black/45 px-4 py-3 text-sm leading-snug text-white backdrop-blur-[6px]"
+                    className="rounded-xl border border-white/30 bg-black/45 px-4 py-3 text-base leading-snug text-white backdrop-blur-[6px]"
                   >
                     {line}
                   </li>

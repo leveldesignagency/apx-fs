@@ -17,11 +17,11 @@ export function ServicePageBottomCta({ imageSrc, title, description, children }:
       <FsServiceFaqByRoute />
       <section className="relative isolate mt-12 flex min-h-[50vh] flex-col justify-center border-t border-white sm:mt-14 lg:mt-16">
       <div
-        className="absolute inset-0 bg-cover bg-center bg-no-repeat"
+        className="absolute inset-0 bg-cover bg-center bg-no-repeat brightness-[1.14] contrast-[1.03] saturate-[1.05]"
         style={{ backgroundImage: `url("${imageSrc}")` }}
         aria-hidden
       />
-      <div className="absolute inset-0 bg-black/70" aria-hidden />
+      <div className="absolute inset-0 bg-black/52" aria-hidden />
       <div className="relative z-10 container mx-auto px-6 py-16 sm:py-20 lg:py-24">
         <div className="max-w-3xl">
           <h2 className="mb-6 text-left font-title text-3xl font-bold text-white sm:text-4xl">{title}</h2>

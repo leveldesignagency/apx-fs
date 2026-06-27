@@ -1,7 +1,6 @@
 "use client"
 
 import { Star } from "lucide-react"
-import { CustomPillButton } from "@/components/ui/CustomPillButton"
 import { getGoogleReviewsEmbedSrc, GOOGLE_REVIEWS_LISTING_URL } from "@/lib/googleBusinessReviews"
 
 function GoogleGMark({ className }: { className?: string }) {
@@ -27,26 +26,24 @@ function GoogleGMark({ className }: { className?: string }) {
   )
 }
 
-const glassCard =
-  "why-choose-card why-choose-google-glass flex w-full min-w-0 flex-col overflow-hidden rounded-tl-[1.35rem] rounded-br-[1.35rem] md:rounded-tl-[1.5rem] md:rounded-br-[1.5rem]"
+const cardClass =
+  "google-reviews-card why-choose-card flex w-full min-w-0 flex-col overflow-hidden rounded-tl-[1.35rem] rounded-br-[1.35rem] md:rounded-tl-[1.5rem] md:rounded-br-[1.5rem]"
 
 /**
  * Fourth cell in Why Choose Us 2×2 grid: optional iframe embed (env) or fallback card linking to Google reviews.
- * Glass styling: globals.css `#about .why-choose-google-glass` (+ badge).
  */
 export function GoogleBusinessReviewsSlot() {
   const embedSrc = getGoogleReviewsEmbedSrc()
 
   if (embedSrc) {
-    /* Fixed height so rotating Google reviews don’t resize the Why Choose grid */
     const embedH = "min-h-[420px] h-[420px] sm:min-h-[460px] sm:h-[460px]"
     return (
       <div className="flex h-full min-h-0 min-w-0 flex-col items-stretch">
-        <article className={`${glassCard} flex flex-col overflow-hidden ${embedH}`}>
+        <article className={`${cardClass} flex flex-col overflow-hidden ${embedH}`}>
           <iframe
             title="Google reviews"
             src={embedSrc}
-            className={`w-full shrink-0 border-0 bg-white/95 ${embedH}`}
+            className={`w-full shrink-0 border-0 bg-white ${embedH}`}
             loading="lazy"
             referrerPolicy="no-referrer-when-downgrade"
             allow="clipboard-write"
@@ -57,34 +54,36 @@ export function GoogleBusinessReviewsSlot() {
   }
 
   return (
-    <div className="flex h-full min-h-0 min-w-0 flex-col items-center">
-      <div
-        className="why-choose-icon-badge why-choose-google-glass-badge relative z-10 flex h-11 w-11 shrink-0 items-center justify-center rounded-lg md:h-12 md:w-12 md:rounded-xl"
-        aria-hidden
-      >
-        <GoogleGMark className="h-6 w-6 md:h-7 md:w-7" />
-      </div>
-      <article
-        className={`${glassCard} -mt-6 flex-1 flex-col px-3 pb-4 pt-8 text-center text-white md:px-4 md:pb-5 md:pt-9`}
-      >
-        <h4 className="font-title text-base font-semibold leading-snug text-white md:text-lg">Google reviews</h4>
-        <div className="mt-3 flex justify-center gap-0.5" aria-hidden>
+    <div className="flex h-full min-h-0 min-w-0 flex-col items-stretch">
+      <article className={`${cardClass} flex flex-1 flex-col px-4 pb-5 pt-5 text-center md:px-5 md:pb-6 md:pt-6`}>
+        <div className="google-reviews-card__brand mb-3 flex items-center justify-center gap-2">
+          <GoogleGMark className="h-6 w-6 shrink-0 md:h-7 md:w-7" />
+          <span className="google-reviews-card__brand-label text-sm font-medium">Google</span>
+        </div>
+
+        <h4 className="google-reviews-card__title font-title text-base font-semibold leading-snug md:text-lg">
+          Reviews
+        </h4>
+
+        <div className="mt-2.5 flex justify-center gap-0.5" aria-label="5 out of 5 stars">
           {Array.from({ length: 5 }).map((_, i) => (
-            <Star key={i} className="h-4 w-4 fill-amber-400 text-amber-400 drop-shadow-sm" strokeWidth={0} />
+            <Star key={i} className="google-reviews-card__star h-4 w-4 md:h-[1.125rem] md:w-[1.125rem]" strokeWidth={0} />
           ))}
         </div>
-        <p className="mt-3 flex-1 text-center text-sm leading-relaxed text-white/90">
+
+        <p className="google-reviews-card__copy mt-3 flex-1 text-sm leading-relaxed">
           See verified feedback on our Google Business Profile.
         </p>
+
         <div className="mt-5 flex justify-center">
-          <CustomPillButton
+          <a
             href={GOOGLE_REVIEWS_LISTING_URL}
-            size="sm"
             target="_blank"
             rel="noopener noreferrer"
+            className="google-reviews-card__btn inline-flex min-h-[44px] items-center justify-center rounded-full px-5 py-2.5 text-sm font-semibold transition-[background-color,box-shadow,transform] duration-200 ease-out hover:-translate-y-px active:translate-y-0"
           >
             View on Google
-          </CustomPillButton>
+          </a>
         </div>
       </article>
     </div>

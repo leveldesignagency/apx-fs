@@ -31,6 +31,7 @@ import { GoogleBusinessReviewsSlot } from "@/components/home/GoogleBusinessRevie
 import HeroVideoBackground from "@/components/HeroVideoBackground"
 import { WhatWeOfferSection } from "@/components/home/WhatWeOfferSection"
 import { HomeQuoteFormDrawShell, HOME_QUOTE_FORM_INNER_DELAY_MS } from "@/components/home/HomeQuoteFormDrawShell"
+import { HomeSectionDivider } from "@/components/home/HomeSectionDivider"
 import { FS_SERVICE_SHIMMER_CARD } from "@/lib/fsServicePageCards"
 
 /** Matches contact page field glass (draw shell / animation unchanged). */
@@ -195,8 +196,8 @@ export default function Home() {
     { id: 'projects', name: 'Projects' },
     { id: 'about', name: 'Why Choose Us' },
     { id: 'accreditations', name: 'Accreditations' },
-    { id: 'why-mep', name: 'News & Articles' },
     { id: 'logo-marquee', name: 'Clients' },
+    { id: 'why-mep', name: 'News & Articles' },
     { id: 'testimonials', name: 'Testimonials' },
     { id: 'contact', name: 'Contact' }
   ], [])
@@ -433,8 +434,8 @@ export default function Home() {
       { id: "services", key: "services" as const },
       { id: "services-benefits", key: "benefits" as const },
       { id: "projects", key: "projects" as const },
-      { id: "why-mep", key: "news" as const },
       { id: "logo-marquee", key: "marquee" as const },
+      { id: "why-mep", key: "news" as const },
       { id: "testimonials", key: "testimonials" as const },
       { id: "contact", key: "contact" as const },
       { id: "about", key: "about" as const },
@@ -841,21 +842,20 @@ export default function Home() {
   return (
     <>
       <GlobalStyles theme={themeMode} />
-      <div className="min-h-screen overflow-x-clip relative z-10">
+      <div className="home-page-trial min-h-screen overflow-x-clip relative z-10">
 
-      {/* Hero Section – matches MEP: centred copy/CTAs on small screens, left-aligned from lg; accreditations stacked in same container */}
+      {/* Hero Section – full viewport height; accreditations sit on image at bottom-right */}
       <section
         id="hero"
-        className="relative flex min-h-0 flex-col overflow-visible bg-transparent md:min-h-[100dvh]"
-        style={{ background: "transparent" }}
+        className="relative flex min-h-[100dvh] flex-col overflow-hidden bg-black"
       >
         <HeroVideoBackground />
         <div
-          className={`relative z-20 container mx-auto flex flex-col px-4 pt-36 pb-10 min-[400px]:pt-40 sm:px-6 sm:pb-12 sm:pt-40 md:pt-44 lg:pt-52 lg:pb-14 transition-all duration-1000 ${
+          className={`relative z-20 container mx-auto flex min-h-[100dvh] w-full flex-col px-4 pb-5 sm:px-6 sm:pb-6 lg:px-8 lg:pb-8 transition-all duration-1000 ${
             heroAnimation.videoVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-6"
           }`}
         >
-          <div className="mx-auto flex w-full max-w-2xl flex-col items-center space-y-4 text-center lg:mx-0 lg:items-start lg:text-left">
+          <div className="mx-auto flex w-full max-w-2xl flex-1 flex-col items-center justify-center space-y-4 pt-24 text-center translate-y-8 min-[400px]:pt-28 sm:translate-y-10 sm:pt-28 md:translate-y-12 md:pt-32 lg:mx-0 lg:translate-y-14 lg:items-start lg:pt-36 lg:text-left">
             <h1
               className={`hero-title-reveal text-3xl font-bold mb-2 font-title text-white transition-all duration-[1200ms] sm:text-4xl md:mb-3 md:text-5xl lg:text-6xl ${
                 heroAnimation.titleVisible ? "opacity-100 translate-y-0 blur-0 scale-100" : "opacity-0 translate-y-10 blur-[8px] scale-[0.985]"
@@ -888,34 +888,26 @@ export default function Home() {
             </div>
           </div>
 
-          {/* Hero accreditations – NSI white; BAFE / Constructionline / FIA coloured (stacked under copy like MEP) */}
+          {/* Hero accreditations – bottom-right, inside full-height hero over the image */}
           <div
-            className={`mt-10 transition-all duration-700 ease-out sm:mt-12 md:mt-14 ${
-              heroAnimation.clientsVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-10"
+            className={`mt-6 flex w-full flex-wrap items-end justify-end gap-3 sm:mt-8 sm:gap-4 md:gap-5 transition-all duration-700 ease-out ${
+              heroAnimation.clientsVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-6"
             }`}
           >
-            <div
-              className={`mx-auto mb-6 h-px w-1/2 bg-white/25 transition-all duration-500 ${
-                heroAnimation.clientsVisible ? "scale-x-100 opacity-100" : "scale-x-0 opacity-0"
-              }`}
-              aria-hidden
-            />
-            <div className="mx-auto flex max-w-6xl flex-wrap items-center justify-center gap-6 sm:gap-10 md:gap-12 lg:gap-14">
-              {HERO_ACCREDITATION_LOGOS.map((acc, idx) => (
-                <Link
-                  key={acc.slug}
-                  href={`/accreditations/${acc.slug}`}
-                  className={`flex h-16 max-h-16 items-center justify-center sm:h-20 sm:max-h-none md:h-[5.25rem] w-auto max-w-[150px] transition-all duration-500 ease-out sm:max-w-[200px] md:max-w-[230px] ${
-                    heroAnimation.clientsVisible ? "opacity-100 translate-y-0 blur-0" : "opacity-0 translate-y-6 blur-[4px]"
-                  }`}
-                  style={{ transitionDelay: `${idx * 55}ms` }}
-                  aria-label={`${acc.alt} — view dedicated accreditation page`}
-                >
-                  {/* eslint-disable-next-line @next/next/no-img-element */}
-                  <img src={acc.src} alt={acc.alt} className="h-full w-auto object-contain opacity-90" />
-                </Link>
-              ))}
-            </div>
+            {HERO_ACCREDITATION_LOGOS.map((acc, idx) => (
+              <Link
+                key={acc.slug}
+                href={`/accreditations/${acc.slug}`}
+                className={`flex h-11 max-h-11 items-center justify-center sm:h-12 md:h-14 lg:h-16 w-auto max-w-[100px] transition-all duration-500 ease-out sm:max-w-[115px] md:max-w-[130px] lg:max-w-[145px] ${
+                  heroAnimation.clientsVisible ? "opacity-90 translate-y-0 blur-0" : "opacity-0 translate-y-4 blur-[4px]"
+                }`}
+                style={{ transitionDelay: `${idx * 45}ms` }}
+                aria-label={`${acc.alt} — view dedicated accreditation page`}
+              >
+                {/* eslint-disable-next-line @next/next/no-img-element */}
+                <img src={acc.src} alt={acc.alt} className="h-full w-auto object-contain drop-shadow-[0_2px_12px_rgba(0,0,0,0.45)]" />
+              </Link>
+            ))}
           </div>
         </div>
       </section>
@@ -1005,9 +997,13 @@ export default function Home() {
         </div>
       </section>
 
+      <HomeSectionDivider surface="on-dark" width="full" />
+
       {/* Wrapper so CCTV overlay can sit above both about and services */}
       <div className="relative">
         <AboutIntroSection />
+
+        <HomeSectionDivider surface="on-dark" />
 
         {/* Services Section – cards animate in one at a time (path animation), top row first */}
         <section id="services" className="home-services-band section-spacing relative overflow-visible bg-black">
@@ -1022,6 +1018,8 @@ export default function Home() {
         </div>
         </section>
       </div>
+
+      <HomeSectionDivider surface="on-dark" />
 
       {/* Benefits strip: Expert Installation, 24/7 Maintenance, Quality Assurance — black band between Services and Projects */}
       <section
@@ -1066,6 +1064,8 @@ export default function Home() {
           </div>
         </div>
       </section>
+
+      <HomeSectionDivider surface="on-dark" width="full" />
 
       {/* Projects: sticky block; wheel pans strip when anchor crosses LOCK_LINE */}
       <section ref={projectsSectionRef} id="projects" className="bg-black overflow-x-hidden pb-40 sm:pb-48 lg:pb-64">
@@ -1177,6 +1177,8 @@ export default function Home() {
           </div>
       </section>
 
+      <HomeSectionDivider surface="on-dark" width="full" />
+
       {/* Why Choose Us – canted top and bottom */}
       <section
         id="about"
@@ -1256,6 +1258,8 @@ export default function Home() {
               </div>
             </div>
 
+            <HomeSectionDivider surface="on-light" className="home-section-divider--bare my-10 lg:my-14" />
+
             <div id="accreditations" className="about-reveal pt-4 lg:pt-8" style={{ transitionDelay: "860ms" }}>
               <div className="mx-auto max-w-6xl rounded-[1.75rem] border-2 border-black/20 px-6 py-12 text-center shadow-[0_1px_0_rgba(0,0,0,0.04)] sm:px-12 sm:py-14 lg:max-w-7xl lg:px-16 lg:py-16">
                 <span className="section-label section-label--black mb-1">Accreditations</span>
@@ -1294,6 +1298,52 @@ export default function Home() {
           </div>
         </div>
       </section>
+
+      <HomeSectionDivider surface="on-light" width="full" />
+
+      {/* Logo marquee — single row, bare logos (no tile containers) */}
+      <section
+        id="logo-marquee"
+        className="logo-marquee-section logo-marquee-home overflow-hidden"
+        aria-labelledby="logo-marquee-heading"
+      >
+        <div
+          className={`container mx-auto px-6 pt-12 pb-8 text-center lg:px-8 lg:pt-14 lg:pb-9 transition-all duration-[900ms] ease-out ${
+            sectionMotion.marquee ? "opacity-100 translate-y-0" : "opacity-0 translate-y-6"
+          }`}
+        >
+          <span className="section-label section-label--black">Our clients</span>
+          <h2
+            id="logo-marquee-heading"
+            className="mt-3 font-title text-2xl font-bold tracking-tight text-black sm:text-3xl"
+          >
+            Trusted by leading brands
+          </h2>
+        </div>
+
+        <div
+          className={`logo-marquee-wrapper pb-12 lg:pb-14 transition-all duration-[900ms] ease-out delay-75 ${
+            sectionMotion.marquee ? "opacity-100 translate-y-0" : "opacity-0 translate-y-4"
+          }`}
+        >
+          <div className="logo-marquee">
+            <div className="logo-marquee__group">
+              {clientLogoPaths.map((src, i) => (
+                // eslint-disable-next-line @next/next/no-img-element -- marquee strip; many dynamic paths
+                <img key={`a-${i}`} src={src} alt="" className="logo-marquee__img" aria-hidden />
+              ))}
+            </div>
+            <div className="logo-marquee__group" aria-hidden="true">
+              {clientLogoPaths.map((src, i) => (
+                // eslint-disable-next-line @next/next/no-img-element
+                <img key={`b-${i}`} src={src} alt="" className="logo-marquee__img" />
+              ))}
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <HomeSectionDivider surface="on-dark" width="full" />
 
       {/* News and Articles */}
       <section id="why-mep" className="news-section">
@@ -1340,43 +1390,7 @@ export default function Home() {
         </div>
       </section>
 
-      {/* Logo marquee — above testimonials */}
-      <section id="logo-marquee" className="logo-marquee-section py-16 overflow-hidden lg:py-12" aria-label="Trusted by leading brands">
-        <div
-          className={`logo-marquee-wrapper transition-all duration-[900ms] ease-out ${
-            sectionMotion.marquee ? "opacity-100 translate-y-0" : "opacity-0 translate-y-6"
-          }`}
-        >
-          <div className="logo-marquee">
-            <div className="logo-marquee__group">
-              {clientLogoPaths.map((src, i) => (
-                // eslint-disable-next-line @next/next/no-img-element -- marquee strip; many dynamic paths
-                <img key={`a-${i}`} src={src} alt="" className="logo-marquee__img" aria-hidden />
-              ))}
-            </div>
-            <div className="logo-marquee__group" aria-hidden="true">
-              {clientLogoPaths.map((src, i) => (
-                // eslint-disable-next-line @next/next/no-img-element
-                <img key={`b-${i}`} src={src} alt="" className="logo-marquee__img" />
-              ))}
-            </div>
-          </div>
-          <div className="logo-marquee logo-marquee--reverse">
-            <div className="logo-marquee__group">
-              {[...clientLogoPaths].reverse().map((src, i) => (
-                // eslint-disable-next-line @next/next/no-img-element
-                <img key={`c-${i}`} src={src} alt="" className="logo-marquee__img" aria-hidden />
-              ))}
-            </div>
-            <div className="logo-marquee__group" aria-hidden="true">
-              {[...clientLogoPaths].reverse().map((src, i) => (
-                // eslint-disable-next-line @next/next/no-img-element
-                <img key={`d-${i}`} src={src} alt="" className="logo-marquee__img" />
-              ))}
-            </div>
-          </div>
-        </div>
-      </section>
+      <HomeSectionDivider surface="on-dark" width="full" />
 
       {/* Testimonials — full-bleed black, large display type, arrows + fade */}
       <section
@@ -1499,6 +1513,8 @@ export default function Home() {
           </div>
         </div>
       </section>
+
+      <HomeSectionDivider surface="on-dark" width="full" />
 
       {/* Ready to Get Started Section – black bg, white text */}
       <section id="contact" className="section-spacing relative bg-black">
