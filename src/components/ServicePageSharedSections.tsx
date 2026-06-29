@@ -1,5 +1,6 @@
 "use client"
 
+import { Reveal } from "@/components/Reveal"
 const CLIENT_LOGO_PATHS = [
   "/Clients/_-01.png",
   "/Clients/_-02.png",
@@ -45,11 +46,15 @@ export function OurCustomers({ serviceTitleShort }: { serviceTitleShort: string 
       <div className="w-full h-[0.75px] bg-black/15" aria-hidden />
       <section className="bg-white pt-12 pb-20 text-black sm:pb-24 lg:pt-16 lg:pb-32">
         <div className="container relative mx-auto mb-10 w-full px-6 lg:px-8">
-          <h2 className="text-left font-title text-4xl font-bold text-black">
-            Our {serviceTitleShort} customers
-          </h2>
+          <Reveal>
+            <h2 className="text-left font-title text-4xl font-bold text-black">
+              Our {serviceTitleShort} customers
+            </h2>
+          </Reveal>
         </div>
-        <ClientLogosMarqueeStrip />
+        <Reveal delayMs={90}>
+          <ClientLogosMarqueeStrip />
+        </Reveal>
       </section>
     </>
   )

@@ -47,11 +47,11 @@ export function NewsHubYearFilter({ years, value, onChange }: NewsHubYearFilterP
 
   return (
     <div ref={rootRef} className="news-hub__year-filter relative">
-      <div className="flex items-center justify-end gap-3">
+      <div className="flex w-full items-center gap-3">
         <span id={labelId} className="news-hub__year-filter-label shrink-0">
           Year
         </span>
-        <div className="relative w-[10.75rem] shrink-0">
+        <div className="relative min-w-0 flex-1 sm:max-w-[12rem] sm:flex-none sm:w-[10.75rem]">
           <button
             type="button"
             id="news-year-filter"

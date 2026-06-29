@@ -401,7 +401,7 @@ export default function Header() {
         </>
       )}
 
-      <nav className="relative z-10 w-full px-4 pt-4 pb-3 sm:px-6 lg:px-6 lg:pt-5 lg:pb-4">
+      <nav className="relative z-10 w-full px-4 pt-4 pb-3 sm:px-5 lg:px-6 lg:pt-5 lg:pb-4">
         <div className="relative flex w-full min-h-[4.75rem] items-center lg:min-h-[6.5rem]">
             <div className="pointer-events-none absolute left-[8rem] right-0 top-1/2 z-0 hidden h-16 -translate-y-1/2 overflow-hidden lg:block">
             <div
@@ -444,12 +444,15 @@ export default function Header() {
                   }
                 >
                   <span className="header-logo-hover-wrap relative inline-block overflow-hidden">
-                    <Image
+                    {/* Native img keeps SVG vector-sharp; next/image rasterises SVGs and looks soft on large displays */}
+                    {/* eslint-disable-next-line @next/next/no-img-element */}
+                    <img
                       src="/__APX Web Logo FS.svg"
                       alt="APX Fire & Security Logo"
-                      width={334}
-                      height={112}
+                      width={643}
+                      height={371}
                       className="relative z-10 h-20 w-auto sm:h-24 lg:h-28"
+                      decoding="async"
                     />
                   </span>
                 </span>
@@ -485,11 +488,11 @@ export default function Header() {
                   <span className="absolute top-0 left-1/2 w-full h-0.5 transform -translate-x-1/2 scale-x-0 origin-center transition-transform duration-500 group-hover:scale-x-100" style={{ backgroundColor: '#fff' }} />
                   <span className="absolute bottom-0 left-1/2 w-full h-0.5 transform -translate-x-1/2 scale-x-0 origin-center transition-transform duration-500 group-hover:scale-x-100" style={{ backgroundColor: '#fff' }} />
                 </Link>
+                {isServicesOpen ? (
                 <div
-                  className="fs-services-nav-dropdown"
+                  className="fs-services-nav-dropdown fs-services-nav-dropdown--open"
                   style={{
-                    maxHeight: isServicesOpen ? (isCctvExpanded ? '560px' : '460px') : '0',
-                    pointerEvents: isServicesOpen ? 'auto' : 'none',
+                    maxHeight: isCctvExpanded ? '560px' : '460px',
                   }}
                   onMouseEnter={openServices}
                   onMouseLeave={() => {
@@ -620,6 +623,7 @@ export default function Header() {
                     ))}
                   </div>
                 </div>
+                ) : null}
               </div>
               <div className="h-5 w-px flex-shrink-0 header-nav-item-in bg-white/90" style={{ animationDelay: '2.98s' }} aria-hidden />
               <Link href="/about" className="nav-menu-item relative text-sm font-medium leading-relaxed cursor-pointer group uppercase header-nav-item-in" style={{ color: '#fff', animationDelay: '3.06s' }}>

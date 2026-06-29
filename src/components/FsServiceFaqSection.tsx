@@ -2,6 +2,8 @@
 
 import { useState } from "react"
 import { ChevronRight } from "lucide-react"
+import { Reveal } from "@/components/Reveal"
+import { ServiceItemReveal } from "@/components/ServiceItemReveal"
 import { cn } from "@/lib/utils"
 
 import { FS_SERVICE_FAQ_FALLBACK, type ServiceFaqItem } from "@/lib/fs-service-faq-content"
@@ -31,7 +33,7 @@ export function FsServiceFaqSection({ items = FS_SERVICE_FAQ_FALLBACK, variant =
     >
       <div className={FS_SERVICE_CONTENT_OUTER_CLASS}>
         <div className="grid grid-cols-1 gap-10 lg:grid-cols-[minmax(0,16rem)_minmax(0,1fr)] lg:gap-x-16 xl:gap-x-24">
-          <div className="lg:pt-1">
+          <Reveal className="lg:pt-1">
             <h2
               id="fs-service-faq-heading"
               className={cn(
@@ -43,7 +45,7 @@ export function FsServiceFaqSection({ items = FS_SERVICE_FAQ_FALLBACK, variant =
               <br />
               asked questions
             </h2>
-          </div>
+          </Reveal>
 
           <div className="min-w-0 space-y-3 sm:space-y-4">
             {items.map((item, i) => {
@@ -51,13 +53,13 @@ export function FsServiceFaqSection({ items = FS_SERVICE_FAQ_FALLBACK, variant =
               const panelId = `fs-faq-panel-${i}`
               const buttonId = `fs-faq-trigger-${i}`
               return (
-                <div
-                  key={item.question}
-                  className={cn(
-                    "fs-service-faq-card overflow-hidden rounded-tl-2xl rounded-br-2xl border shadow-[inset_0_1px_0_rgba(255,255,255,0.04)]",
-                    isLight ? "shadow-[inset_0_1px_0_rgba(0,0,0,0.04)]" : "border-white/20 bg-black/50"
-                  )}
-                >
+                <ServiceItemReveal key={item.question} index={i} stepMs={65} className="block">
+                  <div
+                    className={cn(
+                      "fs-service-faq-card overflow-hidden rounded-tl-2xl rounded-br-2xl border shadow-[inset_0_1px_0_rgba(255,255,255,0.04)]",
+                      isLight ? "shadow-[inset_0_1px_0_rgba(0,0,0,0.04)]" : "border-white/20 bg-black/50"
+                    )}
+                  >
                   <button
                     id={buttonId}
                     type="button"
@@ -111,7 +113,8 @@ export function FsServiceFaqSection({ items = FS_SERVICE_FAQ_FALLBACK, variant =
                       </div>
                     </div>
                   </div>
-                </div>
+                  </div>
+                </ServiceItemReveal>
               )
             })}
           </div>

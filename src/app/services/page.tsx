@@ -1,6 +1,8 @@
 "use client"
 
 import Link from "next/link"
+import { Reveal } from "@/components/Reveal"
+import { ServiceItemReveal } from "@/components/ServiceItemReveal"
 import { ArrowUpRight } from "lucide-react"
 import { useState } from "react"
 
@@ -79,12 +81,14 @@ export default function ServicesHubPage() {
 
       <main className="pb-20">
         <section className="container mx-auto px-6 page-title-top lg:px-8">
-          <h1 className="font-title text-4xl font-bold tracking-tight text-white md:text-5xl">
-            APX Fire & Security Services
-          </h1>
-          <p className="mt-4 max-w-3xl text-base leading-relaxed text-gray-300 md:text-lg">
-            Design, installation, commissioning and maintenance of fire and security systems across London and the Home Counties, from CCTV and access control to intruder alarms, fire alarms and ongoing support.
-          </p>
+          <Reveal>
+            <h1 className="font-title text-4xl font-bold tracking-tight text-white md:text-5xl">
+              APX Fire & Security Services
+            </h1>
+            <p className="mt-4 max-w-3xl text-base leading-relaxed text-gray-300 md:text-lg">
+              Design, installation, commissioning and maintenance of fire and security systems across London and the Home Counties, from CCTV and access control to intruder alarms, fire alarms and ongoing support.
+            </p>
+          </Reveal>
 
           <p className="section-label mt-12 text-white/75">Browse</p>
 
@@ -92,13 +96,13 @@ export default function ServicesHubPage() {
             {SERVICE_ROWS.map((service, index) => {
               const expanded = hoveredIndex === index
               return (
-                <Link
-                  key={service.title}
-                  href={service.href}
-                  className="group relative block overflow-visible border-b border-white/20 last:border-b-0 bg-transparent text-inherit no-underline outline-none focus-visible:ring-2 focus-visible:ring-white/50 focus-visible:ring-offset-2 focus-visible:ring-offset-black"
-                  onMouseEnter={() => setHoveredIndex(index)}
-                  onFocus={() => setHoveredIndex(index)}
-                >
+                <ServiceItemReveal key={service.title} index={index} className="h-full min-h-0">
+                  <Link
+                    href={service.href}
+                    className="group relative block overflow-visible border-b border-white/20 last:border-b-0 bg-transparent text-inherit no-underline outline-none focus-visible:ring-2 focus-visible:ring-white/50 focus-visible:ring-offset-2 focus-visible:ring-offset-black"
+                    onMouseEnter={() => setHoveredIndex(index)}
+                    onFocus={() => setHoveredIndex(index)}
+                  >
                   <span
                     className="pointer-events-none absolute inset-y-0 left-1/2 z-0 w-screen -translate-x-1/2 bg-[linear-gradient(90deg,transparent_0%,rgba(255,255,255,0.02)_18%,rgba(255,255,255,0.035)_50%,rgba(255,255,255,0.02)_82%,transparent_100%)] opacity-0 transition-opacity duration-300 ease-out group-hover:opacity-100 group-focus-visible:opacity-100"
                     aria-hidden
@@ -121,7 +125,8 @@ export default function ServicesHubPage() {
                       </span>
                     </div>
                   </article>
-                </Link>
+                  </Link>
+                </ServiceItemReveal>
               )
             })}
           </div>

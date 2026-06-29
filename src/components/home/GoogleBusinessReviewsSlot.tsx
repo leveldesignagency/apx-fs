@@ -27,7 +27,12 @@ function GoogleGMark({ className }: { className?: string }) {
 }
 
 const cardClass =
-  "google-reviews-card why-choose-card flex w-full min-w-0 flex-col overflow-hidden rounded-tl-[1.35rem] rounded-br-[1.35rem] md:rounded-tl-[1.5rem] md:rounded-br-[1.5rem]"
+  "google-reviews-card why-choose-card -mt-6 flex min-h-0 w-full min-w-0 flex-1 flex-col overflow-hidden rounded-tl-[1.35rem] rounded-br-[1.35rem] md:rounded-tl-[1.5rem] md:rounded-br-[1.5rem]"
+
+/** Matches .why-choose-icon-badge footprint so card body aligns with sibling cells. */
+function WhyChooseIconSpacer() {
+  return <div className="h-11 w-11 shrink-0 md:h-12 md:w-12" aria-hidden />
+}
 
 /**
  * Fourth cell in Why Choose Us 2×2 grid: optional iframe embed (env) or fallback card linking to Google reviews.
@@ -36,26 +41,28 @@ export function GoogleBusinessReviewsSlot() {
   const embedSrc = getGoogleReviewsEmbedSrc()
 
   if (embedSrc) {
-    const embedH = "min-h-[420px] h-[420px] sm:min-h-[460px] sm:h-[460px]"
+    const embedH = "min-h-[360px] h-full sm:min-h-[380px]"
     return (
-      <div className="flex h-full min-h-0 min-w-0 flex-col items-stretch">
-        <article className={`${cardClass} flex flex-col overflow-hidden ${embedH}`}>
+      <>
+        <WhyChooseIconSpacer />
+        <article className={`${cardClass} overflow-hidden ${embedH}`}>
           <iframe
             title="Google reviews"
             src={embedSrc}
-            className={`w-full shrink-0 border-0 bg-white ${embedH}`}
+            className="h-full w-full shrink-0 border-0 bg-white"
             loading="lazy"
             referrerPolicy="no-referrer-when-downgrade"
             allow="clipboard-write"
           />
         </article>
-      </div>
+      </>
     )
   }
 
   return (
-    <div className="flex h-full min-h-0 min-w-0 flex-col items-stretch">
-      <article className={`${cardClass} flex h-full min-h-0 flex-1 flex-col px-4 pb-5 pt-5 text-center md:px-5 md:pb-6 md:pt-6`}>
+    <>
+      <WhyChooseIconSpacer />
+      <article className={`${cardClass} px-4 pb-5 pt-5 text-center md:px-5 md:pb-6 md:pt-6`}>
         <div className="google-reviews-card__brand mb-3 flex items-center justify-center gap-2">
           <GoogleGMark className="h-6 w-6 shrink-0 md:h-7 md:w-7" />
           <span className="google-reviews-card__brand-label text-sm font-medium">Google</span>
@@ -86,6 +93,6 @@ export function GoogleBusinessReviewsSlot() {
           </a>
         </div>
       </article>
-    </div>
+    </>
   )
 }

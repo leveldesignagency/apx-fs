@@ -4,37 +4,51 @@ import type { FsNewsArticleInlineLink, FsNewsArticleQuote } from "@/data/fsNewsA
 const NEWS_BODY_LINK_CLASS =
   "font-semibold text-black underline decoration-black/35 underline-offset-2 transition-colors hover:decoration-black"
 
-type NewsArticleBodyProps = {
-  paragraphs: string[]
+type NewsArticleParagraphProps = {
+  text: string
+  paragraphIndex: number
   inlineLinks?: FsNewsArticleInlineLink[]
-  quote?: FsNewsArticleQuote
+  className?: string
 }
 
-function renderParagraph(text: string, paragraphIndex: number, inlineLinks?: FsNewsArticleInlineLink[]) {
+export function NewsArticleParagraph({
+  text,
+  paragraphIndex,
+  inlineLinks,
+  className,
+}: NewsArticleParagraphProps) {
   const link = inlineLinks?.find((item) => item.paragraphIndex === paragraphIndex)
   if (!link || !text.includes(link.linkText)) {
-    return text
+    return <span className={className}>{text}</span>
   }
 
   const [before, ...rest] = text.split(link.linkText)
   const after = rest.join(link.linkText)
 
   return (
-    <>
+    <span className={className}>
       {before}
       <Link href={link.href} className={NEWS_BODY_LINK_CLASS} target="_blank" rel="noopener noreferrer">
         {link.linkText}
       </Link>
       {after}
-    </>
+    </span>
   )
+}
+
+type NewsArticleBodyProps = {
+  paragraphs: string[]
+  inlineLinks?: FsNewsArticleInlineLink[]
+  quote?: FsNewsArticleQuote
 }
 
 export function NewsArticleBody({ paragraphs, inlineLinks, quote }: NewsArticleBodyProps) {
   return (
     <div className="news-article-page__body space-y-5 text-base leading-relaxed text-black/85 md:text-lg md:leading-relaxed">
       {paragraphs.map((paragraph, i) => (
-        <p key={i}>{renderParagraph(paragraph, i, inlineLinks)}</p>
+        <p key={i}>
+          <NewsArticleParagraph text={paragraph} paragraphIndex={i} inlineLinks={inlineLinks} />
+        </p>
       ))}
       {quote ? (
         <figure className="space-y-4">

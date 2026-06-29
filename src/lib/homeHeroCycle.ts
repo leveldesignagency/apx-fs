@@ -1,4 +1,4 @@
-export const HOME_HERO_CORE_IMAGE = "/hero-image.jpg"
+export const HOME_HERO_CORE_IMAGE = "/apx-fs-hero-image.jpg"
 
 /** Full-scale main hero hold at start and end of each cycle */
 export const HOME_HERO_MAIN_MS = 8000

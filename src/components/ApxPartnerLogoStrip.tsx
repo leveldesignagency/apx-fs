@@ -1,6 +1,7 @@
 "use client"
 
 import type { PartnerLogoEntry } from "@/lib/apx-partner-logos"
+import { ServiceItemReveal } from "@/components/ServiceItemReveal"
 import { cn } from "@/lib/utils"
 
 export function ApxPartnerLogoStrip({
@@ -27,9 +28,9 @@ export function ApxPartnerLogoStrip({
             : "grid-cols-2 gap-x-6 gap-y-10 sm:grid-cols-3 sm:gap-x-8 lg:grid-cols-6 lg:gap-x-6"
       )}
     >
-      {partners.map(({ name, href, logoSrc, logoScaleClass, logoLightClassName }) => (
+      {partners.map(({ name, href, logoSrc, logoScaleClass, logoLightClassName }, index) => (
+        <ServiceItemReveal key={name} index={index} stepMs={50} className="contents">
         <li
-          key={name}
           className={cn(
             "flex w-full items-center justify-center justify-self-center",
             isRow ? "min-w-0 max-w-none" : isLarge ? "max-w-[16rem] sm:max-w-[18rem]" : "max-w-[11rem] sm:max-w-[12rem]"
@@ -81,6 +82,7 @@ export function ApxPartnerLogoStrip({
             )}
           </a>
         </li>
+        </ServiceItemReveal>
       ))}
     </ul>
   )

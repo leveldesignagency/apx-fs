@@ -5,6 +5,8 @@ import Link from "next/link"
 import { ServicePageClosingSections } from "@/components/ServicePageClosingSections"
 import { CustomPillButton } from "@/components/ui/CustomPillButton"
 import { ServicePageHero } from "@/components/ServicePageHero"
+import { Reveal } from "@/components/Reveal"
+import { ServiceItemReveal } from "@/components/ServiceItemReveal"
 import { serviceHeroImages } from "@/lib/serviceHeroImages"
 import { FsServiceTextImageSection } from "@/components/FsServiceTextImageSection"
 import { FsServiceTextImageSectionGroup } from "@/components/FsServiceTextImageSectionGroup"
@@ -310,11 +312,16 @@ export default function FireSafetySystemsPage() {
         <div className="border-t border-white/15" />
 
         <section className="container mx-auto px-6 py-16 lg:py-16">
-          <h2 className="mb-4 text-left font-title text-3xl font-bold text-white sm:text-4xl">Our Fire Alarm System Installations</h2>
-          <p className="mb-8 max-w-2xl text-left text-gray-300">Examples of fire alarm systems that we have installed for our customers:</p>
+          <Reveal>
+            <h2 className="mb-4 text-left font-title text-3xl font-bold text-white sm:text-4xl">Our Fire Alarm System Installations</h2>
+          </Reveal>
+          <Reveal delayMs={70}>
+            <p className="mb-8 max-w-2xl text-left text-gray-300">Examples of fire alarm systems that we have installed for our customers:</p>
+          </Reveal>
           <div className="grid grid-cols-1 gap-8 md:grid-cols-2 lg:grid-cols-3">
             {FIRE_INSTALLATIONS.map((item, index) => (
-              <article key={index} className={`${FS_SERVICE_SHIMMER_CARD} overflow-hidden p-0`}>
+              <ServiceItemReveal key={index} index={index} className="h-full min-h-0">
+                <article className={`${FS_SERVICE_SHIMMER_CARD} overflow-hidden p-0`}>
                 <div className="relative aspect-[4/3] w-full bg-white/5">
                   <Image
                     src={item.imageSrc}
@@ -328,7 +335,8 @@ export default function FireSafetySystemsPage() {
                   <h3 className="mb-2 text-lg font-semibold text-white">{item.title}</h3>
                   <p className="text-gray-300">{item.org}</p>
                 </div>
-              </article>
+                </article>
+              </ServiceItemReveal>
             ))}
           </div>
         </section>

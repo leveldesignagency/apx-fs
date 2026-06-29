@@ -2,6 +2,7 @@
 
 import { useCallback, useId, type ReactNode } from "react"
 import Image from "next/image"
+import { Reveal } from "@/components/Reveal"
 import { useFsServiceTextImageSync } from "@/components/FsServiceTextImageSectionGroup"
 import { fsPlaceholderImageForKey } from "@/lib/fsPlaceholderImages"
 import { cn } from "@/lib/utils"
@@ -79,34 +80,37 @@ export function FsServiceTextImageSection({
   )
 
   const textColumn = (
-    <div
-      className={cn(
-        "flex w-full min-w-0 flex-col justify-center py-16 lg:py-16",
-        imageOnLeft ? "lg:pl-8 xl:pl-12" : "lg:pr-8 xl:pr-12"
-      )}
-    >
-      <h2
-        id={headingId}
-        className={cn(
-          "mb-6 text-left font-title text-3xl font-bold sm:text-4xl",
-          isLight ? "text-black" : "text-white"
-        )}
-      >
-        {title}
-      </h2>
+    <Reveal className="h-full min-h-0" delayMs={0}>
       <div
         className={cn(
-          "max-w-3xl space-y-4 text-base leading-relaxed sm:text-lg",
-          isLight ? "text-neutral-700" : "text-gray-300"
+          "flex h-full w-full min-w-0 flex-col justify-center py-16 lg:py-16",
+          imageOnLeft ? "lg:pl-8 xl:pl-12" : "lg:pr-8 xl:pr-12"
         )}
       >
-        {children}
+        <h2
+          id={headingId}
+          className={cn(
+            "mb-6 text-left font-title text-3xl font-bold sm:text-4xl",
+            isLight ? "text-black" : "text-white"
+          )}
+        >
+          {title}
+        </h2>
+        <div
+          className={cn(
+            "max-w-3xl space-y-4 text-base leading-relaxed sm:text-lg",
+            isLight ? "text-neutral-700" : "text-gray-300"
+          )}
+        >
+          {children}
+        </div>
       </div>
-    </div>
+    </Reveal>
   )
 
   const renderImageColumn = (columnClassName?: string, sizes = edgeToEdgeImage ? "42vw" : "40vw") => (
-    <div className={cn("relative h-full min-h-[240px] w-full min-w-0", columnClassName)}>
+    <Reveal className={cn("h-full min-h-0", columnClassName)} delayMs={90}>
+      <div className={cn("relative h-full min-h-[240px] w-full min-w-0")}>
       <div
         className={cn(
           "fs-service-text-image-mask absolute inset-0 overflow-hidden bg-neutral-900",
@@ -147,7 +151,8 @@ export function FsServiceTextImageSection({
           </div>
         ) : null}
       </div>
-    </div>
+      </div>
+    </Reveal>
   )
 
   const gridColumns = imageOnLeft

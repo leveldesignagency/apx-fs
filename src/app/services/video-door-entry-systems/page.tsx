@@ -6,6 +6,8 @@ import { FsServiceTextImageSection } from "@/components/FsServiceTextImageSectio
 import { FsServiceTextImageSectionGroup } from "@/components/FsServiceTextImageSectionGroup"
 import { CustomPillButton } from "@/components/ui/CustomPillButton"
 import { ServicePageHero } from "@/components/ServicePageHero"
+import { Reveal } from "@/components/Reveal"
+import { ServiceItemReveal } from "@/components/ServiceItemReveal"
 import { serviceHeroImages } from "@/lib/serviceHeroImages"
 import { FS_SERVICE_SHIMMER_CARD, FS_SERVICE_SHIMMER_CARD_FEATURE } from "@/lib/fsServicePageCards"
 import { ApxPartnerLogoStrip } from "@/components/ApxPartnerLogoStrip"
@@ -95,7 +97,9 @@ export default function VideoDoorEntrySystemsPage() {
         {heroBridge}
 
         <section className="container relative z-[1] mx-auto px-6 py-16 lg:py-16">
-          <h2 className="mb-10 text-left font-title text-3xl font-bold text-white sm:text-4xl">Video Entry Systems</h2>
+          <Reveal>
+            <h2 className="mb-10 text-left font-title text-3xl font-bold text-white sm:text-4xl">Video Entry Systems</h2>
+          </Reveal>
           <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-5">
             {[
               { icon: Eye, title: "Check Visitors", text: "See exactly who's at the front door before deciding whether to open it." },
@@ -104,11 +108,13 @@ export default function VideoDoorEntrySystemsPage() {
               { icon: Link2, title: "Link Systems", text: "Our systems interface with other security systems and devices you have." },
               { icon: Smartphone, title: "Remote Control", text: "Control the whole system remotely via your tablet or smartphone." },
             ].map(({ icon: Icon, title, text }, i) => (
-              <div key={i} className={videoEntryFeatureCardClass}>
+              <ServiceItemReveal key={i} index={i} className="h-full min-h-0">
+                <div className={videoEntryFeatureCardClass}>
                 <Icon className="mb-4 h-10 w-10 text-white" strokeWidth={1.75} />
                 <h3 className="mb-2 text-left text-xl font-semibold text-white">{title}</h3>
                 <p className="text-left text-gray-300">{text}</p>
-              </div>
+                </div>
+              </ServiceItemReveal>
             ))}
           </div>
         </section>
@@ -169,13 +175,18 @@ export default function VideoDoorEntrySystemsPage() {
         <div className="border-t border-white/15" />
 
         <section className="container mx-auto px-6 py-16 lg:py-16">
-          <h2 className="mb-4 text-left font-title text-3xl font-bold text-white sm:text-4xl">Our Video Entry Installations</h2>
-          <p className="mb-8 max-w-2xl text-left text-gray-300">
-            Examples of video door entry systems that we have installed for our customers:
-          </p>
+          <Reveal>
+            <h2 className="mb-4 text-left font-title text-3xl font-bold text-white sm:text-4xl">Our Video Entry Installations</h2>
+          </Reveal>
+          <Reveal delayMs={70}>
+            <p className="mb-8 max-w-2xl text-left text-gray-300">
+              Examples of video door entry systems that we have installed for our customers:
+            </p>
+          </Reveal>
           <div className="grid grid-cols-1 gap-8 md:grid-cols-2 lg:grid-cols-3">
             {VIDEO_DOOR_INSTALLATIONS.map((item, index) => (
-              <article key={`${item.imageSrc}-${index}`} className={`${FS_SERVICE_SHIMMER_CARD} overflow-hidden p-0`}>
+              <ServiceItemReveal key={`${item.imageSrc}-${index}`} index={index} className="h-full min-h-0">
+                <article className={`${FS_SERVICE_SHIMMER_CARD} overflow-hidden p-0`}>
                 <div className="relative aspect-[4/3] w-full bg-white/5">
                   <Image
                     src={item.imageSrc}
@@ -190,7 +201,8 @@ export default function VideoDoorEntrySystemsPage() {
                   <p className="font-medium text-white/95">{item.venue}</p>
                   <p className="mt-1 text-gray-300">{item.context}</p>
                 </div>
-              </article>
+                </article>
+              </ServiceItemReveal>
             ))}
           </div>
         </section>

@@ -10,6 +10,8 @@ import { FsServiceTextImageSection } from "@/components/FsServiceTextImageSectio
 import { FsServiceTextImageSectionGroup } from "@/components/FsServiceTextImageSectionGroup"
 import { FsCctvSubpageHeroButtons } from "@/components/FsCctvSubpageHeroButtons"
 import { ServicePageHero } from "@/components/ServicePageHero"
+import { Reveal } from "@/components/Reveal"
+import { ServiceItemReveal } from "@/components/ServiceItemReveal"
 import { CustomPillButton } from "@/components/ui/CustomPillButton"
 import { FS_SERVICE_SHIMMER_CARD_FEATURE } from "@/lib/fsServicePageCards"
 import { serviceHeroImages } from "@/lib/serviceHeroImages"
@@ -72,7 +74,9 @@ export default function DomesticCctvPage() {
         />
 
         <section className="container relative z-[1] mx-auto px-6 py-16 lg:py-16">
-          <h2 className="mb-10 text-left font-title text-3xl font-bold text-white sm:text-4xl">Why choose domestic CCTV?</h2>
+          <Reveal>
+            <h2 className="mb-10 text-left font-title text-3xl font-bold text-white sm:text-4xl">Why choose domestic CCTV?</h2>
+          </Reveal>
           <div className="grid grid-cols-1 gap-8 md:grid-cols-3">
             {[
               {
@@ -91,11 +95,13 @@ export default function DomesticCctvPage() {
                 text: "Visible cameras deter intruders; recorded footage supports insurance and police.",
               },
             ].map((item, i) => (
-              <div key={i} className={FS_SERVICE_SHIMMER_CARD_FEATURE}>
+              <ServiceItemReveal key={i} index={i} className="h-full min-h-0">
+                <div className={FS_SERVICE_SHIMMER_CARD_FEATURE}>
                 <item.icon className="mb-4 h-8 w-8 text-white" strokeWidth={1.75} />
                 <h3 className="mb-3 text-left text-xl font-semibold text-white">{item.title}</h3>
                 <p className="text-left text-gray-300">{item.text}</p>
-              </div>
+                </div>
+              </ServiceItemReveal>
             ))}
           </div>
         </section>

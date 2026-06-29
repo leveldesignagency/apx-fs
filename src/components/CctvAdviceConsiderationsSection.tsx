@@ -2,6 +2,8 @@
 
 import { useState } from "react"
 import { ChevronRight } from "lucide-react"
+import { Reveal } from "@/components/Reveal"
+import { ServiceItemReveal } from "@/components/ServiceItemReveal"
 import { cn } from "@/lib/utils"
 
 const CCTV_CONSIDERATION_ITEMS = [
@@ -87,7 +89,7 @@ export function CctvAdviceConsiderationsSection() {
     <section className="border-t border-white/15 bg-black" aria-labelledby="cctv-advice-considerations-heading">
       <div className="container relative mx-auto px-6 py-16 lg:px-8 lg:py-16">
         <div className="grid grid-cols-1 gap-10 lg:grid-cols-[minmax(0,22rem)_minmax(0,1fr)] lg:gap-x-16 xl:gap-x-24">
-          <div className="lg:pt-1">
+          <Reveal className="lg:pt-1">
             <h2
               id="cctv-advice-considerations-heading"
               className="max-w-xl text-left font-title text-2xl font-bold leading-tight tracking-tight text-white sm:text-3xl md:text-4xl"
@@ -103,7 +105,7 @@ export function CctvAdviceConsiderationsSection() {
               exactly what our customers want to achieve with their CCTV systems and design them accordingly. Here is some
               useful CCTV advice that you may find helpful.
             </p>
-          </div>
+          </Reveal>
 
           <div className="min-w-0 space-y-3 sm:space-y-4">
             {CCTV_CONSIDERATION_ITEMS.map(({ question, answer }, i) => {
@@ -112,10 +114,10 @@ export function CctvAdviceConsiderationsSection() {
               const buttonId = `cctv-advice-consideration-trigger-${i}`
 
               return (
-                <div
-                  key={question}
-                  className="fs-service-faq-card overflow-hidden rounded-tl-2xl rounded-br-2xl border border-white/20 bg-black/50 shadow-[inset_0_1px_0_rgba(255,255,255,0.04)]"
-                >
+                <ServiceItemReveal key={question} index={i} stepMs={55} className="block">
+                  <div
+                    className="fs-service-faq-card overflow-hidden rounded-tl-2xl rounded-br-2xl border border-white/20 bg-black/50 shadow-[inset_0_1px_0_rgba(255,255,255,0.04)]"
+                  >
                   <button
                     id={buttonId}
                     type="button"
@@ -155,7 +157,8 @@ export function CctvAdviceConsiderationsSection() {
                       </div>
                     </div>
                   </div>
-                </div>
+                  </div>
+                </ServiceItemReveal>
               )
             })}
           </div>

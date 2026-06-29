@@ -1,4 +1,4 @@
-export type ApxSocialPlatform = "facebook" | "instagram" | "linkedin"
+export type ApxSocialPlatform = "facebook" | "x" | "linkedin"
 
 export type ApxSocialLink = {
   platform: ApxSocialPlatform
@@ -14,9 +14,9 @@ export const APX_SOCIAL_LINKS: ApxSocialLink[] = [
     label: "Facebook",
   },
   {
-    platform: "instagram",
-    href: "https://www.instagram.com/smithstechnical/",
-    label: "Instagram",
+    platform: "x",
+    href: "https://x.com/smithstechsys",
+    label: "X",
   },
   {
     platform: "linkedin",

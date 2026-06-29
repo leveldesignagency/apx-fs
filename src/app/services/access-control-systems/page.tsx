@@ -5,6 +5,8 @@ import Link from "next/link"
 import { ServicePageClosingSections } from "@/components/ServicePageClosingSections"
 import { CustomPillButton } from "@/components/ui/CustomPillButton"
 import { ServicePageHero } from "@/components/ServicePageHero"
+import { Reveal } from "@/components/Reveal"
+import { ServiceItemReveal } from "@/components/ServiceItemReveal"
 import { serviceHeroImages } from "@/lib/serviceHeroImages"
 import { ApxPartnerLogoStrip } from "@/components/ApxPartnerLogoStrip"
 import { ACCESS_CONTROL_PARTNERS } from "@/lib/apx-partner-logos"
@@ -168,14 +170,18 @@ export default function AccessControlPage() {
         {heroBridge}
 
         <section className="container relative z-[1] mx-auto px-6 py-16 lg:py-16">
-          <h2 className="mb-10 text-left font-title text-3xl font-bold text-white sm:text-4xl">Benefits of Access Control Systems</h2>
+          <Reveal>
+            <h2 className="mb-10 text-left font-title text-3xl font-bold text-white sm:text-4xl">Benefits of Access Control Systems</h2>
+          </Reveal>
           <div className="grid grid-cols-1 gap-8 md:grid-cols-2 lg:grid-cols-3">
             {ACCESS_CONTROL_BENEFITS.map(({ Icon, title, text }, i) => (
-              <div key={i} className={benefitFeatureCardClass}>
+              <ServiceItemReveal key={title} index={i} className="h-full min-h-0">
+                <div className={benefitFeatureCardClass}>
                 <Icon className="mb-4 h-8 w-8 text-white" strokeWidth={1.75} />
                 <h3 className="mb-3 text-left text-xl font-semibold text-white">{title}</h3>
                 <p className="text-left text-gray-300">{text}</p>
-              </div>
+                </div>
+              </ServiceItemReveal>
             ))}
           </div>
         </section>
@@ -222,13 +228,18 @@ export default function AccessControlPage() {
         <div className="border-t border-white/15" />
 
         <section className="container mx-auto px-6 py-16 lg:py-16">
-          <h2 className="mb-4 text-left font-title text-3xl font-bold text-white sm:text-4xl">Our Access Control System Installations</h2>
-          <p className="mb-8 max-w-2xl text-left text-gray-300">
-            Examples of the access control systems that we have installed for our customers:
-          </p>
+          <Reveal>
+            <h2 className="mb-4 text-left font-title text-3xl font-bold text-white sm:text-4xl">Our Access Control System Installations</h2>
+          </Reveal>
+          <Reveal delayMs={70}>
+            <p className="mb-8 max-w-2xl text-left text-gray-300">
+              Examples of the access control systems that we have installed for our customers:
+            </p>
+          </Reveal>
           <div className="grid grid-cols-1 gap-8 md:grid-cols-2 lg:grid-cols-3">
             {ACCESS_CONTROL_INSTALLATIONS.map((item, index) => (
-              <article key={`${item.imageSrc}-${index}`} className={`${FS_SERVICE_SHIMMER_CARD} overflow-hidden p-0`}>
+              <ServiceItemReveal key={`${item.imageSrc}-${index}`} index={index} className="h-full min-h-0">
+                <article className={`${FS_SERVICE_SHIMMER_CARD} overflow-hidden p-0`}>
                 <div className="relative aspect-[4/3] w-full bg-white/5">
                   <Image
                     src={item.imageSrc}
@@ -243,7 +254,8 @@ export default function AccessControlPage() {
                   <p className="font-medium text-white/95">{item.venue}</p>
                   <p className="mt-1 text-gray-300">{item.context}</p>
                 </div>
-              </article>
+                </article>
+              </ServiceItemReveal>
             ))}
           </div>
         </section>

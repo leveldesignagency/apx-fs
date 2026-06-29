@@ -26,14 +26,9 @@ function enc(value: string): string {
 export function buildSocialShareTargets({
   url,
   title,
-  description,
-  imageUrl,
 }: SocialSharePayload): SocialShareTarget[] {
-  const summary = description?.trim() || title
   const encodedUrl = enc(url)
   const encodedTitle = enc(title)
-  const encodedSummary = enc(summary)
-  const emailBody = enc(`${title}\n\n${summary}\n\nRead more: ${url}`)
 
   const targets: SocialShareTarget[] = [
     {
@@ -55,22 +50,6 @@ export function buildSocialShareTargets({
       openInNewTab: true,
     },
   ]
-
-  if (imageUrl) {
-    targets.push({
-      platform: "pinterest",
-      label: "Share on Pinterest",
-      href: `https://pinterest.com/pin/create/button/?url=${encodedUrl}&media=${enc(imageUrl)}&description=${encodedSummary}`,
-      openInNewTab: true,
-    })
-  }
-
-  targets.push({
-    platform: "email",
-    label: "Share by email",
-    href: `mailto:?subject=${encodedTitle}&body=${emailBody}`,
-    openInNewTab: false,
-  })
 
   return targets
 }

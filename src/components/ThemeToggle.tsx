@@ -314,6 +314,7 @@ const GlobalStyles = createGlobalStyle<{ theme: typeof lightTheme }>`
   }
 
   /* News article share: black filled icons on light band */
+  .news-article-page .news-article-share a.news-article-share__btn,
   .news-article-page .news-article-share__btn {
     background: transparent !important;
     background-color: transparent !important;
@@ -323,7 +324,15 @@ const GlobalStyles = createGlobalStyle<{ theme: typeof lightTheme }>`
     box-shadow: none !important;
   }
   .news-article-page .news-article-share__btn svg {
+    color: currentColor !important;
+  }
+  .news-article-page .news-article-share__btn svg[stroke-width="0"] {
     fill: currentColor !important;
+    stroke: none !important;
+  }
+  .news-article-page .news-article-share__btn svg:not([stroke-width="0"]) {
+    fill: none !important;
+    stroke: currentColor !important;
   }
   .news-article-page .news-article-share__btn:hover {
     background: rgba(0, 0, 0, 0.06) !important;

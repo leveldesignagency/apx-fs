@@ -176,7 +176,6 @@ export default function Home() {
   const mepListRef = useRef<HTMLUListElement>(null)
   const projectsScrollRef = useRef<HTMLDivElement>(null)
   const projectsViewportRef = useRef<HTMLDivElement>(null)
-  /** Top edge of the horizontal card strip, wheel uses this as the lock anchor */
   const projectsStripAnchorRef = useRef<HTMLDivElement>(null)
   const projectsSectionRef = useRef<HTMLElement>(null)
   const projectsHorizontalPxRef = useRef(0)
@@ -271,7 +270,6 @@ export default function Home() {
     strip.style.transform = `translate3d(${-next}px,0,0)`
   }, [])
 
-  // Measure strip vs viewport; reset horizontal offset when Projects leaves view.
   useLayoutEffect(() => {
     const strip = projectsScrollRef.current
     const view = projectsViewportRef.current
@@ -310,7 +308,6 @@ export default function Home() {
     }
   }, [projects.length])
 
-  // Projects: strip anchor crosses LOCK_LINE; cards viewport bottom > -72 keeps pan through subpixel / fast frames.
   useEffect(() => {
     if (typeof window === "undefined") return
     if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return
@@ -319,7 +316,6 @@ export default function Home() {
     const view = projectsViewportRef.current
     if (!strip || !view) return
 
-    /** Higher = horizontal wheel starts sooner (strip anchor can be lower on screen). Tune vs fixed header. */
     const LOCK_LINE_PX = 252
 
     const anchorAllowsStripPan = () => {
@@ -348,15 +344,6 @@ export default function Home() {
       if (mx <= 0) return
 
       const x = projectsHorizontalPxRef.current
-      const atStart = x <= 0
-      const atEnd = x >= mx - 1
-
-      if (e.deltaY > 0 && atEnd) return
-      if (e.deltaY < 0 && atStart) return
-
-      e.preventDefault()
-      e.stopPropagation()
-
       const scale = 1.35
       let delta = e.deltaY * scale
       delta = Math.sign(delta) * Math.min(380, Math.abs(delta))
@@ -364,9 +351,8 @@ export default function Home() {
       s.style.transform = `translate3d(${-projectsHorizontalPxRef.current}px,0,0)`
     }
 
-    const opts: AddEventListenerOptions = { passive: false, capture: true }
-    window.addEventListener("wheel", onWheel, opts)
-    return () => window.removeEventListener("wheel", onWheel, opts)
+    view.addEventListener("wheel", onWheel, { passive: true })
+    return () => view.removeEventListener("wheel", onWheel)
   }, [])
 
   const testimonials = [
@@ -877,11 +863,11 @@ export default function Home() {
       >
         <HeroVideoBackground />
         <div
-          className={`relative z-20 container mx-auto flex min-h-[100dvh] w-full flex-col px-4 pb-5 sm:px-6 sm:pb-6 lg:px-8 lg:pb-8 transition-all duration-1000 ${
+          className={`relative z-20 container mx-auto flex min-h-[100dvh] w-full flex-col px-4 pb-5 sm:px-5 sm:pb-6 lg:px-6 lg:pb-8 transition-all duration-1000 ${
             heroAnimation.videoVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-6"
           }`}
         >
-          <div className="mx-auto flex w-full max-w-2xl flex-1 flex-col items-center justify-center space-y-4 pt-24 text-center translate-y-8 min-[400px]:pt-28 sm:translate-y-10 sm:pt-28 md:translate-y-12 md:pt-32 lg:mx-0 lg:translate-y-14 lg:items-start lg:pt-36 lg:text-left">
+          <div className="mx-auto flex w-full max-w-2xl flex-1 flex-col items-center justify-center space-y-4 pt-20 text-center min-[400px]:pt-[5.25rem] sm:pt-24 md:pt-[6.25rem] lg:mx-0 lg:items-start lg:pt-28 lg:text-left xl:pt-[7.25rem]">
             <h1
               className={`hero-title-reveal text-3xl font-bold mb-2 font-title text-white transition-all duration-[1200ms] sm:text-4xl md:mb-3 md:text-5xl lg:text-6xl ${
                 heroAnimation.titleVisible ? "opacity-100 translate-y-0 blur-0 scale-100" : "opacity-0 translate-y-10 blur-[8px] scale-[0.985]"
@@ -1089,7 +1075,7 @@ export default function Home() {
 
       <HomeSectionDivider surface="on-dark" width="full" />
 
-      {/* Projects: sticky block; wheel pans strip when anchor crosses LOCK_LINE */}
+      {/* Projects: sticky block; trackpad pans strip — page scroll is not blocked */}
       <section
         ref={projectsSectionRef}
         id="projects"
@@ -1197,10 +1183,10 @@ export default function Home() {
                     </div>
                   ))}
                 </div>
-                </div>
               </div>
             </div>
           </div>
+        </div>
       </section>
 
       <HomeSectionDivider surface="on-light" width="full" />
@@ -1278,7 +1264,10 @@ export default function Home() {
                     </article>
                   </div>
                 ))}
-                <div className="about-reveal flex h-full min-h-0 min-w-0 flex-col" style={{ transitionDelay: "760ms" }}>
+                <div
+                  className="why-choose-card-shell about-reveal flex h-full min-h-0 min-w-0 flex-col items-center"
+                  style={{ transitionDelay: "760ms" }}
+                >
                   <GoogleBusinessReviewsSlot />
                 </div>
               </div>

@@ -774,28 +774,26 @@ section h2 {
 #services .fs-what-we-offer button.fs-offer-tab:not(.fs-offer-tab--active):focus-visible .fs-offer-tab__label {
   color: #000000 !important;
 }
-/* Selected: white border + white fill + black text (explicit border, ThemeToggle sets button border) */
+/* Selected: white border + white fill + black text (no glow/lift — clipped by tab strip overflow) */
 #services .fs-what-we-offer button.fs-offer-tab.fs-offer-tab--active {
   background: #ffffff !important;
   color: #000000 !important;
   border: 2px solid #ffffff !important;
-  box-shadow: 0 4px 18px rgba(255, 255, 255, 0.12);
+  box-shadow: none !important;
+  transform: none !important;
 }
 #services .fs-what-we-offer button.fs-offer-tab.fs-offer-tab--active:hover,
-#services .fs-what-we-offer button.fs-offer-tab.fs-offer-tab--active:focus-visible {
+#services .fs-what-we-offer button.fs-offer-tab.fs-offer-tab--active:focus-visible,
+#services .fs-what-we-offer button.fs-offer-tab.fs-offer-tab--active:active {
   background: #ffffff !important;
   color: #000000 !important;
   border: 2px solid #ffffff !important;
-  transform: translateY(-2px);
-  box-shadow: 0 12px 32px rgba(255, 255, 255, 0.22);
+  box-shadow: none !important;
+  transform: none !important;
 }
 #services .fs-what-we-offer button.fs-offer-tab:active:not(.fs-offer-tab--active) {
   transform: translateY(0);
   box-shadow: 0 4px 14px rgba(0, 0, 0, 0.28);
-}
-#services .fs-what-we-offer button.fs-offer-tab.fs-offer-tab--active:active {
-  transform: translateY(0);
-  box-shadow: 0 6px 18px rgba(255, 255, 255, 0.16);
 }
 #services .fs-what-we-offer button.fs-offer-tab .fs-offer-tab__label {
   color: inherit !important;
@@ -1289,6 +1287,12 @@ html:not(.dark) .services-drawer-list-item::before {
 .news-article-page .section-label {
   color: rgba(0, 0, 0, 0.55) !important;
 }
+.news-hub__filter-panel {
+  box-shadow: 0 10px 32px rgba(0, 0, 0, 0.06);
+}
+.news-hub__year-filter {
+  width: 100%;
+}
 .news-hub__pill {
   border: 2px solid rgba(0, 0, 0, 0.18);
   background: #fff;
@@ -1380,7 +1384,16 @@ html:not(.dark) .services-drawer-list-item::before {
   transition: background-color 0.2s ease, transform 0.15s ease, opacity 0.2s ease;
 }
 .news-article-share__btn svg {
+  color: currentColor;
+}
+/* Brand glyphs (react-icons) use fill; Lucide utilities use stroke */
+.news-article-share__btn svg[stroke-width="0"] {
   fill: currentColor;
+  stroke: none;
+}
+.news-article-share__btn svg:not([stroke-width="0"]) {
+  fill: none;
+  stroke: currentColor;
 }
 .news-article-share__btn:hover {
   background: rgba(0, 0, 0, 0.06);
@@ -1471,6 +1484,25 @@ html:not(.dark) .news-article-page {
   .news-article-page__hero {
     min-height: clamp(32rem, 42vw, 40rem);
     aspect-ratio: 4 / 3;
+  }
+}
+
+/* Hero lead: same opening paragraph as body, larger type, ellipsis when clamped */
+.news-article-page__hero-lead {
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  -webkit-line-clamp: 4;
+}
+@media (min-width: 768px) {
+  .news-article-page__hero-lead {
+    -webkit-line-clamp: 5;
+  }
+}
+@media (min-width: 1024px) {
+  .news-article-page__hero-lead {
+    -webkit-line-clamp: 8;
+    max-width: 36rem;
   }
 }
 
@@ -1579,8 +1611,6 @@ html:not(.dark) #about .why-choose-icon-badge svg {
   position: relative;
   isolation: isolate;
   overflow: hidden;
-  height: 100%;
-  min-height: 100%;
   background: #ffffff !important;
   border: 1px solid #dadce0 !important;
   box-shadow:
@@ -5040,9 +5070,28 @@ header nav .fs-services-cctv-toggle-btn svg {
     overflow: hidden;
     border-radius: 0 0 1rem 0;
     background-color: #000;
+    transition: max-height 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+
+  .fs-services-nav-dropdown--open {
     border: var(--fs-header-border-width) solid #fff;
     border-top: none;
-    transition: max-height 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+
+  .fs-services-nav-dropdown > .divide-y {
+    overflow: hidden;
+    border-radius: 0 0 1rem 0;
+    background-color: #000;
+  }
+
+  .fs-services-nav-dropdown .dropdown-item {
+    overflow: hidden;
+    background-color: #000;
+  }
+
+  /* Hover rules only on top edge inside dropdown — bottom lines were bleeding past the panel */
+  .fs-services-nav-dropdown .dropdown-item > span.absolute.bottom-0 {
+    display: none;
   }
 }
 

@@ -14,6 +14,17 @@ const nextConfig: NextConfig = {
   turbopack: {
     root: appDir,
   },
+  /**
+   * Dev-only: keep webpack cache in memory so HMR survives when .next/cache is
+   * cleared externally (e.g. parallel build/restart). Disk pack cache ENOENT
+   * was causing 500s and "__webpack_modules__[moduleId] is not a function".
+   */
+  webpack: (config, { dev }) => {
+    if (dev) {
+      config.cache = { type: "memory" }
+    }
+    return config
+  },
   async redirects() {
     const legacy = { ...FS_LEGACY_SERVICE_REDIRECTS, ...FS_LEGACY_NEWS_REDIRECTS };
     return Object.entries(legacy).map(([source, destination]) => ({

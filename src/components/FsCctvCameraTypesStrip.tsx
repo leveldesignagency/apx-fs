@@ -1,13 +1,22 @@
 "use client"
 
+import { useEffect, useState } from "react"
 import Image from "next/image"
 import Link from "next/link"
+import { Reveal } from "@/components/Reveal"
 import { CCTV_CAMERA_TYPE_PAGES } from "@/data/cctvCameraTypePages"
 
 const CCTV_TYPES_FOLDER = "/cctv%20camera%20types"
 
 /** Matches domestic / commercial hub cards, diagonal corners only. */
 const CCTV_TILE_CORNERS = "rounded-tl-2xl rounded-br-2xl"
+
+/** Wait for hero copy/buttons (~160ms + transition) before this strip fades in. */
+const STRIP_AFTER_HERO_MS = 780
+const STRIP_TITLE_DELAY_MS = 0
+const STRIP_INTRO_DELAY_MS = 90
+const STRIP_CARD_BASE_DELAY_MS = 180
+const STRIP_CARD_STAGGER_MS = 65
 
 const jsonLd = {
   "@context": "https://schema.org",
@@ -27,25 +36,46 @@ const jsonLd = {
  * Click a camera tile to open its dedicated guide. Sits below the service hero.
  */
 export function FsCctvCameraTypesStrip() {
+  const [stripShow, setStripShow] = useState(false)
+
+  useEffect(() => {
+    if (typeof window === "undefined") return
+    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
+      setStripShow(true)
+      return
+    }
+    const timer = window.setTimeout(() => setStripShow(true), STRIP_AFTER_HERO_MS)
+    return () => window.clearTimeout(timer)
+  }, [])
+
   return (
     <>
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }} />
       <section aria-labelledby="cctv-camera-types-heading" className="relative z-30 bg-black">
         <div className="container relative z-[1] mx-auto px-6 py-10 sm:py-12 lg:py-12">
-          <h2
-            id="cctv-camera-types-heading"
-            className="mb-6 max-w-3xl text-left font-title text-3xl font-bold text-white sm:mb-8 sm:text-4xl"
-          >
-            CCTV camera types
-          </h2>
-          <p className="mb-8 max-w-3xl text-left text-base leading-relaxed text-gray-300 sm:mb-10">
-            Dome, bullet, pan-tilt, wireless, infra-red and thermal options for properties across Greater London, Surrey,
-            Kent, Essex and the wider South East. Select a type for a detailed guide.
-          </p>
+          <Reveal show={stripShow} delayMs={STRIP_TITLE_DELAY_MS}>
+            <h2
+              id="cctv-camera-types-heading"
+              className="mb-6 max-w-3xl text-left font-title text-3xl font-bold text-white sm:mb-8 sm:text-4xl"
+            >
+              CCTV camera types
+            </h2>
+          </Reveal>
+          <Reveal show={stripShow} delayMs={STRIP_INTRO_DELAY_MS}>
+            <p className="mb-8 max-w-3xl text-left text-base leading-relaxed text-gray-300 sm:mb-10">
+              Dome, bullet, pan-tilt, wireless, infra-red and thermal options for properties across Greater London, Surrey,
+              Kent, Essex and the wider South East. Select a type for a detailed guide.
+            </p>
+          </Reveal>
 
           <ul className="grid list-none grid-cols-2 gap-5 overflow-visible py-1 sm:grid-cols-3 lg:grid-cols-6 lg:gap-6">
-            {CCTV_CAMERA_TYPE_PAGES.map(({ slug, file, label, imageAlt }) => (
+            {CCTV_CAMERA_TYPE_PAGES.map(({ slug, file, label, imageAlt }, index) => (
               <li key={slug} className="flex flex-col items-center text-center">
+                <Reveal
+                  show={stripShow}
+                  delayMs={STRIP_CARD_BASE_DELAY_MS + index * STRIP_CARD_STAGGER_MS}
+                  className="w-full"
+                >
                 <Link
                   href={`/services/cctv/camera-types/${slug}`}
                   className="group flex w-full max-w-[11rem] flex-col items-center sm:max-w-none"
@@ -78,6 +108,7 @@ export function FsCctvCameraTypesStrip() {
                     {label}
                   </span>
                 </Link>
+                </Reveal>
               </li>
             ))}
           </ul>

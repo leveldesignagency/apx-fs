@@ -2,6 +2,7 @@
 
 import { ReactLenis } from "lenis/react"
 import { useEffect, useState } from "react"
+import { LenisBridge } from "@/components/LenisBridge"
 
 /** Inertial smooth scroll (Lenis). Skipped when `prefers-reduced-motion: reduce`. */
 const lenisOptions = {
@@ -31,6 +32,7 @@ export function PremiumScroll({ children }: { children: React.ReactNode }) {
 
   return (
     <ReactLenis root options={lenisOptions}>
+      <LenisBridge />
       {children}
     </ReactLenis>
   )

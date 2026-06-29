@@ -1,7 +1,8 @@
 "use client"
 
-import type { ReactNode } from "react"
+import { useEffect, useState, type ReactNode } from "react"
 import Image from "next/image"
+import { Reveal } from "@/components/Reveal"
 import { FsCctvHeroNav } from "@/components/FsCctvHeroNav"
 import { FsServiceHeroQuickNav } from "@/components/FsServiceHeroQuickNav"
 import {
@@ -58,6 +59,17 @@ export function ServicePageHero({
 }: ServicePageHeroProps) {
   const showImage = Boolean(imageSrc)
   const compactLayout = Boolean(compact && !showImage && heroNav === false)
+  const [heroReveal, setHeroReveal] = useState(false)
+
+  useEffect(() => {
+    if (typeof window === "undefined") return
+    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
+      setHeroReveal(true)
+      return
+    }
+    const id = requestAnimationFrame(() => setHeroReveal(true))
+    return () => cancelAnimationFrame(id)
+  }, [])
 
   return (
     <section
@@ -108,29 +120,39 @@ export function ServicePageHero({
           {compactLayout ? (
             <>
               <div className="service-page-hero__copy-block w-full min-w-0 max-w-full md:max-w-[min(52rem,68vw)] lg:max-w-[min(60rem,72vw)]">
-                <h1 className="service-page-hero__title mb-0 font-title text-3xl font-bold text-left text-white sm:text-4xl md:text-5xl lg:text-6xl">
-                  {title}
-                </h1>
+                <Reveal show={heroReveal} delayMs={0}>
+                  <h1 className="service-page-hero__title mb-0 font-title text-3xl font-bold text-left text-white sm:text-4xl md:text-5xl lg:text-6xl">
+                    {title}
+                  </h1>
+                </Reveal>
                 <div className="service-page-hero__intro-slot w-full min-w-0">
-                  <HeroIntro>{intro}</HeroIntro>
-                  {afterIntro}
+                  <Reveal show={heroReveal} delayMs={90}>
+                    <HeroIntro>{intro}</HeroIntro>
+                  </Reveal>
+                  {afterIntro ? <Reveal show={heroReveal} delayMs={160}>{afterIntro}</Reveal> : null}
                 </div>
               </div>
               {heroCompliance?.length ? (
-                <p className="service-page-hero__compliance ml-auto max-w-lg text-right text-xs font-medium uppercase leading-snug tracking-[0.1em] text-white/50 sm:text-sm sm:tracking-[0.12em]">
-                  {heroCompliance.join(" · ")}
-                </p>
+                <Reveal show={heroReveal} delayMs={220}>
+                  <p className="service-page-hero__compliance ml-auto max-w-lg text-right text-xs font-medium uppercase leading-snug tracking-[0.1em] text-white/50 sm:text-sm sm:tracking-[0.12em]">
+                    {heroCompliance.join(" · ")}
+                  </p>
+                </Reveal>
               ) : (
                 <span className="service-page-hero__compliance" aria-hidden />
               )}
             </>
           ) : (
             <div className="w-full min-w-0 max-w-full space-y-4 md:max-w-[min(52rem,68vw)] lg:max-w-[min(60rem,72vw)]">
-              <h1 className="mb-2 font-title text-3xl font-bold text-left text-white sm:mb-3 sm:text-4xl md:text-5xl lg:text-6xl">
-                {title}
-              </h1>
-              <HeroIntro>{intro}</HeroIntro>
-              {afterIntro}
+              <Reveal show={heroReveal} delayMs={0}>
+                <h1 className="mb-2 font-title text-3xl font-bold text-left text-white sm:mb-3 sm:text-4xl md:text-5xl lg:text-6xl">
+                  {title}
+                </h1>
+              </Reveal>
+              <Reveal show={heroReveal} delayMs={90}>
+                <HeroIntro>{intro}</HeroIntro>
+              </Reveal>
+              {afterIntro ? <Reveal show={heroReveal} delayMs={160}>{afterIntro}</Reveal> : null}
             </div>
           )}
           {heroCompliance?.length && !compactLayout && showImage ? (
@@ -144,13 +166,13 @@ export function ServicePageHero({
             </div>
           ) : null}
           {heroNav === "quick-links" ? (
-            <div className="mt-auto shrink-0 border-t border-white/15 pt-6 sm:pt-8">
+            <Reveal show={heroReveal} delayMs={240} className="mt-auto shrink-0 border-t border-white/15 pt-6 sm:pt-8">
               <FsServiceHeroQuickNav />
-            </div>
+            </Reveal>
           ) : heroNav === "cctv-tabs" ? (
-            <div className="mt-auto shrink-0 border-t border-white/15 pt-6 sm:pt-8">
+            <Reveal show={heroReveal} delayMs={240} className="mt-auto shrink-0 border-t border-white/15 pt-6 sm:pt-8">
               <FsCctvHeroNav />
-            </div>
+            </Reveal>
           ) : null}
         </div>
       </div>

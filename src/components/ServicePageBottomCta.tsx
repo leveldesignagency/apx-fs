@@ -1,6 +1,7 @@
 "use client"
 
 import type { ReactNode } from "react"
+import { Reveal } from "@/components/Reveal"
 
 type ServicePageBottomCtaProps = {
   /** Path under `/public` (URL-encoded segments allowed), e.g. from `serviceHeroImages` */
@@ -20,11 +21,15 @@ export function ServicePageBottomCta({ imageSrc, title, description, children }:
       />
       <div className="absolute inset-0 bg-black/52" aria-hidden />
       <div className="relative z-10 container mx-auto px-6 py-16 sm:py-20 lg:py-24">
-        <div className="max-w-3xl">
-          <h2 className="mb-6 text-left font-title text-3xl font-bold text-white sm:text-4xl">{title}</h2>
-          <p className="mb-8 text-left text-lg text-white/90 sm:text-xl">{description}</p>
-          <div className="flex flex-col gap-4 sm:flex-row sm:flex-wrap sm:items-center">{children}</div>
-        </div>
+        <Reveal>
+          <div className="max-w-3xl">
+            <h2 className="mb-6 text-left font-title text-3xl font-bold text-white sm:text-4xl">{title}</h2>
+            <p className="mb-8 text-left text-lg text-white/90 sm:text-xl">{description}</p>
+            <Reveal delayMs={90}>
+              <div className="flex flex-col gap-4 sm:flex-row sm:flex-wrap sm:items-center">{children}</div>
+            </Reveal>
+          </div>
+        </Reveal>
       </div>
     </section>
   )

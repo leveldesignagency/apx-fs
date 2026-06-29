@@ -34,7 +34,7 @@ export default function HeroVideoBackground() {
           <div className="fs-hero-bg-motion-layer absolute top-0 bottom-[-10%] left-[-2%] right-[-2%] min-h-[110dvh]">
             <div className="relative h-full min-h-[110dvh] w-full">
               <Image
-                src="/hero-image.jpg"
+                src="/apx-fs-hero-image.jpg"
                 alt=""
                 fill
                 priority

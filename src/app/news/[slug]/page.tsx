@@ -12,6 +12,7 @@ import { buildFsMetadata } from "@/lib/seo-metadata"
 import { getFsSiteUrl } from "@/lib/seo"
 import { FS_PROJECTS_CONTENT_MAX, FS_PROJECTS_SECTION_PX } from "@/lib/fsProjectsLayout"
 import { NewsArticleBody } from "@/components/news/NewsArticleBody"
+import { NewsArticleHeroLead } from "@/components/news/NewsArticleHeroLead"
 import { NewsArticleCard } from "@/components/news/NewsArticleCard"
 import { NewsArticleShareBanner } from "@/components/news/NewsArticleShareBanner"
 
@@ -82,6 +83,9 @@ export default async function NewsArticlePage({ params }: Props) {
                 <h1 className="mt-4 font-title text-3xl font-bold normal-case leading-tight text-black md:text-4xl lg:text-[clamp(2rem,3.2vw,3.25rem)]">
                   {article.title}
                 </h1>
+                {article.body[0] ? (
+                  <NewsArticleHeroLead text={article.body[0]} inlineLinks={article.inlineLinks} />
+                ) : null}
               </div>
 
               <div className="news-article-page__hero relative order-1 aspect-[4/3] w-full min-w-0 overflow-hidden bg-neutral-100 sm:aspect-[3/2] lg:order-2 lg:aspect-[4/3] lg:min-h-[32rem] xl:min-h-[38rem]">

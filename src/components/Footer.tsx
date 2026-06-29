@@ -88,7 +88,7 @@ export default function Footer() {
         className="footer-expand-wrapper text-white relative z-10"
         onMouseEnter={scrollFooterIntoView}
       >
-        <div className="footer-head relative flex min-h-[6rem] items-end justify-center overflow-visible px-8 sm:px-10 lg:px-12">
+        <div className="footer-head relative flex min-h-[6rem] items-end justify-center overflow-visible px-5 sm:px-6 lg:px-8">
           <div className="footer-logo-bridge absolute left-1/2 top-0 -translate-x-1/2 -translate-y-1/2">
             <Link href="/" className="flex cursor-pointer items-center">
               <Image
@@ -107,7 +107,7 @@ export default function Footer() {
         </div>
 
         <div className="footer-expand">
-          <div className="container mx-auto w-full min-w-0 max-w-7xl px-8 py-12 pt-16 sm:px-10 lg:px-12">
+          <div className="container mx-auto w-full min-w-0 max-w-7xl px-5 py-12 pt-16 sm:px-6 lg:px-8">
             <div className="footer-columns grid w-full min-w-0 grid-cols-1 gap-10 text-left sm:grid-cols-2 sm:gap-x-8 sm:gap-y-10 lg:grid-cols-5 lg:gap-x-8 xl:gap-x-10">
               {/* Company */}
               <div className="min-w-0 space-y-6">

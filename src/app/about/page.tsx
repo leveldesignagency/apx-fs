@@ -158,7 +158,7 @@ export default function AboutPage() {
             />
           </div>
           <div
-            className="absolute inset-0 z-[1] bg-gradient-to-b from-black/80 via-black/55 to-black/85"
+            className="absolute inset-0 z-[1] bg-gradient-to-b from-black/65 via-black/40 to-black/70"
             aria-hidden
           />
         </div>
@@ -360,8 +360,8 @@ export default function AboutPage() {
 
       {/* Heritage & quality, half-width imagery + long-form copy */}
       <section className="about-block about-block--black overflow-hidden border-t border-white/10">
-        <div className="grid min-h-0 grid-cols-1 items-stretch lg:grid-cols-2 lg:min-h-[min(100svh,920px)]">
-          <Reveal className="h-full min-h-[50vh]">
+        <div className="grid min-h-0 grid-cols-1 items-stretch lg:grid-cols-2 lg:min-h-[min(88svh,840px)] lg:h-[min(88svh,840px)]">
+          <Reveal className="h-full min-h-[50vh] lg:min-h-0">
             <div className="relative h-full min-h-[50vh] border-b border-white/10 lg:min-h-full lg:border-b-0 lg:border-r lg:border-white/10">
               <Image
                 src="/projects/library/apx-fire-security-alarm-box.jpg"
@@ -376,7 +376,8 @@ export default function AboutPage() {
               />
             </div>
           </Reveal>
-          <div className="about-section-inner flex h-full min-h-0 flex-col justify-center px-6 py-12 sm:px-8 lg:max-w-none lg:min-h-0 lg:py-12 lg:pl-12 lg:pr-10 xl:pl-16 xl:pr-14">
+          <div className="flex h-full min-h-[50vh] flex-col justify-center lg:min-h-full lg:px-12 xl:px-16">
+            <div className="mx-auto w-full max-w-2xl px-6 py-12 text-left sm:px-8 lg:max-w-[34rem] lg:px-0 lg:py-0 xl:max-w-[36rem]">
             <Reveal>
               <p className="text-base leading-relaxed text-white/85 md:text-lg">
                 Since 1986 APX Fire &amp; Security have specialised in the design, installation and maintenance of high quality{" "}
@@ -468,6 +469,7 @@ export default function AboutPage() {
                 their requirements.
               </p>
             </Reveal>
+            </div>
           </div>
         </div>
       </section>

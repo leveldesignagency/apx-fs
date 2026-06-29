@@ -5,6 +5,8 @@ import { ServiceComplianceSection } from "@/components/ServiceComplianceSection"
 import { ServicePageClosingSections } from "@/components/ServicePageClosingSections"
 import { CustomPillButton } from "@/components/ui/CustomPillButton"
 import { ServicePageHero } from "@/components/ServicePageHero"
+import { Reveal } from "@/components/Reveal"
+import { ServiceItemReveal } from "@/components/ServiceItemReveal"
 import { serviceHeroImages } from "@/lib/serviceHeroImages"
 import {
   CheckCircle,
@@ -49,11 +51,15 @@ export default function EvacVoiceEvacuationPage() {
         />
 
         <section className="container relative z-[1] mx-auto px-6 py-16 lg:py-16">
-          <h2 className="mb-4 text-left font-title text-3xl font-bold text-white sm:text-4xl">Capabilities</h2>
-          <p className="mb-10 max-w-3xl text-left text-gray-300">
-            From amplifier and speaker installation through to cause-and-effect with the fire alarm, we deliver voice evacuation that is intelligible, zoned and testable,
-            with clear handover files for operators and maintainers.
-          </p>
+          <Reveal>
+            <h2 className="mb-4 text-left font-title text-3xl font-bold text-white sm:text-4xl">Capabilities</h2>
+          </Reveal>
+          <Reveal delayMs={70}>
+            <p className="mb-10 max-w-3xl text-left text-gray-300">
+              From amplifier and speaker installation through to cause-and-effect with the fire alarm, we deliver voice evacuation that is intelligible, zoned and testable,
+              with clear handover files for operators and maintainers.
+            </p>
+          </Reveal>
           <div className="grid grid-cols-1 gap-8 md:grid-cols-2 lg:grid-cols-3">
             {[
               {
@@ -87,11 +93,13 @@ export default function EvacVoiceEvacuationPage() {
                 description: "Structured measurement and records to demonstrate performance at handover.",
               },
             ].map((item, index) => (
-              <div key={index} className={`${cardClass} transition-transform duration-300 hover:scale-[1.02]`}>
+              <ServiceItemReveal key={index} index={index} className="h-full min-h-0">
+                <div className={`${cardClass} transition-transform duration-300 hover:scale-[1.02]`}>
                 <div className="mb-4 text-white">{item.icon}</div>
                 <h3 className="mb-3 text-left text-xl font-semibold text-white">{item.title}</h3>
                 <p className="text-left text-gray-300">{item.description}</p>
-              </div>
+                </div>
+              </ServiceItemReveal>
             ))}
           </div>
         </section>
