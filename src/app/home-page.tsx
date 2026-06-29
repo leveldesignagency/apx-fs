@@ -873,14 +873,14 @@ export default function Home() {
                 heroAnimation.titleVisible ? "opacity-100 translate-y-0 blur-0 scale-100" : "opacity-0 translate-y-10 blur-[8px] scale-[0.985]"
               }`}
             >
-              APX FS is your NSI Gold security system installer.
+              APX FS is your NSI Gold fire and security systems installer.
             </h1>
             <p
               className={`hero-copy-reveal mx-auto max-w-lg text-base font-normal tracking-tight text-white transition-all duration-1000 sm:text-lg md:mb-5 md:text-xl mb-4 lg:mx-0 ${
                 heroAnimation.subtitleVisible ? "opacity-100 translate-y-0 blur-0" : "opacity-0 translate-y-7 blur-[6px]"
               }`}
             >
-              We are specialists in the design, installation and maintenance of bespoke integrated security systems within London and the Home Counties.
+              We are specialists in the design, installation and maintenance of bespoke integrated fire and security systems within London and the Home Counties.
             </p>
 
             <div
