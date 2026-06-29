@@ -6,8 +6,9 @@ import Link from "next/link"
 import { ChevronLeft, ChevronRight, X } from "lucide-react"
 import { CustomPillButton } from "@/components/ui/CustomPillButton"
 import { MAIN_CASE_STUDIES } from "@/data/projects"
+import { FS_PROJECTS_CONTENT_MAX, FS_PROJECTS_SECTION_PX } from "@/lib/fsProjectsLayout"
 
-/** Grid card CTAs only — square corners; “Get in touch” uses `CustomPillButton` (TL/BR rounded like hero). */
+/** Grid card CTAs only, square corners; “Get in touch” uses `CustomPillButton` (TL/BR rounded like hero). */
 const PROJECTS_GRID_CTA_CLASS =
   "pill-btn pill-btn--square relative inline-flex cursor-pointer items-center justify-center overflow-hidden bg-black px-4 py-2.5 text-xs uppercase tracking-[0.12em] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/50 focus-visible:ring-offset-2 focus-visible:ring-offset-black"
 
@@ -45,15 +46,15 @@ export default function ProjectsPage() {
 
   return (
     <div className="fs-projects-page min-h-screen overflow-x-hidden" style={bgStyle}>
-      <section className="page-title-band px-4 sm:px-6 lg:px-8">
-        <div className="mx-auto w-full max-w-[min(100%,92rem)]">
+      <section className={`page-title-band ${FS_PROJECTS_SECTION_PX}`}>
+        <div className={FS_PROJECTS_CONTENT_MAX}>
           <div className="max-w-2xl">
             <span className="section-label mb-3 block text-white/75">Work in focus</span>
             <h1
               className={`text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold mb-2 md:mb-3 text-left ${textClass}`}
               style={{ fontFamily: "var(--font-menu)" }}
             >
-              Built to sign off — fire & security that endures
+              Built to sign off, fire & security that endures
             </h1>
             <p className={`text-base sm:text-lg md:text-xl font-normal text-left tracking-tight ${mutedClass}`}>
               A selection of fire and security installations we have delivered for commercial, public sector, and domestic clients across London and the Home Counties.
@@ -62,8 +63,8 @@ export default function ProjectsPage() {
         </div>
       </section>
 
-      <section className="py-16 lg:py-16 px-4 sm:px-6 lg:px-8" style={bgStyle}>
-        <div className="mx-auto w-full max-w-[min(100%,92rem)]">
+      <section className={`py-16 lg:py-16 ${FS_PROJECTS_SECTION_PX}`} style={bgStyle}>
+        <div className={FS_PROJECTS_CONTENT_MAX}>
           <div className="space-y-8 md:space-y-10">
             {projects.map((project) => (
               <article key={project.slug} className="grid grid-cols-1 gap-0 border-2 border-white/70 bg-black md:grid-cols-2">

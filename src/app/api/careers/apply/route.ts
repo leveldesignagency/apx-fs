@@ -88,7 +88,7 @@ export async function POST(req: Request) {
   const subject = buildJobApplicantSubject(role.title)
 
   const text = [
-    `New careers application — ${role.title}`,
+    `New careers application, ${role.title}`,
     "",
     `Role ID: ${role.id}`,
     `Name: ${fullName}`,
@@ -109,7 +109,7 @@ export async function POST(req: Request) {
   <p style="font-family:system-ui,sans-serif"><strong>Phone:</strong> ${esc(phone)}</p>
   <h3 style="font-family:system-ui,sans-serif">Relevant experience</h3>
   <pre style="font-family:system-ui,sans-serif;white-space:pre-wrap">${esc(experience)}</pre>
-  <p style="font-family:system-ui,sans-serif;color:#666;font-size:12px">APX Fire &amp; Security — website application</p>
+  <p style="font-family:system-ui,sans-serif;color:#666;font-size:12px">APX Fire &amp; Security, website application</p>
   `
 
   const sent = await sendSiteEmailViaResend({

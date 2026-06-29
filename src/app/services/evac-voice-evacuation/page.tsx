@@ -1,9 +1,9 @@
 "use client"
 
 import Link from "next/link"
-import { ServicePageBottomCta } from "@/components/ServicePageBottomCta"
+import { ServiceComplianceSection } from "@/components/ServiceComplianceSection"
+import { ServicePageClosingSections } from "@/components/ServicePageClosingSections"
 import { CustomPillButton } from "@/components/ui/CustomPillButton"
-import { OurCustomers } from "@/components/ServicePageSharedSections"
 import { ServicePageHero } from "@/components/ServicePageHero"
 import { serviceHeroImages } from "@/lib/serviceHeroImages"
 import {
@@ -22,8 +22,8 @@ export default function EvacVoiceEvacuationPage() {
   return (
     <div className="service-page-root min-h-screen overflow-x-hidden bg-black text-white">
       <ServicePageHero
-        title="EVAC & voice evacuation systems"
-        imageSrc={serviceHeroImages.fireAlarm}
+        title="EVAC & Voice Evacuation Systems"
+        imageSrc={serviceHeroImages.evacVoice}
         heroCompliance={["BS 5839-8"]}
         intro={
           <>
@@ -31,7 +31,7 @@ export default function EvacVoiceEvacuationPage() {
               APX provides voice evacuation systems designed to deliver clear, controlled messaging during emergency situations.
             </p>
             <p>
-              We integrate public address, zoned messaging, amplifiers and speakers with your fire alarm strategy — with structured design, audio testing, commissioning and
+              We integrate public address, zoned messaging, amplifiers and speakers with your fire alarm strategy, with structured design, audio testing, commissioning and
               documentation for commercial, industrial and public-sector projects across London and the Home Counties.
             </p>
           </>
@@ -51,7 +51,7 @@ export default function EvacVoiceEvacuationPage() {
         <section className="container relative z-[1] mx-auto px-6 py-16 lg:py-16">
           <h2 className="mb-4 text-left font-title text-3xl font-bold text-white sm:text-4xl">Capabilities</h2>
           <p className="mb-10 max-w-3xl text-left text-gray-300">
-            From amplifier and speaker installation through to cause-and-effect with the fire alarm, we deliver voice evacuation that is intelligible, zoned and testable —
+            From amplifier and speaker installation through to cause-and-effect with the fire alarm, we deliver voice evacuation that is intelligible, zoned and testable,
             with clear handover files for operators and maintainers.
           </p>
           <div className="grid grid-cols-1 gap-8 md:grid-cols-2 lg:grid-cols-3">
@@ -69,7 +69,7 @@ export default function EvacVoiceEvacuationPage() {
               {
                 icon: <Zap className="h-8 w-8" strokeWidth={1.75} />,
                 title: "Zoned evacuation messaging",
-                description: "Zoning aligned to your fire strategy — clear, prioritised announcements and local control where required.",
+                description: "Zoning aligned to your fire strategy, clear, prioritised announcements and local control where required.",
               },
               {
                 icon: <Speaker className="h-8 w-8" strokeWidth={1.75} />,
@@ -96,68 +96,38 @@ export default function EvacVoiceEvacuationPage() {
           </div>
         </section>
 
-        <div className="border-t border-white/15" />
+        <ServiceComplianceSection
+          intro="Voice alarm systems are covered by BS 5839-8. We align installation, testing and documentation with that standard and with your project's fire engineering inputs, including interfaces to disabled communication and building systems where applicable."
+          leftTitle="Standards & handover"
+          leftEyebrow="Voice alarm & BS 5839-8"
+          standardsItems={["BS 5839-8, Voice alarm systems (design, installation, commissioning and maintenance)"]}
+          footerNote={
+            <>
+              Related life-safety scopes:{" "}
+              <Link href="/services/refuge-disabled-communication" className="text-black underline decoration-black/30 underline-offset-2 hover:decoration-black">
+                refuge &amp; disabled communication
+              </Link>
+              ,{" "}
+              <Link href="/services/fire-life-safety" className="text-black underline decoration-black/30 underline-offset-2 hover:decoration-black">
+                fire &amp; life safety
+              </Link>
+              .
+            </>
+          }
+          rightTitle="Typical deliverables"
+          deliverablesItems={[
+            "Audio testing reports and as-commissioned settings",
+            "Commissioning documentation and witness sheets",
+            "System configuration files and operator handover",
+            "Coordination with O&M and training for building users",
+          ]}
+        />
 
-        <section className="container mx-auto px-6 py-16 lg:py-16">
-          <p className="mb-10 max-w-3xl text-left text-gray-300">
-            Voice alarm systems are covered by BS 5839-8. We align installation, testing and documentation with that standard and with your project&apos;s fire engineering
-            inputs — including interfaces to disabled communication and building systems where applicable.
-          </p>
-          <div className="grid grid-cols-1 gap-10 border-t border-white/15 pt-10 lg:grid-cols-[1fr_auto_1fr] lg:items-start lg:gap-0 lg:border-t-0 lg:pt-0">
-            <div className="min-w-0 lg:pr-10">
-              <h2 className="mb-6 text-left font-title text-3xl font-bold text-white sm:text-4xl">Standards &amp; handover</h2>
-              <p className="mb-4 text-left text-sm font-semibold uppercase tracking-wide text-white/55">
-                Voice alarm &amp; BS 5839-8
-              </p>
-              <ul className="space-y-4">
-                {["BS 5839-8 — Voice alarm systems (design, installation, commissioning and maintenance)"].map((item, index) => (
-                  <li key={index} className="flex items-start gap-3 text-left text-gray-300">
-                    <CheckCircle className="mt-0.5 h-5 w-5 shrink-0 text-white/50" strokeWidth={2} />
-                    <span>{item}</span>
-                  </li>
-                ))}
-              </ul>
-              <p className="mt-6 text-sm leading-relaxed text-gray-400">
-                Related life-safety scopes:{" "}
-                <Link href="/services/refuge-disabled-communication" className="text-white underline decoration-white/30 underline-offset-2 hover:decoration-white">
-                  refuge &amp; disabled communication
-                </Link>
-                ,{" "}
-                <Link href="/services/fire-life-safety" className="text-white underline decoration-white/30 underline-offset-2 hover:decoration-white">
-                  fire &amp; life safety
-                </Link>
-                .
-              </p>
-            </div>
-            <div
-              className="hidden w-px shrink-0 self-stretch bg-white/15 lg:block"
-              aria-hidden
-            />
-            <div className="min-w-0 border-t border-white/15 pt-10 lg:border-t-0 lg:pl-10 lg:pt-0">
-              <h2 className="mb-6 text-left font-title text-3xl font-bold text-white sm:text-4xl">Typical deliverables</h2>
-              <ul className="space-y-4">
-                {[
-                  "Audio testing reports and as-commissioned settings",
-                  "Commissioning documentation and witness sheets",
-                  "System configuration files and operator handover",
-                  "Coordination with O&M and training for building users",
-                ].map((item, index) => (
-                  <li key={index} className="flex items-start gap-3 text-left text-gray-300">
-                    <CheckCircle className="mt-0.5 h-5 w-5 shrink-0 text-white/50" strokeWidth={2} />
-                    <span>{item}</span>
-                  </li>
-                ))}
-              </ul>
-            </div>
-          </div>
-        </section>
-
-        <OurCustomers serviceTitleShort="EVAC & voice" />
-
-        <ServicePageBottomCta
-          imageSrc={serviceHeroImages.fireAlarm}
-          title="Planning voice evacuation?"
-          description="Share your drawings and fire strategy — we can advise on zoning, equipment and commissioning for a compliant voice alarm installation."
+        <ServicePageClosingSections
+          serviceTitleShort="EVAC & Voice"
+          ctaImageSrc={serviceHeroImages.evacVoice}
+          ctaTitle="Planning voice evacuation?"
+          ctaDescription="Share your drawings and fire strategy, we can advise on zoning, equipment and commissioning for a compliant voice alarm installation."
         >
           <CustomPillButton href="/contact" size="md">
             Discuss your project
@@ -165,7 +135,7 @@ export default function EvacVoiceEvacuationPage() {
           <CustomPillButton href="tel:02083032280" size="md" variant="outline">
             Call 020 8303 2280
           </CustomPillButton>
-        </ServicePageBottomCta>
+        </ServicePageClosingSections>
       </div>
     </div>
   )

@@ -19,9 +19,9 @@ const OFFERS: WhatWeOfferItem[] = [
     tagLabel: "CCTV systems",
     headline: "CCTV design, installation & commissioning",
     description:
-      "IP and HD analogue systems specified for your site — camera placement, secure recording, network segregation and handover documentation aligned with NSI Gold expectations.",
+      "IP and HD analogue systems specified for your site, camera placement, secure recording, network segregation and handover documentation aligned with NSI Gold expectations.",
     image: "/cctv%20systems.jpg",
-    href: "/services/electrical-systems",
+    href: "/services/cctv-systems",
     features: [
       "Site survey & risk-based coverage",
       "Recording, retention & GDPR-aware setup",
@@ -33,9 +33,9 @@ const OFFERS: WhatWeOfferItem[] = [
     tagLabel: "Access control",
     headline: "Electronic access control & door security",
     description:
-      "Cards, fobs and readers on single doors or fully networked estates — permissions, anti-passback and audit trails for commercial, retail and multi-tenant sites.",
+      "Cards, fobs and readers on single doors or fully networked estates, permissions, anti-passback and audit trails for commercial, retail and multi-tenant sites.",
     image: "/access%20control%20systems.jpg",
-    href: "/services/energy-efficiency",
+    href: "/services/access-control-systems",
     features: [
       "Door hardware & reader integration",
       "Networked permissions & events",
@@ -47,9 +47,9 @@ const OFFERS: WhatWeOfferItem[] = [
     tagLabel: "Intruder alarms",
     headline: "Intruder detection to BS EN standards",
     description:
-      "Grade 2 and Grade 3 systems from flats and houses to monitored commercial premises — detectors, signalling and documentation delivered to NSI Gold workmanship.",
+      "Grade 2 and Grade 3 systems from flats and houses to monitored commercial premises, detectors, signalling and documentation delivered to NSI Gold workmanship.",
     image: "/intruder%20alarm%20systems.jpg",
-    href: "/services/sustainability",
+    href: "/services/intruder-alarm-systems",
     features: [
       "Detection design & zoning",
       "Signalling & ARC integration",
@@ -61,9 +61,9 @@ const OFFERS: WhatWeOfferItem[] = [
     tagLabel: "Fire detection",
     headline: "Fire alarm detection & life safety",
     description:
-      "Conventional and addressable fire alarm systems for offices, schools, care and industrial sites — cause and effect, testing and certification to BS 5839.",
+      "Conventional and addressable fire alarm systems for offices, schools, care and industrial sites, cause and effect, testing and certification to BS 5839.",
     image: "/home-fire-alarm-system-installer-800x533.jpg",
-    href: "/services/mechanical-engineering",
+    href: "/services/fire-alarm-systems",
     features: [
       "Addressable & conventional systems",
       "Cause-and-effect & testing records",
@@ -75,9 +75,9 @@ const OFFERS: WhatWeOfferItem[] = [
     tagLabel: "Video door entry",
     headline: "Video door entry & visitor identification",
     description:
-      "Audio and video entry systems for single dwellings through to multi-user blocks — clear identification at the door, with options to tie into wider access control.",
+      "Audio and video entry systems for single dwellings through to multi-user blocks, clear identification at the door, with options to tie into wider access control.",
     image: "/video%20door%20entry%20systems.jpg",
-    href: "/services/maintenance",
+    href: "/services/video-door-entry-systems",
     features: [
       "Single-door and multi-tenant panels",
       "IP and legacy upgrades",
@@ -103,7 +103,7 @@ export function WhatWeOfferSection() {
         </p>
       </div>
 
-      {/* Full-width scroll on small screens — equal tab widths, same idea as MEP what-we-offer strip */}
+      {/* Full-width scroll on small screens, equal tab widths, same idea as MEP what-we-offer strip */}
       <div className="-mx-4 w-full min-w-0 max-w-full sm:-mx-6 lg:mx-0">
         <div
           data-lenis-prevent=""

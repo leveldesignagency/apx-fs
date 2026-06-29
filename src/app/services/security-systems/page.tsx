@@ -35,7 +35,7 @@ const deliverables = [
 const intro = (
   <>
     <p>
-      APX specialises in delivering integrated fire and security solutions that operate seamlessly across multiple systems — from coordinated interfaces and monitoring to
+      APX specialises in delivering integrated fire and security solutions that operate seamlessly across multiple systems, from coordinated interfaces and monitoring to
       handover documentation that reflects how your site actually runs.
     </p>
     <p className="text-white/85">

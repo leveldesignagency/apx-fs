@@ -1,5 +1,5 @@
 /**
- * Google Business / Maps — reviews link + optional embed.
+ * Google Business / Maps, reviews link + optional embed.
  * Replace GOOGLE_REVIEWS_LISTING_URL with the exact listing or “Write a review” URL when you have it.
  * Optional: set NEXT_PUBLIC_GOOGLE_REVIEWS_EMBED_URL to an iframe src from Elfsight, TrustIndex, etc.
  */

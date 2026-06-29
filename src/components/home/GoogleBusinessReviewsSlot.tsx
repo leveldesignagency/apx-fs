@@ -55,7 +55,7 @@ export function GoogleBusinessReviewsSlot() {
 
   return (
     <div className="flex h-full min-h-0 min-w-0 flex-col items-stretch">
-      <article className={`${cardClass} flex flex-1 flex-col px-4 pb-5 pt-5 text-center md:px-5 md:pb-6 md:pt-6`}>
+      <article className={`${cardClass} flex h-full min-h-0 flex-1 flex-col px-4 pb-5 pt-5 text-center md:px-5 md:pb-6 md:pt-6`}>
         <div className="google-reviews-card__brand mb-3 flex items-center justify-center gap-2">
           <GoogleGMark className="h-6 w-6 shrink-0 md:h-7 md:w-7" />
           <span className="google-reviews-card__brand-label text-sm font-medium">Google</span>
@@ -75,7 +75,7 @@ export function GoogleBusinessReviewsSlot() {
           See verified feedback on our Google Business Profile.
         </p>
 
-        <div className="mt-5 flex justify-center">
+        <div className="mt-auto flex justify-center pt-5">
           <a
             href={GOOGLE_REVIEWS_LISTING_URL}
             target="_blank"

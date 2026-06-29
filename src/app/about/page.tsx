@@ -6,9 +6,13 @@ import { useState, useEffect } from "react";
 import { Reveal } from "@/components/Reveal";
 import { CustomPillButton } from "@/components/ui/CustomPillButton";
 
-/** Inline links in heritage / why-choose copy — bold + underline on dark background */
+/** Inline links in heritage / why-choose copy, bold + underline on dark background */
 const ABOUT_TEXT_LINK =
   "font-semibold text-white underline decoration-white/40 underline-offset-[3px] transition-colors hover:decoration-white hover:text-white focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white/50 rounded-sm";
+
+/** Inline links on white about sections */
+const ABOUT_TEXT_LINK_ON_LIGHT =
+  "font-semibold text-black underline decoration-black/35 underline-offset-[3px] transition-colors hover:decoration-black hover:text-black focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-black/40 rounded-sm";
 
 /** Commitment icons: public/__quality assurance.svg, __health and safety.svg, __environmental.svg */
 const ABOUT_COMMITMENTS = [
@@ -18,16 +22,16 @@ const ABOUT_COMMITMENTS = [
 ] as const;
 
 /** Full-bleed About hero (fire & security) */
-const ABOUT_HERO_BG_SRC = "/home-fire-alarm-system-installer-800x533.jpg";
+const ABOUT_HERO_BG_SRC = "/About Page Image.jpg";
 
-/** `public/Who we support/` — filenames must match on disk (spaces / & encoded for URLs). */
+/** `public/Who we support/`, filenames must match on disk (spaces / & encoded for URLs). */
 const WHO_SUPPORT_DIR = "/Who%20we%20support" as const;
 
 function whoSupportImage(filename: string): string {
   return `${WHO_SUPPORT_DIR}/${encodeURIComponent(filename)}`;
 }
 
-/** Public folder uses a space in "accreditations mono" — literal paths load reliably in <img> */
+/** Public folder uses a space in "accreditations mono", literal paths load reliably in <img> */
 const ACC_MONO = "/accreditations mono";
 const EXPERTISE_ACCRED_LOGOS = [
   { href: "/accreditations/bafe", src: `${ACC_MONO}/Coloured/BAFE-01.svg`, alt: "BAFE" },
@@ -47,7 +51,7 @@ const WHO_WE_SUPPORT: WhoWeSupportItem[] = [
   {
     title: "M&E contractors",
     description:
-      "We slot into wider MEP programmes with coordinated installs, commissioning packs, and handover documentation that matches your testing strategy — from containment and risers through to integrated fire and security interfaces.",
+      "We slot into wider MEP programmes with coordinated installs, commissioning packs, and handover documentation that matches your testing strategy, from containment and risers through to integrated fire and security interfaces.",
     highlights: "Integrated delivery · Commissioning & O&M",
     imageSrc: whoSupportImage("M&E contractors.jpg"),
   },
@@ -68,7 +72,7 @@ const WHO_WE_SUPPORT: WhoWeSupportItem[] = [
   {
     title: "Main contractors",
     description:
-      "Programme-led delivery with disciplined site coordination, clear interfaces with other trades, and predictable milestones from first fix to client handover — including the documentation package your package needs to close out.",
+      "Programme-led delivery with disciplined site coordination, clear interfaces with other trades, and predictable milestones from first fix to client handover, including the documentation package your package needs to close out.",
     highlights: "Site coordination · Handover packages",
     imageSrc: whoSupportImage("Main contractors.jpg"),
   },
@@ -140,7 +144,7 @@ export default function AboutPage() {
 
   return (
     <div className="about-parallax-page about-page-shell overflow-x-hidden">
-      {/* Hero — full-viewport background */}
+      {/* Hero, full-viewport background */}
       <section className="about-block about-block--black about-hero-parallax relative flex min-h-[100dvh] flex-col overflow-hidden">
         <div className="pointer-events-none absolute inset-0 z-0" aria-hidden>
           <div className="about-parallax-bg about-hero-parallax__bg about-hero-parallax__bg--photo relative">
@@ -254,9 +258,9 @@ export default function AboutPage() {
             {WHO_WE_SUPPORT.map(({ title, description, highlights, imageSrc }, i) => (
               <Reveal key={title} delayMs={i * 55} className="h-full min-h-0">
                 <article
-                  className="relative flex min-h-[21rem] flex-col overflow-hidden rounded-[1.85rem] border border-white/[0.1] bg-[#0a0a0a] shadow-[0_18px_50px_rgba(0,0,0,0.45)] sm:min-h-[22rem] md:grid md:min-h-[23rem] md:grid-cols-[minmax(0,1fr)_11.25rem] md:grid-rows-[auto_auto] md:gap-x-5 md:gap-y-4 md:p-6 lg:min-h-[24rem] lg:grid-cols-[minmax(0,1fr)_14.25rem] lg:gap-x-6 lg:gap-y-5 lg:p-7"
+                  className="relative flex flex-col overflow-hidden rounded-[1.85rem] border border-white/[0.1] bg-[#0a0a0a] shadow-[0_18px_50px_rgba(0,0,0,0.45)] md:grid md:grid-cols-[minmax(0,1fr)_11.25rem] md:grid-rows-[auto_auto] md:items-end md:gap-x-5 md:gap-y-4 md:p-6 lg:grid-cols-[minmax(0,1fr)_14.25rem] lg:gap-x-6 lg:gap-y-5 lg:p-7"
                 >
-                  <div className="relative z-10 order-1 min-w-0 px-6 pb-2 pt-8 sm:px-8 sm:pt-10 md:col-start-1 md:row-start-1 md:px-0 md:pb-0 md:pt-1">
+                  <div className="relative z-10 order-1 min-w-0 px-6 pb-2 pt-8 sm:px-8 sm:pt-10 md:col-start-1 md:row-start-1 md:px-0 md:pb-0 md:pt-0">
                     <h3
                       className="text-left text-2xl font-bold leading-[1.12] tracking-tight text-white drop-shadow-[0_1px_12px_rgba(0,0,0,0.18)] sm:text-3xl"
                       style={{ fontFamily: "var(--font-menu)" }}
@@ -268,11 +272,11 @@ export default function AboutPage() {
                     </p>
                   </div>
 
-                  <div className="relative z-[5] order-2 mx-6 mt-3 h-48 min-h-0 shrink-0 overflow-hidden rounded-2xl shadow-[0_14px_44px_rgba(0,0,0,0.22)] sm:mt-4 sm:h-52 md:col-start-2 md:row-span-2 md:row-start-1 md:mx-0 md:mt-0 md:min-h-[20rem] md:h-full md:self-stretch md:shadow-[0_20px_55px_rgba(0,0,0,0.28)] lg:min-h-[21rem]">
+                  <div className="relative z-[5] order-2 mx-6 mt-3 h-40 min-h-0 shrink-0 overflow-hidden rounded-2xl shadow-[0_14px_44px_rgba(0,0,0,0.22)] sm:mt-4 sm:h-44 md:col-start-2 md:row-start-2 md:mx-0 md:mt-0 md:h-[10.25rem] md:w-full md:self-end md:shadow-[0_20px_55px_rgba(0,0,0,0.28)] lg:h-[11rem]">
                     <Image src={imageSrc} alt="" fill className="object-cover object-center" sizes="(min-width: 768px) 28vw, 100vw" />
                   </div>
 
-                  <div className="relative z-20 order-3 mx-6 mb-7 mt-2 min-w-0 sm:mb-8 md:col-start-1 md:row-start-2 md:mx-0 md:mb-1 md:mt-0 md:self-start">
+                  <div className="relative z-20 order-3 mx-6 mb-7 mt-2 min-w-0 sm:mb-8 md:col-start-1 md:row-start-2 md:mx-0 md:mb-0 md:mt-0 md:self-end">
                     <div className="max-w-full overflow-x-auto pb-0.5 [scrollbar-width:none] [-ms-overflow-style:none] [&::-webkit-scrollbar]:hidden">
                       <div className="inline-block w-max max-w-none rounded-2xl bg-white px-3.5 py-2.5 text-left shadow-[0_12px_36px_rgba(0,0,0,0.14)] sm:px-4 sm:py-3 md:px-3.5 md:py-2.5">
                         <p className="whitespace-nowrap text-[0.62rem] font-semibold uppercase leading-snug tracking-[0.08em] text-black/88 sm:text-[0.68rem] md:text-[0.62rem] lg:text-[0.7rem]">
@@ -337,14 +341,14 @@ export default function AboutPage() {
               &ldquo;We don&apos;t just install systems - we help you stay compliant and keep everyone safe.&rdquo;
             </p>
           </Reveal>
-          <div className="mt-14 grid grid-cols-1 gap-6 sm:mt-16 sm:grid-cols-3 sm:gap-8">
+          <div className="about-quote-stats mt-14 grid grid-cols-1 gap-6 sm:mt-16 sm:grid-cols-3 sm:gap-8">
             {[
               { value: "500+", label: "Projects completed" },
               { value: "99%", label: "Customer satisfaction" },
               { value: "20+", label: "Years experience" },
             ].map((stat, i) => (
               <Reveal key={stat.label} delayMs={i * 90}>
-                <div className="rounded-2xl border border-white/20 bg-black/35 p-7 md:p-8">
+                <div className="about-quote-stat-card rounded-2xl border border-white/20 bg-black/35 p-7 md:p-8">
                   <div className="text-4xl font-bold text-white md:text-5xl">{stat.value}</div>
                   <div className="mt-2 text-sm text-white/70 md:text-base">{stat.label}</div>
                 </div>
@@ -354,7 +358,7 @@ export default function AboutPage() {
             </div>
       </section>
 
-      {/* Heritage & quality — half-width imagery + long-form copy */}
+      {/* Heritage & quality, half-width imagery + long-form copy */}
       <section className="about-block about-block--black overflow-hidden border-t border-white/10">
         <div className="grid min-h-0 grid-cols-1 items-stretch lg:grid-cols-2 lg:min-h-[min(100svh,920px)]">
           <Reveal className="h-full min-h-[50vh]">
@@ -432,23 +436,23 @@ export default function AboutPage() {
                   BS EN ISO 9001:2015
                 </Link>{" "}
                 quality management system has made us a preferred installer of{" "}
-                <Link href="/services/sustainability" className={ABOUT_TEXT_LINK}>
+                <Link href="/services/intruder-alarm-systems" className={ABOUT_TEXT_LINK}>
                   intruder alarms
                 </Link>
                 ,{" "}
-                <Link href="/services/electrical-systems" className={ABOUT_TEXT_LINK}>
+                <Link href="/services/cctv-systems" className={ABOUT_TEXT_LINK}>
                   CCTV
                 </Link>
                 ,{" "}
-                <Link href="/services/energy-efficiency" className={ABOUT_TEXT_LINK}>
+                <Link href="/services/access-control-systems" className={ABOUT_TEXT_LINK}>
                   access control
                 </Link>
                 ,{" "}
-                <Link href="/services/mechanical-engineering" className={ABOUT_TEXT_LINK}>
+                <Link href="/services/fire-alarm-systems" className={ABOUT_TEXT_LINK}>
                   fire alarms
                 </Link>{" "}
                 and{" "}
-                <Link href="/services/maintenance" className={ABOUT_TEXT_LINK}>
+                <Link href="/services/video-door-entry-systems" className={ABOUT_TEXT_LINK}>
                   video entry systems
                 </Link>
                 .
@@ -470,47 +474,47 @@ export default function AboutPage() {
 
       <section
         id="disciplines-and-integration"
-        className="about-block about-block--black about-section-y about-section-px border-t border-white/10"
+        className="about-block about-block--white about-section-y about-section-px border-t border-black/10"
       >
         <div className="about-section-inner max-w-7xl">
           <Reveal>
-            <span className="section-label mb-4 block text-white/70">How we work</span>
+            <span className="section-label section-label--black mb-4 block">How we work</span>
             <h2
-              className="text-2xl font-bold leading-tight text-white md:text-3xl lg:text-4xl"
+              className="text-2xl font-bold leading-tight text-black md:text-3xl lg:text-4xl"
               style={{ fontFamily: "var(--font-menu)" }}
             >
               Disciplines &amp; integrated delivery
             </h2>
           </Reveal>
           <Reveal delayMs={60}>
-            <p className="mt-6 max-w-4xl text-base leading-relaxed text-white/82 md:text-lg">
+            <p className="mt-6 max-w-4xl text-base leading-relaxed text-black/80 md:text-lg">
               APX specialises in integrated fire and security solutions that work across multiple systems. Typical interfaces include fire alarm to access control release,
-              CCTV event-triggered recording, intruder alarm signalling to the monitoring station, EVAC coordinated with fire cause-and-effect, and BMS integration — helping
+              CCTV event-triggered recording, intruder alarm signalling to the monitoring station, EVAC coordinated with fire cause-and-effect, and BMS integration, helping
               reduce false alarms, improve site security, streamline building management and support emergency response.
             </p>
           </Reveal>
           <Reveal delayMs={100}>
-            <div className="mt-10 overflow-x-auto rounded-tl-xl rounded-br-xl border border-white/12">
-              <table className="w-full min-w-[min(100%,720px)] text-left text-sm text-white/85 md:min-w-[860px] md:text-base">
+            <div className="apx-site-table mt-10 overflow-x-auto rounded-tl-xl rounded-br-xl border border-black/12">
+              <table className="w-full min-w-[min(100%,720px)] text-left text-sm text-black/85 md:min-w-[860px] md:text-base">
                 <thead>
-                  <tr className="border-b border-white/12">
-                    <th scope="col" className="w-[18%] px-4 py-3 font-title text-xs font-semibold uppercase tracking-[0.12em] text-white/45">
+                  <tr className="border-b border-black/12">
+                    <th scope="col" className="w-[18%] px-4 py-3 font-title text-xs font-semibold uppercase tracking-[0.12em] text-black/45">
                       Discipline
                     </th>
-                    <th scope="col" className="px-4 py-3 font-title text-xs font-semibold uppercase tracking-[0.12em] text-white/45">
+                    <th scope="col" className="px-4 py-3 font-title text-xs font-semibold uppercase tracking-[0.12em] text-black/45">
                       Services included
                     </th>
-                    <th scope="col" className="w-[28%] px-4 py-3 font-title text-xs font-semibold uppercase tracking-[0.12em] text-white/45">
+                    <th scope="col" className="w-[28%] px-4 py-3 font-title text-xs font-semibold uppercase tracking-[0.12em] text-black/45">
                       Standards (typical)
                     </th>
                   </tr>
                 </thead>
-                <tbody className="divide-y divide-white/[0.07]">
+                <tbody className="divide-y divide-black/[0.08]">
                   {DISCIPLINES_INTEGRATION_ROWS.map((row) => (
-                    <tr key={row.discipline} className="align-top">
-                      <td className="px-4 py-3.5 font-medium text-white">{row.discipline}</td>
-                      <td className="px-4 py-3.5 text-white/75">{row.services}</td>
-                      <td className="px-4 py-3.5 text-sm text-white/65 md:text-[0.9375rem]">{row.standards}</td>
+                    <tr key={row.discipline} className="apx-site-table__row align-top">
+                      <td className="px-4 py-3.5 font-medium text-black">{row.discipline}</td>
+                      <td className="px-4 py-3.5 text-black/75">{row.services}</td>
+                      <td className="px-4 py-3.5 text-sm text-black/65 md:text-[0.9375rem]">{row.standards}</td>
                     </tr>
                   ))}
                 </tbody>
@@ -518,29 +522,28 @@ export default function AboutPage() {
             </div>
           </Reveal>
           <Reveal delayMs={140}>
-            <p className="mt-8 text-sm leading-relaxed text-white/65 md:text-base">
+            <p className="mt-8 text-sm leading-relaxed text-black/65 md:text-base">
               For dedicated capability lists, standards and deliverables, browse the{" "}
-              <Link href="/services" className={ABOUT_TEXT_LINK}>
+              <Link href="/services" className={ABOUT_TEXT_LINK_ON_LIGHT}>
                 services hub
-              </Link>{" "}
-              — including{" "}
-              <Link href="/services/fire-life-safety" className={ABOUT_TEXT_LINK}>
+              </Link>, including{" "}
+              <Link href="/services/fire-life-safety" className={ABOUT_TEXT_LINK_ON_LIGHT}>
                 fire &amp; life safety
               </Link>
               ,{" "}
-              <Link href="/services/refuge-disabled-communication" className={ABOUT_TEXT_LINK}>
+              <Link href="/services/refuge-disabled-communication" className={ABOUT_TEXT_LINK_ON_LIGHT}>
                 refuge &amp; disabled communication
               </Link>
               ,{" "}
-              <Link href="/services/evac-voice-evacuation" className={ABOUT_TEXT_LINK}>
+              <Link href="/services/evac-voice-evacuation" className={ABOUT_TEXT_LINK_ON_LIGHT}>
                 EVAC &amp; voice evacuation
               </Link>
               ,{" "}
-              <Link href="/services/security-systems" className={ABOUT_TEXT_LINK}>
+              <Link href="/services/security-systems" className={ABOUT_TEXT_LINK_ON_LIGHT}>
                 security systems
               </Link>{" "}
               and{" "}
-              <Link href="/services/maintenance-support" className={ABOUT_TEXT_LINK}>
+              <Link href="/services/maintenance-support" className={ABOUT_TEXT_LINK_ON_LIGHT}>
                 maintenance &amp; support
               </Link>
               .
@@ -549,52 +552,52 @@ export default function AboutPage() {
         </div>
       </section>
 
-      <section className="about-block about-block--black about-section-y about-section-px border-t border-white/10">
+      <section className="about-block about-block--white about-why-choose-section about-section-y about-section-px border-t border-black/10">
         <div className="about-section-inner max-w-4xl">
           <Reveal>
-            <h2 className="text-2xl font-bold leading-tight text-white md:text-3xl lg:text-4xl" style={{ fontFamily: "var(--font-menu)" }}>
+            <h2 className="text-2xl font-bold leading-tight text-black md:text-3xl lg:text-4xl" style={{ fontFamily: "var(--font-menu)" }}>
               Why choose APX Fire &amp; Security?
             </h2>
           </Reveal>
           <Reveal delayMs={60}>
-            <p className="mt-6 text-base leading-relaxed text-white/82 md:mt-8 md:text-lg">
+            <p className="mt-6 text-base leading-relaxed text-black/80 md:mt-8 md:text-lg">
               APX Fire &amp; Security have been providing bespoke high quality integrated{" "}
-              <Link href="/services" className={ABOUT_TEXT_LINK}>
+              <Link href="/services" className={ABOUT_TEXT_LINK_ON_LIGHT}>
                 security systems
               </Link>{" "}
               to London and the Home Counties since 1986. Our knowledge and years of experience means that we can offer advice in all aspects of security, from small
               domestic systems through to large-scale{" "}
-              <Link href="/services" className={ABOUT_TEXT_LINK}>
+              <Link href="/services" className={ABOUT_TEXT_LINK_ON_LIGHT}>
                 commercial installations
               </Link>
               .
             </p>
           </Reveal>
           <Reveal delayMs={100}>
-            <p className="mt-6 text-base leading-relaxed text-white/82 md:text-lg">
+            <p className="mt-6 text-base leading-relaxed text-black/80 md:text-lg">
               Our service commitment and reliable{" "}
-              <Link href="/services/maintenance-support" className={ABOUT_TEXT_LINK}>
+              <Link href="/services/maintenance-support" className={ABOUT_TEXT_LINK_ON_LIGHT}>
                 after-sales support
               </Link>{" "}
               provide an unrivalled service within the{" "}
-              <Link href="/services" className={ABOUT_TEXT_LINK}>
+              <Link href="/services" className={ABOUT_TEXT_LINK_ON_LIGHT}>
                 security systems industry
               </Link>{" "}
               and by adopting a customer-centred approach to our work within both the{" "}
-              <Link href="/services/cctv/domestic" className={ABOUT_TEXT_LINK}>
+              <Link href="/services/cctv/domestic" className={ABOUT_TEXT_LINK_ON_LIGHT}>
                 domestic
               </Link>{" "}
               and{" "}
-              <Link href="/services/cctv/commercial" className={ABOUT_TEXT_LINK}>
+              <Link href="/services/cctv/commercial" className={ABOUT_TEXT_LINK_ON_LIGHT}>
                 commercial
               </Link>{" "}
               sectors, we have been able to build the company on the strength of recommendations alone.
             </p>
           </Reveal>
           <Reveal delayMs={140}>
-            <p className="mt-6 text-base leading-relaxed text-white/82 md:text-lg">
+            <p className="mt-6 text-base leading-relaxed text-black/80 md:text-lg">
               Our systems provide our customers the peace of mind that a well designed, well installed and reliable{" "}
-              <Link href="/services" className={ABOUT_TEXT_LINK}>
+              <Link href="/services" className={ABOUT_TEXT_LINK_ON_LIGHT}>
                 security system
               </Link>{" "}
               can bring. You are safe and secure with APX.

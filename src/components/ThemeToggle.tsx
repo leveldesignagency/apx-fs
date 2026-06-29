@@ -67,6 +67,19 @@ const GlobalStyles = createGlobalStyle<{ theme: typeof lightTheme }>`
     color: rgba(255, 255, 255, 0.9) !important;
   }
 
+  /* Projects band – white surface, black header copy (GlobalStyles defaults are white-on-black) */
+  #projects.projects-section,
+  #projects.projects-section .projects-section__sticky {
+    background-color: #ffffff !important;
+  }
+  #projects.projects-section h2,
+  #projects.projects-section h2.home-section-title,
+  #projects.projects-section .section-label,
+  #projects.projects-section span.section-label,
+  #projects.projects-section .text-black {
+    color: #000000 !important;
+  }
+
   /* Footer – always light text on black background so it stays visible */
   footer,
   footer *,
@@ -122,15 +135,32 @@ const GlobalStyles = createGlobalStyle<{ theme: typeof lightTheme }>`
     background: ${({ theme }) => theme.buttonHover} !important;
   }
 
-  /* Projects + testimonials nav arrows: white border, no fill, white icon; hover = white fill, black icon (override global button) */
-  #projects .projects-nav-btn,
+  /* Projects header nav (white band): black outline; testimonials stay white-on-black */
+  #projects .projects-nav-btn {
+    background: transparent !important;
+    color: #000000 !important;
+    border-color: #000000 !important;
+  }
+  #projects .projects-nav-btn:hover,
+  #projects .projects-nav-btn:focus {
+    background: #000000 !important;
+    color: #ffffff !important;
+    border-color: #000000 !important;
+  }
+  #projects .projects-nav-btn svg {
+    color: #000000 !important;
+    stroke: #000000 !important;
+  }
+  #projects .projects-nav-btn:hover svg,
+  #projects .projects-nav-btn:focus svg {
+    color: #ffffff !important;
+    stroke: #ffffff !important;
+  }
   #testimonials .projects-nav-btn {
     background: transparent !important;
     color: white !important;
     border-color: white !important;
   }
-  #projects .projects-nav-btn:hover,
-  #projects .projects-nav-btn:focus,
   #testimonials .projects-nav-btn:hover,
   #testimonials .projects-nav-btn:focus {
     background: white !important;
@@ -139,7 +169,7 @@ const GlobalStyles = createGlobalStyle<{ theme: typeof lightTheme }>`
   }
 
   /*
-   * FS header hamburger + mobile menu close: same as MEP — global button rule is white fill / black text (!important).
+   * FS header hamburger + mobile menu close: same as MEP, global button rule is white fill / black text (!important).
    * Force black fill, white border, white icon to match MEP mobile chrome.
    */
   .fs-header-menu-trigger {
@@ -169,7 +199,7 @@ const GlobalStyles = createGlobalStyle<{ theme: typeof lightTheme }>`
     stroke: #ffffff !important;
   }
 
-  /* Mobile contact FAB: global button rule is white — force square black + white border (see MobileHomeContactFab) */
+  /* Mobile contact FAB: global button rule is white, force square black + white border (see MobileHomeContactFab) */
   .apx-mobile-contact-fab {
     background: #000000 !important;
     background-color: #000000 !important;
@@ -213,6 +243,115 @@ const GlobalStyles = createGlobalStyle<{ theme: typeof lightTheme }>`
   .header-contact-tab--dark button:hover,
   .header-contact-tab--light button:hover {
     background: transparent !important;
+  }
+
+  /* News hub filter pills: avoid global button black hover fill */
+  .news-page .news-hub__pill {
+    background: #ffffff !important;
+    background-color: #ffffff !important;
+    color: rgba(0, 0, 0, 0.65) !important;
+    border: 2px solid rgba(0, 0, 0, 0.18) !important;
+  }
+  .news-page .news-hub__pill:hover {
+    background: #ffffff !important;
+    background-color: #ffffff !important;
+    color: #000000 !important;
+    border-color: #000000 !important;
+  }
+  .news-page .news-hub__pill--active,
+  .news-page .news-hub__pill--active:hover {
+    background: #ffffff !important;
+    background-color: #ffffff !important;
+    color: #000000 !important;
+    border-color: #000000 !important;
+  }
+
+  /* News hub year filter: match tabloid controls, not global button fill */
+  .news-page .news-hub__year-trigger,
+  .news-page .news-hub__year-option {
+    background: #ffffff !important;
+    background-color: #ffffff !important;
+    color: #000000 !important;
+    border-color: #000000 !important;
+  }
+  .news-page .news-hub__year-trigger:hover {
+    background: #ffffff !important;
+    background-color: #ffffff !important;
+    color: #000000 !important;
+  }
+  .news-page .news-hub__year-option:hover {
+    background: rgba(0, 0, 0, 0.05) !important;
+    background-color: rgba(0, 0, 0, 0.05) !important;
+    color: #000000 !important;
+  }
+  .news-page .news-hub__year-option[aria-selected="true"] {
+    background: #000000 !important;
+    background-color: #000000 !important;
+    color: #ffffff !important;
+  }
+
+  /* News hub cards: white surface, no black hover fill from global theme */
+  .news-page .news-card,
+  .news-article-page .news-card {
+    background: #ffffff !important;
+    background-color: #ffffff !important;
+  }
+  .news-page .news-card:hover,
+  .news-article-page .news-card:hover {
+    background: #ffffff !important;
+    background-color: #ffffff !important;
+    box-shadow: none !important;
+  }
+  .news-page .news-card a,
+  .news-article-page .news-card a {
+    background: transparent !important;
+    background-color: transparent !important;
+  }
+  .news-page .news-card a:hover,
+  .news-article-page .news-card a:hover {
+    background: transparent !important;
+    background-color: transparent !important;
+  }
+
+  /* News article share: black filled icons on light band */
+  .news-article-page .news-article-share__btn {
+    background: transparent !important;
+    background-color: transparent !important;
+    color: #000000 !important;
+    border: none !important;
+    border-radius: 0 !important;
+    box-shadow: none !important;
+  }
+  .news-article-page .news-article-share__btn svg {
+    fill: currentColor !important;
+  }
+  .news-article-page .news-article-share__btn:hover {
+    background: rgba(0, 0, 0, 0.06) !important;
+    background-color: rgba(0, 0, 0, 0.06) !important;
+    color: #000000 !important;
+  }
+
+  /* Services dropdown CCTV +/- toggle: global button rule is white fill / black icon */
+  .fs-services-cctv-toggle-btn {
+    background: transparent !important;
+    background-color: transparent !important;
+    color: #ffffff !important;
+    border-radius: 0 !important;
+    box-shadow: none !important;
+  }
+  .fs-services-cctv-toggle-btn:hover {
+    background: rgba(255, 255, 255, 0.1) !important;
+    background-color: rgba(255, 255, 255, 0.1) !important;
+    color: #ffffff !important;
+  }
+  .fs-services-cctv-toggle-btn:focus,
+  .fs-services-cctv-toggle-btn:focus-visible {
+    background: transparent !important;
+    color: #ffffff !important;
+  }
+  .fs-services-cctv-toggle-btn svg {
+    color: #ffffff !important;
+    stroke: #ffffff !important;
   }
 
   /* Services drawer list items - no fill on hover, only shimmer in globals.css */

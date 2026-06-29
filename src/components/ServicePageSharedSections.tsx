@@ -1,8 +1,5 @@
 "use client"
 
-import { usePathname } from "next/navigation"
-import { useTheme } from "@/contexts/ThemeContext"
-
 const CLIENT_LOGO_PATHS = [
   "/Clients/_-01.png",
   "/Clients/_-02.png",
@@ -17,7 +14,7 @@ const CLIENT_LOGO_PATHS = [
   "/Clients/_-11.png",
 ]
 
-/** Same logo strip as “Our Customers” on service pages — reusable under section-specific headings */
+/** Same logo strip as “Our Customers” on service pages, reusable under section-specific headings */
 export function ClientLogosMarqueeStrip() {
   return (
     <div className="logo-marquee-section our-customers-marquee w-full overflow-hidden py-2">
@@ -41,27 +38,18 @@ export function ClientLogosMarqueeStrip() {
   )
 }
 
-function OurCustomersMarquee() {
-  return <ClientLogosMarqueeStrip />
-}
 
 export function OurCustomers({ serviceTitleShort }: { serviceTitleShort: string }) {
-  const pathname = usePathname()
-  const { theme } = useTheme()
-  const isDark = (pathname?.startsWith("/services") ?? false) || theme === "dark"
-  const textClass = isDark ? "text-white" : "text-black"
-  const bgColor = isDark ? "#000000" : "#ffffff"
-
   return (
     <>
-      <div className="w-full h-[0.75px] bg-black dark:bg-white" />
-      <section className="pt-12 pb-20 sm:pb-24 lg:pt-16 lg:pb-32" style={{ backgroundColor: bgColor }}>
+      <div className="w-full h-[0.75px] bg-black/15" aria-hidden />
+      <section className="bg-white pt-12 pb-20 text-black sm:pb-24 lg:pt-16 lg:pb-32">
         <div className="container relative mx-auto mb-10 w-full px-6 lg:px-8">
-          <h2 className={`text-left font-title text-4xl font-bold ${textClass}`}>
+          <h2 className="text-left font-title text-4xl font-bold text-black">
             Our {serviceTitleShort} customers
           </h2>
         </div>
-        <OurCustomersMarquee />
+        <ClientLogosMarqueeStrip />
       </section>
     </>
   )

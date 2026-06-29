@@ -81,7 +81,7 @@ const CookieConsent = () => {
   // Don't render until we've checked localStorage (client-only)
   if (!mounted) return null
 
-  // Settings button when banner is hidden — desktop/tablet: bottom-left; hidden on mobile (homepage uses contact FAB)
+  // Settings button when banner is hidden, desktop/tablet: bottom-left; hidden on mobile (homepage uses contact FAB)
   if (!showBanner && !showSettings) {
     return (
       <button

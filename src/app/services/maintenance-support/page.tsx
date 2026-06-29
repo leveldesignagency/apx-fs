@@ -5,7 +5,7 @@ import { buildFsMetadata } from "@/lib/seo-metadata"
 export const metadata: Metadata = buildFsMetadata({
   title: "Fire & Security Maintenance & Support | PPM London | APX",
   description:
-    "Planned maintenance, 24/7 call-out, upgrades and compliance checks for fire alarms, CCTV and access control — across London boroughs and the South East.",
+    "Planned maintenance, 24/7 call-out, upgrades and compliance checks for fire alarms, CCTV and access control, across London boroughs and the South East.",
   pathname: "/services/maintenance-support",
 })
 

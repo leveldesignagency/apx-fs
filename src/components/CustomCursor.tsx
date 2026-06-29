@@ -72,6 +72,10 @@ function isOverImage(clientX: number, clientY: number): boolean {
   return false;
 }
 
+function isInsidePassiveCursorZone(el: Element): boolean {
+  return el.closest(".apx-site-table, [data-cursor-passive]") !== null;
+}
+
 function isInteractiveTarget(el: EventTarget | null): boolean {
   if (!el || !(el instanceof Element)) return false;
   const node = el as HTMLElement;
@@ -89,6 +93,7 @@ function isInteractiveTarget(el: EventTarget | null): boolean {
 
 function isTextMagnify(el: EventTarget | null, clientX: number, clientY: number): boolean {
   if (!el || !(el instanceof Element)) return false;
+  if (isInsidePassiveCursorZone(el)) return false;
   if (isOverImage(clientX, clientY)) return false;
   if (isInteractiveTarget(el)) return false;
   const n = el as HTMLElement;

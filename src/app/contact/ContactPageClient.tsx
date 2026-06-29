@@ -6,23 +6,28 @@ import { HomeQuoteFormDrawShell } from "@/components/home/HomeQuoteFormDrawShell
 import { Reveal } from "@/components/Reveal"
 import { FormSubmitButton } from "@/components/ui/FormSubmitButton"
 import { GlassFormPanel } from "@/components/ui/GlassFormPanel"
+import { containDropdownWheelScroll } from "@/lib/containDropdownWheelScroll"
+import {
+  FS_CONTACT_SERVICE_SLUGS,
+  FS_LEGACY_CONTACT_SERVICE_SLUGS,
+} from "@/lib/fs-service-routes"
 import { ArrowUpRight, Mail, MapPin, Phone } from "lucide-react"
 
-/** Values match `/services/…` paths from the services hub for `?service=` deep links */
+/** Values match `/services/…` path segments for `?service=` deep links */
 const FS_CONTACT_SERVICES = [
-  { value: "electrical-systems", label: "CCTV systems" },
-  { value: "energy-efficiency", label: "Access control systems" },
-  { value: "sustainability", label: "Intruder alarm systems" },
-  { value: "mechanical-engineering", label: "Fire alarm systems" },
-  { value: "maintenance", label: "Video door entry systems" },
-  { value: "refuge-disabled-communication", label: "Refuge & disabled communication systems" },
-  { value: "evac-voice-evacuation", label: "EVAC & voice evacuation systems" },
-  { value: "fire-life-safety", label: "Fire & life safety systems" },
-  { value: "maintenance-support", label: "Maintenance & support" },
+  { value: FS_CONTACT_SERVICE_SLUGS.cctvSystems, label: "CCTV systems" },
+  { value: FS_CONTACT_SERVICE_SLUGS.accessControlSystems, label: "Access control systems" },
+  { value: FS_CONTACT_SERVICE_SLUGS.intruderAlarmSystems, label: "Intruder alarm systems" },
+  { value: FS_CONTACT_SERVICE_SLUGS.fireAlarmSystems, label: "Fire alarm systems" },
+  { value: FS_CONTACT_SERVICE_SLUGS.videoDoorEntrySystems, label: "Video door entry systems" },
+  { value: FS_CONTACT_SERVICE_SLUGS.refugeDisabledCommunication, label: "Refuge & Disabled Communication Systems" },
+  { value: FS_CONTACT_SERVICE_SLUGS.evacVoiceEvacuation, label: "EVAC & Voice Evacuation Systems" },
+  { value: FS_CONTACT_SERVICE_SLUGS.fireLifeSafety, label: "Fire & life safety systems" },
+  { value: FS_CONTACT_SERVICE_SLUGS.maintenanceSupport, label: "Maintenance & support" },
 ] as const
 
 const fieldClass =
-  "w-full rounded-xl border border-white/15 bg-black px-4 py-3.5 text-[17px] font-bold text-white placeholder:text-white/40 placeholder:font-normal outline-none transition-[border,box-shadow] focus:border-white/50 focus:ring-0 focus:bg-black"
+  "w-full rounded-none border border-white/15 bg-black px-4 py-3.5 text-[17px] font-bold text-white placeholder:text-white/40 placeholder:font-normal outline-none transition-[border,box-shadow] focus:border-white/50 focus:ring-0 focus:bg-black"
 
 export function ContactPageClient() {
   const searchParams = useSearchParams()
@@ -38,8 +43,10 @@ export function ContactPageClient() {
   }, [])
 
   useEffect(() => {
-    const s = searchParams.get("service")
-    if (s && FS_CONTACT_SERVICES.some((opt) => opt.value === s)) setService(s)
+    const raw = searchParams.get("service")
+    if (!raw) return
+    const normalized = FS_LEGACY_CONTACT_SERVICE_SLUGS[raw] ?? raw
+    if (FS_CONTACT_SERVICES.some((opt) => opt.value === normalized)) setService(normalized)
   }, [searchParams])
 
   const serviceLabel = service
@@ -86,7 +93,7 @@ export function ContactPageClient() {
                     </span>
                   </h1>
                   <p className="mt-6 max-w-md text-lg leading-relaxed text-white/72 md:text-xl">
-                    Fire, security and life safety — surveys, quotes and expert advice. We cover London and the Home
+                    Fire, security and life safety, surveys, quotes and expert advice. We cover London and the Home
                     Counties.
                   </p>
                 </Reveal>
@@ -161,7 +168,7 @@ export function ContactPageClient() {
 
               <div className="w-full">
                 <Reveal show={mounted} delayMs={120} className="w-full">
-                  <HomeQuoteFormDrawShell active>
+                  <HomeQuoteFormDrawShell active allowOverflow={serviceDropdownOpen}>
                     <div id="quote-form" className="relative w-full">
                       <GlassFormPanel>
                         <form ref={formRef} className="contact-page-form space-y-5" onSubmit={(e) => e.preventDefault()}>
@@ -227,7 +234,7 @@ export function ContactPageClient() {
                             type="button"
                             id="service"
                             onClick={() => setServiceDropdownOpen(!serviceDropdownOpen)}
-                            className={`flex w-full cursor-pointer items-center justify-between rounded-xl border border-white/15 bg-black px-4 py-3.5 text-left text-[17px] font-bold text-white outline-none transition-[border,box-shadow] focus:border-white/50 focus:bg-black focus:ring-0 ${service ? "text-white" : "text-white/85"}`}
+                            className={`flex w-full cursor-pointer items-center justify-between rounded-none border border-white/15 bg-black px-4 py-3.5 text-left text-[17px] font-bold text-white outline-none transition-[border,box-shadow] focus:border-white/50 focus:bg-black focus:ring-0 ${service ? "text-white" : "text-white/85"}`}
                           >
                             <span>{serviceLabel}</span>
                             <svg
@@ -243,7 +250,11 @@ export function ContactPageClient() {
                           </button>
                           <input type="hidden" name="service" value={service} />
                           {serviceDropdownOpen && (
-                            <div className="absolute left-0 right-0 top-full z-50 mt-2 max-h-60 overflow-auto rounded-xl border border-white/12 bg-zinc-950 py-2 shadow-2xl">
+                            <div
+                              className="quote-form-dropdown-menu absolute left-0 right-0 top-full z-50 mt-2 max-h-60 overflow-y-auto overscroll-contain rounded-none border border-white/12 bg-zinc-950 py-2 shadow-2xl"
+                              data-lenis-prevent
+                              onWheel={containDropdownWheelScroll}
+                            >
                               <button
                                 type="button"
                                 className="block w-full px-4 py-3 text-left text-[17px] font-bold text-white/90 transition-colors hover:bg-white/10"

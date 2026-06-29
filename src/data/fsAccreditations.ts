@@ -2,7 +2,7 @@ export const FS_ACCREDITATIONS = {
   bafe: {
     name: "BAFE",
     title: "About BAFE",
-    shortLabel: "BAFE — fire equipment certification",
+    shortLabel: "BAFE, fire equipment certification",
     icon: "/accreditations%20mono/Coloured/BAFE-01.svg",
     intro:
       "BAFE (British Approvals for Fire Equipment) is an independent, UKAS-accredited certification body focused on raising quality and competence across fire safety services.",
@@ -32,7 +32,7 @@ export const FS_ACCREDITATIONS = {
   nsi: {
     name: "NSI",
     title: "About NSI",
-    shortLabel: "NSI Gold — security & fire certification",
+    shortLabel: "NSI Gold, security & fire certification",
     icon: "/accreditations%20mono/NSI-01.svg",
     intro:
       "NSI (National Security Inspectorate) is one of the UK’s leading independent certification bodies for security and fire safety providers.",
@@ -62,7 +62,7 @@ export const FS_ACCREDITATIONS = {
   constructionline: {
     name: "Constructionline",
     title: "About Constructionline",
-    shortLabel: "Constructionline — pre-qualification",
+    shortLabel: "Constructionline, pre-qualification",
     icon: "/accreditations%20mono/Coloured/ConstructionOnline-01.svg",
     intro:
       "Constructionline is a widely used UK pre-qualification and supplier assurance platform for construction and built-environment procurement.",
@@ -92,7 +92,7 @@ export const FS_ACCREDITATIONS = {
   fia: {
     name: "FIA",
     title: "About FIA",
-    shortLabel: "FIA — fire industry association",
+    shortLabel: "FIA, fire industry association",
     icon: "/accreditations%20mono/Coloured/FIA-01.svg",
     intro:
       "The Fire Industry Association (FIA) is a major UK trade association for fire safety professionals, supporting standards, training and technical guidance.",
@@ -134,7 +134,7 @@ export const FS_ACCREDITATION_SEO: Record<FsAccreditationSlug, { title: string; 
   bafe: {
     title: "BAFE Fire Certification | Accredited Fire Safety | London & South East",
     description:
-      "Learn how BAFE certification supports quality fire protection — and how APX Fire & Security delivers BAFE-aligned fire alarm and life-safety systems across London and the Home Counties.",
+      "Learn how BAFE certification supports quality fire protection, and how APX Fire & Security delivers BAFE-aligned fire alarm and life-safety systems across London and the Home Counties.",
   },
   nsi: {
     title: "NSI Gold Fire & Security | Certified Installer | London & Home Counties",
@@ -144,11 +144,11 @@ export const FS_ACCREDITATION_SEO: Record<FsAccreditationSlug, { title: string; 
   constructionline: {
     title: "Constructionline Registered Contractor | Fire & Security | APX",
     description:
-      "Constructionline pre-qualification for construction procurement — APX Fire & Security as a verified fire and security partner for projects across London and the Home Counties.",
+      "Constructionline pre-qualification for construction procurement, APX Fire & Security as a verified fire and security partner for projects across London and the Home Counties.",
   },
   fia: {
     title: "Fire Industry Association (FIA) | Fire Safety Standards | APX",
     description:
-      "The FIA’s role in UK fire safety — and how APX aligns fire alarm, detection and life-safety delivery with industry standards across London and South East England.",
+      "The FIA’s role in UK fire safety, and how APX aligns fire alarm, detection and life-safety delivery with industry standards across London and South East England.",
   },
 }

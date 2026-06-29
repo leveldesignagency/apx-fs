@@ -38,7 +38,7 @@ export function CareerApplicationForm({
   const [phone, setPhone] = useState("")
   const [experience, setExperience] = useState("")
   const [cvFile, setCvFile] = useState<File | null>(null)
-  /** Honeypot — leave empty */
+  /** Honeypot, leave empty */
   const [hp, setHp] = useState("")
 
   const canNext1 = fullName.trim().length >= 2 && /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email.trim()) && phone.trim().length >= 8
@@ -95,7 +95,7 @@ export function CareerApplicationForm({
         <CheckCircle2 className="mx-auto h-14 w-14 text-emerald-400" aria-hidden />
         <h2 className="mt-6 font-title text-2xl font-bold text-white sm:text-3xl">Application sent</h2>
         <p className="mt-4 text-base leading-relaxed text-white/70">
-          Thank you — we have received your application for <span className="text-white/90">{role.title}</span>. If your
+          Thank you, we have received your application for <span className="text-white/90">{role.title}</span>. If your
           profile matches the role, our team will be in touch.
         </p>
         <Link
@@ -157,7 +157,7 @@ export function CareerApplicationForm({
       </ol>
 
       <p className="mt-4 text-center text-sm text-white/50 sm:hidden">
-        Step {step} of 3 — {STEPS[step - 1]}
+        Step {step} of 3, {STEPS[step - 1]}
       </p>
 
       <div className="mt-10 rounded-tl-2xl rounded-br-2xl border border-white/15 bg-black/40 p-6 sm:p-8">
@@ -259,7 +259,7 @@ export function CareerApplicationForm({
                 maxLength={2000}
                 className={`${fieldClass} min-h-[180px] resize-y`}
               />
-              <p className="mt-2 text-xs text-white/40">{experience.trim().length}/2000 — minimum 40 characters</p>
+              <p className="mt-2 text-xs text-white/40">{experience.trim().length}/2000, minimum 40 characters</p>
             </div>
             <div className="flex flex-col gap-3 pt-2 sm:flex-row sm:justify-between">
               <button
@@ -296,7 +296,7 @@ export function CareerApplicationForm({
                 onChange={(e) => setCvFile(e.target.files?.[0] ?? null)}
                 className="block w-full text-sm text-white/80 file:mr-4 file:rounded-tl-lg file:rounded-br-lg file:border-2 file:border-white/25 file:bg-black file:px-4 file:py-2 file:text-sm file:font-semibold file:text-white"
               />
-              <p className="mt-2 text-xs text-white/45">PDF or Word — max 5 MB</p>
+              <p className="mt-2 text-xs text-white/45">PDF or Word, max 5 MB</p>
               {cvFile ? (
                 <p className="mt-2 text-sm text-white/70">
                   Selected: {cvFile.name} ({(cvFile.size / 1024).toFixed(0)} KB)

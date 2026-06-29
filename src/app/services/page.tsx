@@ -9,49 +9,49 @@ const SERVICE_ROWS = [
     title: "CCTV systems",
     description:
       "IP and analogue CCTV design, installation, and commissioning with remote monitoring, retention setup, and secure network integration.",
-    href: "/services/electrical-systems",
+    href: "/services/cctv-systems",
     cta: "Go to CCTV systems",
   },
   {
     title: "Access control systems",
     description:
       "Door access, fob/card permissions, and networked control built for commercial and multi-tenant environments.",
-    href: "/services/energy-efficiency",
+    href: "/services/access-control-systems",
     cta: "Go to access control",
   },
   {
     title: "Intruder alarm systems",
     description:
       "Grade 2 and Grade 3 intruder systems with detection, monitoring integration, and clear handover documentation.",
-    href: "/services/sustainability",
+    href: "/services/intruder-alarm-systems",
     cta: "Go to intruder alarms",
   },
   {
     title: "Fire alarm systems",
     description:
       "Addressable and conventional fire alarm systems with full cause-and-effect testing, certification, and compliant delivery.",
-    href: "/services/mechanical-engineering",
+    href: "/services/fire-alarm-systems",
     cta: "Go to fire alarms",
   },
   {
-    title: "Refuge & disabled communication systems",
+    title: "Refuge & Disabled Communication Systems",
     description:
-      "Emergency voice communication (EVC) — disabled refuge points, fire telephones, toilet alarms and central panels to BS 5839-9.",
+      "Emergency voice communication (EVC), disabled refuge points, fire telephones, toilet alarms and central panels to BS 5839-9.",
     href: "/services/refuge-disabled-communication",
     cta: "Go to refuge & EVC",
   },
   {
-    title: "EVAC & voice evacuation systems",
+    title: "EVAC & Voice Evacuation Systems",
     description:
-      "Voice evacuation and PA integration with zoned messaging, amplifiers and speakers — aligned with BS 5839-8 and your fire strategy.",
+      "Voice evacuation and PA integration with zoned messaging, amplifiers and speakers, aligned with BS 5839-8 and your fire strategy.",
     href: "/services/evac-voice-evacuation",
-    cta: "Go to EVAC & voice",
+    cta: "Go to EVAC & Voice",
   },
   {
     title: "Video door entry systems",
     description:
       "Video entry and door access systems from single-door installations through to integrated, multi-user deployments.",
-    href: "/services/maintenance",
+    href: "/services/video-door-entry-systems",
     cta: "Go to video door entry",
   },
   {
@@ -83,7 +83,7 @@ export default function ServicesHubPage() {
             APX Fire & Security Services
           </h1>
           <p className="mt-4 max-w-3xl text-base leading-relaxed text-gray-300 md:text-lg">
-            Design, installation, commissioning and maintenance of fire and security systems across London and the Home Counties — from CCTV and access control to intruder alarms, fire alarms and ongoing support.
+            Design, installation, commissioning and maintenance of fire and security systems across London and the Home Counties, from CCTV and access control to intruder alarms, fire alarms and ongoing support.
           </p>
 
           <p className="section-label mt-12 text-white/75">Browse</p>

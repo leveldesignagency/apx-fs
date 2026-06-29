@@ -7,6 +7,10 @@ import { FS_SERVICE_QUICK_LINKS, normalizeFsPath } from "@/lib/fs-service-naviga
 export const fsServiceHeroPillLinkClass =
   "quick-nav-pill-shimmer inline-flex min-h-[44px] w-full max-w-full items-center justify-center rounded-tl-xl rounded-br-xl border border-white/40 bg-black/45 px-2 py-1.5 text-center text-[10px] font-semibold leading-snug tracking-tight text-white/95 backdrop-blur-sm transition-[border-color,color] duration-300 hover:border-white/70 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/50 sm:min-h-0 sm:min-w-0 sm:px-4 sm:py-2 sm:text-sm"
 
+/** Same pill look as quick nav, slightly larger for in-hero CTAs */
+export const fsServiceHeroPillLinkClassLg =
+  "quick-nav-pill-shimmer inline-flex min-h-[44px] min-w-[8.5rem] items-center justify-center rounded-tl-xl rounded-br-xl border border-white/40 bg-black/45 px-3 py-2 text-center text-[11px] font-semibold leading-snug tracking-tight text-white/95 backdrop-blur-sm transition-[border-color,color] duration-300 hover:border-white/70 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/50 sm:min-h-[46px] sm:min-w-[9rem] sm:px-3.5 sm:py-2 sm:text-sm"
+
 const pillClass = fsServiceHeroPillLinkClass
 
 /** Same as MEP: scroll strip on small screens only; `sm+` wraps, no scroll container. */

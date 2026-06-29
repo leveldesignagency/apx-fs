@@ -12,14 +12,14 @@ type Props = {
 }
 
 function splitStepTitle(title: string): { main: string; sub?: string } {
-  const m = title.match(/^(.+?)\s*[—–]\s*(.+)$/)
+  const m = title.match(/^(.+?)\s*[,–]\s*(.+)$/)
   if (!m) return { main: title }
   return { main: m[1]!.trim(), sub: m[2]!.trim() }
 }
 
 type Phase = "idle" | "exiting" | "entering"
 
-/** Title fades first, then items (last item ends ≈0.42s — keep in sync with globals exit delays) */
+/** Title fades first, then items (last item ends ≈0.42s, keep in sync with globals exit delays) */
 const MS_OUT = 450
 /** Enter overlaps digit tick: slide-from-top + stagger (≥ last delay + duration) */
 const MS_IN = 360
@@ -144,7 +144,7 @@ export function DeliveryMethodologyJourney({ steps }: Props) {
       />
 
       <div className="relative mx-auto flex w-full flex-col">
-        {/* Number left · title + items right — no flex-1 / min-h so nav sits under copy */}
+        {/* Number left · title + items right, no flex-1 / min-h so nav sits under copy */}
         <div className="flex w-full flex-row items-start gap-8 sm:gap-12 md:gap-16 lg:gap-20 xl:gap-24">
           <div className="relative z-10 flex w-[4.5rem] shrink-0 flex-col items-start sm:w-[5.5rem] md:w-[min(7rem,11vw)] lg:w-[min(8rem,9vw)]">
             <div
@@ -198,7 +198,7 @@ export function DeliveryMethodologyJourney({ steps }: Props) {
           </div>
         </div>
 
-        {/* Dots above arrows — shrink-0 + stable content min-h above keeps this from jumping */}
+        {/* Dots above arrows, shrink-0 + stable content min-h above keeps this from jumping */}
         <div className="-mt-5 flex shrink-0 flex-col items-center gap-3 sm:-mt-6 md:-mt-8">
           <div
             className="flex flex-wrap justify-center gap-2.5 md:gap-3"

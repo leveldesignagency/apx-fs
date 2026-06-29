@@ -1,5 +1,5 @@
 /**
- * SEO & local (GEO) configuration — APX Fire & Security.
+ * SEO & local (GEO) configuration, APX Fire & Security.
  * Set NEXT_PUBLIC_SITE_URL in production (e.g. https://www.apx-fs.co.uk).
  */
 
@@ -7,7 +7,7 @@ import { HOME_COUNTIES_AND_REGIONS, LONDON_BOROUGHS } from "./seo-geo-areas"
 
 export const FS_SITE_NAME = "APX Fire & Security"
 
-/** Default if env unset — replace in deployment */
+/** Default if env unset, replace in deployment */
 export function getFsSiteUrl(): string {
   const u = process.env.NEXT_PUBLIC_SITE_URL
   if (u?.trim()) return u.replace(/\/$/, "")
@@ -117,7 +117,7 @@ export function fsJsonLdGraph(): Record<string, unknown> {
               longitude: -0.1278,
             },
             geoRadius: 120000,
-            description: "Greater London, Home Counties and South East — fire and security installations and maintenance.",
+            description: "Greater London, Home Counties and South East, fire and security installations and maintenance.",
           },
         ],
         serviceType: [

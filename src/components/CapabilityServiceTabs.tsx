@@ -9,7 +9,7 @@ const TABS = [
   { href: "/services/maintenance-support", label: "Maintenance & support" },
 ] as const
 
-/** Tab links only — border lives on parent `.fs-capability-unified` / `.fs-capability-tabs-row` */
+/** Tab links only, border lives on parent `.fs-capability-unified` / `.fs-capability-tabs-row` */
 export function CapabilityServiceTabs() {
   const pathname = usePathname()
 

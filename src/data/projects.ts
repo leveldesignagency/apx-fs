@@ -55,11 +55,11 @@ export const FS_PROJECTS: FsProject[] = [
     summary:
       "The Sancroft Building, situated in the hub of the City of London, is a 429,000 sq. ft office complex across 9 floors plus a basement level. APX Fire & Security was invited by LJJ Electrical Building Services Contractors to carry out the installation of the Fire Alarm, Refuge and PAVA (Public Address & Voice Alarm) systems throughout the building.",
     challenge:
-      "Design and deliver a multi-system life-safety installation across a large office estate, while maintaining practical deployment and control across multiple floors.",
+      "Deliver integrated fire, refuge and PAVA systems across a nine-floor City office, coordinating multiple trades while keeping every floor operational and maintaining clear central control from a single ground-floor fire room.",
     solution:
-      "APX Fire & Security carried out the fire installation using Advanced fire panels and Apollo detection, linked to a TOA PAVA system across all floors. The system was connected to ten master PAVA panels and ten fire alarm panels, all interfaced with the PAVA and controlled from a specialised Fire Control Room on the ground floor. Refuge and disabled toilet alarms were installed across all floors using Vox Ignis controls and handsets, again linked to and controlled from the ground floor Fire Control Room.",
+      "APX installed Advanced fire panels with Apollo detection, linked to TOA PAVA across all floors. Ten master PAVA and ten fire alarm panels interface from a dedicated ground-floor control room, with Vox Ignis refuge and disabled WC alarms on every level.",
     outcome:
-      "A robust integrated life-safety solution was delivered with complete floor coverage, centralised control, and a clear, operationally resilient handover for the building team.",
+      "Complete floor coverage with centralised monitoring, resilient cause-and-effect integration and a handover package that gave the building team clear operational control from day one.",
     heroTitleLinkUrl: "https://sancroftlondon.co.uk/",
     heroLocationLinkUrl: mapsSearchUrl("Sancroft Building, Paternoster Square, London"),
     heroImage:
@@ -89,11 +89,11 @@ export const FS_PROJECTS: FsProject[] = [
     summary:
       "King’s College Hospital is a major teaching hospital and major trauma centre in Denmark Hill, Camberwell, in the London Borough of Lambeth. APX Fire & Security has been providing services to the trust since 2010.",
     challenge:
-      "Protect a large and complex estate of over one million sq. ft, including the main hospital and numerous satellite buildings, while minimising disruption to patients and staff.",
+      "Safeguard a major teaching hospital estate exceeding one million sq ft, including satellite buildings, without disrupting patient care, clinical routines or the security team's daily operations.",
     solution:
-      "APX Fire & Security installs, maintains and monitors approximately 250 intruder alarms across the estate. Control equipment has been standardised to make operation easier for trust staff and security teams. Works are delivered both directly with the trust and with principal and sub-contractors for capital projects, with careful planning around live healthcare operations.",
+      "APX installs, maintains and monitors around 250 intruder alarms across the trust, with standardised control equipment for simpler day-to-day use. Works are phased around live wards and delivered direct or with capital-project contractors.",
     outcome:
-      "The trust benefits from a consistent, manageable and dependable intruder alarm infrastructure across a major live healthcare environment, supported by experienced delivery teams working to tight deadlines.",
+      "The trust now has consistent, dependable intruder-alarm coverage estate-wide, supported by responsive engineers who meet tight healthcare deadlines and maintain privacy and dignity on every visit.",
     clientReview: {
       paragraphs: [
         "The team at APX Fire & Security maintain the hospital’s intruder and panic alarm systems. We have been dealing with APX for several years and have always found the team to be very helpful, even with those last minute requests on a Friday afternoon!",
@@ -130,14 +130,14 @@ export const FS_PROJECTS: FsProject[] = [
     summary:
       "Ledian Farm is a continual care retirement village in Kent, consisting of 66 two and three bed apartments spread across 5 buildings. Communal facilities include a health and leisure centre, spa, swimming pool, gym, fine dining restaurant, bar, cinema and library.",
     challenge:
-      "Provide 24-hour site security and access management across a large, high-end residential environment without compromising privacy or visual quality around the properties.",
+      "Secure a luxury retirement village across five buildings and shared leisure facilities, delivering 24-hour CCTV and access control without compromising residents' privacy or the quality of the built environment.",
     solution:
-      "APX Fire & Security was responsible for the design, installation and commissioning of the village’s CCTV and access control systems. The system uses Paxton access control combined with Hikvision CCTV dome and bullet cameras, integrated with a fully controlled PC-based platform linked to smartphones and tablets.",
+      "APX designed, installed and commissioned Paxton access control with Hikvision dome and bullet cameras, integrated through a PC-based platform with remote access via smartphones and tablets for authorised staff.",
     outcome:
-      "Cameras were discreetly positioned to avoid intrusiveness while still delivering the required level of security, resulting in an effective and easy-to-manage 24-hour security solution for residents and visitors.",
+      "Discreet camera placement and intuitive access permissions give residents round-the-clock protection and easy visitor management, with a platform the estate team can operate confidently without intruding on daily village life.",
     clientReview: {
       paragraphs: [
-        "I have had the pleasure of working with Paul and his team at APX Fire & Security for over 20 years — here at LJJ Ltd for the last 18 years, and for 2 years prior to this at IES in London.",
+        "I have had the pleasure of working with Paul and his team at APX Fire & Security for over 20 years, here at LJJ Ltd for the last 18 years, and for 2 years prior to this at IES in London.",
         "In this time they have carried out over 30 projects for me and have always completed on time and to a very high standard of installation. Even if at the end of projects, when commissioning time has been squeezed, the team have stayed and worked through the night to ensure that all services have been completed, certified and demonstrated to the client.",
         "They have worked on projects ranging from hospitals, schools, hotels, student accommodation, offices and residential apartment developments. Contract values have been from £5k up to £750k and covered all aspects of LV Electrical Works including Fire Alarms, Intruder, CCTV, Access Control, Disabled and Refuge Alarm Systems, IRS and DATA installations.",
         "APX Fire & Security is an important member of our supply chain and I recommend them for the services provided.",
@@ -177,11 +177,11 @@ export const FS_PROJECTS: FsProject[] = [
     summary:
       "Security and life-safety systems delivered across key resident and common spaces within a busy student accommodation setting.",
     challenge:
-      "Maintain resident safety and access continuity during installation phases.",
+      "Upgrade fire and access systems across a high-occupancy student building while keeping corridors, common areas and resident routes open and safe throughout phased installation works.",
     solution:
-      "Coordinated sequencing with property management and focused zone-based commissioning.",
+      "APX coordinated installation sequencing with property management, completing fire alarm and access upgrades zone by zone with focused commissioning before handover to the on-site team.",
     outcome:
-      "Strengthened system reliability and operational visibility for building teams.",
+      "Stronger life-safety and access control across resident and shared spaces, with clearer operational visibility for building teams and minimal disruption to day-to-day student life.",
     heroTitleLinkUrl: "https://www.scape.com/student-accommodation-bloomsbury/",
     heroLocationLinkUrl: mapsSearchUrl("Scape Bloomsbury, London"),
     heroImage:
@@ -206,11 +206,11 @@ export const FS_PROJECTS: FsProject[] = [
     summary:
       "Carefully phased installation works coordinated around hotel operations to maintain guest experience and operational continuity.",
     challenge:
-      "Upgrade critical systems without disrupting front-of-house and guest operations.",
+      "Refresh critical fire and access systems in a live luxury hotel without interrupting guest experience, front-of-house operations or the daily rhythm of a busy Mayfair property.",
     solution:
-      "Sequenced installation windows, close coordination with facilities teams and targeted commissioning by zone.",
+      "APX planned sequenced installation windows with the facilities team, completing fire detection and access upgrades by zone with targeted commissioning before each area returned to full use.",
     outcome:
-      "Improved safety and access resilience with minimal operational interruption.",
+      "Improved safety and access resilience across guest and back-of-house areas, delivered with minimal operational interruption and a clean handover for hotel management.",
     heroTitleLinkUrl: "https://www.themayfairtownhouse.co.uk/",
     heroLocationLinkUrl: mapsSearchUrl("The Mayfair Townhouse, London"),
     heroImage:
@@ -234,11 +234,11 @@ export const FS_PROJECTS: FsProject[] = [
     summary:
       "APX FS delivered targeted fire alarm improvements to support compliant detection coverage across campus spaces.",
     challenge:
-      "Deliver upgrades in occupied educational buildings with constrained access windows.",
+      "Improve fire detection across occupied campus buildings with limited access windows, balancing teaching timetables, exam periods and the need for compliant coverage in shared teaching spaces.",
     solution:
-      "Phased installation planning aligned to building use patterns and stakeholder coordination.",
+      "APX phased installation around building use patterns, coordinating with university stakeholders to upgrade alarm infrastructure floor by floor without closing teaching areas unnecessarily.",
     outcome:
-      "Reliable upgraded fire detection with clean handover and minimal impact on day-to-day operations.",
+      "Reliable, upgraded fire detection with documentation and testing records aligned to handover requirements, and minimal impact on students, staff and daily campus operations.",
     heroTitleLinkUrl: "https://www.uwl.ac.uk/",
     heroLocationLinkUrl: mapsSearchUrl("University of West London, London"),
     heroImage:
@@ -261,11 +261,11 @@ export const FS_PROJECTS: FsProject[] = [
     summary:
       "APX Fire & Security was approached to design and install a fire alarm system linked to a public address and voice alarm system for general and emergency announcements. The VX-3308WM wall-mount solution was selected to provide robust operation, practical deployment and cost-effective delivery from design through commissioning.",
     challenge:
-      "Deliver high-spec emergency audio performance across multiple floors while balancing programme efficiency, commissioning practicality and project cost.",
+      "Design and install a multi-floor emergency PA/VA system linked to fire alarm controls, meeting strict audio performance standards while keeping programme cost, cabling routes and commissioning practical on a busy City office build.",
     solution:
-      "A wall-mount PA/VA system was installed on each floor and linked back to the Fire Control Centre Room on the ground floor. Interlinked systems were connected via fire-rated copper Cat5 cabling, reducing long-distance cable requirements and avoiding a full fibre network approach. Each VX-3308WM unit integrated pre-assembled components including dual 300W amplifiers and power supply, with additional standby amplifiers and VX-3065BB battery boxes for enhanced resilience and backup power. The ground floor control hub included the RM-200SF fire microphone with extension units for expanded emergency control and zoning.",
+      "Wall-mount VX-3308WM PA/VA units on each floor feed back to a ground-floor Fire Control Centre via fire-rated Cat5 links. Dual amplifiers, standby units and battery backup at each level simplify fault-finding and reduce long cable runs.",
     outcome:
-      "The completed system provided a flexible, standards-compliant PA/VA infrastructure with efficient floor-by-floor commissioning, simpler fault-finding, reduced installation complexity and long-term operational resilience.",
+      "A flexible, BS 5839-aligned PA/VA estate with efficient floor-by-floor commissioning, clearer zoning from the ground-floor hub and a resilient audio infrastructure the facilities team can maintain with confidence.",
     heroTitleLinkUrl: mapsSearchUrl("Emergency PA VA system, City of London office"),
     heroLocationLinkUrl: mapsSearchUrl("City of London"),
     heroImage: "/projects/library/case-study-pa-va-system-installation-reception.jpg",
@@ -289,11 +289,11 @@ export const FS_PROJECTS: FsProject[] = [
     summary:
       "APX FS delivered targeted intruder alarm works at Greenwood Centre with programme planning around live public use of the building.",
     challenge:
-      "Upgrade security infrastructure in an active public building while maintaining day-to-day access and operations.",
+      "Enhance intruder alarm resilience at a busy council-operated community centre while maintaining public access, staff workflows and the centre's daily programme of activities.",
     solution:
-      "Phased installation and coordinated engineer attendance to minimize disruption to staff and visitors.",
+      "APX delivered phased intruder alarm works with coordinated engineer attendance, completing upgrades in live areas and validating monitoring paths before returning spaces to public use.",
     outcome:
-      "Improved site security performance and operational confidence for the facilities and management teams.",
+      "Stronger site security and monitoring performance for Camden Council, with improved operational confidence for facilities and management teams using the building every day.",
     heroTitleLinkUrl: "https://www.camden.gov.uk/",
     heroLocationLinkUrl: mapsSearchUrl("Greenwood Centre, Camden, London"),
     heroImage:
@@ -316,11 +316,11 @@ export const FS_PROJECTS: FsProject[] = [
     summary:
       "APX FS deployed access and entry infrastructure to improve resident control, visitor management and day-to-day building security.",
     challenge:
-      "Deliver dependable access solutions that are secure, intuitive and suitable for daily resident use.",
+      "Provide secure, intuitive access and video entry across a modern residential development, supporting daily resident use, visitor management and front-of-house control at reception and perimeter doors.",
     solution:
-      "Combined access control and video entry installations across key perimeter and reception points.",
+      "APX combined access control and video door entry at key perimeter and reception points, integrating entry permissions with a platform the managing agent could administer without specialist support.",
     outcome:
-      "Clearer building access management, improved resident confidence and stronger front-of-house control.",
+      "Clearer building access management for residents and staff, improved visitor handling at the front door and stronger day-to-day security across the development's shared and private areas.",
     heroTitleLinkUrl: mapsSearchUrl("Aspire Herschel Street, Slough, Berkshire"),
     heroLocationLinkUrl: mapsSearchUrl("Herschel Street, Slough, Berkshire"),
     heroImage:

@@ -56,28 +56,28 @@ export async function POST(req: Request) {
     message = message.slice(0, 8000)
   }
 
-  const subject = "CONTACT-(website enquiry — APX FS)"
+  const subject = "CONTACT-(website enquiry, APX FS)"
 
   const text = [
-    "New contact form submission — APX Fire & Security",
+    "New contact form submission, APX Fire & Security",
     "",
     `Name: ${name}`,
     `Email: ${email}`,
-    `Phone: ${phone || "—"}`,
-    `Service: ${serviceLabel || "—"}`,
-    `Preferred contact: ${contactMethod || "—"}`,
+    `Phone: ${phone || ","}`,
+    `Service: ${serviceLabel || ","}`,
+    `Preferred contact: ${contactMethod || ","}`,
     "",
     "Message:",
     message,
   ].join("\n")
 
   const html = `
-  <h2 style="font-family:system-ui,sans-serif">Contact form — APX Fire &amp; Security</h2>
+  <h2 style="font-family:system-ui,sans-serif">Contact form, APX Fire &amp; Security</h2>
   <p style="font-family:system-ui,sans-serif"><strong>Name:</strong> ${esc(name)}</p>
   <p style="font-family:system-ui,sans-serif"><strong>Email:</strong> ${esc(email)}</p>
-  <p style="font-family:system-ui,sans-serif"><strong>Phone:</strong> ${esc(phone || "—")}</p>
-  <p style="font-family:system-ui,sans-serif"><strong>Service:</strong> ${esc(serviceLabel || "—")}</p>
-  <p style="font-family:system-ui,sans-serif"><strong>Preferred contact:</strong> ${esc(contactMethod || "—")}</p>
+  <p style="font-family:system-ui,sans-serif"><strong>Phone:</strong> ${esc(phone || ",")}</p>
+  <p style="font-family:system-ui,sans-serif"><strong>Service:</strong> ${esc(serviceLabel || ",")}</p>
+  <p style="font-family:system-ui,sans-serif"><strong>Preferred contact:</strong> ${esc(contactMethod || ",")}</p>
   <h3 style="font-family:system-ui,sans-serif">Message</h3>
   <pre style="font-family:system-ui,sans-serif;white-space:pre-wrap">${esc(message)}</pre>
   `

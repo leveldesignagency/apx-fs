@@ -3,8 +3,9 @@
 import Link from "next/link"
 import Image from "next/image"
 import { usePathname } from "next/navigation"
-import { Phone, Mail, Menu, X, ArrowRight, Facebook, Instagram, Linkedin, ChevronDown } from "lucide-react"
-import { useState, useRef, useEffect, useLayoutEffect, useCallback, type TransitionEvent } from "react"
+import { Phone, Mail, Menu, X, ArrowRight, Plus, Minus } from "lucide-react"
+import { ApxSocialLinks } from "@/components/ApxSocialLinks"
+import { useState, useRef, useEffect, useLayoutEffect, useCallback, type MouseEvent, type TransitionEvent } from "react"
 import { createPortal } from "react-dom"
 import { useTheme } from '@/contexts/ThemeContext'
 import { cn } from "@/lib/utils"
@@ -36,7 +37,7 @@ export default function Header() {
   const isAboutPage = path === "/about"
   const isProjectsPage = path === "/projects" || path.startsWith("/projects/")
   const isProjectDetailPage = path.startsWith("/projects/") && path !== "/projects"
-  /** Any URL under /services/… (not the hub) — transparent header over hero; header scrolls away with the page */
+  /** Any URL under /services/… (not the hub), transparent header over hero; header scrolls away with the page */
   const isServiceSubpage = path.startsWith("/services/")
   const isBlackHeaderCanvas =
     isCapabilityDetailPage ||
@@ -45,7 +46,7 @@ export default function Header() {
     isProjectsPage
   const isTransparentHeaderPage = isServiceSubpage || isProjectDetailPage
   const isServicesPage = pathname.startsWith("/services/") || isProjectDetailPage
-  /** Solid black header shell — not on service subpages where a transparent bar sits over the hero */
+  /** Solid black header shell, not on service subpages where a transparent bar sits over the hero */
   const useBlackHeaderCanvas = isBlackHeaderCanvas && !isProjectDetailPage && !isServiceSubpage
   const [isMenuOpen, setIsMenuOpen] = useState(false)
   const [fsMenuPanelIn, setFsMenuPanelIn] = useState(false)
@@ -54,11 +55,17 @@ export default function Header() {
   const [fsMenuPortalReady, setFsMenuPortalReady] = useState(false)
   const [isServicesOpen, setIsServicesOpen] = useState(false)
   const [toast, setToast] = useState<{ message: string; type: 'phone' | 'email' } | null>(null)
-  const [contactTabReady, setContactTabReady] = useState(false)
   const servicesCloseTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null)
   /** Fallback if `transitionend` for the panel transform is missed (browser / stacking quirks). */
   const fsMenuCloseTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null)
   const [isCctvExpanded, setIsCctvExpanded] = useState(false)
+  /** Defer logo drop-in until after first paint so the SVG never flashes before the animation. */
+  const [logoAnimArmed, setLogoAnimArmed] = useState(isServicesPage)
+
+  useLayoutEffect(() => {
+    if (isServicesPage) return
+    setLogoAnimArmed(true)
+  }, [isServicesPage])
 
   const clearFsMenuCloseTimer = useCallback(() => {
     if (fsMenuCloseTimerRef.current) {
@@ -71,11 +78,26 @@ export default function Header() {
     if (servicesCloseTimeoutRef.current) {
       clearTimeout(servicesCloseTimeoutRef.current)
       servicesCloseTimeoutRef.current = null
+    } else if (!isServicesOpen) {
+      setIsCctvExpanded(false)
     }
     setIsServicesOpen(true)
   }
   const closeServices = () => {
-    servicesCloseTimeoutRef.current = setTimeout(() => setIsServicesOpen(false), 280)
+    servicesCloseTimeoutRef.current = setTimeout(() => {
+      setIsServicesOpen(false)
+      setIsCctvExpanded(false)
+    }, 280)
+  }
+
+  const toggleCctvExpanded = (e: MouseEvent<HTMLButtonElement>) => {
+    e.preventDefault()
+    e.stopPropagation()
+    if (servicesCloseTimeoutRef.current) {
+      clearTimeout(servicesCloseTimeoutRef.current)
+      servicesCloseTimeoutRef.current = null
+    }
+    setIsCctvExpanded((expanded) => !expanded)
   }
 
   const closeFsMenu = useCallback(() => {
@@ -167,7 +189,7 @@ export default function Header() {
   }
 
   /**
-   * Absolute top of .site-shell — full-bleed heroes sit underneath; not `fixed`, so the bar scrolls with the page.
+   * Absolute top of .site-shell, full-bleed heroes sit underneath; scrolls with the page.
    */
   const headerLayoutClass =
     "absolute top-0 left-0 right-0 z-[100] w-full max-w-[100vw] pointer-events-auto"
@@ -241,11 +263,11 @@ export default function Header() {
               >
                 <div className="divide-y divide-white/[0.1] rounded-br-2xl">
                   {[
-                    { href: '/services/electrical-systems', label: 'CCTV SYSTEMS' },
-                    { href: '/services/energy-efficiency', label: 'ACCESS CONTROL SYSTEMS' },
-                    { href: '/services/sustainability', label: 'INTRUDER ALARM SYSTEMS' },
-                    { href: '/services/mechanical-engineering', label: 'FIRE ALARM SYSTEMS' },
-                    { href: '/services/maintenance', label: 'VIDEO DOOR ENTRY SYSTEMS' },
+                    { href: '/services/cctv-systems', label: 'CCTV SYSTEMS' },
+                    { href: '/services/access-control-systems', label: 'ACCESS CONTROL SYSTEMS' },
+                    { href: '/services/intruder-alarm-systems', label: 'INTRUDER ALARM SYSTEMS' },
+                    { href: '/services/fire-alarm-systems', label: 'FIRE ALARM SYSTEMS' },
+                    { href: '/services/video-door-entry-systems', label: 'VIDEO DOOR ENTRY SYSTEMS' },
                     { href: '/services/refuge-disabled-communication', label: 'REFUGE & DISABLED COMMS' },
                     { href: '/services/evac-voice-evacuation', label: 'EVAC & VOICE EVACUATION' },
                   ].map(({ href, label }) => (
@@ -317,17 +339,11 @@ export default function Header() {
                 </div>
               </div>
             </a>
-            <div className="flex items-center gap-4 pl-1">
-              <a href="https://facebook.com" target="_blank" rel="noopener noreferrer" className="text-white hover:opacity-80 transition-opacity" aria-label="Facebook">
-                <Facebook className="h-4 w-4" strokeWidth={1.5} />
-              </a>
-              <a href="https://instagram.com" target="_blank" rel="noopener noreferrer" className="text-white hover:opacity-80 transition-opacity" aria-label="Instagram">
-                <Instagram className="h-4 w-4" strokeWidth={1.5} />
-              </a>
-              <a href="https://linkedin.com" target="_blank" rel="noopener noreferrer" className="text-white hover:opacity-80 transition-opacity" aria-label="LinkedIn">
-                <Linkedin className="h-4 w-4" strokeWidth={1.5} />
-              </a>
-            </div>
+            <ApxSocialLinks
+              className="flex items-center gap-4 pl-1"
+              iconClassName="h-4 w-4"
+              linkClassName="text-white transition-opacity hover:opacity-80"
+            />
           </div>
 
           {/* Mobile menu button */}
@@ -408,19 +424,38 @@ export default function Header() {
                 if (isMenuOpen) closeFsMenu()
               }}
             >
-              <span className="header-logo-drop-in inline-block">
-                <span className="header-logo-hover-wrap relative inline-block overflow-hidden">
-                  <Image
-                    src="/__APX Web Logo FS.svg"
-                    alt="APX Fire & Security Logo"
-                    width={334}
-                    height={112}
-                    className="relative z-10 h-20 w-auto sm:h-24 lg:h-28"
-                  />
+              <span
+                className={cn(
+                  "inline-block h-20 overflow-hidden sm:h-24 lg:h-28",
+                  !isServicesPage &&
+                    (logoAnimArmed ? "header-logo-drop-in" : "header-logo-drop-in-pending"),
+                )}
+              >
+                <span
+                  className="header-logo-drop-in__motion inline-block"
+                  style={
+                    !isServicesPage && !logoAnimArmed
+                      ? {
+                          opacity: 0,
+                          visibility: "hidden",
+                          transform: "translateY(-100%)",
+                        }
+                      : undefined
+                  }
+                >
+                  <span className="header-logo-hover-wrap relative inline-block overflow-hidden">
+                    <Image
+                      src="/__APX Web Logo FS.svg"
+                      alt="APX Fire & Security Logo"
+                      width={334}
+                      height={112}
+                      className="relative z-10 h-20 w-auto sm:h-24 lg:h-28"
+                    />
+                  </span>
                 </span>
               </span>
             </Link>
-            {/* FIRE & SECURITY: same positioning as MEP mech tag — only at lg+ (web); hidden on phone/tablet */}
+            {/* FIRE & SECURITY: same positioning as MEP mech tag, only at lg+ (web); hidden on phone/tablet */}
             <div className="hidden lg:block absolute left-[12.25rem] top-1/2 -translate-y-1/2 z-0 w-[17rem] overflow-hidden pointer-events-none">
               <div
                 className="flex w-fit items-center rounded-br-2xl header-mech-security-in pl-7 pr-3.5 py-1"
@@ -451,48 +486,52 @@ export default function Header() {
                   <span className="absolute bottom-0 left-1/2 w-full h-0.5 transform -translate-x-1/2 scale-x-0 origin-center transition-transform duration-500 group-hover:scale-x-100" style={{ backgroundColor: '#fff' }} />
                 </Link>
                 <div
-                  className="absolute z-40 overflow-hidden rounded-br-2xl"
+                  className="fs-services-nav-dropdown"
                   style={{
-                    top: 'calc(100% + 1.2rem)',
-                    left: '-32.5px',
-                    width: '264.5px',
                     maxHeight: isServicesOpen ? (isCctvExpanded ? '560px' : '460px') : '0',
                     pointerEvents: isServicesOpen ? 'auto' : 'none',
-                    transition: 'max-height 0.5s cubic-bezier(0.4, 0, 0.2, 1)',
-                    backgroundColor: 'black',
-                    border: '1px solid white',
-                    borderTop: 'none',
                   }}
                   onMouseEnter={openServices}
                   onMouseLeave={() => {
-                    closeServices()
                     setIsCctvExpanded(false)
+                    closeServices()
                   }}
                 >
                   <div className="divide-y divide-white/[0.1] rounded-br-2xl">
-                    {/* CCTV SYSTEMS: hover expands to show 3 sub-options underneath; stays open until user leaves dropdown */}
-                    <div
-                      className="transition-colors"
-                      onMouseEnter={() => setIsCctvExpanded(true)}
-                    >
-                      <a
-                        href="/services/electrical-systems"
-                        className="dropdown-item relative group flex items-center justify-between gap-2 px-4 py-2 text-sm leading-relaxed cursor-pointer uppercase"
-                        style={{ color: '#fff' }}
-                        onClick={() => {
-                          setIsServicesOpen(false)
-                          setIsCctvExpanded(false)
-                          if (servicesCloseTimeoutRef.current) {
-                            clearTimeout(servicesCloseTimeoutRef.current)
-                            servicesCloseTimeoutRef.current = null
-                          }
-                        }}
-                      >
-                        <span className="absolute top-0 left-0 w-full h-0.5 transform scale-x-0 origin-left transition-transform duration-500 group-hover:scale-x-100" style={{ backgroundColor: '#fff' }} />
-                        <span className="absolute bottom-0 left-0 w-full h-0.5 transform scale-x-0 origin-left transition-transform duration-500 group-hover:scale-x-100" style={{ backgroundColor: '#fff' }} />
-                        <span>CCTV SYSTEMS</span>
-                        <ChevronDown className="w-3.5 h-3.5 flex-shrink-0 opacity-80" style={{ stroke: '#fff', transform: isCctvExpanded ? 'rotate(180deg)' : 'none', transition: 'transform 0.2s ease' }} />
-                      </a>
+                    {/* CCTV SYSTEMS: click +/- to expand sub-options; collapses when leaving the dropdown */}
+                    <div className="bg-black transition-colors">
+                      <div className="relative flex w-full items-stretch justify-between bg-black">
+                        <a
+                          href="/services/cctv-systems"
+                          className="dropdown-item relative group flex min-w-0 flex-1 items-center px-4 py-2 text-sm leading-relaxed cursor-pointer uppercase"
+                          style={{ color: '#fff' }}
+                          onClick={() => {
+                            setIsServicesOpen(false)
+                            setIsCctvExpanded(false)
+                            if (servicesCloseTimeoutRef.current) {
+                              clearTimeout(servicesCloseTimeoutRef.current)
+                              servicesCloseTimeoutRef.current = null
+                            }
+                          }}
+                        >
+                          <span className="absolute top-0 left-0 w-full h-0.5 transform scale-x-0 origin-left transition-transform duration-500 group-hover:scale-x-100" style={{ backgroundColor: '#fff' }} />
+                          <span className="absolute bottom-0 left-0 w-full h-0.5 transform scale-x-0 origin-left transition-transform duration-500 group-hover:scale-x-100" style={{ backgroundColor: '#fff' }} />
+                          <span>CCTV SYSTEMS</span>
+                        </a>
+                        <button
+                          type="button"
+                          className="fs-services-cctv-toggle-btn flex flex-shrink-0 items-center justify-center border-l border-white/10 px-3 py-2 text-white opacity-85 transition-opacity hover:opacity-100 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-[-2px] focus-visible:outline-white/60"
+                          aria-expanded={isCctvExpanded}
+                          aria-label={isCctvExpanded ? "Collapse CCTV systems menu" : "Expand CCTV systems menu"}
+                          onClick={toggleCctvExpanded}
+                        >
+                          {isCctvExpanded ? (
+                            <Minus className="h-3.5 w-3.5 flex-shrink-0" stroke="#fff" aria-hidden />
+                          ) : (
+                            <Plus className="h-3.5 w-3.5 flex-shrink-0" stroke="#fff" aria-hidden />
+                          )}
+                        </button>
+                      </div>
                       {isCctvExpanded && (
                         <>
                           <a
@@ -550,10 +589,10 @@ export default function Header() {
                       )}
                     </div>
                     {[
-                      { href: '/services/energy-efficiency', label: 'ACCESS CONTROL SYSTEMS' },
-                      { href: '/services/sustainability', label: 'INTRUDER ALARM SYSTEMS' },
-                      { href: '/services/mechanical-engineering', label: 'FIRE ALARM SYSTEMS' },
-                      { href: '/services/maintenance', label: 'VIDEO DOOR ENTRY SYSTEMS' },
+                      { href: '/services/access-control-systems', label: 'ACCESS CONTROL SYSTEMS' },
+                      { href: '/services/intruder-alarm-systems', label: 'INTRUDER ALARM SYSTEMS' },
+                      { href: '/services/fire-alarm-systems', label: 'FIRE ALARM SYSTEMS' },
+                      { href: '/services/video-door-entry-systems', label: 'VIDEO DOOR ENTRY SYSTEMS' },
                       { href: '/services/refuge-disabled-communication', label: 'REFUGE & DISABLED COMMS' },
                       { href: '/services/evac-voice-evacuation', label: 'EVAC & VOICE EVACUATION' },
                     ].map(({ href, label }) => (
@@ -617,16 +656,12 @@ export default function Header() {
                   </div>
                 </div>
               </a>
-              <div className="flex items-center gap-4 pl-1 header-nav-item-in" style={{ animationDelay: '3.54s' }}>
-                <a href="https://facebook.com" target="_blank" rel="noopener noreferrer" className="text-white hover:opacity-80 transition-opacity" aria-label="Facebook">
-                  <Facebook className="h-4 w-4" strokeWidth={1.5} />
-                </a>
-                <a href="https://instagram.com" target="_blank" rel="noopener noreferrer" className="text-white hover:opacity-80 transition-opacity" aria-label="Instagram">
-                  <Instagram className="h-4 w-4" strokeWidth={1.5} />
-                </a>
-                <a href="https://linkedin.com" target="_blank" rel="noopener noreferrer" className="text-white hover:opacity-80 transition-opacity" aria-label="LinkedIn">
-                  <Linkedin className="h-4 w-4" strokeWidth={1.5} />
-                </a>
+              <div className="header-nav-item-in" style={{ animationDelay: "3.54s" }}>
+                <ApxSocialLinks
+                  className="flex items-center gap-4 pl-1"
+                  iconClassName="h-4 w-4"
+                  linkClassName="text-white transition-opacity hover:opacity-80"
+                />
               </div>
             </div>
             <button
@@ -651,17 +686,14 @@ export default function Header() {
         </div>
       </nav>
 
-      {/* Contact Tab + toast: pill sits tight under the tab */}
-      <div className={`absolute top-full right-[54px] hidden lg:block ${contactTabReady ? 'z-20' : 'z-0'}`}>
+      {/* Contact Tab + toast: above nav (z-10) so phone/email stay clickable on service pages (no entrance animation). */}
+      <div className="pointer-events-auto absolute top-full right-[54px] z-30 hidden lg:block">
         <div className="relative">
           <div
-            className="header-contact-tab--dark header-contact-tab-drop-in rounded-t-none rounded-b-xl border-2 border-t-0 px-4 py-2 flex items-center space-x-3"
+            className="header-contact-tab--dark header-contact-tab-drop-in flex items-center space-x-3 rounded-t-none rounded-b-xl border-2 border-t-0 px-4 py-2"
             style={{
               borderColor: "#fff",
               backgroundColor: "#000",
-            }}
-            onAnimationEnd={(e) => {
-              if (e.animationName === 'header-contact-tab-drop-in') setContactTabReady(true)
             }}
           >
             <button
@@ -687,7 +719,7 @@ export default function Header() {
               aria-live="polite"
               className="absolute left-1/2 z-[110] -translate-x-1/2 whitespace-nowrap rounded-full border border-black/10 bg-white px-3.5 py-1.5 text-xs font-semibold text-black shadow-md"
               style={{
-                /* Tab uses translateY(-36px); layout box is still full height — anchor toast to visual bottom + ~5px */
+                /* Tab uses translateY(-36px); layout box is still full height, anchor toast to visual bottom + ~5px */
                 top: "calc(100% - 36px + 0.3125rem)",
               }}
             >

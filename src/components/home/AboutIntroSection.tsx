@@ -16,6 +16,8 @@ export type AboutIntroSectionProps = {
 
 const STAGGER_MS = 95
 
+const ABOUT_INTRO_BACKGROUND_IMAGE = "/beautiful-city-evening.jpg"
+
 function Line({
   children,
   index,
@@ -83,10 +85,16 @@ export function AboutIntroSection({ bodyLines = DEFAULT_BODY_LINES }: AboutIntro
     <section
       ref={sectionRef}
       id="about-intro"
-      className="relative bg-black py-20 lg:py-28"
+      className="relative isolate overflow-hidden bg-black py-20 lg:py-28"
       aria-label="Our story"
     >
-      <div className="container mx-auto px-6 lg:px-8">
+      <div
+        className="pointer-events-none absolute inset-0 bg-cover bg-center bg-no-repeat brightness-[0.72] saturate-[0.9]"
+        style={{ backgroundImage: `url("${ABOUT_INTRO_BACKGROUND_IMAGE}")` }}
+        aria-hidden
+      />
+      <div className="pointer-events-none absolute inset-0 bg-black/68" aria-hidden />
+      <div className="container relative z-10 mx-auto px-6 lg:px-8">
         <div className="mx-auto max-w-4xl text-center">
           <Line
             index={0}

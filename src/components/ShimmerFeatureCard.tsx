@@ -5,7 +5,7 @@ import { FS_SERVICE_SHIMMER_CARD } from "@/lib/fsServicePageCards"
 
 export type ShimmerFeatureCardProps = {
   className?: string
-  /** Full card content — takes precedence over icon / title / description when provided. */
+  /** Full card content, takes precedence over icon / title / description when provided. */
   children?: ReactNode
   icon?: ReactNode
   title?: string

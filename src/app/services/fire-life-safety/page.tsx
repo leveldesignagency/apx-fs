@@ -6,7 +6,7 @@ import { buildFsMetadata } from "@/lib/seo-metadata"
 export const metadata: Metadata = buildFsMetadata({
   title: "Fire Alarm Systems & Life Safety | London Installers | APX",
   description:
-    "Addressable and conventional fire alarms — design, installation, commissioning and certification across London boroughs, Kent, Essex and the Home Counties. BS 5839-1 aligned delivery.",
+    "Addressable and conventional fire alarms, design, installation, commissioning and certification across London boroughs, Kent, Essex and the Home Counties. BS 5839-1 aligned delivery.",
   pathname: "/services/fire-life-safety",
 })
 
@@ -46,7 +46,7 @@ const intro = (
       >
         EVAC and voice evacuation
       </Link>
-      , we maintain standalone scopes and documentation — follow the links for capabilities, standards and handover packs.
+      , we maintain standalone scopes and documentation, follow the links for capabilities, standards and handover packs.
     </p>
   </>
 )

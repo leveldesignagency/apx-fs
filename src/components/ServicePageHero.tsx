@@ -13,22 +13,24 @@ import {
 export type ServicePageHeroProps = {
   title: string
   intro: ReactNode
-  /** Omit for capability pillars — solid black hero, no photo */
+  /** Omit for capability pillars, solid black hero, no photo */
   imageSrc?: string
   imageAlt?: string
   imageClassName?: string
   /**
-   * `quick-links` — pill links to other services at bottom of hero (default).
-   * `cctv-tabs` — same bottom pill row for CCTV subpages.
+   * `quick-links`, pill links to other services at bottom of hero (default).
+   * `cctv-tabs`, same bottom pill row for CCTV subpages.
    */
   heroNav?: "quick-links" | "cctv-tabs" | false
   /**
-   * Pillar / text-only heroes: no 70vh band — keeps title+intro tight to the section below (e.g. capability tables).
+   * Pillar / text-only heroes: no 70vh band, keeps title+intro tight to the section below (e.g. capability tables).
    * Use with no `imageSrc` and `heroNav={false}`.
    */
   compact?: boolean
-  /** Short standard references — subtle, bottom-right of hero (above quick nav when present) */
+  /** Short standard references, subtle, bottom-right of hero (above quick nav when present) */
   heroCompliance?: readonly string[]
+  /** Optional row under the intro paragraph (e.g. domestic / commercial pills on CCTV hub) */
+  afterIntro?: ReactNode
 }
 
 function HeroIntro({ children }: { children: ReactNode }) {
@@ -52,6 +54,7 @@ export function ServicePageHero({
   heroNav = "quick-links",
   compact = false,
   heroCompliance,
+  afterIntro,
 }: ServicePageHeroProps) {
   const showImage = Boolean(imageSrc)
   const compactLayout = Boolean(compact && !showImage && heroNav === false)
@@ -60,7 +63,7 @@ export function ServicePageHero({
     <section
       className={
         compactLayout
-          ? "service-page-hero relative flex min-h-0 flex-col overflow-hidden bg-transparent"
+          ? "service-page-hero service-page-hero--compact-pillar relative flex min-h-0 flex-col overflow-hidden bg-transparent"
           : "service-page-hero relative flex h-[70vh] min-h-0 flex-col overflow-hidden bg-transparent"
       }
       style={{ background: "transparent" }}
@@ -89,7 +92,7 @@ export function ServicePageHero({
       <div
         className={
           compactLayout
-            ? "container relative z-20 mx-auto flex flex-col px-6 pt-28 pb-5 sm:pt-32 sm:pb-6"
+            ? "service-page-hero__compact-container container relative z-20 mx-auto flex flex-col px-6 pb-5 sm:pb-6"
             : "container relative z-20 mx-auto flex h-full min-h-0 flex-1 flex-col px-6 pt-44 pb-8 sm:pb-10"
         }
       >
@@ -97,20 +100,39 @@ export function ServicePageHero({
           className={
             heroNav === "quick-links" || heroNav === "cctv-tabs"
               ? "relative flex min-h-0 w-full min-w-0 flex-1 flex-col"
-              : "relative w-full space-y-4"
+              : compactLayout
+                ? "service-page-hero__pillar-stack relative w-full"
+                : "relative w-full space-y-4"
           }
         >
-          <div className="w-full min-w-0 max-w-full space-y-4 md:max-w-[min(52rem,68vw)] lg:max-w-[min(60rem,72vw)]">
-            <h1 className="mb-2 font-title text-3xl font-bold text-left text-white sm:mb-3 sm:text-4xl md:text-5xl lg:text-6xl">
-              {title}
-            </h1>
-            <HeroIntro>{intro}</HeroIntro>
-          </div>
-          {heroCompliance?.length && compactLayout ? (
-            <p className="ml-auto mt-3 max-w-lg text-right text-xs font-medium uppercase leading-snug tracking-[0.1em] text-white/50 sm:mt-4 sm:text-sm sm:tracking-[0.12em]">
-              {heroCompliance.join(" · ")}
-            </p>
-          ) : null}
+          {compactLayout ? (
+            <>
+              <div className="service-page-hero__copy-block w-full min-w-0 max-w-full md:max-w-[min(52rem,68vw)] lg:max-w-[min(60rem,72vw)]">
+                <h1 className="service-page-hero__title mb-0 font-title text-3xl font-bold text-left text-white sm:text-4xl md:text-5xl lg:text-6xl">
+                  {title}
+                </h1>
+                <div className="service-page-hero__intro-slot w-full min-w-0">
+                  <HeroIntro>{intro}</HeroIntro>
+                  {afterIntro}
+                </div>
+              </div>
+              {heroCompliance?.length ? (
+                <p className="service-page-hero__compliance ml-auto max-w-lg text-right text-xs font-medium uppercase leading-snug tracking-[0.1em] text-white/50 sm:text-sm sm:tracking-[0.12em]">
+                  {heroCompliance.join(" · ")}
+                </p>
+              ) : (
+                <span className="service-page-hero__compliance" aria-hidden />
+              )}
+            </>
+          ) : (
+            <div className="w-full min-w-0 max-w-full space-y-4 md:max-w-[min(52rem,68vw)] lg:max-w-[min(60rem,72vw)]">
+              <h1 className="mb-2 font-title text-3xl font-bold text-left text-white sm:mb-3 sm:text-4xl md:text-5xl lg:text-6xl">
+                {title}
+              </h1>
+              <HeroIntro>{intro}</HeroIntro>
+              {afterIntro}
+            </div>
+          )}
           {heroCompliance?.length && !compactLayout && showImage ? (
             <div
               className="pointer-events-none absolute bottom-[5.25rem] right-0 z-30 max-w-[min(100%,22rem)] pl-4 text-right sm:bottom-[6rem] md:max-w-[26rem]"

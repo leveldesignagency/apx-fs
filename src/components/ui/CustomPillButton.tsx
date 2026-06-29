@@ -4,7 +4,7 @@ import { cn } from "@/lib/utils"
 import Link from "next/link"
 import { forwardRef, type ButtonHTMLAttributes } from "react"
 
-/** Same shell as hero CTAs — white border, black bg, white text; hover: white fill rises from bottom (see `.pill-btn-inner::before` in globals). */
+/** Same shell as hero CTAs, white border, black bg, white text; hover: white fill rises from bottom (see `.pill-btn-inner::before` in globals). */
 const pillBaseStyles = [
   "pill-btn",
   "relative inline-flex items-center justify-center font-bold",
@@ -60,7 +60,7 @@ export type PillSubmitButtonProps = Omit<ButtonHTMLAttributes<HTMLButtonElement>
   variant?: "default" | "outline" | "onLight"
 }
 
-/** Native submit — same pill animation as `CustomPillButton` / hero (fill from bottom). */
+/** Native submit, same pill animation as `CustomPillButton` / hero (fill from bottom). */
 export function PillSubmitButton({
   children,
   className,

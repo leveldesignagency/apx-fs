@@ -2,8 +2,7 @@
 
 import { useEffect, useLayoutEffect, useRef, useState, type CSSProperties, type ReactNode } from "react"
 
-const BORDER_PATH =
-  "M 8 0 H 100 V 92 A 8 8 0 0 1 92 100 H 0 V 8 A 8 8 0 0 1 8 0 Z"
+const BORDER_PATH = "M 0 0 H 100 V 100 H 0 Z"
 
 const DRAW_MS = 1150
 export const HOME_QUOTE_FORM_INNER_DELAY_MS = Math.round(DRAW_MS * 0.78)
@@ -13,10 +12,12 @@ const FALLBACK_DASH_LEN = 380
 type HomeQuoteFormDrawShellProps = {
   active: boolean
   children: ReactNode
+  /** Allow dropdown menus to extend outside the SVG clip (e.g. service select open). */
+  allowOverflow?: boolean
 }
 
-/** SVG stroke “drawn” border + delayed inner fade — measured dash length for cross-browser animation. */
-export function HomeQuoteFormDrawShell({ active, children }: HomeQuoteFormDrawShellProps) {
+/** SVG stroke “drawn” border + delayed inner fade, measured dash length for cross-browser animation. */
+export function HomeQuoteFormDrawShell({ active, children, allowOverflow = false }: HomeQuoteFormDrawShellProps) {
   const pathRef = useRef<SVGPathElement | null>(null)
   const [dashLen, setDashLen] = useState(FALLBACK_DASH_LEN)
   const [reduceMotion, setReduceMotion] = useState(false)
@@ -54,11 +55,11 @@ export function HomeQuoteFormDrawShell({ active, children }: HomeQuoteFormDrawSh
 
   return (
     <div
-      className="quote-form-draw-shell relative overflow-hidden max-lg:rounded-tl-[1.5rem] max-lg:rounded-br-[1.5rem] max-lg:outline max-lg:outline-1 max-lg:outline-white/45 max-lg:outline-offset-0 rounded-tr-none rounded-bl-none lg:rounded-tl-[8%] lg:rounded-br-[8%] lg:outline-none"
+      className={`quote-form-draw-shell relative rounded-none max-lg:outline max-lg:outline-1 max-lg:outline-white/45 max-lg:outline-offset-0 lg:outline-none ${allowOverflow ? "overflow-visible" : "overflow-hidden"}`}
       style={shellStyle}
     >
       {/*
-        Keep in sync with MepHomeQuoteFormDrawShell: below lg hide SVG; 1.5rem + outline; lg+ 8% matches path r=8 in 0–100 viewBox.
+        Square frame: below lg uses CSS outline; lg+ SVG stroke matches square path.
       */}
       <svg
         className="pointer-events-none absolute inset-0 z-[2] hidden h-full w-full overflow-visible lg:block"
@@ -66,7 +67,7 @@ export function HomeQuoteFormDrawShell({ active, children }: HomeQuoteFormDrawSh
         preserveAspectRatio="none"
         aria-hidden
       >
-        {/* Stroke in user units (~hairline after scale). Avoid vectorEffect + non-uniform scale — breaks dashed stroke continuity. */}
+        {/* Stroke in user units (~hairline after scale). Avoid vectorEffect + non-uniform scale, breaks dashed stroke continuity. */}
         <path
           ref={pathRef}
           d={BORDER_PATH}

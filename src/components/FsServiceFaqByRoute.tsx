@@ -8,5 +8,6 @@ import { FsServiceFaqSection } from "@/components/FsServiceFaqSection"
 export function FsServiceFaqByRoute() {
   const pathname = usePathname() ?? ""
   const items = getFsServiceFaqItems(pathname)
-  return <FsServiceFaqSection key={pathname} items={items} />
+  const isServicePage = pathname.startsWith("/services")
+  return <FsServiceFaqSection key={pathname} items={items} variant={isServicePage ? "light" : "dark"} />
 }

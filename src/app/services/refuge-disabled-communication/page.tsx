@@ -1,9 +1,9 @@
 "use client"
 
 import Link from "next/link"
-import { ServicePageBottomCta } from "@/components/ServicePageBottomCta"
+import { ServiceComplianceSection } from "@/components/ServiceComplianceSection"
+import { ServicePageClosingSections } from "@/components/ServicePageClosingSections"
 import { CustomPillButton } from "@/components/ui/CustomPillButton"
-import { OurCustomers } from "@/components/ServicePageSharedSections"
 import { ServicePageHero } from "@/components/ServicePageHero"
 import { serviceHeroImages } from "@/lib/serviceHeroImages"
 import {
@@ -22,7 +22,7 @@ export default function RefugeDisabledCommunicationPage() {
   return (
     <div className="service-page-root min-h-screen overflow-x-hidden bg-black text-white">
       <ServicePageHero
-        title="Refuge & disabled communication systems"
+        title="Refuge & Disabled Communication Systems"
         imageSrc={serviceHeroImages.fireAlarm}
         heroCompliance={["BS 5839-9"]}
         intro={
@@ -31,7 +31,7 @@ export default function RefugeDisabledCommunicationPage() {
               We install fully compliant Emergency Voice Communication (EVC) systems to support safe evacuation for disabled persons during emergencies.
             </p>
             <p>
-              Capabilities include disabled refuge points, fire telephones, disabled toilet alarms and central EVC control panels — with multi-storey integration, structured
+              Capabilities include disabled refuge points, fire telephones, disabled toilet alarms and central EVC control panels, with multi-storey integration, structured
               commissioning and documentation for handover and audit.
             </p>
           </>
@@ -79,7 +79,7 @@ export default function RefugeDisabledCommunicationPage() {
               {
                 icon: <Network className="h-8 w-8" strokeWidth={1.75} />,
                 title: "Multi-storey integration",
-                description: "Coordinated risers, interfaces and testing across floors — including coordination with fire detection and voice evacuation where specified.",
+                description: "Coordinated risers, interfaces and testing across floors, including coordination with fire detection and voice evacuation where specified.",
               },
               {
                 icon: <CheckCircle className="h-8 w-8" strokeWidth={1.75} />,
@@ -96,68 +96,37 @@ export default function RefugeDisabledCommunicationPage() {
           </div>
         </section>
 
-        <div className="border-t border-white/15" />
+        <ServiceComplianceSection
+          intro="Emergency voice communication for disabled people is subject to dedicated British Standard guidance. We work to BS 5839-9 for design, installation, commissioning and maintenance of these systems, coordinated with your fire risk assessment and evacuation plans."
+          leftEyebrow="Emergency voice communication (BS 5839-9)"
+          standardsItems={["BS 5839-9, Fire detection and alarm systems: emergency voice communication systems"]}
+          footerNote={
+            <>
+              Voice evacuation (BS 5839-8) and fire alarm detection (BS 5839-1) often interface with EVC, see our{" "}
+              <Link href="/services/evac-voice-evacuation" className="text-black underline decoration-black/30 underline-offset-2 hover:decoration-black">
+                EVAC &amp; voice evacuation
+              </Link>{" "}
+              and{" "}
+              <Link href="/services/fire-life-safety" className="text-black underline decoration-black/30 underline-offset-2 hover:decoration-black">
+                fire &amp; life safety
+              </Link>{" "}
+              overviews.
+            </>
+          }
+          rightTitle="Deliverables & records"
+          deliverablesItems={[
+            "System layout drawings and zone / circuit schedules",
+            "Commissioning certificates and witnessed test records",
+            "User guidance and familiarisation for duty holders",
+            "Ongoing maintenance options aligned with manufacturer and BS 5839-9",
+          ]}
+        />
 
-        <section className="container mx-auto px-6 py-16 lg:py-16">
-          <p className="mb-10 max-w-3xl text-left text-gray-300">
-            Emergency voice communication for disabled people is subject to dedicated British Standard guidance. We work to BS 5839-9 for design, installation, commissioning
-            and maintenance of these systems, coordinated with your fire risk assessment and evacuation plans.
-          </p>
-          <div className="grid grid-cols-1 gap-10 border-t border-white/15 pt-10 lg:grid-cols-[1fr_auto_1fr] lg:items-start lg:gap-0 lg:border-t-0 lg:pt-0">
-            <div className="min-w-0 lg:pr-10">
-              <h2 className="mb-6 text-left font-title text-3xl font-bold text-white sm:text-4xl">Standards &amp; compliance</h2>
-              <p className="mb-4 text-left text-sm font-semibold uppercase tracking-wide text-white/55">
-                Emergency voice communication (BS 5839-9)
-              </p>
-              <ul className="space-y-4">
-                {["BS 5839-9 — Fire detection and alarm systems: emergency voice communication systems"].map((item, index) => (
-                  <li key={index} className="flex items-start gap-3 text-left text-gray-300">
-                    <CheckCircle className="mt-0.5 h-5 w-5 shrink-0 text-white/50" strokeWidth={2} />
-                    <span>{item}</span>
-                  </li>
-                ))}
-              </ul>
-              <p className="mt-6 text-sm leading-relaxed text-gray-400">
-                Voice evacuation (BS 5839-8) and fire alarm detection (BS 5839-1) often interface with EVC — see our{" "}
-                <Link href="/services/evac-voice-evacuation" className="text-white underline decoration-white/30 underline-offset-2 hover:decoration-white">
-                  EVAC &amp; voice evacuation
-                </Link>{" "}
-                and{" "}
-                <Link href="/services/fire-life-safety" className="text-white underline decoration-white/30 underline-offset-2 hover:decoration-white">
-                  fire &amp; life safety
-                </Link>{" "}
-                overviews.
-              </p>
-            </div>
-            <div
-              className="hidden w-px shrink-0 self-stretch bg-white/15 lg:block"
-              aria-hidden
-            />
-            <div className="min-w-0 border-t border-white/15 pt-10 lg:border-t-0 lg:pl-10 lg:pt-0">
-              <h2 className="mb-6 text-left font-title text-3xl font-bold text-white sm:text-4xl">Deliverables &amp; records</h2>
-              <ul className="space-y-4">
-                {[
-                  "System layout drawings and zone / circuit schedules",
-                  "Commissioning certificates and witnessed test records",
-                  "User guidance and familiarisation for duty holders",
-                  "Ongoing maintenance options aligned with manufacturer and BS 5839-9",
-                ].map((item, index) => (
-                  <li key={index} className="flex items-start gap-3 text-left text-gray-300">
-                    <CheckCircle className="mt-0.5 h-5 w-5 shrink-0 text-white/50" strokeWidth={2} />
-                    <span>{item}</span>
-                  </li>
-                ))}
-              </ul>
-            </div>
-          </div>
-        </section>
-
-        <OurCustomers serviceTitleShort="Refuge & EVC" />
-
-        <ServicePageBottomCta
-          imageSrc={serviceHeroImages.fireAlarm}
-          title="Need refuge or EVC systems?"
-          description="Tell us about your building and evacuation strategy — we can survey, specify and deliver compliant emergency voice communication."
+        <ServicePageClosingSections
+          serviceTitleShort="Refuge & EVC"
+          ctaImageSrc={serviceHeroImages.fireAlarm}
+          ctaTitle="Need refuge or EVC systems?"
+          ctaDescription="Tell us about your building and evacuation strategy, we can survey, specify and deliver compliant emergency voice communication."
         >
           <CustomPillButton href="/contact" size="md">
             Get in touch
@@ -165,7 +134,7 @@ export default function RefugeDisabledCommunicationPage() {
           <CustomPillButton href="tel:02083032280" size="md" variant="outline">
             Call 020 8303 2280
           </CustomPillButton>
-        </ServicePageBottomCta>
+        </ServicePageClosingSections>
       </div>
     </div>
   )

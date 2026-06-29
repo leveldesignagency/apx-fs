@@ -6,12 +6,12 @@ import { FsServiceFaqByRoute } from "@/components/FsServiceFaqByRoute"
 import { ServicePageHero, type ServicePageHeroProps } from "@/components/ServicePageHero"
 
 export type CapabilityServicePageLayoutProps = {
-  /** Page title — sentence case, homepage title font */
+  /** Page title, sentence case, homepage title font */
   title: string
   intro: ReactNode
   /** Optional hero photo; omit for text-only hero on black (capability pillars) */
   heroImageSrc?: string
-  /** Passed to ServicePageHero — core capability pillars omit bottom quick nav by default */
+  /** Passed to ServicePageHero, core capability pillars omit bottom quick nav by default */
   heroNav?: ServicePageHeroProps["heroNav"]
   /** Short refs for hero corner; defaults to `compliance` */
   heroCompliance?: readonly string[]
@@ -79,7 +79,7 @@ export function CapabilityServicePageLayout({
               <div className="fs-capability-tabs-row">
                 <CapabilityServiceTabs />
               </div>
-              <div className="fs-capability-inner fs-capability-inner--unified">
+              <div className="fs-capability-inner fs-capability-inner--unified apx-site-table">
                 <div className="fs-capability-columns">
                   <div className="fs-capability-column min-w-0">
                     <h2 className={sectionHeadingClass}>

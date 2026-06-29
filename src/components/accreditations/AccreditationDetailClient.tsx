@@ -2,21 +2,23 @@
 
 import Image from "next/image"
 import Link from "next/link"
-import { useEffect, useState } from "react"
-import { ArrowLeft } from "lucide-react"
 import { Reveal } from "@/components/Reveal"
+import { AccreditationLogo } from "@/components/accreditations/AccreditationLogo"
+import { CustomPillButton } from "@/components/ui/CustomPillButton"
 import {
   FS_ACCREDITATIONS,
   FS_ACCREDITATION_TAB_ORDER,
   type FsAccreditationSlug,
 } from "@/data/fsAccreditations"
+import {
+  FS_ACCREDITATION_COLOURED_ICONS,
+  FS_ACCREDITATIONS_CONTENT_MAX,
+  FS_ACCREDITATIONS_HERO_IMAGE,
+  FS_ACCREDITATIONS_SECTION_PX,
+} from "@/lib/fsAccreditationsLayout"
+import { cn } from "@/lib/utils"
 
 type AccredBody = (typeof FS_ACCREDITATIONS)[FsAccreditationSlug]
-
-const navPillBase =
-  "inline-flex items-center rounded-full border px-4 py-2 text-sm font-medium transition-colors duration-200"
-const navPillActive = "border-white bg-white text-black"
-const navPillIdle = "border-white/25 text-white/85 hover:border-white/50 hover:bg-white/10"
 
 export function AccreditationDetailClient({
   activeSlug,
@@ -25,91 +27,134 @@ export function AccreditationDetailClient({
   activeSlug: FsAccreditationSlug
   accred: AccredBody
 }) {
-  const [mounted, setMounted] = useState(false)
-
-  useEffect(() => {
-    setMounted(true)
-  }, [])
-
   return (
-    <main className="min-h-screen bg-white text-black">
-      <section className="bg-black text-white about-section-px page-title-top pb-10 md:pb-12">
-        <div className="about-section-inner">
-          <Reveal show={mounted} delayMs={0}>
-            <Link
-              href="/accreditations"
-              className="group inline-flex items-center gap-2 text-sm font-semibold text-white/70 transition-colors hover:text-white"
-            >
-              <ArrowLeft className="h-4 w-4 transition-transform group-hover:-translate-x-0.5" aria-hidden />
-              All accreditations
-            </Link>
-            <nav aria-label="Accreditation pages" className="mt-8 flex flex-wrap gap-2 md:gap-3">
-              {FS_ACCREDITATION_TAB_ORDER.map((k) => {
-                const item = FS_ACCREDITATIONS[k]
-                const active = k === activeSlug
-                return (
-                  <Link
-                    key={k}
-                    href={`/accreditations/${k}`}
-                    className={`${navPillBase} ${active ? navPillActive : navPillIdle}`}
-                  >
-                    {item.name}
-                  </Link>
-                )
-              })}
-            </nav>
-          </Reveal>
+    <div className="fs-accreditations-page fs-accreditation-detail-page min-h-screen overflow-x-hidden bg-black text-white">
+      <section className="relative isolate min-h-[52vh] overflow-hidden border-b border-white/10 md:min-h-[58vh]">
+        <div className="absolute inset-0">
+          <Image
+            src={FS_ACCREDITATIONS_HERO_IMAGE}
+            alt=""
+            fill
+            className="object-cover object-center scale-x-[-1]"
+            sizes="100vw"
+            priority
+          />
+          <div className="absolute inset-0 bg-black/58" aria-hidden />
+          <div
+            className="absolute inset-0 bg-gradient-to-b from-black/70 via-black/45 to-black/82"
+            aria-hidden
+          />
         </div>
-      </section>
 
-      <section className="about-section-px mt-10 pb-20 pt-20 text-black md:mt-12 md:pb-28 md:pt-28 lg:mt-14 lg:pt-36">
-        <div className="about-section-inner">
-          <Reveal show={mounted} delayMs={60}>
-            <div className="grid grid-cols-1 items-start gap-12 lg:grid-cols-2 lg:items-start lg:gap-x-16 xl:gap-x-24">
-              <div className="min-w-0 max-w-2xl lg:max-w-none">
-                <p className="text-xs font-semibold uppercase tracking-[0.14em] text-black/45">{accred.shortLabel}</p>
-                <h1
-                  className="mt-3 text-3xl font-bold leading-[1.1] text-black md:text-4xl lg:text-[2.65rem]"
-                  style={{ fontFamily: "var(--font-menu)" }}
-                >
-                  {accred.title}
-                </h1>
-                <p className="mt-6 text-lg leading-relaxed text-black/78 md:text-xl">{accred.intro}</p>
-              </div>
+        <div className={`relative z-10 page-title-top pb-20 md:pb-24 lg:pb-28 ${FS_ACCREDITATIONS_SECTION_PX}`}>
+          <div className={FS_ACCREDITATIONS_CONTENT_MAX}>
+            <Reveal delayMs={0}>
+              <Link
+                href="/accreditations"
+                className="text-sm uppercase tracking-[0.18em] text-white/70 transition-colors hover:text-white"
+              >
+                All accreditations
+              </Link>
 
-              <div className="flex w-full justify-center px-2 lg:px-6">
-                <Image
-                  src={accred.icon}
-                  alt={accred.name}
-                  width={280}
-                  height={120}
-                  className="h-auto w-auto max-h-[104px] max-w-[240px] object-contain sm:max-h-[112px] sm:max-w-[260px] md:max-h-[120px] md:max-w-[280px] lg:max-h-[128px] lg:max-w-[300px]"
-                  sizes="(min-width: 1024px) 300px, 260px"
-                  priority
-                />
-              </div>
-            </div>
-          </Reveal>
-
-          <Reveal show={mounted} delayMs={100}>
-            <div className="mt-16 border-t border-black/10 pt-16 md:mt-20 md:pt-20">
-              <div className="grid grid-cols-1 gap-12 md:grid-cols-2 md:gap-x-14 md:gap-y-16 lg:gap-x-20">
-                {accred.sections.map((section) => (
-                  <article key={section.heading} className="min-w-0">
-                    <h2
-                      className="text-xl font-bold leading-snug text-black md:text-2xl"
-                      style={{ fontFamily: "var(--font-menu)" }}
+              <nav aria-label="Accreditation pages" className="mt-8 flex flex-wrap gap-2 md:gap-3">
+                {FS_ACCREDITATION_TAB_ORDER.map((slug) => {
+                  const item = FS_ACCREDITATIONS[slug]
+                  const active = slug === activeSlug
+                  return (
+                    <Link
+                      key={slug}
+                      href={`/accreditations/${slug}`}
+                      className={cn(
+                        "border-2 px-3.5 py-2 text-[11px] font-bold uppercase tracking-[0.12em] transition-colors sm:px-4 sm:text-xs",
+                        active
+                          ? "border-white bg-white text-black"
+                          : "border-white/70 text-white hover:border-white",
+                      )}
                     >
-                      {section.heading}
-                    </h2>
-                    <p className="mt-4 text-base leading-relaxed text-black/75 md:text-[1.05rem]">{section.body}</p>
-                  </article>
-                ))}
+                      {item.name}
+                    </Link>
+                  )
+                })}
+              </nav>
+
+              <div className="mt-10 grid grid-cols-1 items-start gap-10 lg:grid-cols-[minmax(0,1fr)_minmax(11rem,22rem)] lg:items-center lg:gap-16">
+                <div className="min-w-0 max-w-3xl">
+                  <p className="text-xs font-semibold uppercase tracking-[0.14em] text-white/60">{accred.shortLabel}</p>
+                  <h1
+                    className="mt-3 text-3xl font-bold leading-[1.08] text-white md:text-4xl lg:text-5xl xl:text-[3.25rem]"
+                    style={{ fontFamily: "var(--font-menu)" }}
+                  >
+                    {accred.title}
+                  </h1>
+                  <p className="mt-5 max-w-2xl pb-2 text-base leading-relaxed text-white/85 md:mt-6 md:pb-4 md:text-lg lg:pb-6">
+                    {accred.intro}
+                  </p>
+                </div>
+
+                <div className="relative z-10 flex shrink-0 justify-start lg:justify-end">
+                  <AccreditationLogo
+                    src={FS_ACCREDITATION_COLOURED_ICONS[activeSlug]}
+                    alt={accred.name}
+                    priority
+                    width={400}
+                    height={200}
+                    className={cn(
+                      activeSlug === "bafe"
+                        ? "max-h-[7.75rem] max-w-[16rem] -translate-x-2 sm:max-h-[8.25rem] sm:max-w-[17.5rem] sm:-translate-x-2.5 md:max-h-[8.75rem] md:max-w-[19.5rem] lg:max-h-[11.25rem] lg:max-w-[21.5rem] lg:-translate-x-3"
+                        : "max-h-[7rem] max-w-[15rem] sm:max-h-[7.5rem] sm:max-w-[16.5rem] md:max-h-[8rem] md:max-w-[18rem] lg:max-h-[10.5rem] lg:max-w-[20rem]",
+                    )}
+                  />
+                </div>
               </div>
+            </Reveal>
+          </div>
+        </div>
+      </section>
+
+      <section className={`relative z-20 bg-black ${FS_ACCREDITATIONS_SECTION_PX}`}>
+        <div className={`${FS_ACCREDITATIONS_CONTENT_MAX} pt-12 pb-16 md:pt-14 md:pb-24`}>
+          <Reveal delayMs={80}>
+            <div className="grid grid-cols-1 gap-12 md:grid-cols-2 md:gap-x-14 md:gap-y-16 lg:gap-x-20">
+              {accred.sections.map((section, index) => (
+                <article
+                  key={section.heading}
+                  className={cn(
+                    "min-w-0",
+                    index % 2 === 1 ? "md:border-l md:border-white/10 md:pl-10 lg:pl-12" : "",
+                  )}
+                >
+                  <h2
+                    className="text-xl font-bold leading-snug text-white md:text-2xl lg:text-[1.65rem]"
+                    style={{ fontFamily: "var(--font-menu)" }}
+                  >
+                    {section.heading}
+                  </h2>
+                  <p className="mt-4 text-base leading-relaxed text-white/76 md:mt-5 md:text-[1.0625rem]">
+                    {section.body}
+                  </p>
+                </article>
+              ))}
             </div>
           </Reveal>
         </div>
       </section>
-    </main>
+
+      <section className={`py-16 md:py-20 ${FS_ACCREDITATIONS_SECTION_PX}`}>
+        <div className={`${FS_ACCREDITATIONS_CONTENT_MAX} text-center`}>
+          <Reveal delayMs={120}>
+            <h2 className="font-title text-3xl font-bold text-white md:text-4xl">Ready to talk through your project?</h2>
+            <p className="mx-auto mt-4 max-w-xl text-base leading-relaxed text-white/70 md:text-lg">
+              We can explain how our accreditations support procurement, compliance and confident handover on your
+              site.
+            </p>
+            <div className="mt-8 flex justify-center">
+              <CustomPillButton href="/contact" size="lg">
+                Contact us
+              </CustomPillButton>
+            </div>
+          </Reveal>
+        </div>
+      </section>
+    </div>
   )
 }

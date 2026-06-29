@@ -1,6 +1,7 @@
 import type { MetadataRoute } from "next"
 import { getAllCctvCameraTypeSlugs } from "@/data/cctvCameraTypePages"
 import { FS_CAREER_ROLES } from "@/data/fsCareersRoles"
+import { FS_NEWS_ARTICLES } from "@/data/fsNewsArticles"
 import { MAIN_CASE_STUDY_SLUGS } from "@/data/projects"
 import { getFsSiteUrl } from "@/lib/seo"
 
@@ -16,20 +17,20 @@ const STATIC_PATHS = [
   "delivery-methodology",
   "projects",
   "services",
-  "services/sustainability",
-  "services/mechanical-engineering",
+  "services/intruder-alarm-systems",
+  "services/fire-alarm-systems",
   "services/maintenance-support",
   "services/fire-life-safety",
   "services/refuge-disabled-communication",
   "services/evac-voice-evacuation",
   "services/security-systems",
-  "services/electrical-systems",
-  "services/project-management",
-  "services/energy-efficiency",
-  "services/maintenance",
+  "services/cctv-systems",
+  "services/access-control-systems",
+  "services/video-door-entry-systems",
   "services/cctv/commercial",
   "services/cctv/domestic",
   "services/cctv/advice",
+  "news",
 ] as const
 
 export default function sitemap(): MetadataRoute.Sitemap {
@@ -78,6 +79,15 @@ export default function sitemap(): MetadataRoute.Sitemap {
       lastModified: new Date(),
       changeFrequency: "monthly",
       priority: 0.72,
+    })
+  }
+
+  for (const article of FS_NEWS_ARTICLES) {
+    urls.push({
+      url: `${base}/news/${article.slug}`,
+      lastModified: new Date(article.publishedAt),
+      changeFrequency: "yearly",
+      priority: 0.6,
     })
   }
 

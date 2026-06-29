@@ -18,7 +18,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const role = getFsCareerRoleById(roleId)
   if (!role) return {}
   return {
-    title: `Apply — ${role.title}`,
+    title: `Apply, ${role.title}`,
     description: `Submit your CV for the ${role.title} role at ${FS_SITE_NAME}.`,
     robots: { index: false, follow: true },
   }

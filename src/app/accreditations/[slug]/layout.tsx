@@ -1,4 +1,5 @@
 import type { Metadata } from "next"
+import { AccreditationDetailScrollReset } from "@/components/accreditations/AccreditationDetailScrollReset"
 import { FS_ACCREDITATION_SEO, FS_ACCREDITATION_TAB_ORDER, type FsAccreditationSlug } from "@/data/fsAccreditations"
 import { buildFsMetadata } from "@/lib/seo-metadata"
 
@@ -20,5 +21,10 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
 }
 
 export default function AccreditationSlugLayout({ children }: { children: React.ReactNode }) {
-  return children
+  return (
+    <>
+      <AccreditationDetailScrollReset />
+      {children}
+    </>
+  )
 }

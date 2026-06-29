@@ -1,7 +1,6 @@
 "use client"
 
 import type { ReactNode } from "react"
-import { FsServiceFaqByRoute } from "@/components/FsServiceFaqByRoute"
 
 type ServicePageBottomCtaProps = {
   /** Path under `/public` (URL-encoded segments allowed), e.g. from `serviceHeroImages` */
@@ -13,9 +12,7 @@ type ServicePageBottomCtaProps = {
 
 export function ServicePageBottomCta({ imageSrc, title, description, children }: ServicePageBottomCtaProps) {
   return (
-    <>
-      <FsServiceFaqByRoute />
-      <section className="relative isolate mt-12 flex min-h-[50vh] flex-col justify-center border-t border-white sm:mt-14 lg:mt-16">
+    <section className="relative isolate mt-12 flex min-h-[50vh] flex-col justify-center border-t border-white sm:mt-14 lg:mt-16">
       <div
         className="absolute inset-0 bg-cover bg-center bg-no-repeat brightness-[1.14] contrast-[1.03] saturate-[1.05]"
         style={{ backgroundImage: `url("${imageSrc}")` }}
@@ -30,6 +27,5 @@ export function ServicePageBottomCta({ imageSrc, title, description, children }:
         </div>
       </div>
     </section>
-    </>
   )
 }

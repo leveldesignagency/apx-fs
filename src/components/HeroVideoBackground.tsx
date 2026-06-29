@@ -39,7 +39,7 @@ export default function HeroVideoBackground() {
                 fill
                 priority
                 sizes="100vw"
-                className="object-cover object-[center_22%] brightness-[1.18] contrast-[1.04] saturate-[1.06]"
+                className="object-cover object-[center_22%] brightness-[0.88] contrast-[1.02] saturate-[0.98]"
               />
             </div>
           </div>
@@ -48,7 +48,7 @@ export default function HeroVideoBackground() {
           className="absolute inset-0 pointer-events-none"
           style={{
             background:
-              "linear-gradient(to right, rgba(0,0,0,0.3) 0%, rgba(0,0,0,0.1) 14%, transparent 32%)",
+              "linear-gradient(to right, rgba(0,0,0,0.42) 0%, rgba(0,0,0,0.18) 16%, transparent 36%)",
           }}
         />
         <div
