@@ -150,6 +150,13 @@ export function FsServiceTextImageSection({
             />
           </div>
         ) : null}
+        <svg className="fs-service-text-image-cant-border" preserveAspectRatio="none" aria-hidden>
+          {imageOnLeft ? (
+            <line x1="86%" y1="0" x2="100%" y2="100%" />
+          ) : (
+            <line x1="14%" y1="0" x2="0" y2="100%" />
+          )}
+        </svg>
       </div>
       </div>
     </Reveal>

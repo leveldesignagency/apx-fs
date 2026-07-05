@@ -2009,12 +2009,36 @@ html:not(.dark) body:has(.service-page-root) {
 }
 
 /* Service text+image sections — diagonal cant on the edge toward the text column */
+.service-page-root {
+  --fs-header-border-width: 2px;
+}
+
 .fs-service-text-image-mask {
   clip-path: polygon(14% 0, 100% 0, 100% 100%, 0% 100%);
 }
 
 .fs-service-text-image-mask--image-left {
   clip-path: polygon(0 0, 86% 0, 100% 100%, 0 100%);
+}
+
+/* White stroke on the canted edge only — thickness matches header-bar-expand (border-2) */
+.fs-service-text-image-cant-border {
+  position: absolute;
+  inset: 0;
+  z-index: 3;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+}
+
+.fs-service-text-image-cant-border line {
+  stroke: #ffffff;
+  stroke-width: var(--fs-header-border-width, 2px);
+  vector-effect: non-scaling-stroke;
+}
+
+.fs-service-text-image-section--light .fs-service-text-image-cant-border line {
+  stroke: #000000;
 }
 
 .service-page-root .fs-service-text-image-section--dark ::selection,
