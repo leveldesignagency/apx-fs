@@ -14,7 +14,7 @@ export default function NewsIndexPage() {
   const articles = getNewsArticlesSorted()
 
   return (
-    <div className="news-page min-h-screen bg-white text-black">
+    <div className="news-page min-h-screen bg-white text-black" data-cursor-surface="light">
       <NewsHubClient articles={articles} />
     </div>
   )

@@ -59,7 +59,7 @@ export default async function NewsArticlePage({ params }: Props) {
     article.excerpt.length > 160 ? `${article.excerpt.slice(0, 157)}…` : article.excerpt
 
   return (
-    <div className="news-article-page min-h-screen bg-white text-black">
+    <div className="news-article-page min-h-screen bg-white text-black" data-cursor-surface="light">
       <article>
         <header className={`border-b border-black/10 ${FS_PROJECTS_SECTION_PX}`}>
           <div className={`${FS_PROJECTS_CONTENT_MAX} page-title-top pb-10 md:pb-12`}>

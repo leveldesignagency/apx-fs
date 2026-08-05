@@ -10,6 +10,11 @@
   --font-menu: "Erbaum", sans-serif;
   /* In-page anchor targets (#section): modest offset so headings aren’t flush to the top */
   --site-header-offset: 1.25rem;
+  /* Scroll reveal — rise into place (Reveal.tsx, homepage sections, about intro) */
+  --scroll-rise-offset: 2.75rem;
+  --scroll-rise-transform-duration: 1.2s;
+  --scroll-rise-opacity-duration: 550ms;
+  --scroll-rise-ease: cubic-bezier(0.22, 1, 0.36, 1);
 }
 
 html {
@@ -404,8 +409,13 @@ section#services.home-services-band.section-spacing {
   }
 }
 
-/* Hero section: Title Case (no all caps), regular weight */
-#hero .font-title {
+/* Hero h1: title case so Fire & Security reads clearly; other .font-title in hero stay title case */
+#hero h1.font-title {
+  text-transform: none;
+  letter-spacing: 0.04em;
+}
+
+#hero .font-title:not(h1) {
   text-transform: none;
 }
 
@@ -513,6 +523,44 @@ section h2 {
   position: relative;
   isolation: isolate;
   transition: color 0.125s ease;
+}
+
+/* Services hub rows: row hover drives the CTA pill fill (Tailwind group-hover is unreliable here) */
+.services-hub-row__wash {
+  pointer-events: none;
+  position: absolute;
+  inset-block: 0;
+  left: 50%;
+  z-index: 0;
+  width: 100vw;
+  transform: translateX(-50%);
+  background: linear-gradient(
+    90deg,
+    transparent 0%,
+    rgba(255, 255, 255, 0.02) 18%,
+    rgba(255, 255, 255, 0.035) 50%,
+    rgba(255, 255, 255, 0.02) 82%,
+    transparent 100%
+  );
+  opacity: 0;
+  transition: opacity 0.3s ease-out;
+}
+.services-hub-row:hover .services-hub-row__wash,
+.services-hub-row:focus-visible .services-hub-row__wash {
+  opacity: 1;
+}
+.services-hub-row:hover .services-hub-row__cta .pill-btn-inner::before,
+.services-hub-row:focus-visible .services-hub-row__cta .pill-btn-inner::before {
+  transform: scaleY(1);
+}
+.services-hub-row:hover .services-hub-row__cta .pill-text,
+.services-hub-row:focus-visible .services-hub-row__cta .pill-text {
+  color: #000000 !important;
+  transition: color 0.125s ease;
+}
+.services-hub-row:hover .services-hub-row__cta .pill-btn-border,
+.services-hub-row:focus-visible .services-hub-row__cta .pill-btn-border {
+  border-color: #ffffff;
 }
 /* Fill layer: full button size, same radius; fill runs edge-to-edge. Clipped to button shape. */
 .pill-btn-inner {
@@ -1552,15 +1600,17 @@ html:not(.dark) #about .text-gray-300 {
   stroke: #ffffff !important;
 }
 
-/* Why Choose Us: fade/slide when #about scrolls into view (.home-about--in-view on section) */
+/* Why Choose Us: rise into place when #about scrolls into view (.home-about--in-view on section) */
 #about .about-reveal {
   opacity: 0;
-  transform: translateY(18px);
-  transition: opacity 0.65s cubic-bezier(0.22, 0.61, 0.36, 1), transform 0.65s cubic-bezier(0.22, 0.61, 0.36, 1);
+  transform: translate3d(0, var(--scroll-rise-offset, 2.75rem), 0);
+  transition:
+    transform var(--scroll-rise-transform-duration) var(--scroll-rise-ease),
+    opacity var(--scroll-rise-opacity-duration) ease-out;
 }
 #about.home-about--in-view .about-reveal {
   opacity: 1;
-  transform: translateY(0);
+  transform: translate3d(0, 0, 0);
 }
 @media (prefers-reduced-motion: reduce) {
   #about .about-reveal {
@@ -2014,11 +2064,11 @@ html:not(.dark) body:has(.service-page-root) {
 }
 
 .fs-service-text-image-mask {
-  clip-path: polygon(14% 0, 100% 0, 100% 100%, 0% 100%);
+  clip-path: polygon(var(--fs-service-cant-inset, 14%) 0, 100% 0, 100% 100%, 0% 100%);
 }
 
 .fs-service-text-image-mask--image-left {
-  clip-path: polygon(0 0, 86% 0, 100% 100%, 0 100%);
+  clip-path: polygon(0 0, calc(100% - var(--fs-service-cant-inset, 14%)) 0, 100% 100%, 0 100%);
 }
 
 /* White stroke on the canted edge only — thickness matches header-bar-expand (border-2) */
@@ -2096,31 +2146,7 @@ html:not(.dark) body:has(.fs-projects-page) {
   background-color: #000000 !important;
 }
 
-/* Project detail hero: title link wraps to multiple lines, per-line underline (footer’s single bar would span full block width) */
-.fs-project-detail-page .fs-project-hero-title-link {
-  display: inline;
-  text-decoration: none;
-  color: inherit;
-  cursor: pointer;
-  background-image: linear-gradient(to right, rgba(255, 255, 255, 0.95), rgba(255, 255, 255, 0.95));
-  background-position: 0 calc(100% - 0.06em);
-  background-repeat: no-repeat;
-  background-size: 0% 2px;
-  transition: background-size 0.5s cubic-bezier(0.22, 0.61, 0.36, 1), color 0.25s ease;
-  box-decoration-break: clone;
-  -webkit-box-decoration-break: clone;
-}
-.fs-project-detail-page .fs-project-hero-title-link:hover {
-  color: #ffffff;
-  background-size: 100% 2px;
-}
-.fs-project-detail-page .fs-project-hero-title-link:focus-visible {
-  color: #ffffff;
-  background-size: 100% 2px;
-  outline: 2px solid rgba(255, 255, 255, 0.45);
-  outline-offset: 4px;
-}
-
+/* Project detail field labels: short underline accent */
 .fs-project-detail-field__title {
   position: relative;
   display: inline-block;
@@ -2288,19 +2314,19 @@ html:not(.dark) body:has(.fs-projects-page) {
   }
 }
 
-/* About intro, “Where it began”: line-by-line blur → sharp + fade (stagger via --about-intro-delay) */
+/* About intro, “Where it began”: rise into place with light blur (stagger via --about-intro-delay) */
 .about-intro-line {
   transition:
-    opacity 0.85s cubic-bezier(0.22, 0.61, 0.36, 1),
-    filter 0.9s cubic-bezier(0.22, 0.61, 0.36, 1),
-    transform 0.85s cubic-bezier(0.22, 0.61, 0.36, 1);
+    transform var(--scroll-rise-transform-duration) var(--scroll-rise-ease),
+    opacity var(--scroll-rise-opacity-duration) ease-out,
+    filter 0.55s ease-out;
   transition-delay: var(--about-intro-delay, 0ms);
   will-change: opacity, filter, transform;
 }
 .about-intro-line--hidden {
   opacity: 0;
-  filter: blur(12px);
-  transform: translate3d(0, 14px, 0);
+  filter: blur(6px);
+  transform: translate3d(0, var(--scroll-rise-offset, 2.75rem), 0);
 }
 .about-intro-line--visible {
   opacity: 1;
@@ -2975,17 +3001,23 @@ html.about-page-active {
   position: absolute;
   inset: 0;
 }
-/* Mount / scroll fade-in, see components/Reveal.tsx */
+/* Mount / scroll reveal — rise into place; see components/Reveal.tsx */
 .about-reveal {
   opacity: 0;
-  transform: translate3d(0, 20px, 0);
-  transition-property: opacity, transform;
-  transition-duration: 0.65s;
-  transition-timing-function: cubic-bezier(0.22, 1, 0.36, 1);
+  transform: translate3d(0, var(--scroll-rise-offset), 0);
+  transition:
+    transform var(--scroll-rise-transform-duration) var(--scroll-rise-ease),
+    opacity var(--scroll-rise-opacity-duration) ease-out;
 }
 .about-reveal--visible {
   opacity: 1;
   transform: translate3d(0, 0, 0);
+}
+/* Homepage scroll sections — same motion as Reveal */
+.home-scroll-rise {
+  transition:
+    transform var(--scroll-rise-transform-duration) var(--scroll-rise-ease),
+    opacity var(--scroll-rise-opacity-duration) ease-out;
 }
 @media (prefers-reduced-motion: reduce) {
   .about-reveal {
@@ -5525,12 +5557,25 @@ html:not(.dark) .mep-cards-section .mep-cards-grid li {
   background: #000000;
   min-height: 100vh;
 }
+.dm-page .page-title-band {
+  padding-bottom: 2.5rem;
+}
+@media (min-width: 640px) {
+  .dm-page .page-title-band {
+    padding-bottom: 3rem;
+  }
+}
+@media (min-width: 1024px) {
+  .dm-page .page-title-band {
+    padding-bottom: 3.5rem;
+  }
+}
 html:not(.dark) body:has(.dm-page) {
   background: #000000 !important;
   background-color: #000000 !important;
 }
 
-/* Exit: 1) title fades, 2) then items fade (stagger). Sync MS_OUT in DeliveryMethodologyJourney.tsx */
+/* Exit: 1) title fades, 2) then copy + items fade (stagger). Sync MS_OUT in DeliveryMethodologyJourney.tsx */
 .dm-journey-content[data-phase="exiting"] h2 {
   opacity: 0;
   transform: translateY(-0.2rem);
@@ -5539,6 +5584,8 @@ html:not(.dark) body:has(.dm-page) {
     transform 0.19s cubic-bezier(0.45, 0, 0.2, 1);
   transition-delay: 0ms;
 }
+.dm-journey-content[data-phase="exiting"] .dm-journey-copy,
+.dm-journey-content[data-phase="exiting"] .dm-journey-key-label,
 .dm-journey-content[data-phase="exiting"] .dm-journey-item {
   opacity: 0;
   transform: translateY(0.45rem);
@@ -5546,18 +5593,30 @@ html:not(.dark) body:has(.dm-page) {
     opacity 0.13s cubic-bezier(0.45, 0, 0.55, 1),
     transform 0.13s cubic-bezier(0.45, 0, 0.55, 1);
 }
-/* Items begin after title (≈0.2s), then cascade */
+/* Copy begins after title (≈0.18s), then key label, then items cascade */
+.dm-journey-content[data-phase="exiting"] .dm-journey-copy:nth-child(1) {
+  transition-delay: 0.18s;
+}
+.dm-journey-content[data-phase="exiting"] .dm-journey-copy:nth-child(2) {
+  transition-delay: 0.21s;
+}
+.dm-journey-content[data-phase="exiting"] .dm-journey-key-label {
+  transition-delay: 0.24s;
+}
 .dm-journey-content[data-phase="exiting"] .dm-journey-item:nth-child(1) {
-  transition-delay: 0.2s;
+  transition-delay: 0.27s;
 }
 .dm-journey-content[data-phase="exiting"] .dm-journey-item:nth-child(2) {
-  transition-delay: 0.23s;
+  transition-delay: 0.3s;
 }
 .dm-journey-content[data-phase="exiting"] .dm-journey-item:nth-child(3) {
-  transition-delay: 0.26s;
+  transition-delay: 0.33s;
 }
 .dm-journey-content[data-phase="exiting"] .dm-journey-item:nth-child(4) {
-  transition-delay: 0.29s;
+  transition-delay: 0.36s;
+}
+.dm-journey-content[data-phase="exiting"] .dm-journey-item:nth-child(5) {
+  transition-delay: 0.39s;
 }
 
 /* Enter: same moment as digit tick, slide in from top, light stagger */
@@ -5565,26 +5624,42 @@ html:not(.dark) body:has(.dm-page) {
   animation: dmJourneyInFromTop 0.26s cubic-bezier(0.22, 1, 0.36, 1) forwards;
   animation-delay: 0ms;
 }
+.dm-journey-content[data-phase="entering"] .dm-journey-copy,
+.dm-journey-content[data-phase="entering"] .dm-journey-key-label,
 .dm-journey-content[data-phase="entering"] .dm-journey-item {
   animation: dmJourneyInFromTop 0.24s cubic-bezier(0.22, 1, 0.36, 1) forwards;
 }
-.dm-journey-content[data-phase="entering"] .dm-journey-item:nth-child(1) {
+.dm-journey-content[data-phase="entering"] .dm-journey-copy:nth-child(1) {
   animation-delay: 0.02s;
 }
+.dm-journey-content[data-phase="entering"] .dm-journey-copy:nth-child(2) {
+  animation-delay: 0.04s;
+}
+.dm-journey-content[data-phase="entering"] .dm-journey-key-label {
+  animation-delay: 0.06s;
+}
+.dm-journey-content[data-phase="entering"] .dm-journey-item:nth-child(1) {
+  animation-delay: 0.08s;
+}
 .dm-journey-content[data-phase="entering"] .dm-journey-item:nth-child(2) {
-  animation-delay: 0.045s;
+  animation-delay: 0.1s;
 }
 .dm-journey-content[data-phase="entering"] .dm-journey-item:nth-child(3) {
-  animation-delay: 0.07s;
+  animation-delay: 0.12s;
 }
 .dm-journey-content[data-phase="entering"] .dm-journey-item:nth-child(4) {
-  animation-delay: 0.095s;
+  animation-delay: 0.14s;
+}
+.dm-journey-content[data-phase="entering"] .dm-journey-item:nth-child(5) {
+  animation-delay: 0.16s;
 }
 
 .dm-journey-content[data-phase="idle"] h2 {
   transform: translateY(0);
   opacity: 1;
 }
+.dm-journey-content[data-phase="idle"] .dm-journey-copy,
+.dm-journey-content[data-phase="idle"] .dm-journey-key-label,
 .dm-journey-content[data-phase="idle"] .dm-journey-item {
   transform: translateY(0);
   opacity: 1;

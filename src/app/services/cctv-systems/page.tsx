@@ -114,7 +114,8 @@ export default function CctvSecurityPage() {
         <ServicePageClosingSections
           serviceTitleShort="CCTV"
           ctaImageSrc={serviceHeroImages.cctv}
-          ctaTitle="Need CCTV or intruder alarm systems?"
+          ctaHeadline="Need the right"
+          ctaHeadlineAccent="CCTV system?"
           ctaDescription="Our security specialists can survey your site and recommend the right CCTV and alarm solution for your premises and budget."
         >
           <CustomPillButton href="/contact" size="md">

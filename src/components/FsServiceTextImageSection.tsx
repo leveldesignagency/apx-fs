@@ -30,6 +30,15 @@ export type FsServiceTextImageSectionProps = {
   imageSide?: "left" | "right"
   /** Light band: white background and dark copy (default dark) */
   variant?: "dark" | "light"
+  /**
+   * Diagonal cant inset at the top inner edge of the image (% of image width).
+   * Lower or negative values shift the cant left and reveal more photo (default 14).
+   */
+  imageCantInsetPercent?: number
+  /** Edge-to-edge mode only: image column width in vw (default 42). */
+  imageEdgeWidthVw?: number
+  /** Edge-to-edge mode only: max width cap, or `none` to drop the cap (default 36rem). */
+  imageEdgeMaxWidth?: string
 }
 
 /**
@@ -54,6 +63,9 @@ export function FsServiceTextImageSection({
   imageRightFeather = true,
   imageSide = "right",
   variant = "dark",
+  imageCantInsetPercent = 14,
+  imageEdgeWidthVw = 42,
+  imageEdgeMaxWidth = "36rem",
 }: FsServiceTextImageSectionProps) {
   const sync = useFsServiceTextImageSync()
   const instanceId = useId()
@@ -62,6 +74,8 @@ export function FsServiceTextImageSection({
   const isLight = variant === "light"
   const edgeToEdgeImage = !imageRightFeather
   const imageOnLeft = imageSide === "left"
+  const cantInset = imageCantInsetPercent
+  const cantTopX = imageOnLeft ? 100 - cantInset : cantInset
   const syncedHeight = sync?.maxHeight ?? null
   const inSyncGroup = sync !== null
 
@@ -80,7 +94,10 @@ export function FsServiceTextImageSection({
   )
 
   const textColumn = (
-    <Reveal className="h-full min-h-0" delayMs={0}>
+    <Reveal
+      className={cn("h-full min-h-0", edgeToEdgeImage && "relative z-20 pointer-events-auto")}
+      delayMs={0}
+    >
       <div
         className={cn(
           "flex h-full w-full min-w-0 flex-col justify-center py-16 lg:py-16",
@@ -108,15 +125,16 @@ export function FsServiceTextImageSection({
     </Reveal>
   )
 
-  const renderImageColumn = (columnClassName?: string, sizes = edgeToEdgeImage ? "42vw" : "40vw") => (
+  const renderImageColumn = (columnClassName?: string, sizes = edgeToEdgeImage ? `${imageEdgeWidthVw}vw` : "40vw") => (
     <Reveal className={cn("h-full min-h-0", columnClassName)} delayMs={90}>
       <div className={cn("relative h-full min-h-[240px] w-full min-w-0")}>
       <div
         className={cn(
-          "fs-service-text-image-mask absolute inset-0 overflow-hidden bg-neutral-900",
+          "fs-service-text-image-mask group absolute inset-0 overflow-hidden bg-neutral-900",
           imageOnLeft && "fs-service-text-image-mask--image-left"
         )}
       >
+        <div className="absolute inset-0 origin-center transition-transform duration-500 ease-out group-hover:scale-105">
         <Image
           src={resolvedImageSrc}
           alt={imageAlt}
@@ -125,6 +143,7 @@ export function FsServiceTextImageSection({
           sizes={sizes}
           priority={false}
         />
+        </div>
         {imageRightFeather ? (
           <div
             className="pointer-events-none absolute inset-0 z-[1]"
@@ -152,9 +171,9 @@ export function FsServiceTextImageSection({
         ) : null}
         <svg className="fs-service-text-image-cant-border" preserveAspectRatio="none" aria-hidden>
           {imageOnLeft ? (
-            <line x1="86%" y1="0" x2="100%" y2="100%" />
+            <line x1={`${cantTopX}%`} y1="0" x2="100%" y2="100%" />
           ) : (
-            <line x1="14%" y1="0" x2="0" y2="100%" />
+            <line x1={`${cantTopX}%`} y1="0" x2="0" y2="100%" />
           )}
         </svg>
       </div>
@@ -167,9 +186,13 @@ export function FsServiceTextImageSection({
     : "lg:grid-cols-[minmax(0,3fr)_minmax(0,2fr)]"
 
   const edgeImagePosition = cn(
-    "pointer-events-none absolute inset-y-0 hidden w-[42vw] max-w-[36rem] lg:block",
+    "absolute inset-y-0 z-[1] hidden lg:block",
     imageOnLeft ? "left-0" : "right-0"
   )
+  const edgeImageWidth =
+    imageEdgeMaxWidth === "none"
+      ? `${imageEdgeWidthVw}vw`
+      : `min(${imageEdgeMaxWidth}, ${imageEdgeWidthVw}vw)`
 
   const gridClassName = cn(
     "grid grid-cols-1 items-stretch gap-10 lg:gap-0",
@@ -180,7 +203,10 @@ export function FsServiceTextImageSection({
   return (
     <section
       ref={setSectionRef}
-      style={syncedHeight ? { minHeight: syncedHeight } : undefined}
+      style={{
+        ...(syncedHeight ? { minHeight: syncedHeight } : {}),
+        ["--fs-service-cant-inset" as string]: `${cantInset}%`,
+      }}
       className={cn(
         "fs-service-text-image-section relative",
         isLight ? "fs-service-text-image-section--light bg-white" : "fs-service-text-image-section--dark bg-black",
@@ -192,7 +218,7 @@ export function FsServiceTextImageSection({
     >
       {edgeToEdgeImage ? (
         <>
-          <div className={containerClassName}>
+          <div className={cn(containerClassName, edgeToEdgeImage && "relative z-10 pointer-events-none")}>
             <div className={gridClassName}>
               {imageOnLeft ? (
                 <>
@@ -209,7 +235,9 @@ export function FsServiceTextImageSection({
               )}
             </div>
           </div>
-          <div className={edgeImagePosition}>{renderImageColumn("pointer-events-auto h-full")}</div>
+          <div className={edgeImagePosition} style={{ width: edgeImageWidth }}>
+            {renderImageColumn("h-full")}
+          </div>
         </>
       ) : (
         <div className={containerClassName}>

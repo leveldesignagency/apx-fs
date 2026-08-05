@@ -5,6 +5,9 @@ import Image from "next/image"
 import Link from "next/link"
 import { ChevronLeft, ChevronRight, X } from "lucide-react"
 import { CustomPillButton } from "@/components/ui/CustomPillButton"
+import { FsInsetCtaCard } from "@/components/FsInsetCtaCard"
+import { Reveal } from "@/components/Reveal"
+import { ServiceItemReveal } from "@/components/ServiceItemReveal"
 import { MAIN_CASE_STUDIES } from "@/data/projects"
 import { FS_PROJECTS_CONTENT_MAX, FS_PROJECTS_SECTION_PX } from "@/lib/fsProjectsLayout"
 
@@ -49,16 +52,18 @@ export default function ProjectsPage() {
       <section className={`page-title-band ${FS_PROJECTS_SECTION_PX}`}>
         <div className={FS_PROJECTS_CONTENT_MAX}>
           <div className="max-w-2xl">
-            <span className="section-label mb-3 block text-white/75">Work in focus</span>
-            <h1
-              className={`text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold mb-2 md:mb-3 text-left ${textClass}`}
-              style={{ fontFamily: "var(--font-menu)" }}
-            >
-              Built to sign off, fire & security that endures
-            </h1>
-            <p className={`text-base sm:text-lg md:text-xl font-normal text-left tracking-tight ${mutedClass}`}>
-              A selection of fire and security installations we have delivered for commercial, public sector, and domestic clients across London and the Home Counties.
-            </p>
+            <Reveal>
+              <span className="section-label mb-3 block text-white/75">Work in focus</span>
+              <h1
+                className={`text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold mb-2 md:mb-3 text-left ${textClass}`}
+                style={{ fontFamily: "var(--font-menu)" }}
+              >
+                Built to sign off, fire & security that endures
+              </h1>
+              <p className={`text-base sm:text-lg md:text-xl font-normal text-left tracking-tight ${mutedClass}`}>
+                A selection of fire and security installations we have delivered for commercial, public sector, and domestic clients across London and the Home Counties.
+              </p>
+            </Reveal>
           </div>
         </div>
       </section>
@@ -66,8 +71,9 @@ export default function ProjectsPage() {
       <section className={`py-16 lg:py-16 ${FS_PROJECTS_SECTION_PX}`} style={bgStyle}>
         <div className={FS_PROJECTS_CONTENT_MAX}>
           <div className="space-y-8 md:space-y-10">
-            {projects.map((project) => (
-              <article key={project.slug} className="grid grid-cols-1 gap-0 border-2 border-white/70 bg-black md:grid-cols-2">
+            {projects.map((project, index) => (
+              <ServiceItemReveal key={project.slug} index={index} stepMs={75} className="block">
+              <article className="grid grid-cols-1 gap-0 border-2 border-white/70 bg-black md:grid-cols-2">
                 <button
                   type="button"
                   onClick={() => openGallery(project.slug, 0)}
@@ -122,6 +128,7 @@ export default function ProjectsPage() {
                   </div>
                 </div>
               </article>
+              </ServiceItemReveal>
             ))}
           </div>
         </div>
@@ -129,15 +136,21 @@ export default function ProjectsPage() {
 
       <div className="w-full h-[2px] bg-white/45" />
 
-      <section className="py-16 lg:py-20 px-4 sm:px-6 lg:px-8" style={bgStyle}>
-        <div className="mx-auto w-full max-w-[min(100%,72rem)] text-center">
-          <h2 className={`text-3xl font-bold font-title mb-4 ${textClass}`}>Start Your Project</h2>
-          <p className={`text-lg mb-8 ${mutedClass}`}>
-            Discuss your fire or security requirements with our team. We offer free surveys and tailored solutions.
-          </p>
-          <CustomPillButton href="/contact" size="lg">Get in touch</CustomPillButton>
-        </div>
-      </section>
+      <FsInsetCtaCard
+        variant="light"
+        showBorderTop={false}
+        eyebrow="Free survey"
+        headline="Start your"
+        headlineAccent="next project."
+        description="Discuss your fire or security requirements with our team. We offer free surveys and tailored solutions across London and the Home Counties."
+      >
+        <CustomPillButton href="/contact" size="lg" variant="onLight">
+          Get in touch
+        </CustomPillButton>
+        <CustomPillButton href="tel:02083032280" size="lg" variant="outline">
+          Call 020 8303 2280
+        </CustomPillButton>
+      </FsInsetCtaCard>
 
       {activeProject && activeGallery.length > 0 && (
         <div className="fixed inset-0 z-[120] bg-black/90 backdrop-blur-[2px]">

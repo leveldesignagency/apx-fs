@@ -103,8 +103,7 @@ function isTextMagnify(el: EventTarget | null, clientX: number, clientY: number)
 function getSectionFromElement(el: EventTarget | null): CursorSection {
   if (!el || !(el instanceof Element)) return null;
   const node = el as HTMLElement;
-  const header = node.closest("header");
-  if (header) return "header";
+  if (node.closest("header.site-header")) return "header";
   const section = node.closest("section[id]");
   if (section && section.id) return section.id as CursorSection;
   return null;
@@ -112,7 +111,12 @@ function getSectionFromElement(el: EventTarget | null): CursorSection {
 
 function getSurface(el: Element, clientX: number, clientY: number): CursorSurface {
   if (isOverImage(clientX, clientY)) return "image";
-  if (el.closest("header")) return "dark";
+  if (el.closest("header.site-header")) return "dark";
+
+  const surfaceHint = el.closest("[data-cursor-surface]")?.getAttribute("data-cursor-surface");
+  if (surfaceHint === "light") return "light";
+  if (surfaceHint === "dark") return "dark";
+
   return luminanceFromBackground(el) < 0.34 ? "dark" : "light";
 }
 

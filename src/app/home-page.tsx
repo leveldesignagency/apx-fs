@@ -142,21 +142,8 @@ const WHY_CHOOSE_CARDS: { Icon: LucideIcon; title: string; bullets: string[] }[]
   },
 ]
 
-const ACCREDITATIONS_HOME_LOGOS: { slug: string; src: string; alt: string }[] = [
-  { slug: "nsi", src: "/accreditations%20mono/Coloured/NSI-01.png", alt: "NSI Gold" },
-  { slug: "bafe", src: "/accreditations%20mono/Coloured/BAFE-01.svg", alt: "BAFE" },
-  { slug: "constructionline", src: "/accreditations%20mono/Coloured/ConstructionOnline-01.svg", alt: "Constructionline" },
-  { slug: "fia", src: "/accreditations%20mono/Coloured/FIA-01.svg", alt: "FIA" },
-]
-
 /** Homepage news strip */
 const FS_SHOW_NEWS_AND_ARTICLES = true
-
-/** Hero strip: first mark (NSI) white on dark hero; others match Trusted section colours */
-const HERO_ACCREDITATION_LOGOS: { slug: string; src: string; alt: string }[] = [
-  { slug: "nsi", src: "/accreditations%20mono/White/NSI-02.svg", alt: "NSI Gold" },
-  ...ACCREDITATIONS_HOME_LOGOS.filter((a) => a.slug !== "nsi"),
-]
 
 export default function Home() {
   const { theme } = useTheme()
@@ -185,8 +172,6 @@ export default function Home() {
     videoVisible: false,
     titleVisible: false,
     subtitleVisible: false,
-    statsVisible: false,
-    clientsVisible: false
   })
   const [sectionMotion, setSectionMotion] = useState({
     core: false,
@@ -420,20 +405,10 @@ export default function Home() {
       setHeroAnimation(prev => ({ ...prev, subtitleVisible: true }))
     }, 760)
 
-    const timer4 = setTimeout(() => {
-      setHeroAnimation(prev => ({ ...prev, statsVisible: true }))
-    }, 980)
-
-    const timer5 = setTimeout(() => {
-      setHeroAnimation(prev => ({ ...prev, clientsVisible: true }))
-    }, 1080)
-
     return () => {
       clearTimeout(timer1)
       clearTimeout(timer2)
       clearTimeout(timer3)
-      clearTimeout(timer4)
-      clearTimeout(timer5)
     }
   }, [])
 
@@ -856,7 +831,7 @@ export default function Home() {
       <GlobalStyles theme={themeMode} />
       <div className="home-page-trial min-h-screen overflow-x-clip relative z-10">
 
-      {/* Hero Section – full viewport height; accreditations sit on image at bottom-right */}
+      {/* Hero Section – full viewport height */}
       <section
         id="hero"
         className="relative flex min-h-[100dvh] flex-col overflow-hidden bg-black"
@@ -864,20 +839,20 @@ export default function Home() {
         <HeroVideoBackground />
         <div
           className={`relative z-20 container mx-auto flex min-h-[100dvh] w-full flex-col px-4 pb-5 sm:px-5 sm:pb-6 lg:px-6 lg:pb-8 transition-all duration-1000 ${
-            heroAnimation.videoVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-6"
+            heroAnimation.videoVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-10"
           }`}
         >
-          <div className="mx-auto flex w-full max-w-2xl flex-1 flex-col items-center justify-center space-y-4 pt-20 text-center min-[400px]:pt-[5.25rem] sm:pt-24 md:pt-[6.25rem] lg:mx-0 lg:items-start lg:pt-28 lg:text-left xl:pt-[7.25rem]">
+          <div className="mx-auto flex w-full max-w-2xl flex-1 flex-col items-center justify-center space-y-4 pt-20 text-center min-[400px]:pt-[5.25rem] sm:pt-24 md:pt-[6.25rem] lg:mx-0 lg:max-w-xl lg:items-start lg:pt-28 lg:text-left xl:max-w-2xl xl:pt-[7.25rem]">
             <h1
-              className={`hero-title-reveal text-3xl font-bold mb-2 font-title text-white transition-all duration-[1200ms] sm:text-4xl md:mb-3 md:text-5xl lg:text-6xl ${
-                heroAnimation.titleVisible ? "opacity-100 translate-y-0 blur-0 scale-100" : "opacity-0 translate-y-10 blur-[8px] scale-[0.985]"
+              className={`hero-title-reveal mb-2 font-title text-3xl font-bold tracking-wide text-white transition-all duration-[1200ms] sm:text-4xl md:mb-3 md:text-5xl lg:text-6xl ${
+                heroAnimation.titleVisible ? "opacity-100 translate-y-0 blur-0 scale-100" : "opacity-0 translate-y-16 blur-[8px] scale-[0.985]"
               }`}
             >
-              APX FS is your NSI Gold fire and security systems installer.
+              APX FS is your NSI Gold Fire &amp; Security Systems Installer.
             </h1>
             <p
-              className={`hero-copy-reveal mx-auto max-w-lg text-base font-normal tracking-tight text-white transition-all duration-1000 sm:text-lg md:mb-5 md:text-xl mb-4 lg:mx-0 ${
-                heroAnimation.subtitleVisible ? "opacity-100 translate-y-0 blur-0" : "opacity-0 translate-y-7 blur-[6px]"
+              className={`hero-copy-reveal mx-auto mb-4 max-w-lg text-base font-normal tracking-tight text-white transition-all duration-1000 sm:text-lg md:mb-5 md:text-xl lg:mx-0 ${
+                heroAnimation.subtitleVisible ? "opacity-100 translate-y-0 blur-0" : "opacity-0 translate-y-12 blur-[6px]"
               }`}
             >
               We are specialists in the design, installation and maintenance of bespoke integrated fire and security systems within London and the Home Counties.
@@ -885,7 +860,7 @@ export default function Home() {
 
             <div
               className={`hero-cta-reveal flex flex-wrap items-center justify-center gap-4 pt-2 transition-all duration-1000 sm:gap-6 lg:justify-start ${
-                heroAnimation.statsVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"
+                heroAnimation.subtitleVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-14"
               }`}
             >
               <CustomPillButton href="/contact" size="md">
@@ -893,33 +868,11 @@ export default function Home() {
               </CustomPillButton>
               <Link
                 href="/contact"
-                className="text-white font-normal text-base underline underline-offset-4 transition-colors duration-300 hover:text-white/90"
+                className="text-base font-normal text-white underline underline-offset-4 transition-colors duration-300 hover:text-white/90"
               >
                 Question? get in touch
               </Link>
             </div>
-          </div>
-
-          {/* Hero accreditations – bottom-right, inside full-height hero over the image */}
-          <div
-            className={`mt-6 flex w-full flex-wrap items-end justify-end gap-3 sm:mt-8 sm:gap-4 md:gap-5 transition-all duration-700 ease-out ${
-              heroAnimation.clientsVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-6"
-            }`}
-          >
-            {HERO_ACCREDITATION_LOGOS.map((acc, idx) => (
-              <Link
-                key={acc.slug}
-                href={`/accreditations/${acc.slug}`}
-                className={`flex h-11 max-h-11 items-center justify-center sm:h-12 md:h-14 lg:h-16 w-auto max-w-[100px] transition-all duration-500 ease-out sm:max-w-[115px] md:max-w-[130px] lg:max-w-[145px] ${
-                  heroAnimation.clientsVisible ? "opacity-90 translate-y-0 blur-0" : "opacity-0 translate-y-4 blur-[4px]"
-                }`}
-                style={{ transitionDelay: `${idx * 45}ms` }}
-                aria-label={`${acc.alt}, view dedicated accreditation page`}
-              >
-                {/* eslint-disable-next-line @next/next/no-img-element */}
-                <img src={acc.src} alt={acc.alt} className="h-full w-auto object-contain drop-shadow-[0_2px_12px_rgba(0,0,0,0.45)]" />
-              </Link>
-            ))}
           </div>
         </div>
       </section>
@@ -941,8 +894,8 @@ export default function Home() {
 
         <div className="container mx-auto px-6 lg:px-8 relative z-10">
           <div
-            className={`max-w-3xl transition-all duration-[900ms] ease-out ${
-              sectionMotion.core ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"
+            className={`max-w-3xl home-scroll-rise ${
+              sectionMotion.core ? "opacity-100 translate-y-0" : "opacity-0 translate-y-14"
             }`}
           >
             <span
@@ -965,8 +918,8 @@ export default function Home() {
               return (
                 <div
                   key={card.title}
-                  className={`where-we-thrive-card flex h-full w-full flex-col items-center transition-all duration-700 ease-out ${
-                    sectionMotion.core ? "opacity-100 translate-y-0" : "opacity-0 translate-y-10"
+                  className={`where-we-thrive-card flex h-full w-full flex-col items-center home-scroll-rise ${
+                    sectionMotion.core ? "opacity-100 translate-y-0" : "opacity-0 translate-y-16"
                   }`}
                   style={{ transitionDelay: sectionMotion.core ? `${cardIndex * 100}ms` : "0ms" }}
                 >
@@ -1019,8 +972,8 @@ export default function Home() {
         <section id="services" className="home-services-band section-spacing relative overflow-visible bg-black">
         <div className="container mx-auto px-6 lg:px-8">
           <div
-            className={`section-content-gap space-y-16 text-white transition-all duration-[900ms] ease-out ${
-              sectionMotion.services ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"
+            className={`section-content-gap space-y-16 text-white home-scroll-rise ${
+              sectionMotion.services ? "opacity-100 translate-y-0" : "opacity-0 translate-y-14"
             }`}
           >
             <WhatWeOfferSection />
@@ -1044,8 +997,8 @@ export default function Home() {
                 style={{ animationDelay }}
               >
                 <div
-                  className={`flex w-full flex-col items-center transition-all duration-700 ease-out ${
-                    sectionMotion.benefits ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"
+                  className={`flex w-full flex-col items-center home-scroll-rise ${
+                    sectionMotion.benefits ? "opacity-100 translate-y-0" : "opacity-0 translate-y-14"
                   }`}
                   style={{ transitionDelay: sectionMotion.benefits ? `${benefitIndex * 110}ms` : "0ms" }}
                 >
@@ -1117,7 +1070,7 @@ export default function Home() {
 
             <div
               className={`relative flex min-h-0 flex-1 flex-col transition-all delay-100 duration-[1000ms] ease-out ${
-                sectionMotion.projects ? "opacity-100 translate-y-0" : "opacity-0 translate-y-12"
+                sectionMotion.projects ? "opacity-100 translate-y-0" : "opacity-0 translate-y-16"
               }`}
             >
               <div
@@ -1289,8 +1242,8 @@ export default function Home() {
         aria-labelledby="logo-marquee-heading"
       >
         <div
-          className={`container mx-auto px-6 pt-12 pb-8 text-center lg:px-8 lg:pt-14 lg:pb-9 transition-all duration-[900ms] ease-out ${
-            sectionMotion.marquee ? "opacity-100 translate-y-0" : "opacity-0 translate-y-6"
+          className={`container mx-auto px-6 pt-12 pb-8 text-center lg:px-8 lg:pt-14 lg:pb-9 home-scroll-rise ${
+            sectionMotion.marquee ? "opacity-100 translate-y-0" : "opacity-0 translate-y-10"
           }`}
         >
           <span className="section-label section-label--black">Our clients</span>
@@ -1303,8 +1256,8 @@ export default function Home() {
         </div>
 
         <div
-          className={`logo-marquee-wrapper pb-12 lg:pb-14 transition-all duration-[900ms] ease-out delay-75 ${
-            sectionMotion.marquee ? "opacity-100 translate-y-0" : "opacity-0 translate-y-4"
+          className={`logo-marquee-wrapper pb-12 lg:pb-14 home-scroll-rise delay-75 ${
+            sectionMotion.marquee ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"
           }`}
         >
           <div className="logo-marquee">
@@ -1333,8 +1286,8 @@ export default function Home() {
             <div className="container mx-auto px-6 lg:px-8">
               <div className="news-section__grid">
                 <div
-                  className={`news-section__left transition-all duration-[900ms] ease-out ${
-                    sectionMotion.news ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"
+                  className={`news-section__left home-scroll-rise ${
+                    sectionMotion.news ? "opacity-100 translate-y-0" : "opacity-0 translate-y-14"
                   }`}
                 >
                   <header className="news-section__header">
@@ -1373,8 +1326,8 @@ export default function Home() {
                 </div>
 
                 <div
-                  className={`news-section__right transition-all duration-[900ms] ease-out ${
-                    sectionMotion.news ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"
+                  className={`news-section__right home-scroll-rise ${
+                    sectionMotion.news ? "opacity-100 translate-y-0" : "opacity-0 translate-y-14"
                   }`}
                   style={{ transitionDelay: "120ms" }}
                 >
@@ -1412,8 +1365,8 @@ export default function Home() {
         <div className="relative z-10 container mx-auto px-6 lg:px-8">
           <div className="grid items-end gap-14 lg:grid-cols-12 lg:gap-x-16 lg:gap-y-12">
             <div
-              className={`lg:col-span-5 transition-all duration-[900ms] ease-out ${
-                sectionMotion.testimonials ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"
+              className={`lg:col-span-5 home-scroll-rise ${
+                sectionMotion.testimonials ? "opacity-100 translate-y-0" : "opacity-0 translate-y-14"
               }`}
             >
               <span className="section-label text-white/70">Testimonials</span>
@@ -1429,7 +1382,7 @@ export default function Home() {
 
             <div
               className={`relative lg:col-span-7 transition-all delay-150 duration-[900ms] ease-out ${
-                sectionMotion.testimonials ? "opacity-100 translate-y-0" : "opacity-0 translate-y-10"
+                sectionMotion.testimonials ? "opacity-100 translate-y-0" : "opacity-0 translate-y-16"
               }`}
             >
               <div className="mb-8 flex flex-wrap items-center gap-2 sm:gap-2.5">
@@ -1524,8 +1477,8 @@ export default function Home() {
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 sm:gap-12 lg:gap-16 items-start">
             {/* Left side - Title and Button */}
             <div
-              className={`contact-section-head space-y-8 pt-16 lg:pt-24 transition-all duration-[600ms] ease-out ${
-                sectionMotion.contact ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"
+              className={`contact-section-head space-y-8 pt-16 lg:pt-24 home-scroll-rise ${
+                sectionMotion.contact ? "opacity-100 translate-y-0" : "opacity-0 translate-y-14"
               }`}
               style={
                 sectionMotion.contact ? { transitionDelay: `${HOME_QUOTE_FORM_INNER_DELAY_MS}ms` } : undefined

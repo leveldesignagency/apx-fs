@@ -4,7 +4,7 @@ import Link from "next/link"
 import { CctvComplianceSection } from "@/components/CctvComplianceSection"
 import { CctvWhatWeOfferSection } from "@/components/CctvWhatWeOfferSection"
 import { FsCctvCameraTypesStrip } from "@/components/FsCctvCameraTypesStrip"
-import { FsServiceFaqByRoute } from "@/components/FsServiceFaqByRoute"
+import { ServicePageClosingSections } from "@/components/ServicePageClosingSections"
 import { FsServiceBenefitsList } from "@/components/FsServiceBenefitsList"
 import { FsServiceTextImageSection } from "@/components/FsServiceTextImageSection"
 import { FsServiceTextImageSectionGroup } from "@/components/FsServiceTextImageSectionGroup"
@@ -223,7 +223,20 @@ export default function DomesticCctvPage() {
 
         <CctvWhatWeOfferSection eyebrow="Domestic" items={WHAT_WE_OFFER_ITEMS} />
 
-        <FsServiceFaqByRoute />
+        <ServicePageClosingSections
+          serviceTitleShort="Domestic CCTV"
+          ctaImageSrc={serviceHeroImages.domesticCctv}
+          ctaHeadline="Request your"
+          ctaHeadlineAccent="free domestic survey."
+          ctaDescription="Site visit, camera placement advice and a tailored plan for your home. No obligation across London and the Home Counties."
+        >
+          <CustomPillButton href="/contact" size="md">
+            Request a free survey
+          </CustomPillButton>
+          <CustomPillButton href="tel:02083032280" size="md" variant="outline">
+            Call 020 8303 2280
+          </CustomPillButton>
+        </ServicePageClosingSections>
       </div>
     </div>
   )

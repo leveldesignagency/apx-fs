@@ -134,7 +134,8 @@ export default function EvacVoiceEvacuationPage() {
         <ServicePageClosingSections
           serviceTitleShort="EVAC & Voice"
           ctaImageSrc={serviceHeroImages.evacVoice}
-          ctaTitle="Planning voice evacuation?"
+          ctaHeadline="Planning"
+          ctaHeadlineAccent="voice evacuation?"
           ctaDescription="Share your drawings and fire strategy, we can advise on zoning, equipment and commissioning for a compliant voice alarm installation."
         >
           <CustomPillButton href="/contact" size="md">

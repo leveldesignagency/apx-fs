@@ -24,14 +24,6 @@ export type FsProject = {
   heroImage: string
   gallery: string[]
   clientReview?: FsProjectClientReview
-  /** Official site for the hero title; if unknown, use a Maps search URL */
-  heroTitleLinkUrl?: string
-  /** Maps (or other) URL for the location line under the title */
-  heroLocationLinkUrl?: string
-}
-
-export function mapsSearchUrl(query: string): string {
-  return `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(query)}`
 }
 
 export const MAIN_CASE_STUDY_SLUGS = [
@@ -60,8 +52,6 @@ export const FS_PROJECTS: FsProject[] = [
       "APX installed Advanced fire panels with Apollo detection, linked to TOA PAVA across all floors. Ten master PAVA and ten fire alarm panels interface from a dedicated ground-floor control room, with Vox Ignis refuge and disabled WC alarms on every level.",
     outcome:
       "Complete floor coverage with centralised monitoring, resilient cause-and-effect integration and a handover package that gave the building team clear operational control from day one.",
-    heroTitleLinkUrl: "https://sancroftlondon.co.uk/",
-    heroLocationLinkUrl: mapsSearchUrl("Sancroft Building, Paternoster Square, London"),
     heroImage:
       "/projects/case-studies/sancroft-building/case-study-sancroft-building-fire-alarm-installation-exterior.jpg",
     gallery: [
@@ -105,8 +95,6 @@ export const FS_PROJECTS: FsProject[] = [
       organization: "King's College Hospital NHS Foundation Trust",
       organizationUrl: "https://www.kch.nhs.uk/",
     },
-    heroTitleLinkUrl: "https://www.kch.nhs.uk/",
-    heroLocationLinkUrl: mapsSearchUrl("King's College Hospital, Denmark Hill, London"),
     heroImage:
       "/projects/case-studies/kings-college-hospital/case-study-kings-college-hospital-nhs-foundation-trust.jpg",
     gallery: [
@@ -147,8 +135,6 @@ export const FS_PROJECTS: FsProject[] = [
       organization: "LJJ Mechanical & Electrical Contractors",
       organizationUrl: "https://www.ljjcontractors.com/",
     },
-    heroTitleLinkUrl: "https://www.inspiredvillages.co.uk/village/ledian-gardens",
-    heroLocationLinkUrl: mapsSearchUrl("Ledian Farm, Leeds, Maidstone, Kent"),
     heroImage:
       "/projects/case-studies/ledian-farm/case-study-ledian-farm-cctv-access-control-exterior.jpg",
     gallery: [
@@ -182,8 +168,6 @@ export const FS_PROJECTS: FsProject[] = [
       "APX coordinated installation sequencing with property management, completing fire alarm and access upgrades zone by zone with focused commissioning before handover to the on-site team.",
     outcome:
       "Stronger life-safety and access control across resident and shared spaces, with clearer operational visibility for building teams and minimal disruption to day-to-day student life.",
-    heroTitleLinkUrl: "https://www.scape.com/student-accommodation-bloomsbury/",
-    heroLocationLinkUrl: mapsSearchUrl("Scape Bloomsbury, London"),
     heroImage:
       "/projects/case-studies/scape-bloomsbury/fire-alarm-system-installation-scape-bloomsbury-exterior.jpg",
     gallery: [
@@ -211,8 +195,6 @@ export const FS_PROJECTS: FsProject[] = [
       "APX planned sequenced installation windows with the facilities team, completing fire detection and access upgrades by zone with targeted commissioning before each area returned to full use.",
     outcome:
       "Improved safety and access resilience across guest and back-of-house areas, delivered with minimal operational interruption and a clean handover for hotel management.",
-    heroTitleLinkUrl: "https://www.themayfairtownhouse.co.uk/",
-    heroLocationLinkUrl: mapsSearchUrl("The Mayfair Townhouse, London"),
     heroImage:
       "/projects/case-studies/mayfair-townhouse/fire-alarm-system-mayfair-townhouse-london.jpg",
     gallery: [
@@ -239,8 +221,6 @@ export const FS_PROJECTS: FsProject[] = [
       "APX phased installation around building use patterns, coordinating with university stakeholders to upgrade alarm infrastructure floor by floor without closing teaching areas unnecessarily.",
     outcome:
       "Reliable, upgraded fire detection with documentation and testing records aligned to handover requirements, and minimal impact on students, staff and daily campus operations.",
-    heroTitleLinkUrl: "https://www.uwl.ac.uk/",
-    heroLocationLinkUrl: mapsSearchUrl("University of West London, London"),
     heroImage:
       "/projects/case-studies/university-of-west-london/fire-alarm-installation-university-of-west-london-exterior.jpg",
     gallery: [
@@ -266,8 +246,6 @@ export const FS_PROJECTS: FsProject[] = [
       "Wall-mount VX-3308WM PA/VA units on each floor feed back to a ground-floor Fire Control Centre via fire-rated Cat5 links. Dual amplifiers, standby units and battery backup at each level simplify fault-finding and reduce long cable runs.",
     outcome:
       "A flexible, BS 5839-aligned PA/VA estate with efficient floor-by-floor commissioning, clearer zoning from the ground-floor hub and a resilient audio infrastructure the facilities team can maintain with confidence.",
-    heroTitleLinkUrl: mapsSearchUrl("Emergency PA VA system, City of London office"),
-    heroLocationLinkUrl: mapsSearchUrl("City of London"),
     heroImage: "/projects/library/case-study-pa-va-system-installation-reception.jpg",
     gallery: [
       "/projects/library/case-study-pa-va-system-installation-reception.jpg",
@@ -294,8 +272,6 @@ export const FS_PROJECTS: FsProject[] = [
       "APX delivered phased intruder alarm works with coordinated engineer attendance, completing upgrades in live areas and validating monitoring paths before returning spaces to public use.",
     outcome:
       "Stronger site security and monitoring performance for Camden Council, with improved operational confidence for facilities and management teams using the building every day.",
-    heroTitleLinkUrl: "https://www.camden.gov.uk/",
-    heroLocationLinkUrl: mapsSearchUrl("Greenwood Centre, Camden, London"),
     heroImage:
       "/projects/case-studies/camden-council-greenwood-centre/intruder-alarm-greenwood-centre-camden-council-interior.jpg",
     gallery: [
@@ -321,8 +297,6 @@ export const FS_PROJECTS: FsProject[] = [
       "APX combined access control and video door entry at key perimeter and reception points, integrating entry permissions with a platform the managing agent could administer without specialist support.",
     outcome:
       "Clearer building access management for residents and staff, improved visitor handling at the front door and stronger day-to-day security across the development's shared and private areas.",
-    heroTitleLinkUrl: mapsSearchUrl("Aspire Herschel Street, Slough, Berkshire"),
-    heroLocationLinkUrl: mapsSearchUrl("Herschel Street, Slough, Berkshire"),
     heroImage:
       "/fire%20alarm%20system%20installations/access-control-system-installation-aspire-herschel-street-exterior-800x533.jpg",
     gallery: [

@@ -214,6 +214,10 @@ export default function CommercialCctvPage() {
           titleId="commercial-cctv-benefits-heading"
           imageAlt="Benefits of a commercial CCTV system"
           imageRightFeather={false}
+          imageCantInsetPercent={14}
+          imageEdgeWidthVw={54}
+          imageEdgeMaxWidth="none"
+          imageClassName="object-cover object-[62%_center]"
         >
           <FsServiceBenefitsList items={COMMERCIAL_CCTV_BENEFITS} />
         </FsServiceTextImageSection>
@@ -256,11 +260,12 @@ export default function CommercialCctvPage() {
         <ServicePageClosingSections
           serviceTitleShort="Commercial CCTV"
           ctaImageSrc={serviceHeroImages.commercialCctv}
-          ctaTitle="Request your free commercial CCTV survey"
-          ctaDescription="We are pleased to offer a free survey and report for your business. Our report highlights security weaknesses and identifies improvements to carry out before your CCTV installation."
+          ctaHeadline="Request your"
+          ctaHeadlineAccent="free commercial survey."
+          ctaDescription="Site visit, coverage review and written recommendations. No obligation. We respond promptly across London and the Home Counties."
         >
           <CustomPillButton href="/contact" size="md">
-            Contact APX Fire & Security
+            Book a survey
           </CustomPillButton>
           <CustomPillButton href="tel:02083032280" size="md" variant="outline">
             Call 020 8303 2280

@@ -1,5 +1,8 @@
+"use client"
+
 import type { ReactNode } from "react"
 import type { FsProject } from "@/data/projects"
+import { ServiceItemReveal } from "@/components/ServiceItemReveal"
 
 type ProjectDetailStoryProps = {
   project: Pick<FsProject, "scope" | "systems" | "status" | "challenge" | "solution" | "outcome">
@@ -44,32 +47,32 @@ export function ProjectDetailStory({ project }: ProjectDetailStoryProps) {
     <div className="fs-project-detail-story">
       <div className="fs-project-detail-meta grid grid-cols-1 gap-10 border-y border-white/12 py-10 sm:grid-cols-3 sm:gap-8 md:py-12 lg:gap-12">
         {META_FIELDS.map(({ key, label }, index) => (
-          <div
-            key={key}
-            className={`min-w-0 ${index > 0 ? "sm:border-l sm:border-white/10 sm:pl-8 lg:pl-10" : ""}`}
-          >
-            <p
-              className="section-label mb-3 text-white/55"
-              style={{ fontFamily: "var(--font-menu), sans-serif" }}
-            >
-              {label}
-            </p>
-            <p className="font-title text-xl font-semibold leading-snug text-white sm:text-2xl lg:text-[1.65rem]">
-              {project[key]}
-            </p>
-          </div>
+          <ServiceItemReveal key={key} index={index} stepMs={65} className="min-w-0">
+            <div className={index > 0 ? "sm:border-l sm:border-white/10 sm:pl-8 lg:pl-10" : ""}>
+              <p
+                className="section-label mb-3 text-white/55"
+                style={{ fontFamily: "var(--font-menu), sans-serif" }}
+              >
+                {label}
+              </p>
+              <p className="font-title text-xl font-semibold leading-snug text-white sm:text-2xl lg:text-[1.65rem]">
+                {project[key]}
+              </p>
+            </div>
+          </ServiceItemReveal>
         ))}
       </div>
 
       <div className="mt-14 grid grid-cols-1 gap-12 md:mt-16 lg:grid-cols-3 lg:gap-8 xl:gap-12">
         {STORY_FIELDS.map(({ key, label }, index) => (
-          <ProjectDetailField
-            key={key}
-            label={label}
-            className={index > 0 ? "lg:border-l lg:border-white/10 lg:pl-8 xl:pl-10" : ""}
-          >
-            {project[key]}
-          </ProjectDetailField>
+          <ServiceItemReveal key={key} index={index} stepMs={70} baseDelayMs={80} className="min-w-0">
+            <ProjectDetailField
+              label={label}
+              className={index > 0 ? "lg:border-l lg:border-white/10 lg:pl-8 xl:pl-10" : ""}
+            >
+              {project[key]}
+            </ProjectDetailField>
+          </ServiceItemReveal>
         ))}
       </div>
     </div>

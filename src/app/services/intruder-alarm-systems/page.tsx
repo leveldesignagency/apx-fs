@@ -14,7 +14,12 @@ import { ServiceItemReveal } from "@/components/ServiceItemReveal"
 import { serviceHeroImages } from "@/lib/serviceHeroImages"
 import { FsServiceTextImageSection } from "@/components/FsServiceTextImageSection"
 import { FsServiceTextImageSectionGroup } from "@/components/FsServiceTextImageSectionGroup"
-import { FS_SERVICE_SHIMMER_CARD, FS_SERVICE_SHIMMER_CARD_FEATURE } from "@/lib/fsServicePageCards"
+import {
+  FS_SERVICE_IMAGE_GROW_INNER,
+  FS_SERVICE_INSTALLATION_CARD,
+  FS_SERVICE_INSTALLATION_CARD_IMAGE,
+  FS_SERVICE_SHIMMER_CARD_FEATURE,
+} from "@/lib/fsServicePageCards"
 import { Shield, CheckCircle, Monitor, Smartphone, Package } from "lucide-react"
 
 const MONITORING_BENEFITS = [
@@ -247,8 +252,9 @@ export default function IntruderAlarmSystemsPage() {
           <div className="grid grid-cols-1 gap-8 md:grid-cols-2 lg:grid-cols-3">
             {INTRUDER_ALARM_INSTALLATIONS.map((item, index) => (
               <ServiceItemReveal key={item.title} index={index} className="h-full min-h-0">
-                <article className={`${FS_SERVICE_SHIMMER_CARD} overflow-hidden p-0`}>
-                <div className="relative aspect-[4/3] w-full bg-white/5">
+                <article className={FS_SERVICE_INSTALLATION_CARD}>
+                <div className={FS_SERVICE_INSTALLATION_CARD_IMAGE}>
+                  <div className={FS_SERVICE_IMAGE_GROW_INNER}>
                   <Image
                     src={item.imageSrc}
                     alt={item.title}
@@ -256,6 +262,7 @@ export default function IntruderAlarmSystemsPage() {
                     className="object-cover object-center"
                     sizes="(min-width: 1024px) 33vw, (min-width: 768px) 50vw, 100vw"
                   />
+                  </div>
                 </div>
                 <div className="p-6 md:p-8">
                   <h3 className="mb-2 text-base font-semibold leading-snug text-white sm:text-lg">{item.title}</h3>
@@ -271,7 +278,8 @@ export default function IntruderAlarmSystemsPage() {
         <ServicePageClosingSections
           serviceTitleShort="Intruder alarm"
           ctaImageSrc={serviceHeroImages.intruder}
-          ctaTitle="Ready to secure your property?"
+          ctaHeadline="Ready to"
+          ctaHeadlineAccent="secure your property?"
           ctaDescription="Book a free intruder alarm survey or speak to our team about design, installation, and monitoring."
         >
           <CustomPillButton href="/contact" size="md">

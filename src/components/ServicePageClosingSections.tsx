@@ -1,33 +1,45 @@
 "use client"
 
 import type { ReactNode } from "react"
+import { FsInsetCtaCard } from "@/components/FsInsetCtaCard"
 import { FsServiceFaqByRoute } from "@/components/FsServiceFaqByRoute"
 import { OurCustomers } from "@/components/ServicePageSharedSections"
-import { ServicePageBottomCta } from "@/components/ServicePageBottomCta"
 
 type ServicePageClosingSectionsProps = {
   serviceTitleShort: string
+  /** Hero image shown faintly inside the inset CTA card. */
   ctaImageSrc: string
-  ctaTitle: string
+  ctaHeadline: string
+  ctaHeadlineAccent: string
   ctaDescription: string
+  ctaEyebrow?: string
   children: ReactNode
 }
 
-/** Standard page tail: customer marquee → FAQ (white) → CTA band (bottom). */
+/** Standard page tail: customer marquee, FAQ, inset CTA card (replaces full-bleed photo band). */
 export function ServicePageClosingSections({
   serviceTitleShort,
   ctaImageSrc,
-  ctaTitle,
+  ctaHeadline,
+  ctaHeadlineAccent,
   ctaDescription,
+  ctaEyebrow = "NSI Gold installer",
   children,
 }: ServicePageClosingSectionsProps) {
   return (
     <>
       <OurCustomers serviceTitleShort={serviceTitleShort} />
       <FsServiceFaqByRoute />
-      <ServicePageBottomCta imageSrc={ctaImageSrc} title={ctaTitle} description={ctaDescription}>
+      <FsInsetCtaCard
+        variant="service"
+        backgroundImageSrc={ctaImageSrc}
+        eyebrow={ctaEyebrow}
+        headline={ctaHeadline}
+        headlineAccent={ctaHeadlineAccent}
+        description={ctaDescription}
+      >
         {children}
-      </ServicePageBottomCta>
+      </FsInsetCtaCard>
     </>
   )
 }

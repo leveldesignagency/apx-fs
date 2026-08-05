@@ -99,32 +99,35 @@ export default function ServicesHubPage() {
                 <ServiceItemReveal key={service.title} index={index} className="h-full min-h-0">
                   <Link
                     href={service.href}
-                    className="group relative block overflow-visible border-b border-white/20 last:border-b-0 bg-transparent text-inherit no-underline outline-none focus-visible:ring-2 focus-visible:ring-white/50 focus-visible:ring-offset-2 focus-visible:ring-offset-black"
+                    className="services-hub-row group relative block overflow-visible border-b border-white/20 last:border-b-0 bg-transparent text-inherit no-underline outline-none focus-visible:ring-2 focus-visible:ring-white/50 focus-visible:ring-offset-2 focus-visible:ring-offset-black"
                     onMouseEnter={() => setHoveredIndex(index)}
                     onFocus={() => setHoveredIndex(index)}
                   >
-                  <span
-                    className="pointer-events-none absolute inset-y-0 left-1/2 z-0 w-screen -translate-x-1/2 bg-[linear-gradient(90deg,transparent_0%,rgba(255,255,255,0.02)_18%,rgba(255,255,255,0.035)_50%,rgba(255,255,255,0.02)_82%,transparent_100%)] opacity-0 transition-opacity duration-300 ease-out group-hover:opacity-100 group-focus-visible:opacity-100"
-                    aria-hidden
-                  />
-                  <article className="relative z-[1]">
-                    <div className="py-5">
-                      <h2 className="font-title text-2xl font-semibold tracking-tight text-white normal-case sm:text-3xl lg:text-4xl [line-height:1]">
-                        {service.title}
-                      </h2>
-                    </div>
-                    <div
-                      className={`grid grid-cols-1 items-center gap-5 overflow-hidden transition-all duration-300 md:grid-cols-[1fr_auto] ${
-                        expanded ? "max-h-40 pb-6 opacity-100" : "max-h-0 opacity-0"
-                      }`}
-                    >
-                      <p className="pr-4 text-left text-sm leading-relaxed text-gray-300 sm:text-base">{service.description}</p>
-                      <span className="inline-flex items-center justify-center gap-2 self-start whitespace-nowrap rounded-tl-xl rounded-br-xl border border-white/30 bg-transparent px-4 py-2 text-xs font-semibold uppercase tracking-wide text-white transition-colors duration-300 group-hover:border-white group-hover:bg-white group-hover:text-black sm:text-sm md:self-center">
-                        {service.cta}
-                        <ArrowUpRight className="h-4 w-4 shrink-0" aria-hidden />
-                      </span>
-                    </div>
-                  </article>
+                    <span className="services-hub-row__wash" aria-hidden />
+                    <article className="relative z-[1]">
+                      <div className="py-5">
+                        <h2 className="font-title text-2xl font-semibold tracking-tight text-white normal-case sm:text-3xl lg:text-4xl [line-height:1]">
+                          {service.title}
+                        </h2>
+                      </div>
+                      <div
+                        className={`grid grid-cols-1 items-center gap-5 overflow-hidden transition-all duration-300 md:grid-cols-[1fr_auto] ${
+                          expanded ? "max-h-40 pb-6 opacity-100" : "max-h-0 opacity-0"
+                        }`}
+                      >
+                        <p className="pr-4 text-left text-sm leading-relaxed text-gray-300 sm:text-base">
+                          {service.description}
+                        </p>
+                        <span className="services-hub-row__cta pill-btn pill-btn--corners-sm relative inline-flex items-center justify-center gap-2 self-start overflow-hidden whitespace-nowrap bg-black px-4 py-2 text-xs font-semibold uppercase tracking-wide sm:text-sm md:self-center">
+                          <span className="pill-btn-inner" aria-hidden />
+                          <span className="pill-btn-border" aria-hidden />
+                          <span className="pill-text relative z-[1] inline-flex items-center gap-2 font-semibold">
+                            {service.cta}
+                            <ArrowUpRight className="h-4 w-4 shrink-0" aria-hidden />
+                          </span>
+                        </span>
+                      </div>
+                    </article>
                   </Link>
                 </ServiceItemReveal>
               )

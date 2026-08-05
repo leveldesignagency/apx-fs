@@ -3,6 +3,7 @@
 import Link from "next/link"
 import { Reveal } from "@/components/Reveal"
 import { AccreditationLogo } from "@/components/accreditations/AccreditationLogo"
+import { FsInsetCtaCard } from "@/components/FsInsetCtaCard"
 import { CustomPillButton } from "@/components/ui/CustomPillButton"
 import { FS_ACCREDITATION_TAB_ORDER, FS_ACCREDITATIONS } from "@/data/fsAccreditations"
 import {
@@ -93,22 +94,21 @@ export function AccreditationsHubClient() {
 
       <div className="h-[2px] w-full bg-white/45" aria-hidden />
 
-      <section className={`py-16 md:py-20 ${FS_ACCREDITATIONS_SECTION_PX}`}>
-        <div className={`${FS_ACCREDITATIONS_CONTENT_MAX} text-center`}>
-          <Reveal delayMs={80}>
-            <h2 className="font-title text-3xl font-bold text-white md:text-4xl">Discuss your requirements</h2>
-            <p className="mx-auto mt-4 max-w-xl text-base leading-relaxed text-white/70 md:text-lg">
-              Need assurance on standards, certification or procurement for an upcoming project? Our team can talk
-              through how these credentials apply to your scope.
-            </p>
-            <div className="mt-8 flex justify-center">
-              <CustomPillButton href="/contact" size="lg">
-                Get in touch
-              </CustomPillButton>
-            </div>
-          </Reveal>
-        </div>
-      </section>
+      <FsInsetCtaCard
+        variant="light"
+        showBorderTop={false}
+        eyebrow="NSI Gold installer"
+        headline="Discuss your"
+        headlineAccent="requirements."
+        description="Need assurance on standards, certification or procurement for an upcoming project? Our team can talk through how these credentials apply to your scope."
+      >
+        <CustomPillButton href="/contact" size="lg" variant="onLight">
+          Get in touch
+        </CustomPillButton>
+        <CustomPillButton href="tel:02083032280" size="lg" variant="outline">
+          Call 020 8303 2280
+        </CustomPillButton>
+      </FsInsetCtaCard>
     </div>
   )
 }

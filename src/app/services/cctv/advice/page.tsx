@@ -194,7 +194,8 @@ export default function UsefulCctvAdvicePage() {
         <ServicePageClosingSections
           serviceTitleShort="CCTV advice"
           ctaImageSrc={serviceHeroImages.cctvAdvice}
-          ctaTitle="Get tailored CCTV advice for your property"
+          ctaHeadline="Get tailored"
+          ctaHeadlineAccent="CCTV advice."
           ctaDescription="Book a free, no-obligation survey and we will recommend the right camera coverage, recording and compliance approach for your home or business."
         >
           <CustomPillButton href="/contact" size="md">

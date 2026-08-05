@@ -6,33 +6,14 @@ import { DeliveryMethodologyJourney } from "@/components/DeliveryMethodologyJour
 
 export function DeliveryMethodologyPageContent() {
   return (
-    <div className="dm-page min-h-screen bg-black text-white pb-16 md:pb-20">
-      <section className="page-title-band px-4 sm:px-6 lg:px-8">
-        <div className="mx-auto w-full max-w-[min(100%,92rem)]">
-          <div className="flex flex-col gap-5 lg:flex-row lg:items-start lg:justify-between lg:gap-8">
-            <div className="min-w-0 max-w-4xl">
-              <span className="section-label mb-3 block text-white/75">Delivery methodology</span>
-              <h1
-                className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold text-left text-white tracking-tight"
-                style={{ fontFamily: "var(--font-menu)" }}
-              >
-                Evidence-led delivery
-              </h1>
-              <p className="mt-3 max-w-3xl text-left text-base font-normal leading-snug text-white/75 sm:mt-4 sm:text-lg md:text-xl lg:text-2xl">
-                from first survey to compliant handover
-              </p>
-            </div>
-          </div>
-        </div>
-      </section>
+    <div className="dm-page min-h-screen bg-black text-white pb-16 md:pb-24">
+      <DeliveryMethodologyJourney steps={DELIVERY_METHODOLOGY_STEPS} />
 
       <div className="container relative mx-auto px-6 lg:px-8">
-        <DeliveryMethodologyJourney steps={DELIVERY_METHODOLOGY_STEPS} />
-
         <footer className="mt-8 border-t border-white/10 pt-8 text-center md:mt-10 md:pt-10">
           <Link
             href="/contact"
-            className="text-sm text-white/70 hover:text-white underline underline-offset-4 transition-colors"
+            className="text-sm text-white/70 underline underline-offset-4 transition-colors hover:text-white"
           >
             Discuss your project with our team
           </Link>

@@ -5,6 +5,7 @@ import Link from "next/link"
 import { useEffect, useRef, useState, type ReactNode } from "react"
 import { ArrowLeft } from "lucide-react"
 import { FsCctvHeroNav } from "@/components/FsCctvHeroNav"
+import { FsInsetCtaCard } from "@/components/FsInsetCtaCard"
 import { CustomPillButton } from "@/components/ui/CustomPillButton"
 import {
   CCTV_CAMERA_TYPES_FOLDER,
@@ -133,23 +134,25 @@ export function CctvCameraTypeDetailClient({ page }: { page: CctvCameraTypePage 
               </FadeInBlock>
             ))}
 
-            <FadeInBlock delayMs={page.sections.length * 90}>
-              <div className="mt-16 border-t border-white/10 pt-12">
-                <p className="text-base leading-relaxed text-gray-400">
-                  For a survey, specification or installation across{" "}
-                  <span className="text-gray-300">Greater London and the Home Counties</span>, contact APX Fire &amp;
-                  Security - we align camera choice with your risk assessment, network and compliance requirements.
-                </p>
-                <div className="mt-8">
-                  <CustomPillButton href="/contact" size="md">
-                    Get in touch
-                  </CustomPillButton>
-                </div>
-              </div>
-            </FadeInBlock>
           </div>
         </div>
       </article>
+
+      <FsInsetCtaCard
+        variant="service"
+        backgroundImageSrc={src}
+        eyebrow="CCTV survey"
+        headline="Get in"
+        headlineAccent="touch."
+        description="For a survey, specification or installation across Greater London and the Home Counties, we align camera choice with your risk assessment, network and compliance requirements."
+      >
+        <CustomPillButton href="/contact" size="md">
+          Contact APX
+        </CustomPillButton>
+        <CustomPillButton href="tel:02083032280" size="md" variant="outline">
+          Call 020 8303 2280
+        </CustomPillButton>
+      </FsInsetCtaCard>
     </div>
   )
 }

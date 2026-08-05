@@ -1,13 +1,13 @@
 "use client"
 
 import type { ReactNode } from "react"
-import Link from "next/link"
 import { ListChecks, ShieldCheck, Package, Check } from "lucide-react"
 import { CapabilityServiceTabs } from "@/components/CapabilityServiceTabs"
 import { FsServiceFaqByRoute } from "@/components/FsServiceFaqByRoute"
 import { Reveal } from "@/components/Reveal"
 import { ServiceItemReveal } from "@/components/ServiceItemReveal"
 import { ServicePageHero, type ServicePageHeroProps } from "@/components/ServicePageHero"
+import { CustomPillButton } from "@/components/ui/CustomPillButton"
 
 export type CapabilityServicePageLayoutProps = {
   /** Page title, sentence case, homepage title font */
@@ -143,12 +143,9 @@ export function CapabilityServicePageLayout({
             <Reveal delayMs={260}>
               <div className="mt-14 flex flex-col items-stretch border-t border-white/15 pt-10 sm:mt-16 sm:pt-12 lg:mt-20">
                 <div className="flex justify-end">
-                  <Link
-                    href="/contact"
-                    className="inline-flex items-center justify-center rounded-none rounded-tl-xl rounded-tr-none rounded-br-xl rounded-bl-none border-2 border-white border-solid bg-transparent px-6 py-2.5 text-sm font-semibold normal-case tracking-normal text-white transition-colors duration-200 hover:!bg-white hover:!text-black focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/70 focus-visible:ring-offset-2 focus-visible:ring-offset-black"
-                  >
+                  <CustomPillButton href="/contact" size="md" className="pill-btn--corners-sm">
                     {ctaLabel}
-                  </Link>
+                  </CustomPillButton>
                 </div>
               </div>
             </Reveal>

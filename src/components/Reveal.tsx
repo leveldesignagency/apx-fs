@@ -8,7 +8,7 @@ export type RevealProps = {
   /** Delay after visibility triggers (stagger). */
   delayMs?: number
   /**
-   * Controlled visibility (e.g. hero on mount). When omitted, fades in once when scrolled into view.
+   * Controlled visibility (e.g. hero on mount). When omitted, rises into view once when scrolled into view.
    */
   show?: boolean
 }

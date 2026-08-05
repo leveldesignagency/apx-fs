@@ -80,8 +80,8 @@ export function HomeAccreditationsSection({ visible = true }: HomeAccreditations
 
         <div
           className={cn(
-            "container relative z-10 mx-auto px-6 py-16 text-center transition-opacity duration-[900ms] ease-out sm:py-20 lg:px-8 lg:py-24",
-            visible ? "opacity-100" : "opacity-0",
+            "container relative z-10 mx-auto px-6 py-16 text-center home-scroll-rise sm:py-20 lg:px-8 lg:py-24",
+            visible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-14",
           )}
         >
           <span

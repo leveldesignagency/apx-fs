@@ -4,6 +4,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { useState, useEffect } from "react";
 import { Reveal } from "@/components/Reveal";
+import { FsInsetCtaCard } from "@/components/FsInsetCtaCard";
 import { CustomPillButton } from "@/components/ui/CustomPillButton";
 
 /** Inline links in heritage / why-choose copy, bold + underline on dark background */
@@ -158,41 +159,44 @@ export default function AboutPage() {
             />
           </div>
           <div
-            className="absolute inset-0 z-[1] bg-gradient-to-b from-black/65 via-black/40 to-black/70"
+            className="absolute inset-0 z-[1] bg-[linear-gradient(100deg,rgba(0,0,0,0.82)_0%,rgba(0,0,0,0.62)_38%,rgba(0,0,0,0.28)_62%,rgba(0,0,0,0.35)_100%)]"
             aria-hidden
           />
         </div>
-        <div className="container relative z-20 mx-auto flex w-full min-h-0 flex-1 flex-col justify-start px-6 pt-44 pb-16 sm:pt-48 sm:pb-20 lg:pt-52 lg:pb-24">
-          <div className="max-w-3xl space-y-5">
+        <div className="container relative z-20 mx-auto flex w-full min-h-0 flex-1 flex-col justify-center px-6 pt-36 pb-14 sm:pt-40 sm:pb-16 lg:pt-44 lg:pb-20">
+          <div className="w-full max-w-[52rem] space-y-5 lg:max-w-[56rem]">
             <h1
-              className="mb-3 text-left leading-[0.95] text-white drop-shadow-sm md:mb-4"
-                style={{ fontFamily: "var(--font-menu)" }}
-              >
+              className="text-left leading-[1.08] text-white drop-shadow-sm"
+              style={{ fontFamily: "var(--font-menu)" }}
+            >
               <Reveal show={heroReveal} delayMs={0}>
-                <span className="block text-4xl font-normal italic text-white/95 sm:text-5xl md:text-6xl lg:text-7xl">
-                  everything you
+                <span className="block text-[clamp(2.1rem,4.8vw,3.75rem)] font-normal italic text-white/95">
+                  Everything You Need to Know
                 </span>
               </Reveal>
-              <Reveal show={heroReveal} delayMs={75}>
-                <span className="block text-4xl font-normal italic text-white/95 sm:text-5xl md:text-6xl lg:text-7xl">
-                  need to know
+              <Reveal show={heroReveal} delayMs={90}>
+                <span className="mt-2.5 block text-[clamp(1.25rem,2.6vw,2rem)] font-semibold not-italic tracking-tight text-white">
+                  About APX Fire &amp; Security
                 </span>
               </Reveal>
-              <Reveal show={heroReveal} delayMs={150}>
-                <span className="mt-1 block text-4xl font-bold not-italic sm:text-5xl md:text-6xl lg:text-7xl">
-                  About APX
-                </span>
-              </Reveal>
-              <Reveal show={heroReveal} delayMs={225}>
-                <span className="block whitespace-nowrap text-4xl font-bold not-italic sm:text-5xl md:text-6xl lg:text-7xl">
-                  Fire &amp; Security
-                </span>
-              </Reveal>
-              </h1>
-            <Reveal show={heroReveal} delayMs={300}>
-              <p className="max-w-xl text-left text-lg font-normal tracking-tight text-white/95 drop-shadow-sm sm:text-xl md:text-xl">
-                With over 20 years of experience, APX Fire and Security is a specialist provider of fire and security system installation, commissioning, and maintenance. We support M&amp;E contractors, facility management teams, architects, consultants, and main contractors across commercial, industrial, and public-sector environments.
+            </h1>
+            <Reveal show={heroReveal} delayMs={170}>
+              <p className="text-left text-base font-medium leading-snug tracking-tight text-white/90 drop-shadow-sm sm:text-lg md:text-xl">
+                Protecting People, Property and Businesses Through Intelligent Fire &amp; Security Solutions
               </p>
+            </Reveal>
+            <Reveal show={heroReveal} delayMs={250}>
+              <div className="space-y-4 text-left text-[0.95rem] font-normal leading-relaxed tracking-tight text-white/88 drop-shadow-sm sm:text-base md:space-y-4.5 md:text-[1.05rem] md:leading-[1.65]">
+                <p>
+                  With more than 20 years of industry experience, APX Fire &amp; Security is a trusted provider of fully integrated fire detection, life safety and electronic security systems across the UK.
+                </p>
+                <p>
+                  We specialise in the design, installation, commissioning, maintenance and ongoing support of high-quality fire and security solutions, delivering reliable systems that protect people, safeguard assets and ensure compliance with the latest British Standards and industry regulations.
+                </p>
+                <p>
+                  Working alongside M&amp;E contractors, principal contractors, developers, consultants, architects, facilities management providers and end users, we have built a reputation for delivering projects safely, professionally and on programme. Our experience spans residential developments, commercial buildings, industrial facilities, education, healthcare and public sector environments.
+                </p>
+              </div>
             </Reveal>
           </div>
         </div>
@@ -606,25 +610,20 @@ export default function AboutPage() {
         </div>
       </section>
 
-      <section className="about-block about-block--black about-section-y about-section-px">
-        <div className="about-section-inner text-center">
-          <Reveal>
-            <h2 className="mb-6 text-4xl font-bold text-white lg:mb-8 lg:text-5xl" style={{ fontFamily: "var(--font-menu)" }}>
-          Get in touch
-        </h2>
-          </Reveal>
-          <Reveal delayMs={80}>
-            <p className="mx-auto mb-10 max-w-xl text-base leading-relaxed text-white/75 md:text-lg">
-          Ready to discuss your fire safety or security requirements? We&apos;d love to hear from you.
-        </p>
-          </Reveal>
-          <Reveal delayMs={140}>
-            <CustomPillButton href="/contact" size="md">
+      <FsInsetCtaCard
+        variant="light"
+        eyebrow="Contact"
+        headline="Get in"
+        headlineAccent="touch."
+        description="Ready to discuss your fire safety or security requirements? We would love to hear from you."
+      >
+        <CustomPillButton href="/contact" size="md" variant="onLight">
           Contact us
-            </CustomPillButton>
-          </Reveal>
-        </div>
-      </section>
+        </CustomPillButton>
+        <CustomPillButton href="tel:02083032280" size="md" variant="outline">
+          Call 020 8303 2280
+        </CustomPillButton>
+      </FsInsetCtaCard>
     </div>
   );
 }

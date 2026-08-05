@@ -133,7 +133,8 @@ export default function RefugeDisabledCommunicationPage() {
         <ServicePageClosingSections
           serviceTitleShort="Refuge & EVC"
           ctaImageSrc={serviceHeroImages.fireAlarm}
-          ctaTitle="Need refuge or EVC systems?"
+          ctaHeadline="Need refuge or"
+          ctaHeadlineAccent="EVC systems?"
           ctaDescription="Tell us about your building and evacuation strategy, we can survey, specify and deliver compliant emergency voice communication."
         >
           <CustomPillButton href="/contact" size="md">

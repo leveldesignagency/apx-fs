@@ -9,7 +9,12 @@ import { ServicePageHero } from "@/components/ServicePageHero"
 import { Reveal } from "@/components/Reveal"
 import { ServiceItemReveal } from "@/components/ServiceItemReveal"
 import { serviceHeroImages } from "@/lib/serviceHeroImages"
-import { FS_SERVICE_SHIMMER_CARD, FS_SERVICE_SHIMMER_CARD_FEATURE } from "@/lib/fsServicePageCards"
+import {
+  FS_SERVICE_IMAGE_GROW_INNER,
+  FS_SERVICE_INSTALLATION_CARD,
+  FS_SERVICE_INSTALLATION_CARD_IMAGE,
+  FS_SERVICE_SHIMMER_CARD_FEATURE,
+} from "@/lib/fsServicePageCards"
 import { ApxPartnerLogoStrip } from "@/components/ApxPartnerLogoStrip"
 import { VIDEO_DOOR_TECH_PARTNERS } from "@/lib/apx-partner-logos"
 import { ServiceTechnologyProductsSection } from "@/components/ServiceTechnologyProductsSection"
@@ -186,8 +191,9 @@ export default function VideoDoorEntrySystemsPage() {
           <div className="grid grid-cols-1 gap-8 md:grid-cols-2 lg:grid-cols-3">
             {VIDEO_DOOR_INSTALLATIONS.map((item, index) => (
               <ServiceItemReveal key={`${item.imageSrc}-${index}`} index={index} className="h-full min-h-0">
-                <article className={`${FS_SERVICE_SHIMMER_CARD} overflow-hidden p-0`}>
-                <div className="relative aspect-[4/3] w-full bg-white/5">
+                <article className={FS_SERVICE_INSTALLATION_CARD}>
+                <div className={FS_SERVICE_INSTALLATION_CARD_IMAGE}>
+                  <div className={FS_SERVICE_IMAGE_GROW_INNER}>
                   <Image
                     src={item.imageSrc}
                     alt=""
@@ -195,6 +201,7 @@ export default function VideoDoorEntrySystemsPage() {
                     className="object-cover object-center"
                     sizes="(min-width: 1024px) 33vw, (min-width: 768px) 50vw, 100vw"
                   />
+                  </div>
                 </div>
                 <div className="p-6 md:p-8">
                   <h3 className="mb-2 text-base font-semibold leading-snug text-white sm:text-lg">{item.title}</h3>
@@ -210,7 +217,8 @@ export default function VideoDoorEntrySystemsPage() {
         <ServicePageClosingSections
           serviceTitleShort="Video door entry"
           ctaImageSrc={serviceHeroImages.videoDoor}
-          ctaTitle="Upgrade your video entry"
+          ctaHeadline="Upgrade your"
+          ctaHeadlineAccent="video entry."
           ctaDescription="Get expert design, installation, and integration with CCTV and access control for residential and commercial buildings."
         >
           <CustomPillButton href="/contact" size="md">
