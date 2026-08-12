@@ -199,14 +199,29 @@ const GlobalStyles = createGlobalStyle<{ theme: typeof lightTheme }>`
     stroke: #ffffff !important;
   }
 
-  /* Mobile contact FAB: global button rule is white, force square black + white border (see MobileHomeContactFab) */
+  /* Mobile contact FAB: circular / long pill; black fill, white border */
   .apx-mobile-contact-fab {
     background: #000000 !important;
     background-color: #000000 !important;
     color: #ffffff !important;
     border: 2px solid #ffffff !important;
     border-color: #ffffff !important;
+    border-radius: 9999px !important;
+  }
+  .apx-mobile-contact-fab button,
+  .apx-mobile-contact-fab a {
+    background: transparent !important;
+    background-color: transparent !important;
+    border: none !important;
+    box-shadow: none !important;
     border-radius: 0 !important;
+    color: #ffffff !important;
+  }
+  .apx-mobile-contact-fab button:hover,
+  .apx-mobile-contact-fab a:hover {
+    background: transparent !important;
+    background-color: transparent !important;
+    color: #ffffff !important;
   }
   .apx-mobile-contact-fab:hover {
     background: #111111 !important;
@@ -214,13 +229,14 @@ const GlobalStyles = createGlobalStyle<{ theme: typeof lightTheme }>`
     color: #ffffff !important;
     border-color: #ffffff !important;
   }
-  .apx-mobile-contact-fab:focus,
-  .apx-mobile-contact-fab:focus-visible {
-    background: #000000 !important;
+  .apx-mobile-contact-fab button:focus,
+  .apx-mobile-contact-fab button:focus-visible,
+  .apx-mobile-contact-fab a:focus,
+  .apx-mobile-contact-fab a:focus-visible {
+    background: transparent !important;
     color: #ffffff !important;
-    border-color: #ffffff !important;
     outline: 2px solid rgba(255, 255, 255, 0.45) !important;
-    outline-offset: 2px !important;
+    outline-offset: -2px !important;
   }
 
   /* Form inputs: theme background and text */

@@ -3,7 +3,7 @@
 import Link from "next/link"
 import Image from "next/image"
 import { useRef, type ReactNode } from "react"
-import { Phone, Mail, MapPin, ChevronUp } from "lucide-react"
+import { Phone, Mail, MapPin, ChevronUp, Award } from "lucide-react"
 import { ApxSocialLinks } from "@/components/ApxSocialLinks"
 import { FS_CORE_SERVICE_LINKS } from "@/lib/fs-service-navigation"
 import { getLatestNewsArticle, NEWS_HUB_PATH } from "@/data/fsNewsArticles"
@@ -53,7 +53,7 @@ function FooterContactLink({ href, children, className, target, rel }: FooterCon
       href={href}
       target={target}
       rel={rel}
-      className={`group flex cursor-pointer items-center gap-4 justify-start transition-colors hover:text-white ${className ?? ""}`}
+      className={`group flex cursor-pointer items-center justify-center gap-4 transition-colors hover:text-white sm:justify-start ${className ?? ""}`}
       style={{ cursor: "pointer !important" }}
     >
       {children}
@@ -88,7 +88,7 @@ export default function Footer() {
         className="footer-expand-wrapper text-white relative z-10"
         onMouseEnter={scrollFooterIntoView}
       >
-        <div className="footer-head relative flex min-h-[6rem] items-end justify-center overflow-visible px-5 sm:px-6 lg:px-8">
+        <div className="footer-head relative flex min-h-[6rem] items-end justify-center overflow-visible px-4 sm:px-5 lg:px-6 xl:px-8">
           <div className="footer-logo-bridge absolute left-1/2 top-0 -translate-x-1/2 -translate-y-1/2">
             <Link href="/" className="flex cursor-pointer items-center">
               <Image
@@ -107,12 +107,12 @@ export default function Footer() {
         </div>
 
         <div className="footer-expand">
-          <div className="container mx-auto w-full min-w-0 max-w-7xl px-5 py-12 pt-16 sm:px-6 lg:px-8">
-            <div className="footer-columns grid w-full min-w-0 grid-cols-1 gap-10 text-left sm:grid-cols-2 sm:gap-x-8 sm:gap-y-10 lg:grid-cols-5 lg:gap-x-8 xl:gap-x-10">
+          <div className="container mx-auto w-full min-w-0 max-w-[90rem] px-4 py-12 pt-16 sm:px-5 lg:px-6 xl:px-8">
+            <div className="footer-columns grid w-full min-w-0 grid-cols-1 gap-10 text-center sm:grid-cols-2 sm:gap-x-6 sm:gap-y-10 sm:text-left lg:grid-cols-5 lg:gap-x-6 xl:gap-x-8">
               {/* Company */}
-              <div className="min-w-0 space-y-6">
+              <div className="flex min-w-0 flex-col items-center space-y-6 sm:items-start">
                 <h4 className="text-xl font-semibold">APX Fire &amp; Security</h4>
-                <div className="space-y-4 text-left text-gray-400">
+                <div className="space-y-4 text-center text-gray-400 sm:text-left">
                   <p className="text-sm leading-relaxed">
                     We have been providing bespoke integrated security systems to London and the Home Counties since 1986.
                   </p>
@@ -122,16 +122,16 @@ export default function Footer() {
                   </p>
                 </div>
                 <ApxSocialLinks
-                  className="flex justify-start gap-6"
+                  className="flex justify-center gap-6 sm:justify-start"
                   iconClassName="h-6 w-6"
                   linkClassName="cursor-pointer text-gray-400 transition-colors hover:text-white"
                 />
               </div>
 
               {/* Integrated Security Systems */}
-              <div className="min-w-0 space-y-6">
+              <div className="flex min-w-0 flex-col items-center space-y-6 sm:items-start">
                 <h4 className="text-xl font-semibold">Integrated Security Systems</h4>
-                <ul className="space-y-3 text-gray-400">
+                <ul className="flex flex-col items-center space-y-3 text-gray-400 sm:items-start">
                   {FS_CORE_SERVICE_LINKS.map(({ label, href }) => (
                     <li key={href}>
                       <FooterLink href={href}>{label}</FooterLink>
@@ -141,21 +141,22 @@ export default function Footer() {
               </div>
 
               {/* Our Accreditations */}
-              <div className="min-w-0 space-y-6">
+              <div className="flex min-w-0 flex-col items-center space-y-6 sm:items-start">
                 <h4 className="text-xl font-semibold">Our Accreditations</h4>
-                <ul className="space-y-3 text-gray-400">
+                <ul className="flex flex-col items-center space-y-3 text-gray-400 sm:items-start">
                   {FOOTER_ACCREDITATIONS.map((item) => (
-                    <li key={item} className="text-sm leading-relaxed">
-                      {item}
+                    <li key={item} className="flex items-start justify-center gap-2.5 text-sm leading-relaxed sm:justify-start">
+                      <Award className="mt-0.5 h-4 w-4 shrink-0 text-white/70" strokeWidth={1.75} aria-hidden />
+                      <span>{item}</span>
                     </li>
                   ))}
                 </ul>
               </div>
 
               {/* News and Articles */}
-              <div className="min-w-0 space-y-6">
+              <div className="flex min-w-0 flex-col items-center space-y-6 sm:items-start">
                 <h4 className="text-xl font-semibold">News and Articles</h4>
-                <ul className="space-y-3 text-gray-400">
+                <ul className="flex flex-col items-center space-y-3 text-gray-400 sm:items-start">
                   <li>
                     <FooterLink href={`/news/${latestNews.slug}`}>See latest</FooterLink>
                   </li>
@@ -166,9 +167,9 @@ export default function Footer() {
               </div>
 
               {/* Contact Details */}
-              <div className="min-w-0 space-y-6">
+              <div className="flex min-w-0 flex-col items-center space-y-6 sm:items-start">
                 <h4 className="text-xl font-semibold">Contact Details</h4>
-                <div className="space-y-4 text-left text-gray-400">
+                <div className="space-y-4 text-center text-gray-400 sm:text-left">
                   <FooterContactLink href="tel:02083032280">
                     <Phone className="h-6 w-6 shrink-0" />
                     <FooterContactText className="text-sm">020 8303 2280</FooterContactText>
@@ -181,9 +182,9 @@ export default function Footer() {
                     href="https://maps.google.com/?q=365-369+Bexley+Road+Northumberland+Heath+Erith+Kent+DA8+3EZ"
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="items-start"
+                    className="items-center sm:items-start"
                   >
-                    <MapPin className="mt-1 h-6 w-6 shrink-0" />
+                    <MapPin className="mt-0 sm:mt-1 h-6 w-6 shrink-0" />
                     <FooterContactText className="min-w-0 text-sm leading-relaxed">
                       <span className="block">365-369 Bexley Road,</span>
                       <span className="block">Northumberland Heath,</span>

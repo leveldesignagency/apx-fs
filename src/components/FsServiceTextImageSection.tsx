@@ -43,7 +43,7 @@ export type FsServiceTextImageSectionProps = {
 
 /**
  * Text-led service section: ~60% copy, ~40% full-height image.
- * Image: canted clip on the edge toward the text column; optional feather into the page background.
+ * Image: canted clip on the edge toward the text column on large screens; full-width on mobile.
  * When feather is off, the image column is pinned to the viewport edge on large screens.
  *
  * Wrap multiple sections in {@link FsServiceTextImageSectionGroup} to equalise row heights on desktop.
@@ -125,7 +125,10 @@ export function FsServiceTextImageSection({
     </Reveal>
   )
 
-  const renderImageColumn = (columnClassName?: string, sizes = edgeToEdgeImage ? `${imageEdgeWidthVw}vw` : "40vw") => (
+  const renderImageColumn = (
+    columnClassName?: string,
+    sizes = edgeToEdgeImage ? `${imageEdgeWidthVw}vw` : "40vw"
+  ) => (
     <Reveal className={cn("h-full min-h-0", columnClassName)} delayMs={90}>
       <div className={cn("relative h-full min-h-[240px] w-full min-w-0")}>
       <div
@@ -146,7 +149,7 @@ export function FsServiceTextImageSection({
         </div>
         {imageRightFeather ? (
           <div
-            className="pointer-events-none absolute inset-0 z-[1]"
+            className="pointer-events-none absolute inset-0 z-[1] hidden lg:block"
             style={{
               background: isLight
                 ? "linear-gradient(to left, rgb(255 255 255) 0%, rgba(255, 255, 255, 0) 38%)"
@@ -210,7 +213,7 @@ export function FsServiceTextImageSection({
       className={cn(
         "fs-service-text-image-section relative",
         isLight ? "fs-service-text-image-section--light bg-white" : "fs-service-text-image-section--dark bg-black",
-        edgeToEdgeImage && "overflow-hidden",
+        edgeToEdgeImage && "lg:overflow-hidden",
         inSyncGroup && "lg:flex lg:flex-col",
         className
       )}
@@ -224,12 +227,12 @@ export function FsServiceTextImageSection({
                 <>
                   <div className="relative hidden min-h-[240px] lg:block" aria-hidden />
                   {textColumn}
-                  {renderImageColumn("lg:hidden")}
+                  {renderImageColumn("fs-service-text-image-mobile-bleed lg:hidden", "100vw")}
                 </>
               ) : (
                 <>
                   {textColumn}
-                  {renderImageColumn("lg:hidden")}
+                  {renderImageColumn("fs-service-text-image-mobile-bleed lg:hidden", "100vw")}
                   <div className="relative hidden min-h-[240px] lg:block" aria-hidden />
                 </>
               )}
@@ -244,13 +247,19 @@ export function FsServiceTextImageSection({
           <div className={gridClassName}>
             {imageOnLeft ? (
               <>
-                {renderImageColumn()}
+                {renderImageColumn(
+                  "fs-service-text-image-mobile-bleed",
+                  "(max-width: 1023px) 100vw, 40vw"
+                )}
                 {textColumn}
               </>
             ) : (
               <>
                 {textColumn}
-                {renderImageColumn()}
+                {renderImageColumn(
+                  "fs-service-text-image-mobile-bleed",
+                  "(max-width: 1023px) 100vw, 40vw"
+                )}
               </>
             )}
           </div>

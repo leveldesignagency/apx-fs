@@ -93,8 +93,6 @@ export default function RootLayout({
                     <Footer />
                     <CookieConsent />
                     <MobileHomeContactFab
-                      logoSrc="/__APX Web Logo FS.svg"
-                      logoAlt="APX Fire & Security"
                       phoneDisplay="020 8303 2280"
                       phoneHref="tel:02083032280"
                       email="enquiries@apx-fs.co.uk"
