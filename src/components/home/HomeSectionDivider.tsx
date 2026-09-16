@@ -30,7 +30,7 @@ export function HomeSectionDivider({
       className={`home-section-divider home-section-divider--inset ${bandClass} ${className}`}
       aria-hidden
     >
-      <div className="container mx-auto px-6 lg:px-8">
+      <div className="site-container">
         <div className={`home-section-divider__line ${lineClass}`} />
       </div>
     </div>

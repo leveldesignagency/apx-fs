@@ -74,7 +74,7 @@ export const CCTV_CAMERA_TYPE_PAGES: CctvCameraTypePage[] = [
   {
     slug: "pan-tilt",
     file: "cctv-camera-pan-tilt.png",
-    label: "Pan / tilt",
+    label: "Pan / Tilt",
     imageAlt: "Pan-tilt CCTV camera for steerable coverage - APX Fire and Security.",
     title: "Pan-tilt CCTV cameras",
     heroIntro:
@@ -126,7 +126,7 @@ export const CCTV_CAMERA_TYPE_PAGES: CctvCameraTypePage[] = [
   {
     slug: "infra-red",
     file: "cctv-camera-infra-red.png",
-    label: "Infra-red",
+    label: "Infra-Red",
     imageAlt: "Infra-red CCTV camera for night vision - APX Fire and Security.",
     title: "Infra-red CCTV cameras",
     heroIntro:
@@ -152,7 +152,7 @@ export const CCTV_CAMERA_TYPE_PAGES: CctvCameraTypePage[] = [
   {
     slug: "thermal-imaging",
     file: "cctv-camera-thermal-imaging.png",
-    label: "Thermal imaging",
+    label: "Thermal Imaging",
     imageAlt: "Thermal imaging CCTV for detection - APX Fire and Security, South East England.",
     title: "Thermal imaging CCTV",
     heroIntro:

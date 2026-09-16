@@ -123,6 +123,17 @@ const GlobalStyles = createGlobalStyle<{ theme: typeof lightTheme }>`
     color: ${({ theme }) => theme.headerTextHover} !important;
   }
 
+  /* Header menu pills: white fill needs black label (overrides headerTextHover) */
+  header.site-header nav a.nav-menu-item:hover,
+  header.site-header nav a.nav-menu-item:focus-visible {
+    color: #000000 !important;
+    background-color: #ffffff !important;
+  }
+  header.site-header nav a.nav-menu-item:hover *,
+  header.site-header nav a.nav-menu-item:focus-visible * {
+    color: #000000 !important;
+  }
+
 
   /* Button styling */
   button {
@@ -197,6 +208,139 @@ const GlobalStyles = createGlobalStyle<{ theme: typeof lightTheme }>`
   .fs-header-menu-trigger svg {
     color: #ffffff !important;
     stroke: #ffffff !important;
+  }
+
+  /* Hero promise chips: black fill + white icon/label (global button rule is white fill) */
+  button.hero-promise-chip,
+  button.hero-promise-chip:hover,
+  button.hero-promise-chip:focus,
+  button.hero-promise-chip:focus-visible,
+  button.hero-promise-chip:active {
+    background: #000000 !important;
+    background-color: #000000 !important;
+    color: #ffffff !important;
+    border-color: rgba(255, 255, 255, 0.55) !important;
+    box-shadow: none !important;
+  }
+  button.hero-promise-chip svg {
+    color: #ffffff !important;
+    stroke: #ffffff !important;
+  }
+  button.hero-promise-chip .hero-promise-chip__label {
+    color: #ffffff !important;
+  }
+
+  /* Cookie policy: manage preferences CTA (global button rule is white fill) */
+  .cookie-policy-prefs-btn {
+    background: #000000 !important;
+    background-color: #000000 !important;
+    color: #ffffff !important;
+    border: 2px solid #ffffff !important;
+    box-shadow: none !important;
+  }
+  .cookie-policy-prefs-btn:hover {
+    background: #ffffff !important;
+    background-color: #ffffff !important;
+    color: #000000 !important;
+  }
+  .cookie-policy-prefs-btn svg {
+    color: inherit !important;
+    stroke: currentColor !important;
+  }
+
+  /* Careers filter rail + listing actions (global button rule is white fill) */
+  .careers-filter-rail button {
+    background: transparent !important;
+    background-color: transparent !important;
+    color: rgba(255, 255, 255, 0.75) !important;
+    border-color: transparent !important;
+    box-shadow: none !important;
+  }
+  .careers-filter-rail button:hover {
+    background: rgba(255, 255, 255, 0.08) !important;
+    background-color: rgba(255, 255, 255, 0.08) !important;
+    color: #ffffff !important;
+  }
+  .careers-filter-rail button[aria-selected="true"],
+  .careers-filter-rail li[aria-selected="true"] > button {
+    background: #ffffff !important;
+    background-color: #ffffff !important;
+    color: #000000 !important;
+  }
+  .careers-filter-rail button[aria-selected="true"]:hover,
+  .careers-filter-rail li[aria-selected="true"] > button:hover {
+    background: #ffffff !important;
+    background-color: #ffffff !important;
+    color: #000000 !important;
+  }
+
+  .careers-page .careers-outline-btn,
+  .careers-job-modal .careers-outline-btn {
+    background: transparent !important;
+    background-color: transparent !important;
+    color: rgba(255, 255, 255, 0.9) !important;
+    border: 1.5px solid rgba(255, 255, 255, 0.25) !important;
+    box-shadow: none !important;
+  }
+  .careers-page .careers-outline-btn:hover,
+  .careers-job-modal .careers-outline-btn:hover {
+    background: rgba(255, 255, 255, 0.05) !important;
+    background-color: rgba(255, 255, 255, 0.05) !important;
+    color: #ffffff !important;
+    border-color: rgba(255, 255, 255, 0.45) !important;
+  }
+
+  /* Careers apply (white page): outline controls stay black on white */
+  .careers-apply-page,
+  .careers-apply-page h1,
+  .careers-apply-page h2,
+  .careers-apply-page h3,
+  .careers-apply-page p,
+  .careers-apply-page span,
+  .careers-apply-page label,
+  .careers-apply-page a,
+  .careers-apply-page li {
+    color: #000000 !important;
+  }
+  .careers-apply-page a {
+    color: rgba(0, 0, 0, 0.55) !important;
+  }
+  .careers-apply-page a:hover {
+    color: #000000 !important;
+  }
+  .careers-apply-page .careers-apply-outline-btn {
+    background: #ffffff !important;
+    background-color: #ffffff !important;
+    color: #000000 !important;
+    border: 2px solid rgba(0, 0, 0, 0.2) !important;
+    box-shadow: none !important;
+  }
+  .careers-apply-page .careers-apply-outline-btn:hover:not(:disabled) {
+    background: rgba(0, 0, 0, 0.03) !important;
+    background-color: rgba(0, 0, 0, 0.03) !important;
+    color: #000000 !important;
+    border-color: rgba(0, 0, 0, 0.4) !important;
+  }
+  .careers-apply-page input,
+  .careers-apply-page textarea {
+    background: #ffffff !important;
+    color: #000000 !important;
+    border-color: rgba(0, 0, 0, 0.15) !important;
+  }
+  .careers-apply-page input::placeholder,
+  .careers-apply-page textarea::placeholder {
+    color: rgba(0, 0, 0, 0.35) !important;
+  }
+
+  .careers-apply-page .pill-btn,
+  .careers-apply-page .pill-btn .pill-text,
+  .careers-apply-page .form-submit-btn,
+  .careers-apply-page .form-submit-btn .pill-text {
+    color: #ffffff !important;
+  }
+  .careers-apply-page .pill-btn:hover .pill-text,
+  .careers-apply-page .form-submit-btn:hover .pill-text {
+    color: #000000 !important;
   }
 
   /* Mobile contact FAB: circular / long pill; black fill, white border */

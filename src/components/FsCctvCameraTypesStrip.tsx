@@ -78,35 +78,37 @@ export function FsCctvCameraTypesStrip() {
                 >
                 <Link
                   href={`/services/cctv/camera-types/${slug}`}
-                  className="group flex w-full max-w-[11rem] flex-col items-center sm:max-w-none"
+                  className="group block w-full max-w-[11rem] sm:max-w-none"
                   aria-label={`${label} CCTV - full guide`}
                 >
                   <div
                     className={`relative aspect-square w-full overflow-hidden border border-white/25 ${CCTV_TILE_CORNERS} shadow-[0_14px_36px_rgba(0,0,0,0.65),0_2px_0_rgba(255,255,255,0.06)_inset] transition-transform duration-300 ease-out will-change-transform group-hover:scale-[1.06] group-focus-visible:scale-[1.04] group-focus-visible:outline group-focus-visible:outline-2 group-focus-visible:outline-offset-4 group-focus-visible:outline-white/40`}
                     style={{
                       background:
-                        "linear-gradient(165deg, rgba(255,255,255,0.12) 0%, rgba(15,15,15,0.95) 38%, rgba(0,0,0,0.98) 100%)",
+                        "radial-gradient(circle at 50% 52%, rgba(255,255,255,0.14) 0%, rgba(40,40,40,0.55) 42%, rgba(0,0,0,0.98) 78%)",
                     }}
                   >
                     <div
                       className={`pointer-events-none absolute inset-0 ${CCTV_TILE_CORNERS} opacity-90`}
                       style={{
                         background:
-                          "linear-gradient(to bottom, rgba(255,255,255,0.06) 0%, transparent 45%, rgba(0,0,0,0.35) 100%)",
+                          "radial-gradient(circle at 50% 48%, rgba(255,255,255,0.06) 0%, transparent 55%, rgba(0,0,0,0.45) 100%)",
                       }}
                       aria-hidden
                     />
+                    <span
+                      className={`absolute left-2.5 top-2.5 z-[2] max-w-[calc(100%-1.25rem)] truncate border border-white/25 bg-black/75 px-2.5 py-1 text-[10px] font-bold tracking-tight text-white backdrop-blur-sm sm:left-3 sm:top-3 sm:px-3 sm:text-xs ${CCTV_TILE_CORNERS}`}
+                    >
+                      {label}
+                    </span>
                     <Image
                       src={`${CCTV_TYPES_FOLDER}/${file}`}
                       alt={imageAlt}
                       fill
                       sizes="(min-width: 1024px) 16vw, (min-width: 640px) 28vw, 45vw"
-                      className={`relative z-[1] object-contain p-3 drop-shadow-[0_6px_16px_rgba(0,0,0,0.75)] ${CCTV_TILE_CORNERS}`}
+                      className={`relative z-[1] object-contain p-3 pt-9 drop-shadow-[0_6px_16px_rgba(0,0,0,0.75)] sm:pt-10 ${CCTV_TILE_CORNERS}`}
                     />
                   </div>
-                  <span className="mt-3 text-xs font-semibold uppercase tracking-[0.12em] text-white/85 group-hover:text-white sm:text-sm">
-                    {label}
-                  </span>
                 </Link>
                 </Reveal>
               </li>

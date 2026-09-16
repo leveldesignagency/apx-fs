@@ -1,7 +1,6 @@
 "use client"
 
 import Link from "next/link"
-import { ArrowLeft } from "lucide-react"
 import { useTheme } from "@/contexts/ThemeContext"
 import type { ReactNode } from "react"
 
@@ -16,31 +15,38 @@ export function LegalPageShell({ title, children }: LegalPageShellProps) {
 
   return (
     <div
-      className="min-h-screen overflow-x-hidden"
+      className="legal-page min-h-screen overflow-x-hidden"
       style={{ backgroundColor: isDark ? "#000000" : "#ffffff" }}
     >
-      <div className="w-full h-[0.75px] bg-black dark:bg-white" />
+      <div className="h-[0.75px] w-full bg-black dark:bg-white" />
 
       <section
         className={`page-title-band ${isDark ? "bg-black" : "bg-white"}`}
         style={{ backgroundColor: isDark ? "#000000" : "#ffffff" }}
       >
-        <div className="container mx-auto px-6 max-w-4xl pb-16">
+        <div className="site-container max-w-6xl pb-16 md:pb-20">
           <Link
             href="/"
-            className={`inline-flex items-center gap-2 mb-8 text-sm hover:underline ${
+            className={`mb-8 inline-block text-sm hover:underline ${
               isDark ? "text-gray-300 hover:text-white" : "text-gray-600 hover:text-black"
             }`}
           >
-            <ArrowLeft className="w-4 h-4" />
             Back to Home
           </Link>
 
-          <h1 className={`text-4xl md:text-5xl font-bold mb-6 ${isDark ? "text-white" : "text-black"}`}>
+          <h1
+            className={`mb-4 text-4xl font-bold leading-tight tracking-normal md:mb-5 md:text-5xl ${
+              isDark ? "text-white" : "text-black"
+            }`}
+          >
             {title}
           </h1>
 
-          <p className={`text-lg mb-8 leading-relaxed ${isDark ? "text-gray-300" : "text-gray-700"}`}>
+          <p
+            className={`mb-10 text-base leading-relaxed md:mb-12 md:text-lg ${
+              isDark ? "text-gray-300" : "text-gray-700"
+            }`}
+          >
             Last updated:{" "}
             {new Date().toLocaleDateString("en-GB", {
               year: "numeric",
@@ -49,11 +55,17 @@ export function LegalPageShell({ title, children }: LegalPageShellProps) {
             })}
           </p>
 
-          <div className={`space-y-8 ${isDark ? "text-gray-300" : "text-gray-700"}`}>{children}</div>
+          <div
+            className={`legal-page__body space-y-10 text-base leading-relaxed md:space-y-12 md:text-[1.05rem] md:leading-[1.7] ${
+              isDark ? "text-gray-300" : "text-gray-700"
+            }`}
+          >
+            {children}
+          </div>
         </div>
       </section>
 
-      <div className="w-full h-[0.75px] bg-black dark:bg-white" />
+      <div className="h-[0.75px] w-full bg-black dark:bg-white" />
     </div>
   )
 }
@@ -69,9 +81,15 @@ export function LegalSection({
   const isDark = theme === "dark"
 
   return (
-    <section>
-      <h2 className={`text-2xl font-bold mb-4 ${isDark ? "text-white" : "text-black"}`}>{title}</h2>
-      <div className="space-y-4">{children}</div>
+    <section className="legal-page__section">
+      <h2
+        className={`mb-4 text-2xl font-bold leading-snug tracking-normal md:mb-5 md:text-[1.65rem] ${
+          isDark ? "text-white" : "text-black"
+        }`}
+      >
+        {title}
+      </h2>
+      <div className="space-y-4 leading-relaxed">{children}</div>
     </section>
   )
 }
@@ -82,14 +100,14 @@ export function LegalContactBox() {
 
   return (
     <div
-      className={`p-4 rounded-lg ${
-        isDark ? "bg-gray-900 border border-gray-700" : "bg-gray-50 border border-gray-300"
+      className={`rounded-tl-2xl rounded-br-2xl border p-5 md:p-6 ${
+        isDark ? "border-white/20 bg-white/5" : "border-black/15 bg-black/[0.03]"
       }`}
     >
       <p className="mb-2">
         <strong>APX Fire &amp; Security</strong>
       </p>
-      <p className="mb-2">
+      <p className="mb-2 leading-relaxed">
         365-369 Bexley Road,
         <br />
         Northumberland Heath,

@@ -5,6 +5,8 @@ import Image from "next/image"
 import { useRef, type ReactNode } from "react"
 import { Phone, Mail, MapPin, ChevronUp, Award } from "lucide-react"
 import { ApxSocialLinks } from "@/components/ApxSocialLinks"
+import { careerApplyHref } from "@/components/careers/careers-types"
+import { FS_CAREER_ROLES } from "@/data/fsCareersRoles"
 import { FS_CORE_SERVICE_LINKS } from "@/lib/fs-service-navigation"
 import { getLatestNewsArticle, NEWS_HUB_PATH } from "@/data/fsNewsArticles"
 
@@ -88,7 +90,7 @@ export default function Footer() {
         className="footer-expand-wrapper text-white relative z-10"
         onMouseEnter={scrollFooterIntoView}
       >
-        <div className="footer-head relative flex min-h-[6rem] items-end justify-center overflow-visible px-4 sm:px-5 lg:px-6 xl:px-8">
+        <div className="footer-head relative flex min-h-[6rem] items-end justify-center overflow-visible site-gutter-x">
           <div className="footer-logo-bridge absolute left-1/2 top-0 -translate-x-1/2 -translate-y-1/2">
             <Link href="/" className="flex cursor-pointer items-center">
               <Image
@@ -107,7 +109,7 @@ export default function Footer() {
         </div>
 
         <div className="footer-expand">
-          <div className="container mx-auto w-full min-w-0 max-w-[90rem] px-4 py-12 pt-16 sm:px-5 lg:px-6 xl:px-8">
+          <div className="site-container py-12 pt-16">
             <div className="footer-columns grid w-full min-w-0 grid-cols-1 gap-10 text-center sm:grid-cols-2 sm:gap-x-6 sm:gap-y-10 sm:text-left lg:grid-cols-5 lg:gap-x-6 xl:gap-x-8">
               {/* Company */}
               <div className="flex min-w-0 flex-col items-center space-y-6 sm:items-start">
@@ -153,17 +155,33 @@ export default function Footer() {
                 </ul>
               </div>
 
-              {/* News and Articles */}
-              <div className="flex min-w-0 flex-col items-center space-y-6 sm:items-start">
-                <h4 className="text-xl font-semibold">News and Articles</h4>
-                <ul className="flex flex-col items-center space-y-3 text-gray-400 sm:items-start">
-                  <li>
-                    <FooterLink href={`/news/${latestNews.slug}`}>See latest</FooterLink>
-                  </li>
-                  <li>
-                    <FooterLink href={NEWS_HUB_PATH}>See all news</FooterLink>
-                  </li>
-                </ul>
+              {/* News and Articles + Careers */}
+              <div className="flex min-w-0 flex-col items-center space-y-10 sm:items-start">
+                <div className="flex w-full min-w-0 flex-col items-center space-y-6 sm:items-start">
+                  <h4 className="text-xl font-semibold">News and Articles</h4>
+                  <ul className="flex flex-col items-center space-y-3 text-gray-400 sm:items-start">
+                    <li>
+                      <FooterLink href={`/news/${latestNews.slug}`}>See latest</FooterLink>
+                    </li>
+                    <li>
+                      <FooterLink href={NEWS_HUB_PATH}>See all news</FooterLink>
+                    </li>
+                  </ul>
+                </div>
+
+                <div className="flex w-full min-w-0 flex-col items-center space-y-6 sm:items-start">
+                  <h4 className="text-xl font-semibold">Careers</h4>
+                  <ul className="flex flex-col items-center space-y-3 text-gray-400 sm:items-start">
+                    <li>
+                      <FooterLink href="/careers">View all careers</FooterLink>
+                    </li>
+                    {FS_CAREER_ROLES.map((role) => (
+                      <li key={role.id}>
+                        <FooterLink href={careerApplyHref(role.id)}>{role.title}</FooterLink>
+                      </li>
+                    ))}
+                  </ul>
+                </div>
               </div>
 
               {/* Contact Details */}
@@ -196,30 +214,50 @@ export default function Footer() {
             </div>
 
             <div className="mt-16 border-t border-t-white/10 pt-8 text-center text-gray-500 md:text-left">
-              <div className="flex flex-col items-center justify-between gap-4 md:flex-row md:items-start">
-                <p className="max-w-2xl text-sm leading-relaxed">
-                  <span className="text-inherit">&copy; 2025 APX. All rights reserved.</span>
-                  <span className="text-inherit" aria-hidden>
-                    {" "}|{" "}
+              <div className="flex flex-col items-center justify-between gap-4 lg:flex-row lg:items-center">
+                <div className="footer-legal-links flex max-w-full flex-wrap items-center justify-center gap-x-2 gap-y-1 text-sm leading-none lg:justify-start lg:flex-nowrap">
+                  <span className="shrink-0 text-inherit">&copy; 2025 APX. All rights reserved.</span>
+                  <span className="shrink-0 text-inherit" aria-hidden>
+                    |
                   </span>
                   <Link
                     href="/privacy"
-                    className="group relative inline-block w-fit max-w-full cursor-pointer pb-1 transition-colors hover:text-white"
+                    className="group relative inline-block shrink-0 cursor-pointer whitespace-nowrap pb-1 transition-colors hover:text-white"
                   >
                     Privacy Policy
                     <FooterUnderline />
                   </Link>
-                  <span className="text-inherit" aria-hidden>
-                    {" "}|{" "}
+                  <span className="shrink-0 text-inherit" aria-hidden>
+                    |
+                  </span>
+                  <Link
+                    href="/cookie-policy"
+                    className="group relative inline-block shrink-0 cursor-pointer whitespace-nowrap pb-1 transition-colors hover:text-white"
+                  >
+                    Cookie Policy
+                    <FooterUnderline />
+                  </Link>
+                  <span className="shrink-0 text-inherit" aria-hidden>
+                    |
+                  </span>
+                  <Link
+                    href="/cookie-policy#cookie-preferences"
+                    className="group relative inline-block shrink-0 cursor-pointer whitespace-nowrap pb-1 transition-colors hover:text-white"
+                  >
+                    Cookie Preferences
+                    <FooterUnderline />
+                  </Link>
+                  <span className="shrink-0 text-inherit" aria-hidden>
+                    |
                   </span>
                   <Link
                     href="/terms"
-                    className="group relative inline-block w-fit max-w-full cursor-pointer pb-1 transition-colors hover:text-white"
+                    className="group relative inline-block shrink-0 cursor-pointer whitespace-nowrap pb-1 transition-colors hover:text-white"
                   >
                     Terms of Service
                     <FooterUnderline />
                   </Link>
-                </p>
+                </div>
                 <span className="shrink-0 text-xs opacity-80">
                   <span className="transition-opacity duration-200 hover:opacity-100">Designed by </span>
                   <a

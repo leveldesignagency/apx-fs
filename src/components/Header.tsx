@@ -207,7 +207,7 @@ export default function Header() {
       {/* ========== SAVED VERSION (original header – not rendered) ========== */}
       {false && (
         <>
-          <nav className="w-full px-6 pt-7 pb-3">
+          <nav className="w-full site-gutter-x pt-7 pb-3">
             <div className="flex items-center justify-between h-11">
               <Link href="/" className="flex items-center relative overflow-hidden w-[500px] h-18 cursor-pointer">
                 <div className="hidden md:block absolute left-0 top-2 h-16 w-full overflow-hidden flex items-center justify-center" style={{ clipPath: 'inset(0 0px 0 92px)' }}>
@@ -340,7 +340,7 @@ export default function Header() {
               </div>
             </a>
             <ApxSocialLinks
-              className="flex items-center gap-4 pl-1"
+              className="flex items-center gap-4 pl-1 pr-3 sm:pr-4 lg:pr-5"
               iconClassName="h-4 w-4"
               linkClassName="text-white transition-opacity hover:opacity-80"
             />
@@ -401,13 +401,13 @@ export default function Header() {
         </>
       )}
 
-      <nav className="relative z-10 w-full px-4 pt-4 pb-3 sm:px-5 lg:px-6 lg:pt-5 lg:pb-4">
+      <nav className="pointer-events-none relative z-10 w-full site-gutter-x pt-4 pb-3 lg:pt-5 lg:pb-4">
         <div className="relative flex w-full min-h-[4.75rem] items-center lg:min-h-[6.5rem]">
             <div className="pointer-events-none absolute left-[8rem] right-0 top-1/2 z-0 hidden h-16 -translate-y-1/2 overflow-hidden lg:block">
             <div
               className="header-bar-expand h-full w-full rounded-br-[30px] border-2"
               style={{
-                backgroundColor: isHomePage || isTransparentHeaderPage || isAboutPage ? "transparent" : "#000",
+                backgroundColor: "#000",
                 boxSizing: "border-box",
                 borderColor: "#fff",
                 ...(isHomePage || isProjectDetailPage || isServiceSubpage || isAboutPage
@@ -416,10 +416,10 @@ export default function Header() {
               }}
             />
           </div>
-          <div className="relative z-10 flex h-14 min-h-[3.5rem] w-full items-center justify-center px-2 sm:h-16 sm:px-4 lg:h-16 lg:min-h-0 lg:justify-between lg:px-6">
+          <div className="relative z-10 flex h-14 min-h-[3.5rem] w-full items-center justify-center px-1 sm:h-16 sm:px-2 lg:h-16 lg:min-h-0 lg:justify-between lg:px-3">
             <Link
               href="/"
-              className="absolute left-1/2 top-1/2 z-10 flex -translate-x-1/2 -translate-y-1/2 shrink-0 cursor-pointer items-center lg:static lg:translate-x-0 lg:translate-y-0"
+              className="pointer-events-auto absolute left-1/2 top-1/2 z-10 flex -translate-x-1/2 -translate-y-1/2 shrink-0 cursor-pointer items-center lg:static lg:translate-x-0 lg:translate-y-0"
               onClick={() => {
                 if (isMenuOpen) closeFsMenu()
               }}
@@ -459,7 +459,7 @@ export default function Header() {
               </span>
             </Link>
             {/* FIRE & SECURITY: same positioning as MEP mech tag, only at lg+ (web); hidden on phone/tablet */}
-            <div className="hidden lg:block absolute left-[12.25rem] top-1/2 -translate-y-1/2 z-0 w-[17rem] overflow-hidden pointer-events-none">
+            <div className="hidden lg:block absolute left-[11.5rem] top-1/2 -translate-y-1/2 z-0 w-[17rem] overflow-hidden pointer-events-none">
               <div
                 className="flex w-fit items-center rounded-br-2xl header-mech-security-in pl-7 pr-3.5 py-1"
                 style={{
@@ -475,8 +475,8 @@ export default function Header() {
                 </span>
               </div>
             </div>
-            <div className="hidden lg:flex items-center space-x-8 text-white [&_a]:!text-white [&_.nav-menu-item]:!text-white [&_svg]:stroke-white flex-shrink-0 relative z-10">
-              <div className="relative header-nav-item-in flex items-center" style={{ animationDelay: '2.9s' }}>
+            <div className="hidden lg:flex items-center space-x-8 text-white [&_svg]:stroke-white flex-shrink-0 relative z-10">
+              <div className="pointer-events-auto relative header-nav-item-in flex items-center" style={{ animationDelay: '2.9s' }}>
                 <Link
                   href="/services"
                   className="nav-menu-item relative text-sm font-medium leading-relaxed cursor-pointer group uppercase opacity-100 hover:opacity-100"
@@ -485,8 +485,6 @@ export default function Header() {
                   onMouseLeave={closeServices}
                 >
                   Services
-                  <span className="absolute top-0 left-1/2 w-full h-0.5 transform -translate-x-1/2 scale-x-0 origin-center transition-transform duration-500 group-hover:scale-x-100" style={{ backgroundColor: '#fff' }} />
-                  <span className="absolute bottom-0 left-1/2 w-full h-0.5 transform -translate-x-1/2 scale-x-0 origin-center transition-transform duration-500 group-hover:scale-x-100" style={{ backgroundColor: '#fff' }} />
                 </Link>
                 {isServicesOpen ? (
                 <div
@@ -625,31 +623,23 @@ export default function Header() {
                 </div>
                 ) : null}
               </div>
-              <div className="h-5 w-px flex-shrink-0 header-nav-item-in bg-white/90" style={{ animationDelay: '2.98s' }} aria-hidden />
-              <Link href="/about" className="nav-menu-item relative text-sm font-medium leading-relaxed cursor-pointer group uppercase header-nav-item-in" style={{ color: '#fff', animationDelay: '3.06s' }}>
+              <div className="pointer-events-none h-5 w-px flex-shrink-0 header-nav-item-in bg-white/90" style={{ animationDelay: '2.98s' }} aria-hidden />
+              <Link href="/about" className="pointer-events-auto nav-menu-item relative text-sm font-medium leading-relaxed cursor-pointer group uppercase header-nav-item-in" style={{ color: '#fff', animationDelay: '3.06s' }}>
                 About
-                <span className="absolute top-0 left-1/2 w-full h-0.5 transform -translate-x-1/2 scale-x-0 origin-center transition-transform duration-500 group-hover:scale-x-100" style={{ backgroundColor: '#fff' }} />
-                <span className="absolute bottom-0 left-1/2 w-full h-0.5 transform -translate-x-1/2 scale-x-0 origin-center transition-transform duration-500 group-hover:scale-x-100" style={{ backgroundColor: '#fff' }} />
               </Link>
-              <div className="h-5 w-px flex-shrink-0 header-nav-item-in bg-white/90" style={{ animationDelay: '3.14s' }} aria-hidden />
-              <Link href="/delivery-methodology" className="nav-menu-item relative text-sm font-medium leading-relaxed cursor-pointer group uppercase header-nav-item-in" style={{ color: '#fff', animationDelay: '3.18s' }}>
+              <div className="pointer-events-none h-5 w-px flex-shrink-0 header-nav-item-in bg-white/90" style={{ animationDelay: '3.14s' }} aria-hidden />
+              <Link href="/delivery-methodology" className="pointer-events-auto nav-menu-item relative text-sm font-medium leading-relaxed cursor-pointer group uppercase header-nav-item-in" style={{ color: '#fff', animationDelay: '3.18s' }}>
                 Methodology
-                <span className="absolute top-0 left-1/2 w-full h-0.5 transform -translate-x-1/2 scale-x-0 origin-center transition-transform duration-500 group-hover:scale-x-100" style={{ backgroundColor: '#fff' }} />
-                <span className="absolute bottom-0 left-1/2 w-full h-0.5 transform -translate-x-1/2 scale-x-0 origin-center transition-transform duration-500 group-hover:scale-x-100" style={{ backgroundColor: '#fff' }} />
               </Link>
-              <div className="h-5 w-px flex-shrink-0 header-nav-item-in bg-white/90" style={{ animationDelay: '3.2s' }} aria-hidden />
-              <Link href="/projects" className="nav-menu-item relative text-sm font-medium leading-relaxed cursor-pointer group uppercase header-nav-item-in pointer-events-auto" style={{ color: '#fff', animationDelay: '3.22s' }}>
+              <div className="pointer-events-none h-5 w-px flex-shrink-0 header-nav-item-in bg-white/90" style={{ animationDelay: '3.2s' }} aria-hidden />
+              <Link href="/projects" className="pointer-events-auto nav-menu-item relative text-sm font-medium leading-relaxed cursor-pointer group uppercase header-nav-item-in pointer-events-auto" style={{ color: '#fff', animationDelay: '3.22s' }}>
                 Projects
-                <span className="absolute top-0 left-1/2 w-full h-0.5 transform -translate-x-1/2 scale-x-0 origin-center transition-transform duration-500 group-hover:scale-x-100" style={{ backgroundColor: '#fff' }} />
-                <span className="absolute bottom-0 left-1/2 w-full h-0.5 transform -translate-x-1/2 scale-x-0 origin-center transition-transform duration-500 group-hover:scale-x-100" style={{ backgroundColor: '#fff' }} />
               </Link>
-              <div className="h-5 w-px flex-shrink-0 header-nav-item-in bg-white/90" style={{ animationDelay: '3.3s' }} aria-hidden />
-              <Link href="/contact" className="nav-menu-item relative text-sm font-medium leading-relaxed cursor-pointer group uppercase header-nav-item-in" style={{ color: '#fff', animationDelay: '3.38s' }}>
+              <div className="pointer-events-none h-5 w-px flex-shrink-0 header-nav-item-in bg-white/90" style={{ animationDelay: '3.3s' }} aria-hidden />
+              <Link href="/contact" className="pointer-events-auto nav-menu-item relative text-sm font-medium leading-relaxed cursor-pointer group uppercase header-nav-item-in" style={{ color: '#fff', animationDelay: '3.38s' }}>
                 Contact
-                <span className="absolute top-0 left-1/2 w-full h-0.5 transform -translate-x-1/2 scale-x-0 origin-center transition-transform duration-500 group-hover:scale-x-100" style={{ backgroundColor: '#fff' }} />
-                <span className="absolute bottom-0 left-1/2 w-full h-0.5 transform -translate-x-1/2 scale-x-0 origin-center transition-transform duration-500 group-hover:scale-x-100" style={{ backgroundColor: '#fff' }} />
               </Link>
-              <a href={process.env.NEXT_PUBLIC_APX_MEP_URL || 'http://localhost:3000'} className="group relative header-pill-apx-link header-nav-item-in" style={{ color: 'white', animationDelay: '3.46s' }}>
+              <a href={process.env.NEXT_PUBLIC_APX_MEP_URL || 'http://localhost:3000'} className="pointer-events-auto group relative header-pill-apx-link header-nav-item-in" style={{ color: 'white', animationDelay: '3.46s' }}>
                 <div className="flex items-center justify-center overflow-hidden transition-all duration-700 ease-[cubic-bezier(0.25,0.46,0.45,0.94)] w-8 h-8 min-w-8 min-h-8 group-hover:w-52 group-hover:backdrop-blur-sm rounded-full border-2 pulse-glow" style={{ borderColor: 'white' }}>
                   <div className="flex items-center justify-center w-8 h-8 rounded-full transition-all duration-700 ease-[cubic-bezier(0.25,0.46,0.45,0.94)] flex-shrink-0 absolute left-0 top-0" style={{ color: 'white' }}>
                     <ArrowRight className="h-3.5 w-3.5 transition-all duration-500 group-hover:opacity-0 group-hover:rotate-180 shrink-0" style={{ color: 'white', stroke: 'white' }} />
@@ -660,11 +650,11 @@ export default function Header() {
                   </div>
                 </div>
               </a>
-              <div className="header-nav-item-in" style={{ animationDelay: "3.54s" }}>
+              <div className="pointer-events-none header-nav-item-in" style={{ animationDelay: "3.54s" }}>
                 <ApxSocialLinks
-                  className="flex items-center gap-4 pl-1"
+                  className="flex items-center gap-4 pl-1 pr-3 sm:pr-4 lg:pr-5"
                   iconClassName="h-4 w-4"
-                  linkClassName="text-white transition-opacity hover:opacity-80"
+                  linkClassName="pointer-events-auto text-white transition-opacity hover:opacity-80"
                 />
               </div>
             </div>
@@ -672,7 +662,7 @@ export default function Header() {
               type="button"
               onClick={() => (isMenuOpen ? closeFsMenu() : setIsMenuOpen(true))}
               className={cn(
-                "fs-header-menu-trigger absolute right-2 top-1/2 z-20 -translate-y-1/2 flex h-10 w-10 items-center justify-center sm:right-4 lg:hidden",
+                "fs-header-menu-trigger pointer-events-auto absolute right-2 top-1/2 z-20 -translate-y-1/2 flex h-10 w-10 items-center justify-center sm:right-4 lg:hidden",
                 "rounded-lg border-2 border-white bg-black text-white",
                 "transition-transform duration-200 active:scale-[0.97]"
               )}
@@ -690,8 +680,8 @@ export default function Header() {
         </div>
       </nav>
 
-      {/* Contact Tab + toast: above nav (z-10) so phone/email stay clickable on service pages (no entrance animation). */}
-      <div className="pointer-events-auto absolute top-full right-[54px] z-30 hidden lg:block">
+      {/* Contact tab under the bar (z below nav). Nav is pointer-events-none so these buttons still receive hover. */}
+      <div className="pointer-events-auto absolute top-full right-[54px] z-[1] hidden lg:block">
         <div className="relative">
           <div
             className="header-contact-tab--dark header-contact-tab-drop-in flex items-center space-x-3 rounded-t-none rounded-b-xl border-2 border-t-0 px-4 py-2"

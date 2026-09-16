@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from 'react'
 import Link from 'next/link'
-import { X, Settings, Check, AlertCircle } from 'lucide-react'
+import { X, Check, AlertCircle } from 'lucide-react'
 import { useTheme } from '@/contexts/ThemeContext'
 import { 
   getCookiePreferences, 
@@ -34,6 +34,22 @@ const CookieConsent = () => {
     // Show banner only on first visit (no saved preferences)
     if (!savedPreferences) {
       setShowBanner(true)
+    }
+
+    const openSettings = () => setShowSettings(true)
+    window.addEventListener("apx:open-cookie-settings", openSettings)
+
+    const openFromHash = () => {
+      if (window.location.hash === "#cookie-preferences") {
+        setShowSettings(true)
+      }
+    }
+    openFromHash()
+    window.addEventListener("hashchange", openFromHash)
+
+    return () => {
+      window.removeEventListener("apx:open-cookie-settings", openSettings)
+      window.removeEventListener("hashchange", openFromHash)
     }
   }, [mounted])
 
@@ -81,19 +97,10 @@ const CookieConsent = () => {
   // Don't render until we've checked localStorage (client-only)
   if (!mounted) return null
 
-  // Settings button when banner is hidden, desktop/tablet: bottom-left; hidden on mobile (homepage uses contact FAB)
+  // Floating settings FAB removed — preferences open from the first-visit banner,
+  // cookie policy page, or footer ("Cookie Preferences").
   if (!showBanner && !showSettings) {
-    return (
-      <button
-        type="button"
-        className="cookie-settings-btn cookie-settings-fab fixed bottom-6 left-6 z-[9999] hidden h-12 w-12 items-center justify-center rounded-full border-2 border-white shadow-[0_4px_12px_rgba(0,0,0,0.3)] transition-colors duration-300 hover:bg-[#111] md:flex"
-        style={{ backgroundColor: "#000000" }}
-        onClick={() => setShowSettings(true)}
-        aria-label="Cookie Settings"
-      >
-        <Settings style={{ width: "20px", height: "20px" }} className="cookie-settings-fab-icon" />
-      </button>
-    )
+    return null
   }
 
   return (
@@ -219,7 +226,9 @@ const CookieConsent = () => {
             zIndex: 9999,
             width: 'calc(100% - 32px)',
             maxWidth: '900px',
-            padding: '24px',
+            maxHeight: 'min(88vh, 52rem)',
+            overflowY: 'auto',
+            padding: '20px 22px 22px',
             borderTopLeftRadius: '1.75rem',
             borderTopRightRadius: 0,
             borderBottomRightRadius: '1.75rem',
@@ -227,7 +236,8 @@ const CookieConsent = () => {
             backgroundColor: '#000000',
             border: '2px solid #ffffff',
             boxShadow: '0 10px 40px rgba(0, 0, 0, 0.5)',
-            color: '#ffffff'
+            color: '#ffffff',
+            WebkitOverflowScrolling: 'touch',
           }}
           onClick={(e) => e.stopPropagation()}
         >
@@ -284,8 +294,8 @@ const CookieConsent = () => {
           <div style={{
             display: 'flex',
             flexDirection: 'column',
-            gap: '16px',
-            marginBottom: '24px'
+            gap: '12px',
+            marginBottom: '20px'
           }}>
             {/* Essential Cookies */}
             <div style={{

@@ -164,28 +164,23 @@ export default function AboutPage() {
           />
         </div>
         <div className="container relative z-20 mx-auto flex w-full min-h-0 flex-1 flex-col justify-center px-6 pt-36 pb-14 sm:pt-40 sm:pb-16 lg:pt-44 lg:pb-20">
-          <div className="w-full max-w-[52rem] space-y-5 lg:max-w-[56rem]">
-            <h1
-              className="text-left leading-[1.08] text-white drop-shadow-sm"
-              style={{ fontFamily: "var(--font-menu)" }}
-            >
+          <div className="w-full max-w-[52rem] space-y-8 lg:max-w-[56rem]">
+            <div className="space-y-4">
               <Reveal show={heroReveal} delayMs={0}>
-                <span className="block text-[clamp(2.1rem,4.8vw,3.75rem)] font-normal italic text-white/95">
-                  Everything You Need to Know
-                </span>
+                <h1
+                  className="text-left text-3xl font-bold leading-[1.12] tracking-tight text-white drop-shadow-sm sm:text-4xl md:text-5xl"
+                  style={{ fontFamily: "var(--font-menu)" }}
+                >
+                  Everything You Need to Know About APX Fire &amp; Security
+                </h1>
               </Reveal>
               <Reveal show={heroReveal} delayMs={90}>
-                <span className="mt-2.5 block text-[clamp(1.25rem,2.6vw,2rem)] font-semibold not-italic tracking-tight text-white">
-                  About APX Fire &amp; Security
-                </span>
+                <p className="about-hero-mantra max-w-[40rem] text-left text-lg font-medium italic leading-snug tracking-[0.045em] text-white/90 drop-shadow-sm sm:text-xl md:text-[1.35rem] md:leading-snug">
+                  Protecting People, Property and Businesses Through Intelligent Fire &amp; Security Solutions
+                </p>
               </Reveal>
-            </h1>
-            <Reveal show={heroReveal} delayMs={170}>
-              <p className="text-left text-base font-medium leading-snug tracking-tight text-white/90 drop-shadow-sm sm:text-lg md:text-xl">
-                Protecting People, Property and Businesses Through Intelligent Fire &amp; Security Solutions
-              </p>
-            </Reveal>
-            <Reveal show={heroReveal} delayMs={250}>
+            </div>
+            <Reveal show={heroReveal} delayMs={180}>
               <div className="space-y-4 text-left text-[0.95rem] font-normal leading-relaxed tracking-tight text-white/88 drop-shadow-sm sm:text-base md:space-y-4.5 md:text-[1.05rem] md:leading-[1.65]">
                 <p>
                   With more than 20 years of industry experience, APX Fire &amp; Security is a trusted provider of fully integrated fire detection, life safety and electronic security systems across the UK.

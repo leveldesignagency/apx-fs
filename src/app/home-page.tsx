@@ -35,36 +35,16 @@ import { WhatWeOfferSection } from "@/components/home/WhatWeOfferSection"
 import { HomeQuoteFormDrawShell, HOME_QUOTE_FORM_INNER_DELAY_MS } from "@/components/home/HomeQuoteFormDrawShell"
 import { HomeSectionDivider } from "@/components/home/HomeSectionDivider"
 import { containDropdownWheelScroll } from "@/lib/containDropdownWheelScroll"
-import { FS_HOME_THRIVE_CARD, FS_SERVICE_SHIMMER_CARD } from "@/lib/fsServicePageCards"
+import { FS_HOME_THRIVE_CARD } from "@/lib/fsServicePageCards"
 
 /** Matches contact page field glass (draw shell / animation unchanged). */
 const HOME_QUOTE_FIELD_CLASS =
   "w-full rounded-none border border-white/15 bg-black px-4 py-3.5 text-[17px] font-bold text-white placeholder:text-white/40 placeholder:font-normal outline-none transition-[border,box-shadow] focus:border-white/50 focus:ring-0 focus:bg-black"
 
-const SERVICES_BENEFITS_FS: {
-  title: string
-  description: string
-  Icon: LucideIcon
-  animationDelay: string
-}[] = [
-  {
-    title: "Expert Installation",
-    description: "Professional installation of fire and security systems with precision and care",
-    Icon: Wrench,
-    animationDelay: "0.1s",
-  },
-  {
-    title: "24/7 Maintenance",
-    description: "Round-the-clock maintenance and emergency repair services",
-    Icon: Clock,
-    animationDelay: "0.25s",
-  },
-  {
-    title: "Quality Assurance",
-    description: "All work backed by comprehensive warranties and quality guarantees",
-    Icon: BadgeCheck,
-    animationDelay: "0.4s",
-  },
+const HERO_PROMISE_POINTS: { title: string; Icon: LucideIcon }[] = [
+  { title: "Expert Installation", Icon: Wrench },
+  { title: "24/7 Maintenance", Icon: Clock },
+  { title: "Quality Assurance", Icon: BadgeCheck },
 ]
 
 const FS_THRIVE_CARDS: {
@@ -79,21 +59,29 @@ const FS_THRIVE_CARDS: {
     Icon: Flame,
     bullets: [
       "Fire alarm systems (addressable and conventional)",
-      "Cause-and-effect programming and commissioning",
-      "BS 5839-aligned documentation and handover",
+      "Cause-and-effect programming (commissioning and testing)",
+      "BS 5839 documentation (handover-ready records)",
     ],
   },
   {
     title: "Security Systems",
     href: "/services/security-systems",
     Icon: Shield,
-    bullets: ["CCTV (IP and analogue)", "Intruder alarm systems (Grade 2 and Grade 3)", "Video entry and access control"],
+    bullets: [
+      "CCTV (IP and analogue)",
+      "Intruder alarm systems (Grade 2 and Grade 3)",
+      "Video entry and access control (single-door to multi-tenant)",
+    ],
   },
   {
     title: "Maintenance & Support",
     href: "/services/maintenance-support",
     Icon: Wrench,
-    bullets: ["Planned preventative maintenance", "24/7 call-out support", "System upgrades and compliance checks"],
+    bullets: [
+      "Planned preventative maintenance (scheduled service visits)",
+      "24/7 call-out support (emergency response)",
+      "System upgrades (compliance checks and improvements)",
+    ],
   },
 ]
 
@@ -177,7 +165,6 @@ export default function Home() {
     core: false,
     aboutIntro: false,
     services: false,
-    benefits: false,
     projects: false,
     news: false,
     marquee: false,
@@ -199,7 +186,6 @@ export default function Home() {
     { id: 'core-capabilities', name: 'Capabilities' },
     { id: 'about-intro', name: 'Our story' },
     { id: 'services', name: 'Services' },
-    { id: 'services-benefits', name: 'Service promise' },
     { id: 'projects', name: 'Projects' },
     { id: 'about', name: 'Why Choose Us' },
     { id: 'accreditations', name: 'Accreditations' },
@@ -293,6 +279,7 @@ export default function Home() {
     }
   }, [projects.length])
 
+  // Projects: strip anchor crosses LOCK_LINE; cards viewport bottom > -72 keeps pan through subpixel / fast frames.
   useEffect(() => {
     if (typeof window === "undefined") return
     if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return
@@ -301,6 +288,7 @@ export default function Home() {
     const view = projectsViewportRef.current
     if (!strip || !view) return
 
+    /** Higher = horizontal wheel starts sooner (strip anchor can be lower on screen). Tune vs fixed header. */
     const LOCK_LINE_PX = 252
 
     const anchorAllowsStripPan = () => {
@@ -329,6 +317,15 @@ export default function Home() {
       if (mx <= 0) return
 
       const x = projectsHorizontalPxRef.current
+      const atStart = x <= 0
+      const atEnd = x >= mx - 1
+
+      if (e.deltaY > 0 && atEnd) return
+      if (e.deltaY < 0 && atStart) return
+
+      e.preventDefault()
+      e.stopPropagation()
+
       const scale = 1.35
       let delta = e.deltaY * scale
       delta = Math.sign(delta) * Math.min(380, Math.abs(delta))
@@ -336,8 +333,9 @@ export default function Home() {
       s.style.transform = `translate3d(${-projectsHorizontalPxRef.current}px,0,0)`
     }
 
-    view.addEventListener("wheel", onWheel, { passive: true })
-    return () => view.removeEventListener("wheel", onWheel)
+    const opts: AddEventListenerOptions = { passive: false, capture: true }
+    window.addEventListener("wheel", onWheel, opts)
+    return () => window.removeEventListener("wheel", onWheel, opts)
   }, [])
 
   const testimonials = [
@@ -418,7 +416,6 @@ export default function Home() {
       { id: "core-capabilities", key: "core" as const },
       { id: "about-intro", key: "aboutIntro" as const },
       { id: "services", key: "services" as const },
-      { id: "services-benefits", key: "benefits" as const },
       { id: "projects", key: "projects" as const },
       { id: "logo-marquee", key: "marquee" as const },
       ...(FS_SHOW_NEWS_AND_ARTICLES ? ([{ id: "why-mep", key: "news" as const }] as const) : []),
@@ -838,7 +835,7 @@ export default function Home() {
       >
         <HeroVideoBackground />
         <div
-          className={`relative z-20 container mx-auto flex min-h-[100dvh] w-full flex-col px-4 pb-5 sm:px-5 sm:pb-6 lg:px-6 lg:pb-8 transition-all duration-1000 ${
+          className={`relative z-20 site-container flex min-h-[100dvh] w-full flex-col pb-5 sm:pb-6 lg:pb-8 transition-all duration-1000 ${
             heroAnimation.videoVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-10"
           }`}
         >
@@ -874,6 +871,45 @@ export default function Home() {
               </Link>
             </div>
           </div>
+
+          <div
+            className={`mt-auto flex w-full flex-col items-center gap-6 pt-8 sm:pt-10 lg:flex-row lg:items-end lg:justify-between lg:gap-8 lg:pt-0 transition-all duration-1000 delay-200 ${
+              heroAnimation.subtitleVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-10"
+            }`}
+          >
+            <p
+              className="hero-mantra order-2 self-start text-[11px] font-semibold uppercase tracking-[0.22em] text-white/70 sm:text-xs lg:order-1 lg:self-end"
+              style={{ fontFamily: "var(--font-menu)" }}
+            >
+              Protect, Prevent, Perform.
+            </p>
+            <aside
+              className="hero-promise-points pointer-events-auto order-1 w-auto self-center lg:order-2 lg:self-end"
+              aria-label="Service promise"
+            >
+              <ul className="m-0 flex list-none items-center justify-end gap-2.5 p-0 sm:gap-3">
+                {HERO_PROMISE_POINTS.map(({ title, Icon }) => (
+                  <li key={title}>
+                    <button
+                      type="button"
+                      className="hero-promise-chip group"
+                      aria-label={title}
+                    >
+                      <span className="hero-promise-chip__icon" aria-hidden>
+                        <Icon className="h-5 w-5 text-white sm:h-[1.35rem] sm:w-[1.35rem]" strokeWidth={1.5} />
+                      </span>
+                      <span
+                        className="hero-promise-chip__label"
+                        style={{ fontFamily: "var(--font-menu)" }}
+                      >
+                        {title}
+                      </span>
+                    </button>
+                  </li>
+                ))}
+              </ul>
+            </aside>
+          </div>
         </div>
       </section>
 
@@ -892,7 +928,7 @@ export default function Home() {
           aria-hidden
         />
 
-        <div className="container mx-auto px-6 lg:px-8 relative z-10">
+        <div className="site-container relative z-10">
           <div
             className={`max-w-3xl home-scroll-rise ${
               sectionMotion.core ? "opacity-100 translate-y-0" : "opacity-0 translate-y-14"
@@ -970,7 +1006,7 @@ export default function Home() {
 
         {/* Services Section – cards animate in one at a time (path animation), top row first */}
         <section id="services" className="home-services-band section-spacing relative overflow-visible bg-black">
-        <div className="container mx-auto px-6 lg:px-8">
+        <div className="site-container">
           <div
             className={`section-content-gap space-y-16 text-white home-scroll-rise ${
               sectionMotion.services ? "opacity-100 translate-y-0" : "opacity-0 translate-y-14"
@@ -982,53 +1018,7 @@ export default function Home() {
         </section>
       </div>
 
-      {/* Benefits strip: Expert Installation, 24/7 Maintenance, Quality Assurance, black band between Services and Projects */}
-      <section
-        id="services-benefits"
-        className="section-spacing relative overflow-hidden bg-black"
-        style={{ backgroundColor: "#000000" }}
-      >
-        <div className="container relative z-10 mx-auto px-6 lg:px-8">
-          <div className="grid grid-cols-1 gap-y-14 gap-x-6 md:grid-cols-3 md:gap-x-7 md:gap-y-16 lg:gap-x-8">
-            {SERVICES_BENEFITS_FS.map(({ title, description, Icon, animationDelay }, benefitIndex) => (
-              <div
-                key={title}
-                className="services-benefit-card flex h-full flex-col items-center"
-                style={{ animationDelay }}
-              >
-                <div
-                  className={`flex w-full flex-col items-center home-scroll-rise ${
-                    sectionMotion.benefits ? "opacity-100 translate-y-0" : "opacity-0 translate-y-14"
-                  }`}
-                  style={{ transitionDelay: sectionMotion.benefits ? `${benefitIndex * 110}ms` : "0ms" }}
-                >
-                  <div
-                    className="services-benefit-icon-badge relative z-10 flex h-14 w-14 shrink-0 items-center justify-center rounded-xl border border-white/25 bg-black shadow-[0_8px_28px_rgba(0,0,0,0.55)]"
-                    aria-hidden
-                  >
-                    <Icon className="h-7 w-7 shrink-0 text-white/90" strokeWidth={1.5} />
-                  </div>
-                  <article
-                    className={`${FS_SERVICE_SHIMMER_CARD} apx-home-card-light-edge services-benefit-article -mt-7 flex w-full min-w-0 flex-1 flex-col px-6 pb-6 pt-11 text-center md:px-7 md:pb-7 md:pt-12`}
-                  >
-                    <h3
-                      className="services-benefit-title text-lg font-semibold leading-snug text-white md:text-xl"
-                      style={{ fontFamily: "var(--font-menu)" }}
-                    >
-                      {title}
-                    </h3>
-                    <p className="services-benefit-desc mt-6 text-center sm:mt-7">{description}</p>
-                  </article>
-                </div>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      <HomeSectionDivider surface="on-dark" width="full" />
-
-      {/* Projects: sticky block; trackpad pans strip — page scroll is not blocked */}
+      {/* Projects: sticky block; wheel pans strip when anchor crosses LOCK_LINE */}
       <section
         ref={projectsSectionRef}
         id="projects"
@@ -1039,8 +1029,12 @@ export default function Home() {
           className="projects-section__sticky sticky top-0 z-20 flex min-h-[100dvh] max-h-[100dvh] flex-col"
           style={{ backgroundColor: "#ffffff" }}
         >
-            <div className="container relative z-30 mx-auto shrink-0 px-6 pt-24 lg:px-8 lg:pt-28">
-              <div className="projects-section-head flex flex-col gap-6 sm:flex-row sm:items-center sm:justify-between sm:gap-6">
+            <div className="site-container relative z-30 shrink-0 pt-24 lg:pt-28">
+              <div
+                className={`projects-section-head flex flex-col gap-6 sm:flex-row sm:items-center sm:justify-between sm:gap-6 home-scroll-rise ${
+                  sectionMotion.projects ? "opacity-100 translate-y-0" : "opacity-0 translate-y-16"
+                }`}
+              >
                 <div>
                   <span className="section-label section-label--black">Projects</span>
                   <h2 className="home-section-title text-black font-title">
@@ -1069,7 +1063,7 @@ export default function Home() {
             </div>
 
             <div
-              className={`relative flex min-h-0 flex-1 flex-col transition-all delay-100 duration-[1000ms] ease-out ${
+              className={`relative flex min-h-0 flex-1 flex-col home-scroll-rise delay-100 ${
                 sectionMotion.projects ? "opacity-100 translate-y-0" : "opacity-0 translate-y-16"
               }`}
             >
@@ -1085,7 +1079,7 @@ export default function Home() {
                   />
                   <div
                     ref={projectsScrollRef}
-                    className="projects-strip flex h-full w-max min-h-[300px] items-stretch gap-6 px-6 pb-10 pl-6 lg:pl-8 pr-6 lg:pr-8 will-change-transform"
+                    className="projects-strip site-gutter-x flex h-full w-max min-h-[300px] items-stretch gap-6 pb-10 will-change-transform"
                   >
                   {projects.map((p, i) => (
                     <div key={i} className="projects-card-shelf flex shrink-0 self-stretch pt-4 sm:pt-5">
@@ -1151,7 +1145,7 @@ export default function Home() {
           sectionMotion.about ? "home-about--in-view" : ""
         }`}
       >
-        <div className="container mx-auto px-6 lg:px-8">
+        <div className="site-container">
           <div className="section-content-gap space-y-16">
             <div className="grid grid-cols-1 items-start gap-12 lg:grid-cols-2 lg:gap-14 xl:gap-20">
               <div className="why-choose-us-copy min-w-0 text-black">
@@ -1238,25 +1232,11 @@ export default function Home() {
       {/* Logo marquee, single row, bare logos (no tile containers) */}
       <section
         id="logo-marquee"
-        className="logo-marquee-section logo-marquee-home overflow-hidden"
-        aria-labelledby="logo-marquee-heading"
+        className="logo-marquee-section logo-marquee-home overflow-hidden border-t-[3px] border-b-[3px] border-t-black border-b-white"
+        aria-label="Our clients"
       >
         <div
-          className={`container mx-auto px-6 pt-12 pb-8 text-center lg:px-8 lg:pt-14 lg:pb-9 home-scroll-rise ${
-            sectionMotion.marquee ? "opacity-100 translate-y-0" : "opacity-0 translate-y-10"
-          }`}
-        >
-          <span className="section-label section-label--black">Our clients</span>
-          <h2
-            id="logo-marquee-heading"
-            className="mt-3 font-title text-2xl font-bold tracking-tight text-black sm:text-3xl"
-          >
-            Trusted by leading brands
-          </h2>
-        </div>
-
-        <div
-          className={`logo-marquee-wrapper pb-12 lg:pb-14 home-scroll-rise delay-75 ${
+          className={`logo-marquee-wrapper pt-12 pb-12 lg:pt-14 lg:pb-14 home-scroll-rise ${
             sectionMotion.marquee ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"
           }`}
         >
@@ -1283,12 +1263,27 @@ export default function Home() {
         <>
           {/* News and Articles */}
           <section id="why-mep" className="news-section">
-            <div className="container mx-auto px-6 lg:px-8">
+            <div className="site-container">
               <div className="news-section__grid">
                 <div
-                  className={`news-section__left home-scroll-rise ${
+                  className={`news-section__media home-scroll-rise ${
                     sectionMotion.news ? "opacity-100 translate-y-0" : "opacity-0 translate-y-14"
                   }`}
+                >
+                  <Link href={newsArticles[activeNewsIndex]?.href ?? NEWS_HUB_PATH} className="news-section__image-link block w-full">
+                    <div
+                      className="news-section__image"
+                      style={{ backgroundImage: `url('${newsArticles[activeNewsIndex]?.image || newsArticles[0].image}')` }}
+                      aria-hidden
+                    />
+                  </Link>
+                </div>
+
+                <div
+                  className={`news-section__copy home-scroll-rise ${
+                    sectionMotion.news ? "opacity-100 translate-y-0" : "opacity-0 translate-y-14"
+                  }`}
+                  style={{ transitionDelay: "120ms" }}
                 >
                   <header className="news-section__header">
                     <span className="news-section__label">News and Articles</span>
@@ -1320,24 +1315,8 @@ export default function Home() {
                   <div className="news-section__footer">
                     <Link href={NEWS_HUB_PATH} className="news-section__view-all">
                       View all news &amp; articles
-                      <ArrowRight className="h-4 w-4" aria-hidden />
                     </Link>
                   </div>
-                </div>
-
-                <div
-                  className={`news-section__right home-scroll-rise ${
-                    sectionMotion.news ? "opacity-100 translate-y-0" : "opacity-0 translate-y-14"
-                  }`}
-                  style={{ transitionDelay: "120ms" }}
-                >
-                  <Link href={newsArticles[activeNewsIndex]?.href ?? NEWS_HUB_PATH} className="block w-full max-w-[520px]">
-                    <div
-                      className="news-section__image"
-                      style={{ backgroundImage: `url('${newsArticles[activeNewsIndex]?.image || newsArticles[0].image}')` }}
-                      aria-hidden
-                    />
-                  </Link>
                 </div>
               </div>
             </div>
@@ -1362,8 +1341,8 @@ export default function Home() {
           className="pointer-events-none absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-white/25 to-transparent"
           aria-hidden
         />
-        <div className="relative z-10 container mx-auto px-6 lg:px-8">
-          <div className="grid items-end gap-14 lg:grid-cols-12 lg:gap-x-16 lg:gap-y-12">
+        <div className="relative z-10 site-container">
+          <div className="grid items-start gap-14 lg:grid-cols-12 lg:gap-x-16 lg:gap-y-12">
             <div
               className={`lg:col-span-5 home-scroll-rise ${
                 sectionMotion.testimonials ? "opacity-100 translate-y-0" : "opacity-0 translate-y-14"
@@ -1416,10 +1395,10 @@ export default function Home() {
                     }`}
                     aria-hidden={i !== currentTestimonial}
                   >
-                    <blockquote className="apx-testimonials-quote text-2xl font-medium leading-snug text-white/95 sm:text-3xl lg:text-[1.85rem] lg:leading-relaxed xl:text-4xl">
-                      <span className="text-white/20">&ldquo;</span>
+                    <blockquote className="apx-testimonials-quote text-lg font-normal leading-[1.7] tracking-normal text-white/90 sm:text-xl sm:leading-[1.75] lg:text-[1.25rem] lg:leading-[1.8] xl:text-[1.35rem] xl:leading-[1.8]">
+                      <span className="text-white/25">&ldquo;</span>
                       {t.text}
-                      <span className="text-white/20">&rdquo;</span>
+                      <span className="text-white/25">&rdquo;</span>
                     </blockquote>
                     <footer className="mt-10 border-t border-white/10 pt-8">
                       <div className="text-lg font-semibold text-white">{t.name}</div>
@@ -1473,7 +1452,7 @@ export default function Home() {
 
       {/* Ready to Get Started Section – black bg, white text */}
       <section id="contact" className="section-spacing relative bg-black">
-        <div className="container mx-auto px-6 lg:px-8">
+        <div className="site-container">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 sm:gap-12 lg:gap-16 items-start">
             {/* Left side - Title and Button */}
             <div

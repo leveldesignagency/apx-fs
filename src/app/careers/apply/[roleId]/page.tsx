@@ -5,7 +5,7 @@ import { FS_CAREER_ROLES, getFsCareerRoleById } from "@/data/fsCareersRoles"
 import { FS_SITE_NAME } from "@/lib/seo"
 
 const inset =
-  "mx-auto w-full max-w-[1920px] px-6 pb-28 pt-16 sm:px-14 md:px-20 lg:px-28 xl:px-40 2xl:px-52"
+  "site-container max-w-[1920px] pb-28 pt-[max(7.5rem,calc(var(--site-header-offset,1.25rem)+6.5rem))] sm:pb-32"
 
 type Props = { params: Promise<{ roleId: string }> }
 
@@ -30,14 +30,9 @@ export default async function CareersApplyPage({ params }: Props) {
   if (!role) notFound()
 
   return (
-    <div className="min-h-screen bg-black text-white">
+    <div className="careers-page careers-apply-page min-h-screen bg-white text-black">
       <section className={inset}>
-        <CareerApplicationForm
-          role={role}
-          siteName={FS_SITE_NAME}
-          logoSrc="/__APX Web Logo FS.svg"
-          homeHref="/"
-        />
+        <CareerApplicationForm role={role} />
       </section>
     </div>
   )

@@ -103,91 +103,93 @@ export function WhatWeOfferSection() {
         </p>
       </div>
 
-      {/* Full-width scroll on small screens, equal tab widths, same idea as MEP what-we-offer strip */}
-      <div className="-mx-4 w-full min-w-0 max-w-full sm:-mx-6 lg:mx-0">
-        <div
-          data-lenis-prevent=""
-          role="tablist"
-          aria-label="Service categories"
-          className="flex max-w-full min-w-0 touch-pan-x snap-x snap-mandatory flex-nowrap gap-2 overflow-x-auto overflow-y-hidden scroll-smooth overscroll-x-contain px-4 pb-2 scrollbar-hide sm:gap-2.5 sm:px-6 md:grid md:min-w-0 md:max-w-full md:grid-cols-5 md:gap-2 md:overflow-x-visible md:px-0 lg:gap-3"
-        >
-          {OFFERS.map((o, i) => {
-            const isSelected = i === active
-            return (
-              <button
-                key={o.tabLabel}
-                type="button"
-                role="tab"
-                aria-selected={isSelected}
-                id={`fs-offer-tab-${i}`}
-                aria-controls={`fs-offer-panel-${i}`}
-                onClick={() => setActive(i)}
-                className={`fs-offer-tab flex h-12 min-h-[44px] w-[7.75rem] min-w-[7.75rem] max-w-[7.75rem] flex-none snap-start items-center justify-center rounded-full border-2 px-2.5 py-2 text-center text-xs font-semibold uppercase leading-snug tracking-wide transition-all duration-300 ease-out sm:min-w-[8.75rem] sm:max-w-[8.75rem] sm:w-[8.75rem] sm:text-sm md:col-span-1 md:h-12 md:min-h-[44px] md:w-full md:min-w-0 md:max-w-none md:px-3 md:text-sm ${
-                  isSelected ? "fs-offer-tab--active" : "fs-offer-tab--inactive"
-                }`}
-              >
-                <span className="fs-offer-tab__label line-clamp-2 text-balance sm:line-clamp-none sm:px-1 md:whitespace-normal">
-                  {o.tabLabel}
-                </span>
-              </button>
-            )
-          })}
+      {/* Folder tabs sit flush on the card; only top-left corner rounded */}
+      <div className="fs-offer-folder w-full min-w-0">
+        <div className="-mx-[var(--site-gutter)] w-full min-w-0 max-w-full md:mx-0">
+          <div
+            data-lenis-prevent=""
+            role="tablist"
+            aria-label="Service categories"
+            className="fs-offer-tablist relative z-[1] flex max-w-full min-w-0 touch-pan-x snap-x snap-mandatory flex-nowrap items-end gap-1.5 overflow-x-auto overflow-y-hidden scroll-smooth overscroll-x-contain px-[var(--site-gutter)] scrollbar-hide sm:gap-2 md:grid md:min-w-0 md:max-w-full md:grid-cols-5 md:gap-2 md:overflow-x-visible md:px-0 lg:gap-2.5"
+          >
+            {OFFERS.map((o, i) => {
+              const isSelected = i === active
+              return (
+                <button
+                  key={o.tabLabel}
+                  type="button"
+                  role="tab"
+                  aria-selected={isSelected}
+                  id={`fs-offer-tab-${i}`}
+                  aria-controls={`fs-offer-panel-${i}`}
+                  onClick={() => setActive(i)}
+                  className={`fs-offer-tab flex h-11 min-h-[44px] w-[7.75rem] min-w-[7.75rem] max-w-[7.75rem] flex-none snap-start items-center justify-center rounded-t-xl rounded-b-none border-2 border-b-0 px-2.5 py-2 text-center text-xs font-semibold uppercase leading-snug tracking-wide transition-colors duration-300 ease-out sm:min-w-[8.75rem] sm:max-w-[8.75rem] sm:w-[8.75rem] sm:text-sm md:col-span-1 md:h-12 md:min-h-[44px] md:w-full md:min-w-0 md:max-w-none md:px-3 md:text-sm ${
+                    isSelected ? "fs-offer-tab--active" : "fs-offer-tab--inactive"
+                  }`}
+                >
+                  <span className="fs-offer-tab__label line-clamp-2 text-balance sm:line-clamp-none sm:px-1 md:whitespace-normal">
+                    {o.tabLabel}
+                  </span>
+                </button>
+              )
+            })}
+          </div>
         </div>
-      </div>
 
-      <div
-        role="tabpanel"
-        id={`fs-offer-panel-${active}`}
-        aria-labelledby={`fs-offer-tab-${active}`}
-        className="apx-home-card-light-edge overflow-hidden rounded-tl-[1.5rem] rounded-br-[1.5rem] border-2 border-white bg-black"
-      >
-        <div className="relative min-h-[min(520px,85vh)] lg:min-h-[440px]">
-          <div
-            className="absolute inset-0 bg-cover bg-center transition-[opacity,transform] duration-500 ease-out"
-            style={{ backgroundImage: `url('${item.image}')` }}
-            aria-hidden
-          />
-          <div
-            className="absolute inset-0 bg-gradient-to-b from-black/90 via-black/75 to-black/85 lg:bg-gradient-to-r lg:from-black/[0.88] lg:via-black/45 lg:to-black/20"
-            aria-hidden
-          />
+        <div
+          role="tabpanel"
+          id={`fs-offer-panel-${active}`}
+          aria-labelledby={`fs-offer-tab-${active}`}
+          className="apx-home-card-light-edge relative z-0 overflow-hidden rounded-tl-none rounded-tr-none rounded-br-[1.5rem] rounded-bl-none border-2 border-white bg-black"
+        >
+          <div className="relative min-h-[min(520px,85vh)] lg:min-h-[440px]">
+            <div
+              className="absolute inset-0 bg-cover bg-center transition-[opacity,transform] duration-500 ease-out"
+              style={{ backgroundImage: `url('${item.image}')` }}
+              aria-hidden
+            />
+            <div
+              className="absolute inset-0 bg-gradient-to-b from-black/90 via-black/75 to-black/85 lg:bg-gradient-to-r lg:from-black/[0.88] lg:via-black/45 lg:to-black/20"
+              aria-hidden
+            />
 
-          <div className="relative grid gap-0 lg:min-h-[440px] lg:grid-cols-[1.1fr_0.9fr]">
-            <div className="flex flex-col justify-center px-6 py-10 sm:px-10 lg:px-12 lg:py-14">
-              <div className="mb-5 inline-flex w-fit items-center justify-center rounded-full border-2 border-white/70 bg-black/50 py-1.5 pl-4 pr-[calc(1rem+0.12em)] text-center text-xs font-semibold uppercase tracking-[0.12em] text-white sm:pl-5 sm:pr-[calc(1.25rem+0.12em)] sm:text-sm">
-                {item.tagLabel}
+            <div className="relative grid gap-0 lg:min-h-[440px] lg:grid-cols-[1.1fr_0.9fr]">
+              <div className="flex flex-col justify-center px-6 py-10 sm:px-10 lg:px-12 lg:py-14">
+                <div className="mb-5 inline-flex w-fit items-center justify-center rounded-full border-2 border-white/70 bg-black/50 py-1.5 pl-4 pr-[calc(1rem+0.12em)] text-center text-xs font-semibold uppercase tracking-[0.12em] text-white sm:pl-5 sm:pr-[calc(1.25rem+0.12em)] sm:text-sm">
+                  {item.tagLabel}
+                </div>
+
+                <h3 className="font-title text-2xl font-bold leading-[1.03] tracking-tight text-white sm:text-3xl md:text-[clamp(1.75rem,4vw,2.75rem)]">
+                  {item.headline}
+                </h3>
+                <p className="mt-4 max-w-xl text-base leading-relaxed text-white sm:text-lg">{item.description}</p>
+
+                <div className="mt-8 flex flex-wrap items-center gap-3">
+                  <CustomPillButton href={item.href} size="md">
+                    Find out more
+                  </CustomPillButton>
+                  <CustomPillButton href="/contact" variant="outline" size="md">
+                    Contact
+                  </CustomPillButton>
+                </div>
               </div>
 
-              <h3 className="font-title text-2xl font-bold leading-[1.03] tracking-tight text-white sm:text-3xl md:text-[clamp(1.75rem,4vw,2.75rem)]">
-                {item.headline}
-              </h3>
-              <p className="mt-4 max-w-xl text-base leading-relaxed text-white sm:text-lg">{item.description}</p>
-
-              <div className="mt-8 flex flex-wrap items-center gap-3">
-                <CustomPillButton href={item.href} size="md">
-                  Find out more
-                </CustomPillButton>
-                <CustomPillButton href="/contact" variant="outline" size="md">
-                  Contact
-                </CustomPillButton>
+              <div className="flex flex-col justify-center px-6 py-10 sm:px-10 lg:px-10 lg:py-14 lg:pl-6">
+                <p data-offer-features="label" className="text-sm font-bold uppercase tracking-[0.2em] text-white">
+                  The features
+                </p>
+                <ul className="mt-5 space-y-3">
+                  {item.features.map((line) => (
+                    <li
+                      key={line}
+                      data-offer-feature
+                      className="rounded-xl border border-white/30 bg-black/45 px-4 py-3 text-base leading-snug text-white backdrop-blur-[6px]"
+                    >
+                      {line}
+                    </li>
+                  ))}
+                </ul>
               </div>
-            </div>
-
-            <div className="flex flex-col justify-center px-6 py-10 sm:px-10 lg:px-10 lg:py-14 lg:pl-6">
-              <p data-offer-features="label" className="text-sm font-bold uppercase tracking-[0.2em] text-white">
-                The features
-              </p>
-              <ul className="mt-5 space-y-3">
-                {item.features.map((line) => (
-                  <li
-                    key={line}
-                    data-offer-feature
-                    className="rounded-xl border border-white/30 bg-black/45 px-4 py-3 text-base leading-snug text-white backdrop-blur-[6px]"
-                  >
-                    {line}
-                  </li>
-                ))}
-              </ul>
             </div>
           </div>
         </div>

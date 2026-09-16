@@ -1,14 +1,14 @@
 "use client"
 
-import Image from "next/image"
-import { useEffect, useState } from "react"
+import { useEffect, useRef, useState } from "react"
 
 /**
  * Homepage hero background — scrolls with the page (inside #hero), not fixed to the viewport.
- * Image fades out once scrolled past hero so it does not show through below.
+ * Fades out once scrolled past hero so it does not show through below.
  */
 export default function HeroVideoBackground() {
   const [heroVisible, setHeroVisible] = useState(true)
+  const videoRef = useRef<HTMLVideoElement>(null)
 
   useEffect(() => {
     const heroHeight = window.innerHeight
@@ -22,6 +22,24 @@ export default function HeroVideoBackground() {
     return () => window.removeEventListener("scroll", onScroll)
   }, [])
 
+  useEffect(() => {
+    const video = videoRef.current
+    if (!video) return
+
+    const mq = window.matchMedia("(prefers-reduced-motion: reduce)")
+    const syncPlayback = () => {
+      if (mq.matches || !heroVisible) {
+        video.pause()
+        return
+      }
+      void video.play().catch(() => {})
+    }
+
+    syncPlayback()
+    mq.addEventListener("change", syncPlayback)
+    return () => mq.removeEventListener("change", syncPlayback)
+  }, [heroVisible])
+
   return (
     <div className="absolute inset-0 z-0 min-h-[100dvh] pointer-events-none overflow-hidden" aria-hidden>
       <div className="absolute inset-0 min-h-[100dvh] bg-black" />
@@ -29,20 +47,19 @@ export default function HeroVideoBackground() {
         className="absolute inset-0 min-h-[100dvh] transition-opacity duration-300"
         style={{ opacity: heroVisible ? 1 : 0 }}
       >
-        {/* Side/bottom bleed for grow; extend below fold so image covers bottom of hero */}
         <div className="absolute inset-0 min-h-[100dvh] overflow-hidden">
-          <div className="fs-hero-bg-motion-layer absolute top-0 bottom-[-10%] left-[-2%] right-[-2%] min-h-[110dvh]">
-            <div className="relative h-full min-h-[110dvh] w-full">
-              <Image
-                src="/apx-fs-hero-image.jpg"
-                alt=""
-                fill
-                priority
-                sizes="100vw"
-                className="object-cover object-[center_22%] brightness-[0.88] contrast-[1.02] saturate-[0.98]"
-              />
-            </div>
-          </div>
+          <video
+            ref={videoRef}
+            className="absolute inset-0 h-full min-h-[100dvh] w-full object-cover object-center brightness-[0.88] contrast-[1.02] saturate-[0.98]"
+            autoPlay
+            muted
+            loop
+            playsInline
+            preload="auto"
+            poster="/apx-fs-hero-image.jpg"
+          >
+            <source src="/londonbynight.mp4" type="video/mp4" />
+          </video>
         </div>
         <div
           className="absolute inset-0 pointer-events-none"

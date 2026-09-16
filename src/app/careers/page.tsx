@@ -10,28 +10,31 @@ export const metadata: Metadata = {
   description: `Join ${FS_SITE_NAME}. View open roles in fire and security engineering across London and the Home Counties.`,
 }
 
-const careersPageInset =
-  "mx-auto w-full max-w-[1920px] px-6 pb-28 pt-16 sm:px-14 md:px-20 lg:px-28 xl:px-40 2xl:px-52"
-
 export default function CareersPage() {
   return (
-    <div className="min-h-screen bg-black text-white">
-      <section className={careersPageInset}>
-        <div className="flex flex-col items-center text-center">
-          <Link href="/" className="flex items-center justify-center">
+    <div className="careers-page min-h-screen bg-black text-white">
+      <section className="site-container max-w-[1920px] pb-24 pt-16 sm:pb-28 sm:pt-20">
+        <div className="careers-page-header careers-divider-b flex flex-col gap-8 border-b border-white/12 pb-10 sm:flex-row sm:items-end sm:justify-between sm:gap-10 sm:pb-12">
+          <div className="min-w-0 max-w-2xl">
+            <p className="text-[11px] font-semibold uppercase tracking-[0.22em] text-white/45">Careers</p>
+            <h1 className="mt-3 font-title text-3xl font-bold leading-tight tracking-tight text-white sm:text-4xl md:text-5xl">
+              Find your next role
+            </h1>
+            <p className="mt-4 text-base leading-relaxed text-white/65 sm:text-lg">
+              Skilled engineers and installers who share our standards for compliant, quality delivery on site across
+              London and the Home Counties.
+            </p>
+          </div>
+          <Link href="/" className="shrink-0 self-start sm:self-auto">
             <Image
               src="/__APX Web Logo FS.svg"
               alt={`${FS_SITE_NAME} logo`}
-              width={280}
-              height={94}
-              className="h-24 w-auto sm:h-28 md:h-32"
+              width={200}
+              height={67}
+              className="h-14 w-auto opacity-90 sm:h-16"
               priority
             />
           </Link>
-
-          <p className="mx-auto mt-14 max-w-[42rem] text-base leading-relaxed text-white/70 sm:mt-16 sm:text-lg">
-            We are always interested in hearing from skilled engineers and installers who share our standards for compliant, quality delivery on site.
-          </p>
         </div>
 
         <CareersSearchAndRoles roles={FS_CAREER_ROLES} />
