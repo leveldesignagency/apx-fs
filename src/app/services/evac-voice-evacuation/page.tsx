@@ -7,6 +7,7 @@ import { CustomPillButton } from "@/components/ui/CustomPillButton"
 import { ServicePageHero } from "@/components/ServicePageHero"
 import { Reveal } from "@/components/Reveal"
 import { ServiceItemReveal } from "@/components/ServiceItemReveal"
+import { ServiceFeatureIconCard } from "@/components/ServiceFeatureIconCard"
 import { serviceHeroImages } from "@/lib/serviceHeroImages"
 import {
   CheckCircle,
@@ -63,42 +64,44 @@ export default function EvacVoiceEvacuationPage() {
           <div className="grid grid-cols-1 gap-8 md:grid-cols-2 lg:grid-cols-3">
             {[
               {
-                icon: <Volume2 className="h-8 w-8" strokeWidth={1.75} />,
+                Icon: Volume2,
                 title: "Voice evacuation systems",
                 description: "Distributed audio networks and control for phased or general building evacuation messaging.",
               },
               {
-                icon: <Radio className="h-8 w-8" strokeWidth={1.75} />,
+                Icon: Radio,
                 title: "Public address integration",
                 description: "Where PA and emergency voice share infrastructure, we coordinate routing, priorities and supervision.",
               },
               {
-                icon: <Zap className="h-8 w-8" strokeWidth={1.75} />,
+                Icon: Zap,
                 title: "Zoned evacuation messaging",
                 description: "Zoning aligned to your fire strategy, clear, prioritised announcements and local control where required.",
               },
               {
-                icon: <Speaker className="h-8 w-8" strokeWidth={1.75} />,
+                Icon: Speaker,
                 title: "Amplifier & speaker installation",
                 description: "Sizing, placement and commissioning for audibility and intelligibility across occupied spaces.",
               },
               {
-                icon: <Flame className="h-8 w-8" strokeWidth={1.75} />,
+                Icon: Flame,
                 title: "Integration with fire alarm systems",
                 description: "Cause-and-effect, interfaces and witnessed testing alongside detection and alarm panels.",
               },
               {
-                icon: <CheckCircle className="h-8 w-8" strokeWidth={1.75} />,
+                Icon: CheckCircle,
                 title: "Audio testing & certification",
                 description: "Structured measurement and records to demonstrate performance at handover.",
               },
-            ].map((item, index) => (
-              <ServiceItemReveal key={index} index={index} className="h-full min-h-0">
-                <div className={`${cardClass} transition-transform duration-300 hover:scale-[1.02]`}>
-                <div className="mb-4 text-white">{item.icon}</div>
-                <h3 className="mb-3 text-left text-xl font-semibold text-white">{item.title}</h3>
-                <p className="text-left text-gray-300">{item.description}</p>
-                </div>
+            ].map(({ Icon, title, description }, index) => (
+              <ServiceItemReveal key={title} index={index} className="h-full min-h-0">
+                <ServiceFeatureIconCard
+                  icon={Icon}
+                  title={title}
+                  description={description}
+                  shellClassName={cardClass}
+                  className="transition-transform duration-300 hover:scale-[1.02]"
+                />
               </ServiceItemReveal>
             ))}
           </div>

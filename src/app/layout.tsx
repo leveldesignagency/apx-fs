@@ -60,11 +60,20 @@ export const metadata: Metadata = {
     siteName: FS_SITE_NAME,
     title: `${FS_SITE_NAME} | Fire & Security | London, Kent, Essex & Home Counties`,
     description: fsDefaultDescription(),
+    images: [
+      {
+        url: "/icon-512.png",
+        width: 512,
+        height: 512,
+        alt: `${FS_SITE_NAME} logo`,
+      },
+    ],
   },
   twitter: {
-    card: "summary_large_image",
+    card: "summary",
     title: `${FS_SITE_NAME} | London & South East`,
     description: fsDefaultDescription(),
+    images: ["/icon-512.png"],
   },
 };
 

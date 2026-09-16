@@ -13,14 +13,12 @@ import {
   FS_SERVICE_IMAGE_GROW_INNER,
   FS_SERVICE_INSTALLATION_CARD,
   FS_SERVICE_INSTALLATION_CARD_IMAGE,
-  FS_SERVICE_SHIMMER_CARD_FEATURE,
 } from "@/lib/fsServicePageCards"
 import { ApxPartnerLogoStrip } from "@/components/ApxPartnerLogoStrip"
 import { VIDEO_DOOR_TECH_PARTNERS } from "@/lib/apx-partner-logos"
 import { ServiceTechnologyProductsSection } from "@/components/ServiceTechnologyProductsSection"
+import { ServiceFeatureIconCard } from "@/components/ServiceFeatureIconCard"
 import { Eye, Bell, Shield, Link2, Smartphone } from "lucide-react"
-
-const videoEntryFeatureCardClass = `${FS_SERVICE_SHIMMER_CARD_FEATURE} transition-transform duration-300 hover:scale-[1.02]`
 
 const VIDEO_DOOR_INSTALLATIONS: { title: string; venue: string; context: string; imageSrc: string }[] = [
   {
@@ -114,11 +112,12 @@ export default function VideoDoorEntrySystemsPage() {
               { icon: Smartphone, title: "Remote Control", text: "Control the whole system remotely via your tablet or smartphone." },
             ].map(({ icon: Icon, title, text }, i) => (
               <ServiceItemReveal key={i} index={i} className="h-full min-h-0">
-                <div className={videoEntryFeatureCardClass}>
-                <Icon className="mb-4 h-10 w-10 text-white" strokeWidth={1.75} />
-                <h3 className="mb-2 text-left text-xl font-semibold text-white">{title}</h3>
-                <p className="text-left text-gray-300">{text}</p>
-                </div>
+                <ServiceFeatureIconCard
+                  icon={Icon}
+                  title={title}
+                  description={text}
+                  className="transition-transform duration-300 hover:scale-[1.02]"
+                />
               </ServiceItemReveal>
             ))}
           </div>

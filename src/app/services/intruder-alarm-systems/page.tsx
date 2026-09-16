@@ -14,11 +14,11 @@ import { ServiceItemReveal } from "@/components/ServiceItemReveal"
 import { serviceHeroImages } from "@/lib/serviceHeroImages"
 import { FsServiceTextImageSection } from "@/components/FsServiceTextImageSection"
 import { FsServiceTextImageSectionGroup } from "@/components/FsServiceTextImageSectionGroup"
+import { ServiceFeatureIconCard } from "@/components/ServiceFeatureIconCard"
 import {
   FS_SERVICE_IMAGE_GROW_INNER,
   FS_SERVICE_INSTALLATION_CARD,
   FS_SERVICE_INSTALLATION_CARD_IMAGE,
-  FS_SERVICE_SHIMMER_CARD_FEATURE,
 } from "@/lib/fsServicePageCards"
 import { Shield, CheckCircle, Monitor, Smartphone, Package } from "lucide-react"
 
@@ -53,8 +53,6 @@ const INTRUDER_ALARM_INSTALLATIONS: { title: string; venue: string; context: str
       "/projects/case-studies/camden-council-greenwood-centre/intruder-alarm-greenwood-centre-camden-council-interior.jpg",
   },
 ]
-
-const monitoringCardClass = `${FS_SERVICE_SHIMMER_CARD_FEATURE} transition-transform duration-300 hover:scale-[1.02]`
 
 /** Public folder: `public/service images/intruders/` */
 const INTRUDER_HERO_IMAGE_SRC = "/service%20images/intruders/thieves-wear-black-hats-pry-windows-steal-things.jpg"
@@ -104,13 +102,12 @@ export default function IntruderAlarmSystemsPage() {
           <div className="grid grid-cols-1 gap-8 md:grid-cols-2 lg:grid-cols-3">
             {MONITORING_BENEFITS.map((item, index) => (
               <ServiceItemReveal key={index} index={index} className="h-full min-h-0">
-                <div className={monitoringCardClass}>
-                <div className="mb-4 text-white">
-                  <item.icon className="h-8 w-8" strokeWidth={1.75} />
-                </div>
-                <h3 className="mb-3 text-left text-xl font-semibold text-white">{item.title}</h3>
-                <p className="text-left text-gray-300">{item.text}</p>
-                </div>
+                <ServiceFeatureIconCard
+                  icon={item.icon}
+                  title={item.title}
+                  description={item.text}
+                  className="transition-transform duration-300 hover:scale-[1.02]"
+                />
               </ServiceItemReveal>
             ))}
           </div>

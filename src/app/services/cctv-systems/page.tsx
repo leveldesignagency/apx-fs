@@ -9,7 +9,7 @@ import { CustomPillButton } from "@/components/ui/CustomPillButton"
 import { ServicePageHero } from "@/components/ServicePageHero"
 import { Reveal } from "@/components/Reveal"
 import { ServiceItemReveal } from "@/components/ServiceItemReveal"
-import { FS_SERVICE_SHIMMER_CARD_FEATURE } from "@/lib/fsServicePageCards"
+import { ServiceFeatureIconCard } from "@/components/ServiceFeatureIconCard"
 import { serviceHeroImages } from "@/lib/serviceHeroImages"
 import { Video, Shield, Monitor, CheckCircle, ArrowRight, Smartphone } from "lucide-react"
 
@@ -44,42 +44,43 @@ export default function CctvSecurityPage() {
           <div className="grid grid-cols-1 gap-8 md:grid-cols-2 lg:grid-cols-3">
             {[
               {
-                icon: <Video className="h-8 w-8" strokeWidth={1.75} />,
+                Icon: Video,
                 title: "CCTV systems",
                 description: "HD and 4K IP cameras, NVR/DVR solutions, and remote viewing for round-the-clock surveillance.",
               },
               {
-                icon: <Shield className="h-8 w-8" strokeWidth={1.75} />,
+                Icon: Shield,
                 title: "Intruder alarms",
                 description: "Wired and wireless intruder alarm systems with NSI-approved monitoring and police response.",
               },
               {
-                icon: <Monitor className="h-8 w-8" strokeWidth={1.75} />,
+                Icon: Monitor,
                 title: "Remote monitoring",
                 description: "24/7 alarm receiving and video monitoring with rapid response and keyholder escalation.",
               },
               {
-                icon: <Smartphone className="h-8 w-8" strokeWidth={1.75} />,
+                Icon: Smartphone,
                 title: "Mobile access",
                 description: "View live and recorded footage from smartphones and tablets, with push notifications.",
               },
               {
-                icon: <CheckCircle className="h-8 w-8" strokeWidth={1.75} />,
+                Icon: CheckCircle,
                 title: "Maintenance & support",
                 description: "Scheduled servicing, health checks, and fault response to keep systems reliable.",
               },
               {
-                icon: <ArrowRight className="h-8 w-8" strokeWidth={1.75} />,
+                Icon: ArrowRight,
                 title: "Integration",
                 description: "CCTV and alarms integrated with access control and fire systems for a single security platform.",
               },
-            ].map((service, index) => (
-              <ServiceItemReveal key={index} index={index} className="h-full min-h-0">
-                <div className={`${FS_SERVICE_SHIMMER_CARD_FEATURE} transition-transform duration-300 hover:scale-[1.02]`}>
-                <div className="mb-4 text-white">{service.icon}</div>
-                <h3 className="mb-3 text-left text-xl font-semibold text-white">{service.title}</h3>
-                <p className="text-left text-gray-300">{service.description}</p>
-                </div>
+            ].map(({ Icon, title, description }, index) => (
+              <ServiceItemReveal key={title} index={index} className="h-full min-h-0">
+                <ServiceFeatureIconCard
+                  icon={Icon}
+                  title={title}
+                  description={description}
+                  className="transition-transform duration-300 hover:scale-[1.02]"
+                />
               </ServiceItemReveal>
             ))}
           </div>

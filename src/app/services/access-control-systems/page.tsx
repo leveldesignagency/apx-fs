@@ -12,11 +12,11 @@ import { ApxPartnerLogoStrip } from "@/components/ApxPartnerLogoStrip"
 import { ACCESS_CONTROL_PARTNERS } from "@/lib/apx-partner-logos"
 import { ServiceTechnologyProductsSection } from "@/components/ServiceTechnologyProductsSection"
 import { FsServiceTextImageSection } from "@/components/FsServiceTextImageSection"
+import { ServiceFeatureIconCard } from "@/components/ServiceFeatureIconCard"
 import {
   FS_SERVICE_IMAGE_GROW_INNER,
   FS_SERVICE_INSTALLATION_CARD,
   FS_SERVICE_INSTALLATION_CARD_IMAGE,
-  FS_SERVICE_SHIMMER_CARD_FEATURE,
 } from "@/lib/fsServicePageCards"
 import {
   Key,
@@ -27,8 +27,6 @@ import {
   Cpu,
   type LucideIcon,
 } from "lucide-react"
-
-const benefitFeatureCardClass = `${FS_SERVICE_SHIMMER_CARD_FEATURE} transition-transform duration-300 hover:scale-[1.02]`
 
 const ACCESS_CONTROL_BENEFITS: { Icon: LucideIcon; title: string; text: string }[] = [
   {
@@ -181,11 +179,12 @@ export default function AccessControlPage() {
           <div className="grid grid-cols-1 gap-8 md:grid-cols-2 lg:grid-cols-3">
             {ACCESS_CONTROL_BENEFITS.map(({ Icon, title, text }, i) => (
               <ServiceItemReveal key={title} index={i} className="h-full min-h-0">
-                <div className={benefitFeatureCardClass}>
-                <Icon className="mb-4 h-8 w-8 text-white" strokeWidth={1.75} />
-                <h3 className="mb-3 text-left text-xl font-semibold text-white">{title}</h3>
-                <p className="text-left text-gray-300">{text}</p>
-                </div>
+                <ServiceFeatureIconCard
+                  icon={Icon}
+                  title={title}
+                  description={text}
+                  className="transition-transform duration-300 hover:scale-[1.02]"
+                />
               </ServiceItemReveal>
             ))}
           </div>

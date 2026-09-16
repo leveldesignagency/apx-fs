@@ -12,7 +12,7 @@ import { ServicePageHero } from "@/components/ServicePageHero"
 import { Reveal } from "@/components/Reveal"
 import { ServiceItemReveal } from "@/components/ServiceItemReveal"
 import { CustomPillButton } from "@/components/ui/CustomPillButton"
-import { FS_SERVICE_SHIMMER_CARD_FEATURE } from "@/lib/fsServicePageCards"
+import { ServiceFeatureIconCard } from "@/components/ServiceFeatureIconCard"
 import { serviceHeroImages } from "@/lib/serviceHeroImages"
 import { Camera, FileCheck, HelpCircle } from "lucide-react"
 
@@ -75,11 +75,7 @@ export default function UsefulCctvAdvicePage() {
               },
             ].map((item, i) => (
               <ServiceItemReveal key={i} index={i} className="h-full min-h-0">
-                <div className={FS_SERVICE_SHIMMER_CARD_FEATURE}>
-                <item.icon className="mb-4 h-8 w-8 text-white" strokeWidth={1.75} />
-                <h3 className="mb-3 text-left text-xl font-semibold text-white">{item.title}</h3>
-                <p className="text-left text-gray-300">{item.text}</p>
-                </div>
+                <ServiceFeatureIconCard icon={item.icon} title={item.title} description={item.text} />
               </ServiceItemReveal>
             ))}
           </div>

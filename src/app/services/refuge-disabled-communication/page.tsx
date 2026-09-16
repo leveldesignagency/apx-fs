@@ -7,6 +7,7 @@ import { CustomPillButton } from "@/components/ui/CustomPillButton"
 import { ServicePageHero } from "@/components/ServicePageHero"
 import { Reveal } from "@/components/Reveal"
 import { ServiceItemReveal } from "@/components/ServiceItemReveal"
+import { ServiceFeatureIconCard } from "@/components/ServiceFeatureIconCard"
 import { serviceHeroImages } from "@/lib/serviceHeroImages"
 import {
   Building2,
@@ -63,42 +64,44 @@ export default function RefugeDisabledCommunicationPage() {
           <div className="grid grid-cols-1 gap-8 md:grid-cols-2 lg:grid-cols-3">
             {[
               {
-                icon: <Accessibility className="h-8 w-8" strokeWidth={1.75} />,
+                Icon: Accessibility,
                 title: "Disabled refuge points",
                 description: "Refuge communication outstations with clear, reliable speech paths for staged evacuation in multi-storey buildings.",
               },
               {
-                icon: <Phone className="h-8 w-8" strokeWidth={1.75} />,
+                Icon: Phone,
                 title: "Fire telephones",
                 description: "Firefighter and staging telephones where your design requires dedicated voice circuits alongside the wider EVC network.",
               },
               {
-                icon: <Building2 className="h-8 w-8" strokeWidth={1.75} />,
+                Icon: Building2,
                 title: "Disabled toilet alarms",
                 description: "Remote indication and reset where WC alarms form part of the emergency communication strategy.",
               },
               {
-                icon: <Layers className="h-8 w-8" strokeWidth={1.75} />,
+                Icon: Layers,
                 title: "Central EVC control panels",
                 description: "Head-end equipment, zoning and monitoring configured for your site layout and duty-holder workflows.",
               },
               {
-                icon: <Network className="h-8 w-8" strokeWidth={1.75} />,
+                Icon: Network,
                 title: "Multi-storey integration",
                 description: "Coordinated risers, interfaces and testing across floors, including coordination with fire detection and voice evacuation where specified.",
               },
               {
-                icon: <CheckCircle className="h-8 w-8" strokeWidth={1.75} />,
+                Icon: CheckCircle,
                 title: "Commissioning & handover",
                 description: "Witnessed testing, user guidance and records so the system is demonstrably compliant at completion.",
               },
-            ].map((item, index) => (
-              <ServiceItemReveal key={index} index={index} className="h-full min-h-0">
-                <div className={`${cardClass} transition-transform duration-300 hover:scale-[1.02]`}>
-                <div className="mb-4 text-white">{item.icon}</div>
-                <h3 className="mb-3 text-left text-xl font-semibold text-white">{item.title}</h3>
-                <p className="text-left text-gray-300">{item.description}</p>
-                </div>
+            ].map(({ Icon, title, description }, index) => (
+              <ServiceItemReveal key={title} index={index} className="h-full min-h-0">
+                <ServiceFeatureIconCard
+                  icon={Icon}
+                  title={title}
+                  description={description}
+                  shellClassName={cardClass}
+                  className="transition-transform duration-300 hover:scale-[1.02]"
+                />
               </ServiceItemReveal>
             ))}
           </div>

@@ -10,10 +10,10 @@ import { FsServiceBenefitsList } from "@/components/FsServiceBenefitsList"
 import { FsServiceTextImageSection } from "@/components/FsServiceTextImageSection"
 import { FsServiceTextImageSectionGroup } from "@/components/FsServiceTextImageSectionGroup"
 import { ServicePageHero } from "@/components/ServicePageHero"
+import { ServiceFeatureIconCard } from "@/components/ServiceFeatureIconCard"
 import { Reveal } from "@/components/Reveal"
 import { ServiceItemReveal } from "@/components/ServiceItemReveal"
 import { CustomPillButton } from "@/components/ui/CustomPillButton"
-import { FS_SERVICE_SHIMMER_CARD_FEATURE } from "@/lib/fsServicePageCards"
 import { serviceHeroImages } from "@/lib/serviceHeroImages"
 import { Building2, Monitor, Lock, ShoppingBag, Hotel, HeartPulse, GraduationCap, Landmark } from "lucide-react"
 
@@ -119,11 +119,7 @@ export default function CommercialCctvPage() {
               { icon: Lock, title: "Integration", text: "CCTV working with access control, intruder alarms, and fire systems." },
             ].map((item, i) => (
               <ServiceItemReveal key={i} index={i} className="h-full min-h-0">
-                <div className={FS_SERVICE_SHIMMER_CARD_FEATURE}>
-                <item.icon className="mb-4 h-8 w-8 text-white" strokeWidth={1.75} />
-                <h3 className="mb-3 text-left text-xl font-semibold text-white">{item.title}</h3>
-                <p className="text-left text-gray-300">{item.text}</p>
-                </div>
+                <ServiceFeatureIconCard icon={item.icon} title={item.title} description={item.text} />
               </ServiceItemReveal>
             ))}
           </div>
@@ -144,11 +140,7 @@ export default function CommercialCctvPage() {
           <div className="grid grid-cols-1 gap-8 md:grid-cols-3">
             {COMMERCIAL_CCTV_SECTORS.map(({ icon: Icon, label, text }, i) => (
               <ServiceItemReveal key={label} index={i} className="h-full min-h-0">
-                <div className={FS_SERVICE_SHIMMER_CARD_FEATURE}>
-                <Icon className="mb-4 h-8 w-8 text-white" strokeWidth={1.75} aria-hidden />
-                <h3 className="mb-3 text-left text-xl font-semibold text-white">{label}</h3>
-                <p className="text-left text-gray-300">{text}</p>
-                </div>
+                <ServiceFeatureIconCard icon={Icon} title={label} description={text} />
               </ServiceItemReveal>
             ))}
           </div>
