@@ -10,10 +10,10 @@
   --font-menu: "Erbaum", sans-serif;
   /* In-page anchor targets (#section): modest offset so headings aren’t flush to the top */
   --site-header-offset: 1.25rem;
-  /* Global horizontal gutters — thinner, wider column (Statom-like balance) */
+  /* Global horizontal gutters, thinner, wider column (Statom-like balance) */
   --site-gutter: clamp(0.75rem, 2.5vw, 1.25rem);
   --site-max: 100rem;
-  /* Scroll reveal — rise into place (Reveal.tsx, homepage sections, about intro) */
+  /* Scroll reveal, rise into place (Reveal.tsx, homepage sections, about intro) */
   --scroll-rise-offset: 2.75rem;
   --scroll-rise-transform-duration: 1.2s;
   --scroll-rise-opacity-duration: 550ms;
@@ -84,12 +84,16 @@ header.site-header {
   }
 }
 
-/* Careers: neat uniform radius (no TL/BR canted corners) */
-.careers-neat-radius,
-.careers-neat-radius.pill-btn,
-.careers-neat-radius .pill-btn-inner,
-.careers-neat-radius .pill-btn-border {
-  border-radius: 0.75rem !important;
+/* Careers: Apply uses homepage CustomPillButton (TL/BR radius). Search stays fully rounded. */
+.careers-page .careers-search-input {
+  border-radius: 9999px !important;
+}
+.careers-page .careers-panel,
+.careers-page .careers-role-list,
+.careers-page .careers-outline-btn,
+.careers-job-modal [role="dialog"],
+.careers-job-modal .careers-outline-btn {
+  border-radius: 0 !important;
 }
 
 .careers-job-modal {
@@ -135,10 +139,6 @@ header.site-header {
   border-top-width: var(--careers-bw) !important;
   border-top-style: solid;
   border-top-color: rgba(255, 255, 255, 0.085) !important;
-}
-.careers-page .careers-neat-radius.pill-btn .pill-btn-border,
-.careers-job-modal .careers-neat-radius.pill-btn .pill-btn-border {
-  border-width: var(--careers-bw) !important;
 }
 
 /* Legal pages: readable spacing + wider column (avoid max-w-4xl / mobile-narrow feel) */
@@ -339,7 +339,7 @@ section#services.home-services-band.section-spacing {
   padding-inline: 0.625rem;
   overflow: hidden;
   border: 1px solid rgba(255, 255, 255, 0.55) !important;
-  /* Half of height — true circle; avoids 9999px→small snap at end of expand */
+  /* Half of height, true circle; avoids 9999px→small snap at end of expand */
   border-radius: 1.375rem;
   background: #000000 !important;
   color: #ffffff !important;
@@ -490,7 +490,350 @@ section#services.home-services-band.section-spacing {
   );
 }
 
-/* Where We Thrive, blur non-hovered cards when one card is hovered */
+/* Where We Thrive, scroll-driven stacked cards that pull apart */
+.where-we-thrive-pricing {
+  --spread: 0;
+  width: 100%;
+  min-height: 0;
+  padding-top: 1.5rem;
+}
+@media (min-width: 900px) {
+  .where-we-thrive-pricing {
+    /* Only enough height for the deck, scrub is viewport-driven, not track-driven */
+    min-height: 0;
+  }
+}
+
+.where-we-thrive-pricing__sticky {
+  position: sticky;
+  top: clamp(5.5rem, 14vh, 7.5rem);
+  padding-block: 2.5rem 1.25rem;
+}
+@media (min-width: 900px) {
+  .where-we-thrive-pricing__sticky {
+    /* Non-sticky on desktop so section height = card height (no empty black tail) */
+    position: relative;
+    top: auto;
+    padding-block: 1.25rem 0;
+  }
+}
+
+.where-we-thrive-pricing__deck {
+  position: relative;
+  width: 100%;
+  max-width: 100%;
+  margin-inline: auto;
+  min-height: 18rem;
+}
+
+/* Shared card chrome (position set per breakpoint below) */
+.where-we-thrive-pricing__card {
+  display: flex;
+  flex-direction: column;
+  box-sizing: border-box;
+  padding: 1.35rem 1.35rem 1.25rem;
+  border: 2px solid rgba(255, 255, 255, 0.7);
+  border-radius: 1.25rem 0 1.25rem 0;
+  background:
+    linear-gradient(
+      155deg,
+      #2c2c2c 0%,
+      #161616 38%,
+      #0a0a0a 72%,
+      #050505 100%
+    );
+  box-shadow:
+    0 22px 48px rgba(0, 0, 0, 0.55),
+    0 8px 18px rgba(0, 0, 0, 0.4),
+    0 1px 0 rgba(255, 255, 255, 0.06) inset;
+  will-change: transform;
+  transition:
+    filter 0.3s ease,
+    opacity 0.3s ease;
+}
+@media (min-width: 900px) {
+  .where-we-thrive-pricing__card {
+    padding: 1.45rem 1.5rem 1.35rem;
+  }
+}
+
+/* Mobile: stacked column, natural height, no hover affordances */
+@media (max-width: 899.98px) {
+  .where-we-thrive-pricing {
+    min-height: 0;
+    overflow: visible;
+  }
+  .where-we-thrive-pricing__sticky {
+    position: relative;
+    top: auto;
+    padding-block: 0;
+    overflow: visible;
+  }
+  .where-we-thrive-pricing__deck {
+    display: flex;
+    flex-direction: column;
+    gap: 2.75rem;
+    height: auto;
+    min-height: 0;
+    padding-top: 1.75rem;
+    overflow: visible;
+  }
+  .where-we-thrive-pricing__card {
+    position: relative;
+    left: auto;
+    top: auto;
+    width: 100%;
+    height: auto;
+    min-height: 0;
+    padding: 2.65rem 1.35rem 1.5rem;
+    overflow: visible;
+    transform: none !important;
+  }
+  .where-we-thrive-pricing__card--center,
+  .where-we-thrive-pricing__card--left,
+  .where-we-thrive-pricing__card--right {
+    z-index: auto;
+    transform: none !important;
+  }
+  .where-we-thrive-pricing__card.is-hovered,
+  .where-we-thrive-pricing__card.is-dimmed {
+    z-index: auto;
+    filter: none !important;
+    opacity: 1 !important;
+  }
+
+  /* Icon halfway over the top border (centred container), final override lives after base icon rules */
+  .where-we-thrive-pricing__icon svg {
+    width: 1.55rem;
+    height: 1.55rem;
+  }
+
+  .where-we-thrive-pricing__body {
+    padding-right: 0;
+    text-align: center;
+    align-items: center;
+  }
+  .where-we-thrive-pricing__title {
+    text-align: center;
+    padding-right: 0;
+    margin-bottom: 1rem;
+    font-size: 1.4rem;
+  }
+  .where-we-thrive-pricing__list {
+    width: 100%;
+  }
+  .where-we-thrive-pricing .where-we-thrive-bullet {
+    align-items: center;
+    text-align: center;
+    gap: 0.15rem;
+  }
+  .where-we-thrive-pricing__card .apx-capability-list__item,
+  .where-we-thrive-pricing__card .apx-capability-list--two-line-rows .apx-capability-list__item {
+    text-align: center;
+    justify-content: center;
+    padding-top: 0.55rem;
+    padding-bottom: 0.55rem;
+    min-height: 0;
+    opacity: 1 !important;
+    transform: none !important;
+  }
+  .where-we-thrive-pricing__cta {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    margin-top: 1.15rem;
+    opacity: 1 !important;
+    transform: none !important;
+  }
+  .where-we-thrive-pricing__cta .pill-btn {
+    margin-inline: auto;
+  }
+
+  /* Subtext always visible on mobile, no hover */
+  .where-we-thrive-pricing .where-we-thrive-bullet__qualifier {
+    max-height: none !important;
+    opacity: 1 !important;
+    overflow: visible;
+    margin-top: 0.1rem;
+  }
+}
+
+/* Desktop: absolute equal cards, stacked then pull apart horizontally */
+@media (min-width: 900px) {
+  .where-we-thrive-pricing__deck {
+    height: 23.5rem;
+  }
+  .where-we-thrive-pricing__card {
+    position: absolute;
+    top: 0;
+    left: 50%;
+    width: calc((100% - 2.5rem) / 3);
+    height: 100%;
+  }
+  .where-we-thrive-pricing__card--center {
+    z-index: 3;
+    transform: translate3d(-50%, 0, 0);
+  }
+  .where-we-thrive-pricing__card--left {
+    z-index: 2;
+    transform: translate3d(
+      calc(-50% - (var(--spread) * (100% + 1.25rem))),
+      0,
+      0
+    );
+  }
+  .where-we-thrive-pricing__card--right {
+    z-index: 1;
+    transform: translate3d(
+      calc(-50% + (var(--spread) * (100% + 1.25rem))),
+      0,
+      0
+    );
+  }
+  .where-we-thrive-pricing__card.is-hovered {
+    z-index: 8;
+  }
+  .where-we-thrive-pricing__card.is-dimmed {
+    filter: blur(4px);
+    opacity: 0.48;
+  }
+}
+
+/* Icon: floats top-right on desktop, out of flow */
+.where-we-thrive-pricing__icon {
+  position: absolute;
+  top: 1.15rem;
+  right: 1.15rem;
+  z-index: 2;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #fff;
+  pointer-events: none;
+  transition: opacity 0.15s linear;
+}
+
+/* Mobile icon must win over the desktop float rules above */
+@media (max-width: 899.98px) {
+  .where-we-thrive-pricing__card > .where-we-thrive-pricing__icon {
+    top: 0 !important;
+    right: auto !important;
+    bottom: auto !important;
+    left: 50% !important;
+    z-index: 5;
+    width: 3.35rem;
+    height: 3.35rem;
+    /* Half above / half below the top border */
+    transform: translate(-50%, -50%) !important;
+    background: #000;
+    border: 2px solid rgba(255, 255, 255, 0.85);
+    border-radius: 0.75rem;
+    opacity: 1 !important;
+  }
+}
+
+.where-we-thrive-pricing__body {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  min-height: 0;
+  width: 100%;
+  text-align: left;
+  padding-right: 0;
+}
+
+.where-we-thrive-pricing__title {
+  margin: 0 0 0.85rem;
+  /* Clear floating icon without narrowing the line items below */
+  padding-right: 3rem;
+  font-size: 1.35rem;
+  font-weight: 600;
+  line-height: 1.25;
+  color: #fff;
+}
+@media (min-width: 900px) {
+  .where-we-thrive-pricing__title {
+    font-size: 1.55rem;
+    min-height: 2.2em;
+  }
+}
+
+.where-we-thrive-pricing__letter {
+  display: inline-block;
+  transition: opacity 0.05s linear;
+}
+
+.where-we-thrive-pricing__list {
+  flex: 1;
+  width: 100%;
+  margin: 0;
+  padding: 0;
+}
+
+.where-we-thrive-pricing__item {
+  will-change: opacity, transform;
+}
+
+.where-we-thrive-pricing__card .apx-capability-list__item,
+.where-we-thrive-pricing__card .apx-capability-list--two-line-rows .apx-capability-list__item {
+  padding-left: 0;
+  padding-right: 0;
+  min-height: 0;
+}
+
+/* Keep primary line items on one line, icon no longer steals width */
+@media (min-width: 900px) {
+  .where-we-thrive-pricing .where-we-thrive-bullet__main {
+    white-space: nowrap;
+  }
+}
+
+/* Subtext hidden until the line item is hovered */
+.where-we-thrive-pricing .where-we-thrive-bullet__qualifier {
+  max-height: 0;
+  margin: 0;
+  overflow: hidden;
+  opacity: 0;
+  transition:
+    opacity 0.22s ease,
+    max-height 0.28s ease;
+}
+.where-we-thrive-pricing__item:hover .where-we-thrive-bullet__qualifier,
+.where-we-thrive-pricing__item:focus-within .where-we-thrive-bullet__qualifier {
+  max-height: 2.5em;
+  opacity: 1;
+}
+
+.where-we-thrive-pricing__cta {
+  display: flex;
+  justify-content: flex-end;
+  margin-top: auto;
+  padding-top: 0.85rem;
+  border-top: 2px solid rgba(255, 255, 255, 0.25);
+  will-change: opacity, transform;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .where-we-thrive-pricing {
+    min-height: 0;
+  }
+  .where-we-thrive-pricing__sticky {
+    position: relative;
+    top: auto;
+  }
+  .where-we-thrive-pricing__letter,
+  .where-we-thrive-pricing__item,
+  .where-we-thrive-pricing__cta {
+    opacity: 1 !important;
+    transform: none !important;
+  }
+  .where-we-thrive-pricing__icon {
+    opacity: 1 !important;
+  }
+}
+
+/* Legacy thrive card hover blur (unused by pricing layout, keep for safety) */
 .where-we-thrive-card {
   transition:
     filter 0.45s ease,
@@ -515,6 +858,14 @@ section#services.home-services-band.section-spacing {
   justify-content: flex-start;
   text-align: left;
   min-height: calc(2 * 1.375em);
+  padding-left: 0;
+  padding-right: 0;
+}
+/* Titles + bullets share the same left edge (no list-item horizontal inset) */
+.where-we-thrive-card .apx-capability-list__item,
+.where-we-thrive-card .apx-capability-list--two-line-rows .apx-capability-list__item {
+  padding-left: 0;
+  padding-right: 0;
 }
 .apx-capability-list--two-line-rows .apx-capability-list__item {
   display: flex;
@@ -546,6 +897,11 @@ section#services.home-services-band.section-spacing {
     padding-left: 0.625rem;
     padding-right: 0.625rem;
   }
+  .where-we-thrive-card .apx-capability-list__item,
+  .where-we-thrive-card .apx-capability-list--two-line-rows .apx-capability-list__item {
+    padding-left: 0;
+    padding-right: 0;
+  }
 }
 @media (min-width: 1024px) {
   .apx-capability-list--two-line-rows .apx-capability-list__item {
@@ -559,37 +915,52 @@ section#services.home-services-band.section-spacing {
   }
 }
 
-/* Homepage major section titles, same scale as About intro (“Built on experience…”), title case */
+/* Homepage major section titles — mobile matches service pages (text-3xl); scales up from sm */
 .home-section-title {
   font-family: var(--font-title, "Outfit", sans-serif);
-  font-size: clamp(2.25rem, 8vw, 4rem);
-  line-height: 1.03;
+  font-size: 1.875rem; /* text-3xl — same as service section titles on mobile */
+  line-height: 1.1;
   letter-spacing: -0.025em;
   font-weight: 700;
   text-transform: none;
 }
 
-/* Mobile only (< sm): match homepage #hero h1 (text-3xl) + .home-section-title for major headings. */
-/* h1: leave large hub titles (text-4xl+) and tiny UI h1s (text-2xl) as-authored. */
-/* h2: skip subheads that use text-2xl on mobile (in-row, FAQ, etc.). Desktop utilities unchanged. */
+@media (min-width: 640px) {
+  .home-section-title {
+    font-size: clamp(2.25rem, 8vw, 4rem);
+    line-height: 1.03;
+  }
+}
+
+/* Mobile only (< sm): one section-title size sitewide = service pages text-3xl (1.875rem). */
+/* Skip small UI subheads (text-xl and below). Home display hero + delivery-methodology stage copy keep their own scale. */
 @media (max-width: 639.98px) {
-  .site-shell
-    main
-    h1.font-title:not([class~="text-2xl"]):not([class~="text-4xl"]):not([class~="text-5xl"]):not([class~="text-6xl"]):not([class~="text-7xl"]) {
-    font-size: 1.875rem !important; /* #hero: text-3xl */
-    line-height: 1.2 !important;
-  }
-  .site-shell main h2.font-title:not([class~="text-2xl"]),
+  .site-shell main h1.font-title:not([class~="text-xl"]):not([class~="text-lg"]):not([class~="text-base"]):not([class~="text-sm"]),
+  .site-shell main h2.font-title:not([class~="text-xl"]):not([class~="text-lg"]):not([class~="text-base"]):not([class~="text-sm"]),
   .site-shell main h2.home-section-title,
-  .site-shell main h3.home-section-title {
-    font-size: clamp(2.25rem, 8vw, 4rem) !important;
-    line-height: 1.03 !important;
+  .site-shell main h3.home-section-title,
+  .site-shell main .about-block h2,
+  .site-shell main #about-intro .about-intro-heading,
+  .site-shell main #fs-service-faq-heading {
+    font-size: 1.875rem !important;
+    line-height: 1.1 !important;
     letter-spacing: -0.025em !important;
   }
-  .site-shell main .about-block h2 {
-    font-size: clamp(2.25rem, 8vw, 4rem) !important;
-    line-height: 1.03 !important;
+
+  .site-shell main #hero h1.font-title {
+    font-size: 2.25rem !important; /* text-4xl display */
+    line-height: 1.02 !important;
+    letter-spacing: 0.025em !important;
+  }
+
+  .site-shell main .dm-journey-content h2.font-title {
+    font-size: 1.5rem !important;
+    line-height: 1.1 !important;
     letter-spacing: -0.025em !important;
+  }
+
+  .site-shell main .fs-inset-cta-card h2.font-title {
+    line-height: 0.95 !important;
   }
 }
 
@@ -605,7 +976,7 @@ section#services.home-services-band.section-spacing {
   margin-top: 1.25rem;
 }
 
-/* Title font: set by TitleFontContext, used for all headings – all caps */
+/* Title font: set by TitleFontContext, used for all headings, all caps */
 .font-title {
   font-family: var(--font-title, "Outfit", sans-serif);
   text-transform: uppercase;
@@ -640,10 +1011,12 @@ section#services.home-services-band.section-spacing {
   }
 }
 
-/* Hero h1: title case so Fire & Security reads clearly; other .font-title in hero stay title case */
+/* Hero h1: stacked all-caps display line */
 #hero h1.font-title {
-  text-transform: none;
+  text-transform: uppercase;
   letter-spacing: 0.04em;
+  line-height: 0.95;
+  font-weight: 800 !important;
 }
 
 #hero .font-title:not(h1) {
@@ -669,12 +1042,59 @@ section h2 {
 }
 
 #hero h1 {
-  font-weight: 700;
+  font-weight: 800;
+  line-height: 1.02;
 }
 #hero p,
 #hero .text-base,
 #hero .text-xs {
   font-weight: 400;
+}
+#hero .hero-subtitle-reveal {
+  font-weight: 700 !important;
+}
+#hero .hero-copy-reveal {
+  font-weight: 500 !important;
+}
+
+/* Homepage hero: services quick nav, text links, header-style pill hover */
+#hero .hero-services-quick-nav__link {
+  display: inline-flex;
+  align-items: center;
+  padding: 0.35rem 0.55rem;
+  border-radius: 9999px;
+  border: none;
+  background: transparent;
+  color: rgba(255, 255, 255, 0.78);
+  font-family: var(--font-menu), sans-serif;
+  font-size: 0.6875rem;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  line-height: 1.25;
+  text-transform: uppercase;
+  text-decoration: none;
+  white-space: nowrap;
+  transition:
+    background-color 0.25s ease,
+    color 0.25s ease;
+}
+#hero .hero-services-quick-nav__link:hover,
+#hero .hero-services-quick-nav__link:focus-visible {
+  background-color: #ffffff !important;
+  color: #000000 !important;
+  outline: none;
+}
+@media (min-width: 640px) {
+  #hero .hero-services-quick-nav__link {
+    font-size: 0.75rem;
+    padding: 0.4rem 0.65rem;
+  }
+}
+@media (min-width: 1280px) {
+  #hero .hero-services-quick-nav__link {
+    font-size: 0.8125rem;
+    padding: 0.4rem 0.7rem;
+  }
 }
 
 /* Service page heroes, match homepage #hero copy treatment */
@@ -694,6 +1114,25 @@ section h2 {
 #hero .text-base,
 #hero .text-xs {
   color: #ffffff !important;
+}
+#hero h1 .hero-title-accent,
+#hero h1 span.bg-white {
+  color: #000000 !important;
+}
+
+#hero h1 .hero-title-accent {
+  /* White slab behind the word, slight pad, not full line-box tall */
+  display: inline-block;
+  line-height: 0.88;
+  padding: 0.02em 0.05em 0.08em 0.12em;
+  margin-left: -0.12em; /* box hangs left; glyphs stay on the title's left edge */
+  vertical-align: baseline;
+  border-top-left-radius: 0.22em;
+  border-bottom-right-radius: 0.22em;
+  background-color: #ffffff !important;
+  color: #000000 !important;
+  box-decoration-break: clone;
+  -webkit-box-decoration-break: clone;
 }
 
 .service-page-hero h1,
@@ -993,7 +1432,7 @@ section h2 {
   }
 }
 
-/* FS: ABOUT intro – full-bleed story band */
+/* FS: ABOUT intro, full-bleed story band */
 #about-intro h2 {
   color: #ffffff !important;
 }
@@ -1045,7 +1484,7 @@ section h2 {
   }
 }
 
-/* FS: APX FS Services – black background, light text */
+/* FS: APX FS Services, black background, light text */
 #services {
   position: relative !important;
   overflow: hidden !important;
@@ -1066,7 +1505,7 @@ section h2 {
 }
 
 /*
- * What we offer — folder tabs (flush on card; top-left radius only):
+ * What we offer, folder tabs (flush on card; top-left radius only):
  * - Do NOT use Tailwind bg-white / text-black here: .bg-white is remapped to theme bg (black).
  * - Spans inside buttons were forced to theme white while button fill was white → invisible text.
  */
@@ -1074,6 +1513,39 @@ section h2 {
   display: flex;
   flex-direction: column;
 }
+
+/* Mobile offer: arrow nav; desktop keeps folder tabs */
+@media (max-width: 767.98px) {
+  #services .fs-what-we-offer .fs-offer-tablist {
+    display: none;
+  }
+}
+
+/* Mobile services arrows: match projects nav size (48px), black fill, white border */
+#services .fs-offer-mobile-nav__btn {
+  width: 3rem !important;
+  height: 3rem !important;
+  background: #000000 !important;
+  background-color: #000000 !important;
+  color: #ffffff !important;
+  border: 1px solid #ffffff !important;
+  border-color: #ffffff !important;
+  box-shadow: none !important;
+}
+#services .fs-offer-mobile-nav__btn:hover,
+#services .fs-offer-mobile-nav__btn:focus-visible {
+  background: #111111 !important;
+  background-color: #111111 !important;
+  color: #ffffff !important;
+  border-color: #ffffff !important;
+}
+#services .fs-offer-mobile-nav__btn svg {
+  width: 1.5rem !important;
+  height: 1.5rem !important;
+  color: #ffffff !important;
+  stroke: #ffffff !important;
+}
+
 #services .fs-what-we-offer button.fs-offer-tab {
   background: transparent !important;
   color: #ffffff !important;
@@ -1139,7 +1611,45 @@ section h2 {
   color: #000000 !important;
 }
 
-/* FS: Service cards – no border; full white text; no black overlay – image visible with black feather bottom */
+/* Homepage services: full service list, step-in + underline grows from left, exits to right */
+#services .fs-offer-all-services__link {
+  position: relative;
+  display: inline-block;
+  max-width: 100%;
+  padding-bottom: 0.2rem;
+  font-size: 0.9375rem;
+  font-weight: 600;
+  line-height: 1.35;
+  color: #ffffff;
+  text-decoration: none;
+  transform: translateX(0);
+  transition: transform 0.35s cubic-bezier(0.22, 1, 0.36, 1), color 0.25s ease;
+}
+#services .fs-offer-all-services__link::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  width: 100%;
+  height: 1.5px;
+  background: currentColor;
+  transform: scaleX(0);
+  transform-origin: 100% 50%;
+  transition: transform 0.35s cubic-bezier(0.22, 1, 0.36, 1);
+}
+#services .fs-offer-all-services__link:hover,
+#services .fs-offer-all-services__link:focus-visible {
+  color: #ffffff;
+  transform: translateX(0.4rem);
+  outline: none;
+}
+#services .fs-offer-all-services__link:hover::after,
+#services .fs-offer-all-services__link:focus-visible::after {
+  transform: scaleX(1);
+  transform-origin: 0 50%;
+}
+
+/* FS: Service cards, no border; full white text; no black overlay, image visible with black feather bottom */
 #services .service-card-unified,
 #services .service-card-unified:hover {
   border: none !important;
@@ -1157,7 +1667,7 @@ section h2 {
   border-left-color: #ffffff !important;
 }
 
-/* FS: No overlay on image – full opacity; blur and glass on hover */
+/* FS: No overlay on image, full opacity; blur and glass on hover */
 #services .service-card-unified-bg {
   background-color: transparent !important;
   opacity: 1 !important;
@@ -1169,7 +1679,7 @@ section h2 {
   filter: blur(8px) !important;
 }
 
-/* FS: Glassmorphic overlay on hover – frosted glass over the image */
+/* FS: Glassmorphic overlay on hover, frosted glass over the image */
 #services .service-card-unified::before {
   content: "" !important;
   position: absolute !important;
@@ -1186,7 +1696,7 @@ section h2 {
   opacity: 1 !important;
 }
 
-/* FS: Black feathered bottom only – so text reads over the image (above glass layer) */
+/* FS: Black feathered bottom only, so text reads over the image (above glass layer) */
 #services .service-card-unified::after {
   content: "" !important;
   position: absolute !important;
@@ -1249,7 +1759,7 @@ section h2 {
   border-left-color: transparent !important;
 }
 
-/* Services cards: path animation – one card at a time, top row first */
+/* Services cards: path animation, one card at a time, top row first */
 @keyframes service-in-left {
   from {
     opacity: 0;
@@ -1299,7 +1809,7 @@ section h2 {
 #services .services-cards-animate.services-cards-visible .service-card-in:nth-child(4) { animation-delay: 0.9s; }
 #services .services-cards-animate.services-cards-visible .service-card-in:nth-child(5) { animation-delay: 1.2s; }
 
-/* ========== FS: Light theme for all sections below hero – black text, light backgrounds ========== */
+/* ========== FS: Light theme for all sections below hero, black text, light backgrounds ========== */
 html:not(.dark) #services-drawer,
 html:not(.dark) #about {
   background-color: #ffffff !important;
@@ -1311,7 +1821,7 @@ html.dark #about {
   background-color: #000000 !important;
 }
 
-/* Homepage accreditations — viewport-fixed photo clipped to section band */
+/* Homepage accreditations, viewport-fixed photo clipped to section band */
 .home-accreditations-section {
   position: relative;
   min-height: min(52vh, 36rem);
@@ -1406,7 +1916,7 @@ html:not(.dark) .services-drawer-left::after {
 html:not(.dark) .services-drawer-list-item::before {
   background: rgba(0, 0, 0, 0.2) !important;
 }
-/* News and Articles – layout and spacing only (id="why-mep" for nav) */
+/* News and Articles, layout and spacing only (id="why-mep" for nav) */
 .news-section {
   background: #000;
   padding: 7.25rem 0 16rem;
@@ -1417,9 +1927,6 @@ html:not(.dark) .services-drawer-list-item::before {
   }
 }
 /* .news-section uses .site-container for horizontal rhythm */
-.news-section__header {
-  margin-bottom: 8rem;
-}
 .news-section__label {
   display: block;
   font-size: 0.75rem;
@@ -1439,25 +1946,53 @@ html:not(.dark) .services-drawer-list-item::before {
   letter-spacing: -0.025em;
   text-transform: none;
 }
+/* Mobile: title → image → list. Desktop: image left, title+list right. */
 .news-section__grid {
-  display: grid;
-  grid-template-columns: 1fr;
-  gap: 3rem;
-  align-items: start;
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
 }
-@media (min-width: 1024px) {
-  .news-section__grid {
-    grid-template-columns: minmax(0, 1.35fr) minmax(0, 1fr);
-    gap: 3.5rem;
-    align-items: center;
-  }
+.news-section__header {
+  order: 1;
+  margin-bottom: 0;
 }
 .news-section__media {
+  order: 2;
   width: 100%;
   min-width: 0;
 }
 .news-section__copy {
+  order: 3;
   min-width: 0;
+}
+@media (min-width: 1024px) {
+  .news-section__grid {
+    display: grid;
+    grid-template-columns: minmax(0, 1.35fr) minmax(0, 1fr);
+    grid-template-areas:
+      "media header"
+      "media copy";
+    column-gap: 3.5rem;
+    row-gap: 0;
+    align-items: center;
+  }
+  .news-section__header,
+  .news-section__media,
+  .news-section__copy {
+    order: unset;
+  }
+  .news-section__media {
+    grid-area: media;
+  }
+  .news-section__header {
+    grid-area: header;
+    margin-bottom: 3rem;
+    align-self: end;
+  }
+  .news-section__copy {
+    grid-area: copy;
+    align-self: start;
+  }
 }
 .news-section__list {
   list-style: none;
@@ -1503,12 +2038,12 @@ html:not(.dark) .services-drawer-list-item::before {
   aspect-ratio: 16 / 10;
   border-radius: 0.75rem;
   background-size: cover;
-  background-position: center;
+  background-position: center center;
   border: 2px solid rgba(255, 255, 255, 0.15);
 }
 @media (min-width: 1024px) {
   .news-section__image {
-    aspect-ratio: 16 / 9;
+    aspect-ratio: 3 / 2;
   }
 }
 .news-section__footer {
@@ -1531,7 +2066,7 @@ html:not(.dark) .services-drawer-list-item::before {
 .news-section__view-all:hover {
   opacity: 0.65;
 }
-/* News hub & article pages – tabloid cards on white */
+/* News hub & article pages, tabloid cards on white */
 .news-page .section-label,
 .news-article-page .section-label {
   color: rgba(0, 0, 0, 0.55) !important;
@@ -1731,8 +2266,8 @@ html:not(.dark) .news-article-page {
 }
 @media (min-width: 1024px) {
   .news-article-page__hero {
-    min-height: clamp(32rem, 42vw, 40rem);
-    aspect-ratio: 4 / 3;
+    min-height: 0;
+    aspect-ratio: 16 / 10;
   }
 }
 
@@ -1755,10 +2290,10 @@ html:not(.dark) .news-article-page {
   }
 }
 
-/* News hub — featured “Latest” card: taller container + image column matches text column */
+/* News hub, featured “Latest” card: image column matches text without over-cropping */
 @media (min-width: 768px) {
   .news-card--featured {
-    min-height: clamp(24rem, 34vw, 32rem);
+    min-height: clamp(18rem, 26vw, 24rem);
   }
   .news-card--featured .news-card__media {
     aspect-ratio: auto;
@@ -1766,7 +2301,7 @@ html:not(.dark) .news-article-page {
     min-height: 100%;
   }
 }
-/* Left list: one top divider (line 1), then each item has bottom divider (lines 2–7); active item’s bottom = buffer bar */
+/* Left list: one top divider (line 1), then each item has bottom divider (lines 2-7); active item’s bottom = buffer bar */
 /* About (Why Choose Us): light section; benefit cards are always black with white text */
 html:not(.dark) #about h2,
 html:not(.dark) #about .text-gray-300 {
@@ -1776,7 +2311,12 @@ html:not(.dark) #about .text-gray-300 {
 #about .why-choose-us-copy .section-label,
 #about .why-choose-us-copy h2,
 #about .why-choose-us-copy h2 span,
-#about .why-choose-us-copy p {
+#about .why-choose-us-copy p,
+#about .why-choose-us-copy p span,
+#about .why-choose-us-copy .line-reveal,
+#about .why-choose-us-copy .line-reveal span,
+#about .why-choose-us-copy .letter-reveal,
+#about .why-choose-us-copy .letter-reveal span {
   color: #000000 !important;
 }
 #about .section-label {
@@ -1904,19 +2444,77 @@ html:not(.dark) #about .why-choose-icon-badge svg {
   filter: none !important;
 }
 #about .google-reviews-card__btn {
-  background: #1a73e8 !important;
+  position: relative;
+  overflow: hidden;
+  background-color: #1a73e8 !important;
+  background-image: linear-gradient(
+    115deg,
+    #4285f4 0%,
+    #ea4335 25%,
+    #fbbc05 50%,
+    #34a853 75%,
+    #4285f4 100%
+  ) !important;
+  background-size: 280% 280% !important;
+  background-position: 0% 50% !important;
   color: #ffffff !important;
   border: none !important;
   box-shadow: 0 1px 2px rgba(26, 115, 232, 0.35);
+  /* Solid blue by default: cover the gradient until hover */
+  background-blend-mode: normal;
+  transition:
+    transform 0.2s ease,
+    box-shadow 0.25s ease,
+    background-position 0.35s ease;
 }
-#about .google-reviews-card__btn:hover {
-  background: #1765cc !important;
+#about .google-reviews-card__btn::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  background: #1a73e8;
+  transition: opacity 0.28s ease;
+  pointer-events: none;
+  z-index: 0;
+}
+#about .google-reviews-card__btn > .google-reviews-card__btn-label {
+  position: relative;
+  z-index: 1;
+}
+#about .google-reviews-card__btn:hover,
+#about .google-reviews-card__btn:focus-visible {
   color: #ffffff !important;
-  box-shadow: 0 2px 8px rgba(26, 115, 232, 0.38);
+  transform: translateY(-1px);
+  box-shadow:
+    0 4px 14px rgba(66, 133, 244, 0.35),
+    0 2px 8px rgba(234, 67, 53, 0.22);
+  animation: google-btn-colour-dance 2.2s linear infinite;
+}
+#about .google-reviews-card__btn:hover::after,
+#about .google-reviews-card__btn:focus-visible::after {
+  opacity: 0;
 }
 #about .google-reviews-card__btn:focus-visible {
-  outline: 2px solid #1a73e8;
+  outline: 2px solid #4285f4;
   outline-offset: 2px;
+}
+@keyframes google-btn-colour-dance {
+  0% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0% 50%;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  #about .google-reviews-card__btn:hover,
+  #about .google-reviews-card__btn:focus-visible {
+    animation: none;
+    background-position: 40% 50% !important;
+  }
 }
 
 /* Light theme: other .service-card in #about (if any) stay light */
@@ -1936,7 +2534,7 @@ html:not(.dark) #about .service-card svg {
 #about .stats-card {
   background: transparent !important;
 }
-/* Stats: always black text (numbers + labels) – body uses --foreground (white), so force black every way */
+/* Stats: always black text (numbers + labels), body uses --foreground (white), so force black every way */
 #about .stats-card .stats-card-number,
 #about .stats-card .stats-card-label,
 html.dark #about .stats-card .stats-card-number,
@@ -2047,7 +2645,7 @@ html.dark #about .stats-card .stats-card-label {
   fill: #000000 !important;
 }
 
-/* FS capability detail pages – title + intro in outer shell; three-column table in inner shell (CapabilityServicePageLayout) */
+/* FS capability detail pages, title + intro in outer shell; three-column table in inner shell (CapabilityServicePageLayout) */
 .fs-capability-page {
   min-height: 100vh;
   background: #000000;
@@ -2070,7 +2668,7 @@ html.dark #about .stats-card .stats-card-label {
   flex-wrap: wrap;
   justify-content: flex-start;
   align-items: center;
-  gap: 0.35rem 0.5rem;
+  gap: 0.5rem 0.75rem;
   padding: 0.55rem 0.75rem 0.6rem;
   border-bottom: 1px solid rgba(255, 255, 255, 0.14);
   box-sizing: border-box;
@@ -2084,6 +2682,14 @@ html.dark #about .stats-card .stats-card-label {
   .fs-capability-tabs-row {
     padding: 0.85rem 1.35rem 0.9rem;
   }
+}
+.fs-capability-tab-sep {
+  display: inline-flex;
+  align-items: center;
+  padding-inline: 0.15rem;
+  font-size: 0.75rem;
+  line-height: 1;
+  flex-shrink: 0;
 }
 /* Pills: full white fill + black text on hover; active = same as hover at rest */
 .fs-capability-tab-link {
@@ -2273,69 +2879,9 @@ html:not(.dark) body:has(.service-page-root) {
   color: #404040 !important;
 }
 
-/* Service text+image sections — diagonal cant on the edge toward the text column (lg+) */
+/* Service text+image sections, inset rounded image inside the section band */
 .service-page-root {
   --fs-header-border-width: 2px;
-}
-
-.fs-service-text-image-mask {
-  clip-path: none;
-}
-
-.fs-service-text-image-mask--image-left {
-  clip-path: none;
-}
-
-@media (min-width: 1024px) {
-  .fs-service-text-image-mask {
-    clip-path: polygon(var(--fs-service-cant-inset, 14%) 0, 100% 0, 100% 100%, 0% 100%);
-  }
-
-  .fs-service-text-image-mask--image-left {
-    clip-path: polygon(0 0, calc(100% - var(--fs-service-cant-inset, 14%)) 0, 100% 100%, 0 100%);
-  }
-}
-
-/* White stroke on the canted edge only — thickness matches header-bar-expand (border-2) */
-.fs-service-text-image-cant-border {
-  display: none;
-  position: absolute;
-  inset: 0;
-  z-index: 3;
-  width: 100%;
-  height: 100%;
-  pointer-events: none;
-}
-
-@media (min-width: 1024px) {
-  .fs-service-text-image-cant-border {
-    display: block;
-  }
-}
-
-.fs-service-text-image-cant-border line {
-  stroke: #ffffff;
-  stroke-width: var(--fs-header-border-width, 2px);
-  vector-effect: non-scaling-stroke;
-}
-
-.fs-service-text-image-section--light .fs-service-text-image-cant-border line {
-  stroke: #000000;
-}
-
-/* Mobile: image column breaks out of container padding to full viewport width */
-@media (max-width: 1023px) {
-  .fs-service-text-image-mobile-bleed {
-    width: 100vw;
-    max-width: 100vw;
-    margin-left: calc(50% - 50vw);
-    margin-right: calc(50% - 50vw);
-  }
-
-  .fs-service-text-image-mobile-bleed > .relative {
-    min-height: 0;
-    aspect-ratio: 16 / 10;
-  }
 }
 
 .service-page-root .fs-service-text-image-section--dark ::selection,
@@ -2937,7 +3483,7 @@ html:not(.dark) #contact #quote-form input[type="radio"]:checked {
 #contact #quote-form .form-submit-btn:not(.pill-btn):hover:not(:disabled) {
   background-color: #1a1a1a !important;
 }
-/* Fallback: quote form outside contact (e.g. other pages, light theme) – #contact #quote-form overrides when present */
+/* Fallback: quote form outside contact (e.g. other pages, light theme), #contact #quote-form overrides when present */
 html:not(.dark) #quote-form {
   background-color: #ffffff !important;
   border: 1px solid rgba(0, 0, 0, 0.2) !important;
@@ -2974,7 +3520,7 @@ html:not(.dark) #quote-form .form-submit-btn.pill-btn:hover:not(:disabled) {
   border-color: #000000 !important;
 }
 
-/* Form submit button – APX branding (black, white border/text) + progress circle + check */
+/* Form submit button, APX branding (black, white border/text) + progress circle + check */
 #quote-form .form-submit-btn,
 .form-submit-btn {
   position: relative;
@@ -3111,7 +3657,7 @@ html:not(.dark) #quote-form .form-submit-btn.pill-btn .pill-btn-border {
   }
 }
 
-/* Canted section edges – fixed depth (vh) so angle is identical for every section and seams meet */
+/* Canted section edges, fixed depth (vh) so angle is identical for every section and seams meet */
 :root {
   --cant-depth: 6vh;
 }
@@ -3185,12 +3731,12 @@ html:not(.dark) #quote-form .form-submit-btn.pill-btn .pill-btn-border {
   }
 }
 
-/* Light mode: no black band – transparent so gap matches page background */
+/* Light mode: no black band, transparent so gap matches page background */
 html:not(.dark) .section-divider {
   background-color: transparent !important;
 }
 
-/* ========== About page – parallax, angled blocks, horizontal scroll ========== */
+/* ========== About page, parallax, angled blocks, horizontal scroll ========== */
 html.about-page-active {
   /* snap disabled: it interfered with scroll-driven parallax + continuous scroll events */
   scroll-snap-type: none;
@@ -3211,7 +3757,7 @@ html.about-page-active {
   background-color: #fff;
   color: #000;
 }
-/* Angled / spliced sides – clip-path */
+/* Angled / spliced sides, clip-path */
 .about-block--angle-bottom {
   clip-path: polygon(0 0, 100% 0, 100% 92%, 0 100%);
 }
@@ -3248,7 +3794,7 @@ html.about-page-active {
   position: absolute;
   inset: 0;
 }
-/* Mount / scroll reveal — rise into place; see components/Reveal.tsx */
+/* Mount / scroll reveal, rise into place; see components/Reveal.tsx */
 .about-reveal {
   opacity: 0;
   transform: translate3d(0, var(--scroll-rise-offset), 0);
@@ -3260,7 +3806,7 @@ html.about-page-active {
   opacity: 1;
   transform: translate3d(0, 0, 0);
 }
-/* Homepage scroll sections — same motion as Reveal */
+/* Homepage scroll sections, same motion as Reveal */
 .home-scroll-rise {
   transition:
     transform var(--scroll-rise-transform-duration) var(--scroll-rise-ease),
@@ -3274,6 +3820,169 @@ html.about-page-active {
     transition-delay: 0ms !important;
   }
 }
+
+/* Title letter reveal (desktop) */
+.letter-reveal--split {
+  display: block;
+}
+.letter-reveal__char {
+  display: inline-block;
+  opacity: 0;
+  transform: translate3d(0, 0.35em, 0);
+  transition:
+    opacity 0.45s ease-out,
+    transform 0.55s cubic-bezier(0.22, 1, 0.36, 1);
+  transition-delay: 0ms;
+}
+.letter-reveal__char--in {
+  opacity: 1;
+  transform: translate3d(0, 0, 0);
+  transition-delay: var(--letter-delay, 0ms);
+}
+@media (prefers-reduced-motion: reduce) {
+  .letter-reveal__char {
+    opacity: 1;
+    transform: none;
+    transition: none;
+  }
+}
+
+/* Paragraph line reveal (desktop) */
+.line-reveal {
+  position: relative;
+}
+.line-reveal__measure {
+  visibility: hidden;
+  white-space: normal;
+}
+.line-reveal__line {
+  opacity: 0;
+  transform: translate3d(0, 0.75em, 0);
+  transition:
+    opacity 0.5s ease-out,
+    transform 0.6s cubic-bezier(0.22, 1, 0.36, 1);
+  transition-delay: 0ms;
+}
+.line-reveal__line--in {
+  opacity: 1;
+  transform: translate3d(0, 0, 0);
+  transition-delay: var(--line-delay, 0ms);
+}
+@media (prefers-reduced-motion: reduce) {
+  .line-reveal__line {
+    opacity: 1;
+    transform: none;
+    transition: none;
+  }
+}
+
+/* Hero quick-nav: sequential pill reveal */
+.hero-services-quick-nav__item {
+  opacity: 0;
+  transform: translate3d(0, 0.6rem, 0);
+  transition:
+    opacity 0.45s ease-out,
+    transform 0.55s cubic-bezier(0.22, 1, 0.36, 1);
+  transition-delay: 0ms;
+}
+.hero-services-quick-nav__item--in {
+  opacity: 1;
+  transform: translate3d(0, 0, 0);
+  transition-delay: var(--nav-delay, 0ms);
+}
+@media (prefers-reduced-motion: reduce) {
+  .hero-services-quick-nav__item {
+    opacity: 1;
+    transform: none;
+    transition: none;
+  }
+}
+
+/* Homepage services offer: scroll/time choreography */
+.fs-offer-seq__title,
+.fs-offer-seq__para,
+.fs-offer-seq__link,
+.fs-offer-seq__tab,
+.fs-offer-seq__panel {
+  opacity: 0;
+  transform: translate3d(0, 1rem, 0);
+  transition:
+    opacity 0.45s ease-out,
+    transform 0.55s cubic-bezier(0.22, 1, 0.36, 1);
+}
+.fs-offer-seq__title.is-in,
+.fs-offer-seq__para.is-in,
+.fs-offer-seq__link.is-in,
+.fs-offer-seq__tab.is-in,
+.fs-offer-seq__panel.is-in {
+  opacity: 1;
+  transform: translate3d(0, 0, 0);
+}
+
+/* Tabs rise from behind the panel (desktop) — must beat base tab `transition/transform !important` */
+@media (min-width: 768px) {
+  #services .fs-what-we-offer .fs-offer-folder {
+    position: relative;
+    overflow: visible;
+  }
+  #services .fs-what-we-offer .fs-offer-tablist {
+    position: relative;
+    z-index: 1;
+    margin-bottom: -2px;
+    /* Clip the rising tabs so they emerge from under the card top */
+    overflow: visible;
+  }
+  #services .fs-what-we-offer .fs-offer-panel {
+    position: relative;
+    z-index: 3;
+  }
+  #services .fs-what-we-offer button.fs-offer-tab.fs-offer-seq__tab {
+    position: relative;
+    z-index: 1;
+    transition:
+      opacity 0.55s ease-out,
+      transform 0.65s cubic-bezier(0.22, 1, 0.36, 1),
+      background-color 0.28s ease,
+      color 0.28s ease,
+      border-color 0.28s ease !important;
+    transition-delay: var(--tab-delay, 0ms) !important;
+  }
+  #services .fs-what-we-offer button.fs-offer-tab.fs-offer-seq__tab:not(.is-in) {
+    transform: translate3d(0, 100%, 0) !important;
+    opacity: 0 !important;
+    pointer-events: none;
+  }
+  #services .fs-what-we-offer button.fs-offer-tab.fs-offer-seq__tab.is-in {
+    transform: translate3d(0, 0, 0) !important;
+    opacity: 1 !important;
+    pointer-events: auto;
+  }
+  /* Active tab also rises — don't lock transform until revealed */
+  #services .fs-what-we-offer button.fs-offer-tab.fs-offer-seq__tab.fs-offer-tab--active:not(.is-in) {
+    transform: translate3d(0, 100%, 0) !important;
+    z-index: 1;
+  }
+  #services .fs-what-we-offer button.fs-offer-tab.fs-offer-seq__tab.fs-offer-tab--active.is-in {
+    transform: translate3d(0, 0, 0) !important;
+    z-index: 4;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .fs-offer-seq__title,
+  .fs-offer-seq__para,
+  .fs-offer-seq__link,
+  .fs-offer-seq__tab,
+  .fs-offer-seq__panel,
+  #services .fs-what-we-offer button.fs-offer-tab.fs-offer-seq__tab:not(.is-in),
+  #services .fs-what-we-offer button.fs-offer-tab.fs-offer-seq__tab.fs-offer-tab--active:not(.is-in) {
+    opacity: 1 !important;
+    transform: none !important;
+    transition: none !important;
+    pointer-events: auto !important;
+  }
+}
+
 /* Horizontal scroll strip */
 .about-horizontal-scroll {
   width: 100%;
@@ -3312,7 +4021,7 @@ html.about-page-active {
   border-radius: 0.75rem;
 }
 
-/* About page – shared horizontal padding + vertical rhythm (FS + MEP) */
+/* About page, shared horizontal padding + vertical rhythm (FS + MEP) */
 .about-page-shell {
   --about-px: clamp(1.25rem, 3vw, 2.35rem);
 }
@@ -3384,7 +4093,7 @@ html.about-page-active {
   padding-right: var(--about-px);
 }
 
-/* ========== Logo marquee (under services) – APX B&W ========== */
+/* ========== Logo marquee (under services), APX B&W ========== */
 .logo-marquee-section {
   --marquee-size: clamp(6rem, 8vw, 10rem);
   --marquee-gap: clamp(1.5rem, 3vw, 2.5rem);
@@ -3502,7 +4211,7 @@ html.about-page-active {
   pointer-events: none;
 }
 
-/* ========== Projects section – white band, dark header copy (cards unchanged) ========== */
+/* ========== Projects section, white band, dark header copy (cards unchanged) ========== */
 #projects.projects-section,
 #projects.projects-section .projects-section__sticky {
   background-color: #ffffff !important;
@@ -3515,7 +4224,7 @@ html.about-page-active {
   color: #000000 !important;
 }
 
-/* ========== Projects section – 3 cards in view, feathered glass ========== */
+/* ========== Projects section, 3 cards in view, feathered glass ========== */
 #projects .projects-card {
   width: min(420px, calc((100vw - 3rem - 3rem) / 3));
   min-width: min(320px, 85vw);
@@ -3537,7 +4246,7 @@ html.about-page-active {
   /* Very slight inner glow on card edge for beveled look */
   box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.08);
 }
-/* Project card number (01, 02, …) – same font as section titles (Outfit) */
+/* Project card number (01, 02, …), same font as section titles (Outfit) */
 #projects .projects-card-number {
   font-family: var(--font-title, "Outfit", sans-serif) !important;
 }
@@ -3600,7 +4309,7 @@ html.about-page-active {
   -webkit-mask-repeat: no-repeat;
 }
 
-/* Blurred image layer – same image as card, so “glass displacement” is always visible */
+/* Blurred image layer, same image as card, so “glass displacement” is always visible */
 #projects .projects-card-glass-blur {
   position: absolute;
   inset: 0;
@@ -3739,7 +4448,7 @@ body {
   overflow-x: hidden;
 }
 
-/* FS: Light theme – body and sections use light background, black text */
+/* FS: Light theme, body and sections use light background, black text */
 html:not(.dark) body {
   background: #ffffff !important;
   background-attachment: fixed;
@@ -3944,7 +4653,7 @@ html.cursor-invert.curzr-big-circle-active .apx-cursor-big-circle__dot {
   pointer-events: none;
   z-index: 1;
 }
-/* FS: Footer – one wrapper: rounded top, border top + sides (no bottom), logo on top */
+/* FS: Footer, one wrapper: rounded top, border top + sides (no bottom), logo on top */
 footer.footer-expand-wrapper {
   position: relative;
   background-color: #000000 !important;
@@ -3999,7 +4708,7 @@ footer a.footer-level-credit:hover {
   z-index: 2;
 }
 
-/* Footer expand: collapse/expand on hover – start behind the bar (negative margin), so bar’s rounded top shows */
+/* Footer expand: collapse/expand on hover, start behind the bar (negative margin), so bar’s rounded top shows */
 .footer-expand {
   max-height: 0;
   overflow: hidden;
@@ -4017,6 +4726,39 @@ footer a.footer-level-credit:hover {
 }
 .footer-chevron {
   transition: transform 0.3s ease;
+}
+
+/*
+ * Touch / narrow screens: footer stays open in document flow.
+ * Important: do not use overflow:visible with max-height:0 — that paints
+ * footer links over page content without taking layout space.
+ */
+@media (hover: none), (max-width: 767.98px) {
+  .footer-expand {
+    max-height: none !important;
+    overflow: hidden !important;
+    transition: none;
+  }
+  .footer-hint {
+    display: none;
+  }
+  /* Shorter top ramp — always-open footer sits closer to last section */
+  .footer-outer-wrapper::before {
+    top: calc(-1 * clamp(1.75rem, 5vw, 2.75rem));
+    height: clamp(1.75rem, 5vw, 2.75rem);
+  }
+}
+
+/* Mobile-only: left-align service labels inside the two-column grid */
+@media (max-width: 639.98px) {
+  .footer-services-list > li {
+    display: flex;
+    justify-content: flex-start;
+  }
+
+  .footer-services-list > li > a {
+    text-align: left;
+  }
 }
 
 /* Footer contact links cursor fix - pointer when using image cursor */
@@ -4264,7 +5006,7 @@ html {
       animation-fill-mode: none;
     }
 
-    /* Stats cards – fade-in-up, staggered */
+    /* Stats cards, fade-in-up, staggered */
     @keyframes stats-in {
       from {
         opacity: 0;
@@ -4825,7 +5567,7 @@ html {
     .services-drawer-panel--open .services-drawer-card-bg {
       opacity: 0.75;
     }
-    /* Bullets: bottom left, bigger – fixed visibility and no transition so list never shifts */
+    /* Bullets: bottom left, bigger, fixed visibility and no transition so list never shifts */
     .services-drawer-card .services-drawer-bullets,
     .services-drawer-card ul.service-card-unified-list.services-drawer-bullets {
       transition: none !important;
@@ -4853,13 +5595,13 @@ html {
       max-height: 240px;
       visibility: visible;
     }
-    /* Drawer: no hover grow on image – image fills mask by default only */
+    /* Drawer: no hover grow on image, image fills mask by default only */
     .services-drawer-card:hover .services-drawer-card-bg,
     .services-drawer-card:hover .service-card-unified-bg {
       transform: none;
       opacity: 0.75;
     }
-    /* Drawer: no hover effects on bullet points – no transition so they don’t shift */
+    /* Drawer: no hover effects on bullet points, no transition so they don’t shift */
     .services-drawer-card .services-drawer-bullets li,
     .services-drawer-card .service-card-unified-list li {
       transition: none;
@@ -4976,7 +5718,7 @@ html {
         font-weight: 700 !important;
     }
 
-    /* Header pill: Switch to APX – white container, border, text and icon */
+    /* Header pill: Switch to APX, white container, border, text and icon */
     .header-pill a[href*="apx-fs"] {
         color: #ffffff !important;
     }
@@ -5275,7 +6017,7 @@ html {
   background-color: #000000 !important;
 }
 
-/* Cookie banner: pill buttons – black fill by default, white fill on hover only */
+/* Cookie banner: pill buttons, black fill by default, white fill on hover only */
 .cookie-banner .pill-btn,
 .cookie-banner .cookie-banner-pill {
   background-color: #000000 !important;
@@ -5287,7 +6029,7 @@ html {
   color: #000000 !important;
 }
 
-/* Cookie banner: no highlight – same as body text, no underline, no background ever */
+/* Cookie banner: no highlight, same as body text, no underline, no background ever */
 .cookie-banner .cookie-banner-text-link,
 .cookie-banner .cookie-banner-text-link:hover,
 .cookie-banner .cookie-banner-text-link:focus,
@@ -5301,10 +6043,10 @@ html {
     box-shadow: none !important;
 }
 
-/* Header contact tab – hover pill via ::before so it can’t be overridden */
+/* Header contact tab, hover pill via ::before so it can’t be overridden */
 /* Dark mode: tab bg black → content white; hover: faded white pill, text + icon black */
-/* Header bottom border – theme-aware, thick enough to see */
-/* Header: transparent – only bar, pill, contact tab have fill */
+/* Header bottom border, theme-aware, thick enough to see */
+/* Header: transparent, only bar, pill, contact tab have fill */
 header {
   background: transparent !important;
   background-color: transparent !important;
@@ -5364,7 +6106,7 @@ header nav .dropdown-item:hover {
   opacity: 1 !important;
 }
 
-/* CCTV +/- in services dropdown — override global white button fill from ThemeToggle */
+/* CCTV +/- in services dropdown, override global white button fill from ThemeToggle */
 header nav .fs-services-cctv-toggle-btn {
   background: transparent !important;
   background-color: transparent !important;
@@ -5379,10 +6121,10 @@ header nav .fs-services-cctv-toggle-btn svg {
   stroke: #ffffff !important;
 }
 
-/* Desktop Services dropdown — 2px border matches header-bar-expand */
+/* Desktop Services dropdown, 2px border matches header-bar-expand */
 .site-header {
   --fs-header-border-width: 2px;
-  --fs-services-dropdown-width: 16.53125rem;
+  --fs-services-dropdown-width: 28rem;
   --fs-services-dropdown-inset-x: -2.03125rem;
   --fs-services-dropdown-offset-y: 1.2rem;
 }
@@ -5394,7 +6136,9 @@ header nav .fs-services-cctv-toggle-btn svg {
     top: calc(100% + var(--fs-services-dropdown-offset-y));
     left: var(--fs-services-dropdown-inset-x);
     width: var(--fs-services-dropdown-width);
-    overflow: hidden;
+    overflow-x: hidden;
+    overflow-y: auto;
+    overscroll-behavior: contain;
     border-radius: 0 0 1rem 0;
     background-color: #000;
     transition: max-height 0.5s cubic-bezier(0.4, 0, 0.2, 1);
@@ -5406,7 +6150,7 @@ header nav .fs-services-cctv-toggle-btn svg {
   }
 
   .fs-services-nav-dropdown > .divide-y {
-    overflow: hidden;
+    overflow: visible;
     border-radius: 0 0 1rem 0;
     background-color: #000;
   }
@@ -5414,9 +6158,13 @@ header nav .fs-services-cctv-toggle-btn svg {
   .fs-services-nav-dropdown .dropdown-item {
     overflow: hidden;
     background-color: #000;
+    text-transform: none;
+    font-size: 0.875rem;
+    line-height: 1.45;
+    white-space: normal;
   }
 
-  /* Hover rules only on top edge inside dropdown — bottom lines were bleeding past the panel */
+  /* Hover rules only on top edge inside dropdown, bottom lines were bleeding past the panel */
   .fs-services-nav-dropdown .dropdown-item > span.absolute.bottom-0 {
     display: none;
   }
@@ -5524,7 +6272,7 @@ header nav .fs-services-cctv-toggle-btn svg {
     stroke: #ffffff;
 }
 
-/* ========== Why MEP Services – CodePen demo exact (expandable cards grid) ========== */
+/* ========== Why MEP Services, CodePen demo exact (expandable cards grid) ========== */
 .mep-cards-section {
   --gap: 8px;
   --base: clamp(2rem, 8cqi, 80px);
@@ -5599,7 +6347,7 @@ html:not(.dark) .mep-cards-section .mep-cards-grid li {
   cursor: pointer;
 }
 
-/* Edge glow on cards – theme-aware (white in dark mode, dark in light mode) */
+/* Edge glow on cards, theme-aware (white in dark mode, dark in light mode) */
 .mep-cards-grid li .mep-card-glow {
   position: absolute;
   inset: -1px;
@@ -5621,7 +6369,7 @@ html:not(.dark) .mep-cards-section .mep-cards-grid li {
   opacity: 0.7;
 }
 
-/* Shimmer across card – theme-aware (white tint in dark, dark tint in light) */
+/* Shimmer across card, theme-aware (white tint in dark, dark tint in light) */
 .mep-cards-grid li::after {
   content: "";
   position: absolute;
@@ -5719,7 +6467,7 @@ html:not(.dark) .mep-cards-section .mep-cards-grid li {
   transition: width var(--speed) var(--easing);
 }
 
-/* Title wrapper: only for horizontal (expanded) title – white border, rounded top-left & bottom-right, black background */
+/* Title wrapper: only for horizontal (expanded) title, white border, rounded top-left & bottom-right, black background */
 .mep-cards-grid article .mep-card-title-wrap {
   position: absolute;
   top: 2rem;
@@ -5748,7 +6496,7 @@ html:not(.dark) .mep-cards-section .mep-cards-grid li {
   font-weight: 700 !important;
 }
 
-/* Vertical title: no wrapper when collapsed, just rotated text – Erbaum bold */
+/* Vertical title: no wrapper when collapsed, just rotated text, Erbaum bold */
 .mep-cards-grid article .mep-title-vertical {
   position: absolute;
   top: 2rem;
@@ -5769,7 +6517,7 @@ html:not(.dark) .mep-cards-section .mep-cards-grid li {
   pointer-events: none;
 }
 
-/* Horizontal title: inside wrapper, visible when expanded only – Erbaum bold */
+/* Horizontal title: inside wrapper, visible when expanded only, Erbaum bold */
 .mep-cards-grid article .mep-title-horizontal {
   font-size: 1.125rem;
   font-weight: 700 !important;
@@ -5828,6 +6576,12 @@ html:not(.dark) .mep-cards-section .mep-cards-grid li {
   background: #000000;
   min-height: 100vh;
 }
+.dm-page .font-title,
+.dm-page h1,
+.dm-page h2,
+.dm-page h3 {
+  text-transform: none;
+}
 .dm-page .page-title-band {
   padding-bottom: 2.5rem;
 }
@@ -5846,59 +6600,56 @@ html:not(.dark) body:has(.dm-page) {
   background-color: #000000 !important;
 }
 
-/* Exit: 1) title fades, 2) then copy + items fade (stagger). Sync MS_OUT in DeliveryMethodologyJourney.tsx */
+/* Delivery methodology journey transitions, keep MS_OUT / MS_IN in sync */
 .dm-journey-content[data-phase="exiting"] h2 {
   opacity: 0;
-  transform: translateY(-0.2rem);
+  transform: translateY(-0.35rem);
   transition:
-    opacity 0.19s cubic-bezier(0.45, 0, 0.2, 1),
-    transform 0.19s cubic-bezier(0.45, 0, 0.2, 1);
-  transition-delay: 0ms;
+    opacity 0.12s ease,
+    transform 0.12s ease;
 }
 .dm-journey-content[data-phase="exiting"] .dm-journey-copy,
 .dm-journey-content[data-phase="exiting"] .dm-journey-key-label,
 .dm-journey-content[data-phase="exiting"] .dm-journey-item {
   opacity: 0;
-  transform: translateY(0.45rem);
+  transform: translateY(-0.3rem);
   transition:
-    opacity 0.13s cubic-bezier(0.45, 0, 0.55, 1),
-    transform 0.13s cubic-bezier(0.45, 0, 0.55, 1);
+    opacity 0.1s ease,
+    transform 0.1s ease;
 }
-/* Copy begins after title (≈0.18s), then key label, then items cascade */
 .dm-journey-content[data-phase="exiting"] .dm-journey-copy:nth-child(1) {
-  transition-delay: 0.18s;
+  transition-delay: 0.02s;
 }
 .dm-journey-content[data-phase="exiting"] .dm-journey-copy:nth-child(2) {
-  transition-delay: 0.21s;
+  transition-delay: 0.04s;
 }
 .dm-journey-content[data-phase="exiting"] .dm-journey-key-label {
-  transition-delay: 0.24s;
+  transition-delay: 0.05s;
 }
 .dm-journey-content[data-phase="exiting"] .dm-journey-item:nth-child(1) {
-  transition-delay: 0.27s;
+  transition-delay: 0.05s;
 }
 .dm-journey-content[data-phase="exiting"] .dm-journey-item:nth-child(2) {
-  transition-delay: 0.3s;
+  transition-delay: 0.06s;
 }
 .dm-journey-content[data-phase="exiting"] .dm-journey-item:nth-child(3) {
-  transition-delay: 0.33s;
+  transition-delay: 0.07s;
 }
 .dm-journey-content[data-phase="exiting"] .dm-journey-item:nth-child(4) {
-  transition-delay: 0.36s;
+  transition-delay: 0.08s;
 }
 .dm-journey-content[data-phase="exiting"] .dm-journey-item:nth-child(5) {
-  transition-delay: 0.39s;
+  transition-delay: 0.09s;
 }
 
-/* Enter: same moment as digit tick, slide in from top, light stagger */
 .dm-journey-content[data-phase="entering"] h2 {
-  animation: dmJourneyInFromTop 0.26s cubic-bezier(0.22, 1, 0.36, 1) forwards;
-  animation-delay: 0ms;
+  animation: dmJourneyInFromTop 0.16s cubic-bezier(0.22, 1, 0.36, 1) forwards;
 }
 .dm-journey-content[data-phase="entering"] .dm-journey-copy,
 .dm-journey-content[data-phase="entering"] .dm-journey-key-label,
 .dm-journey-content[data-phase="entering"] .dm-journey-item {
-  animation: dmJourneyInFromTop 0.24s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+  opacity: 0;
+  animation: dmJourneyInFromTop 0.14s cubic-bezier(0.22, 1, 0.36, 1) forwards;
 }
 .dm-journey-content[data-phase="entering"] .dm-journey-copy:nth-child(1) {
   animation-delay: 0.02s;
@@ -5907,39 +6658,39 @@ html:not(.dark) body:has(.dm-page) {
   animation-delay: 0.04s;
 }
 .dm-journey-content[data-phase="entering"] .dm-journey-key-label {
-  animation-delay: 0.06s;
+  animation-delay: 0.05s;
 }
 .dm-journey-content[data-phase="entering"] .dm-journey-item:nth-child(1) {
-  animation-delay: 0.08s;
+  animation-delay: 0.05s;
 }
 .dm-journey-content[data-phase="entering"] .dm-journey-item:nth-child(2) {
-  animation-delay: 0.1s;
+  animation-delay: 0.06s;
 }
 .dm-journey-content[data-phase="entering"] .dm-journey-item:nth-child(3) {
-  animation-delay: 0.12s;
+  animation-delay: 0.07s;
 }
 .dm-journey-content[data-phase="entering"] .dm-journey-item:nth-child(4) {
-  animation-delay: 0.14s;
+  animation-delay: 0.08s;
 }
 .dm-journey-content[data-phase="entering"] .dm-journey-item:nth-child(5) {
-  animation-delay: 0.16s;
+  animation-delay: 0.09s;
 }
 
 .dm-journey-content[data-phase="idle"] h2 {
-  transform: translateY(0);
   opacity: 1;
+  transform: none;
 }
 .dm-journey-content[data-phase="idle"] .dm-journey-copy,
 .dm-journey-content[data-phase="idle"] .dm-journey-key-label,
 .dm-journey-content[data-phase="idle"] .dm-journey-item {
-  transform: translateY(0);
   opacity: 1;
+  transform: none;
 }
 
 @keyframes dmJourneyInFromTop {
   from {
     opacity: 0;
-    transform: translateY(-1rem);
+    transform: translateY(-0.45rem);
   }
   to {
     opacity: 1;
@@ -5948,36 +6699,206 @@ html:not(.dark) body:has(.dm-page) {
 }
 
 .dm-journey-digit-inner {
-  display: inline-block;
-  /* Same window as enter slide-from-top so digit + copy read as one beat */
-  animation: dmJourneyDigitTick 0.26s cubic-bezier(0.2, 0.85, 0.2, 1) both;
+  display: block;
+  animation: dmJourneyDigitTick 0.16s cubic-bezier(0.2, 0.85, 0.2, 1) both;
 }
+
 @keyframes dmJourneyDigitTick {
   from {
-    transform: translateY(0.55em);
+    transform: translateY(55%);
     opacity: 0.35;
-    filter: blur(1px);
   }
   to {
     transform: translateY(0);
     opacity: 1;
-    filter: blur(0);
   }
 }
 
 @media (prefers-reduced-motion: reduce) {
   .dm-journey-content[data-phase="exiting"] h2,
-  .dm-journey-content[data-phase="exiting"] .dm-journey-item {
-    transition: none !important;
+  .dm-journey-content[data-phase="exiting"] .dm-journey-item,
+  .dm-journey-content[data-phase="exiting"] .dm-journey-copy,
+  .dm-journey-content[data-phase="exiting"] .dm-journey-key-label {
+    transition: none;
   }
   .dm-journey-content[data-phase="entering"] h2,
-  .dm-journey-content[data-phase="entering"] .dm-journey-item {
-    animation: none !important;
-    opacity: 1 !important;
-    transform: none !important;
+  .dm-journey-content[data-phase="entering"] .dm-journey-item,
+  .dm-journey-content[data-phase="entering"] .dm-journey-copy,
+  .dm-journey-content[data-phase="entering"] .dm-journey-key-label {
+    animation: none;
+    opacity: 1;
   }
   .dm-journey-digit-inner {
-    animation: none !important;
+    animation: none;
   }
 }
+
+/* Homepage intent search banner, blur site behind (no solid white wash) */
+.home-search-intent {
+  pointer-events: auto;
+}
+
+.home-search-intent__backdrop {
+  /* Dim + blur only, must NOT be a <button> (theme forces white button fill) */
+  background: rgba(0, 0, 0, 0.32) !important;
+  background-color: rgba(0, 0, 0, 0.32) !important;
+  backdrop-filter: blur(16px) saturate(1.05);
+  -webkit-backdrop-filter: blur(16px) saturate(1.05);
+  opacity: 0;
+  transition: opacity 0.35s ease;
+  border: 0;
+}
+
+.home-search-intent--entered .home-search-intent__backdrop {
+  opacity: 1;
+}
+
+.home-search-intent__close {
+  background: rgba(0, 0, 0, 0.45) !important;
+  border: 1px solid rgba(255, 255, 255, 0.45) !important;
+  color: #fff !important;
+}
+
+.home-search-intent__close svg {
+  color: #fff !important;
+  stroke: #fff !important;
+}
+
+.home-search-intent__card {
+  border-radius: 1.35rem;
+  border: 1.5px solid rgba(255, 255, 255, 0.55);
+  background: rgba(0, 0, 0, 0.88);
+  box-shadow:
+    0 28px 80px rgba(0, 0, 0, 0.65),
+    0 0 0 1px rgba(255, 255, 255, 0.06) inset;
+  opacity: 0;
+  transform: translate3d(0, 1.25rem, 0) scale(0.96);
+  transition:
+    opacity 0.4s cubic-bezier(0.22, 1, 0.36, 1),
+    transform 0.45s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.home-search-intent--entered .home-search-intent__card {
+  opacity: 1;
+  transform: translate3d(0, 0, 0) scale(1);
+}
+
+.home-search-intent__glass {
+  background: linear-gradient(
+    165deg,
+    rgba(255, 255, 255, 0.06) 0%,
+    rgba(0, 0, 0, 0.72) 38%,
+    rgba(0, 0, 0, 0.92) 100%
+  );
+  border-top: 1px solid rgba(255, 255, 255, 0.12);
+}
+
+.home-search-intent__input {
+  -webkit-appearance: none;
+  appearance: none;
+  color: #fff !important;
+}
+
+.home-search-intent__input::-webkit-search-cancel-button {
+  -webkit-appearance: none;
+}
+
+.home-search-intent__results {
+  scrollbar-width: thin;
+  scrollbar-color: rgba(255, 255, 255, 0.35) transparent;
+}
+
+/* Avoid ThemeToggle remapping .bg-white / .text-black (was unreadable) */
+.home-search-intent__result {
+  color: rgba(255, 255, 255, 0.88) !important;
+  background: transparent !important;
+}
+
+.home-search-intent__result-title {
+  color: inherit !important;
+}
+
+.home-search-intent__result-parent {
+  color: rgba(255, 255, 255, 0.42) !important;
+}
+
+.home-search-intent__result-icon {
+  color: rgba(255, 255, 255, 0.4) !important;
+}
+
+.home-search-intent__result--active {
+  background: rgba(255, 255, 255, 0.12) !important;
+  box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.45);
+  color: #fff !important;
+}
+
+.home-search-intent__result--active .home-search-intent__result-parent {
+  color: rgba(255, 255, 255, 0.55) !important;
+}
+
+.home-search-intent__result--active .home-search-intent__result-icon {
+  color: rgba(255, 255, 255, 0.75) !important;
+}
+
+.home-search-intent__result:hover:not(.home-search-intent__result--active) {
+  background: rgba(255, 255, 255, 0.06) !important;
+}
+
+.home-search-intent__go--ready {
+  border-color: #fff !important;
+  background: #fff !important;
+  color: #000 !important;
+}
+
+.home-search-intent__go--ready:hover {
+  background: transparent !important;
+  color: #fff !important;
+}
+
+/* Soft focus when search navigates to a feature card (border pulse is inline in JS) */
+.search-anchor-soft-blur {
+  filter: blur(2px);
+  opacity: 0.58;
+  transition:
+    filter 0.45s ease,
+    opacity 0.45s ease;
+  pointer-events: none;
+}
+
+.search-anchor-flash-wrap {
+  position: relative;
+  z-index: 3;
+  filter: none;
+  opacity: 1;
+}
+
+.search-anchor-flash {
+  position: relative;
+  z-index: 4;
+  outline: none;
+  /* Existing card border is pulsed to full white via inline style, then cleared to restore CSS opacity */
+  transition: border-color 0.4s ease !important;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .home-search-intent__backdrop,
+  .home-search-intent__card {
+    transition: none;
+  }
+  .home-search-intent__card {
+    opacity: 1;
+    transform: none;
+  }
+  .home-search-intent__backdrop {
+    opacity: 1;
+  }
+  .search-anchor-flash {
+    transition: none !important;
+  }
+  .search-anchor-soft-blur {
+    filter: none;
+    opacity: 0.75;
+  }
+}
+
 

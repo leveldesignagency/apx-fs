@@ -2,11 +2,12 @@
 
 import { useEffect, useRef, useState, type CSSProperties, type ElementType, type ReactNode } from "react"
 import { CustomPillButton } from "@/components/ui/CustomPillButton"
+import { LetterReveal } from "@/components/LetterReveal"
 
 const DEFAULT_INTRO =
-  "Since 1986 we have designed, installed and maintained bespoke fire and security systems for London and the Home Counties — NSI Gold standards, specialist engineers, and clear documentation from survey through to ongoing care."
+  "Building on a heritage dating back to 1986, APX Fire & Security (formerly Smiths Technical Systems Ltd) designs, installs and maintains bespoke fire and security systems for London and the Home Counties. We deliver to NSI Gold standards for both security and fire, with specialist engineers and clear documentation from survey through to ongoing care."
 
-/** Draft pillars — refine with the client as needed */
+/** Draft pillars, refine with the client as needed */
 const ABOUT_STEPS = [
   {
     number: "01",
@@ -111,20 +112,20 @@ export function AboutIntroSection({ intro = DEFAULT_INTRO, steps = ABOUT_STEPS }
       className="about-intro-section relative isolate overflow-hidden border-t-[3px] border-white bg-black"
       aria-label="Our story"
     >
-      {/* Photo — slow downward drift */}
+      {/* Photo, slow downward drift */}
       <div
         className="about-intro-bg pointer-events-none absolute inset-x-0 -top-[8%] h-[116%] bg-cover bg-center bg-no-repeat brightness-[1.12] saturate-[1.02] contrast-[1.04]"
         style={{ backgroundImage: `url("${ABOUT_INTRO_BACKGROUND_IMAGE}")` }}
         aria-hidden
       />
-      {/* Readability washes — not card chrome */}
+      {/* Readability washes, not card chrome */}
       <div className="pointer-events-none absolute inset-0 bg-black/35" aria-hidden />
       <div
         className="pointer-events-none absolute inset-0 bg-gradient-to-r from-black/75 via-black/45 to-black/25"
         aria-hidden
       />
       <div
-        className="pointer-events-none absolute inset-x-0 bottom-0 h-[55%] bg-gradient-to-t from-black/80 via-black/35 to-transparent"
+        className="pointer-events-none absolute inset-x-0 bottom-0 z-[1] h-[min(28%,12rem)] bg-gradient-to-t from-white via-white/70 to-transparent"
         aria-hidden
       />
 
@@ -140,10 +141,24 @@ export function AboutIntroSection({ intro = DEFAULT_INTRO, steps = ABOUT_STEPS }
             >
               OUR STORY
             </Line>
-            <Line index={1} active={on} as="h2" className="about-intro-heading font-title font-bold uppercase text-white">
-              <span className="block text-white/50">Built on experience</span>
-              <span className="block text-white">Driven by standards.</span>
-            </Line>
+            <h2 className="about-intro-heading font-title font-bold uppercase text-white">
+              <LetterReveal
+                as="span"
+                text="Built on experience."
+                className="block text-white/50"
+                active={on}
+                delayMs={STAGGER_MS}
+                staggerMs={18}
+              />
+              <LetterReveal
+                as="span"
+                text="Driven by standards."
+                className="block text-white"
+                active={on}
+                delayMs={STAGGER_MS + 420}
+                staggerMs={18}
+              />
+            </h2>
           </div>
 
           <div className="flex flex-col items-start lg:col-span-5 xl:col-span-5 lg:pb-1">

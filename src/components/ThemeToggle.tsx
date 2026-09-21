@@ -58,8 +58,13 @@ const GlobalStyles = createGlobalStyle<{ theme: typeof lightTheme }>`
   #hero span {
     color: #ffffff !important;
   }
+  #hero h1 span.bg-white,
+  #hero h1 .hero-title-accent {
+    color: #000000 !important;
+    background-color: #ffffff !important;
+  }
 
-  /* ABOUT intro – black bg, light text */
+  /* ABOUT intro, black bg, light text */
   #about-intro, #about-intro h2, #about-intro p, #about-intro span.section-label {
     color: #ffffff !important;
   }
@@ -67,7 +72,21 @@ const GlobalStyles = createGlobalStyle<{ theme: typeof lightTheme }>`
     color: rgba(255, 255, 255, 0.9) !important;
   }
 
-  /* Projects band – white surface, black header copy (GlobalStyles defaults are white-on-black) */
+  /* Trusted & Accredited (#about): light section — force dark copy including LineReveal spans */
+  #about .why-choose-us-copy,
+  #about .why-choose-us-copy .section-label,
+  #about .why-choose-us-copy h2,
+  #about .why-choose-us-copy h2 span,
+  #about .why-choose-us-copy p,
+  #about .why-choose-us-copy p span,
+  #about .why-choose-us-copy .line-reveal,
+  #about .why-choose-us-copy .line-reveal span,
+  #about .why-choose-us-copy .letter-reveal,
+  #about .why-choose-us-copy .letter-reveal span {
+    color: #000000 !important;
+  }
+
+  /* Projects band, white surface, black header copy (GlobalStyles defaults are white-on-black) */
   #projects.projects-section,
   #projects.projects-section .projects-section__sticky {
     background-color: #ffffff !important;
@@ -80,7 +99,7 @@ const GlobalStyles = createGlobalStyle<{ theme: typeof lightTheme }>`
     color: #000000 !important;
   }
 
-  /* Footer – always light text on black background so it stays visible */
+  /* Footer, always light text on black background so it stays visible */
   footer,
   footer *,
   footer h1, footer h2, footer h3, footer h4, footer h5, footer h6,
@@ -108,7 +127,7 @@ const GlobalStyles = createGlobalStyle<{ theme: typeof lightTheme }>`
     color: ${({ theme }) => theme.text === '#FFFFFF' ? '#CCCCCC' : '#666666'} !important;
   }
 
-  /* Header styling – transparent so only nav bar / contact tab have fill */
+  /* Header styling, transparent so only nav bar / contact tab have fill */
   header {
     background: transparent !important;
     background-color: transparent !important;
@@ -134,6 +153,12 @@ const GlobalStyles = createGlobalStyle<{ theme: typeof lightTheme }>`
     color: #000000 !important;
   }
 
+  /* Homepage hero service quick-nav: same white pill / black text as header */
+  #hero .hero-services-quick-nav__link:hover,
+  #hero .hero-services-quick-nav__link:focus-visible {
+    color: #000000 !important;
+    background-color: #ffffff !important;
+  }
 
   /* Button styling */
   button {
@@ -144,6 +169,32 @@ const GlobalStyles = createGlobalStyle<{ theme: typeof lightTheme }>`
 
   button:hover {
     background: ${({ theme }) => theme.buttonHover} !important;
+  }
+
+  /* Where We Thrive tabs (must beat global button rule) */
+  #core-capabilities button.where-we-thrive-tabs__tab {
+    background: transparent !important;
+    color: rgba(255, 255, 255, 0.6) !important;
+    border-color: transparent !important;
+  }
+  #core-capabilities button.where-we-thrive-tabs__tab:hover {
+    background: rgba(255, 255, 255, 0.05) !important;
+    color: #ffffff !important;
+  }
+  #core-capabilities button.where-we-thrive-tabs__tab span,
+  #core-capabilities button.where-we-thrive-tabs__tab svg {
+    color: inherit !important;
+  }
+  #core-capabilities button.where-we-thrive-tabs__tab--active,
+  #core-capabilities button.where-we-thrive-tabs__tab--active:hover {
+    background: #ffffff !important;
+    color: #000000 !important;
+  }
+  #core-capabilities button.where-we-thrive-tabs__tab--active span,
+  #core-capabilities button.where-we-thrive-tabs__tab--active svg,
+  #core-capabilities button.where-we-thrive-tabs__tab--active:hover span,
+  #core-capabilities button.where-we-thrive-tabs__tab--active:hover svg {
+    color: #000000 !important;
   }
 
   /* Projects header nav (white band): black outline; testimonials stay white-on-black */
@@ -210,6 +261,130 @@ const GlobalStyles = createGlobalStyle<{ theme: typeof lightTheme }>`
     stroke: #ffffff !important;
   }
 
+  /* Header search: global button rule is white fill, keep black pill + white icon */
+  .fs-header-search-trigger {
+    background: #000000 !important;
+    background-color: #000000 !important;
+    color: #ffffff !important;
+    border: 2px solid #ffffff !important;
+    border-color: #ffffff !important;
+    box-shadow: none !important;
+  }
+  .fs-header-search-trigger:hover {
+    background: #111111 !important;
+    background-color: #111111 !important;
+    color: #ffffff !important;
+    border-color: #ffffff !important;
+    opacity: 1 !important;
+  }
+  .fs-header-search-trigger:focus,
+  .fs-header-search-trigger:focus-visible {
+    background: #000000 !important;
+    color: #ffffff !important;
+    border-color: #ffffff !important;
+    outline: 2px solid rgba(255, 255, 255, 0.45) !important;
+    outline-offset: 2px !important;
+  }
+  .fs-header-search-trigger svg {
+    color: #ffffff !important;
+    stroke: #ffffff !important;
+  }
+
+  /* Homepage services mobile arrows: match projects nav (48px), black fill, white border/icon */
+  #services button.fs-offer-mobile-nav__btn,
+  #services button.fs-offer-mobile-nav__btn:hover,
+  #services button.fs-offer-mobile-nav__btn:focus,
+  #services button.fs-offer-mobile-nav__btn:focus-visible {
+    width: 3rem !important;
+    height: 3rem !important;
+    background: #000000 !important;
+    background-color: #000000 !important;
+    color: #ffffff !important;
+    border: 1px solid #ffffff !important;
+    border-color: #ffffff !important;
+    box-shadow: none !important;
+  }
+  #services button.fs-offer-mobile-nav__btn svg {
+    width: 1.5rem !important;
+    height: 1.5rem !important;
+    color: #ffffff !important;
+    stroke: #ffffff !important;
+  }
+
+  /*
+   * Homepage search banner: global button rule is white fill / black text.
+   * Keep backdrop transparent (div), close + results dark, CTA white when ready.
+   */
+  .home-search-intent button {
+    background: transparent !important;
+    background-color: transparent !important;
+    color: #ffffff !important;
+    border-color: rgba(255, 255, 255, 0.35) !important;
+    box-shadow: none !important;
+  }
+  .home-search-intent button:hover {
+    background: rgba(255, 255, 255, 0.08) !important;
+    background-color: rgba(255, 255, 255, 0.08) !important;
+    color: #ffffff !important;
+  }
+  .home-search-intent button svg {
+    color: #ffffff !important;
+    stroke: #ffffff !important;
+  }
+  .home-search-intent button.home-search-intent__close {
+    background: rgba(0, 0, 0, 0.45) !important;
+    background-color: rgba(0, 0, 0, 0.45) !important;
+    border: 1px solid rgba(255, 255, 255, 0.45) !important;
+    border-color: rgba(255, 255, 255, 0.45) !important;
+    color: #ffffff !important;
+  }
+  .home-search-intent button.home-search-intent__close:hover {
+    background: rgba(0, 0, 0, 0.65) !important;
+    background-color: rgba(0, 0, 0, 0.65) !important;
+    border-color: #ffffff !important;
+  }
+  .home-search-intent button.home-search-intent__result {
+    background: transparent !important;
+    background-color: transparent !important;
+    color: rgba(255, 255, 255, 0.9) !important;
+    border-color: transparent !important;
+  }
+  .home-search-intent button.home-search-intent__result:hover,
+  .home-search-intent button.home-search-intent__result.home-search-intent__result--active {
+    background: rgba(255, 255, 255, 0.12) !important;
+    background-color: rgba(255, 255, 255, 0.12) !important;
+    color: #ffffff !important;
+  }
+  .home-search-intent button.home-search-intent__result span {
+    color: inherit !important;
+  }
+  .home-search-intent button.home-search-intent__go {
+    background: transparent !important;
+    background-color: transparent !important;
+    color: rgba(255, 255, 255, 0.35) !important;
+    border: 1px solid rgba(255, 255, 255, 0.25) !important;
+  }
+  .home-search-intent button.home-search-intent__go.home-search-intent__go--ready {
+    background: #ffffff !important;
+    background-color: #ffffff !important;
+    color: #000000 !important;
+    border-color: #ffffff !important;
+  }
+  .home-search-intent button.home-search-intent__go.home-search-intent__go--ready:hover {
+    background: transparent !important;
+    background-color: transparent !important;
+    color: #ffffff !important;
+    border-color: #ffffff !important;
+  }
+  .home-search-intent button.home-search-intent__go.home-search-intent__go--ready:hover svg {
+    color: #ffffff !important;
+    stroke: #ffffff !important;
+  }
+  .home-search-intent button.home-search-intent__go.home-search-intent__go--ready svg {
+    color: #000000 !important;
+    stroke: #000000 !important;
+  }
+
   /* Hero promise chips: black fill + white icon/label (global button rule is white fill) */
   button.hero-promise-chip,
   button.hero-promise-chip:hover,
@@ -246,6 +421,22 @@ const GlobalStyles = createGlobalStyle<{ theme: typeof lightTheme }>`
   .cookie-policy-prefs-btn svg {
     color: inherit !important;
     stroke: currentColor !important;
+  }
+
+  /* Footer legal: Cookie Preferences is a button (opens modal) — match link style, not white fill */
+  footer button.footer-cookie-prefs-btn,
+  footer button.footer-cookie-prefs-btn:hover,
+  footer button.footer-cookie-prefs-btn:focus,
+  footer button.footer-cookie-prefs-btn:focus-visible {
+    background: transparent !important;
+    background-color: transparent !important;
+    color: inherit !important;
+    border: 0 !important;
+    box-shadow: none !important;
+    padding: 0 !important;
+  }
+  footer button.footer-cookie-prefs-btn:hover {
+    color: #ffffff !important;
   }
 
   /* Careers filter rail + listing actions (global button rule is white fill) */
@@ -565,7 +756,7 @@ const GlobalStyles = createGlobalStyle<{ theme: typeof lightTheme }>`
     border-color: ${({ theme }) => theme.border} !important;
   }
 
-  /* Scroll indicator squares: black border (see .scroll-indicator-square in globals) – do not override */
+  /* Scroll indicator squares: black border (see .scroll-indicator-square in globals), do not override */
   .fixed.right-6 .w-3.h-3:not(.scroll-indicator-square) {
     border-color: ${({ theme }) => theme.border} !important;
   }

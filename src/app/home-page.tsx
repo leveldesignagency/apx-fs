@@ -4,7 +4,6 @@ import Link from "next/link"
 import {
   Shield,
   CheckCircle,
-  Star,
   ArrowRight,
   Clock,
   Cog,
@@ -15,10 +14,9 @@ import {
   ChevronLeft,
   ChevronRight,
   Flame,
-  BadgeCheck,
   type LucideIcon,
 } from "lucide-react"
-import { useEffect, useLayoutEffect, useState, useMemo, useCallback, useRef } from "react"
+import { useEffect, useLayoutEffect, useState, useMemo, useCallback, useRef, type CSSProperties } from "react"
 import { GlobalStyles, lightTheme, darkTheme } from '@/components/ThemeToggle'
 import { useTheme } from '@/contexts/ThemeContext'
 import { CountUp } from '@/components/ui/CountUp'
@@ -29,23 +27,21 @@ import { MAIN_CASE_STUDIES } from "@/data/projects"
 import { getNewsArticlesSorted, NEWS_HUB_PATH } from "@/data/fsNewsArticles"
 import { AboutIntroSection } from "@/components/home/AboutIntroSection"
 import { GoogleBusinessReviewsSlot } from "@/components/home/GoogleBusinessReviewsSlot"
+import { GOOGLE_REVIEWS_LISTING_URL } from "@/lib/googleBusinessReviews"
 import HeroVideoBackground from "@/components/HeroVideoBackground"
 import { HomeAccreditationsSection } from "@/components/home/HomeAccreditationsSection"
 import { WhatWeOfferSection } from "@/components/home/WhatWeOfferSection"
 import { HomeQuoteFormDrawShell, HOME_QUOTE_FORM_INNER_DELAY_MS } from "@/components/home/HomeQuoteFormDrawShell"
 import { HomeSectionDivider } from "@/components/home/HomeSectionDivider"
+import { WhereWeThrivePricingCards } from "@/components/home/WhereWeThrivePricingCards"
+import { LetterReveal } from "@/components/LetterReveal"
+import { LineReveal } from "@/components/LineReveal"
 import { containDropdownWheelScroll } from "@/lib/containDropdownWheelScroll"
-import { FS_HOME_THRIVE_CARD } from "@/lib/fsServicePageCards"
+import { FS_SERVICE_QUICK_LINKS } from "@/lib/fs-service-navigation"
 
 /** Matches contact page field glass (draw shell / animation unchanged). */
 const HOME_QUOTE_FIELD_CLASS =
   "w-full rounded-none border border-white/15 bg-black px-4 py-3.5 text-[17px] font-bold text-white placeholder:text-white/40 placeholder:font-normal outline-none transition-[border,box-shadow] focus:border-white/50 focus:ring-0 focus:bg-black"
-
-const HERO_PROMISE_POINTS: { title: string; Icon: LucideIcon }[] = [
-  { title: "Expert Installation", Icon: Wrench },
-  { title: "24/7 Maintenance", Icon: Clock },
-  { title: "Quality Assurance", Icon: BadgeCheck },
-]
 
 const FS_THRIVE_CARDS: {
   title: string
@@ -68,9 +64,10 @@ const FS_THRIVE_CARDS: {
     href: "/services/security-systems",
     Icon: Shield,
     bullets: [
-      "CCTV (IP and analogue)",
       "Intruder alarm systems (Grade 2 and Grade 3)",
-      "Video entry and access control (single-door to multi-tenant)",
+      "CCTV (IP and analogue)",
+      "Video entry, access control and gate automation (integrated site access)",
+      "Monitoring and ARC signalling (alarm receiving centre)",
     ],
   },
   {
@@ -85,37 +82,25 @@ const FS_THRIVE_CARDS: {
   },
 ]
 
-/** Split trailing "(…)" onto a secondary line for Where We Thrive bullets */
-function parseThriveBullet(line: string): { main: string; qualifier?: string } {
-  const match = line.match(/^(.+?)\s+\(([^)]+)\)\s*$/)
-  if (!match) return { main: line }
-  return { main: match[1].trim(), qualifier: match[2].trim() }
-}
-
-function ThriveBulletContent({ line }: { line: string }) {
-  const { main, qualifier } = parseThriveBullet(line)
-  return (
-    <span className="where-we-thrive-bullet">
-      <span className="where-we-thrive-bullet__main">{main}</span>
-      {qualifier ? <span className="where-we-thrive-bullet__qualifier">({qualifier})</span> : null}
-    </span>
-  )
-}
-
 const WHY_CHOOSE_CARDS: { Icon: LucideIcon; title: string; bullets: string[] }[] = [
   {
     Icon: CheckCircle,
-    title: "NSI Gold Accredited",
-    bullets: ["BS EN ISO 9001:2015", "BAFE Fire Safety Registered", "UKAS Quality Management", "FIA Member"],
+    title: "NSI Gold Approved",
+    bullets: [
+      "NSI Gold, Security",
+      "NSI Fire Gold",
+      "BS EN ISO 9001:2015",
+      "BAFE Fire Safety Registered",
+    ],
   },
   {
     Icon: Clock,
-    title: "24/7 Emergency Service",
+    title: "24/7 Call-Out & Monitoring",
     bullets: [
-      "Round-the-clock security support",
-      "Rapid response times",
-      "Monitored alarm response",
-      "When you need it most",
+      "24/7 emergency call-out cover",
+      "ARC signalling and monitoring options",
+      "Rapid engineer response",
+      "Ongoing system health support",
     ],
   },
   {
@@ -123,9 +108,9 @@ const WHY_CHOOSE_CARDS: { Icon: LucideIcon; title: string; bullets: string[] }[]
     title: "Quality Guarantee",
     bullets: [
       "Constructionline Gold Member",
-      "All work to NSI Gold standards",
-      "Quality assurance",
-      "Reliable service",
+      "Work to NSI Gold standards",
+      "FIA Full Member (trade association)",
+      "Documented handover and aftercare",
     ],
   },
 ]
@@ -141,8 +126,6 @@ export default function Home() {
   const [isServicesDropdownOpen, setIsServicesDropdownOpen] = useState(false)
   const [selectedService, setSelectedService] = useState('')
   
-  const [currentTestimonial, setCurrentTestimonial] = useState(0)
-  const [testimonialsPaused, setTestimonialsPaused] = useState(false)
   const [activeMepIndex] = useState(0)
   const [activeNewsIndex, setActiveNewsIndex] = useState(0)
   const [newsProgress, setNewsProgress] = useState(0)
@@ -154,8 +137,6 @@ export default function Home() {
   const projectsStripAnchorRef = useRef<HTMLDivElement>(null)
   const projectsSectionRef = useRef<HTMLElement>(null)
   const projectsHorizontalPxRef = useRef(0)
-  const testimonialQuoteStackRef = useRef<HTMLDivElement>(null)
-  const [testimonialsQuoteMinPx, setTestimonialsQuoteMinPx] = useState<number | null>(null)
   const [heroAnimation, setHeroAnimation] = useState({
     videoVisible: false,
     titleVisible: false,
@@ -184,14 +165,14 @@ export default function Home() {
   const sections = useMemo(() => [
     { id: 'hero', name: 'Home' },
     { id: 'core-capabilities', name: 'Capabilities' },
-    { id: 'about-intro', name: 'Our story' },
     { id: 'services', name: 'Services' },
+    { id: 'about-intro', name: 'Our story' },
     { id: 'projects', name: 'Projects' },
     { id: 'about', name: 'Why Choose Us' },
-    { id: 'accreditations', name: 'Accreditations' },
+    { id: 'accreditations', name: 'Accreditations & Memberships' },
     { id: 'logo-marquee', name: 'Clients' },
     ...(FS_SHOW_NEWS_AND_ARTICLES ? ([{ id: 'why-mep', name: 'News & Articles' }] as const) : []),
-    { id: 'testimonials', name: 'Testimonials' },
+    // Reviews section temporarily hidden, restore nav entry when re-shown
     { id: 'contact', name: 'Contact' }
   ], [])
 
@@ -221,7 +202,6 @@ export default function Home() {
         stat: project.sector,
         location: project.location,
         description: project.shortDescription,
-        quote: project.summary,
         href: `/projects/${project.slug}`,
         title: project.title,
       })),
@@ -337,57 +317,6 @@ export default function Home() {
     window.addEventListener("wheel", onWheel, opts)
     return () => window.removeEventListener("wheel", onWheel, opts)
   }, [])
-
-  const testimonials = [
-    {
-      name: "Sarah Johnson",
-      role: "Office Manager, TechCorp",
-      text: "APX Fire & Security provided an exceptional CCTV and access control system for our office. NSI Gold standard, professional and reliable.",
-      rating: 5,
-    },
-    {
-      name: "Michael Chen",
-      role: "Facilities Director, Manufacturing Ltd",
-      text: "Outstanding fire alarm and intruder alarm installation for our new facility. The team was efficient and completed everything to the highest standards.",
-      rating: 5
-    },
-    {
-      name: "Emma Williams",
-      role: "Property Manager, Retail Group",
-      text: "Our integrated security system was designed and installed flawlessly. Great communication throughout and excellent after-sales support.",
-      rating: 5,
-    },
-  ]
-
-  const testimonialPrev = useCallback(() => {
-    setCurrentTestimonial((p) => (p - 1 + testimonials.length) % testimonials.length)
-  }, [testimonials.length])
-
-  const testimonialNext = useCallback(() => {
-    setCurrentTestimonial((p) => (p + 1) % testimonials.length)
-  }, [testimonials.length])
-
-  useLayoutEffect(() => {
-    const root = testimonialQuoteStackRef.current
-    if (!root) return
-    const measure = () => {
-      const slides = root.querySelectorAll<HTMLElement>("[data-testimonial-quote-slide]")
-      let max = 0
-      slides.forEach((el) => {
-        const h = el.offsetHeight
-        if (h > max) max = h
-      })
-      if (max > 0) setTestimonialsQuoteMinPx(Math.ceil(max))
-    }
-    measure()
-    const ro = new ResizeObserver(measure)
-    ro.observe(root)
-    window.addEventListener("resize", measure)
-    return () => {
-      ro.disconnect()
-      window.removeEventListener("resize", measure)
-    }
-  }, [testimonials.length])
 
   // Hero animation sequence
   useEffect(() => {
@@ -598,16 +527,6 @@ export default function Home() {
     }
   }, [sections, updateActiveSection])
 
-  // Testimonial carousel, pauses while pointer is over the section
-  useEffect(() => {
-    if (testimonialsPaused) return
-    const interval = setInterval(() => {
-      setCurrentTestimonial((prev) => (prev + 1) % testimonials.length)
-    }, 6000)
-
-    return () => clearInterval(interval)
-  }, [testimonials.length, testimonialsPaused])
-
   // Force dark mode styling for form
   useEffect(() => {
     const applyDarkModeStyles = () => {
@@ -783,7 +702,7 @@ export default function Home() {
     return () => observer.disconnect();
   }, [theme]);
 
-  // MEP cards: CodePen exact – set grid columns and data-active, then resync --article-width after layout
+  // MEP cards: CodePen exact, set grid columns and data-active, then resync --article-width after layout
   useEffect(() => {
     const list = mepListRef.current
     if (!list) return
@@ -828,7 +747,7 @@ export default function Home() {
       <GlobalStyles theme={themeMode} />
       <div className="home-page-trial min-h-screen overflow-x-clip relative z-10">
 
-      {/* Hero Section – full viewport height */}
+      {/* Hero Section, full viewport height */}
       <section
         id="hero"
         className="relative flex min-h-[100dvh] flex-col overflow-hidden bg-black"
@@ -839,20 +758,34 @@ export default function Home() {
             heroAnimation.videoVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-10"
           }`}
         >
-          <div className="mx-auto flex w-full max-w-2xl flex-1 flex-col items-center justify-center space-y-4 pt-20 text-center min-[400px]:pt-[5.25rem] sm:pt-24 md:pt-[6.25rem] lg:mx-0 lg:max-w-xl lg:items-start lg:pt-28 lg:text-left xl:max-w-2xl xl:pt-[7.25rem]">
-            <h1
-              className={`hero-title-reveal mb-2 font-title text-3xl font-bold tracking-wide text-white transition-all duration-[1200ms] sm:text-4xl md:mb-3 md:text-5xl lg:text-6xl ${
-                heroAnimation.titleVisible ? "opacity-100 translate-y-0 blur-0 scale-100" : "opacity-0 translate-y-16 blur-[8px] scale-[0.985]"
-              }`}
-            >
-              APX FS is your NSI Gold Fire &amp; Security Systems Installer.
-            </h1>
+          <div className="mx-auto flex w-full max-w-2xl flex-1 flex-col items-center justify-center space-y-4 pt-20 text-center min-[400px]:pt-[5.25rem] sm:pt-24 md:pt-[6.25rem] lg:mx-0 lg:max-w-xl lg:items-start lg:justify-center lg:pt-24 lg:text-left xl:max-w-2xl xl:pt-28">
+            <div className="space-y-2 sm:space-y-2.5">
+              <p
+                className={`hero-mantra text-[11px] font-semibold uppercase tracking-[0.22em] text-white/70 transition-all duration-1000 sm:text-xs ${
+                  heroAnimation.titleVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"
+                }`}
+                style={{ fontFamily: "var(--font-menu)" }}
+              >
+                Protect. Prevent. Perform.
+              </p>
+              <h1
+                className={`hero-title-reveal mb-0 font-title text-4xl font-extrabold uppercase leading-[1.02] tracking-wide text-white transition-all duration-[1200ms] sm:text-5xl md:text-6xl lg:text-7xl ${
+                  heroAnimation.titleVisible ? "opacity-100 translate-y-0 blur-0 scale-100" : "opacity-0 translate-y-16 blur-[8px] scale-[0.985]"
+                }`}
+              >
+                <span className="block">The Fire &amp;</span>
+                <span className="block">
+                  Security{" "}
+                  <span className="hero-title-accent">Specialists</span>
+                </span>
+              </h1>
+            </div>
             <p
-              className={`hero-copy-reveal mx-auto mb-4 max-w-lg text-base font-normal tracking-tight text-white transition-all duration-1000 sm:text-lg md:mb-5 md:text-xl lg:mx-0 ${
-                heroAnimation.subtitleVisible ? "opacity-100 translate-y-0 blur-0" : "opacity-0 translate-y-12 blur-[6px]"
+              className={`hero-subtitle-reveal mx-auto mt-2 max-w-2xl text-lg font-bold tracking-tight text-white transition-all duration-1000 sm:mt-3 sm:text-xl md:mt-4 md:text-2xl lg:mx-0 ${
+                heroAnimation.titleVisible ? "opacity-100 translate-y-0 blur-0" : "opacity-0 translate-y-12 blur-[6px]"
               }`}
             >
-              We are specialists in the design, installation and maintenance of bespoke integrated fire and security systems within London and the Home Counties.
+              APX Fire &amp; Security is an NSI Gold-approved specialist in fire, life-safety and electronic security systems.
             </p>
 
             <div
@@ -860,63 +793,82 @@ export default function Home() {
                 heroAnimation.subtitleVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-14"
               }`}
             >
-              <CustomPillButton href="/contact" size="md">
+              <CustomPillButton href="#quote-form" size="md">
                 Get a free quote
               </CustomPillButton>
-              <Link
-                href="/contact"
+              <a
+                href="tel:02083032280"
                 className="text-base font-normal text-white underline underline-offset-4 transition-colors duration-300 hover:text-white/90"
               >
-                Question? get in touch
-              </Link>
+                Have a question? Call us.
+              </a>
             </div>
           </div>
 
-          <div
-            className={`mt-auto flex w-full flex-col items-center gap-6 pt-8 sm:pt-10 lg:flex-row lg:items-end lg:justify-between lg:gap-8 lg:pt-0 transition-all duration-1000 delay-200 ${
-              heroAnimation.subtitleVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-10"
-            }`}
+          <nav
+            aria-label="Services quick navigation"
+            className="hero-services-quick-nav mt-auto w-full min-w-0 pt-8 sm:pt-10 lg:pt-0"
           >
-            <p
-              className="hero-mantra order-2 self-start text-[11px] font-semibold uppercase tracking-[0.22em] text-white/70 sm:text-xs lg:order-1 lg:self-end"
-              style={{ fontFamily: "var(--font-menu)" }}
-            >
-              Protect, Prevent, Perform.
-            </p>
-            <aside
-              className="hero-promise-points pointer-events-auto order-1 w-auto self-center lg:order-2 lg:self-end"
-              aria-label="Service promise"
-            >
-              <ul className="m-0 flex list-none items-center justify-end gap-2.5 p-0 sm:gap-3">
-                {HERO_PROMISE_POINTS.map(({ title, Icon }) => (
-                  <li key={title}>
-                    <button
-                      type="button"
-                      className="hero-promise-chip group"
-                      aria-label={title}
-                    >
-                      <span className="hero-promise-chip__icon" aria-hidden>
-                        <Icon className="h-5 w-5 text-white sm:h-[1.35rem] sm:w-[1.35rem]" strokeWidth={1.5} />
-                      </span>
-                      <span
-                        className="hero-promise-chip__label"
-                        style={{ fontFamily: "var(--font-menu)" }}
+            {/* Mobile: forced two rows (even split). sm+: single wrapping strip. */}
+            <div className="flex w-full flex-col gap-1.5 sm:hidden">
+              {[
+                FS_SERVICE_QUICK_LINKS.slice(0, Math.ceil(FS_SERVICE_QUICK_LINKS.length / 2)),
+                FS_SERVICE_QUICK_LINKS.slice(Math.ceil(FS_SERVICE_QUICK_LINKS.length / 2)),
+              ].map((row, rowIndex) => {
+                const rowOffset = rowIndex * Math.ceil(FS_SERVICE_QUICK_LINKS.length / 2)
+                return (
+                  <ul
+                    key={rowIndex}
+                    className="m-0 flex w-full list-none flex-wrap items-center justify-center gap-x-0.5 gap-y-1 p-0"
+                  >
+                    {row.map(({ href, label }, i) => (
+                      <li
+                        key={href}
+                        className={`hero-services-quick-nav__item shrink-0 ${
+                          heroAnimation.subtitleVisible ? "hero-services-quick-nav__item--in" : ""
+                        }`}
+                        style={
+                          {
+                            "--nav-delay": `${(rowOffset + i) * 70}ms`,
+                          } as CSSProperties
+                        }
                       >
-                        {title}
-                      </span>
-                    </button>
-                  </li>
-                ))}
-              </ul>
-            </aside>
-          </div>
+                        <Link href={href} className="hero-services-quick-nav__link">
+                          {label}
+                        </Link>
+                      </li>
+                    ))}
+                  </ul>
+                )
+              })}
+            </div>
+            <ul className="m-0 hidden w-full max-w-full list-none flex-wrap items-center justify-start gap-x-0.5 gap-y-1 p-0 sm:flex">
+              {FS_SERVICE_QUICK_LINKS.map(({ href, label }, i) => (
+                <li
+                  key={href}
+                  className={`hero-services-quick-nav__item shrink-0 ${
+                    heroAnimation.subtitleVisible ? "hero-services-quick-nav__item--in" : ""
+                  }`}
+                  style={
+                    {
+                      "--nav-delay": `${i * 70}ms`,
+                    } as CSSProperties
+                  }
+                >
+                  <Link href={href} className="hero-services-quick-nav__link">
+                    {label}
+                  </Link>
+                </li>
+              ))}
+            </ul>
+          </nav>
         </div>
       </section>
 
-      {/* Core capabilities – black section blended from hero before Our Story */}
+      {/* Core capabilities, black section blended from hero before Our Story */}
       <section
         id="core-capabilities"
-        className="relative bg-black pt-24 pb-16 md:py-20 lg:py-24 overflow-hidden"
+        className="relative overflow-hidden bg-black pt-28 pb-10 md:pt-28 md:pb-12 lg:pt-32 lg:pb-14"
       >
         {/* Top feather to blend hero into this black section */}
         <div
@@ -929,71 +881,32 @@ export default function Home() {
         />
 
         <div className="site-container relative z-10">
-          <div
-            className={`max-w-3xl home-scroll-rise ${
-              sectionMotion.core ? "opacity-100 translate-y-0" : "opacity-0 translate-y-14"
-            }`}
-          >
+          <div className="max-w-3xl">
             <span
-              className="section-label text-white/80 font-bold"
+              className={`section-label text-white/80 font-bold home-scroll-rise ${
+                sectionMotion.core ? "opacity-100 translate-y-0" : "opacity-0 translate-y-14"
+              }`}
               style={{ fontFamily: "var(--font-menu), sans-serif" }}
             >
               Core capabilities
             </span>
-            <h2 className="home-section-title mt-3 text-white font-title">
-              Where We Thrive
-            </h2>
-            <p className="mt-4 text-sm sm:text-base text-white/70 leading-relaxed max-w-2xl">
-              APX Fire and Security understands the importance of delivering compliant, reliable systems that integrate seamlessly with wider building services. We recognise the need for clear coordination, minimal disruption, and accurate installation aligned with design intent.
-            </p>
+            <LetterReveal
+              as="h2"
+              text="Where We Thrive"
+              className="home-section-title mt-3 text-white font-title"
+              active={sectionMotion.core}
+            />
+            <LineReveal
+              as="p"
+              text="APX Fire and Security understands the importance of delivering compliant, reliable systems that integrate seamlessly with wider building services. We recognise the need for clear coordination, minimal disruption, and accurate installation aligned with design intent."
+              className="mt-4 max-w-2xl text-sm leading-relaxed text-white/70 sm:text-base"
+              active={sectionMotion.core}
+              delayMs={120}
+            />
           </div>
 
-          <div className="where-we-thrive-cards mt-12 grid grid-cols-1 gap-y-14 gap-x-6 md:grid-cols-3 md:gap-x-7 md:gap-y-16 lg:gap-x-8">
-            {FS_THRIVE_CARDS.map((card, cardIndex) => {
-              const CapIcon = card.Icon
-              return (
-                <div
-                  key={card.title}
-                  className={`where-we-thrive-card flex h-full w-full flex-col items-center home-scroll-rise ${
-                    sectionMotion.core ? "opacity-100 translate-y-0" : "opacity-0 translate-y-16"
-                  }`}
-                  style={{ transitionDelay: sectionMotion.core ? `${cardIndex * 100}ms` : "0ms" }}
-                >
-                  <div
-                    className="relative z-10 flex h-14 w-14 shrink-0 items-center justify-center rounded-xl border-2 border-white/70 bg-black shadow-[0_8px_28px_rgba(0,0,0,0.55)]"
-                    aria-hidden
-                  >
-                    <CapIcon className="h-7 w-7 shrink-0 text-white/90" strokeWidth={1.5} />
-                  </div>
-                  <article
-                    className={`${FS_HOME_THRIVE_CARD} apx-home-card-light-edge -mt-7 flex h-full w-full min-w-0 flex-col px-6 pb-6 pt-11 text-left md:px-7 md:pb-7 md:pt-12`}
-                  >
-                    <h3
-                      className="where-we-thrive-card__title text-lg font-semibold leading-snug text-white md:text-xl"
-                      style={{ fontFamily: "var(--font-menu), sans-serif" }}
-                    >
-                      {card.title}
-                    </h3>
-                    <ul className="apx-site-table apx-capability-list apx-capability-list--two-line-rows mt-5 text-left sm:mt-6">
-                      {card.bullets.map((line) => (
-                        <li key={line} className="apx-capability-list__item">
-                          <ThriveBulletContent line={line} />
-                        </li>
-                      ))}
-                    </ul>
-                    <div className="mt-5 flex justify-start border-t-2 border-white/25 pt-5 md:mt-6 md:pt-6">
-                      <CustomPillButton
-                        href={card.href}
-                        size="sm"
-                        className="pill-btn--corners-sm text-xs font-semibold uppercase tracking-normal [&_span.pill-text]:!font-semibold"
-                      >
-                        Learn more
-                      </CustomPillButton>
-                    </div>
-                  </article>
-                </div>
-              )
-            })}
+          <div className="mt-14 md:mt-16 lg:mt-20">
+            <WhereWeThrivePricingCards cards={FS_THRIVE_CARDS} />
           </div>
         </div>
       </section>
@@ -1002,46 +915,51 @@ export default function Home() {
 
       {/* Wrapper so CCTV overlay can sit above both about and services */}
       <div className="relative">
-        <AboutIntroSection />
-
-        {/* Services Section – cards animate in one at a time (path animation), top row first */}
+        {/* Services Section, cards animate in one at a time (path animation), top row first */}
         <section id="services" className="home-services-band section-spacing relative overflow-visible bg-black">
         <div className="site-container">
-          <div
-            className={`section-content-gap space-y-16 text-white home-scroll-rise ${
-              sectionMotion.services ? "opacity-100 translate-y-0" : "opacity-0 translate-y-14"
-            }`}
-          >
+          <div className="section-content-gap space-y-16 text-white">
             <WhatWeOfferSection />
           </div>
         </div>
         </section>
+
+        <AboutIntroSection />
       </div>
 
       {/* Projects: sticky block; wheel pans strip when anchor crosses LOCK_LINE */}
       <section
         ref={projectsSectionRef}
         id="projects"
-        className="projects-section overflow-x-hidden pb-40 sm:pb-48 lg:pb-64 scroll-mt-24"
+        className="projects-section overflow-x-clip pb-40 sm:pb-48 lg:pb-64 scroll-mt-24"
         style={{ backgroundColor: "#ffffff" }}
       >
         <div
-          className="projects-section__sticky sticky top-0 z-20 flex min-h-[100dvh] max-h-[100dvh] flex-col"
+          className="projects-section__sticky sticky top-0 z-20 flex min-h-[100dvh] flex-col"
           style={{ backgroundColor: "#ffffff" }}
         >
             <div className="site-container relative z-30 shrink-0 pt-24 lg:pt-28">
-              <div
-                className={`projects-section-head flex flex-col gap-6 sm:flex-row sm:items-center sm:justify-between sm:gap-6 home-scroll-rise ${
-                  sectionMotion.projects ? "opacity-100 translate-y-0" : "opacity-0 translate-y-16"
-                }`}
-              >
+              <div className="projects-section-head flex flex-col gap-6 sm:flex-row sm:items-center sm:justify-between sm:gap-6">
                 <div>
-                  <span className="section-label section-label--black">Projects</span>
-                  <h2 className="home-section-title text-black font-title">
-                    Built to last, delivered with care.
-                  </h2>
+                  <span
+                    className={`section-label section-label--black home-scroll-rise ${
+                      sectionMotion.projects ? "opacity-100 translate-y-0" : "opacity-0 translate-y-16"
+                    }`}
+                  >
+                    Projects
+                  </span>
+                  <LetterReveal
+                    as="h2"
+                    text="Built to last, delivered with care."
+                    className="home-section-title text-black font-title"
+                    active={sectionMotion.projects}
+                  />
                 </div>
-                <div className="flex items-center gap-3 shrink-0">
+                <div
+                  className={`flex items-center gap-3 shrink-0 home-scroll-rise ${
+                    sectionMotion.projects ? "opacity-100 translate-y-0" : "opacity-0 translate-y-16"
+                  }`}
+                >
                   <button
                     type="button"
                     onClick={() => scrollProjects("left")}
@@ -1069,9 +987,9 @@ export default function Home() {
             >
               <div
                 ref={projectsViewportRef}
-                className="relative w-full min-h-0 flex-1 overflow-hidden pt-6 sm:pt-8 lg:pt-10"
+                className="relative w-full min-h-0 flex-1 overflow-x-hidden overflow-y-visible pt-6 pb-8 sm:pt-8 sm:pb-10 lg:pt-10 lg:pb-12"
               >
-                <div className="relative left-1/2 w-screen max-w-[100vw] -translate-x-1/2 overflow-hidden">
+                <div className="relative left-1/2 w-screen max-w-[100vw] -translate-x-1/2 overflow-x-hidden overflow-y-visible">
                   <div
                     ref={projectsStripAnchorRef}
                     className="pointer-events-none h-px w-full shrink-0 overflow-hidden opacity-0"
@@ -1079,16 +997,16 @@ export default function Home() {
                   />
                   <div
                     ref={projectsScrollRef}
-                    className="projects-strip site-gutter-x flex h-full w-max min-h-[300px] items-stretch gap-6 pb-10 will-change-transform"
+                    className="projects-strip site-gutter-x flex w-max items-stretch gap-6 pb-6 will-change-transform sm:pb-8"
                   >
                   {projects.map((p, i) => (
-                    <div key={i} className="projects-card-shelf flex shrink-0 self-stretch pt-4 sm:pt-5">
+                    <div key={i} className="projects-card-shelf flex shrink-0 self-start pt-4 sm:pt-5">
                       <Link
                         href={p.href}
-                        className="projects-card group flex h-full min-h-0 flex-col rounded-xl bg-black transition-transform duration-300 ease-out hover:-translate-y-2"
+                        className="projects-card group flex flex-col rounded-xl bg-black transition-transform duration-300 ease-out hover:-translate-y-2"
                       >
-                        <div className="flex min-h-0 flex-1 flex-col overflow-hidden rounded-xl">
-                          <div className="relative aspect-[3/4] min-h-[480px] flex-1 projects-card__inner">
+                        <div className="flex flex-col overflow-hidden rounded-xl">
+                          <div className="relative aspect-[3/4] min-h-[480px] projects-card__inner">
                             <span
                               className="projects-card-number absolute top-6 right-6 z-10 text-5xl font-bold text-white tabular-nums drop-shadow-md sm:text-6xl"
                               style={{ fontFamily: 'var(--font-title, "Outfit", sans-serif)' }}
@@ -1112,10 +1030,7 @@ export default function Home() {
                                 <p className="mb-2 text-[11px] uppercase tracking-[0.14em] text-white">{p.stat}</p>
                                 <p className="mb-1.5 min-h-[4.8rem] text-[clamp(1.45rem,2.4vw,2rem)] font-bold leading-[1.12] text-white">{p.title}</p>
                                 <p className="mb-2.5 text-xs uppercase tracking-[0.11em] text-white/90">{p.location}</p>
-                                <p className="mb-3 line-clamp-2 min-h-[2.6rem] text-sm text-white">{p.description}</p>
-                                <p className="mb-4 line-clamp-2 min-h-[2.7rem] text-sm italic text-white">
-                                  &ldquo;{p.quote}&rdquo;
-                                </p>
+                                <p className="mb-4 text-sm leading-relaxed text-white">{p.description}</p>
                               </div>
                               <span
                                 className="projects-card-arrow absolute bottom-5 right-6 z-20 flex h-10 w-10 items-center justify-center rounded-full bg-white/20 text-white transition-transform duration-200 group-hover:rotate-12"
@@ -1138,7 +1053,7 @@ export default function Home() {
 
       <HomeSectionDivider surface="on-light" width="full" />
 
-      {/* Why Choose Us – canted top and bottom */}
+      {/* Why Choose Us, canted top and bottom */}
       <section
         id="about"
         className={`section-spacing section-canted-top section-canted-bottom transition-opacity duration-300 ${
@@ -1149,15 +1064,21 @@ export default function Home() {
           <div className="section-content-gap space-y-16">
             <div className="grid grid-cols-1 items-start gap-12 lg:grid-cols-2 lg:gap-14 xl:gap-20">
               <div className="why-choose-us-copy min-w-0 text-black">
-                <span className="section-label section-label--black about-reveal" style={{ transitionDelay: "0ms" }}>TRUSTED & ACCREDITTED</span>
-                <h2 className="home-section-title section-title-gap about-reveal font-title text-black" style={{ transitionDelay: "120ms" }}>
-                  <span className="block leading-[1.03]">Trust,</span>
-                  <span className="mt-0.5 block leading-[1.03] sm:mt-1">quality,</span>
-                  <span className="mt-0.5 block leading-[1.03] sm:mt-1">peace of mind.</span>
-                </h2>
-                <p className="section-intro-gap mt-8 max-w-xl text-base leading-relaxed text-gray-600 md:mt-10 about-reveal" style={{ transitionDelay: "220ms" }}>
-                  We have been providing bespoke integrated security systems to London and the Home Counties since 1986. Our extensive knowledge and decades of real world experience allow us to deliver high quality security systems to the domestic and commercial sector.
-                </p>
+                <span className="section-label section-label--black about-reveal" style={{ transitionDelay: "0ms" }}>TRUSTED &amp; ACCREDITED</span>
+                <LetterReveal
+                  as="h2"
+                  text="Trust, quality, peace of mind."
+                  className="home-section-title section-title-gap font-title text-black"
+                  active={sectionMotion.about}
+                  delayMs={80}
+                />
+                <LineReveal
+                  as="p"
+                  text="Building on a heritage dating back to 1986, APX Fire & Security (formerly Smiths Technical Systems Ltd) designs, installs and maintains integrated fire, life-safety and electronic security systems across London and the Home Counties. We hold NSI Gold approval for both security and fire, with 24/7 call-out cover and monitoring options available where your site needs them."
+                  className="section-intro-gap mt-8 max-w-xl text-base leading-relaxed text-gray-600 md:mt-10"
+                  active={sectionMotion.about}
+                  delayMs={160}
+                />
 
                 <div
                   className="stats-section mt-10 flex max-w-xl flex-col gap-4 sm:mt-12 sm:flex-row sm:flex-wrap sm:items-stretch sm:justify-start sm:gap-4"
@@ -1190,7 +1111,7 @@ export default function Home() {
                 </div>
               </div>
 
-              <div className="grid w-full min-w-0 grid-cols-2 items-stretch gap-x-4 gap-y-7 self-center sm:gap-x-5 sm:gap-y-8 lg:ml-auto lg:max-w-[46rem] lg:justify-self-end">
+              <div className="grid w-full min-w-0 grid-cols-1 gap-6 self-center lg:ml-auto lg:max-w-[46rem] lg:grid-cols-2 lg:gap-x-5 lg:gap-y-8 lg:justify-self-end">
                 {WHY_CHOOSE_CARDS.map(({ Icon, title, bullets }, idx) => (
                   <div key={title} className="why-choose-card-shell about-reveal flex h-full min-h-0 min-w-0 flex-col items-center" style={{ transitionDelay: `${360 + idx * 90}ms` }}>
                     <div
@@ -1199,8 +1120,8 @@ export default function Home() {
                     >
                       <Icon className="h-5 w-5 shrink-0 text-white/90 md:h-6 md:w-6" strokeWidth={1.5} />
                     </div>
-                    <article className="why-choose-card -mt-6 flex min-h-0 w-full min-w-0 flex-1 flex-col rounded-tl-[1.35rem] rounded-br-[1.35rem] border-2 border-white bg-black px-3 pb-4 pt-8 text-center text-white md:rounded-tl-[1.5rem] md:rounded-br-[1.5rem] md:px-4 md:pb-5 md:pt-9">
-                      <h4 className="font-title text-base font-semibold leading-snug text-white md:text-lg">{title}</h4>
+                    <article className="why-choose-card -mt-6 flex min-h-0 w-full min-w-0 flex-1 flex-col rounded-tl-[1.35rem] rounded-br-[1.35rem] border-2 border-white bg-black px-5 pb-5 pt-8 text-center text-white md:rounded-tl-[1.5rem] md:rounded-br-[1.5rem] md:px-4 md:pb-5 md:pt-9">
+                      <h4 className="font-title text-lg font-semibold leading-snug text-white md:text-lg">{title}</h4>
                       <ul className="apx-site-table apx-capability-list mt-3 flex-1 text-center text-sm sm:mt-4">
                         {bullets.map((line) => (
                           <li key={line} className="apx-capability-list__item">
@@ -1265,10 +1186,27 @@ export default function Home() {
           <section id="why-mep" className="news-section">
             <div className="site-container">
               <div className="news-section__grid">
+                <header className="news-section__header">
+                  <span
+                    className={`news-section__label home-scroll-rise ${
+                      sectionMotion.news ? "opacity-100 translate-y-0" : "opacity-0 translate-y-14"
+                    }`}
+                  >
+                    News and Articles
+                  </span>
+                  <LetterReveal
+                    as="h2"
+                    text="Insights and updates"
+                    className="news-section__title"
+                    active={sectionMotion.news}
+                  />
+                </header>
+
                 <div
                   className={`news-section__media home-scroll-rise ${
                     sectionMotion.news ? "opacity-100 translate-y-0" : "opacity-0 translate-y-14"
                   }`}
+                  style={{ transitionDelay: "80ms" }}
                 >
                   <Link href={newsArticles[activeNewsIndex]?.href ?? NEWS_HUB_PATH} className="news-section__image-link block w-full">
                     <div
@@ -1285,10 +1223,6 @@ export default function Home() {
                   }`}
                   style={{ transitionDelay: "120ms" }}
                 >
-                  <header className="news-section__header">
-                    <span className="news-section__label">News and Articles</span>
-                    <h2 className="news-section__title">Insights and updates</h2>
-                  </header>
                   <nav aria-label="Articles">
                     <ul className="news-section__list">
                       {newsArticles.map((article, i) => (
@@ -1326,12 +1260,12 @@ export default function Home() {
         </>
       )}
 
-      {/* Testimonials, full-bleed black, large display type, arrows + fade */}
+      {/* Reviews & support, temporarily hidden; keep markup for restore */}
       <section
         id="testimonials"
-        className="relative overflow-hidden bg-black py-24 sm:py-24 lg:py-32"
-        onMouseEnter={() => setTestimonialsPaused(true)}
-        onMouseLeave={() => setTestimonialsPaused(false)}
+        hidden
+        aria-hidden="true"
+        className="relative hidden overflow-hidden bg-black py-24 sm:py-24 lg:py-32"
       >
         <div
           className="pointer-events-none absolute inset-0 bg-[radial-gradient(ellipse_90%_60%_at_50%_-10%,rgba(255,255,255,0.07),transparent_55%)]"
@@ -1342,144 +1276,135 @@ export default function Home() {
           aria-hidden
         />
         <div className="relative z-10 site-container">
-          <div className="grid items-start gap-14 lg:grid-cols-12 lg:gap-x-16 lg:gap-y-12">
+          <div className="grid items-start gap-12 lg:grid-cols-12 lg:gap-x-16">
             <div
               className={`lg:col-span-5 home-scroll-rise ${
                 sectionMotion.testimonials ? "opacity-100 translate-y-0" : "opacity-0 translate-y-14"
               }`}
             >
-              <span className="section-label text-white/70">Testimonials</span>
+              <span className="section-label text-white/70">Reviews &amp; support</span>
               <h2 className="home-section-title mt-4 font-title text-white">
-                Trusted by teams
-                <span className="block text-white/90">that expect results</span>
+                Real feedback.
+                <span className="block text-white/90">Real response.</span>
               </h2>
               <p className="mt-8 max-w-md text-base leading-relaxed text-white/55">
-                Don&apos;t just take our word for it, hear from clients who&apos;ve worked with APX Fire &amp; Security
-                across London and the Home Counties.
+                Read verified Google reviews from clients across London and the Home Counties. When systems need attention,
+                our 24/7 call-out team and monitoring options keep sites protected after handover.
               </p>
+              <div className="mt-8 flex flex-wrap gap-3">
+                <CustomPillButton href={GOOGLE_REVIEWS_LISTING_URL} size="md" className="justify-center">
+                  See Google reviews
+                </CustomPillButton>
+                <CustomPillButton
+                  href="/services/monitoring"
+                  variant="outline"
+                  size="md"
+                  className="justify-center"
+                >
+                  Ask about monitoring
+                </CustomPillButton>
+              </div>
             </div>
 
             <div
-              className={`relative lg:col-span-7 transition-all delay-150 duration-[900ms] ease-out ${
+              className={`lg:col-span-7 grid gap-4 sm:grid-cols-2 transition-all delay-150 duration-[900ms] ease-out ${
                 sectionMotion.testimonials ? "opacity-100 translate-y-0" : "opacity-0 translate-y-16"
               }`}
             >
-              <div className="mb-8 flex flex-wrap items-center gap-2 sm:gap-2.5">
-                {[...Array(5)].map((_, i) => (
-                  <Star
-                    key={i}
-                    fill="white"
-                    className="h-8 w-8 shrink-0 stroke-white stroke-[1.25] text-white sm:h-10 sm:w-10 sm:stroke-[1.2]"
-                    strokeLinejoin="miter"
-                    strokeLinecap="butt"
-                    style={{ vectorEffect: "non-scaling-stroke" }}
-                    aria-hidden
-                  />
-                ))}
-                <span className="ml-2 text-sm font-semibold uppercase tracking-[0.2em] text-white/40 sm:ml-3">5.0</span>
-              </div>
-
-              <div
-                ref={testimonialQuoteStackRef}
-                className="relative w-full"
-                style={testimonialsQuoteMinPx ? { minHeight: testimonialsQuoteMinPx } : undefined}
-              >
-                {testimonials.map((t, i) => (
-                  <div
-                    key={t.name}
-                    data-testimonial-quote-slide
-                    className={`left-0 right-0 top-0 transition-opacity duration-500 ease-out motion-reduce:transition-none ${
-                      i === currentTestimonial
-                        ? "relative z-10 opacity-100"
-                        : "absolute z-0 opacity-0 pointer-events-none"
-                    }`}
-                    aria-hidden={i !== currentTestimonial}
-                  >
-                    <blockquote className="apx-testimonials-quote text-lg font-normal leading-[1.7] tracking-normal text-white/90 sm:text-xl sm:leading-[1.75] lg:text-[1.25rem] lg:leading-[1.8] xl:text-[1.35rem] xl:leading-[1.8]">
-                      <span className="text-white/25">&ldquo;</span>
-                      {t.text}
-                      <span className="text-white/25">&rdquo;</span>
-                    </blockquote>
-                    <footer className="mt-10 border-t border-white/10 pt-8">
-                      <div className="text-lg font-semibold text-white">{t.name}</div>
-                      <div className="mt-1 text-sm text-white/45">{t.role}</div>
-                    </footer>
-                  </div>
-                ))}
-              </div>
-
-              <div className="mt-10 flex flex-wrap items-center justify-between gap-6">
-                <div className="flex items-center gap-3">
-                  <button
-                    type="button"
-                    aria-label="Previous testimonial"
-                    onClick={testimonialPrev}
-                    className="projects-nav-btn w-12 h-12 rounded-full border border-white bg-transparent text-white flex items-center justify-center transition-colors hover:bg-white hover:text-black focus:bg-white focus:text-black"
-                  >
-                    <ChevronLeft className="w-6 h-6" />
-                  </button>
-                  <button
-                    type="button"
-                    aria-label="Next testimonial"
-                    onClick={testimonialNext}
-                    className="projects-nav-btn w-12 h-12 rounded-full border border-white bg-transparent text-white flex items-center justify-center transition-colors hover:bg-white hover:text-black focus:bg-white focus:text-black"
-                  >
-                    <ChevronRight className="w-6 h-6" />
-                  </button>
-                </div>
-                <div className="flex items-center gap-2" role="tablist" aria-label="Choose testimonial">
-                  {testimonials.map((_, index) => (
-                    <button
-                      key={index}
-                      type="button"
-                      role="tab"
-                      aria-selected={index === currentTestimonial}
-                      aria-label={`Testimonial ${index + 1}`}
-                      onClick={() => setCurrentTestimonial(index)}
-                      className={`h-2 rounded-full transition-all duration-300 ${
-                        index === currentTestimonial ? "w-8 bg-white" : "w-2 bg-white/25 hover:bg-white/40"
-                      }`}
-                    />
-                  ))}
-                </div>
-              </div>
+              <article className="rounded-tl-2xl rounded-br-2xl border-2 border-white/70 bg-gradient-to-b from-neutral-900 to-black p-6 sm:p-7">
+                <Clock className="mb-4 h-8 w-8 text-white" strokeWidth={1.5} aria-hidden />
+                <h3 className="font-title text-xl font-semibold text-white">24/7 call-out</h3>
+                <p className="mt-3 text-sm leading-relaxed text-white/70">
+                  Emergency engineer response for fire and security faults, with planned maintenance to keep systems
+                  compliant between call-outs.
+                </p>
+                <Link
+                  href="/services/emergency-call-out"
+                  className="mt-5 inline-flex text-sm font-semibold uppercase tracking-wide text-white underline underline-offset-4"
+                >
+                  Arrange cover
+                </Link>
+              </article>
+              <article className="rounded-tl-2xl rounded-br-2xl border-2 border-white/70 bg-gradient-to-b from-neutral-900 to-black p-6 sm:p-7">
+                <Shield className="mb-4 h-8 w-8 text-white" strokeWidth={1.5} aria-hidden />
+                <h3 className="font-title text-xl font-semibold text-white">Monitoring &amp; ARC</h3>
+                <p className="mt-3 text-sm leading-relaxed text-white/70">
+                  Alarm receiving centre (ARC) signalling and remote monitoring options for intruder, fire and CCTV
+                  pathways, so events are escalated when your site is unattended.
+                </p>
+                <Link
+                  href="/services/monitoring"
+                  className="mt-5 inline-flex text-sm font-semibold uppercase tracking-wide text-white underline underline-offset-4"
+                >
+                  Enquire about ARC
+                </Link>
+              </article>
             </div>
           </div>
         </div>
       </section>
 
-      <HomeSectionDivider surface="on-dark" width="full" />
+      {/* Divider after reviews, hidden while reviews section is hidden */}
+      <div className="hidden" aria-hidden="true">
+        <HomeSectionDivider surface="on-dark" width="full" />
+      </div>
 
-      {/* Ready to Get Started Section – black bg, white text */}
+      {/* Ready to Get Started Section, black bg, white text */}
       <section id="contact" className="section-spacing relative bg-black">
         <div className="site-container">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 sm:gap-12 lg:gap-16 items-start">
             {/* Left side - Title and Button */}
             <div
-              className={`contact-section-head space-y-8 pt-16 lg:pt-24 home-scroll-rise ${
-                sectionMotion.contact ? "opacity-100 translate-y-0" : "opacity-0 translate-y-14"
-              }`}
+              className="contact-section-head space-y-8 pt-16 lg:pt-24"
               style={
                 sectionMotion.contact ? { transitionDelay: `${HOME_QUOTE_FORM_INNER_DELAY_MS}ms` } : undefined
               }
             >
-              <span className="section-label text-white/80">Contact</span>
-              <h2 className="home-section-title text-left text-white font-title">
-                Ready to get started?
-              </h2>
+              <span
+                className={`section-label text-white/80 home-scroll-rise ${
+                  sectionMotion.contact ? "opacity-100 translate-y-0" : "opacity-0 translate-y-14"
+                }`}
+                style={
+                  sectionMotion.contact ? { transitionDelay: `${HOME_QUOTE_FORM_INNER_DELAY_MS}ms` } : undefined
+                }
+              >
+                Contact
+              </span>
+              <LetterReveal
+                as="h2"
+                text="Ready to get started?"
+                className="home-section-title text-left text-white font-title"
+                active={sectionMotion.contact}
+                delayMs={HOME_QUOTE_FORM_INNER_DELAY_MS}
+              />
               
               <div className="space-y-6 max-w-lg">
-                <p className="text-base leading-relaxed text-gray-300">
-                  As one of the leading security system installers in London and the south east, we are pleased to offer a free survey and report for your property. Our systems are expertly designed in accordance with NSI Gold standards, covering both the domestic and commercial market.
-                </p>
+                <LineReveal
+                  as="p"
+                  text="As one of the leading fire and security system installers in London and the South East, we are pleased to offer a free survey and report for your property. Our systems are designed in accordance with NSI Gold standards for both security and fire, covering domestic and commercial sites."
+                  className="text-base leading-relaxed text-gray-300"
+                  active={sectionMotion.contact}
+                  delayMs={HOME_QUOTE_FORM_INNER_DELAY_MS + 80}
+                />
                 
-                <p className="text-base leading-relaxed text-gray-300">
-                  Whether you&apos;re looking for security, monitoring, detection or safety, simply contact us for a chat about your requirements. We respond to all enquiries promptly and will provide detailed, competitive quotes tailored to your needs.
-              </p>
+                <LineReveal
+                  as="p"
+                  text="Whether you need security, fire detection, monitoring and ARC signalling, or 24/7 call-out support, contact us for a chat about your requirements. We respond promptly and provide detailed, competitive quotes tailored to your needs."
+                  className="text-base leading-relaxed text-gray-300"
+                  active={sectionMotion.contact}
+                  delayMs={HOME_QUOTE_FORM_INNER_DELAY_MS + 200}
+                />
             </div>
             
               <button
-                className="bg-white text-black px-8 py-4 rounded-lg font-semibold text-lg hover:bg-gray-100 transition-colors duration-300 flex items-center gap-3"
+                className={`bg-white text-black px-8 py-4 rounded-lg font-semibold text-lg hover:bg-gray-100 transition-colors duration-300 flex items-center gap-3 home-scroll-rise ${
+                  sectionMotion.contact ? "opacity-100 translate-y-0" : "opacity-0 translate-y-14"
+                }`}
+                style={
+                  sectionMotion.contact
+                    ? { transitionDelay: `${HOME_QUOTE_FORM_INNER_DELAY_MS + 280}ms` }
+                    : undefined
+                }
                 onClick={() => document.getElementById('quote-form')?.scrollIntoView({ behavior: 'smooth' })}
               >
                 <ArrowRight className="h-6 w-6" />
@@ -1576,16 +1501,17 @@ export default function Home() {
                         onWheel={containDropdownWheelScroll}
                       >
                         {[
-                          { value: 'cctv', label: 'CCTV Systems' },
-                          { value: 'access-control', label: 'Access Control Systems' },
-                          { value: 'intruder-alarms', label: 'Intruder Alarm Systems' },
-                          { value: 'fire-alarms', label: 'Fire Alarm Systems' },
-                          { value: 'video-door-entry', label: 'Video Door Entry Systems' },
-                          { value: 'refuge-evc', label: 'Refuge & Disabled Communication Systems' },
-                          { value: 'evac-voice', label: 'EVAC & Voice Evacuation Systems' },
-                          { value: 'fire-life-safety', label: 'Fire & Life Safety (Overview)' },
-                          { value: 'maintenance-support', label: 'Maintenance & Support' },
-                          { value: 'other', label: 'Other' }
+                          { value: "intruder-alarms", label: "Intruder Alarm Systems" },
+                          { value: "fire-alarms", label: "Fire Alarm Systems" },
+                          { value: "cctv", label: "CCTV Systems" },
+                          { value: "access-control", label: "Access Control Systems" },
+                          { value: "video-door-entry", label: "Video Door Entry Systems" },
+                          { value: "gate-automation", label: "Gate Automation" },
+                          { value: "evac-voice", label: "EVAC & Voice Alarm Systems" },
+                          { value: "refuge-disabled-communication", label: "Disabled Refuge, Fire Telephone & Toilet Alarm Systems" },
+                          { value: "monitoring", label: "Monitoring" },
+                          { value: "maintenance-support", label: "Maintenance, Repairs & 24/7 Call-Outs" },
+                          { value: "other", label: "Other" },
                         ].map((service) => (
                           <button
                             key={service.value}
