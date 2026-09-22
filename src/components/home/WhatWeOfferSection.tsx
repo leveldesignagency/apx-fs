@@ -207,7 +207,7 @@ export function WhatWeOfferSection() {
     const span = 0.42
     return progress >= start + (span * (i + 1)) / linkCount
   }
-  const showTab = (i: number) => {
+  const showTab = () => {
     if (reduceMotion) return true
     if (!viewportReady) return false
     if (!mobile) return desktopPlay
@@ -319,7 +319,7 @@ export function WhatWeOfferSection() {
                 className={cn(
                   "fs-offer-tab fs-offer-seq__tab flex h-12 min-h-[44px] w-full flex-1 items-center justify-center rounded-t-xl rounded-b-none border-2 border-b-0 px-3 py-2 text-center text-sm font-semibold uppercase leading-snug tracking-wide",
                   isSelected ? "fs-offer-tab--active" : "fs-offer-tab--inactive",
-                  showTab(i) && "is-in"
+                  showTab() && "is-in"
                 )}
                 style={tabDelayStyle(i)}
               >

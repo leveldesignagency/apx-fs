@@ -1,14 +1,17 @@
-/** Canonical `/services/…` paths — slugs match the service name, not legacy MEP routes. */
+/** Canonical `/services/…` paths, slugs match the service name, not legacy MEP routes. */
 export const FS_SERVICE_ROUTES = {
   cctvSystems: "/services/cctv-systems",
   accessControlSystems: "/services/access-control-systems",
   intruderAlarmSystems: "/services/intruder-alarm-systems",
   fireAlarmSystems: "/services/fire-alarm-systems",
   videoDoorEntrySystems: "/services/video-door-entry-systems",
+  gateAutomationSystems: "/services/gate-automation-systems",
   refugeDisabledCommunication: "/services/refuge-disabled-communication",
   evacVoiceEvacuation: "/services/evac-voice-evacuation",
   fireLifeSafety: "/services/fire-life-safety",
   maintenanceSupport: "/services/maintenance-support",
+  monitoring: "/services/monitoring",
+  emergencyCallOut: "/services/emergency-call-out",
   securitySystems: "/services/security-systems",
 } as const
 
@@ -34,15 +37,18 @@ export const FS_LEGACY_SERVICE_REDIRECTS: Record<string, string> = {
 
 /** Slug segment only (for contact `?service=` query params). */
 export const FS_CONTACT_SERVICE_SLUGS = {
-  cctvSystems: "cctv-systems",
-  accessControlSystems: "access-control-systems",
   intruderAlarmSystems: "intruder-alarm-systems",
   fireAlarmSystems: "fire-alarm-systems",
+  cctvSystems: "cctv-systems",
+  accessControlSystems: "access-control-systems",
   videoDoorEntrySystems: "video-door-entry-systems",
-  refugeDisabledCommunication: "refuge-disabled-communication",
+  gateAutomationSystems: "gate-automation-systems",
   evacVoiceEvacuation: "evac-voice-evacuation",
-  fireLifeSafety: "fire-life-safety",
+  refugeDisabledCommunication: "refuge-disabled-communication",
+  monitoring: "monitoring",
   maintenanceSupport: "maintenance-support",
+  emergencyCallOut: "emergency-call-out",
+  fireLifeSafety: "fire-life-safety",
 } as const
 
 /** Map legacy contact form slugs to current ones. */
@@ -51,5 +57,6 @@ export const FS_LEGACY_CONTACT_SERVICE_SLUGS: Record<string, string> = {
   "energy-efficiency": FS_CONTACT_SERVICE_SLUGS.accessControlSystems,
   sustainability: FS_CONTACT_SERVICE_SLUGS.intruderAlarmSystems,
   "mechanical-engineering": FS_CONTACT_SERVICE_SLUGS.fireAlarmSystems,
-  maintenance: FS_CONTACT_SERVICE_SLUGS.videoDoorEntrySystems,
+  maintenance: FS_CONTACT_SERVICE_SLUGS.maintenanceSupport,
+  "maintenance-ppm": FS_CONTACT_SERVICE_SLUGS.maintenanceSupport,
 }
