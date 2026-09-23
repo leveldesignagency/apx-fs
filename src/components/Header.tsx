@@ -3,12 +3,14 @@
 import Link from "next/link"
 import Image from "next/image"
 import { usePathname } from "next/navigation"
-import { Phone, Mail, Menu, X, ArrowRight, Plus, Minus } from "lucide-react"
+import { Phone, Mail, Menu, X, Plus, Minus, Search } from "lucide-react"
 import { ApxSocialLinks } from "@/components/ApxSocialLinks"
 import { useState, useRef, useEffect, useLayoutEffect, useCallback, type MouseEvent, type TransitionEvent } from "react"
 import { createPortal } from "react-dom"
 import { useTheme } from '@/contexts/ThemeContext'
 import { cn } from "@/lib/utils"
+import { openFsHomeSearch } from "@/lib/fsHomeSearchUi"
+import { FS_SERVICE_NAV_LINKS } from "@/lib/fs-service-navigation"
 
 export default function Header() {
   const pathname = usePathname()
@@ -204,7 +206,7 @@ export default function Header() {
       className={`site-header ${headerLayoutClass} ${useBlackHeaderCanvas ? "bg-black fs-black-header-canvas" : "bg-transparent"} ${isHomePage || isTransparentHeaderPage || isAboutPage ? "header-bg-transparent-page" : ""} ${isServicesPage ? "header--no-animate" : ""} ${isHomePage || isProjectDetailPage || isServiceSubpage ? "fs-project-detail-header" : ""}`}
       style={{ backgroundColor: useBlackHeaderCanvas ? "#000000" : "transparent" }}
     >
-      {/* ========== SAVED VERSION (original header – not rendered) ========== */}
+      {/* ========== SAVED VERSION (original header, not rendered) ========== */}
       {false && (
         <>
           <nav className="w-full site-gutter-x pt-7 pb-3">
@@ -244,14 +246,14 @@ export default function Header() {
                 ></span>
               </div>
               
-              {/* Services Dropdown – border on outer so bottom border stays visible during accordion collapse */}
+              {/* Services Dropdown, border on outer so bottom border stays visible during accordion collapse */}
               <div
                 className="absolute z-40 overflow-hidden rounded-br-2xl"
                 style={{
                   top: 'calc(100% + 1.2rem)',
                   left: '-32.5px',
                   width: '264.5px',
-                  maxHeight: isServicesOpen ? '460px' : '0',
+                  maxHeight: isServicesOpen ? '520px' : '0',
                   pointerEvents: isServicesOpen ? 'auto' : 'none',
                   transition: 'max-height 0.5s cubic-bezier(0.4, 0, 0.2, 1)',
                   backgroundColor: 'black',
@@ -262,19 +264,11 @@ export default function Header() {
                 onMouseLeave={closeServices}
               >
                 <div className="divide-y divide-white/[0.1] rounded-br-2xl">
-                  {[
-                    { href: '/services/cctv-systems', label: 'CCTV SYSTEMS' },
-                    { href: '/services/access-control-systems', label: 'ACCESS CONTROL SYSTEMS' },
-                    { href: '/services/intruder-alarm-systems', label: 'INTRUDER ALARM SYSTEMS' },
-                    { href: '/services/fire-alarm-systems', label: 'FIRE ALARM SYSTEMS' },
-                    { href: '/services/video-door-entry-systems', label: 'VIDEO DOOR ENTRY SYSTEMS' },
-                    { href: '/services/refuge-disabled-communication', label: 'REFUGE & DISABLED COMMS' },
-                    { href: '/services/evac-voice-evacuation', label: 'EVAC & VOICE EVACUATION' },
-                  ].map(({ href, label }) => (
+                  {FS_SERVICE_NAV_LINKS.map(({ href, navLabel }) => (
                     <a
                       key={href}
                       href={href}
-                      className="dropdown-item relative group block px-4 py-2 text-sm leading-relaxed cursor-pointer uppercase"
+                      className="dropdown-item relative group block px-4 py-2 text-sm leading-relaxed cursor-pointer"
                       style={{ color: 'white' }}
                       onClick={() => {
                         setIsServicesOpen(false)
@@ -286,7 +280,7 @@ export default function Header() {
                     >
                       <span className="absolute top-0 left-0 w-full h-0.5 transform scale-x-0 origin-left transition-transform duration-500 group-hover:scale-x-100" style={{ backgroundColor: 'white' }} />
                       <span className="absolute bottom-0 left-0 w-full h-0.5 transform scale-x-0 origin-left transition-transform duration-500 group-hover:scale-x-100" style={{ backgroundColor: 'white' }} />
-                      {label}
+                      {navLabel}
                     </a>
                   ))}
                 </div>
@@ -328,10 +322,10 @@ export default function Header() {
                 style={{ backgroundColor: 'white' }}
               ></span>
             </Link>
-            <a href={process.env.NEXT_PUBLIC_APX_MEP_URL || 'http://localhost:3000'} className="group relative header-pill-apx-link" style={{ color: 'white' }}>
+            <a href="#" className="group relative header-pill-apx-link" style={{ color: 'white' }}>
               <div className="flex items-center justify-center overflow-hidden transition-all duration-700 ease-[cubic-bezier(0.25,0.46,0.45,0.94)] w-8 h-8 min-w-8 min-h-8 group-hover:w-52 group-hover:backdrop-blur-sm rounded-full border-2 pulse-glow" style={{ borderColor: 'white' }}>
                 <div className="flex items-center justify-center w-8 h-8 rounded-full transition-all duration-700 ease-[cubic-bezier(0.25,0.46,0.45,0.94)] flex-shrink-0 absolute left-0 top-0" style={{ color: 'white' }}>
-                  <ArrowRight className="h-3.5 w-3.5 transition-all duration-500 group-hover:opacity-0 group-hover:rotate-180 shrink-0" style={{ color: 'white', stroke: 'white' }} />
+                  <Search className="h-3.5 w-3.5 shrink-0" style={{ color: 'white', stroke: 'white' }} />
                 </div>
                 <div className="absolute inset-0 flex items-center justify-center overflow-hidden">
                   <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-500 delay-200 group-hover:delay-200"></div>
@@ -382,10 +376,10 @@ export default function Header() {
                 <span className="absolute bottom-0 left-1/2 w-full h-0.5 transform -translate-x-1/2 scale-x-0 origin-center transition-transform duration-500 group-hover:scale-x-100" style={{ backgroundColor: theme === 'dark' ? 'white' : 'black' }}></span>
               </Link>
               <div className="pt-4">
-                <a href={process.env.NEXT_PUBLIC_APX_MEP_URL || 'http://localhost:3000'} className="group relative">
+                <a href="#" className="group relative">
                   <div className="flex items-center overflow-hidden transition-all duration-700 ease-[cubic-bezier(0.25,0.46,0.45,0.94)] group-hover:w-52 w-10 group-hover:backdrop-blur-sm rounded-full border pulse-glow">
                     <div className="flex items-center justify-center w-10 h-10 rounded-full transition-all duration-700 ease-[cubic-bezier(0.25,0.46,0.45,0.94)] flex-shrink-0">
-                      <ArrowRight className="h-4 w-4 transition-all duration-500 group-hover:opacity-0 group-hover:rotate-180" />
+                      <Search className="h-4 w-4" />
                     </div>
                     <div className="absolute inset-0 flex items-center justify-center overflow-hidden">
                       <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-500 delay-200 group-hover:delay-200"></div>
@@ -490,7 +484,8 @@ export default function Header() {
                 <div
                   className="fs-services-nav-dropdown fs-services-nav-dropdown--open"
                   style={{
-                    maxHeight: isCctvExpanded ? '560px' : '460px',
+                    maxHeight: isCctvExpanded ? "min(70vh, 720px)" : "min(70vh, 640px)",
+                    overflowY: "auto",
                   }}
                   onMouseEnter={openServices}
                   onMouseLeave={() => {
@@ -499,126 +494,97 @@ export default function Header() {
                   }}
                 >
                   <div className="divide-y divide-white/[0.1] rounded-br-2xl">
-                    {/* CCTV SYSTEMS: click +/- to expand sub-options; collapses when leaving the dropdown */}
-                    <div className="bg-black transition-colors">
-                      <div className="relative flex w-full items-stretch justify-between bg-black">
+                    {FS_SERVICE_NAV_LINKS.map((link) => {
+                      const closeDropdown = () => {
+                        setIsServicesOpen(false)
+                        setIsCctvExpanded(false)
+                        if (servicesCloseTimeoutRef.current) {
+                          clearTimeout(servicesCloseTimeoutRef.current)
+                          servicesCloseTimeoutRef.current = null
+                        }
+                      }
+                      if ("hasCctvSubnav" in link && link.hasCctvSubnav) {
+                        return (
+                          <div key={link.href} className="bg-black transition-colors">
+                            <div className="relative flex w-full items-stretch justify-between bg-black">
+                              <a
+                                href={link.href}
+                                className="dropdown-item relative group flex min-w-0 flex-1 items-center px-4 py-2 text-sm leading-relaxed cursor-pointer"
+                                style={{ color: "#fff" }}
+                                onClick={closeDropdown}
+                              >
+                                <span className="absolute top-0 left-0 w-full h-0.5 transform scale-x-0 origin-left transition-transform duration-500 group-hover:scale-x-100" style={{ backgroundColor: "#fff" }} />
+                                <span className="absolute bottom-0 left-0 w-full h-0.5 transform scale-x-0 origin-left transition-transform duration-500 group-hover:scale-x-100" style={{ backgroundColor: "#fff" }} />
+                                <span>{link.navLabel}</span>
+                              </a>
+                              <button
+                                type="button"
+                                className="fs-services-cctv-toggle-btn flex flex-shrink-0 items-center justify-center border-l border-white/10 px-3 py-2 text-white opacity-85 transition-opacity hover:opacity-100 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-[-2px] focus-visible:outline-white/60"
+                                aria-expanded={isCctvExpanded}
+                                aria-label={isCctvExpanded ? "Collapse CCTV systems menu" : "Expand CCTV systems menu"}
+                                onClick={toggleCctvExpanded}
+                              >
+                                {isCctvExpanded ? (
+                                  <Minus className="h-3.5 w-3.5 flex-shrink-0" stroke="#fff" aria-hidden />
+                                ) : (
+                                  <Plus className="h-3.5 w-3.5 flex-shrink-0" stroke="#fff" aria-hidden />
+                                )}
+                              </button>
+                            </div>
+                            {isCctvExpanded && (
+                              <>
+                                <a
+                                  href="/services/cctv/commercial"
+                                  className="dropdown-item dropdown-sub-item relative group block px-4 py-2 pl-6 text-sm leading-relaxed cursor-pointer uppercase border-t border-white/[0.08]"
+                                  style={{ color: "#fff" }}
+                                  onClick={closeDropdown}
+                                >
+                                  <span className="absolute top-0 left-0 w-full h-0.5 transform scale-x-0 origin-left transition-transform duration-500 group-hover:scale-x-100" style={{ backgroundColor: "#fff" }} />
+                                  <span className="absolute bottom-0 left-0 w-full h-0.5 transform scale-x-0 origin-left transition-transform duration-500 group-hover:scale-x-100" style={{ backgroundColor: "#fff" }} />
+                                  Commercial CCTV systems
+                                </a>
+                                <a
+                                  href="/services/cctv/advice"
+                                  className="dropdown-item dropdown-sub-item relative group block px-4 py-2 pl-6 text-sm leading-relaxed cursor-pointer uppercase border-t border-white/[0.08]"
+                                  style={{ color: "#fff" }}
+                                  onClick={closeDropdown}
+                                >
+                                  <span className="absolute top-0 left-0 w-full h-0.5 transform scale-x-0 origin-left transition-transform duration-500 group-hover:scale-x-100" style={{ backgroundColor: "#fff" }} />
+                                  <span className="absolute bottom-0 left-0 w-full h-0.5 transform scale-x-0 origin-left transition-transform duration-500 group-hover:scale-x-100" style={{ backgroundColor: "#fff" }} />
+                                  Useful CCTV advice
+                                </a>
+                                <a
+                                  href="/services/cctv/domestic"
+                                  className="dropdown-item dropdown-sub-item relative group block px-4 py-2 pl-6 text-sm leading-relaxed cursor-pointer uppercase border-t border-white/[0.08]"
+                                  style={{ color: "#fff" }}
+                                  onClick={closeDropdown}
+                                >
+                                  <span className="absolute top-0 left-0 w-full h-0.5 transform scale-x-0 origin-left transition-transform duration-500 group-hover:scale-x-100" style={{ backgroundColor: "#fff" }} />
+                                  <span className="absolute bottom-0 left-0 w-full h-0.5 transform scale-x-0 origin-left transition-transform duration-500 group-hover:scale-x-100" style={{ backgroundColor: "#fff" }} />
+                                  Domestic CCTV (residential)
+                                </a>
+                              </>
+                            )}
+                          </div>
+                        )
+                      }
+                      return (
                         <a
-                          href="/services/cctv-systems"
-                          className="dropdown-item relative group flex min-w-0 flex-1 items-center px-4 py-2 text-sm leading-relaxed cursor-pointer uppercase"
-                          style={{ color: '#fff' }}
-                          onClick={() => {
-                            setIsServicesOpen(false)
-                            setIsCctvExpanded(false)
-                            if (servicesCloseTimeoutRef.current) {
-                              clearTimeout(servicesCloseTimeoutRef.current)
-                              servicesCloseTimeoutRef.current = null
-                            }
+                          key={link.href}
+                          href={link.href}
+                          className="dropdown-item relative group block px-4 py-2 text-sm leading-relaxed cursor-pointer transition-opacity duration-200"
+                          style={{
+                            color: "#fff",
+                            opacity: isCctvExpanded ? 0.45 : 1,
                           }}
+                          onClick={closeDropdown}
                         >
-                          <span className="absolute top-0 left-0 w-full h-0.5 transform scale-x-0 origin-left transition-transform duration-500 group-hover:scale-x-100" style={{ backgroundColor: '#fff' }} />
-                          <span className="absolute bottom-0 left-0 w-full h-0.5 transform scale-x-0 origin-left transition-transform duration-500 group-hover:scale-x-100" style={{ backgroundColor: '#fff' }} />
-                          <span>CCTV SYSTEMS</span>
+                          <span className="absolute top-0 left-0 w-full h-0.5 transform scale-x-0 origin-left transition-transform duration-500 group-hover:scale-x-100" style={{ backgroundColor: "#fff" }} />
+                          <span className="absolute bottom-0 left-0 w-full h-0.5 transform scale-x-0 origin-left transition-transform duration-500 group-hover:scale-x-100" style={{ backgroundColor: "#fff" }} />
+                          {link.navLabel}
                         </a>
-                        <button
-                          type="button"
-                          className="fs-services-cctv-toggle-btn flex flex-shrink-0 items-center justify-center border-l border-white/10 px-3 py-2 text-white opacity-85 transition-opacity hover:opacity-100 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-[-2px] focus-visible:outline-white/60"
-                          aria-expanded={isCctvExpanded}
-                          aria-label={isCctvExpanded ? "Collapse CCTV systems menu" : "Expand CCTV systems menu"}
-                          onClick={toggleCctvExpanded}
-                        >
-                          {isCctvExpanded ? (
-                            <Minus className="h-3.5 w-3.5 flex-shrink-0" stroke="#fff" aria-hidden />
-                          ) : (
-                            <Plus className="h-3.5 w-3.5 flex-shrink-0" stroke="#fff" aria-hidden />
-                          )}
-                        </button>
-                      </div>
-                      {isCctvExpanded && (
-                        <>
-                          <a
-                            href="/services/cctv/domestic"
-                            className="dropdown-item dropdown-sub-item relative group block px-4 py-2 pl-6 text-sm leading-relaxed cursor-pointer uppercase border-t border-white/[0.08]"
-                            style={{ color: '#fff' }}
-                            onClick={() => {
-                              setIsServicesOpen(false)
-                              setIsCctvExpanded(false)
-                              if (servicesCloseTimeoutRef.current) {
-                                clearTimeout(servicesCloseTimeoutRef.current)
-                                servicesCloseTimeoutRef.current = null
-                              }
-                            }}
-                          >
-                            <span className="absolute top-0 left-0 w-full h-0.5 transform scale-x-0 origin-left transition-transform duration-500 group-hover:scale-x-100" style={{ backgroundColor: '#fff' }} />
-                            <span className="absolute bottom-0 left-0 w-full h-0.5 transform scale-x-0 origin-left transition-transform duration-500 group-hover:scale-x-100" style={{ backgroundColor: '#fff' }} />
-                            Domestic CCTV systems
-                          </a>
-                          <a
-                            href="/services/cctv/commercial"
-                            className="dropdown-item dropdown-sub-item relative group block px-4 py-2 pl-6 text-sm leading-relaxed cursor-pointer uppercase border-t border-white/[0.08]"
-                            style={{ color: '#fff' }}
-                            onClick={() => {
-                              setIsServicesOpen(false)
-                              setIsCctvExpanded(false)
-                              if (servicesCloseTimeoutRef.current) {
-                                clearTimeout(servicesCloseTimeoutRef.current)
-                                servicesCloseTimeoutRef.current = null
-                              }
-                            }}
-                          >
-                            <span className="absolute top-0 left-0 w-full h-0.5 transform scale-x-0 origin-left transition-transform duration-500 group-hover:scale-x-100" style={{ backgroundColor: '#fff' }} />
-                            <span className="absolute bottom-0 left-0 w-full h-0.5 transform scale-x-0 origin-left transition-transform duration-500 group-hover:scale-x-100" style={{ backgroundColor: '#fff' }} />
-                            Commercial CCTV systems
-                          </a>
-                          <a
-                            href="/services/cctv/advice"
-                            className="dropdown-item dropdown-sub-item relative group block px-4 py-2 pl-6 text-sm leading-relaxed cursor-pointer uppercase border-t border-white/[0.08]"
-                            style={{ color: '#fff' }}
-                            onClick={() => {
-                              setIsServicesOpen(false)
-                              setIsCctvExpanded(false)
-                              if (servicesCloseTimeoutRef.current) {
-                                clearTimeout(servicesCloseTimeoutRef.current)
-                                servicesCloseTimeoutRef.current = null
-                              }
-                            }}
-                          >
-                            <span className="absolute top-0 left-0 w-full h-0.5 transform scale-x-0 origin-left transition-transform duration-500 group-hover:scale-x-100" style={{ backgroundColor: '#fff' }} />
-                            <span className="absolute bottom-0 left-0 w-full h-0.5 transform scale-x-0 origin-left transition-transform duration-500 group-hover:scale-x-100" style={{ backgroundColor: '#fff' }} />
-                            Useful CCTV advice
-                          </a>
-                        </>
-                      )}
-                    </div>
-                    {[
-                      { href: '/services/access-control-systems', label: 'ACCESS CONTROL SYSTEMS' },
-                      { href: '/services/intruder-alarm-systems', label: 'INTRUDER ALARM SYSTEMS' },
-                      { href: '/services/fire-alarm-systems', label: 'FIRE ALARM SYSTEMS' },
-                      { href: '/services/video-door-entry-systems', label: 'VIDEO DOOR ENTRY SYSTEMS' },
-                      { href: '/services/refuge-disabled-communication', label: 'REFUGE & DISABLED COMMS' },
-                      { href: '/services/evac-voice-evacuation', label: 'EVAC & VOICE EVACUATION' },
-                    ].map(({ href, label }) => (
-                      <a
-                        key={href}
-                        href={href}
-                        className="dropdown-item relative group block px-4 py-2 text-sm leading-relaxed cursor-pointer uppercase transition-opacity duration-200"
-                        style={{
-                          color: '#fff',
-                          opacity: isCctvExpanded ? 0.45 : 1,
-                        }}
-                        onClick={() => {
-                          setIsServicesOpen(false)
-                          setIsCctvExpanded(false)
-                          if (servicesCloseTimeoutRef.current) {
-                            clearTimeout(servicesCloseTimeoutRef.current)
-                            servicesCloseTimeoutRef.current = null
-                          }
-                        }}
-                      >
-                        <span className="absolute top-0 left-0 w-full h-0.5 transform scale-x-0 origin-left transition-transform duration-500 group-hover:scale-x-100" style={{ backgroundColor: '#fff' }} />
-                        <span className="absolute bottom-0 left-0 w-full h-0.5 transform scale-x-0 origin-left transition-transform duration-500 group-hover:scale-x-100" style={{ backgroundColor: '#fff' }} />
-                        {label}
-                      </a>
-                    ))}
+                      )
+                    })}
                   </div>
                 </div>
                 ) : null}
@@ -639,17 +605,15 @@ export default function Header() {
               <Link href="/contact" className="pointer-events-auto nav-menu-item relative text-sm font-medium leading-relaxed cursor-pointer group uppercase header-nav-item-in" style={{ color: '#fff', animationDelay: '3.38s' }}>
                 Contact
               </Link>
-              <a href={process.env.NEXT_PUBLIC_APX_MEP_URL || 'http://localhost:3000'} className="pointer-events-auto group relative header-pill-apx-link header-nav-item-in" style={{ color: 'white', animationDelay: '3.46s' }}>
-                <div className="flex items-center justify-center overflow-hidden transition-all duration-700 ease-[cubic-bezier(0.25,0.46,0.45,0.94)] w-8 h-8 min-w-8 min-h-8 group-hover:w-52 group-hover:backdrop-blur-sm rounded-full border-2 pulse-glow" style={{ borderColor: 'white' }}>
-                  <div className="flex items-center justify-center w-8 h-8 rounded-full transition-all duration-700 ease-[cubic-bezier(0.25,0.46,0.45,0.94)] flex-shrink-0 absolute left-0 top-0" style={{ color: 'white' }}>
-                    <ArrowRight className="h-3.5 w-3.5 transition-all duration-500 group-hover:opacity-0 group-hover:rotate-180 shrink-0" style={{ color: 'white', stroke: 'white' }} />
-                  </div>
-                  <div className="absolute inset-0 flex items-center justify-center overflow-hidden">
-                    <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-500 delay-200 group-hover:delay-200" />
-                    <span className="apx-switch-label text-xs font-bold uppercase tracking-wide opacity-0 group-hover:opacity-100 transition-opacity duration-500 delay-300 group-hover:delay-300 text-disappear relative z-10" style={{ color: 'white' }}>SWITCH TO APX MEP</span>
-                  </div>
-                </div>
-              </a>
+              <button
+                type="button"
+                onClick={() => openFsHomeSearch()}
+                className="fs-header-search-trigger pointer-events-auto header-nav-item-in flex h-8 w-8 min-h-8 min-w-8 items-center justify-center rounded-full border-2 border-white transition-opacity hover:opacity-80"
+                style={{ animationDelay: "3.46s" }}
+                aria-label="Search services"
+              >
+                <Search className="h-3.5 w-3.5" strokeWidth={2} aria-hidden />
+              </button>
               <div className="pointer-events-none header-nav-item-in" style={{ animationDelay: "3.54s" }}>
                 <ApxSocialLinks
                   className="flex items-center gap-4 pl-1 pr-3 sm:pr-4 lg:pr-5"
@@ -658,6 +622,21 @@ export default function Header() {
                 />
               </div>
             </div>
+            <button
+              type="button"
+              onClick={() => {
+                if (isMenuOpen) closeFsMenu()
+                openFsHomeSearch()
+              }}
+              className={cn(
+                "fs-header-search-trigger pointer-events-auto absolute right-[3.25rem] top-1/2 z-20 -translate-y-1/2 flex h-10 w-10 items-center justify-center sm:right-[3.75rem] lg:hidden",
+                "rounded-lg border-2 border-white",
+                "transition-transform duration-200 active:scale-[0.97]"
+              )}
+              aria-label="Search services"
+            >
+              <Search className="h-4 w-4" strokeWidth={2} aria-hidden />
+            </button>
             <button
               type="button"
               onClick={() => (isMenuOpen ? closeFsMenu() : setIsMenuOpen(true))}

@@ -7,10 +7,12 @@ export async function sendSiteEmailViaResend(body: {
   text: string
   html: string
   replyTo?: string
+  /** Override recipient (defaults to NOTIFY_EMAIL / CAREERS_NOTIFY_EMAIL) */
+  to?: string
   attachments?: Attachment[]
 }): Promise<{ ok: true } | { ok: false; status: number; message: string }> {
   const key = getResendApiKey()
-  const to = getNotifyEmail()
+  const to = body.to?.trim() || getNotifyEmail()
   const from = getResendFrom()
 
   if (!key || !to || !from) {

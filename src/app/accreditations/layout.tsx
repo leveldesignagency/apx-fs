@@ -2,9 +2,9 @@ import type { Metadata } from "next"
 import { buildFsMetadata } from "@/lib/seo-metadata"
 
 export const metadata: Metadata = buildFsMetadata({
-  title: "Accreditations | NSI, BAFE, Constructionline & FIA | APX Fire & Security",
+  title: "Accreditations & Memberships | NSI, BAFE, Constructionline & FIA | APX",
   description:
-    "Independent certifications and industry affiliations that underpin how APX Fire & Security delivers fire and security systems across London and the Home Counties.",
+    "APX Fire & Security accreditations and memberships: NSI Gold, BAFE registration, Constructionline Gold and FIA membership, presented clearly for procurement and duty holders.",
   pathname: "/accreditations",
 })
 

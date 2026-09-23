@@ -25,8 +25,89 @@ import {
   ShieldCheck,
   ClipboardList,
   Cpu,
+  CreditCard,
+  Smartphone,
+  Network,
+  DoorOpen,
+  Building2,
+  ArrowUpDown,
+  Video,
+  Car,
+  Wrench,
   type LucideIcon,
 } from "lucide-react"
+
+const ACCESS_CONTROL_CAPABILITIES: { Icon: LucideIcon; title: string; text: string; id?: string }[] = [
+  {
+    Icon: CreditCard,
+    title: "Fob and card access",
+    text: "Proximity fobs and cards with revoke-and-replace credentials, no wholesale rekeying when something is lost.",
+    id: "access-fob-card",
+  },
+  {
+    Icon: Key,
+    title: "Keypads",
+    text: "PIN/keypad entry where codes suit the door and user group, alone or alongside readers.",
+    id: "access-keypads",
+  },
+  {
+    Icon: Smartphone,
+    title: "Mobile credentials where offered",
+    text: "Phone-based credentials on platforms that support them, specified on survey, not assumed for every system.",
+    id: "access-mobile",
+  },
+  {
+    Icon: DoorOpen,
+    title: "Single-door and networked systems",
+    text: "From one controlled door to multi-door networked systems with schedules, zones and central management.",
+    id: "access-networked",
+  },
+  {
+    Icon: Building2,
+    title: "Multi-tenant systems",
+    text: "Shared buildings and estates with tenant, landlord and visitor permissions structured clearly at handover.",
+    id: "access-multi-tenant",
+  },
+  {
+    Icon: Cpu,
+    title: "Door controllers",
+    text: "Controllers, readers and locks engineered as a coherent package with commissioning and user training.",
+  },
+  {
+    Icon: Flame,
+    title: "Fire alarm release interfaces",
+    text: "Where the fire strategy and door design require it, we interface access control for emergency release, not every door or system uses the same fail-safe or lockdown behaviour.",
+    id: "access-fire-release",
+  },
+  {
+    Icon: ArrowUpDown,
+    title: "Lift control where offered",
+    text: "Floor and lift access permissions where the lift interface and building brief support them.",
+    id: "access-lift",
+  },
+  {
+    Icon: Video,
+    title: "Intercom / video entry integration",
+    text: "Coordinate with video door entry and intercoms so visitors and residents are managed in one workflow.",
+    id: "access-video-entry",
+  },
+  {
+    Icon: Car,
+    title: "Gate, barrier and ANPR integration",
+    text: "Link vehicle gates and barriers to access control, with ANPR where offered and suitable for the site.",
+    id: "access-gate-anpr",
+  },
+  {
+    Icon: Wrench,
+    title: "Maintenance and system takeovers",
+    text: "PPM, corrective works and takeovers of existing access systems so credentials and schedules stay manageable.",
+  },
+  {
+    Icon: Network,
+    title: "CCTV and intruder coordination",
+    text: "Event-linked recording and alarm workflows with CCTV and intruder systems where the brief requires a joined-up package.",
+  },
+]
 
 const ACCESS_CONTROL_BENEFITS: { Icon: LucideIcon; title: string; text: string }[] = [
   {
@@ -43,15 +124,15 @@ const ACCESS_CONTROL_BENEFITS: { Icon: LucideIcon; title: string; text: string }
   },
   {
     Icon: Flame,
-    title: "Safer evacuation",
+    title: "Emergency release where designed",
     text:
-      "Fail-safe locking can release doors in a fire or other emergency so people are not held up searching for keys.",
+      "Fire alarm release and emergency unlock behaviour are configured only where the fire strategy, door hardware and access system support them, not a default of every installation.",
   },
   {
     Icon: ShieldCheck,
     title: "Authorised entry",
     text:
-      "Credentials at controlled doors make unauthorised visitors far less likely; lost access can be disabled immediately without new keys for everyone.",
+      "Credentials at controlled doors reduce unauthorised access; lost credentials can be disabled without issuing new keys to everyone.",
   },
   {
     Icon: ClipboardList,
@@ -63,7 +144,7 @@ const ACCESS_CONTROL_BENEFITS: { Icon: LucideIcon; title: string; text: string }
     Icon: Cpu,
     title: "Networked integration",
     text:
-      "On larger sites, systems can support time and attendance, payroll feeds and sit alongside CCTV and intruder alarms on one coherent platform.",
+      "On larger sites, networked systems can sit alongside CCTV, intruder alarms, video entry and gate automation on one coherent platform.",
   },
 ]
 
@@ -151,19 +232,21 @@ export default function AccessControlPage() {
   return (
     <div className="service-page-root min-h-screen overflow-x-hidden bg-black text-white">
       <ServicePageHero
-        title="Video Entry & Access Control Systems"
+        title="Access Control Systems"
         imageSrc={ACCESS_CONTROL_HERO_IMAGE_SRC}
         imageClassName="object-cover object-right object-center"
         heroCompliance={["BS EN 60839"]}
         intro={
           <>
             <p className="mb-4">
-              We install secure, reliable access control and video entry systems for commercial, residential, and multi-tenant environments, from door control and readers
-              through to networked systems integrated with CCTV and intruder alarms.
+              APX designs, installs and maintains access control for commercial, multi-tenant and residential buildings
+              across London and the Home Counties, fob and card access, keypads, door controllers, single-door and
+              networked systems, with video entry, gate and barrier integration where required.
             </p>
             <p>
-              Established in 1986 we work throughout London and the Home Counties, designing systems alongside architects and consultants to meet your security and operational
-              requirements.
+              Building on a heritage dating back to 1986, we survey each site so credentials, schedules and interfaces
+              match how the building runs. Fire alarm release, lift control, mobile credentials and ANPR are included
+              only where offered and specified for the door or site, not assumed for every system.
             </p>
           </>
         }
@@ -174,7 +257,38 @@ export default function AccessControlPage() {
 
         <section className="container relative z-[1] mx-auto px-6 py-16 lg:py-16">
           <Reveal>
-            <h2 className="mb-10 text-left font-title text-3xl font-bold text-white sm:text-4xl">Benefits of Access Control Systems</h2>
+            <h2 className="mb-4 text-left font-title text-3xl font-bold text-white sm:text-4xl">
+              What we deliver
+            </h2>
+          </Reveal>
+          <Reveal delayMs={70}>
+            <p className="mb-10 max-w-3xl text-left text-gray-300">
+              Capabilities are matched to the brief. Emergency release and lockdown behaviour depend on fire strategy,
+              door hardware and the access platform, we configure what the design requires, not a one-size-fits-all rule.
+            </p>
+          </Reveal>
+          <div className="grid grid-cols-1 gap-8 md:grid-cols-2 lg:grid-cols-3">
+            {ACCESS_CONTROL_CAPABILITIES.map(({ Icon, title, text, id }, i) => (
+              <ServiceItemReveal key={title} index={i} className="h-full min-h-0">
+                <ServiceFeatureIconCard
+                  id={id}
+                  icon={Icon}
+                  title={title}
+                  description={text}
+                  className="transition-transform duration-300 hover:scale-[1.02]"
+                />
+              </ServiceItemReveal>
+            ))}
+          </div>
+        </section>
+
+        <div className="border-t border-white/15" />
+
+        <section className="container relative z-[1] mx-auto px-6 py-16 lg:py-16">
+          <Reveal>
+            <h2 className="mb-10 text-left font-title text-3xl font-bold text-white sm:text-4xl">
+              Benefits of access control
+            </h2>
           </Reveal>
           <div className="grid grid-cols-1 gap-8 md:grid-cols-2 lg:grid-cols-3">
             {ACCESS_CONTROL_BENEFITS.map(({ Icon, title, text }, i) => (
@@ -193,28 +307,53 @@ export default function AccessControlPage() {
         <div className="border-t border-white/15" />
 
         <FsServiceTextImageSection
-          title="Bespoke Access Control Systems"
+          title="Bespoke access control systems"
           titleId="bespoke-access-control-heading"
           imageSrc={BESPOKE_ACCESS_CONTROL_IMAGE_SRC}
           imageAlt="Access control card reader at a secure door entry"
         >
           <p>
-            We have a vast amount of experience in designing high quality and effective access control systems for business and homeowners alike. Established in 1986 we work throughout London and the Home Counties, in all market sectors, ranging from single doors through to fully networked systems that integrate with intruder alarms and CCTV systems.
+            Building on a heritage dating back to 1986, we design access control for commercial and residential clients
+            across London and the Home Counties, from a single door to fully networked systems that integrate with
+            intruder alarms, CCTV, video entry, gates and barriers where the brief requires it.
           </p>
           <p>
-            Working alongside architects and consultants, we design systems to meet and exceed our clients expectations, ensuring our electronic access control systems provide the most efficient and convenient way of securing your building and assets.
+            Working alongside architects and consultants, we match readers, controllers and credentials to your
+            operational needs. Mobile credentials, lift interfaces and ANPR are offered where the platform and site
+            support them. Maintenance contracts and system takeovers are available so permissions stay manageable after
+            handover.
           </p>
           <p>
-            Simply complete the Access Control System enquiry form and we will contact you and arrange to meet you, discuss your requirements and carry out a survey of your property.
+            Complete the access control enquiry form and we will arrange a survey to discuss doors, schedules and
+            integrations.
           </p>
+          <div className="pt-2">
+            <CustomPillButton href="/contact?service=access-control-systems" size="md">
+              Access control enquiry
+            </CustomPillButton>
+          </div>
           <div className="mt-8 max-w-3xl border-t border-white/10 pt-8">
             <p className="text-base leading-relaxed text-gray-300">
-              Installations are specified and handed over with reference to BS EN 60839 for electronic access control systems where applicable. Video entry, multi-tenant panels, proximity readers and fob/card systems can be delivered with access schedules, user permission setup and structured training, coordinated with CCTV and intruder systems where required. See also our{" "}
-              <Link href="/services/video-door-entry-systems" className="text-white underline decoration-white/35 underline-offset-2 hover:decoration-white">
+              Installations are specified and handed over with reference to BS EN 60839 where applicable, including access
+              schedules, user permissions and structured training. See also{" "}
+              <Link
+                href="/services/video-door-entry-systems"
+                className="text-white underline decoration-white/35 underline-offset-2 hover:decoration-white"
+              >
                 video door entry
+              </Link>
+              ,{" "}
+              <Link
+                href="/services/gate-automation-systems"
+                className="text-white underline decoration-white/35 underline-offset-2 hover:decoration-white"
+              >
+                gate automation
               </Link>{" "}
-              and{" "}
-              <Link href="/services/security-systems" className="text-white underline decoration-white/35 underline-offset-2 hover:decoration-white">
+              and the{" "}
+              <Link
+                href="/services/security-systems"
+                className="text-white underline decoration-white/35 underline-offset-2 hover:decoration-white"
+              >
                 security systems overview
               </Link>
               .
@@ -267,13 +406,13 @@ export default function AccessControlPage() {
         </section>
 
         <ServicePageClosingSections
-          serviceTitleShort="Video Entry & Access"
+          serviceTitleShort="Access control"
           ctaImageSrc={serviceHeroImages.accessControl}
           ctaHeadline="Talk to us about"
           ctaHeadlineAccent="access control."
-          ctaDescription="From single doors to fully networked sites, we design and install access systems to suit your building and operations."
+          ctaDescription="From single doors to networked multi-tenant sites, including maintenance takeovers, we design and install access systems to suit your building and operations."
         >
-          <CustomPillButton href="/contact" size="md">
+          <CustomPillButton href="/contact?service=access-control-systems" size="md">
             Get a free quote
           </CustomPillButton>
           <CustomPillButton href="tel:02083032280" size="md" variant="outline">

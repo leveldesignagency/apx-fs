@@ -11,13 +11,21 @@ import { FS_CORE_SERVICE_LINKS } from "@/lib/fs-service-navigation"
 import { getLatestNewsArticle, NEWS_HUB_PATH } from "@/data/fsNewsArticles"
 
 const FOOTER_ACCREDITATIONS = [
-  "NSI Gold Accredited",
-  "BS EN ISO 9001:2015",
+  "NSI Gold, Security",
+  "NSI Fire Gold",
   "BAFE Fire Safety Registered",
   "Constructionline Gold Member",
-  "FIA Member",
-  "UKAS Quality Management",
-  "UKAS Product Certification",
+  "FIA Full Member",
+  "BS EN ISO 9001:2015",
+] as const
+
+/** Public folder uses a space in "accreditations mono" */
+const ACC_MONO = "/accreditations mono"
+const FOOTER_ACCREDITATION_LOGOS = [
+  { href: "/accreditations/nsi", src: `${ACC_MONO}/Coloured/NSI-01.png`, alt: "NSI Gold" },
+  { href: "/accreditations/bafe", src: `${ACC_MONO}/Coloured/BAFE-01.svg`, alt: "BAFE" },
+  { href: "/accreditations/constructionline", src: `${ACC_MONO}/Coloured/ConstructionOnline-01.svg`, alt: "Constructionline" },
+  { href: "/accreditations/fia", src: `${ACC_MONO}/Coloured/FIA-01.svg`, alt: "FIA" },
 ] as const
 
 function FooterUnderline() {
@@ -55,7 +63,7 @@ function FooterContactLink({ href, children, className, target, rel }: FooterCon
       href={href}
       target={target}
       rel={rel}
-      className={`group flex cursor-pointer items-center justify-center gap-4 transition-colors hover:text-white sm:justify-start ${className ?? ""}`}
+      className={`group flex cursor-pointer items-center gap-3 transition-colors hover:text-white sm:gap-4 sm:justify-start ${className ?? ""}`}
       style={{ cursor: "pointer !important" }}
     >
       {children}
@@ -103,39 +111,41 @@ export default function Footer() {
             </Link>
           </div>
           <div className="footer-hint flex max-w-full flex-wrap items-center justify-center gap-2 px-0 pb-3 text-center opacity-70">
-            <span className="text-xs uppercase tracking-wide">Hover to expand</span>
+            <span className="hidden text-xs uppercase tracking-wide sm:inline">Hover to expand</span>
             <ChevronUp className="h-4 w-4 shrink-0 footer-chevron" />
           </div>
         </div>
 
         <div className="footer-expand">
-          <div className="site-container py-12 pt-16">
-            <div className="footer-columns grid w-full min-w-0 grid-cols-1 gap-10 text-center sm:grid-cols-2 sm:gap-x-6 sm:gap-y-10 sm:text-left lg:grid-cols-5 lg:gap-x-6 xl:gap-x-8">
+          <div className="site-container py-12 pt-16 pb-28 md:pb-12">
+            <div className="footer-columns grid w-full min-w-0 grid-cols-1 gap-10 text-left sm:grid-cols-2 sm:gap-x-6 sm:gap-y-10 lg:items-stretch lg:gap-x-6 xl:gap-x-8">
               {/* Company */}
-              <div className="flex min-w-0 flex-col items-center space-y-6 sm:items-start">
+              <div className="flex min-w-0 flex-col items-start space-y-6">
                 <h4 className="text-xl font-semibold">APX Fire &amp; Security</h4>
-                <div className="space-y-4 text-center text-gray-400 sm:text-left">
+                <div className="max-w-md space-y-4 text-left text-gray-400 sm:max-w-none">
                   <p className="text-sm leading-relaxed">
-                    We have been providing bespoke integrated security systems to London and the Home Counties since 1986.
+                    Building on a heritage dating back to 1986, APX Fire &amp; Security Limited (formerly Smiths Technical
+                    Systems Ltd) provides the design, installation and maintenance of integrated fire, life-safety and
+                    security systems across London and the Home Counties.
                   </p>
                   <p className="text-sm leading-relaxed">
-                    Our extensive knowledge and decades of real world experience allows us to deliver high quality security
-                    systems to the domestic and commercial sector.
+                    Our extensive knowledge and decades of real-world experience allow us to deliver high-quality
+                    systems across commercial and public-sector projects.
                   </p>
                 </div>
                 <ApxSocialLinks
-                  className="flex justify-center gap-6 sm:justify-start"
+                  className="flex justify-start gap-5 sm:gap-6"
                   iconClassName="h-6 w-6"
-                  linkClassName="cursor-pointer text-gray-400 transition-colors hover:text-white"
+                  linkClassName="cursor-pointer text-white opacity-50 transition-opacity duration-200 hover:opacity-100 focus-visible:opacity-100"
                 />
               </div>
 
               {/* Integrated Security Systems */}
-              <div className="flex min-w-0 flex-col items-center space-y-6 sm:items-start">
+              <div className="flex min-w-0 flex-col items-start space-y-6">
                 <h4 className="text-xl font-semibold">Integrated Security Systems</h4>
-                <ul className="flex flex-col items-center space-y-3 text-gray-400 sm:items-start">
+                <ul className="footer-services-list grid w-full max-w-sm grid-cols-2 gap-x-4 gap-y-2 text-left text-gray-400 sm:flex sm:max-w-none sm:flex-col sm:items-start sm:gap-0 sm:space-y-2">
                   {FS_CORE_SERVICE_LINKS.map(({ label, href }) => (
-                    <li key={href}>
+                    <li key={href} className="min-w-0 text-left">
                       <FooterLink href={href}>{label}</FooterLink>
                     </li>
                   ))}
@@ -143,23 +153,26 @@ export default function Footer() {
               </div>
 
               {/* Our Accreditations */}
-              <div className="flex min-w-0 flex-col items-center space-y-6 sm:items-start">
-                <h4 className="text-xl font-semibold">Our Accreditations</h4>
-                <ul className="flex flex-col items-center space-y-3 text-gray-400 sm:items-start">
+              <div className="flex min-w-0 flex-col items-start space-y-6">
+                <h4 className="text-xl font-semibold">Accreditations &amp; Memberships</h4>
+                <ul className="flex w-full max-w-sm flex-col items-start space-y-3 text-gray-400 sm:max-w-none">
                   {FOOTER_ACCREDITATIONS.map((item) => (
-                    <li key={item} className="flex items-start justify-center gap-2.5 text-sm leading-relaxed sm:justify-start">
+                    <li
+                      key={item}
+                      className="flex items-start justify-start gap-2.5 text-left text-sm leading-relaxed"
+                    >
                       <Award className="mt-0.5 h-4 w-4 shrink-0 text-white/70" strokeWidth={1.75} aria-hidden />
-                      <span>{item}</span>
+                      <span className="min-w-0">{item}</span>
                     </li>
                   ))}
                 </ul>
               </div>
 
               {/* News and Articles + Careers */}
-              <div className="flex min-w-0 flex-col items-center space-y-10 sm:items-start">
-                <div className="flex w-full min-w-0 flex-col items-center space-y-6 sm:items-start">
+              <div className="flex min-w-0 flex-col items-start space-y-10">
+                <div className="flex w-full min-w-0 flex-col items-start space-y-6">
                   <h4 className="text-xl font-semibold">News and Articles</h4>
-                  <ul className="flex flex-col items-center space-y-3 text-gray-400 sm:items-start">
+                  <ul className="flex flex-col items-start space-y-3 text-gray-400">
                     <li>
                       <FooterLink href={`/news/${latestNews.slug}`}>See latest</FooterLink>
                     </li>
@@ -169,9 +182,9 @@ export default function Footer() {
                   </ul>
                 </div>
 
-                <div className="flex w-full min-w-0 flex-col items-center space-y-6 sm:items-start">
+                <div className="flex w-full min-w-0 flex-col items-start space-y-6">
                   <h4 className="text-xl font-semibold">Careers</h4>
-                  <ul className="flex flex-col items-center space-y-3 text-gray-400 sm:items-start">
+                  <ul className="flex flex-col items-start space-y-3 text-gray-400">
                     <li>
                       <FooterLink href="/careers">View all careers</FooterLink>
                     </li>
@@ -185,78 +198,129 @@ export default function Footer() {
               </div>
 
               {/* Contact Details */}
-              <div className="flex min-w-0 flex-col items-center space-y-6 sm:items-start">
+              <div className="flex min-w-0 flex-col items-start gap-6 lg:h-full">
                 <h4 className="text-xl font-semibold">Contact Details</h4>
-                <div className="space-y-4 text-center text-gray-400 sm:text-left">
-                  <FooterContactLink href="tel:02083032280">
-                    <Phone className="h-6 w-6 shrink-0" />
+                <div className="flex w-full max-w-full flex-col items-start space-y-4 text-left text-gray-400">
+                  <FooterContactLink href="tel:02083032280" className="justify-start">
+                    <Phone className="h-5 w-5 shrink-0 sm:h-6 sm:w-6" />
                     <FooterContactText className="text-sm">020 8303 2280</FooterContactText>
                   </FooterContactLink>
-                  <FooterContactLink href="mailto:enquiries@apx-fs.co.uk">
-                    <Mail className="h-6 w-6 shrink-0" />
+                  <FooterContactLink href="mailto:enquiries@apx-fs.co.uk" className="justify-start">
+                    <Mail className="h-5 w-5 shrink-0 sm:h-6 sm:w-6" />
                     <FooterContactText className="min-w-0 break-all text-sm">enquiries@apx-fs.co.uk</FooterContactText>
                   </FooterContactLink>
                   <FooterContactLink
                     href="https://maps.google.com/?q=365-369+Bexley+Road+Northumberland+Heath+Erith+Kent+DA8+3EZ"
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="items-center sm:items-start"
+                    className="items-start justify-start"
                   >
-                    <MapPin className="mt-0 sm:mt-1 h-6 w-6 shrink-0" />
+                    <MapPin className="mt-0.5 h-5 w-5 shrink-0 sm:mt-1 sm:h-6 sm:w-6" />
                     <FooterContactText className="min-w-0 text-sm leading-relaxed">
-                      <span className="block">365-369 Bexley Road,</span>
-                      <span className="block">Northumberland Heath,</span>
-                      <span className="block">Erith, Kent, DA8 3EZ</span>
+                      <span className="block">365-369 Bexley Road</span>
+                      <span className="block">Erith, Kent</span>
+                      <span className="block">DA8 3EZ</span>
                     </FooterContactText>
                   </FooterContactLink>
+                  <div className="pl-8 text-sm leading-relaxed sm:pl-10">
+                    <p>
+                      <span className="font-semibold text-gray-300">Company number</span> 04915204
+                    </p>
+                    <p className="mt-2">
+                      <span className="font-semibold text-gray-300">Registered office</span>
+                      <span className="mt-0.5 block">Springhaven, 1a Barnfield Close,</span>
+                      <span className="block">Hastings, East Sussex, TN34 1TS</span>
+                    </p>
+                  </div>
                 </div>
+                <nav
+                  aria-label="Accreditations and memberships"
+                  className="footer-accred-logos mt-2 flex w-full flex-wrap items-center justify-start gap-x-3 gap-y-3 lg:mt-auto lg:justify-end"
+                >
+                  {FOOTER_ACCREDITATION_LOGOS.map(({ href, src, alt }) => (
+                    <Link
+                      key={href}
+                      href={href}
+                      className="footer-accred-logos__link inline-flex h-9 items-center opacity-85 transition-opacity duration-200 hover:opacity-100 focus-visible:opacity-100"
+                      aria-label={`${alt}, view accreditation page`}
+                    >
+                      {/* eslint-disable-next-line @next/next/no-img-element */}
+                      <img
+                        src={src}
+                        alt=""
+                        width={120}
+                        height={48}
+                        className="h-8 w-auto max-w-[5.25rem] object-contain object-center sm:h-9 sm:max-w-[5.75rem]"
+                        loading="lazy"
+                        decoding="async"
+                      />
+                    </Link>
+                  ))}
+                </nav>
               </div>
             </div>
 
-            <div className="mt-16 border-t border-t-white/10 pt-8 text-center text-gray-500 md:text-left">
-              <div className="flex flex-col items-center justify-between gap-4 lg:flex-row lg:items-center">
-                <div className="footer-legal-links flex max-w-full flex-wrap items-center justify-center gap-x-2 gap-y-1 text-sm leading-none lg:justify-start lg:flex-nowrap">
-                  <span className="shrink-0 text-inherit">&copy; 2025 APX. All rights reserved.</span>
-                  <span className="shrink-0 text-inherit" aria-hidden>
-                    |
-                  </span>
-                  <Link
-                    href="/privacy"
-                    className="group relative inline-block shrink-0 cursor-pointer whitespace-nowrap pb-1 transition-colors hover:text-white"
+            <div className="footer-legal mt-14 border-t border-t-white/10 pt-8 text-left text-gray-500 md:mt-16">
+              <div className="flex flex-col items-start gap-5 lg:flex-row lg:items-end lg:justify-between lg:gap-6">
+                <div className="footer-legal-stack flex w-full min-w-0 max-w-xl flex-col items-start gap-3 lg:max-w-none">
+                  <p className="footer-legal-copy text-pretty text-left text-xs leading-relaxed text-inherit sm:text-sm">
+                    &copy; {new Date().getFullYear()} APX Fire &amp; Security Ltd.
+                    <span className="mx-1.5 hidden text-white/35 sm:inline" aria-hidden>
+                      ·
+                    </span>
+                    <span className="mt-1 block sm:mt-0 sm:inline">Company no. 04915204.</span>{" "}
+                    <span className="mt-1 block sm:mt-0 sm:inline">All rights reserved.</span>
+                  </p>
+                  <nav
+                    aria-label="Legal"
+                    className="footer-legal-links flex max-w-full flex-wrap items-center justify-start gap-x-3 gap-y-2 text-xs leading-snug sm:text-sm"
                   >
-                    Privacy Policy
-                    <FooterUnderline />
-                  </Link>
-                  <span className="shrink-0 text-inherit" aria-hidden>
-                    |
-                  </span>
-                  <Link
-                    href="/cookie-policy"
-                    className="group relative inline-block shrink-0 cursor-pointer whitespace-nowrap pb-1 transition-colors hover:text-white"
-                  >
-                    Cookie Policy
-                    <FooterUnderline />
-                  </Link>
-                  <span className="shrink-0 text-inherit" aria-hidden>
-                    |
-                  </span>
-                  <Link
-                    href="/cookie-policy#cookie-preferences"
-                    className="group relative inline-block shrink-0 cursor-pointer whitespace-nowrap pb-1 transition-colors hover:text-white"
-                  >
-                    Cookie Preferences
-                    <FooterUnderline />
-                  </Link>
-                  <span className="shrink-0 text-inherit" aria-hidden>
-                    |
-                  </span>
-                  <Link
-                    href="/terms"
-                    className="group relative inline-block shrink-0 cursor-pointer whitespace-nowrap pb-1 transition-colors hover:text-white"
-                  >
-                    Terms of Service
-                    <FooterUnderline />
-                  </Link>
+                    <Link
+                      href="/privacy"
+                      className="group relative inline-block cursor-pointer pb-0.5 transition-colors hover:text-white"
+                    >
+                      Privacy Policy
+                      <FooterUnderline />
+                    </Link>
+                    <Link
+                      href="/cookie-policy"
+                      className="group relative inline-block cursor-pointer pb-0.5 transition-colors hover:text-white"
+                    >
+                      Cookie Policy
+                      <FooterUnderline />
+                    </Link>
+                    <button
+                      type="button"
+                      onClick={() => {
+                        window.dispatchEvent(new Event("apx:open-cookie-settings"))
+                      }}
+                      className="footer-cookie-prefs-btn group relative inline-block cursor-pointer border-0 bg-transparent p-0 pb-0.5 text-inherit transition-colors hover:text-white"
+                    >
+                      Cookie Preferences
+                      <FooterUnderline />
+                    </button>
+                    <Link
+                      href="/terms"
+                      className="group relative inline-block cursor-pointer pb-0.5 transition-colors hover:text-white"
+                    >
+                      Terms of Service
+                      <FooterUnderline />
+                    </Link>
+                    <Link
+                      href="/accessibility"
+                      className="group relative inline-block cursor-pointer pb-0.5 transition-colors hover:text-white"
+                    >
+                      Accessibility
+                      <FooterUnderline />
+                    </Link>
+                    <Link
+                      href="/recruitment-privacy"
+                      className="group relative inline-block cursor-pointer pb-0.5 transition-colors hover:text-white"
+                    >
+                      Recruitment Privacy
+                      <FooterUnderline />
+                    </Link>
+                  </nav>
                 </div>
                 <span className="shrink-0 text-xs opacity-80">
                   <span className="transition-opacity duration-200 hover:opacity-100">Designed by </span>

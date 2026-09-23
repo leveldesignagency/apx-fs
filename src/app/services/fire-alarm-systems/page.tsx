@@ -22,10 +22,24 @@ import {
 import { Check } from "lucide-react"
 
 const SYSTEM_TYPES = [
-  "Addressable Fire Alarm Systems",
-  "Conventional Fire Alarm Systems",
-  "Wire-Free Fire Alarm Systems",
-  "Air Sampling (sniffer) Fire Alarm Systems",
+  "Design, installation and commissioning",
+  "Cause-and-effect testing and witnessed acceptance",
+  "Addressable and conventional fire alarm systems",
+  "Networked fire alarm systems",
+  "Wireless / wire-free fire alarm systems",
+  "Aspirating (air sampling) detection",
+  "Interfaces with BMS, access control and smoke control",
+  "Maintenance and emergency call-outs",
+  "Zone charts and O&M documentation",
+]
+
+const SCOPE_CAPABILITIES = [
+  "Addressable and conventional fire alarm systems",
+  "Design, installation, commissioning and cause-and-effect testing",
+  "Networked and wireless / wire-free systems",
+  "Aspirating (air sampling) detection",
+  "Interfaces with BMS, access control and smoke control",
+  "Maintenance, emergency call-outs, zone charts and O&M packs",
 ]
 
 /** URL-encoded, folder in /public is `fire alarm system installations` */
@@ -176,12 +190,13 @@ export default function FireSafetySystemsPage() {
         intro={
           <>
             <p className="mb-4">
-              APX Fire and Security delivers fully compliant fire alarm installations across commercial, industrial, and public-sector environments. Our engineers are trained
-              in both addressable and conventional systems, ensuring accurate installation, configuration, and commissioning.
+              APX Fire &amp; Security delivers fire alarm installations across commercial, industrial and public-sector
+              environments. Our engineers are trained in addressable and conventional systems, ensuring accurate
+              installation, configuration and commissioning.
             </p>
             <p>
-              We also design and install high quality systems for domestic properties. Our experience spans the public and industrial sectors, from small domestic systems
-              through to schools, offices, warehouses, hotels and banks. We are fully accredited to BAFE and FIA for our customers&apos; peace of mind.
+              Our experience spans schools, offices, warehouses, hotels and banks across London and the Home Counties.
+              We are BAFE-certified and a Full Member of the FIA, with NSI Gold approval for fire systems.
             </p>
           </>
         }
@@ -196,20 +211,26 @@ export default function FireSafetySystemsPage() {
           titleId="fire-alarm-installer-london-heading"
           imageSrc={serviceHeroImages.fireAlarm}
           imageAlt="Fire alarm system installer in London"
-          imageRightFeather={false}
         >
           <h3 className="font-title text-2xl font-semibold text-white">Bespoke Fire Alarm Systems</h3>
           <p>
-            Established in 1986 we work throughout London and the Home Counties to install fire protection systems that combine the highest standard of fire protection equipment with high levels of customer care, at affordable prices.
+            Building on a heritage dating back to 1986, we work throughout London and the Home Counties to install fire
+            protection systems that combine high-quality detection equipment with clear documentation and dependable
+            aftercare.
           </p>
-          <p>Our systems are expertly designed in accordance with NSI Gold standards, covering both the domestic and commercial market. We specialise in the following systems:</p>
+          <p>
+            Systems are designed and delivered to NSI Gold standards for fire, with commercial and public-sector work as
+            our primary focus. Domestic or dwelling-related elements (BS 5839-6) can be supported where the brief requires
+            them. We specialise in:
+          </p>
           <ul className="list-inside list-disc space-y-2 text-gray-300">
             {SYSTEM_TYPES.map((name, i) => (
               <li key={i}>{name}</li>
             ))}
           </ul>
           <p>
-            By installing a fire alarm system which will give you an early warning of the outbreak of fire, an effective alarm can prevent a small incident becoming a total devastation.
+            By installing a fire alarm system which will give you an early warning of the outbreak of fire, an effective
+            alarm can prevent a small incident becoming a total devastation.
           </p>
         </FsServiceTextImageSection>
 
@@ -220,14 +241,15 @@ export default function FireSafetySystemsPage() {
           titleId="fire-alarm-regulation-heading"
           imageSrc={FIRE_ALARM_REGULATION_IMAGE_SRC}
           imageAlt="Fire alarm system installer reviewing detection equipment"
-          imageSide="left"
-          imageRightFeather={false}
         >
           <p>
-            Current UK fire alarm regulations state that all business premises must have &ldquo;an appropriate fire detection system&rdquo;. This basically means that if a fire breaks out, could it easily be detected and could the people within the building easily be told about it?
+            UK fire safety law requires suitable fire detection and warning arrangements for the premises, determined by
+            a fire risk assessment, not by a one-size-fits-all rule that every business must have a full fire alarm panel.
+            In simple terms: if a fire broke out, could it be detected quickly, and could people in the building be warned?
           </p>
           <p>
-            This doesn&apos;t mean that all business premises need a fire alarm system. Try asking yourself the following questions to demonstrate potential situations:
+            That does not mean every premises needs the same system. The questions below are general prompts only; a
+            competent fire-safety person should confirm what your site requires before you rely on this guidance:
           </p>
           <ul className="my-2 space-y-2 text-gray-300">
             {REGULATION_QUESTIONS.map((q, i) => (
@@ -238,7 +260,8 @@ export default function FireSafetySystemsPage() {
             ))}
           </ul>
           <p>
-            If your answer to one or more of these questions is &ldquo;no&rdquo; then it&apos;s likely that you do need a fire alarm system. Our free survey will help to decide the level of protection you need.
+            If your answer to one or more of these questions is &ldquo;no&rdquo;, a surveyed fire detection and warning
+            system is often appropriate. Our free survey helps define the level of protection your building needs.
           </p>
           <div className="pt-2">
             <CustomPillButton href="/contact" size="md">
@@ -249,17 +272,10 @@ export default function FireSafetySystemsPage() {
 
         <ServiceComplianceSection
           sectionTitle="Compliance, certification & handover"
-          intro="Our fire alarm installations are delivered against recognised UK standards with clear records for approval, handover and audit. Typical deliverables include as-built drawings, zone charts, commissioning certificates and O&M manuals, aligned with BS 5839-1 and BS 5839-6 where domestic or mixed-use elements apply."
+          intro="Fire alarm installations are delivered against recognised UK standards with clear records for approval, handover and audit. Typical deliverables include as-built drawings, zone charts, commissioning certificates and O&M manuals, aligned with BS 5839-1 and BS 5839-6 where domestic or mixed-use elements apply."
           leftTitle="Typical scope"
           leftEyebrow="Design, install & commission"
-          standardsItems={[
-            "Addressable and conventional fire alarm systems",
-            "Cause-and-effect programming and witnessed testing",
-            "Fire detection devices (smoke, heat, multi-sensor)",
-            "Manual call points, sounders and VADs",
-            "Integration with EVAC, access control and BMS where specified",
-            "Networked fire alarm systems and phased handover support",
-          ]}
+          standardsItems={SCOPE_CAPABILITIES}
           rightTitle="Standards reference"
           rightEyebrow="Fire detection & BS 5839"
           deliverablesItems={[
@@ -270,7 +286,7 @@ export default function FireSafetySystemsPage() {
             <>
               Dedicated refuge and disabled communication (BS 5839-9) and voice evacuation (BS 5839-8) scopes are covered on their own service pages, see{" "}
               <Link href="/services/refuge-disabled-communication" className="text-black underline decoration-black/30 underline-offset-2 hover:decoration-black">
-                refuge &amp; disabled communication
+                disabled refuge, fire telephone &amp; toilet alarms
               </Link>{" "}
               and{" "}
               <Link href="/services/evac-voice-evacuation" className="text-black underline decoration-black/30 underline-offset-2 hover:decoration-black">
@@ -282,8 +298,8 @@ export default function FireSafetySystemsPage() {
         />
 
         <FsServiceTextImageSection
-          title="We are BAFE Accredited"
-          titleId="bafe-accredited-heading"
+          title="BAFE Registered"
+          titleId="bafe-registered-heading"
           variant="light"
           imageSrc={`${FIRE_ALARM_INSTALLATIONS_DIR}/fire-alarm-system-sancroft-building-exterior-600x400.jpg`}
           imageAlt="Fire alarm installation at Sancroft Building, City of London"
@@ -291,18 +307,30 @@ export default function FireSafetySystemsPage() {
           imageOverlaySrc="/accreditations%20mono/Coloured/BAFE-01.svg"
           imageOverlayAlt="BAFE Fire Safety Register"
           imageOverlayClassName="max-w-[min(21rem,78%)] translate-x-1 sm:translate-x-3"
-          imageRightFeather={false}
         >
           <p>
-            BAFE (British Approvals for Fire Equipment) is an independent British organisation that publishes and maintains a national register of competent fire safety service providers. We are proud to be BAFE accredited.
+            BAFE (British Approvals for Fire Equipment) is the independent registration body for third-party certificated
+            fire safety organisations. It is not itself a UKAS-accredited certification body, licensed UKAS-accredited
+            certification bodies audit companies against BAFE schemes, and BAFE lists providers on its Fire Safety Register
+            while that certification remains valid.
           </p>
           <p>
-            BAFE registration is very important for those in the UK fire safety and protection industry. Many organisations now require BAFE registration from those who install or maintain their fire safety systems, products and services. For many working in the fire and protection industry, BAFE registration is a commercial imperative.
+            We are BAFE Registered for the fire safety services shown against our listing. Many clients and insurers
+            expect BAFE registration from companies that install or maintain fire detection and alarm systems.
           </p>
           <p>
-            The BAFE register also brings customers together with companies they can trust, with a directory of independently audited and approved providers. If you would like to know more you can view our BAFE registration online.
+            Verify our listing on the BAFE Fire Safety Register, Registered Organisation 301168.
           </p>
-          <p className="font-semibold text-black">BAFE Fire Safety Register Registered Organisation 301168</p>
+          <p className="font-semibold text-black">
+            <a
+              href="https://www.bafe.org.uk/"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="underline decoration-black/30 underline-offset-2 hover:decoration-black"
+            >
+              BAFE Fire Safety Register (bafe.org.uk)
+            </a>
+          </p>
         </FsServiceTextImageSection>
         </FsServiceTextImageSectionGroup>
 

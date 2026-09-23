@@ -7,11 +7,18 @@ import { HOME_COUNTIES_AND_REGIONS, LONDON_BOROUGHS } from "./seo-geo-areas"
 
 export const FS_SITE_NAME = "APX Fire & Security"
 
-/** Default if env unset, replace in deployment */
+/** Default if env unset, production canonical host (override with NEXT_PUBLIC_SITE_URL). */
 export function getFsSiteUrl(): string {
   const u = process.env.NEXT_PUBLIC_SITE_URL
   if (u?.trim()) return u.replace(/\/$/, "")
-  return "http://localhost:3000"
+  return "https://www.apx-fs.co.uk"
+}
+
+/** Sister MEP site, override with NEXT_PUBLIC_APX_MEP_URL for local/dev. */
+export function getApxMepSiteUrl(): string {
+  const u = process.env.NEXT_PUBLIC_APX_MEP_URL
+  if (u?.trim()) return u.replace(/\/$/, "")
+  return "https://www.apx-mep.co.uk"
 }
 
 /** High commercial-intent + service terms for meta keywords & copy */
@@ -53,6 +60,14 @@ export function fsDefaultDescription(): string {
 
 export function fsJsonLdGraph(): Record<string, unknown> {
   const url = getFsSiteUrl()
+  const postalAddress = {
+    "@type": "PostalAddress" as const,
+    streetAddress: "365-369 Bexley Road",
+    addressLocality: "Erith",
+    addressRegion: "Kent",
+    postalCode: "DA8 3EZ",
+    addressCountry: "GB",
+  }
   return {
     "@context": "https://schema.org",
     "@graph": [
@@ -64,12 +79,7 @@ export function fsJsonLdGraph(): Record<string, unknown> {
         logo: `${url}/__APX%20Web%20Logo%20FS.svg`,
         email: "enquiries@apx-fs.co.uk",
         telephone: "+442083032280",
-        address: {
-          "@type": "PostalAddress",
-          addressLocality: "London",
-          addressRegion: "England",
-          addressCountry: "GB",
-        },
+        address: postalAddress,
         areaServed: [
           { "@type": "City", name: "London" },
           { "@type": "AdministrativeArea", name: "Greater London" },
@@ -97,24 +107,19 @@ export function fsJsonLdGraph(): Record<string, unknown> {
         telephone: "+442083032280",
         email: "enquiries@apx-fs.co.uk",
         priceRange: "$$",
-        address: {
-          "@type": "PostalAddress",
-          addressLocality: "London",
-          addressRegion: "England",
-          addressCountry: "GB",
-        },
+        address: postalAddress,
         geo: {
           "@type": "GeoCoordinates",
-          latitude: 51.5074,
-          longitude: -0.1278,
+          latitude: 51.4805,
+          longitude: 0.1752,
         },
         areaServed: [
           {
             "@type": "GeoCircle",
             geoMidpoint: {
               "@type": "GeoCoordinates",
-              latitude: 51.5074,
-              longitude: -0.1278,
+              latitude: 51.4805,
+              longitude: 0.1752,
             },
             geoRadius: 120000,
             description: "Greater London, Home Counties and South East, fire and security installations and maintenance.",

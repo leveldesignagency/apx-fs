@@ -24,11 +24,16 @@ export function NewsArticleParagraph({
 
   const [before, ...rest] = text.split(link.linkText)
   const after = rest.join(link.linkText)
+  const isExternal = /^https?:\/\//i.test(link.href)
 
   return (
     <span className={className}>
       {before}
-      <Link href={link.href} className={NEWS_BODY_LINK_CLASS} target="_blank" rel="noopener noreferrer">
+      <Link
+        href={link.href}
+        className={NEWS_BODY_LINK_CLASS}
+        {...(isExternal ? { target: "_blank", rel: "noopener noreferrer" } : {})}
+      >
         {link.linkText}
       </Link>
       {after}

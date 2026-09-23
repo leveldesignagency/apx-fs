@@ -19,10 +19,12 @@ export type CapabilityServicePageLayoutProps = {
   heroNav?: ServicePageHeroProps["heroNav"]
   /** Short refs for hero corner; defaults to `compliance` */
   heroCompliance?: readonly string[]
-  capabilities: string[]
-  compliance: string[]
-  deliverables: string[]
+  capabilities: ReactNode[]
+  compliance: ReactNode[]
+  deliverables: ReactNode[]
   ctaLabel: string
+  /** Defaults to `/contact` */
+  ctaHref?: string
 }
 
 const listClass = "apx-capability-list"
@@ -56,6 +58,7 @@ export function CapabilityServicePageLayout({
   compliance,
   deliverables,
   ctaLabel,
+  ctaHref = "/contact",
 }: CapabilityServicePageLayoutProps) {
   const heroComplianceLine = heroCompliance ?? compliance
   return (
@@ -96,7 +99,7 @@ export function CapabilityServicePageLayout({
                         </h2>
                         <ul className={listClass}>
                           {capabilities.map((item, index) => (
-                            <CapabilityListItem key={item} index={index}>
+                            <CapabilityListItem key={index} index={index}>
                               {item}
                             </CapabilityListItem>
                           ))}
@@ -112,7 +115,7 @@ export function CapabilityServicePageLayout({
                         </h2>
                         <ul className={listClass}>
                           {compliance.map((item, index) => (
-                            <CapabilityListItem key={item} index={index}>
+                            <CapabilityListItem key={index} index={index}>
                               {item}
                             </CapabilityListItem>
                           ))}
@@ -128,7 +131,7 @@ export function CapabilityServicePageLayout({
                         </h2>
                         <ul className={listClass}>
                           {deliverables.map((item, index) => (
-                            <CapabilityListItem key={item} index={index}>
+                            <CapabilityListItem key={index} index={index}>
                               {item}
                             </CapabilityListItem>
                           ))}
@@ -143,7 +146,7 @@ export function CapabilityServicePageLayout({
             <Reveal delayMs={260}>
               <div className="mt-14 flex flex-col items-stretch border-t border-white/15 pt-10 sm:mt-16 sm:pt-12 lg:mt-20">
                 <div className="flex justify-end">
-                  <CustomPillButton href="/contact" size="md" className="pill-btn--corners-sm">
+                  <CustomPillButton href={ctaHref} size="md" className="pill-btn--corners-sm">
                     {ctaLabel}
                   </CustomPillButton>
                 </div>

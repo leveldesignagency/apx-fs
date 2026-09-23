@@ -11,18 +11,22 @@ type Props = {
   steps: readonly Step[]
 }
 
-function splitStepTitle(title: string): { main: string; sub?: string } {
-  const m = title.match(/^(.+?)\s*[,–]\s*(.+)$/)
-  if (!m) return { main: title }
-  return { main: m[1]!.trim(), sub: m[2]!.trim() }
-}
-
 type Phase = "idle" | "exiting" | "entering"
 
-/** Title fades first, then copy + items (last item ends ≈0.48s, keep in sync with globals exit delays) */
-const MS_OUT = 520
+/** Short labels for mobile arrow nav (same pattern as homepage services). */
+const STEP_SHORT_LABELS = [
+  "Survey",
+  "Design",
+  "Planning",
+  "Installation",
+  "Commissioning",
+  "Handover",
+] as const
+
+/** Title fades first, then copy + items, keep in sync with globals exit delays */
+const MS_OUT = 140
 /** Enter overlaps digit tick: slide-from-top + stagger (≥ last delay + duration) */
-const MS_IN = 400
+const MS_IN = 180
 
 function RollingPair({
   value,
@@ -44,7 +48,8 @@ function RollingPair({
       <span className="dm-journey-digit relative inline-flex h-[1em] min-w-[0.55em] overflow-hidden align-top">
         <span
           key={`${a}-${tickPulse}`}
-          className="dm-journey-digit-inner font-title font-bold leading-none"
+          className="dm-journey-digit-inner font-title font-bold leading-none !normal-case"
+          style={{ textTransform: "none" }}
         >
           {a}
         </span>
@@ -52,7 +57,8 @@ function RollingPair({
       <span className="dm-journey-digit relative inline-flex h-[1em] min-w-[0.55em] overflow-hidden align-top">
         <span
           key={`${b}-${tickPulse}`}
-          className="dm-journey-digit-inner font-title font-bold leading-none"
+          className="dm-journey-digit-inner font-title font-bold leading-none !normal-case"
+          style={{ textTransform: "none" }}
         >
           {b}
         </span>
@@ -64,25 +70,18 @@ function RollingPair({
 function JourneyNav({
   steps,
   index,
-  phase,
   onJump,
   onDelta,
-  align = "end",
 }: {
   steps: readonly Step[]
   index: number
-  phase: Phase
   onJump: (i: number) => void
   onDelta: (d: number) => void
-  align?: "start" | "center" | "end"
 }) {
-  const alignClass =
-    align === "start" ? "items-start" : align === "center" ? "items-center" : "items-end"
-
   return (
-    <div className={cn("flex shrink-0 flex-col gap-3 sm:gap-4", alignClass)}>
+    <div className="hidden shrink-0 flex-col items-end gap-3 sm:gap-4 md:flex">
       <div
-        className="flex flex-wrap gap-2.5 md:gap-3"
+        className="flex flex-wrap items-center gap-2"
         role="tablist"
         aria-label="Jump to step"
       >
@@ -92,11 +91,10 @@ function JourneyNav({
             type="button"
             role="tab"
             aria-selected={i === index}
-            disabled={phase !== "idle"}
             onClick={() => onJump(i)}
             className={cn(
-              "h-2.5 w-2.5 rounded-full border border-white/45 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/50 disabled:opacity-35",
-              i === index ? "bg-white" : "bg-white/15 hover:bg-white/35"
+              "h-2 rounded-full transition-all duration-300 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/50",
+              i === index ? "w-8 bg-white" : "w-2 bg-white/25 hover:bg-white/40"
             )}
             aria-label={`Go to ${s.title}`}
           />
@@ -107,8 +105,7 @@ function JourneyNav({
         <button
           type="button"
           onClick={() => onDelta(-1)}
-          disabled={phase !== "idle"}
-          className="inline-flex h-11 w-11 items-center justify-center rounded-full border-2 border-white bg-black text-white transition-colors hover:bg-white hover:text-black disabled:pointer-events-none disabled:opacity-35 md:h-12 md:w-12"
+          className="inline-flex h-11 w-11 items-center justify-center rounded-full border-2 border-white bg-black text-white transition-colors hover:bg-white hover:text-black md:h-12 md:w-12"
           aria-label="Previous step"
         >
           <ChevronLeft className="h-5 w-5 md:h-6 md:w-6" strokeWidth={2} />
@@ -116,13 +113,51 @@ function JourneyNav({
         <button
           type="button"
           onClick={() => onDelta(1)}
-          disabled={phase !== "idle"}
-          className="inline-flex h-11 w-11 items-center justify-center rounded-full border-2 border-white bg-black text-white transition-colors hover:bg-white hover:text-black disabled:pointer-events-none disabled:opacity-35 md:h-12 md:w-12"
+          className="inline-flex h-11 w-11 items-center justify-center rounded-full border-2 border-white bg-black text-white transition-colors hover:bg-white hover:text-black md:h-12 md:w-12"
           aria-label="Next step"
         >
           <ChevronRight className="h-5 w-5 md:h-6 md:w-6" strokeWidth={2} />
         </button>
       </div>
+    </div>
+  )
+}
+
+function StageCopy({
+  step,
+  phase,
+}: {
+  step: Step
+  phase: Phase
+}) {
+  return (
+    <div data-phase={phase} className="dm-journey-content w-full min-w-0">
+      <h2
+        className="font-title text-[1.5rem] font-semibold leading-[1.1] tracking-tight text-white !normal-case sm:text-[1.75rem] md:text-[clamp(2rem,3.6vw,3.5rem)]"
+        style={{ textTransform: "none" }}
+      >
+        {step.title}
+      </h2>
+      <div className="mt-4 space-y-3.5 text-[0.95rem] leading-relaxed text-white/78 sm:mt-5 sm:space-y-4 sm:text-base md:mt-6 md:text-[clamp(1rem,1.9vw,1.125rem)] md:leading-[1.65]">
+        {step.paragraphs.map((paragraph) => (
+          <p key={paragraph} className="dm-journey-copy">
+            {paragraph}
+          </p>
+        ))}
+      </div>
+      <p className="dm-journey-key-label mt-6 text-sm font-medium tracking-wide text-white/55 md:mt-8">
+        Key activities
+      </p>
+      <ul className="mt-3 space-y-2.5 text-[0.95rem] leading-relaxed text-white/82 sm:space-y-3 sm:text-base md:mt-4 md:space-y-3.5 md:text-[clamp(1rem,2vw,1.125rem)] md:leading-[1.6]">
+        {step.items.map((line) => (
+          <li
+            key={line}
+            className="dm-journey-item relative border-b border-white/10 pb-2.5 pl-1 last:border-0 last:pb-0 sm:pb-3 md:pb-3.5"
+          >
+            {line}
+          </li>
+        ))}
+      </ul>
     </div>
   )
 }
@@ -135,6 +170,7 @@ export function DeliveryMethodologyJourney({ steps }: Props) {
   const [reduceMotion, setReduceMotion] = useState(false)
   const busyRef = useRef(false)
   const timersRef = useRef<number[]>([])
+  const targetRef = useRef(0)
 
   const clearTimers = useCallback(() => {
     timersRef.current.forEach((id) => clearTimeout(id))
@@ -152,7 +188,7 @@ export function DeliveryMethodologyJourney({ steps }: Props) {
   useEffect(() => () => clearTimers(), [clearTimers])
 
   const step = steps[index]!
-  const { main: stepTitleMain, sub: stepTitleSub } = splitStepTitle(step.title)
+  const shortLabel = STEP_SHORT_LABELS[index] ?? step.title
 
   useEffect(() => {
     return () => {
@@ -162,141 +198,150 @@ export function DeliveryMethodologyJourney({ steps }: Props) {
 
   const runNavigate = useCallback(
     (nextIndex: number) => {
-      if (busyRef.current || nextIndex === index) return
+      if (nextIndex === targetRef.current && busyRef.current) return
+      if (nextIndex === index && !busyRef.current) return
+
+      targetRef.current = nextIndex
+
       if (reduceMotion) {
+        clearTimers()
+        busyRef.current = false
+        setPhase("idle")
         setIndex(nextIndex)
         setTickPulse((p) => p + 1)
         return
       }
 
-      busyRef.current = true
       clearTimers()
+      busyRef.current = true
+      setPhase("exiting")
 
-      const go = () => {
-        setPhase("exiting")
-        const t1 = window.setTimeout(() => {
-          setIndex(nextIndex)
-          setTickPulse((p) => p + 1)
-          setPhase("entering")
-          const t2 = window.setTimeout(() => {
-            setPhase("idle")
-            busyRef.current = false
-          }, MS_IN)
-          timersRef.current.push(t2)
-        }, MS_OUT)
-        timersRef.current.push(t1)
-      }
-      go()
+      const t1 = window.setTimeout(() => {
+        setIndex(nextIndex)
+        setTickPulse((p) => p + 1)
+        setPhase("entering")
+        const t2 = window.setTimeout(() => {
+          setPhase("idle")
+          busyRef.current = false
+        }, MS_IN)
+        timersRef.current.push(t2)
+      }, MS_OUT)
+      timersRef.current.push(t1)
     },
     [clearTimers, index, reduceMotion]
   )
 
   const goDelta = useCallback(
     (d: number) => {
-      const next = (index + d + n) % n
-      runNavigate(next)
+      const from = busyRef.current ? targetRef.current : index
+      runNavigate((from + d + n) % n)
     },
     [index, n, runNavigate]
   )
 
   return (
     <div className="dm-process-journey relative">
-      {/* Fixed header band: title left, nav top-right — never moves with step height */}
       <section className="page-title-band px-4 sm:px-6 lg:px-8">
         <div className="mx-auto w-full max-w-[min(100%,92rem)]">
-          <div className="flex flex-col gap-8 sm:gap-10 lg:flex-row lg:items-end lg:justify-between lg:gap-12">
-            <div className="min-w-0 max-w-4xl">
+          <div className="flex flex-col gap-8 sm:gap-10 md:flex-row md:items-end md:justify-between md:gap-12">
+            <div className="min-w-0 max-w-5xl">
               <span className="section-label mb-3 block text-white/75">Delivery methodology</span>
               <h1
                 className="text-left text-3xl font-bold tracking-tight text-white sm:text-4xl md:text-5xl lg:text-6xl"
                 style={{ fontFamily: "var(--font-menu)" }}
               >
-                Evidence-led delivery
+                Clear stages from
+                <br />
+                survey to support
               </h1>
-              <p className="mt-3 max-w-3xl text-left text-base font-normal leading-snug text-white/75 sm:mt-4 sm:text-lg md:text-xl lg:text-2xl">
-                from first survey to compliant handover
+              <p className="mt-3 max-w-4xl text-left text-base font-normal leading-snug text-white/75 sm:mt-4 sm:text-lg md:text-xl">
+                Six stages we follow on fire and security projects, so you can see how survey, design, installation,
+                commissioning and handover fit together.
               </p>
             </div>
 
-            <JourneyNav
-              steps={steps}
-              index={index}
-              phase={phase}
-              onJump={runNavigate}
-              onDelta={goDelta}
-              align="end"
-            />
+            <JourneyNav steps={steps} index={index} onJump={runNavigate} onDelta={goDelta} />
           </div>
         </div>
       </section>
 
-      <div className="container relative mx-auto px-6 lg:px-8">
+      <div className="relative mx-auto w-full max-w-[min(100%,92rem)] px-4 sm:px-6 lg:px-8">
         <div
-          className="mx-auto mb-6 h-px max-w-md bg-gradient-to-r from-transparent via-white/30 to-transparent md:mb-8 md:max-w-lg"
+          className="mx-auto mb-5 hidden h-px max-w-md bg-gradient-to-r from-transparent via-white/30 to-transparent md:mb-8 md:block md:max-w-lg"
           aria-hidden
         />
 
+        {/* Mobile: same pattern as homepage services, arrows flanking stage label */}
+        <div className="mb-4 flex items-center justify-between gap-3 md:hidden">
+          <button
+            type="button"
+            onClick={() => goDelta(-1)}
+            className="flex h-11 w-11 shrink-0 items-center justify-center rounded-full border-2 border-white/70 text-white transition-colors hover:border-white hover:bg-white/10"
+            aria-label="Previous stage"
+          >
+            <ChevronLeft className="h-5 w-5" strokeWidth={2} />
+          </button>
+          <p
+            className="min-w-0 flex-1 text-center text-sm font-semibold uppercase tracking-[0.14em] text-white"
+            aria-live="polite"
+          >
+            {String(index + 1).padStart(2, "0")} · {shortLabel}
+          </p>
+          <button
+            type="button"
+            onClick={() => goDelta(1)}
+            className="flex h-11 w-11 shrink-0 items-center justify-center rounded-full border-2 border-white/70 text-white transition-colors hover:border-white hover:bg-white/10"
+            aria-label="Next stage"
+          >
+            <ChevronRight className="h-5 w-5" strokeWidth={2} />
+          </button>
+        </div>
+
         <section aria-label="Delivery methodology steps">
-          <div className="flex w-full flex-row items-start gap-6 sm:gap-10 md:gap-14 lg:gap-16 xl:gap-20">
-            <div className="relative z-10 flex w-[4.5rem] shrink-0 flex-col items-start sm:w-[5.5rem] md:w-[min(7rem,11vw)] lg:w-[min(8rem,9vw)]">
+          <div className="flex w-full flex-row items-start gap-0 md:gap-14 lg:gap-16 xl:gap-20">
+            <div className="relative z-10 hidden w-[4.5rem] shrink-0 flex-col items-start sm:w-[5.5rem] md:flex md:w-[min(7rem,11vw)] lg:w-[min(8rem,9vw)]">
               <div
-                className="font-title text-[clamp(2.75rem,11vw,9rem)] font-bold leading-[0.82] tracking-tight text-white/[0.14] transition-opacity duration-300 sm:text-[clamp(3.25rem,10vw,8rem)] md:text-[clamp(4.5rem,12vw,8.5rem)] lg:text-[clamp(5rem,10vw,9rem)]"
+                className="font-title text-[clamp(4.5rem,12vw,8.5rem)] font-bold leading-[0.82] tracking-tight text-white/[0.14] transition-opacity duration-300 !normal-case lg:text-[clamp(5rem,10vw,9rem)]"
                 style={{
                   opacity: phase === "exiting" ? 0.55 : 1,
+                  textTransform: "none",
                 }}
               >
                 <RollingPair value={index + 1} tickPulse={tickPulse} />
               </div>
-              <p className="mt-2 max-w-[10rem] text-left text-[0.58rem] font-medium uppercase leading-snug tracking-[0.26em] text-white/35 sm:mt-3 sm:text-[0.65rem] md:mt-4 md:text-xs">
-                Step {String(index + 1).padStart(2, "0")} of {String(n).padStart(2, "0")}
-              </p>
+              <span className="sr-only">
+                Stage {index + 1} of {n}
+              </span>
             </div>
 
-            <div className="relative min-w-0 flex-1 border-l border-white/[0.08] pl-5 sm:pl-8 md:pl-10 lg:pl-12">
-              <div
-                key={index}
-                data-phase={phase}
-                className="dm-journey-content w-full min-w-0 max-w-3xl"
-              >
-                <h2
-                  className={cn(
-                    "font-title text-[clamp(1.85rem,5vw,3.35rem)] font-semibold leading-[1.08] tracking-tight text-white normal-case md:text-[clamp(2rem,3.6vw,3.5rem)]"
-                  )}
-                >
-                  {stepTitleMain}
-                </h2>
-                {stepTitleSub ? (
-                  <p className="mt-2 max-w-2xl font-title text-[clamp(0.95rem,2vw,1.2rem)] font-medium uppercase leading-snug tracking-[0.14em] text-white/65 md:mt-2.5 md:tracking-[0.16em]">
-                    {stepTitleSub}
-                  </p>
-                ) : null}
-                <div className="mt-5 space-y-4 text-[clamp(0.95rem,1.9vw,1.05rem)] leading-relaxed text-white/78 md:mt-6 md:leading-[1.65]">
-                  {step.paragraphs.map((paragraph) => (
-                    <p key={paragraph} className="dm-journey-copy">
-                      {paragraph}
-                    </p>
-                  ))}
-                </div>
-                <p className="dm-journey-key-label mt-7 text-[0.7rem] font-semibold uppercase tracking-[0.2em] text-white/45 md:mt-8 md:text-xs">
-                  Key activities
-                </p>
-                <ul className="mt-3 space-y-3 text-[clamp(0.95rem,2vw,1.1rem)] leading-relaxed text-white/82 md:mt-4 md:space-y-3 md:leading-[1.6]">
-                  {step.items.map((line) => (
-                    <li
-                      key={line}
-                      className="dm-journey-item relative border-b border-white/10 pb-3 pl-1 last:border-0 last:pb-0 md:pb-3.5"
-                    >
-                      {line}
-                    </li>
-                  ))}
-                </ul>
+            <div className="relative min-w-0 flex-1 md:border-l md:border-white/[0.08] md:pl-10 lg:pl-12">
+              <div key={index} className="max-w-5xl xl:max-w-6xl">
+                <StageCopy step={step} phase={phase} />
               </div>
             </div>
           </div>
         </section>
 
+        {/* Mobile pill indicators */}
+        <div className="mt-6 flex justify-center gap-2 md:hidden" role="tablist" aria-label="Stage progress">
+          {steps.map((s, i) => (
+            <button
+              key={`pill-${s.title}`}
+              type="button"
+              role="tab"
+              aria-selected={i === index}
+              onClick={() => runNavigate(i)}
+              className={cn(
+                "h-1.5 rounded-full transition-all",
+                i === index ? "w-6 bg-white" : "w-1.5 bg-white/35"
+              )}
+              aria-label={`Go to ${s.title}`}
+            />
+          ))}
+        </div>
+
         <div
-          className="mx-auto mt-10 h-px max-w-md bg-gradient-to-r from-transparent via-white/22 to-transparent md:mt-12"
+          className="mx-auto mt-8 hidden h-px max-w-md bg-gradient-to-r from-transparent via-white/22 to-transparent md:mt-12 md:block"
           aria-hidden
         />
       </div>

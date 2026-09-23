@@ -38,6 +38,24 @@ export default function CareersPage() {
         </div>
 
         <CareersSearchAndRoles roles={FS_CAREER_ROLES} />
+
+        <aside className="mt-16 max-w-3xl border-t border-white/12 pt-10 sm:mt-20 sm:pt-12">
+          <h2 className="font-title text-xl font-bold text-white sm:text-2xl">Equal opportunities &amp; privacy</h2>
+          <p className="mt-4 text-sm leading-relaxed text-white/65 sm:text-base">
+            APX Fire &amp; Security is an equal-opportunities employer. We welcome applications from all suitably
+            qualified candidates. Decisions are based on experience, skills and ability to do the job.
+          </p>
+          <p className="mt-4 text-sm leading-relaxed text-white/65 sm:text-base">
+            Job applications and CVs contain personal information. Please read our{" "}
+            <Link
+              href="/recruitment-privacy"
+              className="font-medium text-white underline decoration-white/35 underline-offset-4 hover:decoration-white"
+            >
+              recruitment privacy notice
+            </Link>{" "}
+            before you apply.
+          </p>
+        </aside>
       </section>
     </div>
   )

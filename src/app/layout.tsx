@@ -11,6 +11,8 @@ import CustomCursor from "@/components/CustomCursor";
 import HeaderClient from "@/components/HeaderClient";
 import { PremiumScroll } from "@/components/PremiumScroll";
 import { RootJsonLd } from "@/components/RootJsonLd";
+import { HomeSearchIntentBanner } from "@/components/home/HomeSearchIntentBanner";
+import { SearchAnchorFlash } from "@/components/home/SearchAnchorFlash";
 import { FS_SITE_NAME, fsDefaultDescription, fsKeywordsMetaString, getFsSiteUrl } from "@/lib/seo";
 
 const inter = Inter({
@@ -86,6 +88,7 @@ export default function RootLayout({
     <html
       lang="en-GB"
       className={`${inter.variable} ${plusJakartaSans.variable} ${bebasNeue.variable}`}
+      data-scroll-behavior="smooth"
       suppressHydrationWarning
     >
       <body className="font-sans antialiased" suppressHydrationWarning>
@@ -97,6 +100,8 @@ export default function RootLayout({
                 {/* site-shell: absolute header overlays hero; bar scrolls with page (not position:fixed) */}
                 <div className="site-shell relative">
                   <HeaderClient />
+                  <HomeSearchIntentBanner />
+                  <SearchAnchorFlash />
                   <div className="relative z-10">
                     <CustomCursor />
                     <main>{children}</main>

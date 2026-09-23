@@ -20,7 +20,7 @@ const CCTV_CONSIDERATION_ITEMS = [
   {
     question: "Do I need to record activity along the side of my property?",
     answer:
-      "Side access routes are a frequent entry point for intruders. If you have an open path, gate or alley alongside the building, a camera covering that route can deter crime and provide evidence if someone attempts to enter.",
+      "Side access routes are a frequent approach path. If you have an open path, gate or alley alongside the building, a camera covering that route can support oversight and provide recorded evidence if someone attempts to enter.",
   },
   {
     question:
@@ -37,7 +37,7 @@ const CCTV_CONSIDERATION_ITEMS = [
     question:
       "How many cameras and of what type am I going to need, and do I need to install them all at the same time?",
     answer:
-      "You do not have to install everything at once. We can design a system in phases, for example perimeter coverage first, then internal or rear areas, as long as the recorder and cabling plan allow for future expansion.",
+      "You do not have to install everything at once. We can design a system in phases, for example perimeter coverage first, then internal or rear areas, as long as the recorder and cabling plan allow for future expansion. Camera types (dome, bullet, PTZ, infrared and others) are chosen on survey.",
   },
   {
     question: "Is there a vulnerable flat roof which needs its own camera?",
@@ -52,33 +52,33 @@ const CCTV_CONSIDERATION_ITEMS = [
   {
     question: "Do I want to monitor rooms inside of the dwelling?",
     answer:
-      "Internal cameras are possible but must be justified, proportionate and communicated to household members or staff. We will discuss privacy, signage and whether internal coverage is genuinely needed or better achieved with external cameras only.",
+      "Internal cameras are possible but must be justified, proportionate and communicated to household members or staff. We will discuss privacy, signage and whether internal coverage is genuinely needed or better achieved with external cameras only. You remain responsible for lawful use under UK GDPR.",
   },
   {
     question: "What sort of images do you want your cameras to capture?",
     answer:
-      "Identify whether you need identification of people, overview of an area, close detail at a till or door, or evidence-grade footage for prosecution. That drives camera type, resolution and storage requirements.",
+      "Identify whether you need identification of people, overview of an area, close detail at a till or door, or evidence-grade footage for investigation. That drives camera type, resolution and storage requirements.",
   },
   {
     question: "How will I record the images, and should these be recorded on-site, off-site or both?",
     answer:
-      "Most systems use an on-site NVR or DVR; cloud or off-site backup adds resilience if equipment is stolen or damaged. We will explain retention periods, storage capacity and GDPR-compliant access controls at handover.",
+      "Most systems use an on-site NVR or DVR; cloud or off-site backup adds resilience if equipment is stolen or damaged. We will explain retention periods, storage capacity and access controls at handover. Lawful operation remains your responsibility under UK GDPR.",
   },
   {
     question: "Do I want to monitor images in real time via a portable device such as a phone or laptop?",
     answer:
-      "Remote viewing is standard on many modern systems via app or browser. We can set up secure access, user permissions and alerts so you can check live or recorded footage when you are away from the site.",
+      "Remote viewing is available on many modern systems via app or browser where the platform supports it. We can set up secure access, user permissions and alerts so you can check live or recorded footage when you are away from the site.",
   },
   {
-    question: "How will I run the cables to the cameras? (if required as many cameras are now wire-free).",
+    question: "How will I run the cables to the cameras?",
     answer:
-      "Wired cameras offer reliable power and bandwidth; wireless or battery options suit some locations but still need thoughtful placement. We plan cable routes, containment and power supplies to keep installation tidy and maintainable.",
+      "Wired cameras offer reliable power and bandwidth. Wireless options can reduce data cabling in some locations, but cameras normally still need power (mains, local PoE or battery with charging cycles), wireless is not a cabling-free install. We plan routes, containment and power on survey.",
   },
   {
     question:
-      "Should I use infra-red cameras at night or is the artificial light sufficient to use low light cameras?",
+      "Should I use infrared cameras at night or is the artificial light sufficient to use low-light cameras?",
     answer:
-      "Infra-red gives consistent night images where lighting is poor or switched off. Where street or security lighting is reliable, low-light colour cameras may be enough. We match camera type to each location during the survey.",
+      "Infrared (IR) gives consistent night images where lighting is poor or switched off. Where street or security lighting is reliable, low-light colour cameras may be enough. We match camera type to each location during the survey.",
   },
 ] as const
 

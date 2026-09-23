@@ -88,6 +88,12 @@ header.site-header {
 .careers-page .careers-search-input {
   border-radius: 9999px !important;
 }
+/* Hide WebKit native clear (blue X); we use a custom clear control */
+.careers-page .careers-search-input::-webkit-search-cancel-button,
+.careers-page .careers-search-input::-webkit-search-decoration {
+  -webkit-appearance: none;
+  appearance: none;
+}
 .careers-page .careers-panel,
 .careers-page .careers-role-list,
 .careers-page .careers-outline-btn,
@@ -960,7 +966,14 @@ section#services.home-services-band.section-spacing {
   }
 
   .site-shell main .fs-inset-cta-card h2.font-title {
-    line-height: 0.95 !important;
+    font-size: 2.25rem !important; /* text-4xl - keep CTA titles a step up on mobile */
+    line-height: 1.05 !important;
+    letter-spacing: -0.025em !important;
+  }
+
+  .site-shell main #about-join-the-team-heading.about-join-team-title {
+    font-size: clamp(2.75rem, 12vw, 3.5rem) !important;
+    line-height: 0.82 !important;
   }
 }
 
@@ -1039,6 +1052,12 @@ section h4.font-title {
 section h1,
 section h2 {
   line-height: 1.25;
+}
+
+/* About Join the Team: stacked display title needs much tighter leading */
+#about-join-the-team-heading.about-join-team-title,
+#join-the-team h2.about-join-team-title {
+  line-height: 0.82 !important;
 }
 
 #hero h1 {
@@ -3713,20 +3732,20 @@ html:not(.dark) #quote-form .form-submit-btn.pill-btn .pill-btn-border {
   }
 }
 
-/* Why Choose Us (home): more space above; tighter below before next section */
+/* Why Choose Us (home): space above for cant; tighter below before next section */
 #about.section-canted-top.section-canted-bottom {
-  padding-top: 8rem !important;
+  padding-top: 5.5rem !important;
   padding-bottom: 4rem !important;
 }
 @media (min-width: 1024px) {
   #about.section-canted-top.section-canted-bottom {
-    padding-top: 9.5rem !important;
+    padding-top: 6.5rem !important;
     padding-bottom: 5rem !important;
   }
 }
 @media (max-width: 1023px) {
   #about.section-canted-top.section-canted-bottom {
-    padding-top: 9.5rem !important;
+    padding-top: 6.5rem !important;
     padding-bottom: 6.5rem !important;
   }
 }
@@ -4046,10 +4065,197 @@ html.about-page-active {
 .about-page-shell .about-block--white.about-why-choose-section.about-section-y {
   padding-bottom: clamp(5rem, 12vw, 9rem);
 }
+
+/* Meet the team — black featured strip (About)
+   Lead starts at 2x; hovering a peer swaps: peer expands, lead collapses. */
+.about-featured-team-card {
+  color: #ffffff !important;
+}
+.about-featured-team-card h3,
+.about-featured-team-card span {
+  color: inherit;
+}
+.about-featured-team-card .rounded-full.bg-white {
+  color: #000000 !important;
+}
+.about-featured-team-row {
+  -webkit-overflow-scrolling: touch;
+}
+.about-featured-team-row::-webkit-scrollbar {
+  height: 6px;
+}
+.about-featured-team-row::-webkit-scrollbar-thumb {
+  background: rgba(0, 0, 0, 0.2);
+  border-radius: 999px;
+}
+.about-featured-team-item {
+  min-width: 0;
+  transition: flex 0.55s cubic-bezier(0.22, 1, 0.36, 1);
+}
+.about-featured-team-item.is-lead {
+  flex: 2 1 0;
+}
+.about-featured-team-item.is-peer {
+  flex: 1 1 0;
+}
+/* Expanded type on lead by default; peers stay compact until hovered */
+.about-featured-team-item.is-lead .about-featured-team-card h3 {
+  font-size: clamp(1.65rem, 2.2vw, 2.65rem);
+}
+.about-featured-team-item.is-peer .about-featured-team-card h3 {
+  font-size: clamp(1.35rem, 1.5vw, 1.85rem);
+}
+.about-featured-team-item.is-lead .about-featured-team-avatar {
+  width: 12.5rem;
+  height: 12.5rem;
+}
+.about-featured-team-item.is-peer .about-featured-team-avatar {
+  width: 11rem;
+  height: 11rem;
+}
+.about-featured-team-item.is-lead .about-featured-team-avatar__initials {
+  font-size: 3.75rem;
+}
+.about-featured-team-item.is-peer .about-featured-team-avatar__initials {
+  font-size: 3rem;
+}
+@media (hover: hover) and (min-width: 640px) {
+  .about-featured-team-row:has(.is-peer:hover) .is-lead {
+    flex: 1 1 0;
+  }
+  .about-featured-team-item.is-peer:hover {
+    flex: 2 1 0;
+  }
+  .about-featured-team-row:has(.is-peer:hover) .is-lead .about-featured-team-card h3 {
+    font-size: clamp(1.35rem, 1.5vw, 1.85rem);
+  }
+  .about-featured-team-item.is-peer:hover .about-featured-team-card h3 {
+    font-size: clamp(1.65rem, 2.2vw, 2.65rem);
+  }
+  .about-featured-team-row:has(.is-peer:hover) .is-lead .about-featured-team-avatar {
+    width: 11rem;
+    height: 11rem;
+  }
+  .about-featured-team-item.is-peer:hover .about-featured-team-avatar {
+    width: 12.5rem;
+    height: 12.5rem;
+  }
+  .about-featured-team-row:has(.is-peer:hover) .is-lead .about-featured-team-avatar__initials {
+    font-size: 3rem;
+  }
+  .about-featured-team-item.is-peer:hover .about-featured-team-avatar__initials {
+    font-size: 3.75rem;
+  }
+}
+.about-featured-team-card h3,
+.about-featured-team-avatar,
+.about-featured-team-avatar__initials {
+  transition:
+    font-size 0.55s cubic-bezier(0.22, 1, 0.36, 1),
+    width 0.55s cubic-bezier(0.22, 1, 0.36, 1),
+    height 0.55s cubic-bezier(0.22, 1, 0.36, 1);
+}
+@media (max-width: 639px) {
+  .about-featured-team-item.is-lead,
+  .about-featured-team-item.is-peer {
+    flex: 0 0 auto;
+    width: 14.5rem;
+    min-width: 14.5rem;
+  }
+  .about-featured-team-item.is-lead {
+    width: 17.5rem;
+    min-width: 17.5rem;
+  }
+  .about-featured-team-item.is-lead .about-featured-team-card h3 {
+    font-size: 1.85rem;
+  }
+  .about-featured-team-item.is-peer .about-featured-team-card h3 {
+    font-size: 1.5rem;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .about-featured-team-item,
+  .about-featured-team-card h3,
+  .about-featured-team-avatar,
+  .about-featured-team-avatar__initials {
+    transition: none !important;
+  }
+}
+
+/* /team directory */
+.team-directory__search {
+  border-radius: 0 !important;
+}
+.team-directory__search::-webkit-search-cancel-button,
+.team-directory__search::-webkit-search-decoration {
+  -webkit-appearance: none;
+  appearance: none;
+}
+.team-member-card,
+.team-member-card h2,
+.team-member-card p {
+  color: #ffffff !important;
+}
+.team-member-card p:last-child {
+  color: rgba(255, 255, 255, 0.5) !important;
+}
+@media (prefers-reduced-motion: reduce) {
+  .team-member-card,
+  .team-member-card:hover {
+    transform: none !important;
+  }
+}
+
+/* Floating media (Careers / Our story): shadow on outer, overflow on inner so radius does not clip */
+.about-floating-media {
+  border-radius: 1.75rem;
+  background: #0a0a0a;
+}
+.about-floating-media > * {
+  overflow: hidden;
+  border-radius: inherit;
+}
+@media (min-width: 640px) {
+  .about-floating-media {
+    border-radius: 2rem;
+  }
+}
+.about-floating-media--on-light {
+  box-shadow: 0 22px 55px rgba(0, 0, 0, 0.22);
+}
+.about-floating-media--on-dark {
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  box-shadow: 0 28px 70px rgba(0, 0, 0, 0.65);
+}
+
+/*
+  Sibling sections paint over box-shadow that spills past the band edge.
+  Keep overflow visible, raise z-index, and pad the bottom so the blur softens
+  inside this section's own background.
+*/
+#join-the-team.about-block,
+#our-story.about-block {
+  isolation: auto;
+  overflow: visible;
+  z-index: 2;
+}
+#join-the-team.about-section-y {
+  padding-bottom: clamp(5.5rem, 12vw, 9rem);
+}
+#our-story.about-section-y {
+  padding-bottom: clamp(5.5rem, 12vw, 9rem);
+}
+#join-the-team .about-section-inner,
+#join-the-team .about-reveal,
+#our-story .about-section-inner,
+#our-story .about-reveal {
+  overflow: visible;
+}
+
 /* Commitments: pull heading up (diagonal splice reads as empty space otherwise) */
 .about-block--black.about-commitments-section.about-section-y {
-  padding-top: clamp(2.25rem, 5.5vw, 3.75rem);
-  padding-bottom: clamp(2.5rem, 7vw, 4.5rem);
+  padding-top: clamp(3.5rem, 9vw, 6.75rem);
+  padding-bottom: clamp(5.5rem, 12vw, 9rem);
 }
 /* Quote stats (About), blur non-hovered cards when one is hovered */
 .about-quote-stat-card {
@@ -4701,6 +4907,7 @@ footer a.footer-level-credit:hover {
 @media (min-width: 1024px) {
   .footer-columns {
     grid-template-columns: repeat(5, minmax(0, 1fr));
+    align-items: stretch;
   }
 }
 

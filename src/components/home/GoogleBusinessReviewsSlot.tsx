@@ -72,9 +72,9 @@ export function GoogleBusinessReviewsSlot() {
           Reviews
         </h4>
 
-        <div className="mt-2.5 flex justify-center gap-0.5" aria-label="5 out of 5 stars">
+        <div className="mt-3 flex justify-center gap-1" aria-label="5 out of 5 stars">
           {Array.from({ length: 5 }).map((_, i) => (
-            <Star key={i} className="google-reviews-card__star h-4 w-4 md:h-[1.125rem] md:w-[1.125rem]" strokeWidth={0} />
+            <Star key={i} className="google-reviews-card__star h-7 w-7 sm:h-6 sm:w-6 md:h-7 md:w-7" strokeWidth={0} fill="currentColor" />
           ))}
         </div>
 
@@ -87,9 +87,9 @@ export function GoogleBusinessReviewsSlot() {
             href={GOOGLE_REVIEWS_LISTING_URL}
             target="_blank"
             rel="noopener noreferrer"
-            className="google-reviews-card__btn inline-flex min-h-[44px] items-center justify-center rounded-full px-5 py-2.5 text-sm font-semibold transition-[background-color,box-shadow,transform] duration-200 ease-out hover:-translate-y-px active:translate-y-0"
+            className="google-reviews-card__btn inline-flex min-h-[44px] items-center justify-center rounded-full px-5 py-2.5 text-sm font-semibold active:translate-y-0"
           >
-            View on Google
+            <span className="google-reviews-card__btn-label">View on Google</span>
           </a>
         </div>
       </article>

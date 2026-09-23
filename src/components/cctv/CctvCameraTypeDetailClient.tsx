@@ -61,8 +61,8 @@ export function CctvCameraTypeDetailClient({ page }: { page: CctvCameraTypePage 
                 /
               </li>
               <li>
-                <Link href="/services/cctv/domestic" className="underline-offset-4 hover:text-white/80 hover:underline">
-                  CCTV
+                <Link href="/services/cctv-systems" className="underline-offset-4 hover:text-white/80 hover:underline">
+                  CCTV systems
                 </Link>
               </li>
               <li aria-hidden className="text-white/25">
@@ -78,17 +78,20 @@ export function CctvCameraTypeDetailClient({ page }: { page: CctvCameraTypePage 
                 {page.title}
               </h1>
               <p className="mt-6 max-w-3xl text-lg leading-relaxed text-gray-300 sm:text-xl">{page.heroIntro}</p>
-              <div className="mt-8">
+              <div className="mt-8 flex flex-wrap items-center gap-4">
                 <Link
-                  href="/services/cctv/domestic"
+                  href="/services/cctv-systems"
                   className="group inline-flex items-center gap-2 text-sm font-semibold uppercase tracking-widest text-white/55 transition-colors hover:text-white"
                 >
                   <ArrowLeft
                     className="h-4 w-4 shrink-0 transition-transform group-hover:-translate-x-0.5"
                     aria-hidden
                   />
-                  All CCTV camera types
+                  CCTV systems overview
                 </Link>
+                <CustomPillButton href="/contact?service=cctv-systems" size="md">
+                  CCTV enquiry
+                </CustomPillButton>
               </div>
             </div>
 
@@ -141,13 +144,12 @@ export function CctvCameraTypeDetailClient({ page }: { page: CctvCameraTypePage 
       <FsInsetCtaCard
         variant="service"
         backgroundImageSrc={src}
-        eyebrow="CCTV survey"
-        headline="Get in"
-        headlineAccent="touch."
-        description="For a survey, specification or installation across Greater London and the Home Counties, we align camera choice with your risk assessment, network and compliance requirements."
+        headline="Ready to"
+        headlineAccent="specify CCTV?"
+        description="Book a survey or ask about commercial CCTV design, installation and commissioning across London and the Home Counties. We match camera type to your site, then quote after survey."
       >
-        <CustomPillButton href="/contact" size="md">
-          Contact APX
+        <CustomPillButton href="/contact?service=cctv-systems" size="md">
+          CCTV enquiry
         </CustomPillButton>
         <CustomPillButton href="tel:02083032280" size="md" variant="outline">
           Call 020 8303 2280

@@ -9,7 +9,7 @@ export function DeliveryMethodologyPageContent() {
     <div className="dm-page min-h-screen bg-black text-white pb-16 md:pb-24">
       <DeliveryMethodologyJourney steps={DELIVERY_METHODOLOGY_STEPS} />
 
-      <div className="container relative mx-auto px-6 lg:px-8">
+      <div className="mx-auto w-full max-w-[min(100%,92rem)] px-4 sm:px-6 lg:px-8">
         <footer className="mt-8 border-t border-white/10 pt-8 text-center md:mt-10 md:pt-10">
           <Link
             href="/contact"

@@ -48,7 +48,7 @@ export const brandConfig = {
       }
     },
     FS: {
-      name: 'APX FS',
+      name: 'APX Fire & Security',
       tagline: 'Professional Fire & Security',
       subtitle: 'Fire Safety & Security Solutions',
       description: 'Expert fire safety and security services, certified professionals, reliable solutions.',
@@ -70,8 +70,8 @@ export const brandConfig = {
         }
       ],
       whyChoose: {
-        title: 'Why Choose APX FS?',
-        description: 'With over 20 years of experience in fire safety and security services, we\'ve built a reputation for excellence, reliability, and customer satisfaction across the UK.',
+        title: 'Why Choose APX Fire & Security?',
+        description: 'Building on a heritage dating back to 1986, we\'ve built a reputation for excellence, reliability, and customer satisfaction across London and the Home Counties.',
         features: [
           {
             title: 'Certified FS Engineers',

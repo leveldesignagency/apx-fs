@@ -36,12 +36,26 @@ import { HomeSectionDivider } from "@/components/home/HomeSectionDivider"
 import { WhereWeThrivePricingCards } from "@/components/home/WhereWeThrivePricingCards"
 import { LetterReveal } from "@/components/LetterReveal"
 import { LineReveal } from "@/components/LineReveal"
-import { containDropdownWheelScroll } from "@/lib/containDropdownWheelScroll"
+import { ServiceCombobox } from "@/components/ui/ServiceCombobox"
 import { FS_SERVICE_QUICK_LINKS } from "@/lib/fs-service-navigation"
 
 /** Matches contact page field glass (draw shell / animation unchanged). */
 const HOME_QUOTE_FIELD_CLASS =
   "w-full rounded-none border border-white/15 bg-black px-4 py-3.5 text-[17px] font-bold text-white placeholder:text-white/40 placeholder:font-normal outline-none transition-[border,box-shadow] focus:border-white/50 focus:ring-0 focus:bg-black"
+
+const HOME_QUOTE_SERVICES = [
+  { value: "intruder-alarms", label: "Intruder Alarm Systems" },
+  { value: "fire-alarms", label: "Fire Alarm Systems" },
+  { value: "cctv", label: "CCTV Systems" },
+  { value: "access-control", label: "Access Control Systems" },
+  { value: "video-door-entry", label: "Video Door Entry Systems" },
+  { value: "gate-automation", label: "Gate Automation" },
+  { value: "evac-voice", label: "EVAC & Voice Alarm Systems" },
+  { value: "refuge-disabled-communication", label: "Disabled Refuge, Fire Telephone & Toilet Alarm Systems" },
+  { value: "monitoring", label: "Monitoring" },
+  { value: "maintenance-support", label: "Maintenance, Repairs & 24/7 Call-Outs" },
+  { value: "other", label: "Other" },
+] as const
 
 const FS_THRIVE_CARDS: {
   title: string
@@ -729,19 +743,6 @@ export default function Home() {
     return () => window.removeEventListener('resize', resync)
   }, [])
 
-  // Close services dropdown when clicking outside
-  useEffect(() => {
-    const handleClickOutside = (event: MouseEvent) => {
-      const target = event.target as HTMLElement;
-      if (isServicesDropdownOpen && !target.closest('.services-dropdown-container')) {
-        setIsServicesDropdownOpen(false);
-      }
-    };
-
-    document.addEventListener('mousedown', handleClickOutside);
-    return () => document.removeEventListener('mousedown', handleClickOutside);
-  }, [isServicesDropdownOpen]);
-
   return (
     <>
       <GlobalStyles theme={themeMode} />
@@ -865,17 +866,26 @@ export default function Home() {
         </div>
       </section>
 
-      {/* Core capabilities, black section blended from hero before Our Story */}
+      {/* Core capabilities, brick texture behind Where We Thrive */}
       <section
         id="core-capabilities"
         className="relative overflow-hidden bg-black pt-28 pb-10 md:pt-28 md:pb-12 lg:pt-32 lg:pb-14"
       >
-        {/* Top feather to blend hero into this black section */}
         <div
-          className="pointer-events-none absolute top-0 left-0 right-0 h-28 sm:h-36"
+          className="pointer-events-none absolute inset-0 z-0 bg-cover bg-center bg-no-repeat"
+          style={{ backgroundImage: 'url("/brick-wall-texture.jpg")' }}
+          aria-hidden
+        />
+        <div
+          className="pointer-events-none absolute inset-0 z-[1] bg-black/72"
+          aria-hidden
+        />
+        {/* Top black feather: continues hero fade into brick texture */}
+        <div
+          className="pointer-events-none absolute top-0 left-0 right-0 z-[2] h-44 sm:h-56 md:h-64 lg:h-72"
           style={{
             background:
-              "linear-gradient(to bottom, rgba(0,0,0,0) 0%, rgba(0,0,0,0.82) 52%, rgba(0,0,0,1) 100%)",
+              "linear-gradient(to bottom, #000 0%, #000 28%, rgba(0,0,0,0.82) 52%, rgba(0,0,0,0.4) 78%, rgba(0,0,0,0) 100%)",
           }}
           aria-hidden
         />
@@ -931,7 +941,7 @@ export default function Home() {
       <section
         ref={projectsSectionRef}
         id="projects"
-        className="projects-section overflow-x-clip pb-40 sm:pb-48 lg:pb-64 scroll-mt-24"
+        className="projects-section overflow-x-clip pb-10 sm:pb-12 lg:pb-14 scroll-mt-24"
         style={{ backgroundColor: "#ffffff" }}
       >
         <div
@@ -987,7 +997,7 @@ export default function Home() {
             >
               <div
                 ref={projectsViewportRef}
-                className="relative w-full min-h-0 flex-1 overflow-x-hidden overflow-y-visible pt-6 pb-8 sm:pt-8 sm:pb-10 lg:pt-10 lg:pb-12"
+                className="relative w-full min-h-0 flex-1 overflow-x-hidden overflow-y-visible pt-6 pb-4 sm:pt-8 sm:pb-5 lg:pt-10 lg:pb-6"
               >
                 <div className="relative left-1/2 w-screen max-w-[100vw] -translate-x-1/2 overflow-x-hidden overflow-y-visible">
                   <div
@@ -997,7 +1007,7 @@ export default function Home() {
                   />
                   <div
                     ref={projectsScrollRef}
-                    className="projects-strip site-gutter-x flex w-max items-stretch gap-6 pb-6 will-change-transform sm:pb-8"
+                    className="projects-strip site-gutter-x flex w-max items-stretch gap-6 pb-3 will-change-transform sm:pb-4"
                   >
                   {projects.map((p, i) => (
                     <div key={i} className="projects-card-shelf flex shrink-0 self-start pt-4 sm:pt-5">
@@ -1470,64 +1480,24 @@ export default function Home() {
                 </div>
                 
                 <div className="relative services-dropdown-container">
-                  <label className="mb-2 block text-xs font-semibold uppercase tracking-[0.12em] text-white/50">
+                  <label
+                    htmlFor="home-quote-service"
+                    className="mb-2 block text-xs font-semibold uppercase tracking-[0.12em] text-white/50"
+                  >
                     Service Required *
                   </label>
-                  <div className="relative">
-                    <button
-                      type="button"
-                      className={`quote-form-field quote-form-dropdown flex w-full cursor-pointer items-center justify-between rounded-none border border-white/15 bg-black px-4 py-3.5 text-left text-[17px] font-bold outline-none transition-[border,box-shadow] focus:border-white/50 focus:bg-black focus:ring-0 ${
-                        selectedService ? "text-white" : "text-white/85"
-                      }`}
-                      onClick={() => setIsServicesDropdownOpen(!isServicesDropdownOpen)}
-                    >
-                      <span>{selectedService || "Select a service"}</span>
-                      <svg
-                        className="h-5 w-5 shrink-0 text-white/60 transition-transform duration-200"
-                        style={{ transform: isServicesDropdownOpen ? "rotate(180deg)" : "rotate(0deg)" }}
-                        fill="none"
-                        stroke="currentColor"
-                        viewBox="0 0 24 24"
-                        aria-hidden
-                      >
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
-                      </svg>
-                    </button>
-                    
-                    {isServicesDropdownOpen && (
-                      <div
-                        className="quote-form-dropdown-menu absolute left-0 right-0 top-full z-50 mt-2 max-h-60 overflow-y-auto overscroll-contain rounded-none border border-white/12 bg-zinc-950 py-2 shadow-2xl"
-                        data-lenis-prevent
-                        onWheel={containDropdownWheelScroll}
-                      >
-                        {[
-                          { value: "intruder-alarms", label: "Intruder Alarm Systems" },
-                          { value: "fire-alarms", label: "Fire Alarm Systems" },
-                          { value: "cctv", label: "CCTV Systems" },
-                          { value: "access-control", label: "Access Control Systems" },
-                          { value: "video-door-entry", label: "Video Door Entry Systems" },
-                          { value: "gate-automation", label: "Gate Automation" },
-                          { value: "evac-voice", label: "EVAC & Voice Alarm Systems" },
-                          { value: "refuge-disabled-communication", label: "Disabled Refuge, Fire Telephone & Toilet Alarm Systems" },
-                          { value: "monitoring", label: "Monitoring" },
-                          { value: "maintenance-support", label: "Maintenance, Repairs & 24/7 Call-Outs" },
-                          { value: "other", label: "Other" },
-                        ].map((service) => (
-                          <button
-                            key={service.value}
-                            type="button"
-                            className="quote-form-dropdown-item block w-full px-4 py-3 text-left text-[17px] font-bold text-white transition-colors hover:bg-white/10"
-                            onClick={() => {
-                              setSelectedService(service.label)
-                              setIsServicesDropdownOpen(false)
-                            }}
-                          >
-                            {service.label}
-                          </button>
-                        ))}
-                      </div>
-                    )}
-                  </div>
+                  <ServiceCombobox
+                    id="home-quote-service"
+                    name="service"
+                    options={HOME_QUOTE_SERVICES}
+                    value={selectedService}
+                    onChange={setSelectedService}
+                    onOpenChange={setIsServicesDropdownOpen}
+                    placeholder="Select or type a service"
+                    required
+                    allowCustom
+                    containerClassName="services-dropdown-container"
+                  />
                 </div>
                 
                 <div>

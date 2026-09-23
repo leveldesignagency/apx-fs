@@ -32,7 +32,7 @@ function FilterOptionList({
                 role="option"
                 aria-selected={selected}
                 onClick={() => onChange(o.value)}
-                className={`flex w-full items-center rounded-lg px-3 py-2.5 text-left text-sm transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/40 ${
+                className={`flex w-full items-center rounded-none px-3 py-2.5 text-left text-sm transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/40 ${
                   selected
                     ? "bg-white text-black font-semibold"
                     : "text-white/75 hover:bg-white/8 hover:text-white"
@@ -85,7 +85,7 @@ function JobDescriptionModal({ role, onClose }: { role: CareerRole; onClose: () 
         role="dialog"
         aria-modal="true"
         aria-labelledby={titleId}
-        className="relative z-[301] flex max-h-[min(92vh,960px)] w-full max-w-5xl flex-col overflow-hidden rounded-2xl border border-white/20 bg-black shadow-[0_24px_80px_rgba(0,0,0,0.85)]"
+        className="relative z-[301] flex max-h-[min(92vh,960px)] w-full max-w-5xl flex-col overflow-hidden rounded-none border border-white/20 bg-black shadow-[0_24px_80px_rgba(0,0,0,0.85)]"
       >
         <div className="flex shrink-0 items-start justify-between gap-4 careers-divider-b border-b border-white/[0.085] px-5 py-5 sm:px-8 sm:py-6">
           <div className="min-w-0 flex-1 pr-2">
@@ -106,7 +106,7 @@ function JobDescriptionModal({ role, onClose }: { role: CareerRole; onClose: () 
             ref={closeRef}
             type="button"
             onClick={onClose}
-            className="shrink-0 rounded-lg border border-white/25 p-2 text-white/70 transition-colors hover:border-white/45 hover:bg-white/10 hover:text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/40"
+            className="shrink-0 rounded-none border border-white/25 p-2 text-white/70 transition-colors hover:border-white/45 hover:bg-white/10 hover:text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/40"
             aria-label="Close"
           >
             <X className="h-5 w-5" aria-hidden />
@@ -120,6 +120,51 @@ function JobDescriptionModal({ role, onClose }: { role: CareerRole; onClose: () 
                 <h4 className="text-[11px] font-semibold uppercase tracking-[0.18em] text-white/45">Overview</h4>
                 <p className="mt-3 text-base leading-relaxed text-white/75 sm:text-lg">{role.description}</p>
               </div>
+
+              <dl className="grid grid-cols-1 gap-4 sm:grid-cols-2">
+                {role.employmentType ? (
+                  <div>
+                    <dt className="text-[11px] font-semibold uppercase tracking-[0.18em] text-white/45">
+                      Employment type
+                    </dt>
+                    <dd className="mt-2 text-sm leading-relaxed text-white/75 sm:text-base">{role.employmentType}</dd>
+                  </div>
+                ) : null}
+                {role.hours ? (
+                  <div>
+                    <dt className="text-[11px] font-semibold uppercase tracking-[0.18em] text-white/45">Hours</dt>
+                    <dd className="mt-2 text-sm leading-relaxed text-white/75 sm:text-base">{role.hours}</dd>
+                  </div>
+                ) : null}
+                {role.baseLocation ? (
+                  <div className="sm:col-span-2">
+                    <dt className="text-[11px] font-semibold uppercase tracking-[0.18em] text-white/45">
+                      Base location
+                    </dt>
+                    <dd className="mt-2 text-sm leading-relaxed text-white/75 sm:text-base">{role.baseLocation}</dd>
+                  </div>
+                ) : null}
+                {role.companyVehicle ? (
+                  <div className="sm:col-span-2">
+                    <dt className="text-[11px] font-semibold uppercase tracking-[0.18em] text-white/45">
+                      Company vehicle
+                    </dt>
+                    <dd className="mt-2 text-sm leading-relaxed text-white/75 sm:text-base">{role.companyVehicle}</dd>
+                  </div>
+                ) : null}
+              </dl>
+
+              {role.benefits?.length ? (
+                <div>
+                  <h4 className="text-[11px] font-semibold uppercase tracking-[0.18em] text-white/45">Benefits</h4>
+                  <ul className="mt-3 list-disc space-y-2 pl-5 text-base leading-relaxed text-white/75">
+                    {role.benefits.map((line) => (
+                      <li key={line}>{line}</li>
+                    ))}
+                  </ul>
+                </div>
+              ) : null}
+
               {role.workingAreas?.length ? (
                 <div>
                   <h4 className="text-[11px] font-semibold uppercase tracking-[0.18em] text-white/45">Working areas</h4>
@@ -137,6 +182,30 @@ function JobDescriptionModal({ role, onClose }: { role: CareerRole; onClose: () 
                   <h4 className="text-[11px] font-semibold uppercase tracking-[0.18em] text-white/45">Responsibilities</h4>
                   <ul className="mt-3 list-disc space-y-2 pl-5 text-base leading-relaxed text-white/75">
                     {role.responsibilities.map((line) => (
+                      <li key={line}>{line}</li>
+                    ))}
+                  </ul>
+                </div>
+              ) : null}
+              {role.requiredExperience?.length ? (
+                <div>
+                  <h4 className="text-[11px] font-semibold uppercase tracking-[0.18em] text-white/45">
+                    Required experience
+                  </h4>
+                  <ul className="mt-3 list-disc space-y-2 pl-5 text-base leading-relaxed text-white/75">
+                    {role.requiredExperience.map((line) => (
+                      <li key={line}>{line}</li>
+                    ))}
+                  </ul>
+                </div>
+              ) : null}
+              {role.certifications?.length ? (
+                <div>
+                  <h4 className="text-[11px] font-semibold uppercase tracking-[0.18em] text-white/45">
+                    Certifications &amp; licences
+                  </h4>
+                  <ul className="mt-3 list-disc space-y-2 pl-5 text-base leading-relaxed text-white/75">
+                    {role.certifications.map((line) => (
                       <li key={line}>{line}</li>
                     ))}
                   </ul>
@@ -160,14 +229,14 @@ function JobDescriptionModal({ role, onClose }: { role: CareerRole; onClose: () 
           <button
             type="button"
             onClick={onClose}
-            className="careers-outline-btn order-2 inline-flex h-12 min-w-[8.5rem] items-center justify-center rounded-xl border border-white/25 px-6 text-sm font-semibold text-white/90 transition-colors hover:border-white/45 hover:bg-white/5 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/40 sm:order-1"
+            className="careers-outline-btn order-2 inline-flex h-12 min-w-[8.5rem] items-center justify-center rounded-none border border-white/25 px-6 text-sm font-semibold text-white/90 transition-colors hover:border-white/45 hover:bg-white/5 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/40 sm:order-1"
           >
             Close
           </button>
           <CustomPillButton
             href={careerApplyHref(role.id)}
             size="md"
-            className="order-1 inline-flex h-12 min-w-[8.5rem] w-full items-center justify-center careers-neat-radius !px-6 !py-0 !text-sm sm:order-2 sm:w-auto"
+            className="order-1 inline-flex h-12 min-w-[8.5rem] w-full items-center justify-center !px-6 !py-0 !text-sm sm:order-2 sm:w-auto"
           >
             Apply
           </CustomPillButton>
@@ -245,7 +314,7 @@ export function CareersSearchAndRoles({
       <div className="grid grid-cols-1 gap-8 lg:grid-cols-[16.5rem_minmax(0,1fr)] lg:gap-10 xl:grid-cols-[18rem_minmax(0,1fr)] xl:gap-12">
         {/* Left filter rail */}
         <aside className="careers-filter-rail lg:sticky lg:top-28 lg:self-start">
-          <div className="careers-panel rounded-2xl border border-white/15 bg-black p-5 sm:p-6">
+          <div className="careers-panel rounded-none border border-white/15 bg-black p-5 sm:p-6">
             <div className="flex items-center justify-between gap-3">
               <p className="text-[11px] font-semibold uppercase tracking-[0.22em] text-white/45">Filters</p>
               {filtersActive ? (
@@ -268,7 +337,7 @@ export function CareersSearchAndRoles({
               </label>
               <div className="relative">
                 <Search
-                  className="pointer-events-none absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-white/40"
+                  className="pointer-events-none absolute left-3.5 top-1/2 h-4 w-4 -translate-y-1/2 text-white/40"
                   aria-hidden
                 />
                 <input
@@ -278,8 +347,18 @@ export function CareersSearchAndRoles({
                   onChange={(e) => setSearch(e.target.value)}
                   placeholder="Role, skill or keyword"
                   autoComplete="off"
-                  className="careers-search-input w-full min-h-[44px] rounded-xl border border-white/20 bg-black py-2.5 pl-10 pr-3 text-sm text-white placeholder:text-white/35 focus:border-white/45 focus:outline-none focus:ring-0"
+                  className="careers-search-input w-full min-h-[44px] rounded-full border border-white/20 bg-black py-2.5 pl-10 pr-10 text-sm text-white placeholder:text-white/35 focus:border-white/45 focus:outline-none focus:ring-0"
                 />
+                {search.trim() !== "" ? (
+                  <button
+                    type="button"
+                    onClick={() => setSearch("")}
+                    className="absolute right-2.5 top-1/2 flex h-7 w-7 -translate-y-1/2 items-center justify-center rounded-full text-white/55 transition-colors hover:bg-white/10 hover:text-white"
+                    aria-label="Clear search"
+                  >
+                    <X className="h-3.5 w-3.5" strokeWidth={2.25} aria-hidden />
+                  </button>
+                ) : null}
               </div>
             </div>
 
@@ -327,7 +406,7 @@ export function CareersSearchAndRoles({
               )}
             </div>
           ) : filtered.length === 0 ? (
-            <div className="careers-panel mt-10 rounded-2xl border border-dashed border-white/15 px-6 py-12 text-center sm:mt-12">
+            <div className="careers-panel mt-10 rounded-none border border-dashed border-white/15 px-6 py-12 text-center sm:mt-12">
               <p className="text-base text-white/55">No roles match your search or filters.</p>
               <button
                 type="button"
@@ -338,7 +417,7 @@ export function CareersSearchAndRoles({
               </button>
             </div>
           ) : (
-            <ul className="careers-role-list mt-6 overflow-hidden rounded-2xl border border-white/15">
+            <ul className="careers-role-list mt-6 overflow-hidden rounded-none border border-white/15">
               {filtered.map((role) => (
                 <li key={role.id} className="bg-black">
                   <article className="flex flex-col gap-5 p-5 transition-colors hover:bg-white/[0.03] sm:p-6 lg:flex-row lg:items-center lg:justify-between lg:gap-8">
@@ -348,12 +427,23 @@ export function CareersSearchAndRoles({
                         <span className="mx-2 text-white/25" aria-hidden>
                           ·
                         </span>
-                        {role.location}
+                        {role.employmentType ?? role.location}
                       </p>
                       <h3 className="mt-2 font-title text-xl font-bold leading-snug tracking-tight text-white sm:text-2xl">
                         {role.title}
                       </h3>
                       {role.salary ? <p className="mt-1.5 text-sm font-medium text-white/55">{role.salary}</p> : null}
+                      <p className="mt-1.5 text-sm text-white/45">
+                        {role.baseLocation ?? role.location}
+                        {role.companyVehicle ? (
+                          <>
+                            <span className="mx-2 text-white/25" aria-hidden>
+                              ·
+                            </span>
+                            Vehicle: {role.companyVehicle.includes("provided") ? "provided" : "see description"}
+                          </>
+                        ) : null}
+                      </p>
                       <p className="mt-3 max-w-3xl text-sm leading-relaxed text-white/60 line-clamp-2 sm:text-base">
                         {role.description}
                       </p>
@@ -362,14 +452,14 @@ export function CareersSearchAndRoles({
                       <button
                         type="button"
                         onClick={() => setModalRole(role)}
-                        className="careers-outline-btn rounded-xl border border-white/25 px-4 py-2.5 text-sm font-semibold text-white/90 transition-colors hover:border-white/45 hover:bg-white/5 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/40"
+                        className="careers-outline-btn rounded-none border border-white/25 px-4 py-2.5 text-sm font-semibold text-white/90 transition-colors hover:border-white/45 hover:bg-white/5 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/40"
                       >
                         View description
                       </button>
                       <CustomPillButton
                         href={careerApplyHref(role.id)}
                         size="md"
-                        className="careers-neat-radius justify-center !px-5 !py-2.5 !text-sm"
+                        className="justify-center !px-5 !py-2.5 !text-sm"
                       >
                         Apply
                       </CustomPillButton>

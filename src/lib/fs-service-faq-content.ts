@@ -48,47 +48,47 @@ const HUB: ServiceFaqItem[] = [
 
 const FIRE_LIFE_SAFETY: ServiceFaqItem[] = [
   {
-    question: "What fire alarm systems do you install?",
+    question: "What does the Fire & Life Safety overview cover?",
     answer:
-      "We install addressable and conventional fire alarm systems with cause-and-effect programming, commissioning and certification, aligned with BS 5839-1 and your fire strategy across London and the Home Counties.",
+      "It is the package view of fire detection, voice evacuation and disabled communication working together. Dedicated detail sits on the fire alarm, EVAC and refuge service pages, with this page used to navigate the full life-safety scope.",
   },
   {
     question: "When should fire detection be defined in the programme?",
     answer:
-      "Early coordination avoids costly rework on device locations, cabling, containment and interfaces to access, EVAC and BMS, we can join at design development or as a specialist package when routes are already defined.",
+      "Early coordination avoids costly rework involving device locations, cabling, containment and interfaces with access control, EVAC and BMS. We can become involved during design development or deliver the specialist package once routes have been defined.",
   },
   {
     question: "Can you integrate with EVAC, refuge and access systems?",
     answer:
-      "Yes. We coordinate interfaces and testing so fire cause-and-effect, voice evacuation and disabled refuge systems behave consistently with the wider design.",
+      "Yes. We coordinate interfaces and testing so fire cause-and-effect, voice evacuation and disabled refuge systems behave consistently with the wider design. See the linked fire alarm, EVAC and refuge service pages for dedicated scopes.",
   },
   {
     question: "What do we receive at handover?",
     answer:
-      "Zone charts, as-built drawings, commissioning certificates and O&M information, with training so operators understand how to test, maintain and respond to alarms.",
+      "Cause-and-effect records, zone charts, as-built drawings, commissioning certificates and O&M information, with training so operators understand how to test, maintain and respond to alarms.",
   },
 ]
 
 const SECURITY_SYSTEMS: ServiceFaqItem[] = [
   {
-    question: "What integrated security work do you deliver?",
+    question: "What does the Security Systems overview cover?",
     answer:
-      "We coordinate CCTV, access control, intruder alarms and interfaces to fire and BMS, so monitoring, events and responses work together across commercial and public-sector sites.",
+      "It is the umbrella for intruder alarms, CCTV, access control, video door entry, gate automation, monitoring and system integration. Intruder alarms are treated as a primary discipline alongside CCTV, dedicated detail sits on each service page.",
   },
   {
-    question: "How do you manage data protection and signage?",
+    question: "Do you offer mobile-app control and remote viewing?",
     answer:
-      "We align camera placement, retention, access control and lawful use with GDPR expectations and site policies, with documentation that reflects your operating model.",
+      "Where the system supplied supports it. We specify app control and remote viewing only for platforms that provide those features, and document operator access at handover.",
   },
   {
-    question: "Can you work with our existing estate standards?",
+    question: "Can systems be monitored and maintained after install?",
     answer:
-      "Yes. We can align equipment, monitoring and reporting with your standardised architecture, including phased upgrades and migration planning where required.",
+      "Yes. Monitoring / ARC signalling can be set up where required, and we offer PPM, system takeovers and 24/7 call-out cover for contracted customers, see the maintenance and support page.",
   },
   {
     question: "What commissioning evidence is provided?",
     answer:
-      "Interface schedules, test records and commissioning certificates so you can demonstrate integrated behaviour and maintain systems with confidence.",
+      "Interface schedules, integration test records and commissioning certificates so you can demonstrate how security systems work together and maintain them with confidence.",
   },
 ]
 
@@ -96,22 +96,27 @@ const MAINTENANCE_SUPPORT: ServiceFaqItem[] = [
   {
     question: "What does your maintenance and support cover?",
     answer:
-      "Planned preventative maintenance, reactive call-outs, health checks and upgrades for fire alarms, CCTV and access systems, structured around your site risk profile and operating hours.",
+      "Annual and six-monthly PPM, corrective works, system takeovers, obsolescence planning, battery replacement, remote support where available, and monitoring support for fire alarms, CCTV, access control, intruder alarms and video entry, structured around your site risk profile and operating hours.",
+  },
+  {
+    question: "Is 24/7 call-out available to everyone?",
+    answer:
+      "24/7 / out-of-hours emergency response is included for customers on a maintenance agreement. Ad-hoc attendance for sites without a contract can be discussed case by case, contact us with your system type and location.",
   },
   {
     question: "Can you align with our helpdesk and SLAs?",
     answer:
-      "Yes. We align response, reporting and escalation with your contract SLAs and facilities processes, including out-of-hours where required.",
+      "Yes. We align response, reporting and escalation with your contract SLAs and facilities processes, including out-of-hours cover for contracted customers.",
   },
   {
-    question: "How do you evidence compliance for duty holders?",
+    question: "What records do we receive after visits?",
     answer:
-      "Service reports, defect records, asset registers and compliance certificates, so you can demonstrate upkeep and plan remedial work with clarity.",
+      "Clear service reports after each visit, with defect and remedial records. Asset registers and compliance evidence packs are provided where they form part of the agreed maintenance scope, confirm with us what your contract needs to include.",
   },
   {
     question: "Do you support legacy systems and upgrades?",
     answer:
-      "Yes. We assess obsolescence, firmware constraints and migration paths so upgrades are planned without unnecessary downtime.",
+      "Yes. We assess obsolescence, firmware constraints and migration paths so upgrades and takeovers are planned without unnecessary downtime.",
   },
 ]
 
@@ -119,7 +124,7 @@ const INTRUDER_SUSTAINABILITY: ServiceFaqItem[] = [
   {
     question: "What graded intruder systems do you install?",
     answer:
-      "We install Grade 1, 2 and 3 systems aligned with insurance and risk expectations, with detection, signalling and monitoring options tailored to commercial and industrial sites.",
+      "We install Grade 2 and Grade 3 systems aligned with insurance and risk expectations, with detection, signalling and monitoring options tailored to commercial and industrial sites.",
   },
   {
     question: "When should we book a survey?",
@@ -129,20 +134,25 @@ const INTRUDER_SUSTAINABILITY: ServiceFaqItem[] = [
   {
     question: "Can you integrate with police response and ARCs?",
     answer:
-      "Where required, we align signalling, documentation and commissioning with your alarm receiving centre and police response expectations.",
+      "Where required, we set up ARC signalling, dual-path options (including CSL GradeShift Pro) and documentation for police response expectations, including monitored upgrades on existing systems.",
   },
   {
     question: "What ongoing support is available?",
     answer:
-      "Planned maintenance, reactive support and system upgrades, with clear records so you can demonstrate reliable operation and respond quickly to faults.",
+      "System takeover and upgrades, planned preventative maintenance, reactive support and 24/7 call-out cover, with clear records so you can demonstrate reliable operation.",
   },
 ]
 
 const ACCESS_CONTROL: ServiceFaqItem[] = [
   {
-    question: "What access control and video entry systems do you install?",
+    question: "What access control systems do you install?",
     answer:
-      "Door readers, fob/card systems, multi-tenant panels and video entry, from single doors to networked estates, coordinated with CCTV and intruder systems where required.",
+      "Fob and card access, keypads, door controllers, single-door and networked systems, and multi-tenant setups. Mobile credentials, lift control and ANPR are included where offered and specified. We also integrate with video entry, gates/barriers, CCTV and intruder systems where required, plus maintenance and system takeovers.",
+  },
+  {
+    question: "Do all systems provide fire release or lockdown?",
+    answer:
+      "No. Fire alarm release interfaces and emergency unlock or lockdown behaviour are configured only where the fire strategy, door hardware and access platform support them. We design and commission what the brief requires, not a single behaviour for every door.",
   },
   {
     question: "How do you align with BS EN 60839?",
@@ -150,14 +160,9 @@ const ACCESS_CONTROL: ServiceFaqItem[] = [
       "We structure design, installation and handover with reference to BS EN 60839 where applicable, including access schedules, permissions and training for operators.",
   },
   {
-    question: "Can you integrate with CCTV and intruder alarms?",
-    answer:
-      "Yes. We coordinate interfaces and commissioning so access events, alarms and monitoring paths work together as specified.",
-  },
-  {
     question: "What happens after installation?",
     answer:
-      "Structured handover, user training and maintenance options, so permissions, credentials and health checks stay manageable as the site evolves.",
+      "Structured handover, user training, and maintenance or takeover options so credentials, schedules and health checks stay manageable as the site evolves.",
   },
 ]
 
@@ -166,17 +171,17 @@ const CCTV_FS = (kind: "commercial" | "domestic" | "advice"): ServiceFaqItem[] =
     kind === "commercial"
       ? "commercial offices, retail, logistics and multi-site operations"
       : kind === "domestic"
-        ? "homes and residential properties"
+        ? "homes and residential properties (a deliberate domestic scope separate from our commercial CCTV offer)"
         : "clients evaluating CCTV options, coverage and obligations"
   return [
     {
       question: "What CCTV systems do you design and install?",
-      answer: `We design and install IP and analogue CCTV for ${intro}, with recording, retention and secure network integration aligned to your risk profile and GDPR expectations.`,
+      answer: `We design and install IP CCTV and HD analogue upgrades for ${intro}, with remote viewing, recording and retention, camera health monitoring, network segregation and maintenance, plus ANPR and analytics where offered for the site.`,
     },
     {
-      question: "How do you handle privacy and signage?",
+      question: "Who is responsible for GDPR / lawful CCTV use?",
       answer:
-        "We align camera placement, signage, retention and access permissions with lawful use and project policies, with handover guidance for operators.",
+        "APX can configure systems with privacy considerations (coverage, signage guidance and retention design). The customer remains responsible for the lawful operation of CCTV under UK GDPR and related rules, including policies, signage and day-to-day use.",
     },
     {
       question: "Can CCTV integrate with access control and intruder systems?",
@@ -186,7 +191,7 @@ const CCTV_FS = (kind: "commercial" | "domestic" | "advice"): ServiceFaqItem[] =
     {
       question: "What training and documentation do you provide?",
       answer:
-        "User training on recording, export and permissions, plus commissioning records and schedules so estates teams can operate systems confidently.",
+        "User training on recording, export and permissions, plus commissioning records and schedules so estates teams can operate systems confidently, including clarity on operator responsibilities.",
     },
   ]
 }
@@ -214,72 +219,95 @@ const MECHANICAL_ENGINEERING_FS: ServiceFaqItem[] = [
   },
 ]
 
-const MAINTENANCE_PAGE: ServiceFaqItem[] = [
+const VIDEO_DOOR_ENTRY: ServiceFaqItem[] = [
   {
-    question: "What maintenance services do you provide?",
+    question: "What video door entry systems do you install?",
     answer:
-      "Planned preventative maintenance, reactive call-outs and system health checks for fire and security systems, tailored to site risk and operating hours across London and the Home Counties.",
+      "Audio and video entry for single residences and multi-occupancy buildings, including IP and networked systems. Concierge integration and mobile answering are included where applicable and where the platform supports them.",
   },
   {
-    question: "Can you support 24/7 sites and SLAs?",
+    question: "Can video entry integrate with access control and gates?",
     answer:
-      "Yes. We structure response and reporting around your SLAs and escalation paths, including out-of-hours where contracts require it.",
+      "Yes. We routinely coordinate video entry with access control and gate automation so visitor release and credentials work together, and with CCTV where recording of the entrance is required.",
   },
   {
-    question: "How do you document compliance and faults?",
+    question: "Do you offer maintenance and upgrades?",
     answer:
-      "Service reports, fault records and asset information, so duty holders can demonstrate upkeep and plan upgrades with evidence.",
+      "Yes. PPM, fault attendance, system takeovers and upgrades are available so ageing panels and handsets can be modernised with clear handover for residents and duty holders.",
   },
   {
-    question: "Can you work across multiple systems on one estate?",
+    question: "How do you align with BS EN 60839?",
     answer:
-      "Yes, fire, CCTV, access and intruder systems can be maintained under aligned programmes with a single coordination point where appropriate.",
+      "Where applicable we structure design, installation and handover with reference to BS EN 60839 for electronic access control and related entry systems, including permissions and operator training.",
   },
 ]
 
 const EVAC: ServiceFaqItem[] = [
   {
-    question: "What EVAC and voice evacuation systems do you install?",
+    question: "What is the difference between EVAC, voice alarm, voice evacuation and PA/VA?",
     answer:
-      "Zoned voice evacuation, amplifiers and speaker networks aligned with BS 5839-8 and your fire strategy, integrated with fire detection and cause-and-effect where specified.",
+      "EVAC, voice alarm and voice evacuation all refer to the life-safety spoken messaging function covered by BS 5839-8. PA/VA means a public address / voice alarm system that can also handle day-to-day announcements or background music, with emergency messages taking priority.",
   },
   {
-    question: "When should EVAC design be fixed?",
+    question: "What do you install under BS 5839-8?",
     answer:
-      "Early coordination with fire strategy, acoustics and containment avoids late changes to speaker layouts, cabling and audibility testing.",
+      "Zoned and phased evacuation messaging, amplifiers and loudspeakers, fire alarm integration, cause-and-effect testing, commissioning and ongoing maintenance, including background music / general announcement functions where the design specifies shared PA/VA infrastructure.",
   },
   {
-    question: "How do you test voice messaging and audibility?",
+    question: "When should EVAC / voice alarm design be fixed?",
     answer:
-      "We support witnessed testing and commissioning records so messaging, levels and fault behaviour are demonstrated in line with the specification.",
+      "Early coordination with fire strategy, acoustics and containment avoids late changes to speaker layouts, cabling, zoning and audibility testing.",
   },
   {
-    question: "What handover documentation is included?",
+    question: "What handover and maintenance support is included?",
     answer:
-      "As-built records, zone schedules, test certificates and operator guidance, so facilities teams can manage routine tests and incidents.",
+      "Audio test reports, cause-and-effect witness sheets, as-commissioned settings, operator guidance and maintenance options aligned with BS 5839-8 and manufacturer guidance.",
+  },
+]
+
+const GATE_AUTOMATION: ServiceFaqItem[] = [
+  {
+    question: "What gate automation systems do you install?",
+    answer:
+      "Automated swing and sliding gates, vehicle barriers and related control equipment for commercial, industrial and residential sites, with options to integrate access control, video entry and CCTV.",
+  },
+  {
+    question: "How do you approach powered-gate safety?",
+    answer:
+      "We design and commission with reference to BS EN 12453 for the safety of powered doors and gates where applicable, including appropriate safety edges, photocells and force limitation as the site requires.",
+  },
+  {
+    question: "Can gates integrate with access control and CCTV?",
+    answer:
+      "Yes. We routinely link gate and barrier control to readers, intercoms, video entry and CCTV so authorised vehicles and visitors are managed within the wider security system.",
+  },
+  {
+    question: "Do you survey existing gates and upgrade legacy systems?",
+    answer:
+      "Yes. We can assess existing operators, loops, safety devices and access interfaces, then plan upgrades or replacements with clear handover documentation for operators.",
   },
 ]
 
 const REFUGE: ServiceFaqItem[] = [
   {
-    question: "What refuge and disabled communication systems do you deliver?",
+    question: "What systems does this service cover?",
     answer:
-      "Emergency voice communication systems, disabled refuge points, fire telephones, toilet alarms and central panels aligned with BS 5839-9 and your fire strategy.",
+      "Disabled refuge systems, fire telephone systems, disabled toilet alarms and central control panels with two-way communication, designed, installed and commissioned to BS 5839-9, with routine testing and maintenance options.",
   },
   {
     question: "How do you coordinate with fire alarm and EVAC?",
     answer:
-      "We align interfaces, cause-and-effect and commissioning so refuge and EVAC behaviour matches the wider life-safety design.",
+      "We align interfaces, cause-and-effect and commissioning so refuge, fire telephone, toilet alarm and EVAC behaviour matches the wider life-safety design.",
   },
   {
     question: "Can you support existing buildings and upgrades?",
     answer:
-      "Yes. We survey legacy systems, plan phased upgrades and minimise disruption while keeping clear records for operators.",
+      "Yes. We survey legacy EVC, refuge, fire telephone and toilet alarm systems, plan phased upgrades and minimise disruption while keeping clear records for operators.",
   },
   {
-    question: "What training do you provide?",
+    question: "What training and ongoing support do you provide?",
     answer:
-      "Operator training on use, testing and fault reporting, with O&M information structured for estates teams.",
+      "Operator training on use, testing and fault reporting, with O&M information and routine testing / maintenance options structured for estates teams.",
   },
 ]
 
@@ -287,17 +315,17 @@ const ELECTRICAL_SYSTEMS_FS: ServiceFaqItem[] = [
   {
     question: "What CCTV systems does this service cover?",
     answer:
-      "IP and analogue CCTV design, installation and commissioning, with remote monitoring, retention setup and GDPR-aligned handling for commercial and industrial sites.",
+      "Primarily commercial CCTV: IP systems, HD analogue upgrades, remote viewing, recording and retention, camera health monitoring, network segregation, maintenance and repairs, with ANPR and analytics where offered. Domestic CCTV is a separate, deliberate scope.",
+  },
+  {
+    question: "Who is responsible for GDPR compliance?",
+    answer:
+      "We can configure privacy-conscious systems (coverage, signage guidance, retention). The customer remains responsible for lawful CCTV operation under UK GDPR.",
   },
   {
     question: "How do you integrate with other security systems?",
     answer:
       "We coordinate with access control and intruder systems so events, recording and monitoring workflows align across your estate.",
-  },
-  {
-    question: "Can you support multi-site or estate-wide rollouts?",
-    answer:
-      "Yes, we align standards, naming and monitoring paths so expansion and support stay manageable as your portfolio grows.",
   },
   {
     question: "What is included at handover?",
@@ -306,16 +334,65 @@ const ELECTRICAL_SYSTEMS_FS: ServiceFaqItem[] = [
   },
 ]
 
+const MONITORING: ServiceFaqItem[] = [
+  {
+    question: "What monitoring options do you offer?",
+    answer:
+      "We arrange alarm receiving centre (ARC) signalling and related remote pathways for intruder, fire and CCTV systems where the site design requires them, including dual-path options where insurers or ARCs expect resilient signalling.",
+  },
+  {
+    question: "Do you run your own alarm receiving centre?",
+    answer:
+      "We commission and support signalling into accredited ARC partners appropriate to the system and response grade. Exact ARC arrangements are confirmed at survey and in the quotation.",
+  },
+  {
+    question: "Can monitoring be added to an existing system?",
+    answer:
+      "Often yes. We survey the control equipment, signalling path and documentation, then recommend upgrades or configuration changes needed for reliable ARC connection.",
+  },
+  {
+    question: "How does monitoring relate to maintenance and call-out?",
+    answer:
+      "Monitoring escalates events when the site is unattended. Planned maintenance keeps systems healthy, and 24/7 call-out (for contracted customers) provides engineer attendance when faults need on-site response.",
+  },
+]
+
+const EMERGENCY_CALL_OUT: ServiceFaqItem[] = [
+  {
+    question: "Who receives 24/7 call-out cover?",
+    answer:
+      "Out-of-hours emergency response is included for customers on a maintenance agreement. Ad-hoc attendance for sites without a contract can be discussed case by case.",
+  },
+  {
+    question: "What systems can you attend?",
+    answer:
+      "Fire alarms, intruder alarms, CCTV, access control, video door entry and related interfaces, subject to the systems covered by your agreement and engineer availability for the fault type.",
+  },
+  {
+    question: "How do we raise an emergency call?",
+    answer:
+      "Contracted customers receive the agreed out-of-hours contact route at handover. For new cover, contact us to discuss a maintenance agreement that includes 24/7 response.",
+  },
+  {
+    question: "Will an engineer fix the fault on the first visit?",
+    answer:
+      "We diagnose and make safe where possible. Some faults need parts, manufacturer support or a planned return visit, you receive a clear attendance report and recommended next steps.",
+  },
+]
+
 const FS_FAQ_BY_PATH: Record<string, ServiceFaqItem[]> = {
   "/services": HUB,
   "/services/fire-life-safety": FIRE_LIFE_SAFETY,
   "/services/security-systems": SECURITY_SYSTEMS,
   "/services/maintenance-support": MAINTENANCE_SUPPORT,
+  "/services/monitoring": MONITORING,
+  "/services/emergency-call-out": EMERGENCY_CALL_OUT,
   "/services/intruder-alarm-systems": INTRUDER_SUSTAINABILITY,
   "/services/access-control-systems": ACCESS_CONTROL,
   "/services/cctv-systems": ELECTRICAL_SYSTEMS_FS,
   "/services/fire-alarm-systems": MECHANICAL_ENGINEERING_FS,
-  "/services/video-door-entry-systems": MAINTENANCE_PAGE,
+  "/services/video-door-entry-systems": VIDEO_DOOR_ENTRY,
+  "/services/gate-automation-systems": GATE_AUTOMATION,
   "/services/evac-voice-evacuation": EVAC,
   "/services/refuge-disabled-communication": REFUGE,
   "/services/cctv/commercial": CCTV_FS("commercial"),

@@ -3,9 +3,9 @@ import { buildFsMetadata } from "@/lib/seo-metadata"
 import { FS_SERVICE_ROUTES } from "@/lib/fs-service-routes"
 
 export const metadata: Metadata = buildFsMetadata({
-  title: "CCTV Systems London | Design, Install & Commission | APX Fire & Security",
+  title: "Commercial CCTV Systems | IP, ANPR & Retention | London | APX",
   description:
-    "IP and analogue CCTV design, installation and commissioning with remote monitoring, retention setup and secure network integration across London and the Home Counties.",
+    "Commercial CCTV design, installation and maintenance: IP CCTV, HD analogue upgrades, remote viewing, recording and retention, camera health monitoring, ANPR and analytics where offered, network segregation and repairs across London and the Home Counties.",
   pathname: FS_SERVICE_ROUTES.cctvSystems,
 })
 

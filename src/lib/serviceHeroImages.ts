@@ -8,6 +8,7 @@ export const serviceHeroImages = {
   fireAlarm: "/client%20logos/service%20pages%20image/home-fire-alarm-system-installer-800x533.jpg",
   intruder: "/client%20logos/service%20pages%20image/home-intruder-alarm-system-installer-800x533.jpg",
   accessControl: "/client%20logos/service%20pages%20image/home-access-control-system-installer-800x533.jpg",
-  videoDoor: "/client%20logos/service%20pages%20image/home-video-door-entry-system-installer-800x533.jpg",
+  videoDoor: "/projects/library/home-video-door-entry-system-installer.jpg",
+  gateAutomation: "/gate%20automation.png",
   evacVoice: "/service%20images/fire%20alarm%20systems/voice%20evacuation/public%20address.jpeg",
 } as const

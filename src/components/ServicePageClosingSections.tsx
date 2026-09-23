@@ -12,7 +12,6 @@ type ServicePageClosingSectionsProps = {
   ctaHeadline: string
   ctaHeadlineAccent: string
   ctaDescription: string
-  ctaEyebrow?: string
   children: ReactNode
 }
 
@@ -23,7 +22,6 @@ export function ServicePageClosingSections({
   ctaHeadline,
   ctaHeadlineAccent,
   ctaDescription,
-  ctaEyebrow = "NSI Gold installer",
   children,
 }: ServicePageClosingSectionsProps) {
   return (
@@ -33,7 +31,6 @@ export function ServicePageClosingSections({
       <FsInsetCtaCard
         variant="service"
         backgroundImageSrc={ctaImageSrc}
-        eyebrow={ctaEyebrow}
         headline={ctaHeadline}
         headlineAccent={ctaHeadlineAccent}
         description={ctaDescription}

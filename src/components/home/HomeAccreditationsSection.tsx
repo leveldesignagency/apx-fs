@@ -19,7 +19,7 @@ type HomeAccreditationsSectionProps = {
   visible?: boolean
 }
 
-/** Accreditations band — viewport-fixed photo, content scrolls over it */
+/** Accreditations band, viewport-fixed photo, content scrolls over it */
 export function HomeAccreditationsSection({ visible = true }: HomeAccreditationsSectionProps) {
   const sectionRef = useRef<HTMLElement>(null)
   const fixedBgRef = useRef<HTMLDivElement>(null)
@@ -88,7 +88,7 @@ export function HomeAccreditationsSection({ visible = true }: HomeAccreditations
             className="section-label mb-1 block text-white/70"
             style={{ fontFamily: "var(--font-menu), sans-serif" }}
           >
-            Accreditations
+            Accreditations &amp; Memberships
           </span>
           <h3
             id="home-accreditations-heading"
@@ -102,19 +102,19 @@ export function HomeAccreditationsSection({ visible = true }: HomeAccreditations
             audit.
           </p>
 
-          <div className="mx-auto mt-10 flex w-full max-w-5xl max-lg:flex-col max-lg:flex-nowrap max-lg:items-center max-lg:gap-8 lg:max-w-6xl lg:flex-row lg:flex-wrap lg:items-center lg:justify-center lg:gap-x-16 lg:gap-y-10">
+          <div className="mx-auto mt-10 grid w-full max-w-5xl grid-cols-2 place-items-center gap-6 sm:gap-8 lg:max-w-6xl lg:grid-cols-4 lg:gap-10">
             {ACCREDITATIONS_LOGOS.map(({ slug, src, alt }) => (
               <Link
                 key={slug}
                 href={`/accreditations/${slug}`}
-                className="group flex h-[4.5rem] min-w-[7.5rem] items-center justify-center px-2 sm:h-20 sm:min-w-[9rem] md:h-[5.25rem] md:min-w-[10rem] max-lg:!min-w-0 max-lg:w-full max-lg:max-w-sm"
+                className="group flex h-24 w-full items-center justify-center sm:h-28"
                 aria-label={`${alt}, view dedicated accreditation page`}
               >
                 {/* eslint-disable-next-line @next/next/no-img-element */}
                 <img
                   src={src}
                   alt=""
-                  className="max-h-14 w-auto max-w-[11rem] origin-center object-contain opacity-90 transition-[opacity,transform] duration-300 ease-out group-hover:scale-[1.06] group-hover:opacity-100 sm:max-h-16 sm:max-w-[12rem] md:max-h-[5.25rem] md:max-w-[13rem]"
+                  className="h-20 w-auto max-w-[85%] object-contain opacity-90 transition-[opacity,transform] duration-300 ease-out group-hover:scale-[1.06] group-hover:opacity-100 sm:h-24"
                   aria-hidden
                 />
               </Link>

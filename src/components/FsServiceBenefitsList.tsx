@@ -11,7 +11,7 @@ type FsServiceBenefitsListProps = {
   className?: string
 }
 
-/** Tick-in-circle benefit bullets — matches CCTV “What we offer” and compliance lists. */
+/** Tick-in-circle benefit bullets, matches CCTV “What we offer” and compliance lists. */
 export function FsServiceBenefitsList({ items, variant = "dark", className }: FsServiceBenefitsListProps) {
   const isLight = variant === "light"
 

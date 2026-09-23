@@ -5,12 +5,12 @@ type AccreditationLogoProps = {
   alt: string
   className?: string
   priority?: boolean
-  /** Layout box for SVG marks — avoids 0×0 collapse in CSS grid (PNGs usually fine without). */
+  /** Layout box for SVG marks, avoids 0×0 collapse in CSS grid (PNGs usually fine without). */
   width?: number
   height?: number
 }
 
-/** Native img — coloured accreditation SVGs do not render reliably via next/image. */
+/** Native img, coloured accreditation SVGs do not render reliably via next/image. */
 export function AccreditationLogo({
   src,
   alt,

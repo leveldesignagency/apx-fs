@@ -86,6 +86,36 @@ const GlobalStyles = createGlobalStyle<{ theme: typeof lightTheme }>`
     color: #000000 !important;
   }
 
+  /* About Meet the team — black cards, white copy */
+  .about-featured-team-card,
+  .about-featured-team-card h3 {
+    color: #ffffff !important;
+  }
+  .about-featured-team-card .rounded-full.bg-white {
+    color: #000000 !important;
+  }
+
+  /* /team directory */
+  .team-directory,
+  .team-page {
+    background-color: #ffffff !important;
+    color: #000000 !important;
+  }
+  .team-directory h1,
+  .team-directory p,
+  .team-directory a,
+  .team-directory label,
+  .team-directory input {
+    color: #000000 !important;
+  }
+  .team-member-card,
+  .team-member-card h2 {
+    color: #ffffff !important;
+  }
+  .team-member-card p:last-child {
+    color: rgba(255, 255, 255, 0.5) !important;
+  }
+
   /* Projects band, white surface, black header copy (GlobalStyles defaults are white-on-black) */
   #projects.projects-section,
   #projects.projects-section .projects-section__sticky {

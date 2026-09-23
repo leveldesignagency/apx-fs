@@ -7,10 +7,10 @@ import type { CareerRole } from "@/components/careers/careers-types"
 import { FormSubmitButton } from "@/components/ui/FormSubmitButton"
 
 const fieldClass =
-  "w-full rounded-xl border-2 border-black/15 bg-white px-4 py-3.5 text-sm text-black placeholder:text-black/35 outline-none transition-[border,box-shadow] focus:border-black/45 focus:ring-0"
+  "w-full rounded-none border-2 border-black/15 bg-white px-4 py-3.5 text-sm text-black placeholder:text-black/35 outline-none transition-[border,box-shadow] focus:border-black/45 focus:ring-0"
 
 const outlineBtnClass =
-  "careers-apply-outline-btn rounded-xl border-2 border-black/20 px-6 py-3 text-sm font-semibold text-black transition-colors enabled:hover:border-black/40 enabled:hover:bg-black/[0.03] disabled:cursor-not-allowed disabled:opacity-40"
+  "careers-apply-outline-btn rounded-none border-2 border-black/20 px-6 py-3 text-sm font-semibold text-black transition-colors enabled:hover:border-black/40 enabled:hover:bg-black/[0.03] disabled:cursor-not-allowed disabled:opacity-40"
 
 const MAX_CV_BYTES = 5 * 1024 * 1024
 const ACCEPT_CV =
@@ -76,12 +76,11 @@ export function CareerApplicationForm({
       const data = (await res.json().catch(() => ({}))) as { error?: string }
       if (!res.ok) {
         setError(data.error ?? "Something went wrong. Please try again or email us directly.")
-        throw new Error("apply-failed")
+        return
       }
       setDone(true)
     } catch {
       setError("Network error. Please check your connection and try again.")
-      throw new Error("network")
     } finally {
       setSubmitting(false)
     }
@@ -159,9 +158,9 @@ export function CareerApplicationForm({
         Step {step} of 3, {STEPS[step - 1]}
       </p>
 
-      <div className="mt-10 rounded-2xl border border-black/10 bg-white p-6 shadow-[0_1px_0_rgba(0,0,0,0.04)] sm:p-8">
+      <div className="mt-10 rounded-none border border-black/10 bg-white p-6 shadow-[0_1px_0_rgba(0,0,0,0.04)] sm:p-8">
         {error ? (
-          <p className="mb-6 rounded-lg border border-red-300 bg-red-50 px-4 py-3 text-sm text-red-800" role="alert">
+          <p className="mb-6 rounded-none border border-red-300 bg-red-50 px-4 py-3 text-sm text-red-800" role="alert">
             {error}
           </p>
         ) : null}
@@ -296,7 +295,7 @@ export function CareerApplicationForm({
                 accept={ACCEPT_CV}
                 required
                 onChange={(e) => setCvFile(e.target.files?.[0] ?? null)}
-                className="block w-full text-sm text-black/70 file:mr-4 file:rounded-lg file:border-2 file:border-black/15 file:bg-white file:px-4 file:py-2 file:text-sm file:font-semibold file:text-black"
+                className="block w-full text-sm text-black/70 file:mr-4 file:rounded-none file:border-2 file:border-black/15 file:bg-white file:px-4 file:py-2 file:text-sm file:font-semibold file:text-black"
               />
               <p className="mt-2 text-xs text-black/45">PDF or Word, max 5 MB</p>
               {cvFile ? (
@@ -307,7 +306,15 @@ export function CareerApplicationForm({
             </div>
             <p className="text-xs leading-relaxed text-black/45">
               By submitting, you confirm the information is accurate and agree that we may contact you about this
-              application.
+              application. CVs contain personal data, please read our{" "}
+              <Link href="/recruitment-privacy" className="font-semibold underline underline-offset-2">
+                recruitment privacy notice
+              </Link>{" "}
+              and{" "}
+              <Link href="/privacy" className="font-semibold underline underline-offset-2">
+                privacy policy
+              </Link>
+              . APX Fire &amp; Security is an equal-opportunities employer.
             </p>
             <div className="flex flex-col gap-3 pt-2 sm:flex-row sm:justify-between sm:gap-4">
               <button type="button" onClick={goBack} disabled={submitting} className={outlineBtnClass}>
@@ -316,7 +323,7 @@ export function CareerApplicationForm({
               <FormSubmitButton
                 disabled={submitting || !canSubmit}
                 onSubmit={onSubmit}
-                className="careers-neat-radius min-w-[200px]"
+                className="min-w-[200px]"
               >
                 {submitting ? "Sending…" : "Submit application"}
               </FormSubmitButton>

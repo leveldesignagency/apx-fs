@@ -28,7 +28,7 @@ export const TITLE_FONTS = [
   { key: "source-sans-3", name: "Source Sans 3", family: "Source Sans 3", weight: "700" },
   { key: "lexend", name: "Lexend", family: "Lexend", weight: "700" },
   { key: "sora", name: "Sora", family: "Sora", weight: "700" },
-  { key: "plus-jakarta-sans", name: "Plus Jakarta Sans", family: "Plus Jakarta Sans", weight: "700" },
+  { key: "plus-jakarta-sans", name: "Plus Jakarta Sans", family: "Plus Jakarta Sans", weight: "800" },
   { key: "figtree", name: "Figtree", family: "Figtree", weight: "700" },
   { key: "urbanist", name: "Urbanist", family: "Urbanist", weight: "700" },
   { key: "league-spartan", name: "League Spartan", family: "League Spartan", weight: "700" },
@@ -89,7 +89,7 @@ export const TitleFontProvider = ({ children }: TitleFontProviderProps) => {
   }, [titleFontFamily])
 
   useEffect(() => {
-    const googleFontUrl = `https://fonts.googleapis.com/css2?family=${font.family.replace(/ /g, "+")}:wght@${font.weight}&display=swap`
+    const googleFontUrl = `https://fonts.googleapis.com/css2?family=${font.family.replace(/ /g, "+")}:wght@${font.weight};800;900&display=swap`
     const id = "apx-title-font-link"
     let link = document.getElementById(id) as HTMLLinkElement | null
     if (!link) {

@@ -24,27 +24,27 @@ const DOMESTIC_CCTV_PLANNING_IMAGE_SRC =
 const DOMESTIC_CCTV_WHY_INSTALL_IMAGE_SRC =
   "/service%20images/cctv%20/why%20install%20a%20domestic%20cctv%20system.jpg"
 
+const RESIDENTIAL_ENQUIRY_HREF = "/contact?service=cctv-systems"
+
 const WHY_INSTALL_DOMESTIC_CCTV = [
-  "Deter people from committing offences both inside and outside the home.",
-  "Gather evidence of criminal activity, should crime occur.",
-  "See an image of a visitor at the door before answering it.",
-  "Watch over vehicles parked to the front or side of the home.",
-  "Remotely view your home (inside and out) when at work or away on holiday.",
-  "Check to see if deliveries have been made.",
-  "Remotely check to see if employed persons, such as cleaners or builders, have arrived and left at the appropriate times.",
-  "Remotely check on children or other family members when out for the evening.",
-  "Check on children's bedrooms after bedtime.",
-  "Check the grounds of your home from the comfort of the armchair.",
+  "Provide recorded evidence if an incident occurs at the property.",
+  "See who is at the door before answering.",
+  "Oversee vehicles parked on the driveway or at the side of the home.",
+  "View live or recorded footage remotely where the system supports it.",
+  "Check whether deliveries have been made.",
+  "See when contractors or cleaners arrive and leave, where that is appropriate for your household.",
+  "Help oversee children or other family members when you are out, where that is your household choice.",
+  "View garden and approach areas from indoors.",
 ] as const
 
 const WHAT_WE_OFFER_ITEMS = [
-  "Site survey and camera placement advice",
-  "HD and 4K indoor and outdoor cameras",
-  "NVR/DVR recording and cloud options",
-  "Mobile app access and push alerts",
-  "Installation and handover",
-  "Discreet cabling and tidy finishes to suit your home",
-  "Signage and privacy obligations explained at handover",
+  "Free survey and written recommendations for your property (no obligation)",
+  "Camera placement advice suited to houses, flats and driveways",
+  "IP or HD recording options specified for the property, not a fixed package price",
+  "Remote viewing where the platform supplied supports it",
+  "Installation, commissioning and handover",
+  "Discreet cabling and tidy finishes where practical",
+  "Signage, privacy and neighbour-facing considerations explained at handover",
   "Retention and export guidance for incidents and insurance",
   "Optional maintenance and system health checks",
 ]
@@ -56,9 +56,26 @@ export default function DomesticCctvPage() {
         <ServicePageHero
           title="Domestic CCTV systems"
           imageSrc={serviceHeroImages.domesticCctv}
-          heroCompliance={["GDPR", "BS EN 62676"]}
+          heroCompliance={["BS EN 62676"]}
           afterIntro={<FsCctvSubpageHeroButtons />}
-          intro="Protect your home with professionally designed and installed domestic CCTV systems. From single-camera setups to full property coverage with remote viewing, we deliver solutions that give you peace of mind and evidence when it matters."
+          intro={
+            <>
+              <p className="mb-4">
+                APX&apos;s primary focus is commercial fire and security, but we also design and install domestic CCTV for
+                homeowners across <strong className="font-semibold text-white">London and the Home Counties</strong>{" "}
+                where a residential survey is a good fit.
+              </p>
+              <p>
+                Systems are survey-led and specified for your property, we do not publish package prices online because
+                coverage, cabling and recording needs vary. We can configure privacy-conscious coverage and explain
+                signage and retention at handover;{" "}
+                <strong className="font-semibold text-white">
+                  you remain responsible for the lawful operation of CCTV under UK GDPR
+                </strong>{" "}
+                (including what you record of neighbours and public areas).
+              </p>
+            </>
+          }
         />
         <FsCctvCameraTypesStrip />
       </div>
@@ -75,24 +92,26 @@ export default function DomesticCctvPage() {
 
         <section className="container relative z-[1] mx-auto px-6 py-16 lg:py-16">
           <Reveal>
-            <h2 className="mb-10 text-left font-title text-3xl font-bold text-white sm:text-4xl">Why choose domestic CCTV?</h2>
+            <h2 className="mb-10 text-left font-title text-3xl font-bold text-white sm:text-4xl">
+              Residential CCTV, surveyed properly
+            </h2>
           </Reveal>
           <div className="grid grid-cols-1 gap-8 md:grid-cols-3">
             {[
               {
                 icon: Home,
                 title: "Tailored to your home",
-                text: "Systems designed for houses, flats, and driveways, no one-size-fits-all.",
+                text: "Houses, flats and driveways, coverage planned on survey, not a one-size-fits-all kit.",
               },
               {
                 icon: Smartphone,
-                title: "Remote viewing",
-                text: "Check live and recorded footage from your phone or tablet, wherever you are.",
+                title: "Remote viewing where supported",
+                text: "Live and recorded access from phone or tablet only where the system supplied supports it.",
               },
               {
                 icon: Shield,
-                title: "Deterrence & evidence",
-                text: "Visible cameras deter intruders; recorded footage supports insurance and police.",
+                title: "Evidence & oversight",
+                text: "Recording supports review and insurance when incidents occur, CCTV does not guarantee crime will be prevented.",
               },
             ].map((item, i) => (
               <ServiceItemReveal key={i} index={i} className="h-full min-h-0">
@@ -106,103 +125,86 @@ export default function DomesticCctvPage() {
 
         <FsServiceTextImageSectionGroup>
           <FsServiceTextImageSection
-          title="Planning a Domestic CCTV System"
-          titleId="planning-domestic-cctv-heading"
-          imageSrc={DOMESTIC_CCTV_PLANNING_IMAGE_SRC}
-          imageAlt="Planning a domestic CCTV system, site survey and security assessment"
-          imageRightFeather={false}
-        >
-          <p>
-            Before you start planning a CCTV installation, we are pleased to offer a free survey and a report for your
-            property. Our report highlights security weaknesses and identifies places that need security improvements
-            that should be carried out before installing CCTV.
-          </p>
-          <p>
-            For example: if your home has an open access along the side then the report may advise you to fit a gate at
-            the entrance to the side access, parallel to the front of the house. We would advise that you do this first
-            and then monitor the gate with a CCTV camera.
-          </p>
-          <p>
-            Once the gate has been fitted we can install a camera at the appropriate height on the side wall to capture
-            images of an intruder attempting to force or climb over the gate. Physical security changes like these will
-            always dictate the best position for the cameras, so we know we&apos;re installing them in the best place.
-          </p>
-          <p>
-            Simply complete our{" "}
-            <Link
-              href="/contact"
-              className="text-white underline decoration-white/35 underline-offset-2 hover:decoration-white"
-            >
-              Domestic CCTV enquiry form
-            </Link>{" "}
-            and we will contact you and arrange to meet you to discuss your requirements and carry out a survey of your
-            property.
-          </p>
-          <div className="pt-2">
-            <CustomPillButton href="/contact" size="md">
-              Request a free survey
-            </CustomPillButton>
-          </div>
-        </FsServiceTextImageSection>
+            title="Planning a domestic CCTV system"
+            titleId="planning-domestic-cctv-heading"
+            imageSrc={DOMESTIC_CCTV_PLANNING_IMAGE_SRC}
+            imageAlt="Planning a domestic CCTV system, site survey and security assessment"
+          >
+            <p>
+              Before installation we offer a free survey and written recommendations for your property. The report can
+              highlight practical improvements (for example side-access gates) that affect where cameras should go,
+              physical security and camera placement work together.
+            </p>
+            <p>
+              Service area: <strong className="font-semibold text-white">London and the Home Counties</strong>. If you
+              are outside that area, contact us and we will say clearly whether we can help.
+            </p>
+            <p>
+              Residential enquiries use the same contact form as our CCTV service, select{" "}
+              <strong className="font-semibold text-white">CCTV Systems</strong> and note that it is a domestic /
+              homeowner enquiry so we can respond appropriately.
+            </p>
+            <div className="pt-2">
+              <CustomPillButton href={RESIDENTIAL_ENQUIRY_HREF} size="md">
+                Residential CCTV enquiry
+              </CustomPillButton>
+            </div>
+          </FsServiceTextImageSection>
 
-        <div className="border-t border-white/15" />
+          <div className="border-t border-white/15" />
 
           <FsServiceTextImageSection
-          title="Bespoke Domestic CCTV Systems"
-          titleId="bespoke-domestic-cctv-heading"
-          imageSrc={DOMESTIC_CCTV_BESPOKE_IMAGE_SRC}
-          imageAlt="Bespoke domestic CCTV system installation"
-          imageSide="left"
-          imageRightFeather={false}
-        >
-          <p>
-            There are all manner of reasons why a domestic property may need an effective CCTV system. Whether you are
-            looking to protect your property whilst away from home or to monitor and alert you to any potential threats
-            or damage, we can build a CCTV system to achieve your objective.
-          </p>
-          <p>
-            For example: maybe you have recently had a vehicle broken into whilst it was parked on the driveway in
-            front of your house and you want the CCTV to act as a deterrent and capture useful images of people walking
-            onto the driveway. We will work out the best location and angle of the cameras in order to capture useful
-            images around your parked vehicles. We will also ensure that the cameras are installed in such a way that
-            they do not become an easy target for the criminal.
-          </p>
-          <p>
-            Whatever your reason for wanting a CCTV system, we will take the time to understand your requirements and
-            install the right equipment to deliver the peace of mind you are looking for.
-          </p>
-        </FsServiceTextImageSection>
+            title="Bespoke domestic CCTV systems"
+            titleId="bespoke-domestic-cctv-heading"
+            imageSrc={DOMESTIC_CCTV_BESPOKE_IMAGE_SRC}
+            imageAlt="Bespoke domestic CCTV system installation"
+          >
+            <p>
+              Domestic systems are specified after we understand how you use the property, driveway, side access,
+              gardens and entrances, and what you need to review if something happens. Equipment and recording are
+              chosen for that brief; quotes follow the survey rather than a published price list.
+            </p>
+            <p>
+              We position cameras to capture useful images of approaches you care about, while explaining privacy limits
+              around neighbours and public space so you can operate the system lawfully.
+            </p>
+          </FsServiceTextImageSection>
 
-        <div className="border-t border-white/15" />
+          <div className="border-t border-white/15" />
 
-        <FsServiceTextImageSection
-          title="Why install a Domestic CCTV System?"
-          titleId="why-install-domestic-cctv-heading"
-          imageSrc={DOMESTIC_CCTV_WHY_INSTALL_IMAGE_SRC}
-          imageAlt="Why install a domestic CCTV system, home security monitoring"
-          imageRightFeather={false}
-        >
-          <FsServiceBenefitsList items={WHY_INSTALL_DOMESTIC_CCTV} />
-        </FsServiceTextImageSection>
+          <FsServiceTextImageSection
+            title="How homeowners use domestic CCTV"
+            titleId="why-install-domestic-cctv-heading"
+            imageSrc={DOMESTIC_CCTV_WHY_INSTALL_IMAGE_SRC}
+            imageAlt="How homeowners use domestic CCTV"
+          >
+            <FsServiceBenefitsList items={WHY_INSTALL_DOMESTIC_CCTV} />
+          </FsServiceTextImageSection>
         </FsServiceTextImageSectionGroup>
 
         <div className="border-t border-white/15" />
 
         <CctvComplianceSection
-          intro="Domestic CCTV should be proportionate, lawful and clearly communicated, we design and install home systems with sensible coverage, signage and retention explained at handover, aligned with data protection expectations and professional installation practice."
+          intro="Domestic CCTV should be proportionate, clearly communicated and used lawfully. We design and install home systems with sensible coverage, and explain signage and retention at handover. Configuring privacy-conscious settings does not transfer legal responsibility, the householder remains responsible for lawful operation under UK GDPR and related rules."
           standardsItems={[
-            "NSI approved installers",
             "BS EN 62676 (video surveillance systems) where applicable",
-            "GDPR-compliant data handling, signage and retention design",
+            "NSI Gold-aligned installation practice",
+            "Privacy guidance at handover, householder retains lawful-use responsibility under UK GDPR",
           ]}
           footerNote={
             <>
-              For intruder alarms alongside CCTV, see our{" "}
-              <Link href="/services/intruder-alarm-systems" className="text-black underline decoration-black/30 underline-offset-2 hover:decoration-black">
-                intruder alarm systems
+              Commercial sites should use our{" "}
+              <Link
+                href="/services/cctv/commercial"
+                className="text-black underline decoration-black/30 underline-offset-2 hover:decoration-black"
+              >
+                commercial CCTV
               </Link>{" "}
-              page. Full CCTV overview:{" "}
-              <Link href="/services/cctv-systems" className="text-black underline decoration-black/30 underline-offset-2 hover:decoration-black">
+              page. Full overview:{" "}
+              <Link
+                href="/services/cctv-systems"
+                className="text-black underline decoration-black/30 underline-offset-2 hover:decoration-black"
+              >
                 CCTV systems
               </Link>
               .
@@ -210,9 +212,9 @@ export default function DomesticCctvPage() {
           }
           deliverablesItems={[
             "Survey-led camera placement and coverage plan",
-            "Recording setup and mobile app handover",
+            "Recording setup and operator handover (including app access where supported)",
             "Installation and commissioning",
-            "User guidance on privacy, signage and retention",
+            "Guidance on privacy, signage and retention",
             "Optional maintenance and health checks",
           ]}
         />
@@ -222,12 +224,12 @@ export default function DomesticCctvPage() {
         <ServicePageClosingSections
           serviceTitleShort="Domestic CCTV"
           ctaImageSrc={serviceHeroImages.domesticCctv}
-          ctaHeadline="Request your"
-          ctaHeadlineAccent="free domestic survey."
-          ctaDescription="Site visit, camera placement advice and a tailored plan for your home. No obligation across London and the Home Counties."
+          ctaHeadline="Request a"
+          ctaHeadlineAccent="residential survey."
+          ctaDescription="Free site visit and recommendations for homes in London and the Home Counties. Quotes follow the survey, no online package pricing. No obligation."
         >
-          <CustomPillButton href="/contact" size="md">
-            Request a free survey
+          <CustomPillButton href={RESIDENTIAL_ENQUIRY_HREF} size="md">
+            Residential CCTV enquiry
           </CustomPillButton>
           <CustomPillButton href="tel:02083032280" size="md" variant="outline">
             Call 020 8303 2280

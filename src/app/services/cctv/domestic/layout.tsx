@@ -2,9 +2,9 @@ import type { Metadata } from "next"
 import { buildFsMetadata } from "@/lib/seo-metadata"
 
 export const metadata: Metadata = buildFsMetadata({
-  title: "Home CCTV Systems | Residential Security London & Home Counties | APX",
+  title: "Domestic CCTV | Residential Survey London & Home Counties | APX",
   description:
-    "Domestic CCTV and smart security, discreet installation, app-based viewing and reliable recording for homes across London boroughs and Surrey, Kent and Essex.",
+    "Secondary residential CCTV offering from APX: survey-led home systems across London and the Home Counties. Privacy guidance at handover; householder remains responsible for lawful use under UK GDPR. Quotes follow survey, no online package prices.",
   pathname: "/services/cctv/domestic",
 })
 

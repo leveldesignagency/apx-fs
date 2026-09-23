@@ -166,7 +166,11 @@ export function ServicePageHero({
             </div>
           ) : null}
           {heroNav === "quick-links" ? (
-            <Reveal show={heroReveal} delayMs={240} className="mt-auto shrink-0 border-t border-white/15 pt-6 sm:pt-8">
+            <Reveal
+              show={heroReveal}
+              delayMs={240}
+              className="mt-auto hidden shrink-0 border-t border-white/15 pt-6 sm:block sm:pt-8"
+            >
               <FsServiceHeroQuickNav />
             </Reveal>
           ) : heroNav === "cctv-tabs" ? (

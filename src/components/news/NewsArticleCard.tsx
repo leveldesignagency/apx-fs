@@ -21,14 +21,14 @@ export function NewsArticleCard({ article, featured = false }: NewsArticleCardPr
       <Link
         href={`/news/${article.slug}`}
         className={`news-card__media relative block overflow-hidden bg-neutral-100 ${
-          featured ? "aspect-[4/3] sm:aspect-[3/2] md:aspect-auto" : "aspect-[16/10]"
+          featured ? "aspect-[16/10] sm:aspect-[3/2] md:aspect-auto md:min-h-[16rem] lg:min-h-[18rem]" : "aspect-[16/10]"
         }`}
       >
         <Image
           src={article.imageSrc}
           alt={article.imageAlt}
           fill
-          className="object-cover transition-transform duration-500 group-hover:scale-[1.03]"
+          className="object-cover object-center transition-transform duration-500 group-hover:scale-[1.015]"
           sizes={featured ? "(max-width: 768px) 100vw, 50vw" : "(max-width: 768px) 100vw, 33vw"}
         />
       </Link>

@@ -96,39 +96,29 @@ export const clearCookiePreferences = (): void => {
 }
 
 /**
- * Apply cookie preferences to actual services
- * This is where you would integrate with analytics, marketing tools, etc.
+ * Apply cookie preferences to actual services.
+ * Non-essential third-party tools must only initialise here after consent.
+ * Currently no Google Analytics, Meta Pixel, or Google Ads scripts are installed,
+ * enable/disable helpers are no-ops until a tool is wired in behind these gates.
  */
 export const applyCookiePreferences = (preferences: CookiePreferences): void => {
   if (typeof window === 'undefined') return
 
-  // Analytics (e.g., Google Analytics)
   if (preferences.analytics) {
-    // Enable analytics
-    // Example: window.gtag?.('consent', 'update', { analytics_storage: 'granted' })
-    // Example: Enable Google Analytics
     enableAnalytics()
   } else {
-    // Disable analytics
-    // Example: window.gtag?.('consent', 'update', { analytics_storage: 'denied' })
     disableAnalytics()
   }
 
-  // Marketing (e.g., Facebook Pixel, Google Ads)
   if (preferences.marketing) {
-    // Enable marketing cookies
     enableMarketing()
   } else {
-    // Disable marketing cookies
     disableMarketing()
   }
 
-  // Functional (e.g., preferences, language settings)
   if (preferences.functional) {
-    // Enable functional cookies
     enableFunctional()
   } else {
-    // Disable functional cookies
     disableFunctional()
   }
 }
@@ -286,54 +276,33 @@ export const clearAllCache = (): void => {
 }
 
 /**
- * Placeholder functions for analytics/marketing enable/disable
- * Replace these with your actual implementation
+ * Placeholders for analytics / marketing / functional tools.
+ * Do not load third-party scripts outside these functions, and do not call
+ * enable* until the visitor has consented to the matching category.
  */
 
 function enableAnalytics(): void {
-  // Example: Initialize Google Analytics
-  // if (typeof window !== 'undefined' && window.gtag) {
-  //   window.gtag('consent', 'update', {
-  //     analytics_storage: 'granted'
-  //   })
-  // }
-  console.log('Analytics enabled')
+  // No analytics product installed. When adding one (e.g. GA4), load the script here only.
 }
 
 function disableAnalytics(): void {
-  // Example: Disable Google Analytics
-  // if (typeof window !== 'undefined' && window.gtag) {
-  //   window.gtag('consent', 'update', {
-  //     analytics_storage: 'denied'
-  //   })
-  // }
-  console.log('Analytics disabled')
+  // Tear down analytics / revoke consent storage if a product is added later.
 }
 
 function enableMarketing(): void {
-  // Example: Initialize Facebook Pixel, Google Ads, etc.
-  // if (typeof window !== 'undefined' && window.fbq) {
-  //   window.fbq('consent', 'grant')
-  // }
-  console.log('Marketing enabled')
+  // No marketing pixels installed. When adding one, load it here only after consent.
 }
 
 function disableMarketing(): void {
-  // Example: Disable marketing tools
-  // if (typeof window !== 'undefined' && window.fbq) {
-  //   window.fbq('consent', 'revoke')
-  // }
-  console.log('Marketing disabled')
+  // Tear down marketing tools if added later.
 }
 
 function enableFunctional(): void {
-  // Enable functional cookies (preferences, language, etc.)
-  console.log('Functional cookies enabled')
+  // Optional functional cookies, none beyond essential site features today.
 }
 
 function disableFunctional(): void {
-  // Disable functional cookies
-  console.log('Functional cookies disabled')
+  // Disable optional functional cookies if added later.
 }
 
 

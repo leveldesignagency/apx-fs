@@ -139,7 +139,6 @@ export default function ProjectsPage() {
       <FsInsetCtaCard
         variant="light"
         showBorderTop={false}
-        eyebrow="Free survey"
         headline="Start your"
         headlineAccent="next project."
         description="Discuss your fire or security requirements with our team. We offer free surveys and tailored solutions across London and the Home Counties."

@@ -4,7 +4,7 @@ import { useTheme } from "@/contexts/ThemeContext"
 
 /**
  * Fixed full-viewport layer above the hero video.
- * Transparent at top (hero – video shows through), feathers to solid theme color
+ * Transparent at top (hero, video shows through), feathers to solid theme color
  * toward the bottom. As you scroll, the solid part covers the video so it fades out.
  */
 export default function HeroVideoOverlay() {

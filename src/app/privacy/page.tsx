@@ -8,25 +8,27 @@ export default function PrivacyPolicyPage() {
     <LegalPageShell title="Privacy Policy">
       <LegalSection title="Introduction">
         <p>
-          APX Fire &amp; Security (&ldquo;APX&rdquo;, &ldquo;we&rdquo;, &ldquo;us&rdquo; or &ldquo;our&rdquo;) respects your
-          privacy and is committed to protecting your personal data. This Privacy Policy explains how we collect, use, store
-          and share personal information when you visit our website, submit an enquiry, request a quote, or otherwise interact
-          with us.
+          APX Fire &amp; Security Limited, trading as APX Fire &amp; Security (&ldquo;APX&rdquo;, &ldquo;we&rdquo;,
+          &ldquo;us&rdquo; or &ldquo;our&rdquo;), respects your privacy and is committed to protecting your personal data.
+          This Privacy Policy explains how we collect, use, store and share personal information when you visit our website,
+          submit an enquiry, request a quote, or otherwise interact with us.
         </p>
         <p>
-          Please read this policy carefully. By using our website or providing your information to us, you acknowledge that
-          you have read and understood this Privacy Policy.
+          Please read this policy carefully. Providing information through our forms, or otherwise contacting us, means you
+          understand we will process that information as described here. Separate cookie choices are managed via our cookie
+          banner and Cookie Policy, browsing alone does not consent to non-essential cookies.
         </p>
       </LegalSection>
 
       <LegalSection title="Who We Are">
         <p>
-          APX Fire &amp; Security is a specialist provider of fire and security system installation, commissioning, and
-          maintenance, serving domestic and commercial clients across London and the Home Counties.
+          <strong>APX Fire &amp; Security Limited</strong> (company number 04915204), trading as APX Fire &amp; Security,
+          is a specialist provider of fire and security system installation, commissioning, and maintenance, serving
+          domestic and commercial clients across London and the Home Counties.
         </p>
         <p>
-          For the purposes of applicable data protection law, APX Fire &amp; Security is the data controller responsible for
-          your personal data.
+          For the purposes of applicable data protection law, APX Fire &amp; Security Limited is the data controller
+          responsible for your personal data.
         </p>
         <LegalContactBox />
       </LegalSection>
@@ -103,8 +105,9 @@ export default function PrivacyPolicyPage() {
 
       <LegalSection title="Cookies">
         <p>
-          Our website uses cookies and similar technologies. You can manage your preferences through our cookie banner and
-          settings panel. For more information, please see our{" "}
+          Our website uses essential cookies and, only if you choose, optional cookies. You can Accept All, Reject All, or
+          Customise Preferences via the cookie banner, and reopen Cookie Preferences from the footer at any time. Non-essential
+          cookies do not load until you accept them. For more information, see our{" "}
           <Link href="/cookie-policy" className="underline hover:opacity-80">
             Cookie Policy
           </Link>
@@ -115,7 +118,7 @@ export default function PrivacyPolicyPage() {
       <LegalSection title="Sharing Your Data">
         <p>We may share personal data with:</p>
         <ul className="list-disc list-inside space-y-2">
-          <li>service providers who support our website, hosting, analytics, email or IT systems;</li>
+          <li>service providers who support our website, hosting, email or IT systems (and analytics providers only if enabled and consented to);</li>
           <li>professional advisers such as insurers, auditors or legal advisers where reasonably required;</li>
           <li>regulators, courts or law enforcement where we are legally required to do so.</li>
         </ul>

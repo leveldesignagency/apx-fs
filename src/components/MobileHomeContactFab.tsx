@@ -1,19 +1,26 @@
 "use client"
 
 import { useState, useCallback, useEffect, useRef } from "react"
-import { Phone, Mail, Headset } from "lucide-react"
+import { Phone, Mail, Headset, Siren } from "lucide-react"
 
 type Props = {
   phoneDisplay: string
   phoneHref: string
   email: string
+  /** Defaults to main phone; swap when a dedicated emergency line is available. */
+  emergencyHref?: string
 }
 
 /**
- * Mobile-only: circular contact FAB that morphs upward into a tall pill with phone + mail icons.
+ * Mobile-only: circular contact FAB that morphs upward into a tall pill with phone, mail + 24/7 emergency.
  * Dismiss: tap outside or Escape.
  */
-export function MobileHomeContactFab({ phoneDisplay, phoneHref, email }: Props) {
+export function MobileHomeContactFab({
+  phoneDisplay,
+  phoneHref,
+  email,
+  emergencyHref = phoneHref,
+}: Props) {
   const [open, setOpen] = useState(false)
   const rootRef = useRef<HTMLDivElement>(null)
 
@@ -48,7 +55,7 @@ export function MobileHomeContactFab({ phoneDisplay, phoneHref, email }: Props) 
         className={[
           "apx-mobile-contact-fab relative flex w-11 flex-col items-center justify-center overflow-hidden border-2 border-white bg-black shadow-[0_4px_24px_rgba(0,0,0,0.45)]",
           "origin-bottom transition-[height,box-shadow] duration-300 ease-[cubic-bezier(0.22,1,0.36,1)]",
-          open ? "h-[7.25rem] rounded-full" : "h-11 rounded-full active:scale-[0.98]",
+          open ? "h-[10.25rem] rounded-full" : "h-11 rounded-full active:scale-[0.98]",
         ].join(" ")}
         role={open ? "dialog" : undefined}
         aria-label={open ? "Contact" : undefined}
@@ -77,6 +84,14 @@ export function MobileHomeContactFab({ phoneDisplay, phoneHref, email }: Props) 
           ].join(" ")}
           aria-hidden={!open}
         >
+          <a
+            href={emergencyHref}
+            className="flex h-10 w-10 items-center justify-center text-white transition-opacity active:opacity-70"
+            aria-label="24/7 emergency call-out"
+            tabIndex={open ? 0 : -1}
+          >
+            <Siren className="h-5 w-5" strokeWidth={1.75} />
+          </a>
           <a
             href={phoneHref}
             className="flex h-10 w-10 items-center justify-center text-white transition-opacity active:opacity-70"

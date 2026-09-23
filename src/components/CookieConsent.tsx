@@ -6,7 +6,8 @@ import { X, Check, AlertCircle } from 'lucide-react'
 import { useTheme } from '@/contexts/ThemeContext'
 import { 
   getCookiePreferences, 
-  saveCookiePreferences, 
+  saveCookiePreferences,
+  applyCookiePreferences,
   type CookiePreferences 
 } from '@/utils/cookieUtils'
 
@@ -30,18 +31,24 @@ const CookieConsent = () => {
   useEffect(() => {
     if (!mounted) return
     const savedPreferences = getCookiePreferences()
-    if (savedPreferences) setPreferences(savedPreferences)
-    // Show banner only on first visit (no saved preferences)
-    if (!savedPreferences) {
+    if (savedPreferences) {
+      setPreferences(savedPreferences)
+      applyCookiePreferences(savedPreferences)
+    } else {
+      // Show banner only on first visit (no saved preferences)
       setShowBanner(true)
     }
 
-    const openSettings = () => setShowSettings(true)
+    const openSettings = () => {
+      const current = getCookiePreferences()
+      if (current) setPreferences(current)
+      setShowSettings(true)
+    }
     window.addEventListener("apx:open-cookie-settings", openSettings)
 
     const openFromHash = () => {
       if (window.location.hash === "#cookie-preferences") {
-        setShowSettings(true)
+        openSettings()
       }
     }
     openFromHash()
@@ -97,7 +104,7 @@ const CookieConsent = () => {
   // Don't render until we've checked localStorage (client-only)
   if (!mounted) return null
 
-  // Floating settings FAB removed — preferences open from the first-visit banner,
+  // Floating settings FAB removed, preferences open from the first-visit banner,
   // cookie policy page, or footer ("Cookie Preferences").
   if (!showBanner && !showSettings) {
     return null
@@ -173,23 +180,16 @@ const CookieConsent = () => {
                   </h3>
                 </div>
                 <p style={{ fontSize: '14px', lineHeight: '1.5', color: 'rgba(255, 255, 255, 0.9)', margin: 0 }}>
-                  We use cookies to enhance your browsing experience, analyze site traffic, and personalize content.
-                  By clicking &quot;Accept All&quot;, you consent to our use of cookies. You can{' '}
-                  <button
-                    onClick={() => setShowSettings(true)}
-                    className="cookie-banner-text-link"
-                    style={{ fontSize: '14px', border: 'none', cursor: 'pointer', padding: 0, color: 'inherit', textDecoration: 'underline' }}
-                  >
-                    customize preferences
-                  </button>
-                  {' '}or{' '}
+                  We use essential cookies to make this website work. With your choice, we may also use optional cookies
+                  to analyse how the site is used and to support optional features. Non-essential cookies are not set
+                  until you Accept All or save your preferences. See our{' '}
                   <Link href="/cookie-policy" className="cookie-banner-text-link" style={{ fontSize: '14px', color: 'inherit', textDecoration: 'underline' }}>
-                    learn more
+                    Cookie Policy
                   </Link>
                   .
                 </p>
               </div>
-              <div style={{ display: 'flex', flexDirection: 'row', gap: '12px', flexShrink: 0 }}>
+              <div style={{ display: 'flex', flexDirection: 'row', flexWrap: 'wrap', gap: '12px', flexShrink: 0 }}>
                 <button
                   type="button"
                   onClick={handleRejectAll}
@@ -198,6 +198,15 @@ const CookieConsent = () => {
                   <span className="pill-btn-inner" aria-hidden />
                   <span className="pill-btn-border" aria-hidden />
                   <span className="pill-text font-bold">Reject All</span>
+                </button>
+                <button
+                  type="button"
+                  onClick={() => setShowSettings(true)}
+                  className="cookie-banner-pill pill-btn px-6 py-3.5 text-base relative inline-flex items-center justify-center font-bold overflow-hidden rounded-tl-2xl rounded-br-2xl cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/50 focus-visible:ring-offset-2 focus-visible:ring-offset-black"
+                >
+                  <span className="pill-btn-inner" aria-hidden />
+                  <span className="pill-btn-border" aria-hidden />
+                  <span className="pill-text font-bold">Customise Preferences</span>
                 </button>
                 <button
                   type="button"
@@ -214,7 +223,7 @@ const CookieConsent = () => {
         </div>
       )}
 
-      {/* Cookie Settings Modal – black bg, white foreground, rounded top-left + bottom-right only */}
+      {/* Cookie Settings Modal, black bg, white foreground, rounded top-left + bottom-right only */}
       {showSettings && (
         <div 
           className="cookie-settings-modal"
@@ -401,8 +410,8 @@ const CookieConsent = () => {
                     margin: 0,
                     lineHeight: '1.5'
                   }}>
-                    These cookies help us understand how visitors interact with our website by collecting and reporting 
-                    information anonymously. This helps us improve our website&apos;s performance and user experience.
+                    Optional cookies that help us understand how visitors use the site (for example to analyse traffic).
+                    No analytics product is currently installed; enabling this category prepares consent if one is added later.
                   </p>
                 </div>
                 <button
@@ -470,8 +479,8 @@ const CookieConsent = () => {
                     margin: 0,
                     lineHeight: '1.5'
                   }}>
-                    These cookies are used to deliver personalized advertisements and track your browsing habits across 
-                    different websites. They help us show you relevant content and measure the effectiveness of our campaigns.
+                    Optional cookies for advertising or campaign measurement. No marketing pixels (for example Meta Pixel
+                    or Google Ads) are currently installed; enabling this category prepares consent if one is added later.
                   </p>
                 </div>
                 <button
@@ -539,8 +548,8 @@ const CookieConsent = () => {
                     margin: 0,
                     lineHeight: '1.5'
                   }}>
-                    These cookies enable enhanced functionality and personalization, such as remembering your preferences, 
-                    language settings, and login information. They may be set by us or by third-party providers.
+                    Optional cookies for enhanced site features beyond what is strictly necessary. No extra third-party
+                    functional tools are installed today.
                   </p>
                 </div>
                 <button

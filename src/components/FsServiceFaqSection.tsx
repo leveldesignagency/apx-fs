@@ -37,7 +37,7 @@ export function FsServiceFaqSection({ items = FS_SERVICE_FAQ_FALLBACK, variant =
             <h2
               id="fs-service-faq-heading"
               className={cn(
-                "font-title text-2xl font-bold normal-case leading-tight tracking-tight sm:text-3xl md:text-4xl",
+                "font-title text-3xl font-bold normal-case leading-tight tracking-tight sm:text-4xl",
                 !isLight && "text-white"
               )}
             >

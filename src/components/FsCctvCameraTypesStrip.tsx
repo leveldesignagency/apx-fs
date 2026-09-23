@@ -23,7 +23,7 @@ const jsonLd = {
   "@type": "ItemList",
   name: "CCTV camera types",
   description:
-    "Dome, bullet, pan-tilt, wireless, infra-red and thermal imaging CCTV cameras supplied and installed by APX Fire & Security in Greater London and the Home Counties.",
+    "Dome, bullet, PTZ (pan, tilt and zoom), wireless, infrared and thermal imaging CCTV camera guides from APX Fire & Security in Greater London and the Home Counties.",
   numberOfItems: CCTV_CAMERA_TYPE_PAGES.length,
   itemListElement: CCTV_CAMERA_TYPE_PAGES.map((item, index) => ({
     "@type": "ListItem",
@@ -63,8 +63,13 @@ export function FsCctvCameraTypesStrip() {
           </Reveal>
           <Reveal show={stripShow} delayMs={STRIP_INTRO_DELAY_MS}>
             <p className="mb-8 max-w-3xl text-left text-base leading-relaxed text-gray-300 sm:mb-10">
-              Dome, bullet, pan-tilt, wireless, infra-red and thermal options for properties across Greater London, Surrey,
-              Kent, Essex and the wider South East. Select a type for a detailed guide.
+              Dome, bullet, PTZ (pan, tilt and zoom), wireless, infrared and thermal options, specified on survey for
+              commercial and residential sites across London and the Home Counties. Select a type for a short guide, then
+              enquire via the main{" "}
+              <Link href="/services/cctv-systems" className="underline decoration-white/45 underline-offset-[3px] hover:decoration-white">
+                CCTV systems
+              </Link>{" "}
+              page. Thermal is a specialised option confirmed on survey.
             </p>
           </Reveal>
 

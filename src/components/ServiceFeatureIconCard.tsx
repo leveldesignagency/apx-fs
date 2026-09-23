@@ -9,6 +9,8 @@ type ServiceFeatureIconCardProps = {
   className?: string
   /** Override the default shimmer feature shell (e.g. solid black capability cards). */
   shellClassName?: string
+  /** Anchor id for homepage search deep-links + flash highlight. */
+  id?: string
 }
 
 /**
@@ -21,12 +23,15 @@ export function ServiceFeatureIconCard({
   description,
   className,
   shellClassName,
+  id,
 }: ServiceFeatureIconCardProps) {
   return (
     <div
+      id={id}
       className={cn(
         shellClassName ?? FS_SERVICE_SHIMMER_CARD_FEATURE,
         "relative flex h-full flex-col pr-14",
+        id ? "scroll-mt-28" : null,
         className
       )}
     >

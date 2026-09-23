@@ -105,14 +105,28 @@ export function LegalContactBox() {
       }`}
     >
       <p className="mb-2">
-        <strong>APX Fire &amp; Security</strong>
+        <strong>APX Fire &amp; Security Limited</strong>
+      </p>
+      <p className="mb-2 text-sm">
+        Company number 04915204
+        <br />
+        Trading as APX Fire &amp; Security
       </p>
       <p className="mb-2 leading-relaxed">
+        <strong>Trading address:</strong>
+        <br />
         365-369 Bexley Road,
         <br />
         Northumberland Heath,
         <br />
         Erith, Kent, DA8 3EZ
+      </p>
+      <p className="mb-2 leading-relaxed text-sm">
+        <strong>Registered office:</strong>
+        <br />
+        Springhaven, 1a Barnfield Close,
+        <br />
+        Hastings, East Sussex, TN34 1TS
       </p>
       <p className="mb-2">
         <strong>Email:</strong>{" "}

@@ -5,72 +5,78 @@ import { Reveal } from "@/components/Reveal"
 import { ServiceItemReveal } from "@/components/ServiceItemReveal"
 import { ArrowUpRight } from "lucide-react"
 import { useState } from "react"
+import { FS_SERVICE_NAV_LINKS } from "@/lib/fs-service-navigation"
 
-const SERVICE_ROWS = [
-  {
-    title: "CCTV systems",
-    description:
-      "IP and analogue CCTV design, installation, and commissioning with remote monitoring, retention setup, and secure network integration.",
-    href: "/services/cctv-systems",
-    cta: "Go to CCTV systems",
-  },
-  {
-    title: "Access control systems",
-    description:
-      "Door access, fob/card permissions, and networked control built for commercial and multi-tenant environments.",
-    href: "/services/access-control-systems",
-    cta: "Go to access control",
-  },
-  {
-    title: "Intruder alarm systems",
+const SERVICE_BLURBS: Record<string, { description: string; cta: string }> = {
+  "/services/intruder-alarm-systems": {
     description:
       "Grade 2 and Grade 3 intruder systems with detection, monitoring integration, and clear handover documentation.",
-    href: "/services/intruder-alarm-systems",
     cta: "Go to intruder alarms",
   },
-  {
-    title: "Fire alarm systems",
+  "/services/fire-alarm-systems": {
     description:
       "Addressable and conventional fire alarm systems with full cause-and-effect testing, certification, and compliant delivery.",
-    href: "/services/fire-alarm-systems",
     cta: "Go to fire alarms",
   },
-  {
-    title: "Refuge & Disabled Communication Systems",
+  "/services/cctv-systems": {
     description:
-      "Emergency voice communication (EVC), disabled refuge points, fire telephones, toilet alarms and central panels to BS 5839-9.",
-    href: "/services/refuge-disabled-communication",
-    cta: "Go to refuge & EVC",
+      "Commercial-first CCTV: IP systems, HD analogue upgrades, remote viewing, recording and retention, camera health monitoring, ANPR and analytics where offered, network segregation, maintenance and repairs.",
+    cta: "Go to CCTV systems",
   },
-  {
-    title: "EVAC & Voice Evacuation Systems",
+  "/services/access-control-systems": {
     description:
-      "Voice evacuation and PA integration with zoned messaging, amplifiers and speakers, aligned with BS 5839-8 and your fire strategy.",
-    href: "/services/evac-voice-evacuation",
-    cta: "Go to EVAC & Voice",
+      "Fob/card and keypad access, single-door and networked systems, multi-tenant control, fire-release interfaces where designed, video entry and gate integration, plus maintenance and takeovers.",
+    cta: "Go to access control",
   },
-  {
-    title: "Video door entry systems",
+  "/services/video-door-entry-systems": {
     description:
-      "Video entry and door access systems from single-door installations through to integrated, multi-user deployments.",
-    href: "/services/video-door-entry-systems",
+      "Audio and video entry for single residences and multi-occupancy buildings: IP/networked systems, concierge and mobile answering where available, access control and gate integration, maintenance and upgrades.",
     cta: "Go to video door entry",
   },
-  {
-    title: "Fire & life safety systems",
+  "/services/gate-automation-systems": {
     description:
-      "Expanded fire and life safety scope covering fire alarms, EVAC and voice evacuation, and refuge and disabled communication.",
-    href: "/services/fire-life-safety",
-    cta: "Go to fire & life safety",
+      "Automated swing and sliding gates, vehicle barriers and perimeter control, with safety devices and integration to access control and CCTV.",
+    cta: "Go to gate automation",
   },
-  {
-    title: "Maintenance & support",
+  "/services/evac-voice-evacuation": {
     description:
-      "Planned preventative maintenance, 24/7 call-out support, upgrades, and compliance checks for critical systems.",
-    href: "/services/maintenance-support",
-    cta: "Go to maintenance & support",
+      "EVAC / voice alarm systems to BS 5839-8: zoned and phased messaging, fire alarm integration, amplifiers and loudspeakers, cause-and-effect testing, commissioning and maintenance, including PA/VA where applicable.",
+    cta: "Go to EVAC & Voice",
   },
-]
+  "/services/refuge-disabled-communication": {
+    description:
+      "Disabled refuge systems, fire telephone systems, disabled toilet alarms and central control panels with two-way communication, BS 5839-9 design, commissioning, testing and maintenance.",
+    cta: "Go to refuge, fire telephone & toilet alarms",
+  },
+  "/services/monitoring": {
+    description:
+      "Alarm receiving centre (ARC) signalling, dual-path options and remote monitoring pathways for intruder, fire and CCTV systems.",
+    cta: "Go to monitoring",
+  },
+  "/services/maintenance-support": {
+    description:
+      "Planned preventative maintenance, repairs and upgrades covering fire alarms, CCTV, access control, intruder alarms and video entry.",
+    cta: "Go to maintenance & repairs",
+  },
+  "/services/emergency-call-out": {
+    description:
+      "24/7 emergency engineer call-out for contracted customers, with ad-hoc attendance discussed case by case for non-contracted sites.",
+    cta: "Go to 24/7 call-out",
+  },
+}
+
+const SERVICE_ROWS = FS_SERVICE_NAV_LINKS.map((link) => {
+  const blurb = SERVICE_BLURBS[link.href] ?? {
+    description: `Design, installation and support for ${link.label.toLowerCase()}.`,
+    cta: `Go to ${link.shortLabel.toLowerCase()}`,
+  }
+  return {
+    title: link.label,
+    href: link.href,
+    description: blurb.description,
+    cta: blurb.cta,
+  }
+})
 
 export default function ServicesHubPage() {
   const [hoveredIndex, setHoveredIndex] = useState<number | null>(0)
@@ -86,7 +92,7 @@ export default function ServicesHubPage() {
               APX Fire & Security Services
             </h1>
             <p className="mt-4 max-w-3xl text-base leading-relaxed text-gray-300 md:text-lg">
-              Design, installation, commissioning and maintenance of fire and security systems across London and the Home Counties, from CCTV and access control to intruder alarms, fire alarms and ongoing support.
+              Design, installation, commissioning and maintenance of fire and security systems across London and the Home Counties, ordered by the systems we install most often.
             </p>
           </Reveal>
 

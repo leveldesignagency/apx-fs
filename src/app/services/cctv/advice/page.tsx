@@ -18,11 +18,11 @@ import { Camera, FileCheck, HelpCircle } from "lucide-react"
 
 const WHAT_WE_OFFER_ITEMS = [
   "Free, no-obligation survey of your property",
-  "Discussion of risks, coverage and budget",
-  "Guidance on camera types, resolution and night vision",
-  "Advice on recording, retention, signage and GDPR",
+  "Discussion of risks, coverage and budget (quotes follow survey)",
+  "Guidance on camera types: dome, bullet, PTZ, wireless, infrared",
+  "Advice on recording, retention, signage and lawful use under UK GDPR",
   "What to expect from a professional installer",
-  "Wired vs wireless options and cabling considerations",
+  "Wired vs wireless options, wireless still needs power",
   "Indoor, outdoor and low-light placement guidance",
   "Lawful recording, signage and sharing footage",
   "Clear next steps: specification, quote and installation",
@@ -37,9 +37,9 @@ export default function UsefulCctvAdvicePage() {
       <ServicePageHero
         title="Useful CCTV advice"
         imageSrc={serviceHeroImages.cctvAdvice}
-        heroCompliance={["GDPR", "BS EN 62676"]}
+        heroCompliance={["BS EN 62676"]}
         afterIntro={<FsCctvSubpageHeroButtons />}
-        intro="Not sure what you need? We've put together practical advice on choosing and using CCTV, from camera types and placement to recording, data protection, and working with a professional installer."
+        intro="Practical guidance on choosing and using CCTV, camera types, placement, recording, privacy and working with a professional installer. When you are ready to proceed, enquire via our main CCTV systems page."
       />
 
       <div className="relative bg-black">
@@ -61,17 +61,17 @@ export default function UsefulCctvAdvicePage() {
               {
                 icon: Camera,
                 title: "Choosing the right system",
-                text: "Indoor vs outdoor, resolution, night vision, and whether to go wired or wireless, we help you decide.",
+                text: "Indoor vs outdoor, resolution, night vision, and wired vs wireless (wireless still needs power).",
               },
               {
                 icon: FileCheck,
                 title: "Placement & coverage",
-                text: "Where to put cameras for the best coverage and evidence, and how to stay within the law.",
+                text: "Where to put cameras for useful coverage and evidence, within lawful and proportionate limits.",
               },
               {
                 icon: HelpCircle,
                 title: "Data protection & signage",
-                text: "GDPR, signage, retention periods, and sharing footage with police or insurers.",
+                text: "UK GDPR, signage, retention and sharing footage, you remain responsible for lawful day-to-day use.",
               },
             ].map((item, i) => (
               <ServiceItemReveal key={i} index={i} className="h-full min-h-0">
@@ -89,12 +89,11 @@ export default function UsefulCctvAdvicePage() {
             titleId="cctv-operational-requirement-heading"
             imageSrc={CCTV_OPERATIONAL_REQUIREMENT_IMAGE_SRC}
             imageAlt="Planning a CCTV operational requirement"
-            imageRightFeather={false}
           >
             <p>
               An operational requirement (known as an OR) is basically a list of the problems that you want the CCTV to
               help with. It is used to design the installation, to work out the level of its performance and what its
-              functionality should be and to determine if the final installation meets with the requirements of the OR.
+              functionality should be and to determine if the final installation meets the requirements of the OR.
               It doesn&apos;t have to be complicated, but it needs to be precise. Present your OR to us and use it to
               plan your system.
             </p>
@@ -120,8 +119,6 @@ export default function UsefulCctvAdvicePage() {
             titleId="cctv-shopkeeper-advice-heading"
             imageSrc={CCTV_SHOPKEEPER_ADVICE_IMAGE_SRC}
             imageAlt="CCTV advice for shopkeepers to help prevent shoplifting"
-            imageSide="left"
-            imageRightFeather={false}
           >
             <p>
               A common concern we often hear is from shopkeepers who are struggling to deal with frequent shoplifting.
@@ -130,20 +127,25 @@ export default function UsefulCctvAdvicePage() {
               shop.
             </p>
             <p>
-              We can help to identify the most vulnerable areas of the shop and advise on how they&apos;ll be able to
-              effectively monitor the captured images. We will also advise on signage and the fitting of a monitor to
-              publicly display the images being recorded which can help to deter any shoplifting or potential robberies
-              taking place.
+              We can help identify vulnerable areas of the shop and advise how captured images can be monitored. We also
+              advise on signage and, where appropriate, a monitor that publicly displays live images to support day-to-day
+              oversight. CCTV supports monitoring and evidence, it does not guarantee theft will be prevented.
             </p>
             <p>
-              At APX Fire &amp; Security we work with business of all sizes, and are pleased to offer a free survey and a
-              report for your business premises. If you&apos;d like to have a chat with no obligation, get some more
-              useful CCTV advice, and find out what we can do to help you,{" "}
+              At APX Fire &amp; Security we work with businesses of all sizes and offer a free survey and report for your
+              premises. For a no-obligation chat and tailored CCTV advice,{" "}
               <Link
-                href="/contact"
+                href="/contact?service=cctv-systems"
                 className="text-white underline decoration-white/35 underline-offset-2 hover:decoration-white"
               >
-                please get in touch
+                start a CCTV enquiry
+              </Link>{" "}
+              or browse{" "}
+              <Link
+                href="/services/cctv-systems"
+                className="text-white underline decoration-white/35 underline-offset-2 hover:decoration-white"
+              >
+                CCTV systems
               </Link>
               .
             </p>
@@ -151,20 +153,33 @@ export default function UsefulCctvAdvicePage() {
         </FsServiceTextImageSectionGroup>
 
         <CctvComplianceSection
-          intro="Whether you are comparing installers or planning coverage, the same standards apply to lawful recording, retention and signage, understanding them helps you choose a system that is evidence-ready and aligned with GDPR and industry expectations for video surveillance."
+          intro="Whether you are comparing installers or planning coverage, the same themes apply: sensible coverage, clear signage, defined retention and lawful use. We can advise and configure systems with privacy in mind; the customer remains responsible for lawful CCTV operation under UK GDPR."
           standardsItems={[
-            "Professional installers (e.g. NSI-approved) for design and commissioning",
+            "NSI Gold-aligned design and commissioning practice",
             "BS EN 62676, video surveillance systems (where applicable)",
-            "GDPR-compliant handling: signage, retention limits and lawful use",
+            "Privacy guidance at handover, customer retains lawful-use responsibility under UK GDPR",
           ]}
           footerNote={
             <>
-              When you are ready to proceed, our main service pages cover{" "}
-              <Link href="/services/cctv-systems" className="text-black underline decoration-black/30 underline-offset-2 hover:decoration-black">
+              Ready to proceed?{" "}
+              <Link
+                href="/contact?service=cctv-systems"
+                className="text-black underline decoration-black/30 underline-offset-2 hover:decoration-black"
+              >
+                CCTV enquiry
+              </Link>{" "}
+              or the{" "}
+              <Link
+                href="/services/cctv-systems"
+                className="text-black underline decoration-black/30 underline-offset-2 hover:decoration-black"
+              >
                 CCTV systems
               </Link>{" "}
-              and{" "}
-              <Link href="/services/intruder-alarm-systems" className="text-black underline decoration-black/30 underline-offset-2 hover:decoration-black">
+              overview. Related:{" "}
+              <Link
+                href="/services/intruder-alarm-systems"
+                className="text-black underline decoration-black/30 underline-offset-2 hover:decoration-black"
+              >
                 intruder alarms
               </Link>
               .
@@ -194,8 +209,8 @@ export default function UsefulCctvAdvicePage() {
           ctaHeadlineAccent="CCTV advice."
           ctaDescription="Book a free, no-obligation survey and we will recommend the right camera coverage, recording and compliance approach for your home or business."
         >
-          <CustomPillButton href="/contact" size="md">
-            Request a free survey
+          <CustomPillButton href="/contact?service=cctv-systems" size="md">
+            CCTV enquiry
           </CustomPillButton>
           <CustomPillButton href="tel:02083032280" size="md" variant="outline">
             Call 020 8303 2280

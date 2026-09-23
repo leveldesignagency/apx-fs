@@ -7,7 +7,7 @@ export const INTRUDER_ALARM_BRANDS_DIR = "/Intruder%20Alarm" as const
 
 export type PartnerLogoEntry = {
   name: string
-  /** Provider website — every logo in {@link ApxPartnerLogoStrip} links here */
+  /** Provider website, every logo in {@link ApxPartnerLogoStrip} links here */
   href: string
   logoSrc: string | null
   /** Balances mixed SVG viewBoxes / intrinsic sizes inside the uniform slot */

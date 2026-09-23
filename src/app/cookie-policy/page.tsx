@@ -46,14 +46,46 @@ export default function CookiePolicyPage() {
 
   return (
     <LegalPageShell title="Cookie Policy">
+      <LegalSection title="Who We Are">
+        <p>
+          This Cookie Policy applies to the website operated by{" "}
+          <strong>APX Fire &amp; Security Limited</strong> (company number{" "}
+          <strong>04915204</strong>), trading as APX Fire &amp; Security.
+        </p>
+        <p>
+          <strong>Registered office:</strong> Springhaven, 1a Barnfield Close, Hastings, East Sussex, TN34 1TS,
+          United Kingdom.
+        </p>
+        <p>
+          <strong>Trading / contact address:</strong> 365-369 Bexley Road, Northumberland Heath, Erith, Kent, DA8 3EZ,
+          United Kingdom.
+        </p>
+        <LegalContactBox />
+      </LegalSection>
+
       <LegalSection title="What Are Cookies?">
         <p>
           Cookies are small text files that are placed on your computer or mobile device when you visit a website.
           They are widely used to make websites work more efficiently and provide information to the website owners.
         </p>
         <p>
-          We use cookies to enhance your browsing experience, analyse site traffic, and personalise content. By
-          continuing to use our website, you consent to our use of cookies as described in this policy.
+          We use essential cookies so the website can function. Optional cookies (for example analytics, marketing or
+          functional preferences) are only used if you choose Accept All or enable those categories in Customise
+          Preferences. Continuing to browse without making a choice does not count as consent to non-essential cookies.
+        </p>
+      </LegalSection>
+
+      <LegalSection title="Consent and when cookies load">
+        <p>
+          On your first visit we show a cookie banner with <strong>Accept All</strong>, <strong>Reject All</strong> and{" "}
+          <strong>Customise Preferences</strong>. Your selection is stored locally so we can remember it on later visits.
+        </p>
+        <p>
+          Non-essential cookies and any related third-party scripts do not load until you accept them (either via Accept
+          All or by enabling a category and saving preferences). Reject All leaves only essential cookies active.
+        </p>
+        <p>
+          You can change your mind at any time using Cookie Preferences in the website footer or the button on this page.
         </p>
       </LegalSection>
 
@@ -66,55 +98,65 @@ export default function CookiePolicyPage() {
               forms.
             </p>
             <p className="text-sm">
-              <strong>Purpose:</strong> Website functionality, security, and user preferences
+              <strong>Purpose:</strong> Website functionality, security, and remembering your cookie choices
             </p>
             <p className="text-sm">
               <strong>Duration:</strong> Session or persistent (up to 1 year)
+            </p>
+            <p className="text-sm">
+              <strong>Examples:</strong> Cookie preference storage; theme preference where used
             </p>
           </CookieTypeCard>
 
           <CookieTypeCard title="Analytics Cookies" Icon={BarChart}>
             <p>
               These cookies help us understand how visitors interact with our website by collecting and reporting
-              information anonymously. This helps us improve our website&apos;s performance and user experience.
+              information. This can help us improve performance and user experience.
             </p>
             <p className="text-sm">
-              <strong>Purpose:</strong> Website analytics, performance monitoring, and user behaviour analysis
+              <strong>Purpose:</strong> Website analytics and performance monitoring
             </p>
             <p className="text-sm">
-              <strong>Duration:</strong> Up to 2 years
+              <strong>Duration:</strong> Up to 2 years (if enabled)
             </p>
             <p className="text-sm">
-              <strong>Third-party services:</strong> Google Analytics (if enabled)
+              <strong>Current status:</strong> No analytics tools (such as Google Analytics) are installed on this
+              website at present. This category is reserved so preferences remain ready if analytics are added later;
+              nothing in this category loads unless you consent and a tool is actually configured.
             </p>
           </CookieTypeCard>
 
           <CookieTypeCard title="Marketing Cookies" Icon={Megaphone}>
             <p>
-              These cookies are used to deliver personalised advertisements and track your browsing habits across
-              different websites. They help us show you relevant content and measure the effectiveness of our campaigns.
+              These cookies may be used to deliver personalised advertisements and measure campaigns across websites.
             </p>
             <p className="text-sm">
-              <strong>Purpose:</strong> Advertising, marketing campaigns, and conversion tracking
+              <strong>Purpose:</strong> Advertising, marketing campaigns, and conversion tracking (if enabled)
             </p>
             <p className="text-sm">
-              <strong>Duration:</strong> Up to 1 year
+              <strong>Duration:</strong> Up to 1 year (if enabled)
             </p>
             <p className="text-sm">
-              <strong>Third-party services:</strong> Facebook Pixel, Google Ads (if enabled)
+              <strong>Current status:</strong> No marketing pixels or ad tags (such as Meta/Facebook Pixel or Google
+              Ads) are installed on this website at present. This category is reserved for future use; nothing in this
+              category loads unless you consent and a tool is actually configured.
             </p>
           </CookieTypeCard>
 
           <CookieTypeCard title="Functional Cookies" Icon={Settings}>
             <p>
-              These cookies enable enhanced functionality and personalisation, such as remembering your preferences,
-              language settings, and login information. They may be set by us or by third-party providers.
+              These cookies enable enhanced functionality and personalisation, such as remembering preferences beyond
+              what is strictly required for the site to work.
             </p>
             <p className="text-sm">
-              <strong>Purpose:</strong> User preferences, language settings, and enhanced functionality
+              <strong>Purpose:</strong> Optional user preferences and enhanced functionality
             </p>
             <p className="text-sm">
-              <strong>Duration:</strong> Up to 1 year
+              <strong>Duration:</strong> Up to 1 year (if enabled)
+            </p>
+            <p className="text-sm">
+              <strong>Current status:</strong> No additional third-party functional cookie tools are installed beyond
+              essential site features.
             </p>
           </CookieTypeCard>
         </div>
@@ -184,13 +226,12 @@ export default function CookiePolicyPage() {
 
       <LegalSection title="Third-Party Cookies">
         <p>
-          Some cookies on our website are set by third-party services that appear on our pages. These third parties may
-          use cookies to collect information about your online activities across different websites for advertising
-          purposes.
+          If we enable third-party analytics or marketing tools in future, those providers may set their own cookies.
+          We will update this policy and only load those tools after you have consented to the relevant category.
         </p>
         <p>
-          We do not control these third-party cookies. Please refer to the privacy policies of these third-party services
-          for more information about their cookie practices.
+          We do not currently load Google Analytics, Meta/Facebook Pixel, Google Ads, or similar third-party tracking
+          scripts on this site.
         </p>
       </LegalSection>
 

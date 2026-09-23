@@ -23,11 +23,31 @@ import {
 import { Shield, CheckCircle, Monitor, Smartphone, Package } from "lucide-react"
 
 const MONITORING_BENEFITS = [
-  { icon: Shield, title: "Comprehensive protection", text: "Comprehensive protection for your people and your property 24 hours a day." },
-  { icon: Monitor, title: "Central Monitoring", text: "Active monitoring of your installed security services and systems (optional)." },
-  { icon: Package, title: "Protect Belongings", text: "Peace of mind that your belongings and cherished items are protected." },
-  { icon: Smartphone, title: "Remotely Controlled", text: "Access and control your security system remotely via tablet or smartphone." },
-  { icon: CheckCircle, title: "Quality Installation", text: "Our standards ensure a well designed, well installed and reliable security system." },
+  {
+    icon: Shield,
+    title: "Commercial-grade protection",
+    text: "Detection and signalling designed for offices, schools, hospitals, construction sites, residential developments, hotels and industrial premises.",
+  },
+  {
+    icon: Monitor,
+    title: "ARC monitoring",
+    text: "Alarm receiving centre (ARC) signalling so events are escalated when your site is unattended, with police response where applicable.",
+  },
+  {
+    icon: Package,
+    title: "Dual-path signalling",
+    text: "Resilient dual-path signalling for monitored systems, including CSL GradeShift Pro where your insurer or risk assessment requires it.",
+  },
+  {
+    icon: Smartphone,
+    title: "Remote control",
+    text: "App and keypad control so authorised users can arm, disarm and check system status remotely.",
+  },
+  {
+    icon: CheckCircle,
+    title: "Takeover, maintenance & call-out",
+    text: "System takeover and upgrades, planned preventative maintenance, and 24/7 call-out cover for faults and emergencies.",
+  },
 ]
 
 /** One card per project, avoids duplicate titles when the same site had multiple marketing photos. */
@@ -82,11 +102,10 @@ export default function IntruderAlarmSystemsPage() {
         intro={
           <>
             <p className="mb-4">
-              APX installs and maintains intruder alarm systems for commercial and industrial environments, ensuring robust protection and reliable monitoring.
+              APX installs and maintains intruder alarm systems for commercial and industrial environments, with Grade 2 and Grade 3 installations, ARC monitoring options and NSI-aligned workmanship.
             </p>
             <p>
-              Systems can be linked to CCTV, video entry and access control where required. Established in 1986, we offer Grade 2 and Grade 3 installations, monitoring integration
-              and NSI-aligned workmanship you can rely on.
+              Building on a heritage dating back to 1986, we design systems that link to CCTV, video entry and access control where required, with dual-path signalling (CSL GradeShift Pro), planned maintenance and 24/7 call-out cover available.
             </p>
           </>
         }
@@ -117,52 +136,56 @@ export default function IntruderAlarmSystemsPage() {
 
         <FsServiceTextImageSectionGroup>
           <FsServiceTextImageSection
+          title="Commercial & Industrial Intruder Systems"
+          titleId="commercial-intruder-systems-heading"
+          imageSrc={COMMERCIAL_INTRUDER_IMAGE_SRC}
+          imageAlt="Commercial intruder alarm system installation"
+        >
+          <p>
+            Commercial and industrial intruder systems are our primary focus, designed and commissioned for insurance-grade
+            detection, signalling and integration. Typical delivery includes Grade 2 and Grade 3 systems, PIR and dual-tech
+            detectors, magnetic contacts, shock sensors, panic facilities, ARC monitoring and police response where required.
+          </p>
+          <p>
+            We regularly serve offices, schools, hospitals, construction sites, residential developments, hotels and
+            industrial premises across London and the Home Counties, coordinating with CCTV, access control and video entry
+            where the brief requires a joined-up security package.
+          </p>
+        </FsServiceTextImageSection>
+
+        <div className="border-t border-white/15" />
+
+          <FsServiceTextImageSection
           title="Bespoke Intruder Alarm Systems"
           titleId="bespoke-intruder-alarm-heading"
           imageSrc={BESPOKE_INTRUDER_IMAGE_SRC}
           imageAlt="Bespoke intruder alarm system installation"
           imageClassName="object-cover object-[20%_center] brightness-[1.18] contrast-[1.05] saturate-[1.06]"
-          imageRightFeather={false}
         >
-          <h3 className="font-title text-2xl font-semibold text-white">Intruder Alarm System Installer London</h3>
+          <h3 className="font-title text-2xl font-semibold text-white">Survey-led design &amp; installation</h3>
           <p>
-            We are proud to provide all of our customers, whether they are commercial or domestic, with custom-built
-            Intruder Alarm systems to meet their requirements and deliver the peace of mind that a well designed, well
-            installed and reliable security system can bring.
+            Every system is surveyed and designed around how the building is used, detection zones, signalling path and
+            integration with your wider security stack, so you get a well-designed, well-installed and reliable installation.
           </p>
           <p>
-            Whether you are a large commercial business or a small domestic property, we can deliver an Intruder Alarm
-            system that conforms to all the required standards. We install Grade 1, Grade 2 and Grade 3 as per
-            insurance requirements and our reputation for designing high quality installations is renowned within the
-            industry.
+            We install Grade 2 and Grade 3 systems aligned with insurance and risk expectations. Domestic properties can
+            be supported where required, but commercial and multi-site work is the core of our intruder delivery.
           </p>
           <p>
-            Simply complete the Intruder Alarm System enquiry form and we will contact you and arrange to meet you,
-            discuss your requirements and carry out a survey of your property.
+            Looking to take over an existing alarm, upgrade signalling for monitoring, or move onto planned maintenance
+            with 24/7 call-out cover? Complete the enquiry form and we will arrange a survey.
           </p>
-          <div className="pt-2">
-            <CustomPillButton href="/contact" size="md">
+          <div className="flex flex-wrap gap-3 pt-2">
+            <CustomPillButton href="/contact?service=intruder-alarm-systems" size="md">
               Enquiry form
             </CustomPillButton>
+            <CustomPillButton href="/services/monitoring" size="md" variant="outline">
+              Monitored upgrade
+            </CustomPillButton>
+            <CustomPillButton href="/services/maintenance-support" size="md" variant="outline">
+              Maintenance takeover
+            </CustomPillButton>
           </div>
-        </FsServiceTextImageSection>
-
-        <div className="border-t border-white/15" />
-
-        <FsServiceTextImageSection
-          title="Commercial & Industrial Intruder Systems"
-          titleId="commercial-intruder-systems-heading"
-          imageSrc={COMMERCIAL_INTRUDER_IMAGE_SRC}
-          imageAlt="Commercial intruder alarm system installation"
-          imageSide="left"
-          imageRightFeather={false}
-        >
-          <p>
-            Commercial and industrial intruder systems are designed and commissioned against recognised UK expectations
-            for insurance-grade detection, signalling and integration, including Grade 2 and Grade 3 systems, PIR and
-            dual-tech detectors, magnetic contacts, shock sensors, panic facilities and monitoring with police response
-            where required.
-          </p>
         </FsServiceTextImageSection>
 
         <div className="border-t border-white/15" />
@@ -173,7 +196,6 @@ export default function IntruderAlarmSystemsPage() {
           imageSrc={EXTERNAL_INTRUDER_IMAGE_SRC}
           imageAlt="External intruder alarm and perimeter protection"
           imageClassName="object-cover object-left"
-          imageRightFeather={false}
         >
           <p>
             We have installed a number of high quality external intruder protection systems but due to the confidential
@@ -188,8 +210,8 @@ export default function IntruderAlarmSystemsPage() {
           </p>
           <p>
             Laser-based detection systems such as this are ideal for securing open sites and are a great option for
-            perimeter protection, intrusion detection, for alerting you to pedestrian and vehicle access and for
-            protection against theft and vandalism. Simply contact us to learn more about how we can help you to secure
+            perimeter protection and intrusion detection, alerting you to pedestrian and vehicle access and protecting
+            against theft and vandalism. Simply contact us to learn more about how we can help you to secure
             your property.
           </p>
         </FsServiceTextImageSection>
@@ -212,10 +234,10 @@ export default function IntruderAlarmSystemsPage() {
             </>
           }
           deliverablesItems={[
-            "Survey-led design proposals and graded system options",
+            "Survey-led design proposals for Grade 2 and Grade 3 systems",
             "Installation, commissioning certificates and user training",
-            "ARC signalling and police response set-up where required",
-            "Planned maintenance and system upgrades",
+            "ARC signalling, dual-path options (CSL GradeShift Pro) and police response set-up where required",
+            "System takeover and upgrades, planned maintenance and 24/7 call-outs",
           ]}
           rightFooterNote={
             <>
@@ -277,9 +299,9 @@ export default function IntruderAlarmSystemsPage() {
           ctaImageSrc={serviceHeroImages.intruder}
           ctaHeadline="Ready to"
           ctaHeadlineAccent="secure your property?"
-          ctaDescription="Book a free intruder alarm survey or speak to our team about design, installation, and monitoring."
+          ctaDescription="Book a free survey, arrange a monitored-alarm upgrade, or talk to us about taking over maintenance on an existing system."
         >
-          <CustomPillButton href="/contact" size="md">
+          <CustomPillButton href="/contact?service=intruder-alarm-systems" size="md">
             Get a free quote
           </CustomPillButton>
           <CustomPillButton href="tel:02083032280" size="md" variant="outline">

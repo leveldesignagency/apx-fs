@@ -1,7 +1,9 @@
 "use client"
 
+import { useCallback, useEffect, useState } from "react"
 import Image from "next/image"
 import Link from "next/link"
+import { ChevronLeft, ChevronRight, X } from "lucide-react"
 import { Reveal } from "@/components/Reveal"
 import { ServiceItemReveal } from "@/components/ServiceItemReveal"
 import type { FsProject } from "@/data/projects"
@@ -17,6 +19,38 @@ type ProjectDetailGalleryProps = {
 }
 
 export function ProjectDetailGallery({ title, images }: ProjectDetailGalleryProps) {
+  const [lightboxIndex, setLightboxIndex] = useState<number | null>(null)
+
+  const closeLightbox = useCallback(() => setLightboxIndex(null), [])
+
+  const prevImage = useCallback(() => {
+    if (lightboxIndex === null || images.length < 2) return
+    setLightboxIndex((lightboxIndex - 1 + images.length) % images.length)
+  }, [images.length, lightboxIndex])
+
+  const nextImage = useCallback(() => {
+    if (lightboxIndex === null || images.length < 2) return
+    setLightboxIndex((lightboxIndex + 1) % images.length)
+  }, [images.length, lightboxIndex])
+
+  useEffect(() => {
+    if (lightboxIndex === null) return
+    const onKey = (e: KeyboardEvent) => {
+      if (e.key === "Escape") closeLightbox()
+      if (e.key === "ArrowLeft") prevImage()
+      if (e.key === "ArrowRight") nextImage()
+    }
+    window.addEventListener("keydown", onKey)
+    const prevOverflow = document.body.style.overflow
+    document.body.style.overflow = "hidden"
+    return () => {
+      window.removeEventListener("keydown", onKey)
+      document.body.style.overflow = prevOverflow
+    }
+  }, [lightboxIndex, closeLightbox, prevImage, nextImage])
+
+  if (!images.length) return null
+
   return (
     <>
       <Reveal>
@@ -27,23 +61,110 @@ export function ProjectDetailGallery({ title, images }: ProjectDetailGalleryProp
           Gallery
         </span>
         <h2 className="font-title text-2xl font-bold text-white md:text-3xl lg:text-4xl">Project images</h2>
+        <p className="mt-3 max-w-2xl text-sm text-white/60 md:text-base">
+          Tap or click an image to open the gallery. Use arrows or keyboard left/right to move between photos.
+        </p>
       </Reveal>
-      <div className="mt-8 grid grid-cols-1 gap-5 md:grid-cols-2 md:gap-6 lg:mt-10">
+      <div className="mt-8 grid grid-cols-1 gap-5 sm:grid-cols-2 md:gap-6 lg:mt-10">
         {images.map((img, idx) => (
           <ServiceItemReveal key={`${img}-${idx}`} index={idx} stepMs={65} className="block">
-            <div className="group relative aspect-[4/3] overflow-hidden">
+            <button
+              type="button"
+              onClick={() => setLightboxIndex(idx)}
+              className="group relative aspect-[4/3] w-full overflow-hidden text-left focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/50"
+              aria-label={`Open gallery image ${idx + 1} of ${images.length} for ${title}`}
+            >
               <Image
                 src={img}
-                alt={title}
+                alt={`${title}, image ${idx + 1}`}
                 fill
                 className="object-cover transition-transform duration-500 group-hover:scale-[1.03]"
-                sizes="(max-width: 768px) 100vw, 50vw"
+                sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 40vw"
               />
               <div className="pointer-events-none absolute inset-0 ring-1 ring-inset ring-white/10 transition-colors group-hover:ring-white/25" />
-            </div>
+            </button>
           </ServiceItemReveal>
         ))}
       </div>
+
+      {lightboxIndex !== null && images[lightboxIndex] ? (
+        <div
+          className="fixed inset-0 z-[120] bg-black/92 backdrop-blur-[2px]"
+          role="dialog"
+          aria-modal="true"
+          aria-label={`${title} gallery`}
+        >
+          <div className="mx-auto flex h-full w-full max-w-[min(100%,100rem)] flex-col px-3 py-3 sm:px-6 sm:py-4">
+            <div className="mb-3 flex items-center justify-between gap-3">
+              <p className="min-w-0 truncate text-xs uppercase tracking-[0.14em] text-white/80 sm:text-sm">
+                {title}
+                <span className="ml-2 text-white/50">
+                  {lightboxIndex + 1} / {images.length}
+                </span>
+              </p>
+              <button
+                type="button"
+                onClick={closeLightbox}
+                className="inline-flex h-10 w-10 shrink-0 items-center justify-center border-2 border-white/70 text-white hover:border-white"
+                aria-label="Close gallery"
+              >
+                <X className="h-5 w-5" />
+              </button>
+            </div>
+
+            <div className="relative min-h-0 flex-1 overflow-hidden border-2 border-white/45">
+              <Image
+                src={images[lightboxIndex]!}
+                alt={`${title} image ${lightboxIndex + 1}`}
+                fill
+                className="object-contain"
+                sizes="100vw"
+                priority
+              />
+
+              {images.length > 1 ? (
+                <>
+                  <button
+                    type="button"
+                    onClick={prevImage}
+                    className="absolute left-2 top-1/2 z-10 inline-flex h-11 w-11 -translate-y-1/2 items-center justify-center border-2 border-white/70 bg-black/55 text-white hover:border-white sm:left-3"
+                    aria-label="Previous image"
+                  >
+                    <ChevronLeft className="h-6 w-6" />
+                  </button>
+                  <button
+                    type="button"
+                    onClick={nextImage}
+                    className="absolute right-2 top-1/2 z-10 inline-flex h-11 w-11 -translate-y-1/2 items-center justify-center border-2 border-white/70 bg-black/55 text-white hover:border-white sm:right-3"
+                    aria-label="Next image"
+                  >
+                    <ChevronRight className="h-6 w-6" />
+                  </button>
+                </>
+              ) : null}
+            </div>
+
+            {images.length > 1 ? (
+              <div className="mt-3 flex gap-2 overflow-x-auto pb-1 [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
+                {images.map((img, idx) => (
+                  <button
+                    key={`${img}-thumb-${idx}`}
+                    type="button"
+                    onClick={() => setLightboxIndex(idx)}
+                    className={`relative h-14 w-20 shrink-0 overflow-hidden border-2 sm:h-16 sm:w-24 ${
+                      idx === lightboxIndex ? "border-white" : "border-white/50"
+                    }`}
+                    aria-label={`Go to image ${idx + 1}`}
+                    aria-current={idx === lightboxIndex}
+                  >
+                    <Image src={img} alt="" fill className="object-cover" sizes="96px" />
+                  </button>
+                ))}
+              </div>
+            ) : null}
+          </div>
+        </div>
+      ) : null}
     </>
   )
 }

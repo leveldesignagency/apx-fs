@@ -15,6 +15,8 @@ import { NewsArticleBody } from "@/components/news/NewsArticleBody"
 import { NewsArticleHeroLead } from "@/components/news/NewsArticleHeroLead"
 import { NewsArticleCard } from "@/components/news/NewsArticleCard"
 import { NewsArticleShareBanner } from "@/components/news/NewsArticleShareBanner"
+import { FsInsetCtaCard } from "@/components/FsInsetCtaCard"
+import { CustomPillButton } from "@/components/ui/CustomPillButton"
 
 type Props = {
   params: Promise<{ slug: string }>
@@ -57,6 +59,7 @@ export default async function NewsArticlePage({ params }: Props) {
   const articleUrl = `${siteUrl}/news/${slug}`
   const shareDescription =
     article.excerpt.length > 160 ? `${article.excerpt.slice(0, 157)}…` : article.excerpt
+  const relatedServices = article.relatedServices ?? []
 
   return (
     <div className="news-article-page min-h-screen bg-white text-black" data-cursor-surface="light">
@@ -88,7 +91,7 @@ export default async function NewsArticlePage({ params }: Props) {
                 ) : null}
               </div>
 
-              <div className="news-article-page__hero relative order-1 aspect-[4/3] w-full min-w-0 overflow-hidden bg-neutral-100 sm:aspect-[3/2] lg:order-2 lg:aspect-[4/3] lg:min-h-[32rem] xl:min-h-[38rem]">
+              <div className="news-article-page__hero relative order-1 aspect-[16/10] w-full min-w-0 overflow-hidden bg-neutral-100 sm:aspect-[3/2] lg:order-2 lg:aspect-[16/10]">
                 <Image
                   src={article.imageSrc}
                   alt={article.imageAlt}
@@ -109,6 +112,30 @@ export default async function NewsArticlePage({ params }: Props) {
               inlineLinks={article.inlineLinks}
               quote={article.quote}
             />
+
+            {relatedServices.length > 0 ? (
+              <nav
+                className="mt-10 border-t border-black/10 pt-8 md:mt-12 md:pt-10"
+                aria-label="Related services"
+              >
+                <p className="text-[11px] font-bold uppercase tracking-[0.16em] text-black/55">
+                  Related services
+                </p>
+                <ul className="mt-4 flex flex-wrap gap-2">
+                  {relatedServices.map((service) => (
+                    <li key={service.href}>
+                      <Link
+                        href={service.href}
+                        className="inline-flex border-2 border-black/20 px-3 py-2 text-xs font-semibold uppercase tracking-[0.1em] text-black transition-colors hover:border-black hover:bg-black hover:text-white"
+                      >
+                        {service.label}
+                      </Link>
+                    </li>
+                  ))}
+                </ul>
+              </nav>
+            ) : null}
+
             <footer className="news-article-page__date-footer mt-10 border-t border-black/10 pt-6 md:mt-12 md:pt-7">
               <time
                 dateTime={article.publishedAt}
@@ -128,6 +155,22 @@ export default async function NewsArticlePage({ params }: Props) {
           siteOrigin={siteUrl}
         />
       </article>
+
+      <FsInsetCtaCard
+        variant="service"
+        backgroundImageSrc={article.imageSrc}
+        showBorderTop
+        headline="Contact APX"
+        headlineAccent="Fire & Security."
+        description="Discuss a similar fire or security project, maintenance plan or survey across London and the Home Counties."
+      >
+        <CustomPillButton href="/contact" size="lg">
+          Contact APX Fire &amp; Security
+        </CustomPillButton>
+        <CustomPillButton href="tel:02083032280" size="lg" variant="outline">
+          Call 020 8303 2280
+        </CustomPillButton>
+      </FsInsetCtaCard>
 
       {related.length > 0 && (
         <section className={`border-t-2 border-black ${FS_PROJECTS_SECTION_PX}`}>
