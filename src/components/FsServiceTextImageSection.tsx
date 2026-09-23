@@ -1,6 +1,6 @@
 "use client"
 
-import { useId, type ReactNode } from "react"
+import { type ReactNode } from "react"
 import Image from "next/image"
 import { Reveal } from "@/components/Reveal"
 import { fsPlaceholderImageForKey } from "@/lib/fsPlaceholderImages"

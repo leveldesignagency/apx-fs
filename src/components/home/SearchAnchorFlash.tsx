@@ -9,7 +9,6 @@ const FLASH_EVENT = "apx-fs-run-search-flash"
 /** Hold at full white, then allow border to ease back to CSS opacity. */
 const FOCUS_HOLD_MS = 900
 const FOCUS_FADE_MS = 450
-const FOCUS_MS = FOCUS_HOLD_MS + FOCUS_FADE_MS
 
 /** In-memory backup: sessionStorage alone can race with route transitions. */
 let pendingFlashId: string | null = null

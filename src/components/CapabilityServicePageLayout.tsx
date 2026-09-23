@@ -60,7 +60,9 @@ export function CapabilityServicePageLayout({
   ctaLabel,
   ctaHref = "/contact",
 }: CapabilityServicePageLayoutProps) {
-  const heroComplianceLine = heroCompliance ?? compliance
+  const heroComplianceLine =
+    heroCompliance ??
+    (compliance.every((item): item is string => typeof item === "string") ? compliance : undefined)
   return (
     <div className="service-page-root bg-black text-white">
       <ServicePageHero

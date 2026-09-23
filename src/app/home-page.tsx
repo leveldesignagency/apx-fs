@@ -786,7 +786,7 @@ export default function Home() {
                 heroAnimation.titleVisible ? "opacity-100 translate-y-0 blur-0" : "opacity-0 translate-y-12 blur-[6px]"
               }`}
             >
-              APX Fire &amp; Security is an NSI Gold-approved specialist in fire, life-safety and electronic security systems.
+              APX Fire &amp; Security is an NSI Gold-accredited specialist in fire, life-safety and electronic security systems.
             </p>
 
             <div

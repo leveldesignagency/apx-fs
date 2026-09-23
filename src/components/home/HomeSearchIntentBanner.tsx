@@ -5,22 +5,13 @@ import Image from "next/image"
 import { usePathname, useRouter } from "next/navigation"
 import { Search, X, ArrowUpRight } from "lucide-react"
 import { searchFsHomeOfferings, type FsHomeSearchEntry } from "@/data/fsHomeSearchIndex"
-import {
-  FS_HOME_SEARCH_OPEN_EVENT,
-  hasDismissedHomeSearch,
-  markHomeSearchDismissed,
-} from "@/lib/fsHomeSearchUi"
+import { FS_HOME_SEARCH_OPEN_EVENT } from "@/lib/fsHomeSearchUi"
 import { queueSearchAnchorFlash, requestSearchAnchorFlash } from "@/components/home/SearchAnchorFlash"
 import { cn } from "@/lib/utils"
 
 const HERO_IMAGE = "/service%20images/cctv%20/hero-commercial-cctv-system-installation.jpg"
 
-type Props = {
-  /** Delay before the auto banner appears on the homepage (ms). */
-  appearDelayMs?: number
-}
-
-export function HomeSearchIntentBanner({ appearDelayMs = 700 }: Props) {
+export function HomeSearchIntentBanner() {
   const router = useRouter()
   const pathname = usePathname()
   const titleId = useId()
@@ -38,7 +29,6 @@ export function HomeSearchIntentBanner({ appearDelayMs = 700 }: Props) {
   const selected = results[activeIndex] ?? null
 
   const dismiss = useCallback(() => {
-    markHomeSearchDismissed()
     setEntered(false)
     window.setTimeout(() => {
       setOpen(false)
@@ -55,7 +45,6 @@ export function HomeSearchIntentBanner({ appearDelayMs = 700 }: Props) {
 
   const goTo = useCallback(
     (entry: FsHomeSearchEntry) => {
-      markHomeSearchDismissed()
       setEntered(false)
       const hashIdx = entry.href.indexOf("#")
       const path = hashIdx >= 0 ? entry.href.slice(0, hashIdx) : entry.href
@@ -79,15 +68,7 @@ export function HomeSearchIntentBanner({ appearDelayMs = 700 }: Props) {
     [pathname, router]
   )
 
-  // Auto-show once per session on the homepage only
-  useEffect(() => {
-    if (pathname !== "/") return
-    if (hasDismissedHomeSearch()) return
-    const t = window.setTimeout(() => setOpen(true), appearDelayMs)
-    return () => window.clearTimeout(t)
-  }, [appearDelayMs, pathname])
-
-  // Header (and anywhere) can reopen at any time
+  // Header search button (and anywhere) opens on demand only
   useEffect(() => {
     const onOpen = () => openBanner()
     window.addEventListener(FS_HOME_SEARCH_OPEN_EVENT, onOpen)

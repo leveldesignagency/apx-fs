@@ -89,7 +89,7 @@ export async function POST(req: Request) {
     message = message.slice(0, 8000)
   }
 
-  const subject = "CONTACT-(website enquiry, APX FS)"
+  const subject = "CONTACT-(website enquiry, APX Fire & Security)"
 
   const text = [
     "New contact form submission, APX Fire & Security",

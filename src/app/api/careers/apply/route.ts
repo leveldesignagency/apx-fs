@@ -98,7 +98,7 @@ export async function POST(req: Request) {
     "Relevant experience:",
     experience,
     "",
-    `Site: APX FS`,
+    `Site: APX Fire & Security`,
   ].join("\n")
 
   const html = `

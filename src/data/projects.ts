@@ -271,7 +271,7 @@ export const FS_PROJECTS: FsProject[] = [
     shortDescription:
       "Intruder alarm enhancements to improve resilience and monitoring in a busy council-operated environment.",
     summary:
-      "APX FS delivered targeted intruder alarm works at Greenwood Centre with programme planning around live public use of the building.",
+      "APX Fire & Security delivered targeted intruder alarm works at Greenwood Centre with programme planning around live public use of the building.",
     challenge:
       "Enhance intruder alarm resilience at a busy council-operated community centre while maintaining public access, staff workflows and the centre's daily programme of activities.",
     solution:
@@ -296,7 +296,7 @@ export const FS_PROJECTS: FsProject[] = [
     shortDescription:
       "Integrated door entry and access control installation for a modern residential development.",
     summary:
-      "APX FS deployed access and entry infrastructure to improve resident control, visitor management and day-to-day building security.",
+      "APX Fire & Security deployed access and entry infrastructure to improve resident control, visitor management and day-to-day building security.",
     challenge:
       "Provide secure, intuitive access and video entry across a modern residential development, supporting daily resident use, visitor management and front-of-house control at reception and perimeter doors.",
     solution:

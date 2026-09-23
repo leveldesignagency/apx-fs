@@ -44,7 +44,7 @@ export default function RecruitmentPrivacyPage() {
           <section>
             <h2 className="font-title text-xl font-bold text-black">How applications are received</h2>
             <p className="mt-3">
-              Website applications are submitted through our careers form and emailed securely to APX"s designated
+              Website applications are submitted through our careers form and emailed securely to APX&apos;s designated
               recruitment mailbox via our email service provider (Resend). Attachments (including CVs) are included
               with that message. Access is limited to staff involved in recruitment and hiring for the relevant role.
             </p>
@@ -67,9 +67,9 @@ export default function RecruitmentPrivacyPage() {
             <h2 className="font-title text-xl font-bold text-black">How long we keep it</h2>
             <p className="mt-3">
               If you are unsuccessful, we normally retain application materials only for as long as needed to complete
-              the recruitment exercise and for a short period afterwards (typically up to 6"12 months) in case of
+              the recruitment exercise and for a short period afterwards (typically up to 6-12 months) in case of
               related queries or similar vacancies, unless a longer period is required by law or you agree otherwise.
-              Successful applicants" information forms part of the employment record under separate HR policies.
+              Successful applicants&apos; information forms part of the employment record under separate HR policies.
             </p>
           </section>
 
@@ -82,7 +82,7 @@ export default function RecruitmentPrivacyPage() {
               <Link href="/contact" className="font-semibold underline underline-offset-2">
                 contact page
               </Link>
-              . You may also contact the Information Commissioner"s Office (ICO).
+              . You may also contact the Information Commissioner&apos;s Office (ICO).
             </p>
           </section>
 

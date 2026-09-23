@@ -27,7 +27,7 @@ export default function AccessibilityStatementPage() {
       <LegalSection title="How accessible this website is">
         <p>
           We believe this website is partially compliant with WCAG 2.2 Level AA. Some parts may not yet be fully
-          accessible   " for example complex interactive components, third-party embeds if added later, or PDF documents
+          accessible, for example complex interactive components, third-party embeds if added later, or PDF documents
           that are not fully tagged.
         </p>
         <p>

@@ -49,24 +49,28 @@ const CAPABILITIES = [
     title: "Central control panels",
     description:
       "Head-end EVC panels, zoning and monitoring configured for your site layout and duty-holder workflows.",
+    id: "fire-evc-panels",
   },
   {
     Icon: MessageSquare,
     title: "Two-way communication",
     description:
       "Speech paths between refuge points, fire telephones, toilet alarms and the central panel so staff and the fire service can communicate during an incident.",
+    id: "fire-two-way",
   },
   {
     Icon: CheckCircle,
     title: "Commissioning and handover",
     description:
       "BS 5839-9 aligned commissioning, witnessed testing, user guidance and records so the system is demonstrably compliant at completion.",
+    id: "fire-evc-commissioning",
   },
   {
     Icon: Wrench,
     title: "Routine testing and maintenance",
     description:
       "Planned testing, fault attendance and ongoing maintenance options aligned with manufacturer guidance and BS 5839-9.",
+    id: "fire-evc-maintenance",
   },
 ] as const
 

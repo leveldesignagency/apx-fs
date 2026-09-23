@@ -37,6 +37,7 @@ const CAPABILITIES = [
     Icon: HardDrive,
     title: "HD analogue upgrades",
     description: "Upgrade paths from legacy analogue to HD analogue or hybrid recording where a full IP refresh is not required.",
+    id: "cctv-hd-analogue",
   },
   {
     Icon: Smartphone,
@@ -48,11 +49,13 @@ const CAPABILITIES = [
     Icon: Shield,
     title: "Recording and retention",
     description: "Recording design with retention periods agreed to your policy, plus export paths for incidents and insurers.",
+    id: "cctv-recording",
   },
   {
     Icon: Activity,
     title: "Camera health monitoring",
     description: "Health checks and fault alerting so cameras and recorders stay online and recoverable when something fails.",
+    id: "cctv-health",
   },
   {
     Icon: Car,
@@ -64,16 +67,19 @@ const CAPABILITIES = [
     Icon: Scan,
     title: "Analytics where offered",
     description: "Motion, line-crossing and other analytics options where the selected system and site policy support them.",
+    id: "cctv-analytics",
   },
   {
     Icon: Network,
     title: "Network segregation",
     description: "CCTV VLAN / segregated network design so video traffic is isolated from corporate IT where required.",
+    id: "cctv-network",
   },
   {
     Icon: Wrench,
     title: "Maintenance and repairs",
     description: "PPM, corrective repairs and system health visits so commercial CCTV remains reliable after handover.",
+    id: "cctv-maintenance",
   },
 ] as const
 

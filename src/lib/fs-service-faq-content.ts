@@ -267,24 +267,29 @@ const EVAC: ServiceFaqItem[] = [
 
 const GATE_AUTOMATION: ServiceFaqItem[] = [
   {
-    question: "What gate automation systems do you install?",
+    question: "What gate automation services do you offer?",
     answer:
-      "Automated swing and sliding gates, vehicle barriers and related control equipment for commercial, industrial and residential sites, with options to integrate access control, video entry and CCTV.",
+      "Installation, servicing, repairs and maintenance for automated gates, barriers and bollards. Our Gate Safe trained engineers work with leading brands including Roger Technology, BFT, CAME, FAAC and Nice.",
   },
   {
-    question: "How do you approach powered-gate safety?",
+    question: "Are powered gates treated as machinery?",
     answer:
-      "We design and commission with reference to BS EN 12453 for the safety of powered doors and gates where applicable, including appropriate safety edges, photocells and force limitation as the site requires.",
+      "Yes. Powered gates are classed as machines even in domestic settings, so they must be safe, legally compliant, correctly installed and properly maintained. Installations must comply with the Supply of Machinery (Safety) Regulations 2008.",
   },
   {
-    question: "Can gates integrate with access control and CCTV?",
+    question: "Who is responsible if a domestic electric gate injures someone?",
     answer:
-      "Yes. We routinely link gate and barrier control to readers, intercoms, video entry and CCTV so authorised vehicles and visitors are managed within the wider security system.",
+      "As a homeowner you are responsible for ensuring your electric gate is safe and does not pose a risk to family, visitors, delivery drivers or members of the public. Even on private property, if the gate causes injury you almost certainly will be held legally responsible.",
   },
   {
-    question: "Do you survey existing gates and upgrade legacy systems?",
+    question: "Do managed residential sites need regular gate maintenance?",
     answer:
-      "Yes. We can assess existing operators, loops, safety devices and access interfaces, then plan upgrades or replacements with clear handover documentation for operators.",
+      "Yes. Residential complexes managed by landlords or managing agents, or with shared communal entrance gates, are subject to health and safety legislation, including the requirement for regular maintenance of electric gates and barriers. Relevant duties include the Health and Safety at Work Act 1974, the Workplace (Health, Safety and Welfare) Regulations 1992 and PUWER 1998.",
+  },
+  {
+    question: "What risks do you look for on a survey?",
+    answer:
+      "Compliance issues, crushing and dragging points, inadequate safety devices and incorrectly installed equipment, as well as how the entrance is actually used day to day.",
   },
 ]
 
