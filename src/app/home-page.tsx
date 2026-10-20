@@ -115,7 +115,7 @@ export default function Home() {
   const projectsSectionRef = useRef<HTMLElement>(null)
   const projectsHorizontalPxRef = useRef(0)
   const testimonialQuoteStackRef = useRef<HTMLDivElement>(null)
-  const [testimonialsQuoteMinPx, setTestimonialsQuoteMinPx] = useState<number | null>(null)
+  const [testimonialsQuoteMinPx, setTestimonialsQuoteMinPx] = useState<number | undefined>(undefined)
   const [heroAnimation, setHeroAnimation] = useState({
     videoVisible: false,
     titleVisible: false,
@@ -1203,7 +1203,7 @@ export default function Home() {
               <div
                 ref={testimonialQuoteStackRef}
                 className="relative w-full"
-                style={testimonialsQuoteMinPx ? { minHeight: testimonialsQuoteMinPx } : undefined}
+                style={testimonialsQuoteMinPx !== undefined ? { minHeight: testimonialsQuoteMinPx } : undefined}
               >
                 {testimonials.map((t, i) => (
                   <div
