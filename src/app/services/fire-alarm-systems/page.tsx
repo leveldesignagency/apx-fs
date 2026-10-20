@@ -149,11 +149,6 @@ const FIRE_INSTALLATIONS: { title: string; org: string; imageSrc: string }[] = [
     org: "International school · Wembley, London",
     imageSrc: `${FIRE_ALARM_INSTALLATIONS_DIR}/fire-alarm-installation-wembley-french-school-interior-600x400.jpg`,
   },
-  {
-    title: "Aspire Herschel Street, exterior",
-    org: "Apartment block · Slough, Berkshire",
-    imageSrc: `${FIRE_ALARM_INSTALLATIONS_DIR}/access-control-system-installation-aspire-herschel-street-exterior-800x533.jpg`,
-  },
 ]
 
 const REGULATION_QUESTIONS = [
@@ -175,15 +170,21 @@ const heroBridge = (
   />
 )
 
-/** Detector close-up for hero readability; project photos remain in body / installations. */
+/** Detector close-up for the hero. */
 const FIRE_ALARM_HERO_IMAGE_SRC =
   "/service%20images/fire%20alarm%20systems/smoke%20alarm.png"
 
-const FIRE_ALARM_REGULATION_IMAGE_SRC =
-  `${FIRE_ALARM_INSTALLATIONS_DIR}/fire-alarm-installation-hilton-doubletree-kingston-external-600x400.jpg`
-
+/** Exit sign + smoke detector for the installer / systems section. */
 const FIRE_ALARM_BODY_IMAGE_SRC =
-  "/projects/case-studies/university-of-west-london/fire-alarm-installation-university-of-west-london-reception.jpg"
+  "/client%20logos/service%20pages%20image/home-fire-alarm-system-installer-800x533.jpg"
+
+/** Emergency exit / warning cue for the “do you need a system?” section. */
+const FIRE_ALARM_REGULATION_IMAGE_SRC =
+  "/service%20images/fire%20alarm%20systems/green-emergency-exit-sign-ceiling%20hero%20image.jpg"
+
+/** Commercial project backdrop for BAFE strip (kept sharp, no artificial blur). */
+const FIRE_ALARM_BAFE_IMAGE_SRC =
+  `${FIRE_ALARM_INSTALLATIONS_DIR}/fire-alarm-system-sancroft-building-interior-600x400.jpg`
 
 export default function FireSafetySystemsPage() {
   return (
@@ -218,7 +219,7 @@ export default function FireSafetySystemsPage() {
           title="Fire Alarm System Installer London"
           titleId="fire-alarm-installer-london-heading"
           imageSrc={FIRE_ALARM_BODY_IMAGE_SRC}
-          imageAlt="Fire alarm system installation at a commercial premises in London"
+          imageAlt="Smoke detector and emergency exit sign on a fire detection and warning system"
         >
           <h3 className="font-title text-2xl font-semibold text-white">Bespoke Fire Alarm Systems</h3>
           <p>
@@ -247,7 +248,7 @@ export default function FireSafetySystemsPage() {
           title="Do all businesses need a fire alarm system?"
           titleId="fire-alarm-regulation-heading"
           imageSrc={FIRE_ALARM_REGULATION_IMAGE_SRC}
-          imageAlt="Commercial premises where fire detection and warning arrangements may be required"
+          imageAlt="Illuminated emergency exit sign for fire warning and evacuation"
         >
           <p>
             UK fire safety law requires suitable fire detection and warning arrangements for the premises, determined by
@@ -313,9 +314,9 @@ export default function FireSafetySystemsPage() {
           title="BAFE Registered"
           titleId="bafe-registered-heading"
           variant="light"
-          imageSrc={`${FIRE_ALARM_INSTALLATIONS_DIR}/fire-alarm-system-sancroft-building-exterior-600x400.jpg`}
-          imageAlt="Fire alarm installation at Sancroft Building, City of London"
-          imageClassName="scale-110 blur-lg brightness-[0.55]"
+          imageSrc={FIRE_ALARM_BAFE_IMAGE_SRC}
+          imageAlt="Commercial interior prepared for fire detection and alarm installation"
+          imageClassName="object-cover object-center brightness-[0.72]"
           imageOverlaySrc="/accreditations%20mono/Coloured/BAFE-01.svg"
           imageOverlayAlt="BAFE Fire Safety Register"
           imageOverlayClassName="max-w-[min(21rem,78%)]"
