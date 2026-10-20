@@ -76,12 +76,12 @@ export function NewsHubClient({ articles }: NewsHubClientProps) {
                 Security systems news &amp; information
               </h1>
               <p className="mt-4 max-w-2xl text-left text-base font-normal tracking-tight text-black/70 sm:text-lg md:text-xl">
-                Project wins, sector updates and practical guidance from our fire and security teams across London and
+                Project wins, sector updates and practical guidance from our Fire and Security teams across London and
                 the Home Counties.
               </p>
             </div>
 
-            <aside className="news-hub__filter-panel w-full min-w-0 border-2 border-black bg-white p-5 sm:p-6 lg:p-7">
+            <aside className="news-hub__filter-panel w-full min-w-0 border border-black bg-white p-5 sm:p-6 lg:p-7">
               <div className="border-b border-black/10 pb-4">
                 <h2 className="text-xs font-bold uppercase tracking-[0.16em] text-black/55">Find an article</h2>
                 <p className="mt-1.5 text-sm font-medium text-black/60">{articleCountLabel}</p>
@@ -95,10 +95,16 @@ export function NewsHubClient({ articles }: NewsHubClientProps) {
                 />
                 <input
                   type="search"
+                  inputMode="search"
+                  enterKeyHint="search"
                   value={query}
                   onChange={(e) => setQuery(e.target.value)}
                   placeholder="Search headlines, topics, locations…"
-                  className="w-full border-2 border-black bg-white py-3 pl-12 pr-4 text-base text-black placeholder:text-black/40 focus:outline-none focus:ring-2 focus:ring-black/20"
+                  autoComplete="off"
+                  autoCorrect="off"
+                  autoCapitalize="off"
+                  spellCheck={false}
+                  className="w-full border border-black bg-white py-3 pl-12 pr-4 text-base text-black placeholder:text-black/40 focus:outline-none focus:ring-2 focus:ring-black/20"
                 />
               </label>
 
@@ -144,13 +150,13 @@ export function NewsHubClient({ articles }: NewsHubClientProps) {
       <section className={`pt-12 pb-14 md:pt-14 md:pb-16 lg:pt-16 lg:pb-20 ${FS_PROJECTS_SECTION_PX}`}>
         <div className={`${FS_PROJECTS_CONTENT_MAX} news-hub`}>
           {filtered.length === 0 ? (
-            <div className="border-2 border-dashed border-black/25 px-6 py-16 text-center">
+            <div className="border border-dashed border-black/25 px-6 py-16 text-center">
               <p className="font-title text-2xl font-bold text-black">No articles found</p>
               <p className="mt-3 text-base text-black/65">Try a different search term or reset your filters.</p>
               <button
                 type="button"
                 onClick={clearFilters}
-                className="mt-6 border-2 border-black px-5 py-2.5 text-xs font-bold uppercase tracking-[0.14em] text-black transition-colors hover:bg-black hover:text-white"
+                className="mt-6 border border-black px-5 py-2.5 text-xs font-bold uppercase tracking-[0.14em] text-black transition-colors hover:bg-black hover:text-white"
               >
                 Show all articles
               </button>

@@ -158,17 +158,26 @@ export function ServiceCombobox({
           ref={inputRef}
           id={id}
           type="text"
+          inputMode="search"
+          enterKeyHint="search"
           role="combobox"
           aria-expanded={open}
           aria-controls={listId}
           aria-autocomplete="list"
           autoComplete="off"
+          autoCorrect="off"
+          autoCapitalize="off"
+          spellCheck={false}
           required={required}
           value={query}
           placeholder={placeholder}
           onChange={(e) => onInputChange(e.target.value)}
           onFocus={() => setOpenState(true)}
-          onClick={() => setOpenState(true)}
+          onClick={() => {
+            setOpenState(true)
+            // Re-assert focus so iOS brings up the keyboard when tapping the field
+            inputRef.current?.focus({ preventScroll: true })
+          }}
           onKeyDown={(e) => {
             if (e.key === "Escape") {
               setOpenState(false)
@@ -184,7 +193,7 @@ export function ServiceCombobox({
             }
           }}
           className={cn(
-            "quote-form-field quote-form-dropdown w-full rounded-none border border-white/15 bg-black py-3.5 pl-4 pr-12 text-left text-[17px] font-bold text-white outline-none transition-[border,box-shadow] placeholder:font-normal placeholder:text-white/40 focus:border-white/50 focus:bg-black focus:ring-0",
+            "quote-form-field quote-form-dropdown w-full rounded-none border border-white/15 bg-black py-3.5 pl-4 pr-12 text-left text-base font-bold text-white outline-none transition-[border,box-shadow] placeholder:font-normal placeholder:text-white/40 focus:border-white/50 focus:bg-black focus:ring-0 sm:text-[17px]",
             inputClassName
           )}
         />

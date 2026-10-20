@@ -1,34 +1,34 @@
 export const DELIVERY_METHODOLOGY_STEPS = [
   {
-    title: "Survey and consultation",
+    title: "Survey and Consultation",
     paragraphs: [
-      "Every project starts with understanding the site and what you need the systems to do. We walk the building, review existing equipment where relevant, and talk through risks, constraints and how the space will be used day to day.",
+      "Every project starts with understanding the site and what you need the systems to do. We walk the building, review existing equipment where relevant, and talk through access, programme and how the space will be used day to day.",
       "You leave this stage with a clear brief: what needs protecting or detecting, which standards apply, and how fire, life-safety and security systems should work together, before drawings or programmes are locked in.",
     ],
     items: [
       "Site survey and existing-system review",
       "Consultation with clients, consultants and facilities teams",
-      "Risk, access and programme constraints identified early",
+      "Access, programme and site constraints identified early",
       "Agreed brief for design and pricing",
       "Engineer competency matched to the systems involved",
     ],
   },
   {
-    title: "Design and coordination",
+    title: "Design and Coordination",
     paragraphs: [
-      "We turn the brief into coordinated designs, layouts, cause-and-effect, interfaces and product selections, so fire and security sit cleanly alongside electrical, mechanical and architectural work.",
-      "Where a project has employer’s requirements (the client’s written specification of what the finished building must deliver), we review those documents alongside drawings so our design meets the stated outcomes, not just a generic template.",
+      "We turn the brief into coordinated designs, layouts, cause-and-effect, interfaces and product selections, so Fire and Security sit cleanly alongside electrical, mechanical and architectural work.",
+      "Where a project has employer's requirements (the client's written specification of what the finished building must deliver), we review those documents alongside drawings so our design meets the stated outcomes, not just a generic template.",
     ],
     items: [
       "Design drawings and technical proposals",
       "Coordination with consultants, M&E and principal contractors",
-      "Review of employer’s requirements and specifications",
-      "Clash checks and design queries resolved early",
+      "Review of employer's requirements and specifications",
+      "Design queries raised and resolved early with the wider team",
       "Value options presented where they improve cost or programme",
     ],
   },
   {
-    title: "Pre-construction planning",
+    title: "Pre-Construction Planning",
     paragraphs: [
       "Before engineers mobilise, we plan how the work will run on site: routes, sequencing with other trades, materials, and health and safety. That keeps installation predictable and reduces last-minute changes.",
       "RAMS, programmes, procurement and resource plans are prepared in advance so the team arrives with the right people, tools and materials for day one.",
@@ -56,7 +56,7 @@ export const DELIVERY_METHODOLOGY_STEPS = [
     ],
   },
   {
-    title: "Commissioning and certification",
+    title: "Commissioning and Certification",
     paragraphs: [
       "Every system is tested in a structured way: individual devices, full cause-and-effect, and interfaces with related systems. Results are recorded so you can see what was verified and when.",
       "We work with clients, consultants and approving parties so systems are operational, certified where required, and ready for occupation, with client training arranged as part of commissioning where needed.",
@@ -70,7 +70,7 @@ export const DELIVERY_METHODOLOGY_STEPS = [
     ],
   },
   {
-    title: "Handover, maintenance and support",
+    title: "Handover, Maintenance and Support",
     paragraphs: [
       "Handover is more than finishing the install. You receive the information needed to operate and maintain the systems: O&M manuals, record (as-built) drawings, certification, asset information and practical user training.",
       "After completion we can provide planned maintenance, reactive call-out where contracted, and upgrades over the system lifecycle, so support continues beyond the construction phase.",

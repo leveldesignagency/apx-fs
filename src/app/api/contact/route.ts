@@ -1,16 +1,26 @@
+import { buildContactFormSubject } from "@/lib/careers-email-subject"
+import { buildFsBrandedEmailHtml, contactMethodLabel } from "@/lib/fs-branded-email"
 import { sendSiteEmailViaResend } from "@/lib/send-site-email"
+import {
+  allowRequest,
+  allowRequestAll,
+  clientIpFromRequest,
+  contentLengthOk,
+  CONTACT_RATE,
+  CONTACT_EMAIL_DAILY,
+  CONTACT_IP_DAILY,
+  MAX_CONTACT_JSON_BYTES,
+  defaultAllowedHosts,
+  normalizeEmailKey,
+  originAllowed,
+} from "@/lib/api-abuse-guard"
+import { getFsSiteUrl } from "@/lib/seo"
+import { verifyTurnstileToken } from "@/lib/turnstile"
 
 export const runtime = "nodejs"
 
 const MIN_FORM_MS = 2500
-
-function esc(s: string): string {
-  return s
-    .replace(/&/g, "&amp;")
-    .replace(/</g, "&lt;")
-    .replace(/>/g, "&gt;")
-    .replace(/"/g, "&quot;")
-}
+const ALLOWED_METHODS = new Set(["phone", "email", "text"])
 
 type Body = {
   name?: string
@@ -21,14 +31,32 @@ type Body = {
   serviceLabel?: string
   contactMethod?: string
   message?: string
-  /** Honeypot, must be empty */
+  /** honeypot */
   website?: string
   privacyConsent?: boolean
   smsConsent?: boolean
   formStartedAt?: number
+  turnstileToken?: string
 }
 
 export async function POST(req: Request) {
+  if (!contentLengthOk(req, MAX_CONTACT_JSON_BYTES)) {
+    return Response.json({ error: "Request too large." }, { status: 413 })
+  }
+
+  const ip = clientIpFromRequest(req)
+  if (!originAllowed(req, defaultAllowedHosts(getFsSiteUrl()))) {
+    return Response.json({ error: "Forbidden." }, { status: 403 })
+  }
+  if (!allowRequest(`fs-contact:${ip}`, CONTACT_RATE.limit, CONTACT_RATE.windowMs)) {
+    return Response.json({ error: "Too many requests. Please try again later." }, { status: 429 })
+  }
+
+  const contentType = req.headers.get("content-type") || ""
+  if (!contentType.toLowerCase().includes("application/json")) {
+    return Response.json({ error: "Unsupported content type." }, { status: 415 })
+  }
+
   let body: Body
   try {
     body = (await req.json()) as Body
@@ -36,9 +64,13 @@ export async function POST(req: Request) {
     return Response.json({ error: "Invalid JSON." }, { status: 400 })
   }
 
-  // Honeypot: bots often fill hidden fields
   if (String(body.website ?? "").trim().length > 0) {
     return Response.json({ ok: true })
+  }
+
+  const turnstile = await verifyTurnstileToken(body.turnstileToken, ip)
+  if (!turnstile.ok) {
+    return Response.json({ error: turnstile.error }, { status: 400 })
   }
 
   const formStartedAt = Number(body.formStartedAt ?? 0)
@@ -64,18 +96,37 @@ export async function POST(req: Request) {
   if (name.length < 2 || name.length > 200) {
     return Response.json({ error: "Please enter your name." }, { status: 400 })
   }
-  if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email) || email.length > 320) {
+
+  if (!ALLOWED_METHODS.has(contactMethod)) {
+    return Response.json({ error: "Please choose a preferred contact method." }, { status: 400 })
+  }
+
+  const emailOk = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email) && email.length <= 320
+  const phoneOk = phone.length >= 8 && phone.length <= 40
+
+  if (!emailOk && !phoneOk) {
+    return Response.json(
+      { error: "Please provide at least one contact method (email or phone)." },
+      { status: 400 }
+    )
+  }
+
+  if (contactMethod === "email" && !emailOk) {
     return Response.json({ error: "Please enter a valid email address." }, { status: 400 })
   }
-  if (phone.length > 40) {
-    return Response.json({ error: "Phone number is too long." }, { status: 400 })
-  }
-  if ((contactMethod === "phone" || contactMethod === "text") && phone.length < 8) {
+  if ((contactMethod === "phone" || contactMethod === "text") && !phoneOk) {
     return Response.json(
       { error: "Please enter a phone number for your preferred contact method." },
       { status: 400 }
     )
   }
+  if (email.length > 0 && !emailOk) {
+    return Response.json({ error: "Please enter a valid email address." }, { status: 400 })
+  }
+  if (phone.length > 0 && phone.length > 40) {
+    return Response.json({ error: "Phone number is too long." }, { status: 400 })
+  }
+
   if (contactMethod === "text" && body.smsConsent !== true) {
     return Response.json(
       { error: "Please confirm you consent to being contacted by SMS." },
@@ -89,79 +140,102 @@ export async function POST(req: Request) {
     message = message.slice(0, 8000)
   }
 
-  const subject = "CONTACT-(website enquiry, APX Fire & Security)"
+  const rateKey = emailOk ? normalizeEmailKey(email) : `phone:${phone.replace(/\s+/g, "")}`
+  if (
+    !allowRequestAll([
+      { key: `fs-contact-email-day:${rateKey}`, ...CONTACT_EMAIL_DAILY },
+      { key: `fs-contact-ip-day:${ip}`, ...CONTACT_IP_DAILY },
+    ])
+  ) {
+    return Response.json(
+      {
+        error:
+          "You have already sent an enquiry recently. Please wait 24 hours, or email us directly if urgent.",
+      },
+      { status: 429 }
+    )
+  }
+
+  const subject = buildContactFormSubject()
+  const methodLabel = contactMethodLabel(contactMethod)
+
+  const rows = [
+    { label: "Name", value: name },
+    { label: "Company", value: companyName || "(not provided)" },
+    { label: "Email", value: emailOk ? email : "(not provided)" },
+    { label: "Phone", value: phoneOk ? phone : "(not provided)" },
+    { label: "Service", value: serviceLabel || "(not selected)" },
+    { label: "Preferred contact method", value: methodLabel },
+    {
+      label: "SMS consent",
+      value: contactMethod === "text" ? (body.smsConsent ? "Yes" : "No") : "N/A",
+    },
+    { label: "Privacy policy acknowledged", value: "Yes" },
+  ]
 
   const text = [
-    "New contact form submission, APX Fire & Security",
+    "CONTACT FORM SUBMISSION — APX Fire & Security",
     "",
-    `Name: ${name}`,
-    `Company: ${companyName || "(not provided)"}`,
-    `Email: ${email}`,
-    `Phone: ${phone || "(not provided)"}`,
-    `Service: ${serviceLabel || "(not selected)"}`,
-    `Preferred contact: ${contactMethod || "(not selected)"}`,
-    `SMS consent: ${contactMethod === "text" ? (body.smsConsent ? "yes" : "no") : "n/a"}`,
-    `Privacy consent: yes`,
+    ...rows.map((r) => `${r.label}: ${r.value}`),
     "",
     "Message:",
     message,
   ].join("\n")
 
-  const html = `
-  <h2 style="font-family:system-ui,sans-serif">Contact form, APX Fire &amp; Security</h2>
-  <p style="font-family:system-ui,sans-serif"><strong>Name:</strong> ${esc(name)}</p>
-  <p style="font-family:system-ui,sans-serif"><strong>Company:</strong> ${esc(companyName || "(not provided)")}</p>
-  <p style="font-family:system-ui,sans-serif"><strong>Email:</strong> ${esc(email)}</p>
-  <p style="font-family:system-ui,sans-serif"><strong>Phone:</strong> ${esc(phone || "(not provided)")}</p>
-  <p style="font-family:system-ui,sans-serif"><strong>Service:</strong> ${esc(serviceLabel || "(not selected)")}</p>
-  <p style="font-family:system-ui,sans-serif"><strong>Preferred contact:</strong> ${esc(contactMethod || "(not selected)")}</p>
-  <p style="font-family:system-ui,sans-serif"><strong>SMS consent:</strong> ${esc(
-    contactMethod === "text" ? (body.smsConsent ? "yes" : "no") : "n/a"
-  )}</p>
-  <p style="font-family:system-ui,sans-serif"><strong>Privacy consent:</strong> yes</p>
-  <h3 style="font-family:system-ui,sans-serif">Message</h3>
-  <pre style="font-family:system-ui,sans-serif;white-space:pre-wrap">${esc(message)}</pre>
-  `
+  const html = buildFsBrandedEmailHtml({
+    title: "Contact Form Submission",
+    intro: "A new enquiry was submitted via the APX Fire & Security website.",
+    rows,
+    messageLabel: "Message",
+    messageBody: message,
+    footerNote: "Reply to this email to respond to the enquirer (reply-to is set to their address when provided).",
+  })
 
   const sent = await sendSiteEmailViaResend({
     subject,
     text,
     html,
-    replyTo: email,
+    replyTo: emailOk ? email : undefined,
   })
 
   if (!sent.ok) {
     return Response.json({ error: sent.message }, { status: sent.status })
   }
 
-  // Best-effort confirmation to the enquirer (does not fail the submission if this fails)
-  await sendSiteEmailViaResend({
-    to: email,
-    subject: "We received your enquiry, APX Fire & Security",
-    replyTo: "enquiries@apx-fs.co.uk",
-    text: [
-      `Hello ${name},`,
-      "",
-      "Thank you for contacting APX Fire & Security. We have received your enquiry and will respond using your preferred contact method as soon as we can.",
-      "",
-      ...(serviceLabel ? [`Service: ${serviceLabel}`, ""] : []),
-      "If your enquiry is urgent, call 020 8303 2280.",
-      "",
-      "APX Fire & Security",
-      "enquiries@apx-fs.co.uk",
-    ].join("\n"),
-    html: `
-      <p style="font-family:system-ui,sans-serif">Hello ${esc(name)},</p>
-      <p style="font-family:system-ui,sans-serif">Thank you for contacting APX Fire &amp; Security. We have received your enquiry and will respond using your preferred contact method as soon as we can.</p>
-      ${
-        serviceLabel
-          ? `<p style="font-family:system-ui,sans-serif"><strong>Service:</strong> ${esc(serviceLabel)}</p>`
-          : ""
-      }
-      <p style="font-family:system-ui,sans-serif">If your enquiry is urgent, call <a href="tel:02083032280">020 8303 2280</a>.</p>
-      <p style="font-family:system-ui,sans-serif">APX Fire &amp; Security<br/>enquiries@apx-fs.co.uk</p>
-    `,
-  }).catch(() => null)
+  // auto-reply once we've already cleared the spam checks
+  if (emailOk) {
+    await sendSiteEmailViaResend({
+      to: email,
+      subject: "We received your enquiry — APX Fire & Security",
+      replyTo: "enquiries@apx-fs.co.uk",
+      text: [
+        `Hello ${name},`,
+        "",
+        "Thank you for contacting APX Fire & Security. We have received your enquiry and will respond using your preferred contact method as soon as we can.",
+        "",
+        `Preferred contact: ${methodLabel}`,
+        ...(serviceLabel ? [`Service: ${serviceLabel}`] : []),
+        "",
+        "If your enquiry is urgent, call 020 8303 2280.",
+        "",
+        "We process your details to respond to this enquiry only. See our privacy policy: https://www.apx-fs.co.uk/privacy",
+        "",
+        "APX Fire & Security",
+        "enquiries@apx-fs.co.uk",
+      ].join("\n"),
+      html: buildFsBrandedEmailHtml({
+        title: "We Received Your Enquiry",
+        intro: `Hello ${name}, thank you for contacting APX Fire & Security. We have received your enquiry and will respond using your preferred contact method as soon as we can.`,
+        rows: [
+          { label: "Preferred contact method", value: methodLabel },
+          ...(serviceLabel ? [{ label: "Service", value: serviceLabel }] : []),
+          { label: "Urgent?", value: "Call 020 8303 2280" },
+        ],
+        footerNote:
+          "We process your details to respond to this enquiry. You can read our privacy policy at https://www.apx-fs.co.uk/privacy. This is an automated confirmation — reply to this email if you need to add anything.",
+      }),
+    }).catch(() => null)
+  }
 
   return Response.json({ ok: true })
 }

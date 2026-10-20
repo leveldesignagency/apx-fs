@@ -22,7 +22,12 @@ function readQueuedFlashId(): string {
   } catch {
     /* ignore */
   }
-  const fromHash = typeof window !== "undefined" ? window.location.hash.replace(/^#/, "").trim() : ""
+  // Only honour hash when it was explicitly queued for search flash — bare
+  // `/#services` (or restored hashes) must not steal the homepage hero on load.
+  const fromHash =
+    typeof window !== "undefined" && (fromMem || fromStore)
+      ? window.location.hash.replace(/^#/, "").trim()
+      : ""
   return (fromMem || fromStore || fromHash).trim()
 }
 

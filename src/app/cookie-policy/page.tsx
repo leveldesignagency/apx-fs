@@ -254,7 +254,7 @@ export default function CookiePolicyPage() {
           onClick={() => {
             window.dispatchEvent(new Event("apx:open-cookie-settings"))
           }}
-          className={`cookie-policy-prefs-btn inline-flex items-center gap-2 rounded-tl-2xl rounded-br-2xl border-2 px-5 py-3 text-sm font-bold transition-colors ${
+          className={`cookie-policy-prefs-btn inline-flex items-center gap-2 rounded-tl-2xl rounded-br-2xl border px-5 py-3 text-sm font-bold transition-colors ${
             isDark
               ? "border-white bg-black text-white hover:bg-white hover:text-black"
               : "border-black bg-white text-black hover:bg-black hover:text-white"

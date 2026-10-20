@@ -13,9 +13,11 @@ import { ServicePageHero } from "@/components/ServicePageHero"
 import { Reveal } from "@/components/Reveal"
 import { ServiceItemReveal } from "@/components/ServiceItemReveal"
 import { CustomPillButton } from "@/components/ui/CustomPillButton"
+import { CallPhoneCta } from "@/components/ui/CallPhoneCta"
 import { ServiceFeatureIconCard } from "@/components/ServiceFeatureIconCard"
 import { serviceHeroImages } from "@/lib/serviceHeroImages"
 import { Home, Shield, Smartphone } from "lucide-react"
+import { SERVICE_HERO_BRIDGE_GRADIENT } from "@/lib/heroBackgroundGradients"
 
 /** Public folder: `public/service images/cctv /` */
 const DOMESTIC_CCTV_BESPOKE_IMAGE_SRC = "/service%20images/cctv%20/bespoke%20domestic%20cctv.jpg"
@@ -51,46 +53,47 @@ const WHAT_WE_OFFER_ITEMS = [
 
 export default function DomesticCctvPage() {
   return (
-    <div className="service-page-root min-h-screen overflow-x-hidden text-white">
-      <div className="relative">
-        <ServicePageHero
-          title="Domestic CCTV systems"
-          imageSrc={serviceHeroImages.domesticCctv}
-          heroCompliance={["BS EN 62676"]}
-          afterIntro={<FsCctvSubpageHeroButtons />}
-          intro={
-            <>
-              <p className="mb-4">
-                APX&apos;s primary focus is commercial fire and security, but we also design and install domestic CCTV for
-                homeowners across <strong className="font-semibold text-white">London and the Home Counties</strong>{" "}
-                where a residential survey is a good fit.
-              </p>
-              <p>
-                Systems are survey-led and specified for your property, we do not publish package prices online because
-                coverage, cabling and recording needs vary. We can configure privacy-conscious coverage and explain
-                signage and retention at handover;{" "}
-                <strong className="font-semibold text-white">
-                  you remain responsible for the lawful operation of CCTV under UK GDPR
-                </strong>{" "}
-                (including what you record of neighbours and public areas).
-              </p>
-            </>
-          }
-        />
-        <FsCctvCameraTypesStrip />
-      </div>
+    <div className="service-page-root min-h-screen overflow-x-hidden bg-[var(--page-bg)] text-white">
+      <ServicePageHero
+        title="Domestic CCTV systems"
+        imageSrc={serviceHeroImages.domesticCctv}
+        heroCompliance={["BS EN 62676"]}
+        heroSummary="Domestic CCTV surveyed and installed for homes across London and the Home Counties, with clear guidance on privacy and recording."
+        afterIntro={<FsCctvSubpageHeroButtons />}
+        intro={
+          <>
+            <p className="mb-4">
+              APX&apos;s primary focus is commercial Fire and Security, but we also design and install domestic CCTV for
+              homeowners across <strong className="font-semibold text-white">London and the Home Counties</strong>{" "}
+              where a residential survey is a good fit.
+            </p>
+            <p>
+              Systems are survey-led and specified for your property, we do not publish package prices online because
+              coverage, cabling and recording needs vary. We can configure privacy-conscious coverage and explain
+              signage and retention at handover;{" "}
+              <strong className="font-semibold text-white">
+                you remain responsible for the lawful operation of CCTV under UK GDPR
+              </strong>{" "}
+              (including what you record of neighbours and public areas).
+            </p>
+          </>
+        }
+      />
 
-      <div className="relative bg-black">
+      <div className="relative bg-[var(--page-bg)]">
         <div
-          className="pointer-events-none absolute top-0 left-0 right-0 h-28 sm:h-36"
-          style={{
-            background:
-              "linear-gradient(to bottom, rgba(0,0,0,0) 0%, rgba(0,0,0,0.82) 52%, rgba(0,0,0,1) 100%)",
-          }}
+          className="pointer-events-none absolute left-0 right-0 top-0 h-28 sm:h-36"
+          style={{ background: SERVICE_HERO_BRIDGE_GRADIENT }}
           aria-hidden
         />
 
-        <section className="container relative z-[1] mx-auto px-6 py-16 lg:py-16">
+        <div className="relative z-[1] border-t border-white/15">
+          <FsCctvCameraTypesStrip />
+        </div>
+
+        <div className="border-t border-white/15" />
+
+        <section className="site-container relative z-[1] py-16 lg:py-16">
           <Reveal>
             <h2 className="mb-10 text-left font-title text-3xl font-bold text-white sm:text-4xl">
               Residential CCTV, surveyed properly
@@ -225,15 +228,13 @@ export default function DomesticCctvPage() {
           serviceTitleShort="Domestic CCTV"
           ctaImageSrc={serviceHeroImages.domesticCctv}
           ctaHeadline="Request a"
-          ctaHeadlineAccent="residential survey."
+          ctaHeadlineAccent="Residential Survey."
           ctaDescription="Free site visit and recommendations for homes in London and the Home Counties. Quotes follow the survey, no online package pricing. No obligation."
         >
           <CustomPillButton href={RESIDENTIAL_ENQUIRY_HREF} size="md">
             Residential CCTV enquiry
           </CustomPillButton>
-          <CustomPillButton href="tel:02083032280" size="md" variant="outline">
-            Call 020 8303 2280
-          </CustomPillButton>
+          <CallPhoneCta size="md" />
         </ServicePageClosingSections>
       </div>
     </div>

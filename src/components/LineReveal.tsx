@@ -90,7 +90,17 @@ export function LineReveal({
     const ordered: LineBox[] = [...buckets.entries()]
       .sort((a, b) => a[0] - b[0])
       .map(([top, ws]) => ({ top, text: ws.join(" ") }))
-    setLines(ordered.map((l) => l.text))
+    const next = ordered.map((l) => l.text)
+    setLines((prev) => {
+      if (
+        prev &&
+        prev.length === next.length &&
+        prev.every((line, i) => line === next[i])
+      ) {
+        return prev
+      }
+      return next
+    })
   }, [text])
 
   useLayoutEffect(() => {
@@ -138,7 +148,7 @@ export function LineReveal({
       />
       {useLines ? (
         lines.map((line, i) => (
-          <span key={`${i}-${line.slice(0, 12)}`} className="line-reveal__line-wrap block overflow-hidden">
+          <span key={i} className="line-reveal__line-wrap block overflow-hidden">
             <span
               className={cn("line-reveal__line block", active && "line-reveal__line--in")}
               style={{ "--line-delay": `${delayMs + i * staggerMs}ms` } as CSSProperties}

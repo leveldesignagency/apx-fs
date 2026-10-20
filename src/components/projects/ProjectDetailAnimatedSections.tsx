@@ -60,7 +60,7 @@ export function ProjectDetailGallery({ title, images }: ProjectDetailGalleryProp
         >
           Gallery
         </span>
-        <h2 className="font-title text-2xl font-bold text-white md:text-3xl lg:text-4xl">Project images</h2>
+        <h2 className="font-title text-2xl font-bold text-white md:text-3xl lg:text-4xl">Project Images</h2>
         <p className="mt-3 max-w-2xl text-sm text-white/60 md:text-base">
           Tap or click an image to open the gallery. Use arrows or keyboard left/right to move between photos.
         </p>
@@ -105,14 +105,14 @@ export function ProjectDetailGallery({ title, images }: ProjectDetailGalleryProp
               <button
                 type="button"
                 onClick={closeLightbox}
-                className="inline-flex h-10 w-10 shrink-0 items-center justify-center border-2 border-white/70 text-white hover:border-white"
+                className="inline-flex h-10 w-10 shrink-0 items-center justify-center border border-white/70 text-white hover:border-white"
                 aria-label="Close gallery"
               >
                 <X className="h-5 w-5" />
               </button>
             </div>
 
-            <div className="relative min-h-0 flex-1 overflow-hidden border-2 border-white/45">
+            <div className="relative min-h-0 flex-1 overflow-hidden border border-white/45">
               <Image
                 src={images[lightboxIndex]!}
                 alt={`${title} image ${lightboxIndex + 1}`}
@@ -127,7 +127,7 @@ export function ProjectDetailGallery({ title, images }: ProjectDetailGalleryProp
                   <button
                     type="button"
                     onClick={prevImage}
-                    className="absolute left-2 top-1/2 z-10 inline-flex h-11 w-11 -translate-y-1/2 items-center justify-center border-2 border-white/70 bg-black/55 text-white hover:border-white sm:left-3"
+                    className="absolute left-2 top-1/2 z-10 inline-flex h-11 w-11 -translate-y-1/2 items-center justify-center border border-white/70 bg-black/55 text-white hover:border-white sm:left-3"
                     aria-label="Previous image"
                   >
                     <ChevronLeft className="h-6 w-6" />
@@ -135,7 +135,7 @@ export function ProjectDetailGallery({ title, images }: ProjectDetailGalleryProp
                   <button
                     type="button"
                     onClick={nextImage}
-                    className="absolute right-2 top-1/2 z-10 inline-flex h-11 w-11 -translate-y-1/2 items-center justify-center border-2 border-white/70 bg-black/55 text-white hover:border-white sm:right-3"
+                    className="absolute right-2 top-1/2 z-10 inline-flex h-11 w-11 -translate-y-1/2 items-center justify-center border border-white/70 bg-black/55 text-white hover:border-white sm:right-3"
                     aria-label="Next image"
                   >
                     <ChevronRight className="h-6 w-6" />
@@ -151,7 +151,7 @@ export function ProjectDetailGallery({ title, images }: ProjectDetailGalleryProp
                     key={`${img}-thumb-${idx}`}
                     type="button"
                     onClick={() => setLightboxIndex(idx)}
-                    className={`relative h-14 w-20 shrink-0 overflow-hidden border-2 sm:h-16 sm:w-24 ${
+                    className={`relative h-14 w-20 shrink-0 overflow-hidden border sm:h-16 sm:w-24 ${
                       idx === lightboxIndex ? "border-white" : "border-white/50"
                     }`}
                     aria-label={`Go to image ${idx + 1}`}
@@ -223,7 +223,7 @@ export function ProjectDetailRelated({ related }: ProjectDetailRelatedProps) {
   return (
     <>
       <Reveal>
-        <h2 className="pt-4 text-2xl font-title font-semibold md:pt-6 md:text-3xl">Explore other projects</h2>
+        <h2 className="pt-4 text-2xl font-title font-semibold md:pt-6 md:text-3xl">Explore Other Projects</h2>
       </Reveal>
       <div className="mt-7 grid grid-cols-2 gap-4 md:grid-cols-3 lg:grid-cols-6">
         {related.map((item, idx) => (

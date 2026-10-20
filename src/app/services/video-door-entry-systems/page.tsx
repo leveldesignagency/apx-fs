@@ -6,9 +6,11 @@ import { ServicePageClosingSections } from "@/components/ServicePageClosingSecti
 import { FsServiceTextImageSection } from "@/components/FsServiceTextImageSection"
 import { FsServiceTextImageSectionGroup } from "@/components/FsServiceTextImageSectionGroup"
 import { CustomPillButton } from "@/components/ui/CustomPillButton"
+import { CallPhoneCta } from "@/components/ui/CallPhoneCta"
 import { ServicePageHero } from "@/components/ServicePageHero"
 import { Reveal } from "@/components/Reveal"
 import { ServiceItemReveal } from "@/components/ServiceItemReveal"
+import { ServiceInstallationsGrid } from "@/components/ServiceInstallationsGrid"
 import { serviceHeroImages } from "@/lib/serviceHeroImages"
 import {
   FS_SERVICE_IMAGE_GROW_INNER,
@@ -21,6 +23,7 @@ import { ServiceTechnologyProductsSection } from "@/components/ServiceTechnology
 import { ServiceFeatureIconCard } from "@/components/ServiceFeatureIconCard"
 import { FS_SERVICE_ROUTES } from "@/lib/fs-service-routes"
 import {
+  BellOff,
   Building2,
   Car,
   Eye,
@@ -28,14 +31,46 @@ import {
   Link2,
   Network,
   Phone,
+  ShieldAlert,
   Smartphone,
+  UserCheck,
   Video,
   Wrench,
   type LucideIcon,
 } from "lucide-react"
+import { SERVICE_HERO_BRIDGE_GRADIENT } from "@/lib/heroBackgroundGradients"
 
 const linkClass =
   "underline decoration-white/45 underline-offset-[3px] transition-colors hover:decoration-white"
+
+/** Under-hero benefit strip (video door entry). */
+const VIDEO_DOOR_BENEFITS: { Icon: LucideIcon; title: string; text: string }[] = [
+  {
+    Icon: UserCheck,
+    title: "Check Visitors",
+    text: "See exactly who is at the front door before deciding whether to open it.",
+  },
+  {
+    Icon: BellOff,
+    title: "Silent Alerts",
+    text: "Discreetly monitor activity and raise alerts without drawing attention at the door.",
+  },
+  {
+    Icon: ShieldAlert,
+    title: "Prevent Crime",
+    text: "Visible video entry acts as a deterrent and supports recorded evidence where recording is specified.",
+  },
+  {
+    Icon: Network,
+    title: "Link Systems",
+    text: "Interface with access control, CCTV and other security systems already on site.",
+  },
+  {
+    Icon: Smartphone,
+    title: "Remote Control",
+    text: "Answer and release remotely via tablet or smartphone where the platform supports it.",
+  },
+]
 
 const VIDEO_DOOR_CAPABILITIES: { Icon: LucideIcon; title: string; text: string }[] = [
   {
@@ -139,7 +174,7 @@ const heroBridge = (
   <div
     className="pointer-events-none absolute left-0 right-0 top-0 h-28 sm:h-36"
     style={{
-      background: "linear-gradient(to bottom, rgba(0,0,0,0) 0%, rgba(0,0,0,0.82) 52%, rgba(0,0,0,1) 100%)",
+      background: SERVICE_HERO_BRIDGE_GRADIENT,
     }}
     aria-hidden
   />
@@ -152,6 +187,7 @@ export default function VideoDoorEntrySystemsPage() {
         title="Video Door Entry Systems"
         imageSrc={serviceHeroImages.videoDoor}
         heroCompliance={["BS EN 60839"]}
+        heroSummary="Audio and video door entry for homes and multi-occupancy buildings, including IP systems with access control and CCTV integration."
         intro={
           <>
             <p className="mb-4">
@@ -168,13 +204,38 @@ export default function VideoDoorEntrySystemsPage() {
         }
       />
 
-      <div className="relative bg-black">
+      <div className="relative bg-[var(--page-bg)]">
         {heroBridge}
 
-        <section className="container relative z-[1] mx-auto px-6 py-16 lg:py-16">
+        <section
+          className="relative z-[1] border-t border-b border-white/15 bg-[var(--page-bg)]"
+          aria-label="Video door entry benefits"
+        >
+          <div className="site-container py-14 sm:py-16 lg:py-20">
+            <div className="grid grid-cols-1 gap-10 sm:grid-cols-2 lg:grid-cols-5 lg:gap-6 xl:gap-8">
+              {VIDEO_DOOR_BENEFITS.map(({ Icon, title, text }, i) => (
+                <ServiceItemReveal key={title} index={i} className="h-full min-h-0">
+                  <div className="flex h-full flex-col items-center text-center">
+                    <Icon
+                      className="mb-5 h-12 w-12 text-white sm:mb-6 sm:h-14 sm:w-14"
+                      strokeWidth={1.25}
+                      aria-hidden
+                    />
+                    <h3 className="font-title text-lg font-bold tracking-tight text-white sm:text-xl">{title}</h3>
+                    <p className="mt-3 max-w-[16rem] text-[15px] leading-relaxed text-white/60 sm:mt-3.5 lg:max-w-none">
+                      {text}
+                    </p>
+                  </div>
+                </ServiceItemReveal>
+              ))}
+            </div>
+          </div>
+        </section>
+
+        <section className="site-container relative z-[1] py-16 lg:py-16">
           <Reveal>
             <h2 className="mb-4 text-left font-title text-3xl font-bold text-white sm:text-4xl">
-              What we deliver
+              What We Deliver
             </h2>
           </Reveal>
           <Reveal delayMs={70}>
@@ -300,7 +361,7 @@ export default function VideoDoorEntrySystemsPage() {
 
         <div className="border-t border-white/15" />
 
-        <section className="container mx-auto px-6 py-16 lg:py-16">
+        <section className="site-container py-16 lg:py-16">
           <Reveal>
             <h2 className="mb-4 text-left font-title text-3xl font-bold text-white sm:text-4xl">
               Our video entry installations
@@ -311,7 +372,10 @@ export default function VideoDoorEntrySystemsPage() {
               Examples of video door entry systems we have installed for customers:
             </p>
           </Reveal>
-          <div className="grid grid-cols-1 gap-8 md:grid-cols-2 lg:grid-cols-3">
+          <ServiceInstallationsGrid
+            count={VIDEO_DOOR_INSTALLATIONS.length}
+            ctaHref="/contact?service=video-door-entry-systems"
+          >
             {VIDEO_DOOR_INSTALLATIONS.map((item, index) => (
               <ServiceItemReveal key={`${item.imageSrc}-${index}`} index={index} className="h-full min-h-0">
                 <article className={FS_SERVICE_INSTALLATION_CARD}>
@@ -322,7 +386,7 @@ export default function VideoDoorEntrySystemsPage() {
                         alt={item.title}
                         fill
                         className="object-cover object-center"
-                        sizes="(min-width: 1024px) 33vw, (min-width: 768px) 50vw, 100vw"
+                        sizes="(min-width: 768px) 22.5rem, 100vw"
                       />
                     </div>
                   </div>
@@ -334,22 +398,20 @@ export default function VideoDoorEntrySystemsPage() {
                 </article>
               </ServiceItemReveal>
             ))}
-          </div>
+          </ServiceInstallationsGrid>
         </section>
 
         <ServicePageClosingSections
           serviceTitleShort="Video door entry"
           ctaImageSrc={serviceHeroImages.videoDoor}
-          ctaHeadline="Upgrade your"
-          ctaHeadlineAccent="video entry."
+          ctaHeadline="Upgrade Your"
+          ctaHeadlineAccent="Video Entry."
           ctaDescription="Expert design, installation, access-control and gate integration, plus maintenance and upgrades for residential and commercial buildings."
         >
           <CustomPillButton href="/contact?service=video-door-entry-systems" size="md">
             Get a free quote
           </CustomPillButton>
-          <CustomPillButton href="tel:02083032280" size="md" variant="outline">
-            Call 020 8303 2280
-          </CustomPillButton>
+          <CallPhoneCta size="md" />
         </ServicePageClosingSections>
       </div>
     </div>

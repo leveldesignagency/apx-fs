@@ -7,6 +7,7 @@ import { Reveal } from "@/components/Reveal"
 import { AccreditationLogo } from "@/components/accreditations/AccreditationLogo"
 import { FsInsetCtaCard } from "@/components/FsInsetCtaCard"
 import { CustomPillButton } from "@/components/ui/CustomPillButton"
+import { CallPhoneCta } from "@/components/ui/CallPhoneCta"
 import {
   FS_ACCREDITATIONS,
   FS_ACCREDITATION_TAB_ORDER,
@@ -27,7 +28,7 @@ const DETAIL_BLOCKS: {
   heading: string
 }[] = [
   { key: "intro", heading: "What the organisation is" },
-  { key: "apxStatus", heading: "APX’s status" },
+  { key: "apxStatus", heading: "APX's status" },
   { key: "scope", heading: "Scope covered" },
   { key: "whyItMatters", heading: "Why it matters to customers" },
 ]
@@ -79,7 +80,7 @@ export function AccreditationDetailClient({
                       key={slug}
                       href={`/accreditations/${slug}`}
                       className={cn(
-                        "border-2 px-3.5 py-2 text-[11px] font-bold uppercase tracking-[0.12em] transition-colors sm:px-4 sm:text-xs",
+                        "border px-3.5 py-2 text-[11px] font-bold uppercase tracking-[0.12em] transition-colors sm:px-4 sm:text-xs",
                         active
                           ? "border-white bg-white text-black"
                           : "border-white/70 text-white hover:border-white",
@@ -207,9 +208,7 @@ export function AccreditationDetailClient({
         <CustomPillButton href="/contact" size="lg">
           Contact us
         </CustomPillButton>
-        <CustomPillButton href="tel:02083032280" size="lg" variant="outline">
-          Call 020 8303 2280
-        </CustomPillButton>
+        <CallPhoneCta size="lg" />
       </FsInsetCtaCard>
     </div>
   )

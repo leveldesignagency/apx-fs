@@ -80,7 +80,7 @@ export function HomeAccreditationsSection({ visible = true }: HomeAccreditations
 
         <div
           className={cn(
-            "site-container relative z-10 py-16 text-center home-scroll-rise sm:py-20 lg:py-24",
+            "site-container relative z-10 py-20 text-center home-scroll-rise sm:py-20 lg:py-24",
             visible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-14",
           )}
         >
@@ -94,12 +94,12 @@ export function HomeAccreditationsSection({ visible = true }: HomeAccreditations
             id="home-accreditations-heading"
             className="home-section-title font-title text-white"
           >
-            Accredited &amp; fully qualified
+            Accredited &amp; Fully Qualified
           </h3>
           <p className="mx-auto mt-5 max-w-2xl text-base leading-relaxed text-white/82">
-            We maintain independent certification and industry alignment so your fire and security packages are
-            delivered with clear governance, competent engineers and documentation that stands up to handover and
-            audit.
+            Our public credentials match the Accreditations page: NSI Gold (Security and Fire), BAFE Registered,
+            Constructionline Gold, FIA Full Member and BS EN ISO 9001:2015, so procurement and duty holders see the same
+            claims site-wide.
           </p>
 
           <div className="mx-auto mt-10 grid w-full max-w-5xl grid-cols-2 place-items-center gap-6 sm:gap-8 lg:max-w-6xl lg:grid-cols-4 lg:gap-10">

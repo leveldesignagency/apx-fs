@@ -89,11 +89,16 @@ export function TeamDirectoryClient() {
               />
               <input
                 type="search"
+                inputMode="search"
+                enterKeyHint="search"
                 value={query}
                 onChange={(e) => setQuery(e.target.value)}
                 placeholder="Search names..."
                 autoComplete="off"
-                className="team-directory__search w-full rounded-none border border-black/15 bg-white py-3.5 pl-10 pr-11 text-[15px] font-semibold text-black outline-none transition-[border-color] placeholder:font-normal placeholder:text-black/35 focus:border-black/50"
+                autoCorrect="off"
+                autoCapitalize="off"
+                spellCheck={false}
+                className="team-directory__search w-full rounded-none border border-black/15 bg-white py-3.5 pl-10 pr-11 text-base font-semibold text-black outline-none transition-[border-color] placeholder:font-normal placeholder:text-black/35 focus:border-black/50"
               />
               {query.trim() !== "" ? (
                 <button

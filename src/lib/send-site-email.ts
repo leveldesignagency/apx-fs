@@ -1,15 +1,22 @@
 import { getNotifyEmail, getResendApiKey, getResendFrom } from "@/lib/site-email-env"
+import { fsEmailLogoInlineAttachment } from "@/lib/fs-branded-email"
+import { FS_EMAIL_LOGO_CONTENT_ID } from "@/lib/fs-email-logo-base64"
 
-type Attachment = { filename: string; content: string }
+type Attachment = {
+  filename: string
+  content: string
+  contentId?: string
+}
 
 export async function sendSiteEmailViaResend(body: {
   subject: string
   text: string
   html: string
   replyTo?: string
-  /** Override recipient (defaults to NOTIFY_EMAIL / CAREERS_NOTIFY_EMAIL) */
   to?: string
   attachments?: Attachment[]
+  /** Attach footer logo when HTML uses its cid: (default true) */
+  includeBrandedLogo?: boolean
 }): Promise<{ ok: true } | { ok: false; status: number; message: string }> {
   const key = getResendApiKey()
   const to = body.to?.trim() || getNotifyEmail()
@@ -22,6 +29,13 @@ export async function sendSiteEmailViaResend(body: {
       message:
         "Email is not configured. Set RESEND_API_KEY, NOTIFY_EMAIL (or CAREERS_NOTIFY_EMAIL), and RESEND_FROM_EMAIL (or CAREERS_FROM_EMAIL).",
     }
+  }
+
+  const attachments: Attachment[] = [...(body.attachments ?? [])]
+  const wantsLogo =
+    body.includeBrandedLogo !== false && body.html.includes(`cid:${FS_EMAIL_LOGO_CONTENT_ID}`)
+  if (wantsLogo && !attachments.some((a) => a.contentId === FS_EMAIL_LOGO_CONTENT_ID)) {
+    attachments.unshift(fsEmailLogoInlineAttachment())
   }
 
   const res = await fetch("https://api.resend.com/emails", {
@@ -37,13 +51,20 @@ export async function sendSiteEmailViaResend(body: {
       subject: body.subject,
       text: body.text,
       html: body.html,
-      ...(body.attachments?.length ? { attachments: body.attachments } : {}),
+      ...(attachments.length
+        ? {
+            attachments: attachments.map((a) => ({
+              filename: a.filename,
+              content: a.content,
+              ...(a.contentId ? { content_id: a.contentId } : {}),
+            })),
+          }
+        : {}),
     }),
   })
 
   if (!res.ok) {
-    const errText = await res.text()
-    console.error("Resend error:", res.status, errText)
+    console.error("Resend error:", res.status)
     return { ok: false, status: 502, message: "Could not send email. Please try again later." }
   }
 

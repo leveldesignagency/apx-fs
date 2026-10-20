@@ -1,6 +1,7 @@
 import type { Metadata } from "next"
 import { buildFsMetadata } from "@/lib/seo-metadata"
 import { FS_SERVICE_ROUTES } from "@/lib/fs-service-routes"
+import { FsServiceJsonLd } from "@/components/seo/FsServiceJsonLd"
 
 export const metadata: Metadata = buildFsMetadata({
   title: "Video Door Entry Systems | Audio, Video & Multi-Occupancy | APX",
@@ -10,5 +11,14 @@ export const metadata: Metadata = buildFsMetadata({
 })
 
 export default function Layout({ children }: { children: React.ReactNode }) {
-  return children
+  return (
+    <>
+      <FsServiceJsonLd
+        pathname="/services/video-door-entry-systems"
+        description="Audio and video door entry for single residences and multi-occupancy buildings across London and the Home Counties: IP and networked systems, concierge and mobile answering where available, access control and gate automation integration, maintenance and upgrades."
+        name="Video Door Entry Systems"
+      />
+      {children}
+    </>
+  )
 }

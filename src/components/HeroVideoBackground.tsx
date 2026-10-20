@@ -59,7 +59,8 @@ export default function HeroVideoBackground() {
 
   return (
     <div className="absolute inset-0 z-0 min-h-[100dvh] pointer-events-none overflow-hidden" aria-hidden>
-      <div className="absolute inset-0 min-h-[100dvh] bg-black" />
+      {/* Charcoal base — visible while video loads and after scroll fade-out */}
+      <div className="absolute inset-0 min-h-[100dvh] bg-[var(--page-bg)]" />
       <div
         className="absolute inset-0 min-h-[100dvh] transition-opacity duration-300"
         style={{ opacity: heroVisible ? 1 : 0 }}
@@ -82,7 +83,7 @@ export default function HeroVideoBackground() {
               muted
               loop
               playsInline
-              preload="auto"
+              preload="metadata"
               onLoadedData={() => setVideoReady(true)}
               onCanPlay={() => setVideoReady(true)}
               onError={() => setUseFallback(true)}
@@ -95,14 +96,14 @@ export default function HeroVideoBackground() {
           className="absolute inset-0 pointer-events-none"
           style={{
             background:
-              "linear-gradient(to right, rgba(0,0,0,0.42) 0%, rgba(0,0,0,0.18) 16%, transparent 36%)",
+              "linear-gradient(to right, rgba(10,10,10,0.42) 0%, rgba(10,10,10,0.18) 16%, transparent 36%)",
           }}
         />
         <div
           className="absolute inset-0 pointer-events-none"
           style={{
             background:
-              "linear-gradient(to bottom, rgba(0,0,0,0) 0%, rgba(0,0,0,0) 48%, rgba(0,0,0,0.12) 68%, rgba(0,0,0,0.38) 84%, rgba(0,0,0,0.72) 94%, #000000 100%)",
+              "linear-gradient(to bottom, rgba(10,10,10,0) 0%, rgba(10,10,10,0) 48%, rgba(10,10,10,0.12) 68%, rgba(10,10,10,0.38) 84%, rgba(10,10,10,0.72) 94%, #0a0a0a 100%)",
           }}
         />
       </div>

@@ -201,6 +201,85 @@ const GlobalStyles = createGlobalStyle<{ theme: typeof lightTheme }>`
     background: ${({ theme }) => theme.buttonHover} !important;
   }
 
+  /* Locations postcode check: white off-hover, black fill on hover */
+  .fs-coverage-check-btn {
+    background: #ffffff !important;
+    background-color: #ffffff !important;
+    color: #000000 !important;
+    border-color: #ffffff !important;
+  }
+  .fs-coverage-check-btn:hover,
+  .fs-coverage-check-btn:focus-visible {
+    background: #000000 !important;
+    background-color: #000000 !important;
+    color: #ffffff !important;
+    border-color: #ffffff !important;
+  }
+
+  /* Contact page email copy control */
+  .contact-email-copy {
+    background: #0a0a0a !important;
+    background-color: #0a0a0a !important;
+    color: #ffffff !important;
+    border: 1px solid #ffffff !important;
+    border-color: #ffffff !important;
+    box-shadow: none !important;
+  }
+  .contact-email-copy:hover {
+    background: #ffffff !important;
+    background-color: #ffffff !important;
+    color: #000000 !important;
+  }
+  .contact-email-copy svg {
+    color: inherit !important;
+    stroke: currentColor !important;
+  }
+
+  /* Contact FAQ (white band): beat global button / text theme remap */
+  .contact-faq,
+  .contact-faq h2,
+  .contact-faq p,
+  .contact-faq span,
+  .contact-faq a,
+  .contact-faq li,
+  .contact-faq button {
+    color: #000000 !important;
+  }
+  .contact-faq .contact-faq__subtitle,
+  .contact-faq .contact-faq__answer,
+  .contact-faq .contact-faq__cta {
+    color: rgba(0, 0, 0, 0.55) !important;
+  }
+  .contact-faq button.contact-faq__trigger {
+    background: transparent !important;
+    background-color: transparent !important;
+    border-color: transparent !important;
+    color: #000000 !important;
+    box-shadow: none !important;
+  }
+  .contact-faq button.contact-faq__trigger:hover {
+    background: transparent !important;
+    background-color: transparent !important;
+    color: #000000 !important;
+  }
+  .contact-faq .contact-faq__icon {
+    background: #0a0a0a !important;
+    color: #ffffff !important;
+  }
+  .contact-faq .contact-faq__icon svg {
+    color: #ffffff !important;
+    stroke: #ffffff !important;
+  }
+  .contact-faq .contact-faq__icon--open {
+    background: #ffffff !important;
+    color: #000000 !important;
+    box-shadow: inset 0 0 0 1.5px #000000 !important;
+  }
+  .contact-faq .contact-faq__icon--open svg {
+    color: #000000 !important;
+    stroke: #000000 !important;
+  }
+
   /* Where We Thrive tabs (must beat global button rule) */
   #core-capabilities button.where-we-thrive-tabs__tab {
     background: transparent !important;
@@ -235,7 +314,7 @@ const GlobalStyles = createGlobalStyle<{ theme: typeof lightTheme }>`
   }
   #projects .projects-nav-btn:hover,
   #projects .projects-nav-btn:focus {
-    background: #000000 !important;
+    background: #0a0a0a !important;
     color: #ffffff !important;
     border-color: #000000 !important;
   }
@@ -261,55 +340,108 @@ const GlobalStyles = createGlobalStyle<{ theme: typeof lightTheme }>`
   }
 
   /*
-   * FS header hamburger + mobile menu close: same as MEP, global button rule is white fill / black text (!important).
-   * Force black fill, white border, white icon to match MEP mobile chrome.
+   * FS header hamburger + mobile menu close: icon only (no fill / border box).
+   * Must beat global button { background: white } rule.
    */
-  .fs-header-menu-trigger {
-    background: #000000 !important;
-    background-color: #000000 !important;
-    color: #ffffff !important;
-    border: 2px solid #ffffff !important;
-    border-color: #ffffff !important;
-    box-shadow: none !important;
-  }
-  .fs-header-menu-trigger:hover {
-    background: #111111 !important;
-    background-color: #111111 !important;
-    color: #ffffff !important;
-    border-color: #ffffff !important;
-  }
+  .fs-header-menu-trigger,
+  .fs-header-menu-trigger:hover,
+  .fs-header-menu-trigger:active,
   .fs-header-menu-trigger:focus,
   .fs-header-menu-trigger:focus-visible {
-    background: #000000 !important;
+    background: transparent !important;
+    background-color: transparent !important;
     color: #ffffff !important;
-    border-color: #ffffff !important;
-    outline: 2px solid rgba(255, 255, 255, 0.45) !important;
-    outline-offset: 2px !important;
+    border: none !important;
+    border-width: 0 !important;
+    border-color: transparent !important;
+    box-shadow: none !important;
+    outline: none !important;
+  }
+  .fs-header-menu-trigger:hover,
+  .fs-header-menu-trigger:active {
+    opacity: 0.8 !important;
   }
   .fs-header-menu-trigger svg {
     color: #ffffff !important;
     stroke: #ffffff !important;
   }
 
+  /* Allow the mobile hamburger chip shell (parent of the icon button) */
+  .site-header .fs-header-menu-trigger {
+    border-radius: 9999px !important;
+  }
+
+  /* Mobile nav drawer: beat global white button fill / tap highlight */
+  #fs-mobile-nav,
+  #fs-mobile-nav a,
+  #fs-mobile-nav button,
+  #fs-mobile-nav span {
+    color: #ffffff !important;
+  }
+  #fs-mobile-nav button,
+  #fs-mobile-nav button:hover,
+  #fs-mobile-nav button:active,
+  #fs-mobile-nav button:focus,
+  #fs-mobile-nav button:focus-visible {
+    background: transparent !important;
+    background-color: transparent !important;
+    color: #ffffff !important;
+    border: none !important;
+    border-width: 0 !important;
+    border-color: transparent !important;
+    box-shadow: none !important;
+    -webkit-tap-highlight-color: transparent !important;
+  }
+  #fs-mobile-nav button.fs-mobile-menu__search,
+  #fs-mobile-nav button.fs-mobile-menu__search:hover,
+  #fs-mobile-nav button.fs-mobile-menu__search:active,
+  #fs-mobile-nav button.fs-mobile-menu__search:focus,
+  #fs-mobile-nav button.fs-mobile-menu__search:focus-visible {
+    background: transparent !important;
+    background-color: transparent !important;
+    color: rgba(255, 255, 255, 0.72) !important;
+    border: none !important;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.3) !important;
+    border-radius: 0 !important;
+  }
+  #fs-mobile-nav button.fs-mobile-menu__search:hover {
+    color: #ffffff !important;
+    border-bottom-color: rgba(255, 255, 255, 0.55) !important;
+  }
+  #fs-mobile-nav button.fs-mobile-menu__search span,
+  #fs-mobile-nav button.fs-mobile-menu__search svg {
+    color: rgba(255, 255, 255, 0.72) !important;
+    stroke: rgba(255, 255, 255, 0.72) !important;
+  }
+  #fs-mobile-nav a:hover,
+  #fs-mobile-nav a:active,
+  #fs-mobile-nav a:focus,
+  #fs-mobile-nav a:focus-visible {
+    background: transparent !important;
+    background-color: transparent !important;
+    color: #ffffff !important;
+    -webkit-tap-highlight-color: transparent !important;
+  }
+
   /* Header search: global button rule is white fill, keep black pill + white icon */
   .fs-header-search-trigger {
-    background: #000000 !important;
-    background-color: #000000 !important;
+    background: #0a0a0a !important;
+    background-color: #0a0a0a !important;
     color: #ffffff !important;
-    border: 2px solid #ffffff !important;
+    border: 1px solid #ffffff !important;
     border-color: #ffffff !important;
     box-shadow: none !important;
   }
   .fs-header-search-trigger:hover {
-    background: #111111 !important;
-    background-color: #111111 !important;
+    background: #121212 !important;
+    background-color: #121212 !important;
     color: #ffffff !important;
     border-color: #ffffff !important;
     opacity: 1 !important;
   }
   .fs-header-search-trigger:focus,
   .fs-header-search-trigger:focus-visible {
-    background: #000000 !important;
+    background: #0a0a0a !important;
     color: #ffffff !important;
     border-color: #ffffff !important;
     outline: 2px solid rgba(255, 255, 255, 0.45) !important;
@@ -327,8 +459,8 @@ const GlobalStyles = createGlobalStyle<{ theme: typeof lightTheme }>`
   #services button.fs-offer-mobile-nav__btn:focus-visible {
     width: 3rem !important;
     height: 3rem !important;
-    background: #000000 !important;
-    background-color: #000000 !important;
+    background: #0a0a0a !important;
+    background-color: #0a0a0a !important;
     color: #ffffff !important;
     border: 1px solid #ffffff !important;
     border-color: #ffffff !important;
@@ -421,8 +553,8 @@ const GlobalStyles = createGlobalStyle<{ theme: typeof lightTheme }>`
   button.hero-promise-chip:focus,
   button.hero-promise-chip:focus-visible,
   button.hero-promise-chip:active {
-    background: #000000 !important;
-    background-color: #000000 !important;
+    background: #0a0a0a !important;
+    background-color: #0a0a0a !important;
     color: #ffffff !important;
     border-color: rgba(255, 255, 255, 0.55) !important;
     box-shadow: none !important;
@@ -437,8 +569,8 @@ const GlobalStyles = createGlobalStyle<{ theme: typeof lightTheme }>`
 
   /* Cookie policy: manage preferences CTA (global button rule is white fill) */
   .cookie-policy-prefs-btn {
-    background: #000000 !important;
-    background-color: #000000 !important;
+    background: #0a0a0a !important;
+    background-color: #0a0a0a !important;
     color: #ffffff !important;
     border: 2px solid #ffffff !important;
     box-shadow: none !important;
@@ -566,10 +698,10 @@ const GlobalStyles = createGlobalStyle<{ theme: typeof lightTheme }>`
 
   /* Mobile contact FAB: circular / long pill; black fill, white border */
   .apx-mobile-contact-fab {
-    background: #000000 !important;
-    background-color: #000000 !important;
+    background: #0a0a0a !important;
+    background-color: #0a0a0a !important;
     color: #ffffff !important;
-    border: 2px solid #ffffff !important;
+    border: 1px solid #ffffff !important;
     border-color: #ffffff !important;
     border-radius: 9999px !important;
   }
@@ -589,8 +721,8 @@ const GlobalStyles = createGlobalStyle<{ theme: typeof lightTheme }>`
     color: #ffffff !important;
   }
   .apx-mobile-contact-fab:hover {
-    background: #111111 !important;
-    background-color: #111111 !important;
+    background: #121212 !important;
+    background-color: #121212 !important;
     color: #ffffff !important;
     border-color: #ffffff !important;
   }
@@ -666,8 +798,8 @@ const GlobalStyles = createGlobalStyle<{ theme: typeof lightTheme }>`
     color: #000000 !important;
   }
   .news-page .news-hub__year-option[aria-selected="true"] {
-    background: #000000 !important;
-    background-color: #000000 !important;
+    background: #0a0a0a !important;
+    background-color: #0a0a0a !important;
     color: #ffffff !important;
   }
 
@@ -801,32 +933,32 @@ const GlobalStyles = createGlobalStyle<{ theme: typeof lightTheme }>`
 `
 
 const lightTheme = {
-  bg: "#000000",
+  bg: "#0a0a0a",
   text: "#FFFFFF",
   border: "#FFFFFF",
-  cardBg: "#000000",
+  cardBg: "#0a0a0a",
   divider: "#FFFFFF",
   headerBg: "transparent",
   headerText: "#FFFFFF",
   headerTextHover: "#CCCCCC",
   headerTextActive: "#FFFFFF",
-  sidebarBg: "#000000",
+  sidebarBg: "#0a0a0a",
   buttonBg: "#FFFFFF",
   buttonText: "#000000",
   buttonHover: "#F0F0F0"
 }
 
 const darkTheme = {
-  bg: "#000000",
+  bg: "#0a0a0a",
   text: "#FFFFFF", 
   border: "#FFFFFF",
-  cardBg: "#000000",
+  cardBg: "#0a0a0a",
   divider: "#FFFFFF",
   headerBg: "transparent",
   headerText: "#FFFFFF",
   headerTextHover: "#CCCCCC",
   headerTextActive: "#FFFFFF",
-  sidebarBg: "#000000",
+  sidebarBg: "#0a0a0a",
   buttonBg: "#FFFFFF",
   buttonText: "#000000",
   buttonHover: "#F0F0F0"

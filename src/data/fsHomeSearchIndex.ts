@@ -174,17 +174,24 @@ export const FS_HOME_SEARCH_ENTRIES: FsHomeSearchEntry[] = [
     "Fire Alarms"
   ),
   entry(
+    "fire-pava",
+    "PAVA public address and voice alarm systems",
+    FS_SERVICE_ROUTES.pava,
+    ["pava", "pa/va", "voice alarm", "bs 5839-8", "public address"],
+    "PAVA"
+  ),
+  entry(
     "fire-evac",
-    "EVAC and voice alarm systems",
-    FS_SERVICE_ROUTES.evacVoiceEvacuation,
-    ["voice evacuation", "pa", "bs 5839-8"],
+    "EVAC evacuation alert systems",
+    FS_SERVICE_ROUTES.evac,
+    ["evac", "evacuation alert", "bs 8629", "flats"],
     "EVAC"
   ),
   entry(
     "fire-refuge",
     "Disabled refuge systems",
     `${FS_SERVICE_ROUTES.refugeDisabledCommunication}#fire-refuge`,
-    ["evac", "refuge", "bs 5839-9"],
+    ["refuge", "bs 5839-9"],
     "Refuge & EVC"
   ),
   entry(

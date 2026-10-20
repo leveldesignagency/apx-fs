@@ -7,51 +7,57 @@ import { getFsSiteUrl } from "@/lib/seo"
 
 const ACCREDITOR_SLUGS = ["bafe", "nsi", "constructionline", "fia"] as const
 
-const STATIC_PATHS = [
-  "",
-  "about",
-  "team",
-  "careers",
-  "accreditations",
-  "contact",
-  "cookie-policy",
-  "privacy",
-  "terms",
-  "accessibility",
-  "thank-you",
-  "recruitment-privacy",
-  "delivery-methodology",
-  "projects",
-  "services",
-  "services/intruder-alarm-systems",
-  "services/fire-alarm-systems",
-  "services/cctv-systems",
-  "services/access-control-systems",
-  "services/video-door-entry-systems",
-  "services/gate-automation-systems",
-  "services/evac-voice-evacuation",
-  "services/refuge-disabled-communication",
-  "services/monitoring",
-  "services/maintenance-support",
-  "services/emergency-call-out",
-  "services/fire-life-safety",
-  "services/security-systems",
-  "services/cctv/commercial",
-  "services/cctv/domestic",
-  "services/cctv/advice",
-  "news",
-] as const
+// Static paths we want indexed (no thank-you / private stuff)
+const STATIC: Array<{
+  path: string
+  changeFrequency: MetadataRoute.Sitemap[number]["changeFrequency"]
+  priority: number
+}> = [
+  { path: "", changeFrequency: "weekly", priority: 1 },
+  { path: "services", changeFrequency: "weekly", priority: 0.95 },
+  { path: "contact", changeFrequency: "monthly", priority: 0.9 },
+  { path: "locations", changeFrequency: "monthly", priority: 0.88 },
+  { path: "about", changeFrequency: "monthly", priority: 0.85 },
+  { path: "projects", changeFrequency: "weekly", priority: 0.85 },
+  { path: "careers", changeFrequency: "weekly", priority: 0.8 },
+  { path: "accreditations", changeFrequency: "monthly", priority: 0.8 },
+  { path: "news", changeFrequency: "weekly", priority: 0.75 },
+  { path: "team", changeFrequency: "monthly", priority: 0.7 },
+  { path: "delivery-methodology", changeFrequency: "monthly", priority: 0.7 },
+  { path: "services/intruder-alarm-systems", changeFrequency: "monthly", priority: 0.9 },
+  { path: "services/fire-alarm-systems", changeFrequency: "monthly", priority: 0.9 },
+  { path: "services/cctv-systems", changeFrequency: "monthly", priority: 0.9 },
+  { path: "services/access-control-systems", changeFrequency: "monthly", priority: 0.88 },
+  { path: "services/video-door-entry-systems", changeFrequency: "monthly", priority: 0.88 },
+  { path: "services/gate-automation-systems", changeFrequency: "monthly", priority: 0.85 },
+  { path: "services/pava", changeFrequency: "monthly", priority: 0.85 },
+  { path: "services/evac", changeFrequency: "monthly", priority: 0.85 },
+  { path: "services/refuge-disabled-communication", changeFrequency: "monthly", priority: 0.85 },
+  { path: "services/monitoring", changeFrequency: "monthly", priority: 0.85 },
+  { path: "services/maintenance-support", changeFrequency: "monthly", priority: 0.88 },
+  { path: "services/emergency-call-out", changeFrequency: "monthly", priority: 0.88 },
+  { path: "services/fire-life-safety", changeFrequency: "monthly", priority: 0.86 },
+  { path: "services/security-systems", changeFrequency: "monthly", priority: 0.86 },
+  { path: "services/cctv/commercial", changeFrequency: "monthly", priority: 0.84 },
+  { path: "services/cctv/domestic", changeFrequency: "monthly", priority: 0.82 },
+  { path: "services/cctv/advice", changeFrequency: "monthly", priority: 0.8 },
+  { path: "privacy", changeFrequency: "yearly", priority: 0.35 },
+  { path: "cookie-policy", changeFrequency: "yearly", priority: 0.3 },
+  { path: "terms", changeFrequency: "yearly", priority: 0.3 },
+  { path: "accessibility", changeFrequency: "yearly", priority: 0.35 },
+  { path: "recruitment-privacy", changeFrequency: "yearly", priority: 0.35 },
+]
 
 export default function sitemap(): MetadataRoute.Sitemap {
   const base = getFsSiteUrl()
   const urls: MetadataRoute.Sitemap = []
 
-  for (const path of STATIC_PATHS) {
+  for (const item of STATIC) {
     urls.push({
-      url: path ? `${base}/${path}` : base,
+      url: item.path ? `${base}/${item.path}` : base,
       lastModified: new Date(),
-      changeFrequency: path === "" ? "weekly" : "monthly",
-      priority: path === "" ? 1 : 0.8,
+      changeFrequency: item.changeFrequency,
+      priority: item.priority,
     })
   }
 

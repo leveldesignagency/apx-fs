@@ -22,7 +22,7 @@ export default function TermsOfServicePage() {
         <p>
           This website is operated by <strong>APX Fire &amp; Security Limited</strong> (company number 04915204), trading
           as APX Fire &amp; Security. Building on a heritage dating back to 1986, we design, install, commission and maintain
-          fire and security systems for domestic and commercial clients across London and the Home Counties.
+          Fire and Security systems for domestic and commercial clients across London and the Home Counties.
         </p>
         <LegalContactBox />
       </LegalSection>

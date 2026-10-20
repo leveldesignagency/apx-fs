@@ -3,11 +3,12 @@ import Link from "next/link"
 import { CapabilityServicePageLayout } from "@/components/CapabilityServicePageLayout"
 import { buildFsMetadata } from "@/lib/seo-metadata"
 import { FS_SERVICE_ROUTES } from "@/lib/fs-service-routes"
+import { FsServiceJsonLd } from "@/components/seo/FsServiceJsonLd"
 
 export const metadata: Metadata = buildFsMetadata({
   title: "Fire & Life Safety Overview | London | APX",
   description:
-    "Overview of APX fire and life-safety delivery: fire alarms, EVAC, disabled refuge, fire telephones, toilet alarms, cause-and-effect, commissioning and ongoing maintenance across London and the Home Counties.",
+    "Overview of APX fire and life-safety delivery: fire alarms, PAVA, EVAC, disabled refuge, fire telephones, toilet alarms, cause-and-effect, commissioning and ongoing maintenance across London and the Home Counties.",
   pathname: "/services/fire-life-safety",
 })
 
@@ -18,8 +19,11 @@ const capabilities = [
   <Link key="fire" href={FS_SERVICE_ROUTES.fireAlarmSystems} className={linkClass}>
     Fire alarm systems
   </Link>,
-  <Link key="evac" href={FS_SERVICE_ROUTES.evacVoiceEvacuation} className={linkClass}>
-    EVAC and voice alarm
+  <Link key="pava" href={FS_SERVICE_ROUTES.pava} className={linkClass}>
+    PAVA (public address & voice alarm)
+  </Link>,
+  <Link key="evac" href={FS_SERVICE_ROUTES.evac} className={linkClass}>
+    EVAC (evacuation alert)
   </Link>,
   <Link key="refuge" href={FS_SERVICE_ROUTES.refugeDisabledCommunication} className={linkClass}>
     Disabled refuge systems
@@ -41,7 +45,7 @@ const capabilities = [
   </Link>,
 ]
 
-const compliance = ["BS 5839-1", "BS 5839-6 (where applicable)", "BS 5839-8", "BS 5839-9"]
+const compliance = ["BS 5839-1", "BS 5839-8", "BS 5839-9", "BS 8629"]
 const deliverables = [
   "Cause-and-effect matrices",
   "Commissioning certificates",
@@ -52,37 +56,44 @@ const deliverables = [
 const intro = (
   <>
     <p>
-      Fire &amp; life safety is an overview hub, not a separate install for telephones or toilet alarms on its own. Fire
-      telephones and disabled toilet alarms are covered on the{" "}
-      <Link href={FS_SERVICE_ROUTES.refugeDisabledCommunication} className={linkClass}>
-        disabled refuge, fire telephone and toilet alarm systems
-      </Link>{" "}
-      page. Use this overview to reach the right specialist scope for your project.
-    </p>
-    <p className="text-white/85">
-      Start with{" "}
+      APX Fire &amp; Security provides fully integrated fire and life-safety solutions, from{" "}
       <Link href={FS_SERVICE_ROUTES.fireAlarmSystems} className={linkClass}>
-        fire alarm systems
+        fire detection and alarm systems
+      </Link>{" "}
+      through to{" "}
+      <Link href={FS_SERVICE_ROUTES.pava} className={linkClass}>
+        PAVA
       </Link>
       ,{" "}
-      <Link href={FS_SERVICE_ROUTES.evacVoiceEvacuation} className={linkClass}>
-        EVAC and voice alarm
+      <Link href={FS_SERVICE_ROUTES.evac} className={linkClass}>
+        EVAC
       </Link>
-      , or{" "}
+      , and{" "}
       <Link href={FS_SERVICE_ROUTES.refugeDisabledCommunication} className={linkClass}>
-        disabled refuge, fire telephone and toilet alarm systems
-      </Link>
-      . For ongoing care, see{" "}
-      <Link href={FS_SERVICE_ROUTES.maintenanceSupport} className={linkClass}>
-        maintenance and 24/7 support
+        disabled refuge, fire telephone and disabled toilet alarm systems
       </Link>
       .
+    </p>
+    <p className="text-white/85">
+      We design, install, commission and maintain systems that protect people and property across London and the Home
+      Counties, with clear documentation at handover and ongoing{" "}
+      <Link href={FS_SERVICE_ROUTES.maintenanceSupport} className={linkClass}>
+        maintenance and 24/7 support
+      </Link>{" "}
+      where you need it.
     </p>
   </>
 )
 
 export default function FireLifeSafetyPage() {
   return (
+    <>
+      <FsServiceJsonLd
+        pathname="/services/fire-life-safety"
+        description="Overview of APX fire and life-safety delivery: fire alarms, PAVA, EVAC, disabled refuge, fire telephones, toilet alarms, cause-and-effect, commissioning and ongoing maintenance across London and the Home Counties."
+        name="Fire & Life Safety Overview"
+      />
+
     <CapabilityServicePageLayout
       title="Fire & Life Safety"
       intro={intro}
@@ -91,5 +102,8 @@ export default function FireLifeSafetyPage() {
       deliverables={deliverables}
       ctaLabel="Discuss your project"
     />
+  
+    </>
+  
   )
 }

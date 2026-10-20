@@ -13,6 +13,9 @@ import {
 } from "@/components/projects/ProjectDetailAnimatedSections"
 import { FsInsetCtaCard } from "@/components/FsInsetCtaCard"
 import { CustomPillButton } from "@/components/ui/CustomPillButton"
+import { CallPhoneCta } from "@/components/ui/CallPhoneCta"
+import { JsonLd } from "@/components/seo/JsonLd"
+import { breadcrumbsSimple, buildBreadcrumbJsonLd } from "@/lib/seo-jsonld"
 
 type Props = {
   params: Promise<{ slug: string }>
@@ -48,12 +51,20 @@ export default async function ProjectDetailPage({ params }: Props) {
   const galleryImages = Array.from(new Set(project.gallery))
 
   return (
-    <div className="fs-projects-page fs-project-detail-page min-h-screen bg-black text-white" style={{ backgroundColor: "#000000" }}>
+    <div className="fs-projects-page fs-project-detail-page min-h-screen bg-[var(--page-bg)] text-white">
+      <JsonLd
+        data={buildBreadcrumbJsonLd(
+          breadcrumbsSimple(
+            { name: "Projects", path: "/projects" },
+            { name: project.title, path: `/projects/${slug}` }
+          )
+        )}
+      />
       <section className="relative isolate flex min-h-[64vh] flex-col overflow-hidden border-b border-white/10 md:min-h-[72vh]">
         <div className="absolute inset-0">
           <Image src={project.heroImage} alt={project.title} fill className="object-cover" sizes="100vw" priority />
-          <div className="absolute inset-0 bg-black/30" />
-          <div className="absolute inset-0 bg-gradient-to-b from-black/45 via-black/20 to-black/55" />
+          <div className="absolute inset-0 bg-[rgb(10_10_10/0.3)]" />
+          <div className="absolute inset-0 bg-gradient-to-b from-[rgb(10_10_10/0.45)] via-[rgb(10_10_10/0.2)] to-[rgb(10_10_10/0.55)]" />
         </div>
         <div className={`relative z-10 mt-auto page-title-top pb-24 md:pb-28 lg:pb-32 ${FS_PROJECTS_SECTION_PX}`}>
           <div className={FS_PROJECTS_CONTENT_MAX}>
@@ -75,22 +86,20 @@ export default async function ProjectDetailPage({ params }: Props) {
               <CustomPillButton href={`/contact?project=${encodeURIComponent(project.slug)}`} size="md">
                 Enquire about a similar project
               </CustomPillButton>
-              <CustomPillButton href="tel:02083032280" size="md" variant="outline">
-                Call 020 8303 2280
-              </CustomPillButton>
+              <CallPhoneCta size="md" />
             </div>
           </div>
         </div>
       </section>
 
-      <section className={`relative z-20 overflow-visible bg-black ${FS_PROJECTS_SECTION_PX}`}>
+      <section className={`relative z-20 overflow-visible bg-[var(--page-bg)] ${FS_PROJECTS_SECTION_PX}`}>
         <div className={`${FS_PROJECTS_CONTENT_MAX} pt-8 pb-12 md:pt-10 md:pb-14`}>
           <ProjectDetailStory project={project} />
         </div>
       </section>
 
       {galleryImages.length > 0 ? (
-        <section className={`relative z-10 border-t border-white/10 bg-black ${FS_PROJECTS_SECTION_PX}`}>
+        <section className={`relative z-10 border-t border-white/10 bg-[var(--page-bg)] ${FS_PROJECTS_SECTION_PX}`}>
           <div className={`${FS_PROJECTS_CONTENT_MAX} py-10 md:py-12`}>
             <ProjectDetailGallery title={project.title} images={galleryImages} />
           </div>
@@ -99,7 +108,7 @@ export default async function ProjectDetailPage({ params }: Props) {
 
       {project.clientReview && (
         <section
-          className={`fs-project-client-review relative border-t border-white/10 bg-black ${FS_PROJECTS_SECTION_PX}`}
+          className={`fs-project-client-review relative border-t border-white/10 bg-[var(--page-bg)] ${FS_PROJECTS_SECTION_PX}`}
           aria-labelledby="project-client-review-heading"
         >
           <div className={`${FS_PROJECTS_CONTENT_MAX} py-12 md:py-14`}>
@@ -108,7 +117,7 @@ export default async function ProjectDetailPage({ params }: Props) {
         </section>
       )}
 
-      <section className={`border-t border-white/10 ${FS_PROJECTS_SECTION_PX}`}>
+      <section className={`border-t border-white/10 bg-[var(--page-bg)] ${FS_PROJECTS_SECTION_PX}`}>
         <div className={`${FS_PROJECTS_CONTENT_MAX} py-10 pb-16 md:py-12 md:pb-20 lg:pb-24`}>
           <ProjectDetailRelated related={related} />
         </div>
@@ -125,9 +134,7 @@ export default async function ProjectDetailPage({ params }: Props) {
         <CustomPillButton href={`/contact?project=${encodeURIComponent(project.slug)}`} size="lg">
           Get in touch
         </CustomPillButton>
-        <CustomPillButton href="tel:02083032280" size="lg" variant="outline">
-          Call 020 8303 2280
-        </CustomPillButton>
+        <CallPhoneCta size="lg" />
       </FsInsetCtaCard>
     </div>
   )

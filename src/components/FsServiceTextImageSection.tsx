@@ -4,6 +4,7 @@ import { type ReactNode } from "react"
 import Image from "next/image"
 import { Reveal } from "@/components/Reveal"
 import { fsPlaceholderImageForKey } from "@/lib/fsPlaceholderImages"
+import { toTitleCase } from "@/lib/titleCase"
 import { cn } from "@/lib/utils"
 
 export type FsServiceTextImageSectionProps = {
@@ -74,7 +75,7 @@ export function FsServiceTextImageSection({
             isLight ? "text-black" : "text-white"
           )}
         >
-          {title}
+          {toTitleCase(title)}
         </h2>
         <div
           className={cn(
@@ -90,9 +91,9 @@ export function FsServiceTextImageSection({
 
   const imageColumn = (
     <Reveal className="min-h-0 min-w-0 h-full" delayMs={90}>
-      <div className="relative h-full min-h-[14rem] w-full overflow-hidden rounded-2xl bg-neutral-900 sm:min-h-[18rem] lg:min-h-0">
-        {/* Mobile: keep a readable aspect; desktop: stretch to match text column height */}
-        <div className="relative aspect-[16/10] w-full lg:absolute lg:inset-0 lg:aspect-auto">
+      <div className="relative h-full min-h-0 w-full overflow-hidden rounded-2xl bg-neutral-900 lg:min-h-0">
+        {/* Mobile: shorter crop so section photos do not dominate; desktop fills the text column */}
+        <div className="relative aspect-[4/3] max-h-[min(42vh,16.5rem)] w-full sm:aspect-[16/10] sm:max-h-none lg:absolute lg:inset-0 lg:aspect-auto lg:max-h-none">
           <Image
             src={resolvedImageSrc}
             alt={imageAlt}
@@ -132,19 +133,25 @@ export function FsServiceTextImageSection({
       )}
       aria-labelledby={headingId}
     >
-      <div className="mx-auto w-full max-w-[min(100%,92rem)] px-4 py-14 sm:px-6 sm:py-16 lg:px-8 lg:py-20">
-        <div className="grid grid-cols-1 items-stretch gap-8 sm:gap-10 lg:grid-cols-2 lg:gap-12 xl:gap-16">
-          {imageOnLeft ? (
-            <>
-              {imageColumn}
-              {textColumn}
-            </>
-          ) : (
-            <>
-              {textColumn}
-              {imageColumn}
-            </>
-          )}
+      <div className="site-container py-10 sm:py-16 lg:py-20">
+        <div className="grid grid-cols-1 items-stretch gap-6 sm:gap-10 lg:grid-cols-2 lg:gap-12 xl:gap-16">
+          {/* Mobile: text first; desktop places image by imageSide */}
+          <div
+            className={cn(
+              "min-h-0 min-w-0",
+              imageOnLeft ? "order-1 lg:order-2" : "order-1 lg:order-1"
+            )}
+          >
+            {textColumn}
+          </div>
+          <div
+            className={cn(
+              "min-h-0 min-w-0",
+              imageOnLeft ? "order-2 lg:order-1" : "order-2 lg:order-2"
+            )}
+          >
+            {imageColumn}
+          </div>
         </div>
       </div>
     </section>

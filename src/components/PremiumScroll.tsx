@@ -24,7 +24,10 @@ export function PremiumScroll({ children }: { children: React.ReactNode }) {
   const [useSmooth, setUseSmooth] = useState(false)
 
   useEffect(() => {
+    // Skip Lenis on touch / coarse pointers and when reduced motion is preferred
     if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return
+    if (window.matchMedia("(pointer: coarse)").matches) return
+    if (window.matchMedia("(max-width: 1023px)").matches) return
     setUseSmooth(true)
   }, [])
 

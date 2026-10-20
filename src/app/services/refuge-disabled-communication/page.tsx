@@ -4,11 +4,12 @@ import Link from "next/link"
 import { ServiceComplianceSection } from "@/components/ServiceComplianceSection"
 import { ServicePageClosingSections } from "@/components/ServicePageClosingSections"
 import { CustomPillButton } from "@/components/ui/CustomPillButton"
+import { CallPhoneCta } from "@/components/ui/CallPhoneCta"
 import { ServicePageHero } from "@/components/ServicePageHero"
 import { Reveal } from "@/components/Reveal"
 import { ServiceItemReveal } from "@/components/ServiceItemReveal"
 import { ServiceFeatureIconCard } from "@/components/ServiceFeatureIconCard"
-import { serviceHeroImages } from "@/lib/serviceHeroImages"
+import { serviceSectionImages } from "@/lib/serviceHeroImages"
 import {
   Building2,
   CheckCircle,
@@ -18,9 +19,10 @@ import {
   MessageSquare,
   Wrench,
 } from "lucide-react"
+import { SERVICE_HERO_BRIDGE_GRADIENT } from "@/lib/heroBackgroundGradients"
 
 const cardClass =
-  "rounded-tl-[1.5rem] rounded-br-[1.5rem] border-2 border-white/20 bg-black p-8 text-white transition-colors hover:border-white/45"
+  "rounded-tl-[1.5rem] rounded-br-[1.5rem] border border-white/20 bg-black p-8 text-white transition-colors hover:border-white/45"
 
 const CAPABILITIES = [
   {
@@ -79,8 +81,9 @@ export default function RefugeDisabledCommunicationPage() {
     <div className="service-page-root min-h-screen overflow-x-hidden bg-black text-white">
       <ServicePageHero
         title="Disabled Refuge, Fire Telephone & Disabled Toilet Alarm Systems"
-        imageSrc={serviceHeroImages.fireAlarm}
+        imageSrc={serviceSectionImages.refuge}
         heroCompliance={["BS 5839-9"]}
+        heroSummary="Disabled refuge, fire telephone and toilet alarm systems that keep emergency communication clear when it matters most."
         intro={
           <>
             <p className="mb-4">
@@ -96,17 +99,19 @@ export default function RefugeDisabledCommunicationPage() {
         }
       />
 
-      <div className="relative bg-black">
+      <div className="relative bg-[var(--page-bg)]">
         <div
           className="pointer-events-none absolute top-0 left-0 right-0 h-28 sm:h-36"
           style={{
             background:
-              "linear-gradient(to bottom, rgba(0,0,0,0) 0%, rgba(0,0,0,0.82) 52%, rgba(0,0,0,1) 100%)",
+              SERVICE_HERO_BRIDGE_GRADIENT,
           }}
           aria-hidden
         />
 
-        <section className="container relative z-[1] mx-auto px-6 py-16 lg:py-16">
+        <div className="relative z-[1] border-t border-white/15" aria-hidden />
+
+        <section className="site-container relative z-[1] py-16 lg:py-16">
           <Reveal>
             <h2 className="mb-4 text-left font-title text-3xl font-bold text-white sm:text-4xl">
               Full EVC scope
@@ -146,12 +151,12 @@ export default function RefugeDisabledCommunicationPage() {
           ]}
           footerNote={
             <>
-              Voice evacuation (BS 5839-8) and fire alarm detection (BS 5839-1) often interface with EVC, see our{" "}
+              PAVA (BS 5839-8) and fire alarm detection (BS 5839-1) often interface with EVC, see our{" "}
               <Link
-                href="/services/evac-voice-evacuation"
+                href="/services/pava"
                 className="text-black underline decoration-black/30 underline-offset-2 hover:decoration-black"
               >
-                EVAC &amp; voice evacuation
+                PAVA
               </Link>{" "}
               and{" "}
               <Link
@@ -174,17 +179,15 @@ export default function RefugeDisabledCommunicationPage() {
 
         <ServicePageClosingSections
           serviceTitleShort="Refuge, fire telephone & toilet alarms"
-          ctaImageSrc={serviceHeroImages.fireAlarm}
-          ctaHeadline="Need refuge, fire telephone or"
-          ctaHeadlineAccent="toilet alarm systems?"
+          ctaImageSrc={serviceSectionImages.refugeCta}
+          ctaHeadline="Need Refuge, Fire Telephone or"
+          ctaHeadlineAccent="Toilet Alarm Systems?"
           ctaDescription="Tell us about your building and evacuation strategy. We can survey, specify and deliver BS 5839-9 emergency voice communication, including disabled refuge, fire telephones and disabled toilet alarms."
         >
           <CustomPillButton href="/contact?service=refuge-disabled-communication" size="md">
             Get in touch
           </CustomPillButton>
-          <CustomPillButton href="tel:02083032280" size="md" variant="outline">
-            Call 020 8303 2280
-          </CustomPillButton>
+          <CallPhoneCta size="md" />
         </ServicePageClosingSections>
       </div>
     </div>

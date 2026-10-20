@@ -1,5 +1,6 @@
 import type { LucideIcon } from "lucide-react"
 import { FS_SERVICE_SHIMMER_CARD_FEATURE } from "@/lib/fsServicePageCards"
+import { toTitleCase } from "@/lib/titleCase"
 import { cn } from "@/lib/utils"
 
 type ServiceFeatureIconCardProps = {
@@ -15,7 +16,7 @@ type ServiceFeatureIconCardProps = {
 
 /**
  * Service feature card: title + body left, Lucide icon top-right.
- * Keeps shared shimmer border / hover from {@link FS_SERVICE_SHIMMER_CARD_FEATURE}.
+ * Shared flat card shell from {@link FS_SERVICE_SHIMMER_CARD_FEATURE}.
  */
 export function ServiceFeatureIconCard({
   icon: Icon,
@@ -41,7 +42,7 @@ export function ServiceFeatureIconCard({
         aria-hidden
       />
       <h3 className="min-w-0 text-left font-title text-xl font-bold leading-tight tracking-tight text-white sm:text-[1.35rem]">
-        {title}
+        {toTitleCase(title)}
       </h3>
       <p className="mt-4 text-left text-[15px] leading-[1.65] text-white/55">{description}</p>
     </div>

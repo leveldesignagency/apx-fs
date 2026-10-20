@@ -2,7 +2,7 @@
 
 import Link from "next/link"
 import Image from "next/image"
-import { usePathname } from "next/navigation"
+import { usePathname, useRouter } from "next/navigation"
 import { Phone, Mail, Menu, X, Plus, Minus, Search } from "lucide-react"
 import { ApxSocialLinks } from "@/components/ApxSocialLinks"
 import { useState, useRef, useEffect, useLayoutEffect, useCallback, type MouseEvent, type TransitionEvent } from "react"
@@ -11,9 +11,11 @@ import { useTheme } from '@/contexts/ThemeContext'
 import { cn } from "@/lib/utils"
 import { openFsHomeSearch } from "@/lib/fsHomeSearchUi"
 import { FS_SERVICE_NAV_LINKS } from "@/lib/fs-service-navigation"
+import { forceDocumentScrollTop } from "@/lib/lenisBridge"
 
 export default function Header() {
   const pathname = usePathname()
+  const router = useRouter()
   const { theme } = useTheme()
   /** Strip trailing slash so `/services` and `/services/` match the hub, etc. */
   const path = pathname.replace(/\/$/, "") || "/"
@@ -55,6 +57,7 @@ export default function Header() {
   const fsMenuPanelInRef = useRef(false)
   fsMenuPanelInRef.current = fsMenuPanelIn
   const [fsMenuPortalReady, setFsMenuPortalReady] = useState(false)
+  const [isMobileServicesOpen, setIsMobileServicesOpen] = useState(false)
   const [isServicesOpen, setIsServicesOpen] = useState(false)
   const [toast, setToast] = useState<{ message: string; type: 'phone' | 'email' } | null>(null)
   const servicesCloseTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null)
@@ -164,15 +167,20 @@ export default function Header() {
     clearFsMenuCloseTimer()
     setFsMenuPanelIn(false)
     setIsMenuOpen(false)
+    setIsMobileServicesOpen(false)
   }, [pathname, clearFsMenuCloseTimer])
+
+  useEffect(() => {
+    if (!isMenuOpen) setIsMobileServicesOpen(false)
+  }, [isMenuOpen])
 
   const copyToClipboard = async (text: string, type: 'phone' | 'email') => {
     try {
       await navigator.clipboard.writeText(text)
       setToast({ message: type === 'phone' ? 'Phone copied' : 'Email copied', type })
       setTimeout(() => setToast(null), 2000)
-    } catch (err) {
-      console.error('Failed to copy: ', err)
+    } catch {
+      /* clipboard unavailable */
     }
   }
 
@@ -194,7 +202,7 @@ export default function Header() {
    * Absolute top of .site-shell, full-bleed heroes sit underneath; scrolls with the page.
    */
   const headerLayoutClass =
-    "absolute top-0 left-0 right-0 z-[100] w-full max-w-[100vw] pointer-events-auto"
+    "absolute top-0 left-0 right-0 z-[100] w-full max-w-full pointer-events-auto"
 
   if (isCareersPage) {
     return null
@@ -204,7 +212,7 @@ export default function Header() {
     <>
     <header
       className={`site-header ${headerLayoutClass} ${useBlackHeaderCanvas ? "bg-black fs-black-header-canvas" : "bg-transparent"} ${isHomePage || isTransparentHeaderPage || isAboutPage ? "header-bg-transparent-page" : ""} ${isServicesPage ? "header--no-animate" : ""} ${isHomePage || isProjectDetailPage || isServiceSubpage ? "fs-project-detail-header" : ""}`}
-      style={{ backgroundColor: useBlackHeaderCanvas ? "#000000" : "transparent" }}
+      style={{ backgroundColor: useBlackHeaderCanvas ? "var(--page-bg)" : "transparent" }}
     >
       {/* ========== SAVED VERSION (original header, not rendered) ========== */}
       {false && (
@@ -323,7 +331,7 @@ export default function Header() {
               ></span>
             </Link>
             <a href="#" className="group relative header-pill-apx-link" style={{ color: 'white' }}>
-              <div className="flex items-center justify-center overflow-hidden transition-all duration-700 ease-[cubic-bezier(0.25,0.46,0.45,0.94)] w-8 h-8 min-w-8 min-h-8 group-hover:w-52 group-hover:backdrop-blur-sm rounded-full border-2 pulse-glow" style={{ borderColor: 'white' }}>
+              <div className="flex items-center justify-center overflow-hidden transition-all duration-700 ease-[cubic-bezier(0.25,0.46,0.45,0.94)] w-8 h-8 min-w-8 min-h-8 group-hover:w-52 group-hover:backdrop-blur-sm rounded-full border pulse-glow" style={{ borderColor: 'white' }}>
                 <div className="flex items-center justify-center w-8 h-8 rounded-full transition-all duration-700 ease-[cubic-bezier(0.25,0.46,0.45,0.94)] flex-shrink-0 absolute left-0 top-0" style={{ color: 'white' }}>
                   <Search className="h-3.5 w-3.5 shrink-0" style={{ color: 'white', stroke: 'white' }} />
                 </div>
@@ -399,7 +407,7 @@ export default function Header() {
         <div className="relative flex w-full min-h-[4.75rem] items-center lg:min-h-[6.5rem]">
             <div className="pointer-events-none absolute left-[8rem] right-0 top-1/2 z-0 hidden h-16 -translate-y-1/2 overflow-hidden lg:block">
             <div
-              className="header-bar-expand h-full w-full rounded-br-[30px] border-2"
+              className="header-bar-expand h-full w-full rounded-br-[30px] border"
               style={{
                 backgroundColor: "#000",
                 boxSizing: "border-box",
@@ -410,17 +418,43 @@ export default function Header() {
               }}
             />
           </div>
-          <div className="relative z-10 flex h-14 min-h-[3.5rem] w-full items-center justify-center px-1 sm:h-16 sm:px-2 lg:h-16 lg:min-h-0 lg:justify-between lg:px-3">
+          <div className="relative z-10 flex h-14 min-h-[3.5rem] w-full items-center justify-between px-2 sm:h-16 sm:px-3 lg:h-16 lg:min-h-0 lg:px-3">
+            {/* Mobile: balance the hamburger chip so the logo can sit truly centred */}
+            <span className="pointer-events-none invisible h-11 w-11 shrink-0 lg:hidden" aria-hidden />
             <Link
               href="/"
               className="pointer-events-auto absolute left-1/2 top-1/2 z-10 flex -translate-x-1/2 -translate-y-1/2 shrink-0 cursor-pointer items-center lg:static lg:translate-x-0 lg:translate-y-0"
-              onClick={() => {
+              onClick={(e) => {
+                e.preventDefault()
                 if (isMenuOpen) closeFsMenu()
+                try {
+                  sessionStorage.setItem("fs-home-scroll-top", "1")
+                } catch {
+                  /* ignore */
+                }
+                // Always land on the hero — soft nav / browser restore can leave you on #services
+                if (isHomePage) {
+                  try {
+                    window.history.replaceState(null, "", "/")
+                  } catch {
+                    /* ignore */
+                  }
+                  forceDocumentScrollTop()
+                  window.setTimeout(forceDocumentScrollTop, 50)
+                  window.setTimeout(forceDocumentScrollTop, 200)
+                  window.setTimeout(forceDocumentScrollTop, 500)
+                  return
+                }
+                router.push("/")
+                window.setTimeout(forceDocumentScrollTop, 50)
+                window.setTimeout(forceDocumentScrollTop, 200)
+                window.setTimeout(forceDocumentScrollTop, 500)
+                window.setTimeout(forceDocumentScrollTop, 1000)
               }}
             >
               <span
                 className={cn(
-                  "inline-block h-20 overflow-hidden sm:h-24 lg:h-28",
+                  "header-logo-mask inline-flex h-14 items-center sm:h-[3.75rem] lg:h-28 lg:overflow-hidden",
                   !isServicesPage &&
                     (logoAnimArmed ? "header-logo-drop-in" : "header-logo-drop-in-pending"),
                 )}
@@ -437,15 +471,25 @@ export default function Header() {
                       : undefined
                   }
                 >
-                  <span className="header-logo-hover-wrap relative inline-block overflow-hidden">
+                  <span className="header-logo-hover-wrap relative inline-block">
                     {/* Native img keeps SVG vector-sharp; next/image rasterises SVGs and looks soft on large displays */}
+                    {/* Mobile / tablet: footer wordmark. Desktop: boxed web logo. */}
+                    {/* eslint-disable-next-line @next/next/no-img-element */}
+                    <img
+                      src="/__APX_FS_Footer.svg"
+                      alt="APX Fire & Security Logo"
+                      width={280}
+                      height={94}
+                      className="relative z-10 h-[3.35rem] w-auto sm:h-14 lg:hidden"
+                      decoding="async"
+                    />
                     {/* eslint-disable-next-line @next/next/no-img-element */}
                     <img
                       src="/__APX Web Logo FS.svg"
                       alt="APX Fire & Security Logo"
                       width={643}
                       height={371}
-                      className="relative z-10 h-20 w-auto sm:h-24 lg:h-28"
+                      className="relative z-10 hidden h-28 w-auto lg:block"
                       decoding="async"
                     />
                   </span>
@@ -469,7 +513,7 @@ export default function Header() {
                 </span>
               </div>
             </div>
-            <div className="hidden lg:flex items-center space-x-8 text-white [&_svg]:stroke-white flex-shrink-0 relative z-10">
+            <div className="relative z-10 ml-auto hidden flex-shrink-0 items-center gap-x-4 text-white lg:flex [&_svg]:stroke-white">
               <div className="pointer-events-auto relative header-nav-item-in flex items-center" style={{ animationDelay: '2.9s' }}>
                 <Link
                   href="/services"
@@ -589,26 +633,22 @@ export default function Header() {
                 </div>
                 ) : null}
               </div>
-              <div className="pointer-events-none h-5 w-px flex-shrink-0 header-nav-item-in bg-white/90" style={{ animationDelay: '2.98s' }} aria-hidden />
               <Link href="/about" className="pointer-events-auto nav-menu-item relative text-sm font-medium leading-relaxed cursor-pointer group uppercase header-nav-item-in" style={{ color: '#fff', animationDelay: '3.06s' }}>
                 About
               </Link>
-              <div className="pointer-events-none h-5 w-px flex-shrink-0 header-nav-item-in bg-white/90" style={{ animationDelay: '3.14s' }} aria-hidden />
               <Link href="/delivery-methodology" className="pointer-events-auto nav-menu-item relative text-sm font-medium leading-relaxed cursor-pointer group uppercase header-nav-item-in" style={{ color: '#fff', animationDelay: '3.18s' }}>
                 Methodology
               </Link>
-              <div className="pointer-events-none h-5 w-px flex-shrink-0 header-nav-item-in bg-white/90" style={{ animationDelay: '3.2s' }} aria-hidden />
               <Link href="/projects" className="pointer-events-auto nav-menu-item relative text-sm font-medium leading-relaxed cursor-pointer group uppercase header-nav-item-in pointer-events-auto" style={{ color: '#fff', animationDelay: '3.22s' }}>
                 Projects
               </Link>
-              <div className="pointer-events-none h-5 w-px flex-shrink-0 header-nav-item-in bg-white/90" style={{ animationDelay: '3.3s' }} aria-hidden />
               <Link href="/contact" className="pointer-events-auto nav-menu-item relative text-sm font-medium leading-relaxed cursor-pointer group uppercase header-nav-item-in" style={{ color: '#fff', animationDelay: '3.38s' }}>
                 Contact
               </Link>
               <button
                 type="button"
                 onClick={() => openFsHomeSearch()}
-                className="fs-header-search-trigger pointer-events-auto header-nav-item-in flex h-8 w-8 min-h-8 min-w-8 items-center justify-center rounded-full border-2 border-white transition-opacity hover:opacity-80"
+                className="fs-header-search-trigger pointer-events-auto header-nav-item-in flex h-8 w-8 min-h-8 min-w-8 items-center justify-center rounded-full border border-white transition-opacity hover:opacity-80"
                 style={{ animationDelay: "3.46s" }}
                 aria-label="Search services"
               >
@@ -616,45 +656,32 @@ export default function Header() {
               </button>
               <div className="pointer-events-none header-nav-item-in" style={{ animationDelay: "3.54s" }}>
                 <ApxSocialLinks
-                  className="flex items-center gap-4 pl-1 pr-3 sm:pr-4 lg:pr-5"
+                  className="flex items-center gap-3 pl-0.5 pr-1 lg:pr-2"
                   iconClassName="h-4 w-4"
                   linkClassName="pointer-events-auto text-white transition-opacity hover:opacity-80"
                 />
               </div>
             </div>
-            <button
-              type="button"
-              onClick={() => {
-                if (isMenuOpen) closeFsMenu()
-                openFsHomeSearch()
-              }}
-              className={cn(
-                "fs-header-search-trigger pointer-events-auto absolute right-[3.25rem] top-1/2 z-20 -translate-y-1/2 flex h-10 w-10 items-center justify-center sm:right-[3.75rem] lg:hidden",
-                "rounded-lg border-2 border-white",
-                "transition-transform duration-200 active:scale-[0.97]"
-              )}
-              aria-label="Search services"
-            >
-              <Search className="h-4 w-4" strokeWidth={2} aria-hidden />
-            </button>
-            <button
-              type="button"
-              onClick={() => (isMenuOpen ? closeFsMenu() : setIsMenuOpen(true))}
-              className={cn(
-                "fs-header-menu-trigger pointer-events-auto absolute right-2 top-1/2 z-20 -translate-y-1/2 flex h-10 w-10 items-center justify-center sm:right-4 lg:hidden",
-                "rounded-lg border-2 border-white bg-black text-white",
-                "transition-transform duration-200 active:scale-[0.97]"
-              )}
-              aria-expanded={isMenuOpen}
-              aria-controls="fs-mobile-nav"
-              aria-label={isMenuOpen ? "Close navigation" : "Open navigation"}
-            >
-              {isMenuOpen ? (
-                <X className="h-5 w-5" strokeWidth={1.75} aria-hidden />
-              ) : (
-                <Menu className="h-5 w-5" strokeWidth={1.75} aria-hidden />
-              )}
-            </button>
+            {/* Chip keeps the icon readable on light and dark page tops */}
+            <span className="pointer-events-auto relative z-20 inline-flex h-11 w-11 shrink-0 items-center justify-center rounded-full border border-white/35 bg-black shadow-[0_6px_20px_rgba(0,0,0,0.35)] lg:hidden">
+              <button
+                type="button"
+                onClick={() => (isMenuOpen ? closeFsMenu() : setIsMenuOpen(true))}
+                className={cn(
+                  "fs-header-menu-trigger flex h-11 w-11 items-center justify-center border-0 bg-transparent p-0 text-white shadow-none",
+                  "transition-opacity duration-200 hover:opacity-80 active:opacity-70"
+                )}
+                aria-expanded={isMenuOpen}
+                aria-controls="fs-mobile-nav"
+                aria-label={isMenuOpen ? "Close navigation" : "Open navigation"}
+              >
+                {isMenuOpen ? (
+                  <X className="h-6 w-6" strokeWidth={1.6} aria-hidden />
+                ) : (
+                  <Menu className="h-6 w-6" strokeWidth={1.6} aria-hidden />
+                )}
+              </button>
+            </span>
           </div>
         </div>
       </nav>
@@ -663,7 +690,7 @@ export default function Header() {
       <div className="pointer-events-auto absolute top-full right-[54px] z-[1] hidden lg:block">
         <div className="relative">
           <div
-            className="header-contact-tab--dark header-contact-tab-drop-in flex items-center space-x-3 rounded-t-none rounded-b-xl border-2 border-t-0 px-4 py-2"
+            className="header-contact-tab--dark header-contact-tab-drop-in flex items-center space-x-3 rounded-t-none rounded-b-xl border border-t-0 px-4 py-2"
             style={{
               borderColor: "#fff",
               backgroundColor: "#000",
@@ -713,63 +740,210 @@ export default function Header() {
           >
             <div
               className={cn(
-                "absolute inset-0 z-0 transition-opacity duration-300 ease-out",
-                fsMenuPanelIn ? "bg-black/60 opacity-100 backdrop-blur-[2px]" : "bg-black/0 opacity-0"
+                "absolute inset-0 z-0 bg-black transition-opacity duration-300 ease-out",
+                fsMenuPanelIn ? "opacity-100" : "opacity-0"
               )}
               onClick={closeFsMenu}
               aria-hidden
             />
             <div
               className={cn(
-                "absolute z-10 flex min-h-0 min-w-0 flex-col overflow-hidden",
-                "left-3 right-3 sm:left-4 sm:right-4",
-                "top-[max(0.75rem,env(safe-area-inset-top,0px))] bottom-[max(0.75rem,env(safe-area-inset-bottom,0px))]",
-                "rounded-2xl border border-white/15 bg-[#0a0a0a]/96 shadow-[0_24px_80px_rgba(0,0,0,0.5)] backdrop-blur-xl",
+                "fs-mobile-menu absolute inset-0 z-10 flex min-h-0 min-w-0 flex-col overflow-hidden bg-black",
+                "pt-[max(0.75rem,env(safe-area-inset-top,0px))] pb-[max(1.25rem,env(safe-area-inset-bottom,0px))]",
                 "transition-transform duration-300 ease-[cubic-bezier(0.4,0,0.2,1)]",
                 fsMenuPanelIn ? "translate-x-0" : "translate-x-full"
               )}
               onTransitionEnd={handleFsMenuPanelTransitionEnd}
             >
-              <div className="flex shrink-0 items-center justify-end border-b border-white/10 px-4 py-3 sm:px-5">
+              <div className="relative flex shrink-0 items-center justify-between px-5 py-2.5 sm:px-6">
+                <button
+                  type="button"
+                  onClick={() => {
+                    // Open search in the same user gesture so iOS shows the keyboard
+                    openFsHomeSearch()
+                    closeFsMenu()
+                  }}
+                  className="fs-header-menu-trigger relative z-10 flex h-10 w-10 shrink-0 items-center justify-center border-0 bg-transparent p-0 text-white shadow-none transition-opacity hover:opacity-80 active:opacity-70"
+                  aria-label="Search services"
+                >
+                  <Search className="h-6 w-6" strokeWidth={1.6} aria-hidden />
+                </button>
+
+                <Link
+                  href="/"
+                  onClick={(e) => {
+                    e.preventDefault()
+                    closeFsMenu()
+                    try {
+                      sessionStorage.setItem("fs-home-scroll-top", "1")
+                    } catch {
+                      /* ignore */
+                    }
+                    if (isHomePage) {
+                      try {
+                        window.history.replaceState(null, "", "/")
+                      } catch {
+                        /* ignore */
+                      }
+                      forceDocumentScrollTop()
+                      window.setTimeout(forceDocumentScrollTop, 50)
+                      window.setTimeout(forceDocumentScrollTop, 200)
+                      return
+                    }
+                    router.push("/")
+                    window.setTimeout(forceDocumentScrollTop, 50)
+                    window.setTimeout(forceDocumentScrollTop, 200)
+                    window.setTimeout(forceDocumentScrollTop, 400)
+                  }}
+                  className="absolute left-1/2 top-1/2 z-10 flex -translate-x-1/2 -translate-y-1/2 items-center"
+                  aria-label="APX Fire & Security home"
+                >
+                  {/* eslint-disable-next-line @next/next/no-img-element */}
+                  <img
+                    src="/__APX_FS_Footer.svg"
+                    alt=""
+                    width={280}
+                    height={94}
+                    className="h-9 w-auto sm:h-10"
+                    decoding="async"
+                  />
+                </Link>
+
                 <button
                   type="button"
                   onClick={closeFsMenu}
-                  className="fs-header-menu-trigger flex h-9 w-9 shrink-0 items-center justify-center rounded-lg border-2 border-white bg-black text-white transition active:scale-[0.98]"
+                  className="fs-header-menu-trigger relative z-10 flex h-10 w-10 shrink-0 items-center justify-center border-0 bg-transparent p-0 text-white shadow-none transition-opacity hover:opacity-80 active:opacity-70"
                   aria-label="Close"
                 >
-                  <X className="h-4 w-4" strokeWidth={1.75} aria-hidden />
+                  <X className="h-7 w-7" strokeWidth={1.6} aria-hidden />
                 </button>
               </div>
-              <div className="min-h-0 flex-1 overflow-y-auto overscroll-y-contain px-2 pb-2 sm:px-3 sm:pb-3">
-                <nav className="flex flex-col" aria-label="Main">
-                  {FS_MOBILE_PRIMARY_LINKS.map(({ href, label }, i) => {
-                    const active = isFsNavActive(href)
-                    return (
-                      <Link
-                        key={href}
-                        href={href}
-                        onClick={closeFsMenu}
+
+              <div className="flex min-h-0 flex-1 flex-col overflow-y-auto overscroll-y-contain px-5 pb-4 sm:px-8">
+                <nav className="flex flex-col pt-2" aria-label="Main">
+                  {/* Services accordion */}
+                  <div className="border-b border-white/10">
+                    <button
+                      type="button"
+                      onClick={() => setIsMobileServicesOpen((o) => !o)}
+                      className="flex w-full items-center justify-between gap-3 py-3.5 text-left"
+                      aria-expanded={isMobileServicesOpen}
+                    >
+                      <span
                         className={cn(
-                          "relative block border-b border-white/10 py-3.5 pl-3 pr-5 text-right text-sm font-semibold uppercase tracking-wide !text-white transition-[background-color,opacity] duration-150",
-                          "hover:bg-white/5",
-                          "last:border-b-0",
-                          i === 0 && "pt-3",
-                          active && "bg-white/[0.06]"
+                          "text-[1.35rem] font-semibold uppercase tracking-[0.04em] !text-white sm:text-[1.5rem]",
+                          isFsNavActive("/services") && "underline decoration-white/40 underline-offset-6"
                         )}
                         style={{ fontFamily: "var(--font-menu), sans-serif" }}
-                        aria-current={active ? "page" : undefined}
                       >
-                        {active && (
-                          <span
-                            className="absolute top-0 bottom-0 left-0 w-0.5 bg-white"
-                            aria-hidden
-                          />
-                        )}
-                        {label}
-                      </Link>
-                    )
-                  })}
+                        Services
+                      </span>
+                      {isMobileServicesOpen ? (
+                        <Minus className="h-5 w-5 shrink-0 text-white/70" strokeWidth={1.75} aria-hidden />
+                      ) : (
+                        <Plus className="h-5 w-5 shrink-0 text-white/70" strokeWidth={1.75} aria-hidden />
+                      )}
+                    </button>
+                    <div
+                      className={cn(
+                        "grid transition-[grid-template-rows] duration-300 ease-out",
+                        isMobileServicesOpen ? "grid-rows-[1fr]" : "grid-rows-[0fr]"
+                      )}
+                    >
+                      <div className="min-h-0 overflow-hidden">
+                        <ul className="mb-2 flex list-none flex-col gap-0 pb-2 pl-0">
+                          <li>
+                            <Link
+                              href="/services"
+                              onClick={closeFsMenu}
+                              className="block py-2 text-sm font-semibold uppercase tracking-[0.08em] text-white/55 transition-colors hover:text-white"
+                              style={{ fontFamily: "var(--font-menu), sans-serif" }}
+                            >
+                              All services
+                            </Link>
+                          </li>
+                          {FS_SERVICE_NAV_LINKS.map(({ href, shortLabel }) => (
+                            <li key={href}>
+                              <Link
+                                href={href}
+                                onClick={closeFsMenu}
+                                className={cn(
+                                  "block py-2 text-[0.95rem] font-medium tracking-wide text-white/80 transition-colors hover:text-white",
+                                  isFsNavActive(href) && "text-white"
+                                )}
+                                style={{ fontFamily: "var(--font-menu), sans-serif" }}
+                                aria-current={isFsNavActive(href) ? "page" : undefined}
+                              >
+                                {shortLabel}
+                              </Link>
+                            </li>
+                          ))}
+                        </ul>
+                      </div>
+                    </div>
+                  </div>
+
+                  {FS_MOBILE_PRIMARY_LINKS.filter((l) => l.href !== "/services").map(
+                    ({ href, label }, i) => {
+                      const active = isFsNavActive(href)
+                      return (
+                        <Link
+                          key={href}
+                          href={href}
+                          onClick={closeFsMenu}
+                          className={cn(
+                            "fs-mobile-menu__link relative block border-b border-white/10 py-3.5 text-left text-[1.35rem] font-semibold uppercase tracking-[0.04em] !text-white transition-opacity duration-150 sm:text-[1.5rem]",
+                            "hover:opacity-80 active:bg-transparent",
+                            active && "underline decoration-white/40 underline-offset-6"
+                          )}
+                          style={{
+                            fontFamily: "var(--font-menu), sans-serif",
+                            transitionDelay: fsMenuPanelIn ? `${60 + i * 30}ms` : "0ms",
+                          }}
+                          aria-current={active ? "page" : undefined}
+                        >
+                          {label}
+                        </Link>
+                      )
+                    }
+                  )}
                 </nav>
+
+                <div className="mt-auto flex flex-col gap-3 pt-8">
+                  <a
+                    href="tel:02083032280"
+                    onClick={closeFsMenu}
+                    className="inline-flex items-center gap-3 text-white transition-opacity hover:opacity-80"
+                  >
+                    <Phone className="h-4 w-4 shrink-0 opacity-70" strokeWidth={1.75} aria-hidden />
+                    <span
+                      className="text-[0.95rem] font-semibold tracking-wide"
+                      style={{ fontFamily: "var(--font-menu), sans-serif" }}
+                    >
+                      020 8303 2280
+                    </span>
+                  </a>
+                  <a
+                    href="mailto:enquiries@apx-fs.co.uk"
+                    onClick={closeFsMenu}
+                    className="inline-flex items-center gap-3 text-white transition-opacity hover:opacity-80"
+                  >
+                    <Mail className="h-4 w-4 shrink-0 opacity-70" strokeWidth={1.75} aria-hidden />
+                    <span
+                      className="text-sm font-medium tracking-wide break-all"
+                      style={{ fontFamily: "var(--font-menu), sans-serif" }}
+                    >
+                      enquiries@apx-fs.co.uk
+                    </span>
+                  </a>
+                  <div className="border-t border-white/10 pt-4">
+                    <ApxSocialLinks
+                      className="flex items-center gap-5"
+                      iconClassName="h-5 w-5"
+                      linkClassName="text-white/70 transition-opacity hover:text-white hover:opacity-100"
+                    />
+                  </div>
+                </div>
               </div>
             </div>
           </div>,

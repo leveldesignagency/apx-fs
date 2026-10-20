@@ -8,9 +8,10 @@ import { Reveal } from "@/components/Reveal"
 import { ServiceItemReveal } from "@/components/ServiceItemReveal"
 import { ServicePageHero, type ServicePageHeroProps } from "@/components/ServicePageHero"
 import { CustomPillButton } from "@/components/ui/CustomPillButton"
+import { SERVICE_HERO_BRIDGE_GRADIENT } from "@/lib/heroBackgroundGradients"
 
 export type CapabilityServicePageLayoutProps = {
-  /** Page title, sentence case, homepage title font */
+  /** Page title, Title Case via ServicePageHero */
   title: string
   intro: ReactNode
   /** Optional hero photo; omit for text-only hero on black (capability pillars) */
@@ -74,15 +75,17 @@ export function CapabilityServicePageLayout({
         {...(heroImageSrc ? { imageSrc: heroImageSrc } : {})}
       />
 
-      <div className="relative bg-black">
+      <div className="relative bg-[var(--page-bg)]">
         <div
           className="pointer-events-none absolute top-0 left-0 right-0 z-0 h-28 sm:h-36"
           style={{
             background:
-              "linear-gradient(to bottom, rgba(0,0,0,0) 0%, rgba(0,0,0,0.82) 52%, rgba(0,0,0,1) 100%)",
+              SERVICE_HERO_BRIDGE_GRADIENT,
           }}
           aria-hidden
         />
+
+        <div className="relative z-[1] border-t border-white/15" aria-hidden />
 
         <div className="fs-capability-page fs-capability-page--section relative z-[1] pt-4 pb-20 sm:pt-5 sm:pb-24 lg:pb-28">
           <div className={outerClass}>

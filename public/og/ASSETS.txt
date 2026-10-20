@@ -1,0 +1,16 @@
+# APX Fire & Security � social / OG image drop folder
+#
+# Spec for every share banner (LinkedIn, Facebook, X, Slack, iMessage, etc.):
+#   Size:   1200 � 630 px
+#   Format: PNG or JPG (sRGB)
+#   Safe zone: keep logo/text inset ~80px from edges
+#
+# Files (replace placeholders when art is ready):
+#   default.png / default.jpg   � site-wide fallback (wired now)
+#   home.png                    � homepage override (optional)
+#   services.png                � services hub
+#   services-{slug}.png         � e.g. services-cctv-systems.png
+#   about.png, contact.png, careers.png, projects.png, news.png
+#
+# After dropping a file, point that page's buildFsMetadata({ imageUrl: "/og/�" }).
+# Until then every page uses /og/default.png (footer logo on black).

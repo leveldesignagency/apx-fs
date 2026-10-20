@@ -13,10 +13,13 @@ import { getFsSiteUrl } from "@/lib/seo"
 import { FS_PROJECTS_CONTENT_MAX, FS_PROJECTS_SECTION_PX } from "@/lib/fsProjectsLayout"
 import { NewsArticleBody } from "@/components/news/NewsArticleBody"
 import { NewsArticleHeroLead } from "@/components/news/NewsArticleHeroLead"
-import { NewsArticleCard } from "@/components/news/NewsArticleCard"
 import { NewsArticleShareBanner } from "@/components/news/NewsArticleShareBanner"
+import { NewsMoreArticlesStrip } from "@/components/news/NewsMoreArticlesStrip"
 import { FsInsetCtaCard } from "@/components/FsInsetCtaCard"
 import { CustomPillButton } from "@/components/ui/CustomPillButton"
+import { CallPhoneCta } from "@/components/ui/CallPhoneCta"
+import { JsonLd } from "@/components/seo/JsonLd"
+import { breadcrumbsSimple, buildArticleJsonLd, buildBreadcrumbJsonLd } from "@/lib/seo-jsonld"
 
 type Props = {
   params: Promise<{ slug: string }>
@@ -52,17 +55,40 @@ export default async function NewsArticlePage({ params }: Props) {
   const article = getNewsArticleBySlug(slug)
   if (!article) notFound()
 
-  const related = getNewsArticlesSorted()
-    .filter((item) => item.slug !== article.slug)
-    .slice(0, 3)
+  const others = getNewsArticlesSorted().filter((item) => item.slug !== article.slug)
+  const sameCategory = others.filter((item) =>
+    item.categories.some((cat) => article.categories.includes(cat))
+  )
+  const moreArticles = [
+    ...sameCategory,
+    ...others.filter((item) => !sameCategory.some((s) => s.slug === item.slug)),
+  ].slice(0, 3)
   const siteUrl = getFsSiteUrl()
   const articleUrl = `${siteUrl}/news/${slug}`
   const shareDescription =
     article.excerpt.length > 160 ? `${article.excerpt.slice(0, 157)}…` : article.excerpt
   const relatedServices = article.relatedServices ?? []
+  const imageUrl = `${siteUrl}${article.imageSrc}`
 
   return (
     <div className="news-article-page min-h-screen bg-white text-black" data-cursor-surface="light">
+      <JsonLd
+        data={[
+          buildBreadcrumbJsonLd(
+            breadcrumbsSimple(
+              { name: "News", path: "/news" },
+              { name: article.title, path: `/news/${slug}` }
+            )
+          ),
+          buildArticleJsonLd({
+            title: article.title,
+            description: shareDescription,
+            pathname: `/news/${slug}`,
+            imageUrl,
+            publishedAt: article.publishedAt,
+          }),
+        ]}
+      />
       <article>
         <header className={`border-b border-black/10 ${FS_PROJECTS_SECTION_PX}`}>
           <div className={`${FS_PROJECTS_CONTENT_MAX} page-title-top pb-10 md:pb-12`}>
@@ -126,7 +152,7 @@ export default async function NewsArticlePage({ params }: Props) {
                     <li key={service.href}>
                       <Link
                         href={service.href}
-                        className="inline-flex border-2 border-black/20 px-3 py-2 text-xs font-semibold uppercase tracking-[0.1em] text-black transition-colors hover:border-black hover:bg-black hover:text-white"
+                        className="inline-flex border border-black/20 px-3 py-2 text-xs font-semibold uppercase tracking-[0.1em] text-black transition-colors hover:border-black hover:bg-black hover:text-white"
                       >
                         {service.label}
                       </Link>
@@ -156,6 +182,8 @@ export default async function NewsArticlePage({ params }: Props) {
         />
       </article>
 
+      <NewsMoreArticlesStrip articles={moreArticles} />
+
       <FsInsetCtaCard
         variant="service"
         backgroundImageSrc={article.imageSrc}
@@ -167,25 +195,8 @@ export default async function NewsArticlePage({ params }: Props) {
         <CustomPillButton href="/contact" size="lg">
           Contact APX Fire &amp; Security
         </CustomPillButton>
-        <CustomPillButton href="tel:02083032280" size="lg" variant="outline">
-          Call 020 8303 2280
-        </CustomPillButton>
+        <CallPhoneCta size="lg" />
       </FsInsetCtaCard>
-
-      {related.length > 0 && (
-        <section className={`border-t-2 border-black ${FS_PROJECTS_SECTION_PX}`}>
-          <div className={`${FS_PROJECTS_CONTENT_MAX} pt-14 pb-20 md:pt-16 md:pb-24 lg:pb-28`}>
-            <h2 className="font-title text-2xl font-bold normal-case text-black md:text-3xl">
-              More news &amp; articles
-            </h2>
-            <div className="mt-8 grid grid-cols-1 gap-6 md:grid-cols-3 md:gap-8">
-              {related.map((item) => (
-                <NewsArticleCard key={item.slug} article={item} />
-              ))}
-            </div>
-          </div>
-        </section>
-      )}
     </div>
   )
 }

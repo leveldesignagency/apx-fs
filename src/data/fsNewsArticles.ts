@@ -55,11 +55,11 @@ export const NEWS_CATEGORY_LABELS: Record<NewsCategory, string> = {
 export const FS_NEWS_ARTICLES: FsNewsArticle[] = [
   {
     slug: "maintenance-monitoring-guidance-2026",
-    title: "Maintenance and monitoring: keeping fire and security systems ready",
+    title: "Maintenance and monitoring: keeping Fire and Security systems ready",
     publishedAt: "2026-09-12",
     publishedLabel: "12th September 2026",
     excerpt:
-      "Planned maintenance, clear reporting and monitoring options help duty holders keep fire and security systems reliable between major works.",
+      "Planned maintenance, clear reporting and monitoring options help duty holders keep Fire and Security systems reliable between major works.",
     body: [
       "Once a fire or security system is commissioned, ongoing care is what keeps it dependable. Missed inspections, incomplete records or unclear monitoring arrangements are common reasons systems drift away from the standard they were built to meet.",
       "APX Fire & Security supports planned preventative maintenance, reactive attendance where contracted, and monitoring pathways where the site design requires them. Our focus is practical: engineers who know the systems, documentation you can hand to auditors, and escalation that matches how your building operates.",
@@ -74,10 +74,10 @@ export const FS_NEWS_ARTICLES: FsNewsArticle[] = [
       },
     ],
     imageSrc: "/projects/library/apx-fire-security-alarm-box.jpg",
-    imageAlt: "Fire and security system equipment supported under maintenance",
+    imageAlt: "Fire and Security system equipment supported under maintenance",
     categories: ["company-news", "fire-alarm-systems", "intruder-alarm-systems"],
     relatedServices: [
-      { label: "Maintenance & support", href: "/services/maintenance-support" },
+      { label: "Maintenance & repairs", href: "/services/maintenance-support" },
       { label: "Fire alarm systems", href: "/services/fire-alarm-systems" },
       { label: "Intruder alarm systems", href: "/services/intruder-alarm-systems" },
     ],
@@ -161,7 +161,7 @@ export const FS_NEWS_ARTICLES: FsNewsArticle[] = [
       },
     ],
     imageSrc: "/projects/case-studies/sancroft-building/case-study-sancroft-building-fire-alarm-installation-exterior.jpg",
-    imageAlt: "Commercial fire and security project delivery",
+    imageAlt: "Commercial Fire and Security project delivery",
     categories: ["company-news"],
     relatedServices: [
       { label: "Projects", href: "/projects" },
@@ -179,7 +179,7 @@ export const FS_NEWS_ARTICLES: FsNewsArticle[] = [
     body: [
       "Constructionline is widely used by principal contractors and public-sector buyers to pre-qualify suppliers before tender and appointment. Gold membership reflects a higher assurance level within that platform.",
       "APX Fire & Security is a Constructionline Gold Member. For clients and contractors, that means clearer early-stage due diligence on company information and compliance readiness, alongside our NSI and BAFE credentials.",
-      "Constructionline is a procurement credential, not a substitute for technical certification. We continue to deliver fire and security packages under NSI Gold frameworks and BAFE registration where those apply.",
+      "Constructionline is a procurement credential, not a substitute for technical certification. We continue to deliver Fire and Security packages under NSI Gold frameworks and BAFE registration where those apply.",
       "Read more about our Constructionline status on our credentials pages.",
     ],
     inlineLinks: [
@@ -205,7 +205,7 @@ export const FS_NEWS_ARTICLES: FsNewsArticle[] = [
     excerpt:
       "Full membership of the Fire Industry Association supports technical guidance, training pathways and industry standards, alongside our NSI and BAFE credentials.",
     body: [
-      "The Fire Industry Association (FIA) is the UK’s major trade association for fire protection and fire safety professionals. It supports standards, training and technical guidance across the industry.",
+      "The Fire Industry Association (FIA) is the UK's major trade association for fire protection and fire safety professionals. It supports standards, training and technical guidance across the industry.",
       "APX Fire & Security is a Full Member of the FIA. Membership is not a third-party accreditation of our installation work; it demonstrates commitment to industry practice and continuous improvement alongside NSI Gold and BAFE registration.",
       "For customers, that combination matters: independent certification and registration for delivery quality, plus association membership that keeps our teams aligned with evolving fire-safety guidance.",
       "Learn more about FIA membership and our other credentials.",
@@ -231,7 +231,7 @@ export const FS_NEWS_ARTICLES: FsNewsArticle[] = [
     publishedAt: "2025-08-20",
     publishedLabel: "20th August 2025",
     excerpt:
-      "Our most recent NSI Gold inspection recorded zero non-conformances, reinforcing the quality controls behind our fire and security delivery.",
+      "Our most recent NSI Gold inspection recorded zero non-conformances, reinforcing the quality controls behind our Fire and Security delivery.",
     body: [
       "NSI Gold approval for security and fire systems is central to how APX Fire & Security designs, installs and maintains electronic security and fire packages.",
       "Following our most recent NSI Gold inspection, we are pleased to report zero non-conformances. That outcome reflects the day-to-day discipline our engineers and project teams apply to documentation, competence and on-site quality.",
@@ -246,7 +246,7 @@ export const FS_NEWS_ARTICLES: FsNewsArticle[] = [
       },
     ],
     imageSrc: "/projects/library/apx-fire-security-alarm-box.jpg",
-    imageAlt: "NSI-aligned fire and security systems",
+    imageAlt: "NSI-aligned Fire and Security systems",
     categories: ["company-news"],
     relatedServices: [
       { label: "NSI Gold", href: "/accreditations/nsi" },
@@ -259,9 +259,9 @@ export const FS_NEWS_ARTICLES: FsNewsArticle[] = [
     publishedAt: "2025-06-12",
     publishedLabel: "12th June 2025",
     excerpt:
-      "APX Fire & Security continues the fire and security business formerly known as Smiths Technical Systems Ltd, with a heritage dating back to 1986.",
+      "APX Fire & Security continues the Fire and Security business formerly known as Smiths Technical Systems Ltd, with a heritage dating back to 1986.",
     body: [
-      "APX Fire & Security is the current identity of the fire and security business formerly known as Smiths Technical Systems Ltd. Building on a heritage dating back to 1986, we design, install and maintain integrated fire, life-safety and electronic security systems across London and the Home Counties.",
+      "APX Fire & Security is the current identity of the Fire and Security business formerly known as Smiths Technical Systems Ltd. Building on a heritage dating back to 1986, we design, install and maintain integrated fire, life-safety and electronic security systems across London and the Home Counties.",
       "The rebrand keeps the same engineering focus: NSI Gold delivery for security and fire, BAFE registration for fire safety services, and clear documentation from survey through to maintenance.",
       "Clients who worked with us as Smiths Technical Systems continue to receive the same teams, standards and aftercare, now under the APX Fire & Security name, alongside our APX MEP sister brand where mechanical and electrical packages are required.",
       "Learn more about our company on the About page, or browse current services and projects.",
@@ -363,14 +363,14 @@ export const FS_NEWS_ARTICLES: FsNewsArticle[] = [
   },
   {
     slug: "smart-building-127-charing-cross-road",
-    title: "APX Fire & Security appointed for ‘Smart Building’ security at 127 Charing Cross Road",
+    title: "APX Fire & Security appointed for 'Smart Building' security at 127 Charing Cross Road",
     publishedAt: "2023-04-28",
     publishedLabel: "28th April 2023",
     excerpt:
-      "APX Fire & Security was appointed to install fire and security systems at 127 Charing Cross Road WC2, working with LJJ Electrical and Mechanical Ltd.",
+      "APX Fire & Security was appointed to install Fire and Security systems at 127 Charing Cross Road WC2, working with LJJ Electrical and Mechanical Ltd.",
     body: [
-      "APX Fire & Security was appointed to install the fire and security systems at 127 Charing Cross Road WC2, working in partnership with LJJ Electrical and Mechanical Ltd.",
-      "Our package covered a ‘smart building’ security solution including access control, CCTV, fire alarm, disabled refuge and intruder alarms.",
+      "APX Fire & Security was appointed to install the Fire and Security systems at 127 Charing Cross Road WC2, working in partnership with LJJ Electrical and Mechanical Ltd.",
+      "Our package covered a 'smart building' security solution including access control, CCTV, fire alarm, disabled refuge and intruder alarms.",
       "The circa 40,000 sq.ft property had consent to extend to around 60,000 sq.ft, with retail and leisure at ground and lower ground levels and high-specification offices above, plus additional floors at roof level.",
       "The freehold site occupies a prime location close to Tottenham Court Road underground station.",
       "This article records the 2023 appointment. Explore our current fire, CCTV, access, refuge and intruder services, or contact APX Fire & Security to discuss a similar integrated package.",

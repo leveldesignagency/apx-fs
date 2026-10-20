@@ -1,8 +1,8 @@
 import { FS_SERVICE_ROUTES } from "@/lib/fs-service-routes"
 
 /**
- * Canonical FS service order (most popular installations first).
- * Used by hero quick-nav, header, footer, service-page quick-nav, hub, contact.
+ * Canonical FS service order — matches the header Services dropdown.
+ * Keep every public service list in this order.
  */
 export const FS_SERVICE_NAV_LINKS = [
   {
@@ -33,25 +33,31 @@ export const FS_SERVICE_NAV_LINKS = [
   {
     href: FS_SERVICE_ROUTES.videoDoorEntrySystems,
     label: "Video Door Entry Systems",
-    shortLabel: "Video entry",
+    shortLabel: "Video Entry",
     navLabel: "Video Door Entry Systems",
   },
   {
     href: FS_SERVICE_ROUTES.gateAutomationSystems,
     label: "Gate Automation",
-    shortLabel: "Gate automation",
+    shortLabel: "Gate Automation",
     navLabel: "Gate Automation",
   },
   {
-    href: FS_SERVICE_ROUTES.evacVoiceEvacuation,
-    label: "EVAC & Voice Alarm Systems",
+    href: FS_SERVICE_ROUTES.pava,
+    label: "PAVA Systems",
+    shortLabel: "PAVA",
+    navLabel: "PAVA (Public Address & Voice Alarm)",
+  },
+  {
+    href: FS_SERVICE_ROUTES.evac,
+    label: "EVAC Systems",
     shortLabel: "EVAC",
-    navLabel: "EVAC & Voice Alarm Systems",
+    navLabel: "EVAC (Evacuation Alert Systems)",
   },
   {
     href: FS_SERVICE_ROUTES.refugeDisabledCommunication,
     label: "Disabled Refuge, Fire Telephone & Toilet Alarm Systems",
-    shortLabel: "Refuge & toilets",
+    shortLabel: "Refuge & Toilets",
     navLabel: "Disabled Refuge, Fire Telephone & Toilet Alarm Systems",
   },
   {
@@ -69,7 +75,7 @@ export const FS_SERVICE_NAV_LINKS = [
   {
     href: FS_SERVICE_ROUTES.emergencyCallOut,
     label: "24/7 Call-Out",
-    shortLabel: "24/7 call-out",
+    shortLabel: "24/7 Call-Out",
     navLabel: "24/7 Call-Out",
   },
 ] as const
@@ -85,7 +91,7 @@ export const FS_CORE_SERVICE_LINKS = FS_SERVICE_QUICK_LINKS
 
 export const FS_CCTV_TAB_LINKS = [
   { href: "/services/cctv/commercial", label: "Commercial" },
-  { href: "/services/cctv/advice", label: "Useful advice" },
+  { href: "/services/cctv/advice", label: "Useful Advice" },
   { href: "/services/cctv/domestic", label: "Domestic" },
 ] as const
 

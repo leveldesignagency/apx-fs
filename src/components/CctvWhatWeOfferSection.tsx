@@ -3,6 +3,7 @@
 import { CheckCircle } from "lucide-react"
 import { Reveal } from "@/components/Reveal"
 import { ServiceItemReveal } from "@/components/ServiceItemReveal"
+import { toTitleCase } from "@/lib/titleCase"
 
 type CctvWhatWeOfferSectionProps = {
   /** Small caps label above the heading */
@@ -13,23 +14,23 @@ type CctvWhatWeOfferSectionProps = {
   description?: string
 }
 
-/** Shared “What we offer” block for CCTV domestic / commercial / advice, no CTA */
+/** Shared “What We Offer” block for CCTV domestic / commercial / advice, no CTA */
 export function CctvWhatWeOfferSection({
   eyebrow = "Scope",
-  title = "What we offer",
+  title = "What We Offer",
   items,
   description,
 }: CctvWhatWeOfferSectionProps) {
   return (
     <section className="bg-white text-black" aria-labelledby="cctv-what-we-offer-heading">
-        <div className="container mx-auto px-6 pt-14 pb-24 lg:pt-20 lg:pb-32">
+        <div className="site-container pt-14 pb-24 lg:pt-20 lg:pb-32">
           <Reveal>
             <span className="section-label mb-3 block text-neutral-500">{eyebrow}</span>
             <h2
               id="cctv-what-we-offer-heading"
               className={`max-w-3xl font-title text-3xl font-bold tracking-tight text-black sm:text-4xl ${description ? "mb-6 sm:mb-8" : "mb-10"}`}
             >
-              {title}
+              {toTitleCase(title)}
             </h2>
           </Reveal>
           {description ? (

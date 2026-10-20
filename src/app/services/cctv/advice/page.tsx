@@ -12,9 +12,11 @@ import { ServicePageHero } from "@/components/ServicePageHero"
 import { Reveal } from "@/components/Reveal"
 import { ServiceItemReveal } from "@/components/ServiceItemReveal"
 import { CustomPillButton } from "@/components/ui/CustomPillButton"
+import { CallPhoneCta } from "@/components/ui/CallPhoneCta"
 import { ServiceFeatureIconCard } from "@/components/ServiceFeatureIconCard"
 import { serviceHeroImages } from "@/lib/serviceHeroImages"
 import { Camera, FileCheck, HelpCircle } from "lucide-react"
+import { SERVICE_HERO_BRIDGE_GRADIENT } from "@/lib/heroBackgroundGradients"
 
 const WHAT_WE_OFFER_ITEMS = [
   "Free, no-obligation survey of your property",
@@ -38,21 +40,24 @@ export default function UsefulCctvAdvicePage() {
         title="Useful CCTV advice"
         imageSrc={serviceHeroImages.cctvAdvice}
         heroCompliance={["BS EN 62676"]}
+        heroSummary="Practical CCTV advice on camera types, placement, recording and privacy, before you enquire for a professional install."
         afterIntro={<FsCctvSubpageHeroButtons />}
         intro="Practical guidance on choosing and using CCTV, camera types, placement, recording, privacy and working with a professional installer. When you are ready to proceed, enquire via our main CCTV systems page."
       />
 
-      <div className="relative bg-black">
+      <div className="relative bg-[var(--page-bg)]">
         <div
           className="pointer-events-none absolute top-0 left-0 right-0 h-28 sm:h-36"
           style={{
             background:
-              "linear-gradient(to bottom, rgba(0,0,0,0) 0%, rgba(0,0,0,0.82) 52%, rgba(0,0,0,1) 100%)",
+              SERVICE_HERO_BRIDGE_GRADIENT,
           }}
           aria-hidden
         />
 
-        <section className="container relative z-[1] mx-auto px-6 py-16 lg:py-16">
+        <div className="relative z-[1] border-t border-white/15" aria-hidden />
+
+        <section className="site-container relative z-[1] py-16 lg:py-16">
           <Reveal>
             <h2 className="mb-10 text-left font-title text-3xl font-bold text-white sm:text-4xl">CCTV advice & guidance</h2>
           </Reveal>
@@ -85,7 +90,7 @@ export default function UsefulCctvAdvicePage() {
 
         <FsServiceTextImageSectionGroup>
           <FsServiceTextImageSection
-            title="What is your ‘Operational Requirement’?"
+            title="What is your 'Operational Requirement'?"
             titleId="cctv-operational-requirement-heading"
             imageSrc={CCTV_OPERATIONAL_REQUIREMENT_IMAGE_SRC}
             imageAlt="Planning a CCTV operational requirement"
@@ -205,16 +210,14 @@ export default function UsefulCctvAdvicePage() {
         <ServicePageClosingSections
           serviceTitleShort="CCTV advice"
           ctaImageSrc={serviceHeroImages.cctvAdvice}
-          ctaHeadline="Get tailored"
-          ctaHeadlineAccent="CCTV advice."
+          ctaHeadline="Get Tailored"
+          ctaHeadlineAccent="CCTV Advice."
           ctaDescription="Book a free, no-obligation survey and we will recommend the right camera coverage, recording and compliance approach for your home or business."
         >
           <CustomPillButton href="/contact?service=cctv-systems" size="md">
             CCTV enquiry
           </CustomPillButton>
-          <CustomPillButton href="tel:02083032280" size="md" variant="outline">
-            Call 020 8303 2280
-          </CustomPillButton>
+          <CallPhoneCta size="md" />
         </ServicePageClosingSections>
       </div>
     </div>

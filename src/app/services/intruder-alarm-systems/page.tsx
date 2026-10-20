@@ -8,9 +8,11 @@ import { ServiceComplianceSection } from "@/components/ServiceComplianceSection"
 import { ServiceTechnologyProductsSection } from "@/components/ServiceTechnologyProductsSection"
 import { ServicePageClosingSections } from "@/components/ServicePageClosingSections"
 import { CustomPillButton } from "@/components/ui/CustomPillButton"
+import { CallPhoneCta } from "@/components/ui/CallPhoneCta"
 import { ServicePageHero } from "@/components/ServicePageHero"
 import { Reveal } from "@/components/Reveal"
 import { ServiceItemReveal } from "@/components/ServiceItemReveal"
+import { ServiceInstallationsGrid } from "@/components/ServiceInstallationsGrid"
 import { serviceHeroImages } from "@/lib/serviceHeroImages"
 import { FsServiceTextImageSection } from "@/components/FsServiceTextImageSection"
 import { FsServiceTextImageSectionGroup } from "@/components/FsServiceTextImageSectionGroup"
@@ -21,6 +23,7 @@ import {
   FS_SERVICE_INSTALLATION_CARD_IMAGE,
 } from "@/lib/fsServicePageCards"
 import { Shield, CheckCircle, Monitor, Smartphone, Package } from "lucide-react"
+import { SERVICE_HERO_BRIDGE_GRADIENT } from "@/lib/heroBackgroundGradients"
 
 const MONITORING_BENEFITS = [
   {
@@ -76,7 +79,7 @@ const INTRUDER_ALARM_INSTALLATIONS: { title: string; venue: string; context: str
 
 /** Public folder: `public/service images/intruders/` */
 const INTRUDER_HERO_IMAGE_SRC = "/service%20images/intruders/thieves-wear-black-hats-pry-windows-steal-things.jpg"
-const BESPOKE_INTRUDER_IMAGE_SRC = "/service%20images/intruders/breaking%20and%20entering.png"
+const BESPOKE_INTRUDER_IMAGE_SRC = "/service%20images/intruders/breaking%20and%20entering.jpg"
 const COMMERCIAL_INTRUDER_IMAGE_SRC =
   "/service%20images/intruders/Commercial%20%26%20Industrial%20Intruder%20Systems.jpg"
 const EXTERNAL_INTRUDER_IMAGE_SRC =
@@ -86,7 +89,7 @@ const heroBridge = (
   <div
     className="pointer-events-none absolute left-0 right-0 top-0 h-28 sm:h-36"
     style={{
-      background: "linear-gradient(to bottom, rgba(0,0,0,0) 0%, rgba(0,0,0,0.82) 52%, rgba(0,0,0,1) 100%)",
+      background: SERVICE_HERO_BRIDGE_GRADIENT,
     }}
     aria-hidden
   />
@@ -99,6 +102,7 @@ export default function IntruderAlarmSystemsPage() {
         title="Intruder Alarm Systems"
         imageSrc={INTRUDER_HERO_IMAGE_SRC}
         heroCompliance={["PD 6662", "BS EN 50131"]}
+        heroSummary="Grade 2 and Grade 3 commercial intruder alarms with ARC monitoring, dual-path signalling and NSI-aligned installation across London and the Home Counties."
         intro={
           <>
             <p className="mb-4">
@@ -111,10 +115,12 @@ export default function IntruderAlarmSystemsPage() {
         }
       />
 
-      <div className="relative bg-black">
+      <div className="relative bg-[var(--page-bg)]">
         {heroBridge}
 
-        <section className="container relative z-[1] mx-auto px-6 py-16 lg:py-16">
+        <div className="relative z-[1] border-t border-white/15" aria-hidden />
+
+        <section className="site-container relative z-[1] py-16 lg:py-16">
           <Reveal>
             <h2 className="mb-10 text-left font-title text-3xl font-bold text-white sm:text-4xl">Constant Protection</h2>
           </Reveal>
@@ -195,7 +201,7 @@ export default function IntruderAlarmSystemsPage() {
           titleId="external-intruder-protection-heading"
           imageSrc={EXTERNAL_INTRUDER_IMAGE_SRC}
           imageAlt="External intruder alarm and perimeter protection"
-          imageClassName="object-cover object-left"
+          imageClassName="object-cover object-left brightness-[1.35] contrast-[1.05] saturate-[1.05]"
         >
           <p>
             We have installed a number of high quality external intruder protection systems but due to the confidential
@@ -261,14 +267,17 @@ export default function IntruderAlarmSystemsPage() {
 
         <div className="border-t border-white/15" />
 
-        <section className="container mx-auto px-6 py-16 lg:py-16">
+        <section className="site-container py-16 lg:py-16">
           <Reveal>
             <h2 className="mb-4 text-left font-title text-3xl font-bold text-white sm:text-4xl">Our Intruder Alarm System Installations</h2>
           </Reveal>
           <Reveal delayMs={70}>
             <p className="mb-8 max-w-2xl text-left text-gray-300">Examples of intruder alarm systems that we have installed for our customers:</p>
           </Reveal>
-          <div className="grid grid-cols-1 gap-8 md:grid-cols-2 lg:grid-cols-3">
+          <ServiceInstallationsGrid
+            count={INTRUDER_ALARM_INSTALLATIONS.length}
+            ctaHref="/contact?service=intruder-alarm-systems"
+          >
             {INTRUDER_ALARM_INSTALLATIONS.map((item, index) => (
               <ServiceItemReveal key={item.title} index={index} className="h-full min-h-0">
                 <article className={FS_SERVICE_INSTALLATION_CARD}>
@@ -279,7 +288,7 @@ export default function IntruderAlarmSystemsPage() {
                     alt={item.title}
                     fill
                     className="object-cover object-center"
-                    sizes="(min-width: 1024px) 33vw, (min-width: 768px) 50vw, 100vw"
+                    sizes="(min-width: 768px) 22.5rem, 100vw"
                   />
                   </div>
                 </div>
@@ -291,22 +300,20 @@ export default function IntruderAlarmSystemsPage() {
                 </article>
               </ServiceItemReveal>
             ))}
-          </div>
+          </ServiceInstallationsGrid>
         </section>
 
         <ServicePageClosingSections
           serviceTitleShort="Intruder alarm"
           ctaImageSrc={serviceHeroImages.intruder}
           ctaHeadline="Ready to"
-          ctaHeadlineAccent="secure your property?"
+          ctaHeadlineAccent="Secure Your Property?"
           ctaDescription="Book a free survey, arrange a monitored-alarm upgrade, or talk to us about taking over maintenance on an existing system."
         >
           <CustomPillButton href="/contact?service=intruder-alarm-systems" size="md">
             Get a free quote
           </CustomPillButton>
-          <CustomPillButton href="tel:02083032280" size="md" variant="outline">
-            Call 020 8303 2280
-          </CustomPillButton>
+          <CallPhoneCta size="md" />
         </ServicePageClosingSections>
 
       </div>

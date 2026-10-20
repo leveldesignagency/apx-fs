@@ -1,6 +1,6 @@
 "use client"
 
-import { useCallback, useEffect, useId, useMemo, useRef, useState } from "react"
+import { useCallback, useEffect, useId, useLayoutEffect, useMemo, useRef, useState } from "react"
 import Image from "next/image"
 import { usePathname, useRouter } from "next/navigation"
 import { Search, X, ArrowUpRight } from "lucide-react"
@@ -75,13 +75,34 @@ export function HomeSearchIntentBanner() {
     return () => window.removeEventListener(FS_HOME_SEARCH_OPEN_EVENT, onOpen)
   }, [openBanner])
 
+  // Focus immediately (same gesture / layout pass) so mobile keyboards open.
+  // Delayed focus is ignored by iOS Safari after the tap gesture ends.
+  useLayoutEffect(() => {
+    if (!open) return
+    const input = inputRef.current
+    if (!input) return
+    input.focus({ preventScroll: true })
+    try {
+      input.setSelectionRange(input.value.length, input.value.length)
+    } catch {
+      /* type=search may not support selection on all browsers */
+    }
+  }, [open])
+
   useEffect(() => {
     if (!open) return
     const raf = requestAnimationFrame(() => setEntered(true))
-    const focusT = window.setTimeout(() => inputRef.current?.focus(), 380)
+    // Retry focus after paint / menu close animation (still ASAP)
+    const focusT = window.setTimeout(() => {
+      inputRef.current?.focus({ preventScroll: true })
+    }, 50)
+    const focusT2 = window.setTimeout(() => {
+      inputRef.current?.focus({ preventScroll: true })
+    }, 200)
     return () => {
       cancelAnimationFrame(raf)
       window.clearTimeout(focusT)
+      window.clearTimeout(focusT2)
     }
   }, [open])
 
@@ -134,7 +155,7 @@ export function HomeSearchIntentBanner() {
             src={HERO_IMAGE}
             alt=""
             fill
-            priority
+            priority={false}
             className="object-cover object-center"
             sizes="28rem"
           />
@@ -159,9 +180,9 @@ export function HomeSearchIntentBanner() {
               className="font-title text-[1.65rem] font-bold leading-[1.08] tracking-tight text-white sm:text-[1.85rem]"
               style={{ textTransform: "none" }}
             >
-              What are you
+              What Are You
               <br />
-              searching for?
+              Searching For?
             </h2>
           </div>
           <div
@@ -184,7 +205,11 @@ export function HomeSearchIntentBanner() {
               ref={inputRef}
               id={inputId}
               type="search"
+              inputMode="search"
+              enterKeyHint="search"
               autoComplete="off"
+              autoCorrect="off"
+              autoCapitalize="off"
               spellCheck={false}
               value={query}
               onChange={(e) => setQuery(e.target.value)}
@@ -203,7 +228,7 @@ export function HomeSearchIntentBanner() {
                 }
               }}
               placeholder="Search..."
-              className="home-search-intent__input w-full rounded-full border border-white/40 bg-black/55 py-3 pl-10 pr-4 text-[0.95rem] text-white outline-none placeholder:text-white/40 transition-[border-color,box-shadow] focus:border-white/70 focus:shadow-[0_0_0_3px_rgba(255,255,255,0.08)]"
+              className="home-search-intent__input w-full rounded-full border border-white/40 bg-black/55 py-3 pl-10 pr-4 text-base text-white outline-none placeholder:text-white/40 transition-[border-color,box-shadow] focus:border-white/70 focus:shadow-[0_0_0_3px_rgba(255,255,255,0.08)]"
               aria-controls={listId}
               aria-autocomplete="list"
               aria-expanded={hasQuery}

@@ -4,6 +4,7 @@ import type { ReactNode } from "react"
 import { CheckCircle } from "lucide-react"
 import { Reveal } from "@/components/Reveal"
 import { ServiceItemReveal } from "@/components/ServiceItemReveal"
+import { toTitleCase } from "@/lib/titleCase"
 import { cn } from "@/lib/utils"
 
 export type ServiceComplianceSectionProps = {
@@ -25,11 +26,11 @@ export type ServiceComplianceSectionProps = {
 export function ServiceComplianceSection({
   intro,
   sectionTitle,
-  leftTitle = "Standards & compliance",
+  leftTitle = "Standards & Compliance",
   leftEyebrow,
   standardsItems,
   footerNote,
-  rightTitle = "Deliverables & lifecycle",
+  rightTitle = "Deliverables & Lifecycle",
   rightEyebrow,
   deliverablesItems,
   rightFooterNote,
@@ -43,10 +44,12 @@ export function ServiceComplianceSection({
     <>
       <div className="border-t border-white/15" />
       <section className={cn("service-page-white-band fs-service-compliance-section border-b border-black/10 text-black", className)}>
-        <div className="container mx-auto px-6 py-16 lg:py-16">
+        <div className="site-container py-16 lg:py-16">
           {sectionTitle ? (
             <Reveal>
-              <h2 className="mb-4 text-left font-title text-3xl font-bold text-black sm:text-4xl">{sectionTitle}</h2>
+              <h2 className="mb-4 text-left font-title text-3xl font-bold text-black sm:text-4xl">
+                {toTitleCase(sectionTitle)}
+              </h2>
             </Reveal>
           ) : null}
           {intro ? (
@@ -62,7 +65,7 @@ export function ServiceComplianceSection({
           >
             <Reveal className="min-w-0 lg:pr-10" delayMs={100}>
               <div>
-                <h3 className={columnTitleClass}>{leftTitle}</h3>
+                <h3 className={columnTitleClass}>{toTitleCase(leftTitle)}</h3>
                 {leftEyebrow ? (
                   <p className="mb-4 text-left text-sm font-semibold uppercase tracking-wide text-neutral-500">
                     {leftEyebrow}
@@ -86,7 +89,7 @@ export function ServiceComplianceSection({
             <div className="hidden w-px shrink-0 self-stretch bg-black/10 lg:block" aria-hidden />
             <Reveal className="min-w-0 border-t border-black/10 pt-10 lg:border-t-0 lg:pl-10 lg:pt-0" delayMs={180}>
               <div>
-                <h3 className={columnTitleClass}>{rightTitle}</h3>
+                <h3 className={columnTitleClass}>{toTitleCase(rightTitle)}</h3>
                 {rightEyebrow ? (
                   <p className="mb-4 text-left text-sm font-semibold uppercase tracking-wide text-neutral-500">
                     {rightEyebrow}

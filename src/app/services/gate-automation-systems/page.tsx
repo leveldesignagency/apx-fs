@@ -4,13 +4,14 @@ import Link from "next/link"
 import { ServiceComplianceSection } from "@/components/ServiceComplianceSection"
 import { ServicePageClosingSections } from "@/components/ServicePageClosingSections"
 import { CustomPillButton } from "@/components/ui/CustomPillButton"
+import { CallPhoneCta } from "@/components/ui/CallPhoneCta"
 import { ServicePageHero } from "@/components/ServicePageHero"
 import { Reveal } from "@/components/Reveal"
 import { ServiceItemReveal } from "@/components/ServiceItemReveal"
 import { ServiceFeatureIconCard } from "@/components/ServiceFeatureIconCard"
 import { FsServiceTextImageSection } from "@/components/FsServiceTextImageSection"
 import { FsServiceTextImageSectionGroup } from "@/components/FsServiceTextImageSectionGroup"
-import { serviceHeroImages } from "@/lib/serviceHeroImages"
+import { serviceHeroImages, serviceSectionImages } from "@/lib/serviceHeroImages"
 import { FS_SERVICE_ROUTES } from "@/lib/fs-service-routes"
 import {
   AlertTriangle,
@@ -20,9 +21,10 @@ import {
   Shield,
   Wrench,
 } from "lucide-react"
+import { SERVICE_HERO_BRIDGE_GRADIENT } from "@/lib/heroBackgroundGradients"
 
 const cardClass =
-  "rounded-tl-[1.5rem] rounded-br-[1.5rem] border-2 border-white/20 bg-black p-8 text-white transition-colors hover:border-white/45"
+  "rounded-tl-[1.5rem] rounded-br-[1.5rem] border border-white/20 bg-black p-8 text-white transition-colors hover:border-white/45"
 
 const linkClass =
   "underline decoration-white/40 underline-offset-[3px] transition-colors hover:decoration-white"
@@ -31,7 +33,7 @@ const heroBridge = (
   <div
     className="pointer-events-none absolute left-0 right-0 top-0 h-28 sm:h-36"
     style={{
-      background: "linear-gradient(to bottom, rgba(0,0,0,0) 0%, rgba(0,0,0,0.82) 52%, rgba(0,0,0,1) 100%)",
+      background: SERVICE_HERO_BRIDGE_GRADIENT,
     }}
     aria-hidden
   />
@@ -44,6 +46,7 @@ export default function GateAutomationSystemsPage() {
         title="Gate, Barrier &amp; Bollard Automation"
         imageSrc={serviceHeroImages.gateAutomation}
         heroCompliance={["Gate Safe trained", "BS EN 12453"]}
+        heroSummary="Gate, barrier and bollard automation designed and installed to Gate Safe practice, with safe force limitation and access integration."
         intro={
           <>
             <p className="mb-3 text-sm font-semibold uppercase tracking-[0.14em] text-white/70">
@@ -61,13 +64,15 @@ export default function GateAutomationSystemsPage() {
         }
       />
 
-      <div className="relative bg-black">
+      <div className="relative bg-[var(--page-bg)]">
         {heroBridge}
 
-        <section className="container relative z-[1] mx-auto px-6 py-16 lg:py-16">
+        <div className="relative z-[1] border-t border-white/15" aria-hidden />
+
+        <section className="site-container relative z-[1] py-16 lg:py-16">
           <Reveal>
             <h2 className="mb-4 text-left font-title text-3xl font-bold text-white sm:text-4xl">
-              What we deliver
+              What We Deliver
             </h2>
           </Reveal>
           <Reveal delayMs={70}>
@@ -135,49 +140,65 @@ export default function GateAutomationSystemsPage() {
           </div>
         </section>
 
-        <section className="relative z-[1] border-y border-white/20 bg-white/[0.03] py-16 lg:py-24">
-          <div className="container mx-auto px-6">
-            <Reveal>
-              <p className="mb-3 text-xs font-semibold uppercase tracking-[0.2em] text-white/55">
-                Site survey focus
-              </p>
-              <h2 className="mb-3 max-w-3xl text-left font-title text-4xl font-bold leading-[1.05] text-white sm:text-5xl lg:text-6xl">
-                Risks we look for
-              </h2>
-            </Reveal>
-            <Reveal delayMs={60}>
-              <p className="mb-10 max-w-2xl text-left text-base text-white/70 sm:mb-14 sm:text-lg">
-                We pride ourselves on recognising potential risks early, including:
-              </p>
-            </Reveal>
-            <ul className="grid grid-cols-1 divide-y divide-white/25 sm:grid-cols-2 sm:divide-y-0 lg:grid-cols-4">
-              {[
-                "Compliance issues",
-                "Crushing and dragging points",
-                "Inadequate safety devices",
-                "Incorrectly installed equipment",
-              ].map((item, i) => (
-                <li
-                  key={item}
-                  className={[
-                    "flex flex-col gap-5 py-8 sm:min-h-[11rem] sm:border-t sm:border-white/25 sm:py-10",
-                    i === 0 ? "sm:pr-6 lg:pl-0 lg:pr-8" : "",
-                    i === 1 ? "sm:border-l sm:border-white/25 sm:pl-6 sm:pr-0 lg:border-l lg:px-8" : "",
-                    i === 2 ? "sm:pr-6 lg:border-l lg:border-white/25 lg:px-8" : "",
-                    i === 3 ? "sm:border-l sm:border-white/25 sm:pl-6 lg:border-l lg:pl-8 lg:pr-0" : "",
-                  ].join(" ")}
-                >
-                  <Reveal delayMs={80 + i * 50}>
-                    <span className="block font-title text-sm font-semibold tracking-[0.2em] text-white/40">
-                      {String(i + 1).padStart(2, "0")}
-                    </span>
-                    <span className="mt-4 block font-title text-2xl font-bold leading-tight text-white sm:text-[1.75rem] lg:text-[1.85rem]">
-                      {item}
-                    </span>
-                  </Reveal>
-                </li>
-              ))}
-            </ul>
+        <section className="relative z-[1] border-y border-white/15 bg-[var(--page-bg)] py-16 lg:py-20">
+          <div className="site-container">
+            <div className="grid grid-cols-1 items-start gap-10 lg:grid-cols-12 lg:gap-x-14 xl:gap-x-20">
+              <div className="lg:col-span-5 lg:sticky lg:top-28">
+                <Reveal>
+                  <p className="mb-3 text-xs font-semibold uppercase tracking-[0.2em] text-white/55">
+                    Site survey focus
+                  </p>
+                  <h2 className="max-w-xl text-left font-title text-4xl font-bold leading-[1.05] text-white sm:text-5xl">
+                    Risks we look for
+                  </h2>
+                </Reveal>
+                <Reveal delayMs={70}>
+                  <p className="mt-5 max-w-md text-left text-base leading-relaxed text-white/70 sm:text-lg">
+                    Before we quote install, service or takeover work, we survey the entrance for hazards that leave
+                    homeowners and duty holders exposed.
+                  </p>
+                </Reveal>
+              </div>
+
+              <ol className="m-0 list-none border-t border-white/25 p-0 lg:col-span-7">
+                {[
+                  {
+                    title: "Compliance issues",
+                    body: "Gaps against machinery regulations, Gate Safe expectations and the records a surveyor or insurer will expect to see.",
+                  },
+                  {
+                    title: "Crushing and dragging points",
+                    body: "Closing edges, hinge zones and draw-in areas where people, clothing or vehicles can be trapped as the gate moves.",
+                  },
+                  {
+                    title: "Inadequate safety devices",
+                    body: "Missing or poorly aimed photocells, edges and controls that should stop or reverse the gate before contact.",
+                  },
+                  {
+                    title: "Incorrectly installed equipment",
+                    body: "Operators, stops and wiring fitted outside manufacturer guidance, so the entrance is unreliable or unsafe under load.",
+                  },
+                ].map((item, i) => (
+                  <li key={item.title} className="border-b border-white/25 py-7 sm:py-8">
+                    <Reveal delayMs={90 + i * 70}>
+                      <div className="grid grid-cols-[auto_minmax(0,1fr)] items-start gap-x-5 gap-y-2 sm:gap-x-7">
+                        <span className="font-title text-sm font-semibold tracking-[0.18em] text-white/40">
+                          {String(i + 1).padStart(2, "0")}
+                        </span>
+                        <div className="min-w-0">
+                          <h3 className="font-title text-xl font-bold leading-tight text-white sm:text-2xl">
+                            {item.title}
+                          </h3>
+                          <p className="mt-2.5 max-w-xl text-sm leading-relaxed text-white/68 sm:text-base">
+                            {item.body}
+                          </p>
+                        </div>
+                      </div>
+                    </Reveal>
+                  </li>
+                ))}
+              </ol>
+            </div>
           </div>
         </section>
 
@@ -185,8 +206,8 @@ export default function GateAutomationSystemsPage() {
           <FsServiceTextImageSection
             title="Did you know?"
             titleId="gate-did-you-know-heading"
-            imageSrc={serviceHeroImages.gateAutomation}
-            imageAlt="Automated gate and barrier entrance"
+            imageSrc={serviceSectionImages.gateDidYouKnow}
+            imageAlt="Integrated Fire and Security systems protecting a site entrance"
           >
             <p>
               As a homeowner, you are responsible for ensuring that your electric gate is safe and does not pose a risk to
@@ -216,8 +237,8 @@ export default function GateAutomationSystemsPage() {
           <FsServiceTextImageSection
             title="Managed sites &amp; shared entrances"
             titleId="gate-managed-sites-heading"
-            imageSrc={serviceHeroImages.accessControl}
-            imageAlt="Controlled vehicle entrance on a managed site"
+            imageSrc={serviceSectionImages.gateManagedSites}
+            imageAlt="Access credentials for managed and shared vehicle entrances"
           >
             <p>
               Any residential complex managed by landlords or managing agents, or which has a shared communal entrance
@@ -255,9 +276,7 @@ export default function GateAutomationSystemsPage() {
               <CustomPillButton href="/contact?service=gate-automation-systems" size="md">
                 Arrange a survey
               </CustomPillButton>
-              <CustomPillButton href="tel:02083032280" size="md" variant="outline">
-                Call 020 8303 2280
-              </CustomPillButton>
+              <CallPhoneCta size="md" />
             </div>
           </FsServiceTextImageSection>
         </FsServiceTextImageSectionGroup>
@@ -310,15 +329,13 @@ export default function GateAutomationSystemsPage() {
           serviceTitleShort="Gate automation"
           ctaImageSrc={serviceHeroImages.gateAutomation}
           ctaHeadline="Arrange a"
-          ctaHeadlineAccent="survey."
+          ctaHeadlineAccent="Survey."
           ctaDescription="Contact us to book a survey for gates, barriers or bollards, new installs, servicing, repairs or maintenance."
         >
           <CustomPillButton href="/contact?service=gate-automation-systems" size="md">
             Arrange a survey
           </CustomPillButton>
-          <CustomPillButton href="tel:02083032280" size="md" variant="outline">
-            Call 020 8303 2280
-          </CustomPillButton>
+          <CallPhoneCta size="md" />
         </ServicePageClosingSections>
       </div>
     </div>

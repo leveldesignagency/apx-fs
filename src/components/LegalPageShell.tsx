@@ -3,26 +3,36 @@
 import Link from "next/link"
 import { useTheme } from "@/contexts/ThemeContext"
 import type { ReactNode } from "react"
+import { toTitleCase } from "@/lib/titleCase"
 
 type LegalPageShellProps = {
   title: string
   children: ReactNode
+  /** Fixed “Last updated” date string, e.g. "30 September 2026". Defaults to today if omitted. */
+  lastUpdated?: string
 }
 
-export function LegalPageShell({ title, children }: LegalPageShellProps) {
+export function LegalPageShell({ title, children, lastUpdated }: LegalPageShellProps) {
   const { theme } = useTheme()
   const isDark = theme === "dark"
+  const updated =
+    lastUpdated ??
+    new Date().toLocaleDateString("en-GB", {
+      year: "numeric",
+      month: "long",
+      day: "numeric",
+    })
 
   return (
     <div
       className="legal-page min-h-screen overflow-x-hidden"
-      style={{ backgroundColor: isDark ? "#000000" : "#ffffff" }}
+      style={{ backgroundColor: isDark ? "var(--page-bg)" : "#ffffff" }}
     >
       <div className="h-[0.75px] w-full bg-black dark:bg-white" />
 
       <section
         className={`page-title-band ${isDark ? "bg-black" : "bg-white"}`}
-        style={{ backgroundColor: isDark ? "#000000" : "#ffffff" }}
+        style={{ backgroundColor: isDark ? "var(--page-bg)" : "#ffffff" }}
       >
         <div className="site-container max-w-6xl pb-16 md:pb-20">
           <Link
@@ -39,7 +49,7 @@ export function LegalPageShell({ title, children }: LegalPageShellProps) {
               isDark ? "text-white" : "text-black"
             }`}
           >
-            {title}
+            {toTitleCase(title)}
           </h1>
 
           <p
@@ -47,12 +57,7 @@ export function LegalPageShell({ title, children }: LegalPageShellProps) {
               isDark ? "text-gray-300" : "text-gray-700"
             }`}
           >
-            Last updated:{" "}
-            {new Date().toLocaleDateString("en-GB", {
-              year: "numeric",
-              month: "long",
-              day: "numeric",
-            })}
+            Last updated: {updated}
           </p>
 
           <div
@@ -87,7 +92,7 @@ export function LegalSection({
           isDark ? "text-white" : "text-black"
         }`}
       >
-        {title}
+        {toTitleCase(title)}
       </h2>
       <div className="space-y-4 leading-relaxed">{children}</div>
     </section>

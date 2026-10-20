@@ -12,7 +12,7 @@ export function FsCctvSubpageHeroButtons() {
   const path = normalizeFsPath(usePathname())
 
   return (
-    <nav aria-label="CCTV section" className="mt-6 sm:mt-7">
+    <nav aria-label="CCTV section" className="mt-3 sm:mt-7">
       <ul className="flex flex-wrap gap-2.5 sm:gap-3">
         {FS_CCTV_TAB_LINKS.map(({ href, label }) => {
           const active = path === href

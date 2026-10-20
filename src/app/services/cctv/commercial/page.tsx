@@ -14,7 +14,9 @@ import { ServicePageHero } from "@/components/ServicePageHero"
 import { ServiceFeatureIconCard } from "@/components/ServiceFeatureIconCard"
 import { Reveal } from "@/components/Reveal"
 import { ServiceItemReveal } from "@/components/ServiceItemReveal"
+import { ServiceInstallationsGrid } from "@/components/ServiceInstallationsGrid"
 import { CustomPillButton } from "@/components/ui/CustomPillButton"
+import { CallPhoneCta } from "@/components/ui/CallPhoneCta"
 import { serviceHeroImages } from "@/lib/serviceHeroImages"
 import {
   FS_SERVICE_IMAGE_GROW_INNER,
@@ -33,6 +35,7 @@ import {
   Monitor,
   ShoppingBag,
 } from "lucide-react"
+import { SERVICE_HERO_BRIDGE_GRADIENT } from "@/lib/heroBackgroundGradients"
 
 const linkClass =
   "underline decoration-white/45 underline-offset-[3px] transition-colors hover:decoration-white"
@@ -157,46 +160,47 @@ const COMMERCIAL_CCTV_PROJECTS = [
 
 export default function CommercialCctvPage() {
   return (
-    <div className="service-page-root min-h-screen overflow-x-hidden text-white">
-      <div className="relative">
-        <ServicePageHero
-          title="Commercial CCTV systems"
-          imageSrc={serviceHeroImages.commercialCctv}
-          imageClassName="object-cover [object-position:50%_78%] sm:[object-position:50%_82%]"
-          heroCompliance={["BS EN 62676"]}
-          afterIntro={<FsCctvSubpageHeroButtons />}
-          intro={
-            <>
-              <p className="mb-4">
-                High-performance commercial CCTV for offices, retail, warehouses and multi-site operations. We design and
-                install scalable systems with remote monitoring options and integration with access control, intruder
-                alarms, gate automation and ANPR where the brief requires them.
-              </p>
-              <p>
-                Camera types (dome, bullet, PTZ, IR and others) are specified only where they suit the site, see the
-                camera-type guides below. Systems can be configured with privacy considerations;{" "}
-                <strong className="font-semibold text-white">
-                  the customer remains responsible for lawful CCTV operation under UK GDPR
-                </strong>
-                .
-              </p>
-            </>
-          }
-        />
-        <FsCctvCameraTypesStrip />
-      </div>
+    <div className="service-page-root min-h-screen overflow-x-hidden bg-[var(--page-bg)] text-white">
+      <ServicePageHero
+        title="Commercial CCTV systems"
+        imageSrc={serviceHeroImages.commercialCctv}
+        imageClassName="object-cover [object-position:50%_78%] sm:[object-position:50%_82%]"
+        heroCompliance={["BS EN 62676"]}
+        heroSummary="Commercial and industrial CCTV for offices, retail, warehouses and multi-site estates, surveyed and commissioned to your brief."
+        afterIntro={<FsCctvSubpageHeroButtons />}
+        intro={
+          <>
+            <p className="mb-4">
+              High-performance commercial CCTV for offices, retail, warehouses and multi-site operations. We design and
+              install scalable systems with remote monitoring options and integration with access control, intruder
+              alarms, gate automation and ANPR where the brief requires them.
+            </p>
+            <p>
+              Camera types (dome, bullet, PTZ, IR and others) are specified only where they suit the site, see the
+              camera-type guides below. Systems can be configured with privacy considerations;{" "}
+              <strong className="font-semibold text-white">
+                the customer remains responsible for lawful CCTV operation under UK GDPR
+              </strong>
+              .
+            </p>
+          </>
+        }
+      />
 
-      <div className="relative bg-black">
+      <div className="relative bg-[var(--page-bg)]">
         <div
-          className="pointer-events-none absolute top-0 left-0 right-0 h-28 sm:h-36"
-          style={{
-            background:
-              "linear-gradient(to bottom, rgba(0,0,0,0) 0%, rgba(0,0,0,0.82) 52%, rgba(0,0,0,1) 100%)",
-          }}
+          className="pointer-events-none absolute left-0 right-0 top-0 h-28 sm:h-36"
+          style={{ background: SERVICE_HERO_BRIDGE_GRADIENT }}
           aria-hidden
         />
 
-        <section className="container relative z-[1] mx-auto px-6 py-16 lg:py-16">
+        <div className="relative z-[1] border-t border-white/15">
+          <FsCctvCameraTypesStrip />
+        </div>
+
+        <div className="border-t border-white/15" />
+
+        <section className="site-container relative z-[1] py-16 lg:py-16">
           <Reveal>
             <h2 className="mb-4 text-left font-title text-3xl font-bold text-white sm:text-4xl">
               Integration &amp; monitoring
@@ -241,7 +245,7 @@ export default function CommercialCctvPage() {
 
         <div className="border-t border-white/15" />
 
-        <section className="container mx-auto px-6 py-16 lg:py-16">
+        <section className="site-container py-16 lg:py-16">
           <Reveal>
             <h2 className="mb-4 text-left font-title text-3xl font-bold text-white sm:text-4xl">
               APX commercial examples
@@ -252,7 +256,10 @@ export default function CommercialCctvPage() {
               Genuine APX project photography from commercial CCTV and integrated security delivery.
             </p>
           </Reveal>
-          <div className="grid grid-cols-1 gap-8 md:grid-cols-3">
+          <ServiceInstallationsGrid
+            count={COMMERCIAL_CCTV_PROJECTS.length}
+            ctaHref="/contact?service=cctv-systems"
+          >
             {COMMERCIAL_CCTV_PROJECTS.map((item, index) => (
               <ServiceItemReveal key={item.title} index={index} className="h-full min-h-0">
                 <Link href={item.href} className="block h-full text-inherit no-underline">
@@ -264,7 +271,7 @@ export default function CommercialCctvPage() {
                           alt={item.title}
                           fill
                           className="object-cover object-center"
-                          sizes="(min-width: 1024px) 33vw, (min-width: 768px) 50vw, 100vw"
+                          sizes="(min-width: 768px) 22.5rem, 100vw"
                         />
                       </div>
                     </div>
@@ -277,7 +284,7 @@ export default function CommercialCctvPage() {
                 </Link>
               </ServiceItemReveal>
             ))}
-          </div>
+          </ServiceInstallationsGrid>
         </section>
 
         <div className="border-t border-white/15" />
@@ -410,16 +417,14 @@ export default function CommercialCctvPage() {
         <ServicePageClosingSections
           serviceTitleShort="Commercial CCTV"
           ctaImageSrc={serviceHeroImages.commercialCctv}
-          ctaHeadline="Request your"
-          ctaHeadlineAccent="free commercial survey."
+          ctaHeadline="Request Your"
+          ctaHeadlineAccent="Free Commercial Survey."
           ctaDescription="Site visit, coverage review and written recommendations. No obligation. We respond promptly across London and the Home Counties."
         >
           <CustomPillButton href="/contact?service=cctv-systems" size="md">
             Book a survey
           </CustomPillButton>
-          <CustomPillButton href="tel:02083032280" size="md" variant="outline">
-            Call 020 8303 2280
-          </CustomPillButton>
+          <CallPhoneCta size="md" />
         </ServicePageClosingSections>
       </div>
     </div>

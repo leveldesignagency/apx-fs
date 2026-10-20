@@ -4,6 +4,7 @@ import { CctvCameraTypeDetailClient } from "@/components/cctv/CctvCameraTypeDeta
 import { getAllCctvCameraTypeSlugs, getCctvCameraTypePage } from "@/data/cctvCameraTypePages"
 import { buildFsMetadata } from "@/lib/seo-metadata"
 import { FS_SITE_NAME } from "@/lib/seo"
+import { FsServiceJsonLd } from "@/components/seo/FsServiceJsonLd"
 
 type Props = {
   params: Promise<{ slug: string }>
@@ -33,5 +34,16 @@ export default async function CctvCameraTypePage({ params }: Props) {
   const { slug } = await params
   const page = getCctvCameraTypePage(slug)
   if (!page) notFound()
-  return <CctvCameraTypeDetailClient page={page} />
+  const description =
+    page.heroIntro.length > 165 ? `${page.heroIntro.slice(0, 162)}...` : page.heroIntro
+  return (
+    <>
+      <FsServiceJsonLd
+        pathname={`/services/cctv/camera-types/${slug}`}
+        name={page.title}
+        description={`${description} London, Surrey, Kent, Essex and South East.`}
+      />
+      <CctvCameraTypeDetailClient page={page} />
+    </>
+  )
 }

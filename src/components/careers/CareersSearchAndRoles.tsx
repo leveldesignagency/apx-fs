@@ -2,7 +2,7 @@
 
 import type { ReactNode } from "react"
 import { useCallback, useEffect, useLayoutEffect, useMemo, useRef, useState } from "react"
-import { Search, X } from "lucide-react"
+import { ChevronDown, Search, X } from "lucide-react"
 import { CustomPillButton } from "@/components/ui/CustomPillButton"
 import { careerApplyHref, type CareerRole } from "@/components/careers/careers-types"
 
@@ -280,6 +280,8 @@ export function CareersSearchAndRoles({
   const [department, setDepartment] = useState("all")
   const [location, setLocation] = useState("all")
   const [modalRole, setModalRole] = useState<CareerRole | null>(null)
+  /** Mobile/tablet: filters collapsed by default; always open from lg up. */
+  const [filtersOpen, setFiltersOpen] = useState(false)
   const closeModal = useCallback(() => setModalRole(null), [])
 
   const departmentOptions: Option[] = useMemo(() => {
@@ -316,7 +318,21 @@ export function CareersSearchAndRoles({
         <aside className="careers-filter-rail lg:sticky lg:top-28 lg:self-start">
           <div className="careers-panel rounded-none border border-white/15 bg-black p-5 sm:p-6">
             <div className="flex items-center justify-between gap-3">
-              <p className="text-[11px] font-semibold uppercase tracking-[0.22em] text-white/45">Filters</p>
+              <button
+                type="button"
+                className="flex min-w-0 flex-1 items-center justify-between gap-3 text-left lg:pointer-events-none"
+                onClick={() => setFiltersOpen((o) => !o)}
+                aria-expanded={filtersOpen}
+                aria-controls="careers-filter-panel"
+              >
+                <p className="text-[11px] font-semibold uppercase tracking-[0.22em] text-white/45">Filters</p>
+                <ChevronDown
+                  className={`h-4 w-4 shrink-0 text-white/55 transition-transform duration-200 lg:hidden ${
+                    filtersOpen ? "rotate-180" : ""
+                  }`}
+                  aria-hidden
+                />
+              </button>
               {filtersActive ? (
                 <button
                   type="button"
@@ -328,53 +344,63 @@ export function CareersSearchAndRoles({
               ) : null}
             </div>
 
-            <div className="mt-5">
-              <label
-                htmlFor="careers-search"
-                className="mb-2 block text-[11px] font-semibold uppercase tracking-[0.18em] text-white/45"
-              >
-                Search
-              </label>
-              <div className="relative">
-                <Search
-                  className="pointer-events-none absolute left-3.5 top-1/2 h-4 w-4 -translate-y-1/2 text-white/40"
-                  aria-hidden
-                />
-                <input
-                  id="careers-search"
-                  type="search"
-                  value={search}
-                  onChange={(e) => setSearch(e.target.value)}
-                  placeholder="Role, skill or keyword"
-                  autoComplete="off"
-                  className="careers-search-input w-full min-h-[44px] rounded-full border border-white/20 bg-black py-2.5 pl-10 pr-10 text-sm text-white placeholder:text-white/35 focus:border-white/45 focus:outline-none focus:ring-0"
-                />
-                {search.trim() !== "" ? (
-                  <button
-                    type="button"
-                    onClick={() => setSearch("")}
-                    className="absolute right-2.5 top-1/2 flex h-7 w-7 -translate-y-1/2 items-center justify-center rounded-full text-white/55 transition-colors hover:bg-white/10 hover:text-white"
-                    aria-label="Clear search"
-                  >
-                    <X className="h-3.5 w-3.5" strokeWidth={2.25} aria-hidden />
-                  </button>
-                ) : null}
+            <div
+              id="careers-filter-panel"
+              className={`${filtersOpen ? "mt-5 block" : "hidden"} lg:mt-5 lg:block`}
+            >
+              <div>
+                <label
+                  htmlFor="careers-search"
+                  className="mb-2 block text-[11px] font-semibold uppercase tracking-[0.18em] text-white/45"
+                >
+                  Search
+                </label>
+                <div className="relative">
+                  <Search
+                    className="pointer-events-none absolute left-3.5 top-1/2 h-4 w-4 -translate-y-1/2 text-white/40"
+                    aria-hidden
+                  />
+                  <input
+                    id="careers-search"
+                    type="search"
+                    inputMode="search"
+                    enterKeyHint="search"
+                    value={search}
+                    onChange={(e) => setSearch(e.target.value)}
+                    placeholder="Role, skill or keyword"
+                    autoComplete="off"
+                    autoCorrect="off"
+                    autoCapitalize="off"
+                    spellCheck={false}
+                    className="careers-search-input w-full min-h-[44px] rounded-full border border-white/20 bg-black py-2.5 pl-10 pr-10 text-base text-white placeholder:text-white/35 focus:border-white/45 focus:outline-none focus:ring-0"
+                  />
+                  {search.trim() !== "" ? (
+                    <button
+                      type="button"
+                      onClick={() => setSearch("")}
+                      className="absolute right-2.5 top-1/2 flex h-7 w-7 -translate-y-1/2 items-center justify-center rounded-full text-white/55 transition-colors hover:bg-white/10 hover:text-white"
+                      aria-label="Clear search"
+                    >
+                      <X className="h-3.5 w-3.5" strokeWidth={2.25} aria-hidden />
+                    </button>
+                  ) : null}
+                </div>
               </div>
-            </div>
 
-            <div className="careers-divider-t mt-7 space-y-7 border-t border-white/12 pt-7">
-              <FilterOptionList
-                legend="Team"
-                value={department}
-                options={departmentOptions}
-                onChange={setDepartment}
-              />
-              <FilterOptionList
-                legend="Location"
-                value={location}
-                options={locationOptions}
-                onChange={setLocation}
-              />
+              <div className="careers-divider-t mt-7 space-y-7 border-t border-white/12 pt-7">
+                <FilterOptionList
+                  legend="Team"
+                  value={department}
+                  options={departmentOptions}
+                  onChange={setDepartment}
+                />
+                <FilterOptionList
+                  legend="Location"
+                  value={location}
+                  options={locationOptions}
+                  onChange={setLocation}
+                />
+              </div>
             </div>
           </div>
         </aside>
@@ -383,7 +409,7 @@ export function CareersSearchAndRoles({
         <div className="min-w-0">
           <div className="careers-divider-b flex flex-col gap-1 border-b border-white/12 pb-5 sm:flex-row sm:items-end sm:justify-between sm:gap-4">
             <div>
-              <h2 className="font-title text-xl font-bold text-white sm:text-2xl">Open roles</h2>
+              <h2 className="font-title text-xl font-bold text-white sm:text-2xl">Open Roles</h2>
               <p className="mt-1 text-sm text-white/50">
                 {roles.length === 0
                   ? "No positions listed"

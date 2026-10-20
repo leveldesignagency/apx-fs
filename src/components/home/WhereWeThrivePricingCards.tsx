@@ -21,12 +21,15 @@ function clamp(n: number, min: number, max: number) {
   return Math.min(max, Math.max(min, n))
 }
 
-/** Soft 0..1 fade for item at index within a staggered sequence driven by progress. */
+/** Soft 0..1 fade for item at index within a staggered sequence driven by progress.
+ * Last item always reaches full opacity when progress === 1.
+ */
 function staggerOpacity(progress: number, index: number, count: number, soft = 0.35) {
   if (count <= 0) return 1
-  const start = index / count
-  const span = Math.max(soft / count, 0.08)
-  return clamp((progress - start) / span, 0, 1)
+  if (count === 1) return clamp(progress / Math.max(soft, 0.01), 0, 1)
+  // Spread starts so the final index finishes exactly at progress = 1
+  const start = (index / (count - 1)) * (1 - soft)
+  return clamp((progress - start) / soft, 0, 1)
 }
 
 type Props = {

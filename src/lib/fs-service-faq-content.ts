@@ -2,9 +2,9 @@ export type ServiceFaqItem = { question: string; answer: string }
 
 export const FS_SERVICE_FAQ_FALLBACK: ServiceFaqItem[] = [
   {
-    question: "What fire and security projects do you take on?",
+    question: "What Fire and Security projects do you take on?",
     answer:
-      "We design, install, commission and maintain fire and security systems across commercial, industrial, residential and public-sector sites in London and the Home Counties, with clear documentation and structured handover.",
+      "We design, install, commission and maintain Fire and Security systems across commercial, industrial, residential and public-sector sites in London and the Home Counties, with clear documentation and structured handover.",
   },
   {
     question: "When should we involve your team?",
@@ -25,9 +25,9 @@ export const FS_SERVICE_FAQ_FALLBACK: ServiceFaqItem[] = [
 
 const HUB: ServiceFaqItem[] = [
   {
-    question: "How do I find the right fire & security service?",
+    question: "How do I find the right Fire & Security service?",
     answer:
-      "Browse our services hub for CCTV, access control, intruder alarms, fire alarms, refuge and EVAC, maintenance and more. Each page summarises typical scope, contact us with your site type and we’ll recommend the right route or survey.",
+      "Browse our services hub for CCTV, access control, intruder alarms, fire alarms, PAVA, EVAC, refuge, maintenance and more. Each page summarises typical scope, contact us with your site type and we'll recommend the right route or survey.",
   },
   {
     question: "Do you work across Greater London and the Home Counties?",
@@ -42,25 +42,25 @@ const HUB: ServiceFaqItem[] = [
   {
     question: "How do I request a survey or quotation?",
     answer:
-      "Contact us with a short brief. We’ll confirm scope, suggest proportionate next steps and outline how we structure design, installation and handover for your property.",
+      "Contact us with a short brief. We'll confirm scope, suggest proportionate next steps and outline how we structure design, installation and handover for your property.",
   },
 ]
 
 const FIRE_LIFE_SAFETY: ServiceFaqItem[] = [
   {
-    question: "What does the Fire & Life Safety overview cover?",
+    question: "What fire and life-safety systems does APX provide?",
     answer:
-      "It is the package view of fire detection, voice evacuation and disabled communication working together. Dedicated detail sits on the fire alarm, EVAC and refuge service pages, with this page used to navigate the full life-safety scope.",
+      "Fully integrated fire and life-safety solutions: fire detection and alarm systems, PAVA, EVAC, and disabled refuge, fire telephone and disabled toilet alarm systems, designed, installed and commissioned to work together on your site.",
   },
   {
     question: "When should fire detection be defined in the programme?",
     answer:
-      "Early coordination avoids costly rework involving device locations, cabling, containment and interfaces with access control, EVAC and BMS. We can become involved during design development or deliver the specialist package once routes have been defined.",
+      "Early coordination avoids costly rework involving device locations, cabling, containment and interfaces with access control, PAVA, EVAC and BMS. We can become involved during design development or deliver the specialist package once routes have been defined.",
   },
   {
-    question: "Can you integrate with EVAC, refuge and access systems?",
+    question: "Can you integrate with PAVA, EVAC, refuge and access systems?",
     answer:
-      "Yes. We coordinate interfaces and testing so fire cause-and-effect, voice evacuation and disabled refuge systems behave consistently with the wider design. See the linked fire alarm, EVAC and refuge service pages for dedicated scopes.",
+      "Yes. We coordinate interfaces and testing so fire cause-and-effect, PAVA, EVAC and disabled refuge systems behave consistently with the wider design.",
   },
   {
     question: "What do we receive at handover?",
@@ -71,9 +71,9 @@ const FIRE_LIFE_SAFETY: ServiceFaqItem[] = [
 
 const SECURITY_SYSTEMS: ServiceFaqItem[] = [
   {
-    question: "What does the Security Systems overview cover?",
+    question: "What security systems does APX provide?",
     answer:
-      "It is the umbrella for intruder alarms, CCTV, access control, video door entry, gate automation, monitoring and system integration. Intruder alarms are treated as a primary discipline alongside CCTV, dedicated detail sits on each service page.",
+      "Integrated security for people and premises: intruder alarms, CCTV, access control, video door entry, gate automation and monitoring, coordinated so events, recording and responses work together.",
   },
   {
     question: "Do you offer mobile-app control and remote viewing?",
@@ -83,7 +83,7 @@ const SECURITY_SYSTEMS: ServiceFaqItem[] = [
   {
     question: "Can systems be monitored and maintained after install?",
     answer:
-      "Yes. Monitoring / ARC signalling can be set up where required, and we offer PPM, system takeovers and 24/7 call-out cover for contracted customers, see the maintenance and support page.",
+      "Yes. Monitoring / ARC signalling can be set up where required, and we offer PPM, system takeovers and 24/7 call-out cover for contracted customers.",
   },
   {
     question: "What commissioning evidence is provided?",
@@ -97,6 +97,11 @@ const MAINTENANCE_SUPPORT: ServiceFaqItem[] = [
     question: "What does your maintenance and support cover?",
     answer:
       "Annual and six-monthly PPM, corrective works, system takeovers, obsolescence planning, battery replacement, remote support where available, and monitoring support for fire alarms, CCTV, access control, intruder alarms and video entry, structured around your site risk profile and operating hours.",
+  },
+  {
+    question: "Can you take over systems installed by another contractor?",
+    answer:
+      "Yes. System takeovers are a core part of our maintenance offer. We survey existing Fire and Security installations, bring them under APX care, and plan upgrades or obsolescence work without unnecessary downtime, whether you are changing contractor or consolidating multi-site estates.",
   },
   {
     question: "Is 24/7 call-out available to everyone?",
@@ -203,9 +208,9 @@ const MECHANICAL_ENGINEERING_FS: ServiceFaqItem[] = [
       "This service line focuses on fire alarm systems design, installation and commissioning for commercial and industrial environments, with BS 5839-1 aligned delivery and clear handover packs.",
   },
   {
-    question: "How do you coordinate with other APX service pages?",
+    question: "How do you coordinate fire alarms with other life-safety and security systems?",
     answer:
-      "We link to dedicated refuge, EVAC and security overview pages where interfaces matter, so interfaces and documentation stay consistent across packages.",
+      "Where interfaces matter, we coordinate with disabled refuge, PAVA, EVAC and security systems so cause-and-effect, documentation and handover stay consistent across the package.",
   },
   {
     question: "Can you support phased occupation and refurbishments?",
@@ -242,19 +247,19 @@ const VIDEO_DOOR_ENTRY: ServiceFaqItem[] = [
   },
 ]
 
-const EVAC: ServiceFaqItem[] = [
+const PAVA: ServiceFaqItem[] = [
   {
-    question: "What is the difference between EVAC, voice alarm, voice evacuation and PA/VA?",
+    question: "What is PAVA?",
     answer:
-      "EVAC, voice alarm and voice evacuation all refer to the life-safety spoken messaging function covered by BS 5839-8. PA/VA means a public address / voice alarm system that can also handle day-to-day announcements or background music, with emergency messages taking priority.",
+      "PAVA means public address and voice alarm. Under BS 5839-8 it delivers life-safety spoken messaging during an emergency, and can also handle day-to-day announcements or background music, with emergency messages taking priority. It is separate from EVAC evacuation alert systems under BS 8629.",
   },
   {
     question: "What do you install under BS 5839-8?",
     answer:
-      "Zoned and phased evacuation messaging, amplifiers and loudspeakers, fire alarm integration, cause-and-effect testing, commissioning and ongoing maintenance, including background music / general announcement functions where the design specifies shared PA/VA infrastructure.",
+      "Zoned and phased evacuation messaging, amplifiers and loudspeakers, fire alarm integration, cause-and-effect testing, commissioning and ongoing maintenance, including background music / general announcement functions where the design specifies shared PAVA infrastructure.",
   },
   {
-    question: "When should EVAC / voice alarm design be fixed?",
+    question: "When should PAVA design be fixed?",
     answer:
       "Early coordination with fire strategy, acoustics and containment avoids late changes to speaker layouts, cabling, zoning and audibility testing.",
   },
@@ -262,6 +267,29 @@ const EVAC: ServiceFaqItem[] = [
     question: "What handover and maintenance support is included?",
     answer:
       "Audio test reports, cause-and-effect witness sheets, as-commissioned settings, operator guidance and maintenance options aligned with BS 5839-8 and manufacturer guidance.",
+  },
+]
+
+const EVAC: ServiceFaqItem[] = [
+  {
+    question: "What is EVAC under BS 8629?",
+    answer:
+      "EVAC means an evacuation alert system for use by the fire and rescue service in buildings containing flats. It is covered by BS 8629 and is not a PAVA / voice alarm system under BS 5839-8.",
+  },
+  {
+    question: "Who is EVAC for?",
+    answer:
+      "Primarily residential buildings containing flats where the fire strategy requires an evacuation alert system operable by the fire and rescue service.",
+  },
+  {
+    question: "How does EVAC differ from PAVA?",
+    answer:
+      "PAVA (BS 5839-8) provides public address and voice alarm messaging. EVAC (BS 8629) provides evacuation alert facilities for flats. They serve different building types and standards.",
+  },
+  {
+    question: "What handover and maintenance support is included?",
+    answer:
+      "Commissioning records, zone schedules, duty-holder guidance and maintenance options aligned with BS 8629 and manufacturer guidance.",
   },
 ]
 
@@ -300,14 +328,14 @@ const REFUGE: ServiceFaqItem[] = [
       "Disabled refuge systems, fire telephone systems, disabled toilet alarms and central control panels with two-way communication, designed, installed and commissioned to BS 5839-9, with routine testing and maintenance options.",
   },
   {
-    question: "How do you coordinate with fire alarm and EVAC?",
+    question: "How do you coordinate with fire alarm and PAVA?",
     answer:
-      "We align interfaces, cause-and-effect and commissioning so refuge, fire telephone, toilet alarm and EVAC behaviour matches the wider life-safety design.",
+      "We align interfaces, cause-and-effect and commissioning so refuge, fire telephone, toilet alarm and PAVA behaviour matches the wider life-safety design.",
   },
   {
     question: "Can you support existing buildings and upgrades?",
     answer:
-      "Yes. We survey legacy EVC, refuge, fire telephone and toilet alarm systems, plan phased upgrades and minimise disruption while keeping clear records for operators.",
+      "It depends on the system installed. We survey legacy EVC, refuge, fire telephone and toilet alarm systems and advise what can be supported, upgraded or replaced. Closed-protocol equipment can limit takeovers and expansions, so we confirm manufacturer access, parts availability and a realistic upgrade path before committing to works.",
   },
   {
     question: "What training and ongoing support do you provide?",
@@ -398,7 +426,8 @@ const FS_FAQ_BY_PATH: Record<string, ServiceFaqItem[]> = {
   "/services/fire-alarm-systems": MECHANICAL_ENGINEERING_FS,
   "/services/video-door-entry-systems": VIDEO_DOOR_ENTRY,
   "/services/gate-automation-systems": GATE_AUTOMATION,
-  "/services/evac-voice-evacuation": EVAC,
+  "/services/pava": PAVA,
+  "/services/evac": EVAC,
   "/services/refuge-disabled-communication": REFUGE,
   "/services/cctv/commercial": CCTV_FS("commercial"),
   "/services/cctv/domestic": CCTV_FS("domestic"),

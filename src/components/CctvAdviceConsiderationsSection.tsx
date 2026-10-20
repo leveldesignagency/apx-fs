@@ -86,8 +86,8 @@ export function CctvAdviceConsiderationsSection() {
   const [openIndex, setOpenIndex] = useState<number | null>(null)
 
   return (
-    <section className="border-t border-white/15 bg-black" aria-labelledby="cctv-advice-considerations-heading">
-      <div className="container relative mx-auto px-6 py-16 lg:px-8 lg:py-16">
+    <section className="border-t border-white/15 bg-[var(--page-bg)]" aria-labelledby="cctv-advice-considerations-heading">
+      <div className="site-container relative py-16 lg:py-16">
         <div className="grid grid-cols-1 gap-10 lg:grid-cols-[minmax(0,22rem)_minmax(0,1fr)] lg:gap-x-16 xl:gap-x-24">
           <Reveal className="lg:pt-1">
             <h2

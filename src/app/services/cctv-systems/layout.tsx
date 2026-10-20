@@ -1,6 +1,7 @@
 import type { Metadata } from "next"
 import { buildFsMetadata } from "@/lib/seo-metadata"
 import { FS_SERVICE_ROUTES } from "@/lib/fs-service-routes"
+import { FsServiceJsonLd } from "@/components/seo/FsServiceJsonLd"
 
 export const metadata: Metadata = buildFsMetadata({
   title: "Commercial CCTV Systems | IP, ANPR & Retention | London | APX",
@@ -10,5 +11,14 @@ export const metadata: Metadata = buildFsMetadata({
 })
 
 export default function Layout({ children }: { children: React.ReactNode }) {
-  return children
+  return (
+    <>
+      <FsServiceJsonLd
+        pathname="/services/cctv-systems"
+        description="Commercial CCTV design, installation and maintenance: IP CCTV, HD analogue upgrades, remote viewing, recording and retention, camera health monitoring, ANPR and analytics where offered, network segregation and repairs across London and the Home Counties."
+        name="Commercial CCTV Systems"
+      />
+      {children}
+    </>
+  )
 }

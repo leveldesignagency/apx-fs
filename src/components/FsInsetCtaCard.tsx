@@ -46,7 +46,7 @@ export function FsInsetCtaCard({
     <section
       className={cn(
         "fs-inset-cta-card",
-        isWhiteSection ? "bg-white" : "bg-black",
+        isWhiteSection ? "bg-white" : "bg-[var(--page-bg)]",
         showBorderTop && (isWhiteSection ? "border-t border-black/8" : "border-t border-white/10"),
         variant === "light" && "fs-inset-cta-card--light",
         variant === "dark-card" && "fs-inset-cta-card--dark-card",
@@ -54,7 +54,7 @@ export function FsInsetCtaCard({
       )}
       aria-labelledby={headingId}
     >
-      <div className="container mx-auto px-6 py-14 sm:py-16 lg:px-8 lg:py-20">
+      <div className="site-container py-14 sm:py-16 lg:py-20">
         <Reveal>
           <div
             className={cn(
@@ -62,13 +62,13 @@ export function FsInsetCtaCard({
               isDarkPanel
                 ? "border border-white/20 shadow-[0_24px_64px_rgba(0,0,0,0.45)]"
                 : "fs-inset-cta-card__panel--light border border-black/10 shadow-[0_20px_50px_rgba(15,23,42,0.08)]",
-              variant === "dark-card" && "bg-black"
+              variant === "dark-card" && "bg-[var(--page-bg)]"
             )}
           >
             {isDarkPanel && backgroundImageSrc ? (
               <>
                 <div className="pointer-events-none absolute inset-0 z-0 overflow-hidden" aria-hidden>
-                  <div className="absolute inset-0 origin-center transition-transform duration-700 ease-out group-hover:scale-[1.04]">
+                  <div className="absolute inset-0 origin-center transition-transform duration-700 ease-out motion-reduce:transition-none motion-safe:group-hover:scale-[1.04]">
                     <Image
                       src={backgroundImageSrc}
                       alt=""
@@ -128,7 +128,7 @@ export function FsInsetCtaCard({
                   {description}
                 </p>
                 <Reveal delayMs={80}>
-                  <div className="mt-7 flex flex-col gap-3 sm:flex-row sm:flex-wrap sm:items-center">
+                  <div className="mt-7 flex flex-col items-center gap-4 sm:flex-row sm:flex-wrap sm:items-center sm:gap-3">
                     {children}
                   </div>
                 </Reveal>

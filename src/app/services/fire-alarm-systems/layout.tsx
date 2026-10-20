@@ -1,6 +1,7 @@
 import type { Metadata } from "next"
 import { buildFsMetadata } from "@/lib/seo-metadata"
 import { FS_SERVICE_ROUTES } from "@/lib/fs-service-routes"
+import { FsServiceJsonLd } from "@/components/seo/FsServiceJsonLd"
 
 export const metadata: Metadata = buildFsMetadata({
   title: "Fire Alarm Systems London | Design, Install & Commission | APX Fire & Security",
@@ -10,5 +11,14 @@ export const metadata: Metadata = buildFsMetadata({
 })
 
 export default function Layout({ children }: { children: React.ReactNode }) {
-  return children
+  return (
+    <>
+      <FsServiceJsonLd
+        pathname="/services/fire-alarm-systems"
+        description="Addressable and conventional fire alarms, BAFE-aligned design, installation, commissioning and certification across London, Kent, Essex and the Home Counties. BS 5839-1 aligned delivery."
+        name="Fire Alarm Systems London"
+      />
+      {children}
+    </>
+  )
 }

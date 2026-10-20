@@ -25,8 +25,7 @@ export const getCookiePreferences = (): CookiePreferences | null => {
     if (!stored) return null
 
     return JSON.parse(stored) as CookiePreferences
-  } catch (error) {
-    console.error('Error reading cookie preferences:', error)
+  } catch {
     return null
   }
 }
@@ -43,8 +42,8 @@ export const saveCookiePreferences = (preferences: CookiePreferences): void => {
 
     // Apply preferences to actual cookie/tracking services
     applyCookiePreferences(preferences)
-  } catch (error) {
-    console.error('Error saving cookie preferences:', error)
+  } catch {
+    /* ignore quota / private-mode storage failures */
   }
 }
 
@@ -66,8 +65,7 @@ export const getConsentDate = (): Date | null => {
     if (!dateStr) return null
 
     return new Date(dateStr)
-  } catch (error) {
-    console.error('Error reading consent date:', error)
+  } catch {
     return null
   }
 }
@@ -222,8 +220,8 @@ export const setCache = (
       expiration: expirationTime,
     }
     localStorage.setItem(`cache_${key}`, JSON.stringify(cacheData))
-  } catch (error) {
-    console.error('Error setting cache:', error)
+  } catch {
+    /* ignore */
   }
 }
 
@@ -247,8 +245,7 @@ export const getCache = <T>(key: string): T | null => {
     }
 
     return cacheData.value as T
-  } catch (error) {
-    console.error('Error getting cache:', error)
+  } catch {
     return null
   }
 }

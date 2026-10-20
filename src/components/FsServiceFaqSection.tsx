@@ -9,7 +9,7 @@ import { cn } from "@/lib/utils"
 import { FS_SERVICE_FAQ_FALLBACK, type ServiceFaqItem } from "@/lib/fs-service-faq-content"
 
 /** Matches ServicePageHero / ServicePageBottomCta horizontal rhythm */
-const FS_SERVICE_CONTENT_OUTER_CLASS = "container relative mx-auto w-full px-6 lg:px-8"
+const FS_SERVICE_CONTENT_OUTER_CLASS = "site-container relative w-full"
 
 export type { ServiceFaqItem }
 export { FS_SERVICE_FAQ_FALLBACK as FS_SERVICE_FAQ_DEFAULT }
@@ -43,7 +43,7 @@ export function FsServiceFaqSection({ items = FS_SERVICE_FAQ_FALLBACK, variant =
             >
               Frequently
               <br />
-              asked questions
+              Asked Questions
             </h2>
           </Reveal>
 

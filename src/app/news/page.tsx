@@ -2,6 +2,7 @@ import type { Metadata } from "next"
 import { buildFsMetadata } from "@/lib/seo-metadata"
 import { getNewsArticlesSorted } from "@/data/fsNewsArticles"
 import { NewsHubClient } from "@/components/news/NewsHubClient"
+import { FsBreadcrumbJsonLd } from "@/components/seo/FsBreadcrumbJsonLd"
 
 export const metadata: Metadata = buildFsMetadata({
   title: "Security Systems News & Information | APX Fire & Security",
@@ -14,8 +15,11 @@ export default function NewsIndexPage() {
   const articles = getNewsArticlesSorted()
 
   return (
-    <div className="news-page min-h-screen bg-white text-black" data-cursor-surface="light">
-      <NewsHubClient articles={articles} />
-    </div>
+    <>
+      <FsBreadcrumbJsonLd crumbs={[{ name: "News", path: "/news" }]} />
+      <div className="news-page min-h-screen bg-white text-black" data-cursor-surface="light">
+        <NewsHubClient articles={articles} />
+      </div>
+    </>
   )
 }

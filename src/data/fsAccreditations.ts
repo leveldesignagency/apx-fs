@@ -9,7 +9,7 @@ export type FsAccreditationEntry = {
   icon: string
   /** What the organisation is */
   intro: string
-  /** APX’s exact public status claim */
+  /** APX's exact public status claim */
   apxStatus: string
   /** Scope covered by that status */
   scope: string
@@ -52,11 +52,11 @@ export const FS_ACCREDITATIONS: Record<string, FsAccreditationEntry> = {
     apxStatus:
       "APX Fire & Security holds NSI Gold approval for security systems and NSI Gold approval for fire systems (often referred to as NSI Fire Gold).",
     scope:
-      "NSI Gold, Security covers electronic security work within the approved NSI security scope. NSI Gold, Fire (NSI Fire Gold) covers fire systems within the approved NSI fire scope. Exact module and scheme detail should be confirmed against NSI’s current approval records for APX.",
+      "NSI Gold, Security covers electronic security work within the approved NSI security scope. NSI Gold, Fire (NSI Fire Gold) covers fire systems within the approved NSI fire scope. Exact module and scheme detail should be confirmed against NSI's current approval records for APX.",
     whyItMatters:
       "NSI Gold gives customers independent assurance that design, installation, commissioning and maintenance are delivered under audited technical and quality controls, reducing procurement risk and supporting confident occupation and ongoing compliance.",
     ukasNote:
-      "Where NSI operates as a UKAS-accredited certification body for a given scheme, the UKAS accreditation applies to NSI’s certification activity, not as a separate APX “UKAS mark”. Customers should treat UKAS references carefully and not imply that BAFE or APX are themselves UKAS-accredited bodies.",
+      "Where NSI operates as a UKAS-accredited certification body for a given scheme, the UKAS accreditation applies to NSI's certification activity, not as a separate APX “UKAS mark”. Customers should treat UKAS references carefully and not imply that BAFE or APX are themselves UKAS-accredited bodies.",
     registerUrl: "https://www.nsi.org.uk/",
     registerLabel: "NSI (nsi.org.uk)",
   },
@@ -83,10 +83,10 @@ export const FS_ACCREDITATIONS: Record<string, FsAccreditationEntry> = {
     kind: "membership",
     icon: "/accreditations%20mono/Coloured/FIA-01.svg",
     intro:
-      "The Fire Industry Association (FIA) is the UK’s major trade association for fire protection and fire safety professionals. It supports standards, training and technical guidance across the industry.",
+      "The Fire Industry Association (FIA) is the UK's major trade association for fire protection and fire safety professionals. It supports standards, training and technical guidance across the industry.",
     apxStatus: "APX Fire & Security is a Full Member of the Fire Industry Association (FIA).",
     scope:
-      "FIA Full Membership is industry membership. It is not a third-party accreditation or certification of APX’s installation work. Membership supports access to technical guidance, training pathways and industry updates that inform competent delivery.",
+      "FIA Full Membership is industry membership. It is not a third-party accreditation or certification of APX's installation work. Membership supports access to technical guidance, training pathways and industry updates that inform competent delivery.",
     whyItMatters:
       "Customers benefit when contractors stay aligned with current fire-safety practice. FIA membership shows commitment to industry standards and continuous improvement, alongside, not instead of, NSI and BAFE credentials.",
     registerUrl: "https://www.fia.uk.com/",
@@ -153,7 +153,7 @@ export const FS_ACCREDITATION_SEO: Record<FsAccreditationSlug, { title: string; 
   nsi: {
     title: "NSI Gold, Security & Fire | APX Fire & Security",
     description:
-      "APX holds NSI Gold for security systems and NSI Fire Gold for fire systems. Independent certification for quality-controlled fire and security delivery across London and the Home Counties.",
+      "APX holds NSI Gold for security systems and NSI Fire Gold for fire systems. Independent certification for quality-controlled Fire and Security delivery across London and the Home Counties.",
   },
   constructionline: {
     title: "Constructionline Gold Member | APX Fire & Security",

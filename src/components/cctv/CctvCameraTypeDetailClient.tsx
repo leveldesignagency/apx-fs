@@ -7,6 +7,7 @@ import { ArrowLeft } from "lucide-react"
 import { FsCctvHeroNav } from "@/components/FsCctvHeroNav"
 import { FsInsetCtaCard } from "@/components/FsInsetCtaCard"
 import { CustomPillButton } from "@/components/ui/CustomPillButton"
+import { CallPhoneCta } from "@/components/ui/CallPhoneCta"
 import {
   CCTV_CAMERA_TYPES_FOLDER,
   CCTV_CAMERA_TYPE_QUICK_LINKS,
@@ -78,7 +79,10 @@ export function CctvCameraTypeDetailClient({ page }: { page: CctvCameraTypePage 
                 {page.title}
               </h1>
               <p className="mt-6 max-w-3xl text-lg leading-relaxed text-gray-300 sm:text-xl">{page.heroIntro}</p>
-              <div className="mt-8 flex flex-wrap items-center gap-4">
+              <div className="mt-8 flex flex-col items-start gap-4 sm:flex-row sm:flex-wrap sm:items-center">
+                <CustomPillButton href="/contact?service=cctv-systems" size="md">
+                  CCTV enquiry
+                </CustomPillButton>
                 <Link
                   href="/services/cctv-systems"
                   className="group inline-flex items-center gap-2 text-sm font-semibold uppercase tracking-widest text-white/55 transition-colors hover:text-white"
@@ -89,9 +93,6 @@ export function CctvCameraTypeDetailClient({ page }: { page: CctvCameraTypePage 
                   />
                   CCTV systems overview
                 </Link>
-                <CustomPillButton href="/contact?service=cctv-systems" size="md">
-                  CCTV enquiry
-                </CustomPillButton>
               </div>
             </div>
 
@@ -151,9 +152,7 @@ export function CctvCameraTypeDetailClient({ page }: { page: CctvCameraTypePage 
         <CustomPillButton href="/contact?service=cctv-systems" size="md">
           CCTV enquiry
         </CustomPillButton>
-        <CustomPillButton href="tel:02083032280" size="md" variant="outline">
-          Call 020 8303 2280
-        </CustomPillButton>
+        <CallPhoneCta size="md" />
       </FsInsetCtaCard>
     </div>
   )

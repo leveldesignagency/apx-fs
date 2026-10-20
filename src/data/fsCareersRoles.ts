@@ -8,7 +8,7 @@ export const FS_CAREER_ROLES: CareerRole[] = [
     id: "fire-security-engineers",
     title: "Fire and Security Engineers",
     description:
-      "Installation, commissioning and maintenance of integrated fire and security systems. NSI-aligned workmanship across London and the Home Counties.",
+      "Installation, commissioning and maintenance of integrated Fire and Security systems. NSI-aligned workmanship across London and the Home Counties.",
     department: "Fire & Security",
     location: "London & Home Counties",
     baseLocation: "Erith, Kent (365-369 Bexley Road), with site work across London and the Home Counties",

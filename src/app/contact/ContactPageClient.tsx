@@ -12,7 +12,9 @@ import {
   FS_CONTACT_SERVICE_SLUGS,
   FS_LEGACY_CONTACT_SERVICE_SLUGS,
 } from "@/lib/fs-service-routes"
-import { ArrowUpRight, Check, Mail, MapPin, Phone } from "lucide-react"
+import { Check, Copy, Mail, MapPin, Phone } from "lucide-react"
+import { TurnstileWidget } from "@/components/TurnstileWidget"
+import { ContactFaqSection } from "@/components/contact/ContactFaqSection"
 
 /** Values match `/services/…` path segments for `?service=` deep links */
 const FS_CONTACT_SERVICES = [
@@ -22,18 +24,25 @@ const FS_CONTACT_SERVICES = [
   { value: FS_CONTACT_SERVICE_SLUGS.accessControlSystems, label: "Access Control Systems" },
   { value: FS_CONTACT_SERVICE_SLUGS.videoDoorEntrySystems, label: "Video Door Entry Systems" },
   { value: FS_CONTACT_SERVICE_SLUGS.gateAutomationSystems, label: "Gate Automation" },
-  { value: FS_CONTACT_SERVICE_SLUGS.evacVoiceEvacuation, label: "EVAC & Voice Alarm Systems" },
+  { value: FS_CONTACT_SERVICE_SLUGS.pava, label: "PAVA Systems" },
+  { value: FS_CONTACT_SERVICE_SLUGS.evac, label: "EVAC Systems" },
   {
     value: FS_CONTACT_SERVICE_SLUGS.refugeDisabledCommunication,
     label: "Disabled Refuge, Fire Telephone & Toilet Alarm Systems",
   },
   { value: FS_CONTACT_SERVICE_SLUGS.monitoring, label: "Monitoring" },
-  { value: FS_CONTACT_SERVICE_SLUGS.maintenanceSupport, label: "Maintenance / PPM" },
+  { value: FS_CONTACT_SERVICE_SLUGS.maintenanceSupport, label: "Maintenance & Repairs" },
   { value: FS_CONTACT_SERVICE_SLUGS.emergencyCallOut, label: "Emergency Call-Out" },
 ] as const
 
 const fieldClass =
-  "w-full rounded-none border border-white/15 bg-black px-4 py-3.5 text-[17px] font-bold text-white placeholder:text-white/40 placeholder:font-normal outline-none transition-[border,box-shadow] focus:border-white/50 focus:ring-0 focus:bg-black"
+  "w-full rounded-none border border-white/15 bg-[var(--page-bg)] px-3.5 py-2.5 text-base font-bold text-white placeholder:text-white/40 placeholder:font-normal outline-none transition-[border,box-shadow] focus:border-white/50 focus:ring-0 focus:bg-[var(--page-bg)]"
+
+/** Match quote-form draw shell hairline (~0.5px), square, white on dark card */
+const contactInfoCardClass =
+  "group flex items-center gap-3.5 rounded-none border-[0.5px] border-white bg-[var(--page-bg)] px-4 py-3.5 transition-colors duration-300 hover:bg-black"
+
+const CONTACT_EMAIL = "enquiries@apx-fs.co.uk"
 
 function ConsentCheckbox({
   id,
@@ -61,7 +70,7 @@ function ConsentCheckbox({
         />
         <span
           aria-hidden
-          className="flex h-6 w-6 items-center justify-center border-2 border-white/45 bg-black transition-[border-color,background-color,box-shadow] peer-checked:border-white peer-checked:bg-white peer-focus-visible:ring-2 peer-focus-visible:ring-white/55 peer-focus-visible:ring-offset-2 peer-focus-visible:ring-offset-black group-hover:border-white/70"
+          className="flex h-6 w-6 items-center justify-center border border-white/45 bg-[var(--page-bg)] transition-[border-color,background-color,box-shadow] peer-checked:border-white peer-checked:bg-white peer-focus-visible:ring-2 peer-focus-visible:ring-white/55 peer-focus-visible:ring-offset-2 peer-focus-visible:ring-offset-black group-hover:border-white/70"
         >
           <Check
             className={`h-3.5 w-3.5 text-black transition-opacity ${checked ? "opacity-100" : "opacity-0"}`}
@@ -109,11 +118,28 @@ export function ContactPageClient() {
   const [privacyConsent, setPrivacyConsent] = useState(false)
   const [smsConsent, setSmsConsent] = useState(false)
   const [submitError, setSubmitError] = useState<string | null>(null)
+  const [turnstileToken, setTurnstileToken] = useState<string | null>(null)
+  const [emailCopied, setEmailCopied] = useState(false)
+  const emailCopiedTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null)
 
   useEffect(() => {
     setMounted(true)
     formStartedAtRef.current = Date.now()
+    return () => {
+      if (emailCopiedTimerRef.current) clearTimeout(emailCopiedTimerRef.current)
+    }
   }, [])
+
+  const copyContactEmail = async () => {
+    try {
+      await navigator.clipboard.writeText(CONTACT_EMAIL)
+      setEmailCopied(true)
+      if (emailCopiedTimerRef.current) clearTimeout(emailCopiedTimerRef.current)
+      emailCopiedTimerRef.current = setTimeout(() => setEmailCopied(false), 1800)
+    } catch {
+      /* ignore */
+    }
+  }
 
   useEffect(() => {
     const raw = searchParams.get("service")
@@ -127,125 +153,97 @@ export function ContactPageClient() {
     : ""
 
   const phoneRequired = contactMethod === "phone" || contactMethod === "text"
+  const emailRequired = contactMethod === "email"
 
   return (
-    <main className="relative min-h-screen overflow-hidden bg-black text-white">
-      <div className="pointer-events-none fixed inset-0 z-0">
-        <div
-          className="absolute -left-[20%] top-[-10%] h-[min(90vw,720px)] w-[min(90vw,720px)] rounded-full opacity-90 blur-3xl"
-          style={{
-            background: "radial-gradient(circle at 40% 40%, rgba(255,255,255,0.12) 0%, transparent 55%)",
-          }}
-        />
-        <div
-          className="absolute right-[-15%] top-[25%] h-[min(70vw,560px)] w-[min(70vw,560px)] rounded-full opacity-70 blur-3xl"
-          style={{
-            background: "radial-gradient(circle at 60% 50%, rgba(180,200,255,0.09) 0%, transparent 58%)",
-          }}
-        />
-        <div
-          className="absolute bottom-0 left-0 right-0 h-[45%]"
-          style={{
-            background: "linear-gradient(to top, rgba(0,0,0,0.95) 0%, transparent 100%)",
-          }}
-        />
-      </div>
-
+    <main className="contact-page relative min-h-screen overflow-hidden bg-white text-black">
       <div className="relative z-10">
-        <section id="contact" className="about-section-px page-title-top pb-16 md:pb-24 lg:pb-28">
+        <section id="contact" className="contact-page-section about-section-px page-title-top pb-16 md:pb-24 lg:pb-28">
           <div className="about-section-inner mx-auto max-w-6xl">
-            <div className="grid grid-cols-1 items-start gap-8 sm:gap-12 lg:grid-cols-2 lg:gap-16">
-              <div>
+            <div className="grid grid-cols-1 items-stretch gap-8 sm:gap-12 lg:grid-cols-2 lg:gap-12 xl:gap-14">
+              <div className="contact-page-copy flex min-h-0 flex-col">
                 <Reveal show={mounted} delayMs={0}>
-                  <span className="section-label mb-5 block text-white/55">Contact</span>
-                  <h1 className="mb-2 font-title text-left text-3xl font-bold text-white sm:mb-3 sm:text-4xl md:text-5xl lg:text-6xl">
+                  <span className="section-label mb-5 block text-black/55">Contact</span>
+                  <h1 className="mb-2 font-title text-left text-3xl font-bold text-black sm:mb-3 sm:text-4xl md:text-5xl lg:text-6xl">
                     Let&apos;s start a{" "}
-                    <span className="bg-gradient-to-r from-white via-white to-white/55 bg-clip-text text-transparent">
+                    <span className="bg-gradient-to-r from-black via-black to-black/45 bg-clip-text text-transparent">
                       conversation
                     </span>
                   </h1>
-                  <p className="mt-6 max-w-md text-lg leading-relaxed text-white/72 md:text-xl">
+                  <p className="mt-6 max-w-md text-lg leading-relaxed text-black/65 md:text-xl">
                     Fire, security and life safety, surveys, quotes and expert advice. We cover London and the Home
                     Counties.
                   </p>
                 </Reveal>
 
-                <div className="mt-10 space-y-3 md:mt-12">
-                  <Reveal show={mounted} delayMs={90}>
-                    <a
-                      href="tel:02083032280"
-                      className="group flex items-center gap-4 rounded-2xl border border-white/10 bg-white/[0.03] p-5 transition-all duration-300 hover:border-white/22 hover:bg-white/[0.06]"
-                    >
-                      <span className="flex h-12 w-12 shrink-0 items-center justify-center rounded-xl bg-white/10 text-white transition-transform duration-300 group-hover:scale-105">
-                        <Phone className="h-5 w-5" aria-hidden />
+                <div className="mt-10 flex flex-1 flex-col justify-end gap-3 md:mt-12 lg:mt-0 lg:pt-10">
+                  <Reveal show={mounted} delayMs={90} className="w-full">
+                    <a href="tel:02083032280" className={contactInfoCardClass}>
+                      <Phone className="h-5 w-5 shrink-0 text-white" aria-hidden />
+                      <span className="min-w-0 flex-1 text-base font-semibold tracking-tight text-white sm:text-lg">
+                        020 8303 2280
                       </span>
-                      <div className="min-w-0 flex-1">
-                        <p className="text-[11px] font-semibold uppercase tracking-[0.2em] text-white/45">Phone</p>
-                        <p className="mt-0.5 text-lg font-semibold tracking-tight text-white">020 8303 2280</p>
-                      </div>
-                      <ArrowUpRight
-                        className="h-5 w-5 shrink-0 text-white/0 transition-all duration-300 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 group-hover:text-white/50"
-                        aria-hidden
-                      />
                     </a>
                   </Reveal>
-                  <Reveal show={mounted} delayMs={140}>
-                    <a
-                      href="mailto:enquiries@apx-fs.co.uk"
-                      className="group flex items-center gap-4 rounded-2xl border border-white/10 bg-white/[0.03] p-5 transition-all duration-300 hover:border-white/22 hover:bg-white/[0.06]"
-                    >
-                      <span className="flex h-12 w-12 shrink-0 items-center justify-center rounded-xl bg-white/10 text-white transition-transform duration-300 group-hover:scale-105">
-                        <Mail className="h-5 w-5" aria-hidden />
-                      </span>
-                      <div className="min-w-0 flex-1">
-                        <p className="text-[11px] font-semibold uppercase tracking-[0.2em] text-white/45">Email</p>
-                        <p className="mt-0.5 break-all text-lg font-semibold tracking-tight text-white">
-                          enquiries@apx-fs.co.uk
-                        </p>
-                      </div>
-                      <ArrowUpRight
-                        className="h-5 w-5 shrink-0 text-white/0 transition-all duration-300 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 group-hover:text-white/50"
-                        aria-hidden
-                      />
-                    </a>
+
+                  <Reveal show={mounted} delayMs={140} className="w-full">
+                    <div className={`${contactInfoCardClass} relative pr-14`}>
+                      <a
+                        href={`mailto:${CONTACT_EMAIL}`}
+                        className="flex min-w-0 flex-1 items-center gap-3.5 text-inherit no-underline"
+                      >
+                        <Mail className="h-5 w-5 shrink-0 text-white" aria-hidden />
+                        <span className="min-w-0 break-all text-base font-semibold tracking-tight text-white sm:text-lg">
+                          {CONTACT_EMAIL}
+                        </span>
+                      </a>
+                      <button
+                        type="button"
+                        onClick={(e) => {
+                          e.preventDefault()
+                          e.stopPropagation()
+                          void copyContactEmail()
+                        }}
+                        className="contact-email-copy pointer-events-none absolute right-3 top-1/2 z-10 flex h-9 w-9 -translate-y-1/2 items-center justify-center border-[0.5px] border-white bg-[var(--page-bg)] text-white opacity-0 transition-opacity duration-200 group-hover:pointer-events-auto group-hover:opacity-100 focus-visible:pointer-events-auto focus-visible:opacity-100"
+                        aria-label={emailCopied ? "Email copied" : "Copy email address"}
+                      >
+                        {emailCopied ? (
+                          <Check className="h-4 w-4" strokeWidth={2.5} aria-hidden />
+                        ) : (
+                          <Copy className="h-4 w-4" strokeWidth={2} aria-hidden />
+                        )}
+                      </button>
+                    </div>
                   </Reveal>
-                  <Reveal show={mounted} delayMs={190}>
+
+                  <Reveal show={mounted} delayMs={190} className="w-full">
                     <a
                       href="https://maps.google.com/?q=365-369+Bexley+Road+Northumberland+Heath+Erith+Kent+DA8+3EZ"
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="group flex items-start gap-4 rounded-2xl border border-white/10 bg-white/[0.03] p-5 transition-all duration-300 hover:border-white/22 hover:bg-white/[0.06]"
+                      className={`${contactInfoCardClass} items-start`}
                     >
-                      <span className="flex h-12 w-12 shrink-0 items-center justify-center rounded-xl bg-white/10 text-white transition-transform duration-300 group-hover:scale-105">
-                        <MapPin className="h-5 w-5" aria-hidden />
+                      <MapPin className="mt-0.5 h-5 w-5 shrink-0 text-white" aria-hidden />
+                      <span className="min-w-0 flex-1 text-sm leading-snug text-white sm:text-base">
+                        365-369 Bexley Road
+                        <br />
+                        Northumberland Heath, Erith
+                        <br />
+                        Kent, DA8 3EZ
                       </span>
-                      <div className="min-w-0 flex-1">
-                        <p className="text-[11px] font-semibold uppercase tracking-[0.2em] text-white/45">Office</p>
-                        <p className="mt-0.5 leading-snug text-white/90">
-                          365-369 Bexley Road
-                          <br />
-                          Northumberland Heath, Erith
-                          <br />
-                          Kent, DA8 3EZ
-                        </p>
-                      </div>
-                      <ArrowUpRight
-                        className="mt-1 h-5 w-5 shrink-0 text-white/0 transition-all duration-300 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 group-hover:text-white/50"
-                        aria-hidden
-                      />
                     </a>
                   </Reveal>
                 </div>
               </div>
 
-              <div className="w-full">
-                <Reveal show={mounted} delayMs={120} className="w-full">
+              <div className="contact-page-form-col flex h-full w-full flex-col">
+                <Reveal show={mounted} delayMs={120} className="flex h-full w-full flex-col">
                   <HomeQuoteFormDrawShell active allowOverflow={serviceDropdownOpen}>
                     <div id="quote-form" className="relative w-full">
-                      <GlassFormPanel>
+                      <GlassFormPanel contentClassName="p-4 md:p-5">
                           <form
                             ref={formRef}
-                            className="contact-page-form space-y-5"
+                            className="contact-page-form space-y-3.5"
                             onSubmit={(e) => e.preventDefault()}
                             noValidate
                           >
@@ -262,7 +260,7 @@ export function ContactPageClient() {
                               className="absolute -left-[9999px] h-px w-px opacity-0"
                             />
 
-                            <div className="grid grid-cols-1 gap-5 sm:grid-cols-2">
+                            <div className="grid grid-cols-1 gap-3.5 sm:grid-cols-2">
                               <div>
                                 <FieldLabel htmlFor="name" required>
                                   Name
@@ -272,6 +270,8 @@ export function ContactPageClient() {
                                   type="text"
                                   name="name"
                                   required
+                                  inputMode="text"
+                                  enterKeyHint="next"
                                   className={fieldClass}
                                   placeholder="Your full name"
                                   autoComplete="name"
@@ -292,16 +292,18 @@ export function ContactPageClient() {
                               </div>
                             </div>
 
-                            <div className="grid grid-cols-1 gap-5 sm:grid-cols-2">
+                            <div className="grid grid-cols-1 gap-3.5 sm:grid-cols-2">
                               <div>
-                                <FieldLabel htmlFor="email" required>
+                                <FieldLabel htmlFor="email" required={emailRequired} optional={!emailRequired}>
                                   Email
                                 </FieldLabel>
                                 <input
                                   id="email"
                                   type="email"
                                   name="email"
-                                  required
+                                  required={emailRequired}
+                                  inputMode="email"
+                                  enterKeyHint="next"
                                   className={fieldClass}
                                   placeholder="your@email.com"
                                   autoComplete="email"
@@ -316,6 +318,8 @@ export function ContactPageClient() {
                                   type="tel"
                                   name="phone"
                                   required={phoneRequired}
+                                  inputMode="tel"
+                                  enterKeyHint="next"
                                   className={fieldClass}
                                   placeholder="020 0000 0000"
                                   autoComplete="tel"
@@ -341,11 +345,11 @@ export function ContactPageClient() {
                             </div>
 
                             <div>
-                              <p className="mb-3 text-xs font-semibold uppercase tracking-[0.12em] text-white/50">
+                              <p className="mb-2 text-xs font-semibold uppercase tracking-[0.12em] text-white/50">
                                 Preferred contact{" "}
                                 <span className="normal-case tracking-normal text-white/70">(required)</span>
                               </p>
-                              <div className="flex flex-wrap gap-6">
+                              <div className="flex flex-wrap gap-5">
                                 <label className="flex cursor-pointer items-center gap-2.5">
                                   <input
                                     type="radio"
@@ -400,9 +404,9 @@ export function ContactPageClient() {
                               <textarea
                                 id="message"
                                 name="message"
-                                rows={5}
+                                rows={3}
                                 required
-                                className={`${fieldClass} min-h-[140px] resize-y`}
+                                className={`${fieldClass} min-h-[96px] resize-y`}
                                 placeholder="Tell us about your project or enquiry…"
                               />
                             </div>
@@ -420,7 +424,7 @@ export function ContactPageClient() {
                               >
                                 Privacy Policy
                               </Link>{" "}
-                              and consent to APX Fire &amp; Security processing my details to respond to this enquiry.{" "}
+                              and understand APX Fire &amp; Security will process my details to respond to this enquiry.{" "}
                               <span className="text-white/55">(required)</span>
                             </ConsentCheckbox>
 
@@ -429,6 +433,10 @@ export function ContactPageClient() {
                                 {submitError}
                               </p>
                             ) : null}
+
+                            <div className="flex w-full justify-center">
+                              <TurnstileWidget onToken={setTurnstileToken} theme="dark" />
+                            </div>
 
                             <div className="flex w-full justify-center">
                               <FormSubmitButton
@@ -446,6 +454,22 @@ export function ContactPageClient() {
                                     throw new Error("sms")
                                   }
                                   const fd = new FormData(form)
+                                  const emailVal = String(fd.get("email") ?? "").trim()
+                                  const phoneVal = String(fd.get("phone") ?? "").trim()
+                                  const emailLooksOk = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(emailVal)
+                                  const phoneLooksOk = phoneVal.length >= 8
+                                  if (!emailLooksOk && !phoneLooksOk) {
+                                    setSubmitError("Please provide at least one contact method (email or phone).")
+                                    throw new Error("contact-method")
+                                  }
+                                  if (contactMethod === "email" && !emailLooksOk) {
+                                    setSubmitError("Please enter a valid email address.")
+                                    throw new Error("email")
+                                  }
+                                  if ((contactMethod === "phone" || contactMethod === "text") && !phoneLooksOk) {
+                                    setSubmitError("Please enter a phone number for your preferred contact method.")
+                                    throw new Error("phone")
+                                  }
                                   const websiteHp = String(fd.get("website") ?? "").trim()
                                   if (websiteHp.length > 0) {
                                     router.push("/thank-you")
@@ -457,8 +481,8 @@ export function ContactPageClient() {
                                     body: JSON.stringify({
                                       name: String(fd.get("name") ?? "").trim(),
                                       companyName: String(fd.get("companyName") ?? "").trim(),
-                                      email: String(fd.get("email") ?? "").trim(),
-                                      phone: String(fd.get("phone") ?? "").trim(),
+                                      email: emailVal,
+                                      phone: phoneVal,
                                       service,
                                       serviceLabel: service ? serviceLabel : "",
                                       contactMethod,
@@ -467,6 +491,7 @@ export function ContactPageClient() {
                                       privacyConsent,
                                       smsConsent: contactMethod === "text" ? smsConsent : false,
                                       formStartedAt: formStartedAtRef.current,
+                                      turnstileToken: turnstileToken ?? "",
                                     }),
                                   })
                                   const data = (await res.json().catch(() => ({}))) as { error?: string }
@@ -491,6 +516,8 @@ export function ContactPageClient() {
             </div>
           </div>
         </section>
+
+        <ContactFaqSection />
       </div>
     </main>
   )

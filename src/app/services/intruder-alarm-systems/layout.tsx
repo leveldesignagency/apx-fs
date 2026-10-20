@@ -1,6 +1,7 @@
 import type { Metadata } from "next"
 import { buildFsMetadata } from "@/lib/seo-metadata"
 import { FS_SERVICE_ROUTES } from "@/lib/fs-service-routes"
+import { FsServiceJsonLd } from "@/components/seo/FsServiceJsonLd"
 
 export const metadata: Metadata = buildFsMetadata({
   title: "Intruder Alarm Systems London | Grade 2 & 3 | APX Fire & Security",
@@ -10,5 +11,14 @@ export const metadata: Metadata = buildFsMetadata({
 })
 
 export default function Layout({ children }: { children: React.ReactNode }) {
-  return children
+  return (
+    <>
+      <FsServiceJsonLd
+        pathname="/services/intruder-alarm-systems"
+        description="Grade 2 and Grade 3 intruder alarm systems with detection, monitoring integration and clear handover documentation across London and the Home Counties."
+        name="Intruder Alarm Systems London"
+      />
+      {children}
+    </>
+  )
 }

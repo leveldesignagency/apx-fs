@@ -14,7 +14,7 @@ export function NewsArticleCard({ article, featured = false }: NewsArticleCardPr
 
   return (
     <article
-      className={`news-card group flex h-full flex-col overflow-hidden border-2 border-black bg-white ${
+      className={`news-card group flex h-full flex-col overflow-hidden border border-black bg-white ${
         featured ? "news-card--featured md:grid md:grid-cols-2 md:items-stretch md:gap-0" : ""
       }`}
     >

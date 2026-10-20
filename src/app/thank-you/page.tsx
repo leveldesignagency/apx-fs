@@ -2,13 +2,12 @@ import type { Metadata } from "next"
 import Link from "next/link"
 import { CheckCircle2 } from "lucide-react"
 import { CustomPillButton } from "@/components/ui/CustomPillButton"
-import { buildFsMetadata } from "@/lib/seo-metadata"
+import { buildFsNoIndexMetadata } from "@/lib/seo-metadata"
 
-export const metadata: Metadata = buildFsMetadata({
+export const metadata: Metadata = buildFsNoIndexMetadata({
   title: "Thank You | Enquiry Received | APX Fire & Security",
   description: "Thank you for contacting APX Fire & Security. We have received your enquiry and will respond shortly.",
   pathname: "/thank-you",
-  robots: { index: false, follow: false },
 })
 
 export default function ThankYouPage() {

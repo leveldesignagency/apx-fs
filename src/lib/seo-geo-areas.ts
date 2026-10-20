@@ -1,4 +1,5 @@
-/** Shared London boroughs + regional coverage for keywords & structured data */
+// London boroughs + Home Counties — used for keywords / schema
+
 
 export const LONDON_BOROUGHS = [
   "City of London",

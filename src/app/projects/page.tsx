@@ -5,6 +5,7 @@ import Image from "next/image"
 import Link from "next/link"
 import { ChevronLeft, ChevronRight, X } from "lucide-react"
 import { CustomPillButton } from "@/components/ui/CustomPillButton"
+import { CallPhoneCta } from "@/components/ui/CallPhoneCta"
 import { FsInsetCtaCard } from "@/components/FsInsetCtaCard"
 import { Reveal } from "@/components/Reveal"
 import { ServiceItemReveal } from "@/components/ServiceItemReveal"
@@ -20,7 +21,7 @@ export default function ProjectsPage() {
   const [activeImageIndex, setActiveImageIndex] = useState(0)
   const textClass = "text-white"
   const mutedClass = "text-white/70"
-  const bgStyle = { backgroundColor: "#000000" }
+  const bgStyle = { backgroundColor: "var(--page-bg)" }
   const projects = useMemo(() => MAIN_CASE_STUDIES, [])
   const activeProject = activeProjectSlug
     ? projects.find((project) => project.slug === activeProjectSlug) ?? null
@@ -58,10 +59,10 @@ export default function ProjectsPage() {
                 className={`text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold mb-2 md:mb-3 text-left ${textClass}`}
                 style={{ fontFamily: "var(--font-menu)" }}
               >
-                Built to sign off, fire & security that endures
+                Built to sign off, Fire & Security that endures
               </h1>
               <p className={`text-base sm:text-lg md:text-xl font-normal text-left tracking-tight ${mutedClass}`}>
-                A selection of fire and security installations we have delivered for commercial, public sector, and domestic clients across London and the Home Counties.
+                A selection of Fire and Security installations we have delivered for commercial, public sector, and domestic clients across London and the Home Counties.
               </p>
             </Reveal>
           </div>
@@ -73,7 +74,7 @@ export default function ProjectsPage() {
           <div className="space-y-8 md:space-y-10">
             {projects.map((project, index) => (
               <ServiceItemReveal key={project.slug} index={index} stepMs={75} className="block">
-              <article className="grid grid-cols-1 gap-0 border-2 border-white/70 bg-black md:grid-cols-2">
+              <article className="grid grid-cols-1 gap-0 border border-white/70 bg-black md:grid-cols-2">
                 <button
                   type="button"
                   onClick={() => openGallery(project.slug, 0)}
@@ -88,7 +89,7 @@ export default function ProjectsPage() {
                     sizes="(max-width: 768px) 100vw, 50vw"
                   />
                   <div className="absolute inset-0 bg-black/20 group-hover:bg-black/10 transition-colors" />
-                  <span className="absolute bottom-3 left-3 border-2 border-white bg-black/55 px-3 py-1 text-[11px] uppercase tracking-[0.14em] text-white">
+                  <span className="absolute bottom-3 left-3 border border-white bg-black/55 px-3 py-1 text-[11px] uppercase tracking-[0.14em] text-white">
                     View gallery ({project.gallery.length})
                   </span>
                 </button>
@@ -146,9 +147,7 @@ export default function ProjectsPage() {
         <CustomPillButton href="/contact" size="lg" variant="onLight">
           Get in touch
         </CustomPillButton>
-        <CustomPillButton href="tel:02083032280" size="lg" variant="outline">
-          Call 020 8303 2280
-        </CustomPillButton>
+        <CallPhoneCta size="lg" variant="onLight" />
       </FsInsetCtaCard>
 
       {activeProject && activeGallery.length > 0 && (
@@ -159,14 +158,14 @@ export default function ProjectsPage() {
               <button
                 type="button"
                 onClick={closeGallery}
-                className="inline-flex h-10 w-10 items-center justify-center border-2 border-white/70 text-white hover:border-white"
+                className="inline-flex h-10 w-10 items-center justify-center border border-white/70 text-white hover:border-white"
                 aria-label="Close gallery"
               >
                 <X className="h-5 w-5" />
               </button>
             </div>
 
-            <div className="relative flex-1 overflow-hidden border-2 border-white/45">
+            <div className="relative flex-1 overflow-hidden border border-white/45">
               <Image
                 src={activeGallery[activeImageIndex]!}
                 alt={`${activeProject.title} image ${activeImageIndex + 1}`}
@@ -178,7 +177,7 @@ export default function ProjectsPage() {
               <button
                 type="button"
                 onClick={prevImage}
-                  className="absolute left-3 top-1/2 -translate-y-1/2 inline-flex h-11 w-11 items-center justify-center border-2 border-white/70 bg-black/45 text-white hover:border-white"
+                  className="absolute left-3 top-1/2 -translate-y-1/2 inline-flex h-11 w-11 items-center justify-center border border-white/70 bg-black/45 text-white hover:border-white"
                 aria-label="Previous image"
               >
                 <ChevronLeft className="h-6 w-6" />
@@ -186,7 +185,7 @@ export default function ProjectsPage() {
               <button
                 type="button"
                 onClick={nextImage}
-                  className="absolute right-3 top-1/2 -translate-y-1/2 inline-flex h-11 w-11 items-center justify-center border-2 border-white/70 bg-black/45 text-white hover:border-white"
+                  className="absolute right-3 top-1/2 -translate-y-1/2 inline-flex h-11 w-11 items-center justify-center border border-white/70 bg-black/45 text-white hover:border-white"
                 aria-label="Next image"
               >
                 <ChevronRight className="h-6 w-6" />
@@ -199,7 +198,7 @@ export default function ProjectsPage() {
                   key={`${img}-${idx}`}
                   type="button"
                   onClick={() => setActiveImageIndex(idx)}
-                  className={`relative h-16 w-24 shrink-0 overflow-hidden border-2 ${
+                  className={`relative h-16 w-24 shrink-0 overflow-hidden border ${
                     idx === activeImageIndex ? "border-white" : "border-white/60"
                   }`}
                   aria-label={`Go to image ${idx + 1}`}

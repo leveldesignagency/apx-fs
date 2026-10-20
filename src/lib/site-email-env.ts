@@ -1,7 +1,5 @@
-/**
- * Shared inbox for Resend: contact page, careers applications, and any future site mail.
- * Prefer NOTIFY_EMAIL / RESEND_FROM_EMAIL; legacy vars still work.
- */
+// Shared inbox for Resend. Prefer NOTIFY_EMAIL / RESEND_FROM_EMAIL; old names still work.
+
 export function getNotifyEmail(): string | undefined {
   const v = process.env.NOTIFY_EMAIL ?? process.env.CAREERS_NOTIFY_EMAIL
   return v?.trim() || undefined

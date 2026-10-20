@@ -7,7 +7,12 @@ export const FS_SERVICE_ROUTES = {
   videoDoorEntrySystems: "/services/video-door-entry-systems",
   gateAutomationSystems: "/services/gate-automation-systems",
   refugeDisabledCommunication: "/services/refuge-disabled-communication",
-  evacVoiceEvacuation: "/services/evac-voice-evacuation",
+  /** Public address & voice alarm (BS 5839-8). Formerly mislabelled EVAC. */
+  pava: "/services/pava",
+  /** Evacuation alert systems for residential buildings (BS 8629). */
+  evac: "/services/evac",
+  /** @deprecated Use `pava`. Kept for typed legacy references during migration. */
+  evacVoiceEvacuation: "/services/pava",
   fireLifeSafety: "/services/fire-life-safety",
   maintenanceSupport: "/services/maintenance-support",
   monitoring: "/services/monitoring",
@@ -33,6 +38,7 @@ export const FS_LEGACY_SERVICE_REDIRECTS: Record<string, string> = {
   "/services/mechanical-engineering": FS_SERVICE_ROUTES.fireAlarmSystems,
   "/services/maintenance": FS_SERVICE_ROUTES.videoDoorEntrySystems,
   "/services/project-management": "/services",
+  "/services/evac-voice-evacuation": FS_SERVICE_ROUTES.pava,
 }
 
 /** Slug segment only (for contact `?service=` query params). */
@@ -43,7 +49,10 @@ export const FS_CONTACT_SERVICE_SLUGS = {
   accessControlSystems: "access-control-systems",
   videoDoorEntrySystems: "video-door-entry-systems",
   gateAutomationSystems: "gate-automation-systems",
-  evacVoiceEvacuation: "evac-voice-evacuation",
+  pava: "pava",
+  evac: "evac",
+  /** @deprecated Use `pava`. */
+  evacVoiceEvacuation: "pava",
   refugeDisabledCommunication: "refuge-disabled-communication",
   monitoring: "monitoring",
   maintenanceSupport: "maintenance-support",
@@ -59,4 +68,6 @@ export const FS_LEGACY_CONTACT_SERVICE_SLUGS: Record<string, string> = {
   "mechanical-engineering": FS_CONTACT_SERVICE_SLUGS.fireAlarmSystems,
   maintenance: FS_CONTACT_SERVICE_SLUGS.maintenanceSupport,
   "maintenance-ppm": FS_CONTACT_SERVICE_SLUGS.maintenanceSupport,
+  "evac-voice-evacuation": FS_CONTACT_SERVICE_SLUGS.pava,
+  "evac-voice": FS_CONTACT_SERVICE_SLUGS.pava,
 }

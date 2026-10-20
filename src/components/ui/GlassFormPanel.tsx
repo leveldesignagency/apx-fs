@@ -1,18 +1,24 @@
 import type { ReactNode } from "react"
+import { cn } from "@/lib/utils"
 
 /**
  * Corners come only from `HomeQuoteFormDrawShell` (overflow + radii + SVG). Inner layers stay
- * square and get clipped by the shell so the grey fill matches the border/stroke.
+ * square and get clipped by the shell so the fill matches the border/stroke.
+ * Flat near-black fill — no inner gradient.
  */
-export function GlassFormPanel({ children }: { children: ReactNode }) {
+export function GlassFormPanel({
+  children,
+  className,
+  contentClassName,
+}: {
+  children: ReactNode
+  className?: string
+  contentClassName?: string
+}) {
   return (
-    <div className="relative w-full min-w-0">
-      <div className="pointer-events-none absolute inset-0 bg-white/[0.03]" aria-hidden />
-      <div
-        className="pointer-events-none absolute inset-0 bg-gradient-to-br from-white/[0.06] via-transparent to-transparent"
-        aria-hidden
-      />
-      <div className="relative z-[1] p-6 md:p-8">{children}</div>
+    <div className={cn("relative w-full min-w-0", className)}>
+      <div className="pointer-events-none absolute inset-0 bg-[var(--page-bg)]" aria-hidden />
+      <div className={cn("relative z-[1] p-6 md:p-8", contentClassName)}>{children}</div>
     </div>
   )
 }

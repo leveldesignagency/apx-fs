@@ -5,12 +5,13 @@ import { useCallback, useState } from "react"
 import { CheckCircle2 } from "lucide-react"
 import type { CareerRole } from "@/components/careers/careers-types"
 import { FormSubmitButton } from "@/components/ui/FormSubmitButton"
+import { TurnstileWidget } from "@/components/TurnstileWidget"
 
 const fieldClass =
-  "w-full rounded-none border-2 border-black/15 bg-white px-4 py-3.5 text-sm text-black placeholder:text-black/35 outline-none transition-[border,box-shadow] focus:border-black/45 focus:ring-0"
+  "w-full rounded-none border border-black/15 bg-white px-4 py-3.5 text-sm text-black placeholder:text-black/35 outline-none transition-[border,box-shadow] focus:border-black/45 focus:ring-0"
 
 const outlineBtnClass =
-  "careers-apply-outline-btn rounded-none border-2 border-black/20 px-6 py-3 text-sm font-semibold text-black transition-colors enabled:hover:border-black/40 enabled:hover:bg-black/[0.03] disabled:cursor-not-allowed disabled:opacity-40"
+  "careers-apply-outline-btn rounded-none border border-black/20 px-6 py-3 text-sm font-semibold text-black transition-colors enabled:hover:border-black/40 enabled:hover:bg-black/[0.03] disabled:cursor-not-allowed disabled:opacity-40"
 
 const MAX_CV_BYTES = 5 * 1024 * 1024
 const ACCEPT_CV =
@@ -35,13 +36,16 @@ export function CareerApplicationForm({
   const [phone, setPhone] = useState("")
   const [experience, setExperience] = useState("")
   const [cvFile, setCvFile] = useState<File | null>(null)
-  /** Honeypot, leave empty */
+  /** honeypot */
   const [hp, setHp] = useState("")
+  const [turnstileToken, setTurnstileToken] = useState<string | null>(null)
+  const [privacyConsent, setPrivacyConsent] = useState(false)
 
   const canNext1 =
     fullName.trim().length >= 2 && /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email.trim()) && phone.trim().length >= 8
   const canNext2 = experience.trim().length >= 40
-  const canSubmit = cvFile !== null && cvFile.size > 0 && cvFile.size <= MAX_CV_BYTES
+  const canSubmit =
+    cvFile !== null && cvFile.size > 0 && cvFile.size <= MAX_CV_BYTES && privacyConsent
 
   const goNext = useCallback(() => {
     setError(null)
@@ -68,6 +72,8 @@ export function CareerApplicationForm({
       fd.append("experience", experience.trim())
       fd.append("cv", cvFile)
       fd.append("company", hp)
+      fd.append("turnstileToken", turnstileToken ?? "")
+      fd.append("privacyConsent", privacyConsent ? "true" : "false")
 
       const res = await fetch("/api/careers/apply", {
         method: "POST",
@@ -130,7 +136,7 @@ export function CareerApplicationForm({
               {i > 0 ? <span className="hidden h-px w-4 shrink-0 bg-black/15 sm:block sm:w-8" aria-hidden /> : null}
               <div className="flex min-w-0 items-center gap-2">
                 <span
-                  className={`flex h-8 w-8 shrink-0 items-center justify-center rounded-full border-2 text-xs font-bold ${
+                  className={`flex h-8 w-8 shrink-0 items-center justify-center rounded-full border text-xs font-bold ${
                     complete
                       ? "border-emerald-600/70 bg-emerald-50 text-emerald-700"
                       : active
@@ -295,7 +301,7 @@ export function CareerApplicationForm({
                 accept={ACCEPT_CV}
                 required
                 onChange={(e) => setCvFile(e.target.files?.[0] ?? null)}
-                className="block w-full text-sm text-black/70 file:mr-4 file:rounded-none file:border-2 file:border-black/15 file:bg-white file:px-4 file:py-2 file:text-sm file:font-semibold file:text-black"
+                className="block w-full text-sm text-black/70 file:mr-4 file:rounded-none file:border file:border-black/15 file:bg-white file:px-4 file:py-2 file:text-sm file:font-semibold file:text-black"
               />
               <p className="mt-2 text-xs text-black/45">PDF or Word, max 5 MB</p>
               {cvFile ? (
@@ -306,7 +312,7 @@ export function CareerApplicationForm({
             </div>
             <p className="text-xs leading-relaxed text-black/45">
               By submitting, you confirm the information is accurate and agree that we may contact you about this
-              application. CVs contain personal data, please read our{" "}
+              application. CVs contain personal data — please read our{" "}
               <Link href="/recruitment-privacy" className="font-semibold underline underline-offset-2">
                 recruitment privacy notice
               </Link>{" "}
@@ -316,6 +322,21 @@ export function CareerApplicationForm({
               </Link>
               . APX Fire &amp; Security is an equal-opportunities employer.
             </p>
+            <label className="flex cursor-pointer items-start gap-3 text-sm leading-relaxed text-black/70">
+              <input
+                type="checkbox"
+                checked={privacyConsent}
+                onChange={(e) => setPrivacyConsent(e.target.checked)}
+                required
+                className="mt-1 h-4 w-4 shrink-0 rounded-none border border-black/25"
+              />
+              <span>
+                I confirm I have read the recruitment privacy notice and privacy policy, and I understand APX will
+                process my application for recruitment purposes.{" "}
+                <span className="text-black/45">(required)</span>
+              </span>
+            </label>
+            <TurnstileWidget onToken={setTurnstileToken} theme="light" />
             <div className="flex flex-col gap-3 pt-2 sm:flex-row sm:justify-between sm:gap-4">
               <button type="button" onClick={goBack} disabled={submitting} className={outlineBtnClass}>
                 Back

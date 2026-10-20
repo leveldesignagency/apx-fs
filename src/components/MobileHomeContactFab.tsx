@@ -53,7 +53,7 @@ export function MobileHomeContactFab({
     >
       <div
         className={[
-          "apx-mobile-contact-fab relative flex w-11 flex-col items-center justify-center overflow-hidden border-2 border-white bg-black shadow-[0_4px_24px_rgba(0,0,0,0.45)]",
+          "apx-mobile-contact-fab relative flex w-11 flex-col items-center justify-center overflow-hidden border border-white bg-black shadow-[0_4px_24px_rgba(0,0,0,0.45)]",
           "origin-bottom transition-[height,box-shadow] duration-300 ease-[cubic-bezier(0.22,1,0.36,1)]",
           open ? "h-[10.25rem] rounded-full" : "h-11 rounded-full active:scale-[0.98]",
         ].join(" ")}

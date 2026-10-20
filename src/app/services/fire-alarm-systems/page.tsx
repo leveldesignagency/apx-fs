@@ -4,10 +4,11 @@ import Image from "next/image"
 import Link from "next/link"
 import { ServicePageClosingSections } from "@/components/ServicePageClosingSections"
 import { CustomPillButton } from "@/components/ui/CustomPillButton"
+import { CallPhoneCta } from "@/components/ui/CallPhoneCta"
 import { ServicePageHero } from "@/components/ServicePageHero"
 import { Reveal } from "@/components/Reveal"
 import { ServiceItemReveal } from "@/components/ServiceItemReveal"
-import { serviceHeroImages } from "@/lib/serviceHeroImages"
+import { ServiceInstallationsGrid } from "@/components/ServiceInstallationsGrid"
 import { FsServiceTextImageSection } from "@/components/FsServiceTextImageSection"
 import { FsServiceTextImageSectionGroup } from "@/components/FsServiceTextImageSectionGroup"
 import { ApxPartnerLogoStrip } from "@/components/ApxPartnerLogoStrip"
@@ -20,6 +21,7 @@ import {
   FS_SERVICE_INSTALLATION_CARD_IMAGE,
 } from "@/lib/fsServicePageCards"
 import { Check } from "lucide-react"
+import { SERVICE_HERO_BRIDGE_GRADIENT } from "@/lib/heroBackgroundGradients"
 
 const SYSTEM_TYPES = [
   "Design, installation and commissioning",
@@ -167,18 +169,21 @@ const heroBridge = (
   <div
     className="pointer-events-none absolute left-0 right-0 top-0 h-28 sm:h-36"
     style={{
-      background: "linear-gradient(to bottom, rgba(0,0,0,0) 0%, rgba(0,0,0,0.82) 52%, rgba(0,0,0,1) 100%)",
+      background: SERVICE_HERO_BRIDGE_GRADIENT,
     }}
     aria-hidden
   />
 )
 
-/** `public/service images/fire alarm systems/` */
+/** Detector close-up for hero readability; project photos remain in body / installations. */
 const FIRE_ALARM_HERO_IMAGE_SRC =
-  "/service%20images/fire%20alarm%20systems/green-emergency-exit-sign-ceiling%20hero%20image.jpg"
+  "/service%20images/fire%20alarm%20systems/smoke%20alarm.png"
 
 const FIRE_ALARM_REGULATION_IMAGE_SRC =
-  "/service%20images/fire%20alarm%20systems/fire-alarm-system-installer--systems-sq.jpg"
+  `${FIRE_ALARM_INSTALLATIONS_DIR}/fire-alarm-installation-hilton-doubletree-kingston-external-600x400.jpg`
+
+const FIRE_ALARM_BODY_IMAGE_SRC =
+  "/projects/case-studies/university-of-west-london/fire-alarm-installation-university-of-west-london-reception.jpg"
 
 export default function FireSafetySystemsPage() {
   return (
@@ -186,7 +191,8 @@ export default function FireSafetySystemsPage() {
       <ServicePageHero
         title="Fire Alarm Systems"
         imageSrc={FIRE_ALARM_HERO_IMAGE_SRC}
-        heroCompliance={["BS 5839-1", "BS 5839-6"]}
+        heroCompliance={["BS 5839-1"]}
+        heroSummary="Design, installation and maintenance of addressable and conventional fire alarms for commercial and public-sector sites across London and the Home Counties."
         intro={
           <>
             <p className="mb-4">
@@ -202,15 +208,17 @@ export default function FireSafetySystemsPage() {
         }
       />
 
-      <div className="relative bg-black">
+      <div className="relative bg-[var(--page-bg)]">
         {heroBridge}
+
+        <div className="relative z-[1] border-t border-white/15" aria-hidden />
 
         <FsServiceTextImageSectionGroup>
         <FsServiceTextImageSection
           title="Fire Alarm System Installer London"
           titleId="fire-alarm-installer-london-heading"
-          imageSrc={serviceHeroImages.fireAlarm}
-          imageAlt="Fire alarm system installer in London"
+          imageSrc={FIRE_ALARM_BODY_IMAGE_SRC}
+          imageAlt="Fire alarm system installation at a commercial premises in London"
         >
           <h3 className="font-title text-2xl font-semibold text-white">Bespoke Fire Alarm Systems</h3>
           <p>
@@ -220,8 +228,7 @@ export default function FireSafetySystemsPage() {
           </p>
           <p>
             Systems are designed and delivered to NSI Gold standards for fire, with commercial and public-sector work as
-            our primary focus. Domestic or dwelling-related elements (BS 5839-6) can be supported where the brief requires
-            them. We specialise in:
+            our primary focus. We specialise in:
           </p>
           <ul className="list-inside list-disc space-y-2 text-gray-300">
             {SYSTEM_TYPES.map((name, i) => (
@@ -240,7 +247,7 @@ export default function FireSafetySystemsPage() {
           title="Do all businesses need a fire alarm system?"
           titleId="fire-alarm-regulation-heading"
           imageSrc={FIRE_ALARM_REGULATION_IMAGE_SRC}
-          imageAlt="Fire alarm system installer reviewing detection equipment"
+          imageAlt="Commercial premises where fire detection and warning arrangements may be required"
         >
           <p>
             UK fire safety law requires suitable fire detection and warning arrangements for the premises, determined by
@@ -261,7 +268,9 @@ export default function FireSafetySystemsPage() {
           </ul>
           <p>
             If your answer to one or more of these questions is &ldquo;no&rdquo;, a surveyed fire detection and warning
-            system is often appropriate. Our free survey helps define the level of protection your building needs.
+            system is often appropriate. The level of protection required is defined by a fire risk assessment (carried
+            out by others). Once that assessment is in place, our free survey helps design and specify a system that
+            meets those requirements for your building.
           </p>
           <div className="pt-2">
             <CustomPillButton href="/contact" size="md">
@@ -272,7 +281,7 @@ export default function FireSafetySystemsPage() {
 
         <ServiceComplianceSection
           sectionTitle="Compliance, certification & handover"
-          intro="Fire alarm installations are delivered against recognised UK standards with clear records for approval, handover and audit. Typical deliverables include as-built drawings, zone charts, commissioning certificates and O&M manuals, aligned with BS 5839-1 and BS 5839-6 where domestic or mixed-use elements apply."
+          intro="Fire alarm installations are delivered against recognised UK standards with clear records for approval, handover and audit. Typical deliverables include as-built drawings, zone charts, commissioning certificates and O&M manuals, aligned with BS 5839-1 for non-domestic buildings."
           leftTitle="Typical scope"
           leftEyebrow="Design, install & commission"
           standardsItems={SCOPE_CAPABILITIES}
@@ -280,19 +289,22 @@ export default function FireSafetySystemsPage() {
           rightEyebrow="Fire detection & BS 5839"
           deliverablesItems={[
             "BS 5839-1, Fire detection and fire alarm systems for buildings (non-domestic)",
-            "BS 5839-6, Where domestic or dwelling-related elements apply",
           ]}
           rightFooterNote={
             <>
-              Dedicated refuge and disabled communication (BS 5839-9) and voice evacuation (BS 5839-8) scopes are covered on their own service pages, see{" "}
+              Where your project also needs{" "}
               <Link href="/services/refuge-disabled-communication" className="text-black underline decoration-black/30 underline-offset-2 hover:decoration-black">
                 disabled refuge, fire telephone &amp; toilet alarms
               </Link>{" "}
-              and{" "}
-              <Link href="/services/evac-voice-evacuation" className="text-black underline decoration-black/30 underline-offset-2 hover:decoration-black">
-                EVAC &amp; voice evacuation
-              </Link>
-              .
+              (BS 5839-9),{" "}
+              <Link href="/services/pava" className="text-black underline decoration-black/30 underline-offset-2 hover:decoration-black">
+                PAVA
+              </Link>{" "}
+              voice alarm (BS 5839-8) or{" "}
+              <Link href="/services/evac" className="text-black underline decoration-black/30 underline-offset-2 hover:decoration-black">
+                EVAC
+              </Link>{" "}
+              (BS 8629), we design and install those systems as part of the wider life-safety package.
             </>
           }
         />
@@ -306,7 +318,7 @@ export default function FireSafetySystemsPage() {
           imageClassName="scale-110 blur-lg brightness-[0.55]"
           imageOverlaySrc="/accreditations%20mono/Coloured/BAFE-01.svg"
           imageOverlayAlt="BAFE Fire Safety Register"
-          imageOverlayClassName="max-w-[min(21rem,78%)] translate-x-1 sm:translate-x-3"
+          imageOverlayClassName="max-w-[min(21rem,78%)]"
         >
           <p>
             BAFE (British Approvals for Fire Equipment) is the independent registration body for third-party certificated
@@ -338,19 +350,22 @@ export default function FireSafetySystemsPage() {
           title="Fire Alarm & Detection Systems Equipment"
           description="We are proud to install fire alarm technology from the world&apos;s leading brands"
         >
-          <ApxPartnerLogoStrip partners={FIRE_ALARM_EQUIPMENT_PARTNERS} variant="light" size="row" />
+          <ApxPartnerLogoStrip partners={FIRE_ALARM_EQUIPMENT_PARTNERS} variant="light" />
         </ServiceTechnologyProductsSection>
 
         <div className="border-t border-white/15" />
 
-        <section className="container mx-auto px-6 py-16 lg:py-16">
+        <section className="site-container py-16 lg:py-16">
           <Reveal>
             <h2 className="mb-4 text-left font-title text-3xl font-bold text-white sm:text-4xl">Our Fire Alarm System Installations</h2>
           </Reveal>
           <Reveal delayMs={70}>
             <p className="mb-8 max-w-2xl text-left text-gray-300">Examples of fire alarm systems that we have installed for our customers:</p>
           </Reveal>
-          <div className="grid grid-cols-1 gap-8 md:grid-cols-2 lg:grid-cols-3">
+          <ServiceInstallationsGrid
+            count={FIRE_INSTALLATIONS.length}
+            ctaHref="/contact?service=fire-alarm-systems"
+          >
             {FIRE_INSTALLATIONS.map((item, index) => (
               <ServiceItemReveal key={index} index={index} className="h-full min-h-0">
                 <article className={FS_SERVICE_INSTALLATION_CARD}>
@@ -361,7 +376,7 @@ export default function FireSafetySystemsPage() {
                     alt=""
                     fill
                     className="object-cover object-center"
-                    sizes="(min-width: 1024px) 33vw, (min-width: 768px) 50vw, 100vw"
+                    sizes="(min-width: 768px) 22.5rem, 100vw"
                   />
                   </div>
                 </div>
@@ -372,22 +387,20 @@ export default function FireSafetySystemsPage() {
                 </article>
               </ServiceItemReveal>
             ))}
-          </div>
+          </ServiceInstallationsGrid>
         </section>
 
         <ServicePageClosingSections
           serviceTitleShort="Fire alarm"
           ctaImageSrc={FIRE_ALARM_HERO_IMAGE_SRC}
-          ctaHeadline="Need a fire"
-          ctaHeadlineAccent="alarm system?"
+          ctaHeadline="Need a Fire"
+          ctaHeadlineAccent="Alarm System?"
           ctaDescription="Contact us for a free survey and expert advice on fire detection and alarm design for your premises."
         >
           <CustomPillButton href="/contact" size="md">
             Get a free quote
           </CustomPillButton>
-          <CustomPillButton href="tel:02083032280" size="md" variant="outline">
-            Call 020 8303 2280
-          </CustomPillButton>
+          <CallPhoneCta size="md" />
         </ServicePageClosingSections>
 
       </div>

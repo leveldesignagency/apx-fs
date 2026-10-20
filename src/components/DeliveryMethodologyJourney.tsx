@@ -3,6 +3,7 @@
 import { useCallback, useEffect, useRef, useState } from "react"
 import { ChevronLeft, ChevronRight } from "lucide-react"
 import { cn } from "@/lib/utils"
+import { toTitleCase } from "@/lib/titleCase"
 import type { DELIVERY_METHODOLOGY_STEPS } from "@/data/deliveryMethodology"
 
 type Step = (typeof DELIVERY_METHODOLOGY_STEPS)[number]
@@ -105,7 +106,7 @@ function JourneyNav({
         <button
           type="button"
           onClick={() => onDelta(-1)}
-          className="inline-flex h-11 w-11 items-center justify-center rounded-full border-2 border-white bg-black text-white transition-colors hover:bg-white hover:text-black md:h-12 md:w-12"
+          className="inline-flex h-11 w-11 items-center justify-center rounded-full border border-white bg-black text-white transition-colors hover:bg-white hover:text-black md:h-12 md:w-12"
           aria-label="Previous step"
         >
           <ChevronLeft className="h-5 w-5 md:h-6 md:w-6" strokeWidth={2} />
@@ -113,7 +114,7 @@ function JourneyNav({
         <button
           type="button"
           onClick={() => onDelta(1)}
-          className="inline-flex h-11 w-11 items-center justify-center rounded-full border-2 border-white bg-black text-white transition-colors hover:bg-white hover:text-black md:h-12 md:w-12"
+          className="inline-flex h-11 w-11 items-center justify-center rounded-full border border-white bg-black text-white transition-colors hover:bg-white hover:text-black md:h-12 md:w-12"
           aria-label="Next step"
         >
           <ChevronRight className="h-5 w-5 md:h-6 md:w-6" strokeWidth={2} />
@@ -136,7 +137,7 @@ function StageCopy({
         className="font-title text-[1.5rem] font-semibold leading-[1.1] tracking-tight text-white !normal-case sm:text-[1.75rem] md:text-[clamp(2rem,3.6vw,3.5rem)]"
         style={{ textTransform: "none" }}
       >
-        {step.title}
+        {toTitleCase(step.title)}
       </h2>
       <div className="mt-4 space-y-3.5 text-[0.95rem] leading-relaxed text-white/78 sm:mt-5 sm:space-y-4 sm:text-base md:mt-6 md:text-[clamp(1rem,1.9vw,1.125rem)] md:leading-[1.65]">
         {step.paragraphs.map((paragraph) => (
@@ -146,7 +147,7 @@ function StageCopy({
         ))}
       </div>
       <p className="dm-journey-key-label mt-6 text-sm font-medium tracking-wide text-white/55 md:mt-8">
-        Key activities
+        Key Activities
       </p>
       <ul className="mt-3 space-y-2.5 text-[0.95rem] leading-relaxed text-white/82 sm:space-y-3 sm:text-base md:mt-4 md:space-y-3.5 md:text-[clamp(1rem,2vw,1.125rem)] md:leading-[1.6]">
         {step.items.map((line) => (
@@ -250,12 +251,12 @@ export function DeliveryMethodologyJourney({ steps }: Props) {
                 className="text-left text-3xl font-bold tracking-tight text-white sm:text-4xl md:text-5xl lg:text-6xl"
                 style={{ fontFamily: "var(--font-menu)" }}
               >
-                Clear stages from
+                Clear Stages from
                 <br />
-                survey to support
+                Survey to Support
               </h1>
               <p className="mt-3 max-w-4xl text-left text-base font-normal leading-snug text-white/75 sm:mt-4 sm:text-lg md:text-xl">
-                Six stages we follow on fire and security projects, so you can see how survey, design, installation,
+                Six stages we follow on Fire and Security projects, so you can see how survey, design, installation,
                 commissioning and handover fit together.
               </p>
             </div>
@@ -276,7 +277,7 @@ export function DeliveryMethodologyJourney({ steps }: Props) {
           <button
             type="button"
             onClick={() => goDelta(-1)}
-            className="flex h-11 w-11 shrink-0 items-center justify-center rounded-full border-2 border-white/70 text-white transition-colors hover:border-white hover:bg-white/10"
+            className="flex h-11 w-11 shrink-0 items-center justify-center rounded-full border border-white/70 text-white transition-colors hover:border-white hover:bg-white/10"
             aria-label="Previous stage"
           >
             <ChevronLeft className="h-5 w-5" strokeWidth={2} />
@@ -290,7 +291,7 @@ export function DeliveryMethodologyJourney({ steps }: Props) {
           <button
             type="button"
             onClick={() => goDelta(1)}
-            className="flex h-11 w-11 shrink-0 items-center justify-center rounded-full border-2 border-white/70 text-white transition-colors hover:border-white hover:bg-white/10"
+            className="flex h-11 w-11 shrink-0 items-center justify-center rounded-full border border-white/70 text-white transition-colors hover:border-white hover:bg-white/10"
             aria-label="Next stage"
           >
             <ChevronRight className="h-5 w-5" strokeWidth={2} />

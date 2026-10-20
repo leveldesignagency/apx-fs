@@ -5,6 +5,7 @@ import { Reveal } from "@/components/Reveal"
 import { AccreditationLogo } from "@/components/accreditations/AccreditationLogo"
 import { FsInsetCtaCard } from "@/components/FsInsetCtaCard"
 import { CustomPillButton } from "@/components/ui/CustomPillButton"
+import { CallPhoneCta } from "@/components/ui/CallPhoneCta"
 import {
   FS_ACCREDITATIONS,
   FS_HUB_CREDENTIAL_SUMMARY,
@@ -35,7 +36,7 @@ function CredentialCards({ slugs, baseDelay }: { slugs: FsAccreditationSlug[]; b
         const logoTight = slug === "fia"
         return (
           <Reveal key={slug} delayMs={baseDelay + i * 70}>
-            <article className="grid grid-cols-1 border-2 border-white/70 bg-black lg:grid-cols-[minmax(0,1.2fr)_minmax(18rem,0.8fr)]">
+            <article className="grid grid-cols-1 border border-white/70 bg-black lg:grid-cols-[minmax(0,1.2fr)_minmax(18rem,0.8fr)]">
               <div className="flex min-h-[18rem] flex-col justify-between p-6 sm:p-8 md:min-h-[20rem] lg:p-10">
                 <div className="min-w-0">
                   <p className="text-xs font-semibold uppercase tracking-[0.14em] text-white/55">
@@ -181,9 +182,7 @@ export function AccreditationsHubClient() {
         <CustomPillButton href="/contact" size="lg">
           Get in touch
         </CustomPillButton>
-        <CustomPillButton href="tel:02083032280" size="lg" variant="outline">
-          Call 020 8303 2280
-        </CustomPillButton>
+        <CallPhoneCta size="lg" />
       </FsInsetCtaCard>
     </div>
   )

@@ -25,7 +25,7 @@ export type FsProject = {
   gallery: string[]
   /** Optional callout, e.g. ongoing maintenance vs one-off install */
   engagementNote?: string
-  /** Principal contractor or client named for clarity of APX’s role */
+  /** Principal contractor or client named for clarity of APX's role */
   contractorOrClient?: string
   clientReview?: FsProjectClientReview
 }
@@ -50,13 +50,13 @@ export const FS_PROJECTS: FsProject[] = [
     shortDescription:
       "Installation of fire alarm, refuge and PA/VA (public address / voice alarm) systems throughout a landmark multi-floor office development in the City of London.",
     summary:
-      "The Sancroft Building, in the City of London, is a 429,000 sq. ft office complex across 9 floors plus a basement. APX Fire & Security was engaged by LJJ Electrical Building Services Contractors to install the fire alarm, refuge and PA/VA systems throughout the building, not the wider building fabric or other trades’ packages.",
+      "The Sancroft Building, in the City of London, is a 429,000 sq. ft office complex across 9 floors plus a basement. APX Fire & Security was engaged by LJJ Electrical Building Services Contractors to install the fire alarm, refuge and PA/VA systems throughout the building, not the wider building fabric or other trades' packages.",
     challenge:
       "Deliver integrated fire, refuge and PA/VA systems across a nine-floor City office, coordinating with other trades while keeping every floor operational and maintaining clear central control from a single ground-floor fire room.",
     solution:
       "APX installed Advanced fire panels with Apollo detection, linked to TOA PA/VA across all floors. Ten master PA/VA and ten fire alarm panels interface from a dedicated ground-floor control room, with Vox Ignis refuge and disabled WC alarms on every level.",
     outcome:
-      "Complete floor coverage for the fire, refuge and PA/VA packages in APX’s scope, with centralised monitoring, resilient cause-and-effect integration and a handover package for the building team.",
+      "Complete floor coverage for the fire, refuge and PA/VA packages in APX's scope, with centralised monitoring, resilient cause-and-effect integration and a handover package for the building team.",
     heroImage:
       "/projects/case-studies/sancroft-building/case-study-sancroft-building-fire-alarm-installation-exterior.jpg",
     gallery: [
@@ -83,18 +83,18 @@ export const FS_PROJECTS: FsProject[] = [
     engagementNote:
       "This is an ongoing maintenance and monitoring relationship with the trust, not a single completed construction project. Individual installations and upgrades are delivered as required across the main estate and satellite buildings, alongside planned maintenance and monitoring of around 250 intruder and panic alarm systems.",
     shortDescription:
-      "Ongoing installation, maintenance and monitoring of around 250 intruder and panic alarms across the King’s College Hospital estate and satellite buildings.",
+      "Ongoing installation, maintenance and monitoring of around 250 intruder and panic alarms across the King's College Hospital estate and satellite buildings.",
     summary:
-      "King’s College Hospital is a major teaching hospital and major trauma centre in Denmark Hill, Camberwell, in the London Borough of Lambeth. Since 2010, APX Fire & Security has provided an ongoing programme of intruder and panic alarm installation, maintenance and monitoring for the trust, covering the main estate and satellite buildings.",
+      "King's College Hospital is a major teaching hospital and major trauma centre in Denmark Hill, Camberwell, in the London Borough of Lambeth. Since 2010, APX Fire & Security has provided an ongoing programme of intruder and panic alarm installation, maintenance and monitoring for the trust, covering the main estate and satellite buildings.",
     challenge:
       "Safeguard a major teaching hospital estate exceeding one million sq ft, including satellite buildings, without disrupting patient care, clinical routines or the security team's daily operations.",
     solution:
-      "APX delivers both planned maintenance/monitoring and individual installations or upgrades as needed. Around 250 intruder alarms are maintained and monitored across the trust, with standardised control equipment for day-to-day use. Works are phased around live wards and delivered direct or alongside capital-project contractors where APX’s package requires it.",
+      "APX delivers both planned maintenance/monitoring and individual installations or upgrades as needed. Around 250 intruder alarms are maintained and monitored across the trust, with standardised control equipment for day-to-day use. Works are phased around live wards and delivered direct or alongside capital-project contractors where APX's package requires it.",
     outcome:
       "Consistent intruder-alarm coverage estate-wide under an ongoing maintenance and monitoring contract, with responsive engineers who meet healthcare deadlines and respect privacy on every visit.",
     clientReview: {
       paragraphs: [
-        "The team at APX Fire & Security maintain the hospital’s intruder and panic alarm systems. We have been dealing with APX for several years and have always found the team to be very helpful, even with those last minute requests on a Friday afternoon!",
+        "The team at APX Fire & Security maintain the hospital's intruder and panic alarm systems. We have been dealing with APX for several years and have always found the team to be very helpful, even with those last minute requests on a Friday afternoon!",
         "The engineers are always professional and courteous, taking into account the needs of the hospital and maintaining privacy and dignity for our patients and staff. They provide a high standard of service and are always willing to go the extra mile to ensure the alarm systems are maintained to a high standard and that any issues are quickly and efficiently resolved.",
         "Their engineers have a wealth of knowledge and experience and are always happy to provide advice and guidance on the best solutions for our needs. They keep up to date with the latest technologies and are able to provide practical solutions to help keep our hospitals safe and secure. They provide a prompt response to any queries or requests and always meet any deadlines.",
       ],
@@ -125,13 +125,13 @@ export const FS_PROJECTS: FsProject[] = [
     shortDescription:
       "Design, installation and commissioning of CCTV and access control systems for a luxury continual-care retirement village.",
     summary:
-      "Ledian Farm is a continual-care retirement village in the Kent village of Leeds, near Maidstone. It comprises 66 two- and three-bed apartments across five buildings, with communal facilities including a health and leisure centre, spa, swimming pool, gym, restaurant, bar, cinema and library. APX’s contracted scope was CCTV and access control.",
+      "Ledian Farm is a continual-care retirement village in the Kent village of Leeds, near Maidstone. It comprises 66 two- and three-bed apartments across five buildings, with communal facilities including a health and leisure centre, spa, swimming pool, gym, restaurant, bar, cinema and library. APX's contracted scope was CCTV and access control.",
     challenge:
       "Secure a luxury retirement village across five buildings and shared leisure facilities, delivering 24-hour CCTV and access control without compromising residents' privacy or the quality of the built environment.",
     solution:
       "APX designed, installed and commissioned Paxton access control with Hikvision dome and bullet cameras, integrated through a PC-based platform with remote access via smartphones and tablets for authorised staff.",
     outcome:
-      "Discreet camera placement and intuitive access permissions give residents round-the-clock protection and easy visitor management within APX’s CCTV and access-control package, with a platform the estate team can operate confidently.",
+      "Discreet camera placement and intuitive access permissions give residents round-the-clock protection and easy visitor management within APX's CCTV and access-control package, with a platform the estate team can operate confidently.",
     clientReview: {
       paragraphs: [
         "I have had the pleasure of working with Paul and his team at APX Fire & Security for over 20 years, here at LJJ Ltd for the last 18 years, and for 2 years prior to this at IES in London.",

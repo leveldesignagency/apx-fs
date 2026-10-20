@@ -6,6 +6,7 @@ import { FsCctvCameraTypesStrip } from "@/components/FsCctvCameraTypesStrip"
 import { FsCctvSubpageHeroButtons } from "@/components/FsCctvSubpageHeroButtons"
 import { ServicePageClosingSections } from "@/components/ServicePageClosingSections"
 import { CustomPillButton } from "@/components/ui/CustomPillButton"
+import { CallPhoneCta } from "@/components/ui/CallPhoneCta"
 import { ServicePageHero } from "@/components/ServicePageHero"
 import { Reveal } from "@/components/Reveal"
 import { ServiceItemReveal } from "@/components/ServiceItemReveal"
@@ -22,9 +23,15 @@ import {
   Video,
   Wrench,
 } from "lucide-react"
+import { SERVICE_HERO_BRIDGE_GRADIENT } from "@/lib/heroBackgroundGradients"
 
-const cardClass =
-  "rounded-tl-[1.5rem] rounded-br-[1.5rem] border-2 border-white/20 bg-black p-8 text-white transition-colors hover:border-white/45"
+const heroBridge = (
+  <div
+    className="pointer-events-none absolute left-0 right-0 top-0 h-28 sm:h-36"
+    style={{ background: SERVICE_HERO_BRIDGE_GRADIENT }}
+    aria-hidden
+  />
+)
 
 const CAPABILITIES = [
   {
@@ -85,45 +92,42 @@ const CAPABILITIES = [
 
 export default function CctvSecurityPage() {
   return (
-    <div className="service-page-root min-h-screen overflow-x-hidden bg-black text-white">
-      <div className="relative">
-        <ServicePageHero
-          title="CCTV Systems"
-          imageSrc={serviceHeroImages.cctv}
-          heroCompliance={["BS EN 62676"]}
-          afterIntro={<FsCctvSubpageHeroButtons />}
-          intro={
-            <>
-              <p className="mb-4">
-                APX designs, installs and maintains{" "}
-                <strong className="font-semibold text-white">commercial CCTV</strong> for offices, retail, warehouses and
-                multi-site estates across London and the Home Counties, IP systems, HD analogue upgrades, remote viewing,
-                recording and retention, and secure network configuration.
-              </p>
-              <p>
-                We can configure systems with privacy considerations (coverage, signage guidance and retention design).{" "}
-                <strong className="font-semibold text-white">
-                  The customer remains responsible for the lawful operation of CCTV under UK GDPR and related rules
-                </strong>
-                . Domestic CCTV is a secondary residential scope where required, see the Domestic tab (last).
-              </p>
-            </>
-          }
-        />
-        <FsCctvCameraTypesStrip />
-      </div>
+    <div className="service-page-root min-h-screen overflow-x-hidden bg-[var(--page-bg)] text-white">
+      <ServicePageHero
+        title="CCTV Systems"
+        imageSrc={serviceHeroImages.cctv}
+        heroCompliance={["BS EN 62676"]}
+        heroSummary="Commercial CCTV design, installation and maintenance, IP systems, recording and retention across London and the Home Counties."
+        afterIntro={<FsCctvSubpageHeroButtons />}
+        intro={
+          <>
+            <p className="mb-4">
+              APX designs, installs and maintains{" "}
+              <strong className="font-semibold text-white">commercial CCTV</strong> for offices, retail, warehouses and
+              multi-site estates across London and the Home Counties, IP systems, HD analogue upgrades, remote viewing,
+              recording and retention, and secure network configuration.
+            </p>
+            <p>
+              We can configure systems with privacy considerations (coverage, signage guidance and retention design).{" "}
+              <strong className="font-semibold text-white">
+                The customer remains responsible for the lawful operation of CCTV under UK GDPR and related rules
+              </strong>
+              . Domestic CCTV is a secondary residential scope where required, see the Domestic tab (last).
+            </p>
+          </>
+        }
+      />
 
-      <div className="relative bg-black">
-        <div
-          className="pointer-events-none absolute top-0 left-0 right-0 h-28 sm:h-36"
-          style={{
-            background:
-              "linear-gradient(to bottom, rgba(0,0,0,0) 0%, rgba(0,0,0,0.82) 52%, rgba(0,0,0,1) 100%)",
-          }}
-          aria-hidden
-        />
+      <div className="relative bg-[var(--page-bg)]">
+        {heroBridge}
 
-        <section className="container relative z-[1] mx-auto px-6 py-16 lg:py-16">
+        <div className="relative z-[1] border-t border-white/15">
+          <FsCctvCameraTypesStrip />
+        </div>
+
+        <div className="border-t border-white/15" />
+
+        <section className="site-container relative z-[1] py-16 lg:py-16">
           <Reveal>
             <h2 className="mb-4 text-left font-title text-3xl font-bold text-white sm:text-4xl">
               Commercial CCTV capabilities
@@ -146,7 +150,6 @@ export default function CctvSecurityPage() {
                   icon={Icon}
                   title={title}
                   description={description}
-                  shellClassName={cardClass}
                   className="transition-transform duration-300 hover:scale-[1.02]"
                 />
               </ServiceItemReveal>
@@ -193,16 +196,14 @@ export default function CctvSecurityPage() {
         <ServicePageClosingSections
           serviceTitleShort="CCTV"
           ctaImageSrc={serviceHeroImages.cctv}
-          ctaHeadline="Need commercial"
+          ctaHeadline="Need Commercial"
           ctaHeadlineAccent="CCTV?"
           ctaDescription="Our specialists can survey your site and recommend IP, HD analogue upgrade, remote viewing and retention options for your premises, with clear guidance on operator responsibilities."
         >
           <CustomPillButton href="/contact?service=cctv-systems" size="md">
             Get free consultation
           </CustomPillButton>
-          <CustomPillButton href="tel:02083032280" size="md" variant="outline">
-            Call 020 8303 2280
-          </CustomPillButton>
+          <CallPhoneCta size="md" />
         </ServicePageClosingSections>
       </div>
     </div>

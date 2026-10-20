@@ -1,7 +1,10 @@
 @import "tailwindcss";
 
 :root {
-  --background: #000000;
+  /* Near-black canvas for page, containers, and fields (not pure #000). */
+  --page-bg: #0a0a0a;
+  --surface-bg: #0a0a0a;
+  --background: var(--page-bg);
   --foreground: #ffffff;
   --muted: #666666;
   --border: #333333;
@@ -10,8 +13,8 @@
   --font-menu: "Erbaum", sans-serif;
   /* In-page anchor targets (#section): modest offset so headings aren’t flush to the top */
   --site-header-offset: 1.25rem;
-  /* Global horizontal gutters, thinner, wider column (Statom-like balance) */
-  --site-gutter: clamp(0.75rem, 2.5vw, 1.25rem);
+  /* Global horizontal gutters — aligned with About page mobile margins */
+  --site-gutter: clamp(1.25rem, 3vw, 2.35rem);
   --site-max: 100rem;
   /* Scroll reveal, rise into place (Reveal.tsx, homepage sections, about intro) */
   --scroll-rise-offset: 2.75rem;
@@ -48,7 +51,7 @@ header.site-header {
   right: 0;
   z-index: 100;
   width: 100%;
-  max-width: 100vw;
+  max-width: 100%;
 }
 
 /*
@@ -159,8 +162,10 @@ header.site-header {
   letter-spacing: normal;
   text-wrap: balance;
 }
+/* Disable homepage `section + section` -5rem pull on legal content blocks */
+.legal-page section + section,
 .legal-page .legal-page__section + .legal-page__section {
-  margin-top: 0;
+  margin-top: 0 !important;
 }
 
 @theme inline {
@@ -259,7 +264,7 @@ footer {
 }
 
 .home-page-trial .home-section-divider--on-dark-band {
-  background: #000000;
+  background: var(--page-bg);
 }
 
 .home-page-trial .home-section-divider--on-light-band {
@@ -321,15 +326,18 @@ main.accreditations-hub section + section {
   margin-bottom: 2.5rem;
 }
 
-/* Homepage services: stay on true black, previous mid-stops read grey on some displays */
+/* Homepage services: charcoal page canvas (cards stay pure black) */
 section#services.home-services-band.section-spacing {
-  background: linear-gradient(180deg, #000000 0%, #030303 48%, #000000 100%) !important;
+  background: linear-gradient(180deg, var(--page-bg) 0%, #101010 48%, var(--page-bg) 100%) !important;
   background-color: transparent !important;
   padding-top: clamp(7.25rem, 13vh, 10.5rem) !important;
+  /* Tighter join into Sectors below (no divider) */
+  padding-bottom: clamp(2.5rem, 5vw, 3.75rem) !important;
 }
 @media (min-width: 1024px) {
   section#services.home-services-band.section-spacing {
     padding-top: clamp(8.5rem, 12vh, 11.5rem) !important;
+    padding-bottom: clamp(3rem, 4.5vw, 4.25rem) !important;
   }
 }
 
@@ -347,7 +355,7 @@ section#services.home-services-band.section-spacing {
   border: 1px solid rgba(255, 255, 255, 0.55) !important;
   /* Half of height, true circle; avoids 9999px→small snap at end of expand */
   border-radius: 1.375rem;
-  background: #000000 !important;
+  background: var(--page-bg) !important;
   color: #ffffff !important;
   cursor: default;
   white-space: nowrap;
@@ -364,7 +372,7 @@ section#services.home-services-band.section-spacing {
 .hero-promise-chip:hover,
 .hero-promise-chip:focus-visible,
 .hero-promise-chip:focus-within {
-  background: #000000 !important;
+  background: var(--page-bg) !important;
   color: #ffffff !important;
 }
 
@@ -458,7 +466,7 @@ section#services.home-services-band.section-spacing {
     max-width: 16.5rem;
     padding-inline: 0.75rem 1.05rem;
     border-radius: 1.2rem 0.4rem 1.2rem 0.4rem;
-    background: #000000 !important;
+    background: var(--page-bg) !important;
     color: #ffffff !important;
   }
 
@@ -538,20 +546,10 @@ section#services.home-services-band.section-spacing {
   flex-direction: column;
   box-sizing: border-box;
   padding: 1.35rem 1.35rem 1.25rem;
-  border: 2px solid rgba(255, 255, 255, 0.7);
-  border-radius: 1.25rem 0 1.25rem 0;
-  background:
-    linear-gradient(
-      155deg,
-      #2c2c2c 0%,
-      #161616 38%,
-      #0a0a0a 72%,
-      #050505 100%
-    );
-  box-shadow:
-    0 22px 48px rgba(0, 0, 0, 0.55),
-    0 8px 18px rgba(0, 0, 0, 0.4),
-    0 1px 0 rgba(255, 255, 255, 0.06) inset;
+  border: 1px solid rgba(255, 255, 255, 0.35);
+  border-radius: 1rem;
+  background: var(--page-bg);
+  box-shadow: none;
   will-change: transform;
   transition:
     filter 0.3s ease,
@@ -733,7 +731,7 @@ section#services.home-services-band.section-spacing {
     /* Half above / half below the top border */
     transform: translate(-50%, -50%) !important;
     background: #000;
-    border: 2px solid rgba(255, 255, 255, 0.85);
+    border: 1px solid rgba(255, 255, 255, 0.45);
     border-radius: 0.75rem;
     opacity: 1 !important;
   }
@@ -816,7 +814,7 @@ section#services.home-services-band.section-spacing {
   justify-content: flex-end;
   margin-top: auto;
   padding-top: 0.85rem;
-  border-top: 2px solid rgba(255, 255, 255, 0.25);
+  border-top: 1px solid rgba(255, 255, 255, 0.18);
   will-change: opacity, transform;
 }
 
@@ -995,9 +993,9 @@ section#services.home-services-band.section-spacing {
   text-transform: uppercase;
 }
 
-/* Black base under hero media so light-theme body and header stack show imagery, not white */
+/* Charcoal page canvas under hero media so light-theme body and header stack show imagery, not white */
 #hero {
-  background-color: #000000;
+  background-color: var(--page-bg);
 }
 
 /* Homepage hero: subtle grow (Ken Burns), top-aligned; no horizontal pan */
@@ -1076,17 +1074,161 @@ section h2 {
   font-weight: 500 !important;
 }
 
-/* Homepage hero: services quick nav, text links, header-style pill hover */
+/* Homepage hero: services quick nav — band + dividers so it reads as its own strip */
+#hero .hero-services-quick-nav {
+  margin-top: auto;
+  padding-top: 1.1rem;
+  border-top: 1px solid rgba(255, 255, 255, 0.28);
+  max-height: 5.5rem;
+  opacity: 1;
+  transform: translate3d(0, 0, 0);
+  overflow: hidden;
+  pointer-events: auto;
+  transition:
+    opacity 0.35s ease,
+    transform 0.35s ease,
+    max-height 0.4s ease,
+    padding-top 0.35s ease,
+    border-color 0.3s ease,
+    margin-top 0.35s ease;
+}
+#hero .hero-services-quick-nav--hidden {
+  max-height: 0;
+  opacity: 0;
+  transform: translate3d(0, 12px, 0);
+  padding-top: 0;
+  margin-top: 0;
+  border-top-color: transparent;
+  pointer-events: none;
+}
+@media (min-width: 640px) {
+  #hero .hero-services-quick-nav {
+    padding-top: 1.25rem;
+    max-height: 10rem;
+  }
+  #hero .hero-services-quick-nav--hidden {
+    padding-top: 0;
+  }
+}
+@media (min-width: 1024px) {
+  #hero .hero-services-quick-nav {
+    padding-top: 1.35rem;
+    max-height: 8rem;
+  }
+  #hero .hero-services-quick-nav--hidden {
+    padding-top: 0;
+    max-height: 0;
+  }
+}
+
+#hero .hero-services-quick-nav__list {
+  gap: 0;
+}
+
+#hero .hero-services-quick-nav__item {
+  display: flex;
+  align-items: center;
+}
+
+#hero .hero-services-quick-nav__item:not(:first-child)::before {
+  content: "";
+  display: block;
+  width: 1px;
+  height: 0.85em;
+  margin: 0 0.15rem;
+  background: rgba(255, 255, 255, 0.28);
+  flex-shrink: 0;
+}
+@media (min-width: 640px) {
+  #hero .hero-services-quick-nav__item:not(:first-child)::before {
+    margin: 0 0.25rem;
+    height: 0.95em;
+  }
+}
+
+/* Mobile: auto-scrolling services marquee (moves left → right) */
+#hero .hero-services-quick-nav__marquee {
+  width: 100%;
+  max-width: 100%;
+  overflow: hidden;
+  mask-image: linear-gradient(
+    to right,
+    transparent 0%,
+    #000 8%,
+    #000 92%,
+    transparent 100%
+  );
+  -webkit-mask-image: linear-gradient(
+    to right,
+    transparent 0%,
+    #000 8%,
+    #000 92%,
+    transparent 100%
+  );
+  opacity: 0;
+  transform: translate3d(0, 8px, 0);
+  transition:
+    opacity 0.45s ease,
+    transform 0.45s ease;
+}
+#hero .hero-services-quick-nav__marquee--in {
+  opacity: 1;
+  transform: translate3d(0, 0, 0);
+}
+#hero .hero-services-quick-nav__marquee-track {
+  display: flex;
+  width: max-content;
+  align-items: center;
+  animation: hero-quick-nav-marquee-ltr 38s linear infinite;
+  will-change: transform;
+}
+#hero .hero-services-quick-nav__marquee .hero-services-quick-nav__list {
+  flex-shrink: 0;
+}
+/* Seam between duplicated tracks so the loop doesn't look glued */
+#hero .hero-services-quick-nav__marquee .hero-services-quick-nav__item:last-child::after {
+  content: "";
+  display: block;
+  width: 1px;
+  height: 0.85em;
+  margin: 0 0.15rem;
+  background: rgba(255, 255, 255, 0.28);
+  flex-shrink: 0;
+}
+#hero .hero-services-quick-nav__marquee .hero-services-quick-nav__link {
+  font-size: 0.875rem;
+  padding: 0.5rem 0.85rem;
+}
+@keyframes hero-quick-nav-marquee-ltr {
+  from {
+    transform: translate3d(-50%, 0, 0);
+  }
+  to {
+    transform: translate3d(0, 0, 0);
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  #hero .hero-services-quick-nav__marquee {
+    mask-image: none;
+    -webkit-mask-image: none;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+  }
+  #hero .hero-services-quick-nav__marquee-track {
+    animation: none;
+  }
+}
+
 #hero .hero-services-quick-nav__link {
   display: inline-flex;
   align-items: center;
-  padding: 0.35rem 0.55rem;
+  padding: 0.5rem 0.85rem;
   border-radius: 9999px;
   border: none;
   background: transparent;
-  color: rgba(255, 255, 255, 0.78);
+  color: rgba(255, 255, 255, 0.88);
   font-family: var(--font-menu), sans-serif;
-  font-size: 0.6875rem;
+  font-size: 0.875rem;
   font-weight: 600;
   letter-spacing: 0.04em;
   line-height: 1.25;
@@ -1105,14 +1247,14 @@ section h2 {
 }
 @media (min-width: 640px) {
   #hero .hero-services-quick-nav__link {
-    font-size: 0.75rem;
-    padding: 0.4rem 0.65rem;
+    font-size: 0.8125rem;
+    padding: 0.45rem 0.75rem;
   }
 }
 @media (min-width: 1280px) {
   #hero .hero-services-quick-nav__link {
-    font-size: 0.8125rem;
-    padding: 0.4rem 0.7rem;
+    font-size: 0.875rem;
+    padding: 0.5rem 0.85rem;
   }
 }
 
@@ -1222,11 +1364,11 @@ section h2 {
 .services-hub-row__wash {
   pointer-events: none;
   position: absolute;
-  inset-block: 0;
-  left: 50%;
+  inset: 0;
   z-index: 0;
-  width: 100vw;
-  transform: translateX(-50%);
+  width: auto;
+  left: 0;
+  transform: none;
   background: linear-gradient(
     90deg,
     transparent 0%,
@@ -1288,7 +1430,7 @@ section h2 {
   position: absolute;
   inset: 0;
   z-index: 1;
-  border: 2px solid #ffffff;
+  border: 1px solid #ffffff;
   border-top-left-radius: 1rem;
   border-bottom-right-radius: 1rem;
   border-top-right-radius: 0;
@@ -1459,10 +1601,10 @@ section h2 {
   color: rgba(255, 255, 255, 0.9) !important;
 }
 #about-intro .about-intro-heading {
-  font-size: clamp(2.6rem, 6vw, 4.75rem);
+  font-size: clamp(2.25rem, 5.2vw, 4.25rem);
   line-height: 0.98;
   letter-spacing: 0.01em;
-  text-wrap: balance;
+  text-wrap: unset;
 }
 #about-intro .section-label {
   margin-left: 0;
@@ -1483,18 +1625,20 @@ section h2 {
   padding: 0;
 }
 
-/* Slow downward drift on the story photo */
+/* Slow grow / shrink on the story photo */
 @keyframes about-intro-bg-drift {
-  from {
-    transform: translate3d(0, 0, 0);
+  0% {
+    transform: scale3d(1, 1, 1);
   }
-  to {
-    transform: translate3d(0, 8%, 0);
+  100% {
+    transform: scale3d(1.06, 1.06, 1);
   }
 }
 #about-intro .about-intro-bg {
+  transform-origin: center center;
   will-change: transform;
-  animation: about-intro-bg-drift 48s linear infinite alternate;
+  backface-visibility: hidden;
+  animation: about-intro-bg-drift 36s ease-in-out infinite alternate;
 }
 @media (prefers-reduced-motion: reduce) {
   #about-intro .about-intro-bg {
@@ -1503,12 +1647,39 @@ section h2 {
   }
 }
 
-/* FS: APX FS Services, black background, light text */
+/*
+ * Our Story card:
+ * 1) masked (overflow + radius on .about-intro-media)
+ * 2) shifted down into Projects
+ * 3) higher z-index so it sits on top
+ */
+#about-intro.about-intro-section {
+  overflow: visible;
+  position: relative;
+  z-index: 40;
+}
+#about-intro .about-intro-media {
+  position: relative;
+  z-index: 40;
+  /* Push the masked card down so it overlaps the white Projects band */
+  transform: translateY(clamp(5.5rem, 10vw, 9rem));
+  box-shadow: 0 28px 64px rgba(0, 0, 0, 0.45);
+}
+/* Leave room under the overlap so Projects copy isn’t covered */
+#projects.projects-section .projects-section__split {
+  padding-top: clamp(8.5rem, 14vw, 12rem);
+}
+#projects.projects-section {
+  position: relative;
+  z-index: 1;
+}
+
+/* FS: APX FS Services, charcoal page canvas, light text */
 #services {
   position: relative !important;
   overflow: hidden !important;
-  background: #000000 !important;
-  background-color: #000000 !important;
+  background: var(--page-bg) !important;
+  background-color: var(--page-bg) !important;
 }
 #services > .container {
   position: relative !important;
@@ -1523,108 +1694,123 @@ section h2 {
   color: #ffffff !important;
 }
 
+/* Services headline: full home-section scale; width breathes in the wider title column */
+#services .services-section-title.home-section-title {
+  max-width: none;
+  line-height: 1.06;
+}
+
 /*
- * What we offer, folder tabs (flush on card; top-left radius only):
- * - Do NOT use Tailwind bg-white / text-black here: .bg-white is remapped to theme bg (black).
- * - Spans inside buttons were forced to theme white while button fill was white → invisible text.
+ * What we offer: detached pill tabs above the card.
+ * Avoid Tailwind bg-white / text-black here (.bg-white remaps to theme black).
  */
 #services .fs-what-we-offer .fs-offer-folder {
   display: flex;
   flex-direction: column;
+  gap: 1rem;
 }
-
-/* Mobile offer: arrow nav; desktop keeps folder tabs */
-@media (max-width: 767.98px) {
-  #services .fs-what-we-offer .fs-offer-tablist {
-    display: none;
+@media (min-width: 640px) {
+  #services .fs-what-we-offer .fs-offer-folder {
+    gap: 1.25rem;
   }
 }
 
-/* Mobile services arrows: match projects nav size (48px), black fill, white border */
-#services .fs-offer-mobile-nav__btn {
-  width: 3rem !important;
-  height: 3rem !important;
-  background: #000000 !important;
-  background-color: #000000 !important;
-  color: #ffffff !important;
-  border: 1px solid #ffffff !important;
-  border-color: #ffffff !important;
-  box-shadow: none !important;
+#services .fs-what-we-offer .fs-offer-tablist {
+  display: flex;
+  flex-wrap: nowrap;
+  align-items: center;
+  gap: 0.5rem;
+  width: 100%;
+  overflow-x: auto;
+  overflow-y: hidden;
+  -webkit-overflow-scrolling: touch;
+  scrollbar-width: none;
+  overscroll-behavior-x: contain;
+  scroll-snap-type: x proximity;
+  padding: 0.15rem 0.15rem 0.35rem;
+  margin: 0 -0.15rem;
 }
-#services .fs-offer-mobile-nav__btn:hover,
-#services .fs-offer-mobile-nav__btn:focus-visible {
-  background: #111111 !important;
-  background-color: #111111 !important;
-  color: #ffffff !important;
-  border-color: #ffffff !important;
+#services .fs-what-we-offer .fs-offer-tablist::-webkit-scrollbar {
+  display: none;
 }
-#services .fs-offer-mobile-nav__btn svg {
-  width: 1.5rem !important;
-  height: 1.5rem !important;
-  color: #ffffff !important;
-  stroke: #ffffff !important;
+
+@media (min-width: 768px) {
+  #services .fs-what-we-offer .fs-offer-tablist {
+    flex-wrap: wrap;
+    overflow: visible;
+    scroll-snap-type: none;
+    padding: 0;
+    margin: 0;
+    gap: 0.55rem;
+  }
 }
 
 #services .fs-what-we-offer button.fs-offer-tab {
+  flex: 0 0 auto;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 2.5rem;
+  padding: 0.55rem 1.05rem;
+  border: 1px solid rgba(255, 255, 255, 0.4) !important;
+  border-radius: 999px !important;
   background: transparent !important;
   color: #ffffff !important;
-  border-color: rgba(255, 255, 255, 0.75) !important;
-  border-bottom-width: 0 !important;
-  border-radius: 0.75rem 0.75rem 0 0 !important;
-  margin-bottom: -2px;
   font-size: 0.75rem !important;
-  line-height: 1.25 !important;
+  font-weight: 600;
+  line-height: 1.2 !important;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  white-space: nowrap;
+  scroll-snap-align: start;
   transition:
-    background-color 0.28s ease,
-    color 0.28s ease,
-    border-color 0.28s ease !important;
+    background-color 0.15s ease,
+    color 0.15s ease,
+    border-color 0.15s ease !important;
 }
 @media (min-width: 640px) {
+  #services .fs-what-we-offer button.fs-offer-tab {
+    min-height: 2.75rem;
+    padding: 0.6rem 1.2rem;
+    font-size: 0.8125rem !important;
+  }
+}
+@media (min-width: 1024px) {
   #services .fs-what-we-offer button.fs-offer-tab {
     font-size: 0.875rem !important;
   }
 }
+
 #services .fs-what-we-offer button.fs-offer-tab:not(.fs-offer-tab--active):hover,
 #services .fs-what-we-offer button.fs-offer-tab:not(.fs-offer-tab--active):focus-visible {
-  background: rgba(255, 255, 255, 0.12) !important;
-  border-color: #ffffff !important;
+  background: rgba(255, 255, 255, 0.1) !important;
+  border-color: rgba(255, 255, 255, 0.75) !important;
   color: #ffffff !important;
-  transform: none;
   box-shadow: none;
 }
 #services .fs-what-we-offer button.fs-offer-tab:not(.fs-offer-tab--active):hover .fs-offer-tab__label,
 #services .fs-what-we-offer button.fs-offer-tab:not(.fs-offer-tab--active):focus-visible .fs-offer-tab__label {
   color: #ffffff !important;
 }
-/* Selected: white fill + black text; sits over the card top edge */
+
 #services .fs-what-we-offer button.fs-offer-tab.fs-offer-tab--active {
-  position: relative;
-  z-index: 2;
   background: #ffffff !important;
   color: #000000 !important;
-  border: 2px solid #ffffff !important;
-  border-bottom-width: 0 !important;
-  border-radius: 0.75rem 0.75rem 0 0 !important;
+  border: 1px solid #ffffff !important;
   box-shadow: none !important;
-  transform: none !important;
 }
 #services .fs-what-we-offer button.fs-offer-tab.fs-offer-tab--active:hover,
 #services .fs-what-we-offer button.fs-offer-tab.fs-offer-tab--active:focus-visible,
 #services .fs-what-we-offer button.fs-offer-tab.fs-offer-tab--active:active {
   background: #ffffff !important;
   color: #000000 !important;
-  border: 2px solid #ffffff !important;
-  border-bottom-width: 0 !important;
+  border: 1px solid #ffffff !important;
   box-shadow: none !important;
-  transform: none !important;
 }
-#services .fs-what-we-offer button.fs-offer-tab:active:not(.fs-offer-tab--active) {
-  transform: none;
-  box-shadow: none;
-}
+
 #services .fs-what-we-offer button.fs-offer-tab .fs-offer-tab__label {
   color: inherit !important;
-  transition: color 0.28s ease;
+  transition: color 0.12s ease;
 }
 #services .fs-what-we-offer button.fs-offer-tab.fs-offer-tab--active .fs-offer-tab__label {
   color: #000000 !important;
@@ -1836,8 +2022,83 @@ html:not(.dark) #about {
 html.dark #about {
   background-color: #ffffff !important;
 }
-#contact {
-  background-color: #000000 !important;
+/* Homepage Ready band only — do not force white on /contact (same #contact id) */
+#contact.contact-section--light {
+  background-color: #ffffff !important;
+}
+#contact.contact-section--light .section-label,
+#contact.contact-section--light .home-section-title,
+#contact.contact-section--light h2 {
+  color: #000000 !important;
+}
+#contact.contact-section--light .text-gray-300,
+#contact.contact-section--light .contact-section-head p {
+  color: rgba(0, 0, 0, 0.62) !important;
+}
+/* Form stays dark on the white band — dark draw-shell stroke on white */
+#contact.contact-section--light .quote-form-draw-shell {
+  color: #0a0a0a;
+  outline-color: rgba(0, 0, 0, 0.35);
+}
+#contact.contact-section--light .home-quote-form-stroke {
+  stroke: #0a0a0a;
+}
+/* Beat ThemeToggle global white text on the light contact copy column */
+#contact.contact-section--light .contact-section-head .section-label,
+#contact.contact-section--light .contact-section-head h2,
+#contact.contact-section--light .contact-section-head h2 span,
+#contact.contact-section--light .contact-section-head .letter-reveal,
+#contact.contact-section--light .contact-section-head .letter-reveal span,
+#contact.contact-section--light .contact-section-head .line-reveal,
+#contact.contact-section--light .contact-section-head .line-reveal span,
+#contact.contact-section--light .contact-section-head p,
+#contact.contact-section--light .contact-section-head p span {
+  color: #000000 !important;
+}
+#contact.contact-section--light .contact-section-head .text-gray-300,
+#contact.contact-section--light .contact-section-head .text-gray-300 span,
+#contact.contact-section--light .contact-section-head p.text-gray-300,
+#contact.contact-section--light .contact-section-head p.text-gray-300 span {
+  color: rgba(0, 0, 0, 0.62) !important;
+}
+#contact.contact-section--light .contact-section-head .section-label {
+  color: rgba(0, 0, 0, 0.7) !important;
+}
+
+/* Full-page shells + dark containers/fields: near-black (not pure #000) */
+.service-page-root,
+.fs-projects-page,
+.fs-projects-page section.bg-black,
+.fs-project-detail-page,
+.fs-accreditations-page,
+.careers-page,
+.dm-page,
+.legal-page,
+.about-page-shell,
+.about-parallax-page,
+.about-intro-section,
+.fs-service-text-image-section--dark,
+.news-section,
+main.min-h-screen.bg-black,
+.min-h-screen.overflow-x-hidden.bg-black,
+.min-h-\[70vh\].bg-black,
+.min-h-screen.bg-black,
+.why-choose-card,
+.fs-offer-panel,
+.fs-inset-cta-card:not(.fs-inset-cta-card--light):not(.fs-inset-cta-card--dark-card),
+.fs-inset-cta-card--dark-card .fs-inset-cta-card__panel {
+  background-color: var(--page-bg) !important;
+}
+
+/* Outline / on-light pills must stay white fill (never inherit dark .bg-black remaps) */
+.site-shell .pill-btn.pill-btn--outline,
+.site-shell .pill-btn.pill-btn--onLight {
+  background-color: #ffffff !important;
+}
+
+.service-page-root > .relative.bg-black,
+.service-page-root > .relative.bg-\[var\(--page-bg\)\] {
+  background-color: var(--page-bg) !important;
 }
 
 /* Homepage accreditations, viewport-fixed photo clipped to section band */
@@ -1845,8 +2106,21 @@ html.dark #about {
   position: relative;
   min-height: min(52vh, 36rem);
 }
+@media (max-width: 639px) {
+  .home-accreditations-section {
+    /* Taller band on phones so the fixed crop reads as a full image, not a thin strip */
+    min-height: min(88vh, 40rem);
+  }
+  .home-accreditations-section__fixed-bg img {
+    object-fit: cover;
+    object-position: center 28%;
+    transform: scale(1.18);
+    transform-origin: center 35%;
+  }
+}
 .home-accreditations-section__fixed-bg {
   will-change: clip-path;
+  overflow: hidden;
 }
 #accreditations .home-section-title,
 #accreditations h3 {
@@ -1907,7 +2181,7 @@ html.dark #about {
 }
 /* Services drawer: black text, dark dividers */
 html:not(.dark) #services-drawer .apx-mep-services-title-box {
-  background: #000000 !important;
+  background: var(--page-bg) !important;
   border-color: #000000 !important;
 }
 html:not(.dark) #services-drawer .apx-mep-services-title-box h2 {
@@ -1935,17 +2209,130 @@ html:not(.dark) .services-drawer-left::after {
 html:not(.dark) .services-drawer-list-item::before {
   background: rgba(0, 0, 0, 0.2) !important;
 }
-/* News and Articles, layout and spacing only (id="why-mep" for nav) */
+/* Industries: photo strip bleeds off the left viewport edge */
+.industries-split {
+  display: flex;
+  flex-direction: column;
+  gap: 2.75rem;
+  padding-inline: var(--site-gutter);
+}
+.industries-carousel-col {
+  min-width: 0;
+}
+.industries-carousel__card {
+  width: min(72vw, 18.5rem);
+}
+.industries-carousel__nav {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 0.75rem;
+  margin-top: 1.25rem;
+}
+.industries-features {
+  min-width: 0;
+}
+@media (min-width: 640px) {
+  .industries-carousel__card {
+    width: min(48vw, 20rem);
+  }
+}
+@media (min-width: 1024px) {
+  .industries-split {
+    flex-direction: row;
+    align-items: stretch;
+    gap: clamp(2.5rem, 4vw, 4rem);
+    /* Flush left to viewport; right edge matches site-container */
+    padding-left: 0;
+    padding-right: max(var(--site-gutter), calc((100vw - min(100vw, var(--site-max))) / 2 + var(--site-gutter)));
+  }
+  .industries-carousel-col {
+    flex: 1.45 1 0;
+    min-width: 0;
+  }
+  .industries-carousel {
+    padding-left: 0;
+  }
+  /* Exactly three cards in view (gap-5 = 1.25rem × 2); larger tiles */
+  .industries-carousel__card {
+    width: calc((100% - 2.5rem) / 3);
+    max-width: none;
+  }
+  .industries-features {
+    flex: 0 0 clamp(17.5rem, 26vw, 22.5rem);
+    min-height: 28rem;
+  }
+  .industries-carousel__nav {
+    justify-content: flex-end;
+    padding-left: 0;
+  }
+}
+
+/* Same projects-nav-btn chrome, forced white for the dark industries band */
+#industries .projects-nav-btn {
+  border-color: #ffffff !important;
+  color: #ffffff !important;
+  background-color: transparent !important;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+}
+#industries .projects-nav-btn:hover,
+#industries .projects-nav-btn:focus,
+#industries .projects-nav-btn:focus-visible {
+  background-color: #ffffff !important;
+  color: #000000 !important;
+  border-color: #ffffff !important;
+}
+#industries .projects-nav-btn svg {
+  color: #ffffff !important;
+  stroke: #ffffff !important;
+}
+#industries .projects-nav-btn:hover svg,
+#industries .projects-nav-btn:focus svg,
+#industries .projects-nav-btn:focus-visible svg {
+  color: #000000 !important;
+  stroke: #000000 !important;
+}
+
+/*
+ * News + contact bridge: parent overflow-x:clip forces overflow-y to compute non-visible,
+ * so the hang is done by pulling #contact up under the news media (not painting outside).
+ */
 .news-section {
-  background: #000;
-  padding: 7.25rem 0 16rem;
+  position: relative;
+  isolation: isolate;
+  overflow: visible;
+  background: var(--page-bg);
+  background-color: var(--page-bg);
+  padding: 7.25rem 0 0;
+  z-index: 2;
+}
+.news-section::before {
+  content: none;
+  display: none;
+}
+.news-section > .site-container {
+  position: relative;
+  z-index: 1;
+  /* Leaves room so list copy clears; media hangs via negative margin into #contact */
+  padding-bottom: 3.5rem;
 }
 @media (min-width: 1024px) {
   .news-section {
-    padding: 8rem 0 18rem;
+    padding: 8rem 0 0;
+  }
+  .news-section > .site-container {
+    padding-bottom: 5rem;
   }
 }
-/* .news-section uses .site-container for horizontal rhythm */
+/* White Ready band starts under the hanging news image (media negative margin pulls layout up) */
+#contact.contact-section--light {
+  padding-top: 4.5rem;
+}
+@media (min-width: 1024px) {
+  #contact.contact-section--light {
+    padding-top: 6.5rem;
+  }
+}
 .news-section__label {
   display: block;
   font-size: 0.75rem;
@@ -1969,7 +2356,7 @@ html:not(.dark) .services-drawer-list-item::before {
 .news-section__grid {
   display: flex;
   flex-direction: column;
-  gap: 2rem;
+  gap: 2.75rem;
 }
 .news-section__header {
   order: 1;
@@ -1977,8 +2364,39 @@ html:not(.dark) .services-drawer-list-item::before {
 }
 .news-section__media {
   order: 2;
+  position: relative;
+  z-index: 3;
   width: 100%;
   min-width: 0;
+  /* Mobile column: no negative margin — that overlapped the article list below */
+  margin-bottom: 0;
+}
+@media (min-width: 1024px) {
+  .news-section__grid {
+    gap: 2rem;
+  }
+  .news-section__media {
+    /* Keep left edge; shrink ~12% from the right so image sits tighter */
+    width: 88%;
+    max-width: 88%;
+    justify-self: start;
+    /* Desktop only: hang into the Ready / contact band below */
+    margin-bottom: -8.5rem;
+    align-self: start;
+  }
+}
+.news-section__media::before {
+  content: "";
+  position: absolute;
+  inset: 8% -6% -10% -6%;
+  z-index: 0;
+  pointer-events: none;
+  background: radial-gradient(
+    ellipse 70% 65% at 50% 50%,
+    rgba(120, 135, 155, 0.18) 0%,
+    transparent 70%
+  );
+  filter: blur(28px);
 }
 .news-section__copy {
   order: 3;
@@ -2020,10 +2438,10 @@ html:not(.dark) .services-drawer-list-item::before {
 }
 .news-section__item {
   position: relative;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.15);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.12);
 }
 .news-section__item:first-child {
-  border-top: 1px solid rgba(255, 255, 255, 0.15);
+  border-top: 1px solid rgba(255, 255, 255, 0.12);
 }
 .news-section__item--active {
   border-bottom-color: transparent;
@@ -2050,19 +2468,43 @@ html:not(.dark) .services-drawer-list-item::before {
   transition: width 0.05s linear;
 }
 .news-section__image-link {
+  position: relative;
+  z-index: 1;
+  display: block;
   width: 100%;
+  overflow: hidden;
+  border-radius: 0.75rem;
+  background: #000;
+  box-shadow: 0 22px 56px rgba(0, 0, 0, 0.5);
+  transition: transform 0.35s ease, box-shadow 0.35s ease;
+  transform: translateZ(0);
+  clip-path: inset(0 round 0.75rem);
+}
+.news-section__image-link:hover {
+  transform: translateY(-2px) translateZ(0);
+  box-shadow: 0 28px 64px rgba(0, 0, 0, 0.58);
 }
 .news-section__image {
-  width: 100%;
-  aspect-ratio: 16 / 10;
-  border-radius: 0.75rem;
-  background-size: cover;
-  background-position: center center;
-  border: 2px solid rgba(255, 255, 255, 0.15);
+  display: block;
+  width: calc(100% + 12px);
+  max-width: none;
+  height: auto;
+  margin: -6px;
+  /* Taller frame — extra height grows from the bottom */
+  aspect-ratio: 4 / 3;
+  object-fit: cover;
+  object-position: center top;
+  border: 0;
+  border-radius: 0;
+  backface-visibility: hidden;
+  transition: transform 0.5s ease;
+}
+.news-section__image-link:hover .news-section__image {
+  transform: scale(1.03);
 }
 @media (min-width: 1024px) {
   .news-section__image {
-    aspect-ratio: 3 / 2;
+    aspect-ratio: 5 / 4;
   }
 }
 .news-section__footer {
@@ -2078,7 +2520,7 @@ html:not(.dark) .services-drawer-list-item::before {
   text-transform: uppercase;
   color: #fff;
   text-decoration: none;
-  border-bottom: 2px solid #fff;
+  border-bottom: 1px solid #fff;
   padding-bottom: 0.25rem;
   transition: opacity 0.2s ease;
 }
@@ -2162,12 +2604,12 @@ html:not(.dark) .services-drawer-list-item::before {
 }
 .news-page .news-hub__year-option--selected,
 .news-page .news-hub__year-option[aria-selected="true"] {
-  background-color: #000000 !important;
+  background-color: var(--page-bg) !important;
   color: #ffffff !important;
 }
 .news-page .news-hub__year-option--selected:hover,
 .news-page .news-hub__year-option[aria-selected="true"]:hover {
-  background-color: #000000 !important;
+  background-color: var(--page-bg) !important;
   color: #ffffff !important;
 }
 .news-article-share a.news-article-share__btn {
@@ -2341,14 +2783,11 @@ html:not(.dark) #about .text-gray-300 {
 #about .section-label {
   color: inherit;
 }
-/* Why Choose Us: solid black panel + white border; icon in .why-choose-icon-badge above the card */
+/* Why Choose Us: solid black panel + soft white border; icon in .why-choose-icon-badge above the card */
 #about .why-choose-card {
-  background-color: #000000 !important;
-  border: 2px solid #ffffff !important;
-  border-top-left-radius: 1.75rem;
-  border-top-right-radius: 0;
-  border-bottom-right-radius: 1.75rem;
-  border-bottom-left-radius: 0;
+  background-color: var(--page-bg) !important;
+  border: 1px solid rgba(255, 255, 255, 0.4) !important;
+  border-radius: 1rem;
 }
 #about .why-choose-card h4,
 #about .why-choose-card .apx-capability-list,
@@ -2578,7 +3017,7 @@ html.dark #about .stats-card .stats-card-label {
 }
 /* Testimonials: full-bleed black band */
 #testimonials {
-  background-color: #000000 !important;
+  background-color: var(--page-bg) !important;
 }
 #testimonials h2,
 #testimonials .apx-testimonials-quote {
@@ -2602,13 +3041,7 @@ html.dark #about .stats-card .stats-card-label {
 .apx-testimonial-fade {
   animation: apx-testimonial-fade 0.65s cubic-bezier(0.22, 1, 0.36, 1) both;
 }
-/* Contact: black headings and body text */
-#contact h2 {
-  color: #ffffff !important;
-}
-#contact .text-gray-300 {
-  color: rgba(255, 255, 255, 0.85) !important;
-}
+/* Contact (homepage Ready band): dark copy on white — see .contact-section--light */
 /* Logo marquee: white band, bare logos, homepage client strip */
 #logo-marquee.logo-marquee-home {
   background-color: #ffffff !important;
@@ -2667,7 +3100,7 @@ html.dark #about .stats-card .stats-card-label {
 /* FS capability detail pages, title + intro in outer shell; three-column table in inner shell (CapabilityServicePageLayout) */
 .fs-capability-page {
   min-height: 100vh;
-  background: #000000;
+  background: var(--page-bg);
   color: #ffffff;
 }
 /* Capability pages: single outer frame, tabs row + table share one 1px border (meets .fs-capability-inner) */
@@ -2680,7 +3113,7 @@ html.dark #about .stats-card .stats-card-label {
   border-top-right-radius: 0;
   border-bottom-left-radius: 0;
   overflow: hidden;
-  background: #000000;
+  background: var(--page-bg);
 }
 .fs-capability-tabs-row {
   display: flex;
@@ -2847,11 +3280,11 @@ html.dark #about .stats-card .stats-card-label {
     padding-left: 0.25rem;
   }
 }
-/* Light theme forces white body site-wide; capability pages need true black behind header + glass (avoids blue-ish blur) */
+/* Light theme forces white body site-wide; capability pages need charcoal page canvas behind header + glass */
 html:not(.dark) body:has(.fs-capability-page),
 html:not(.dark) body:has(.service-page-root) {
-  background: #000000 !important;
-  background-color: #000000 !important;
+  background: var(--page-bg) !important;
+  background-color: var(--page-bg) !important;
 }
 
 /* Service pages: literal white bands (ThemeToggle remaps Tailwind .bg-white to theme bg = black) */
@@ -2863,6 +3296,135 @@ html:not(.dark) body:has(.service-page-root) {
 .service-page-white-band {
   background: #ffffff !important;
   background-color: #ffffff !important;
+}
+
+/* Contact page FAQ — charcoal band below the white contact hero */
+.contact-faq {
+  background: var(--page-bg) !important;
+  background-color: var(--page-bg) !important;
+  color: #ffffff;
+  padding: clamp(4.5rem, 10vw, 7.5rem) 0;
+}
+.contact-faq__header {
+  text-align: center;
+  max-width: 40rem;
+  margin: 0 auto 3rem;
+}
+@media (min-width: 768px) {
+  .contact-faq__header {
+    margin-bottom: 3.75rem;
+  }
+}
+.contact-faq__title {
+  margin: 0;
+  font-size: clamp(1.875rem, 4.5vw, 3rem);
+  font-weight: 700;
+  line-height: 1.1;
+  letter-spacing: -0.025em;
+  color: #ffffff !important;
+  text-transform: none !important;
+}
+.contact-faq__subtitle {
+  margin: 1rem auto 0;
+  max-width: 34rem;
+  font-size: 1rem;
+  line-height: 1.55;
+  color: rgba(255, 255, 255, 0.62) !important;
+}
+.contact-faq__grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 2.5rem;
+}
+@media (min-width: 900px) {
+  .contact-faq__grid {
+    grid-template-columns: 1fr 1fr;
+    gap: clamp(2.5rem, 5vw, 4.5rem);
+  }
+}
+.contact-faq__accent {
+  height: 4px;
+  width: 100%;
+  background: #ffffff;
+  margin-bottom: 0.25rem;
+}
+.contact-faq__item {
+  border-bottom: 1px solid rgba(255, 255, 255, 0.14);
+}
+.contact-faq__trigger {
+  display: flex;
+  width: 100%;
+  align-items: flex-start;
+  gap: 0.9rem;
+  padding: 1.1rem 0;
+  text-align: left;
+  background: transparent;
+  border: 0;
+  cursor: pointer;
+  color: #ffffff;
+  transition: opacity 0.2s ease;
+}
+.contact-faq__trigger:hover {
+  opacity: 0.78;
+}
+.contact-faq__trigger:focus-visible {
+  outline: 2px solid rgba(255, 255, 255, 0.45);
+  outline-offset: 3px;
+}
+.contact-faq__icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 1.65rem;
+  height: 1.65rem;
+  margin-top: 0.1rem;
+  flex-shrink: 0;
+  border-radius: 9999px;
+  background: #ffffff;
+  color: #000000;
+  transition: background-color 0.2s ease, color 0.2s ease;
+}
+.contact-faq__icon--open {
+  background: transparent;
+  color: #ffffff;
+  box-shadow: inset 0 0 0 1.5px #ffffff;
+}
+.contact-faq__question {
+  flex: 1;
+  min-width: 0;
+  font-size: 1.05rem;
+  font-weight: 700;
+  line-height: 1.35;
+  color: #ffffff !important;
+}
+@media (min-width: 768px) {
+  .contact-faq__question {
+    font-size: 1.125rem;
+  }
+}
+.contact-faq__answer {
+  padding: 0 0 1.15rem 2.55rem;
+  font-size: 0.9375rem;
+  line-height: 1.55;
+  color: rgba(255, 255, 255, 0.62) !important;
+}
+.contact-faq__cta {
+  margin: 3rem auto 0;
+  max-width: 36rem;
+  text-align: center;
+  font-size: 0.975rem;
+  line-height: 1.55;
+  color: rgba(255, 255, 255, 0.55) !important;
+}
+.contact-faq__cta-link {
+  color: #ffffff !important;
+  font-weight: 600;
+  text-decoration: underline;
+  text-underline-offset: 0.18em;
+  text-decoration-thickness: 1px;
+}
+.contact-faq__cta-link:hover {
+  opacity: 0.7;
 }
 
 .fs-service-faq-section--light {
@@ -2900,7 +3462,33 @@ html:not(.dark) body:has(.service-page-root) {
 
 /* Service text+image sections, inset rounded image inside the section band */
 .service-page-root {
-  --fs-header-border-width: 2px;
+  --fs-header-border-width: 1px;
+  overflow-x: clip;
+  max-width: 100%;
+}
+
+@media (max-width: 639px) {
+  .service-page-hero .service-page-hero__intro {
+    font-size: 0.95rem;
+    line-height: 1.45;
+  }
+
+  /* Short mobile hero: keep title + standards readable without crowding the band */
+  .service-page-hero:not(.service-page-hero--compact-pillar):not(.service-page-hero--stacked-nav) {
+    min-height: 18.5rem;
+    height: min(58vh, 26rem);
+  }
+
+  /* CCTV (and similar): dual pill rows — height follows content, no crop */
+  .service-page-hero--stacked-nav {
+    height: auto !important;
+    min-height: 0;
+  }
+}
+
+.site-shell {
+  overflow-x: clip;
+  max-width: 100%;
 }
 
 .service-page-root .fs-service-text-image-section--dark ::selection,
@@ -2954,8 +3542,8 @@ html:not(.dark) body:has(.service-page-root) {
   min-height: auto;
 }
 html:not(.dark) body:has(.fs-projects-page) {
-  background: #000000 !important;
-  background-color: #000000 !important;
+  background: var(--page-bg) !important;
+  background-color: var(--page-bg) !important;
 }
 
 /* Project detail field labels: short underline accent */
@@ -3203,6 +3791,46 @@ html:not(.dark) body:has(.fs-projects-page) {
   }
 }
 
+/* Contact page hero: white band (dedicated /contact only) */
+.contact-page,
+.contact-page-section {
+  background-color: #ffffff !important;
+}
+/* Beat ThemeToggle white-text remaps on the light copy column */
+.contact-page-section .contact-page-copy .section-label,
+.contact-page-section .contact-page-copy h1,
+.contact-page-section .contact-page-copy h1 span,
+.contact-page-section .contact-page-copy p {
+  color: #000000 !important;
+}
+.contact-page-section .contact-page-copy .section-label {
+  color: rgba(0, 0, 0, 0.55) !important;
+}
+.contact-page-section .contact-page-copy p {
+  color: rgba(0, 0, 0, 0.65) !important;
+}
+.contact-page-section .contact-page-copy h1 span.text-transparent {
+  -webkit-text-fill-color: transparent;
+  color: transparent !important;
+}
+
+.contact-page-section.page-title-top {
+  padding-top: clamp(8.5rem, 16vh, 11.5rem);
+}
+@media (min-width: 768px) {
+  .contact-page-section.page-title-top {
+    padding-top: clamp(9.5rem, 15vh, 12.5rem);
+  }
+}
+@media (min-width: 1024px) {
+  .contact-page-section.page-title-top {
+    padding-top: clamp(10rem, 14vh, 13rem);
+  }
+}
+.contact-page-form-col #quote-form textarea {
+  min-height: 96px !important;
+}
+
 /* Quote form: glassmorphic when inside contact section (black bg, white borders) */
 #contact #quote-form {
   background: rgba(0, 0, 0, 0.5) !important;
@@ -3288,59 +3916,78 @@ html:not(.dark) body:has(.fs-projects-page) {
 #contact #quote-form input[type="tel"],
 #contact #quote-form textarea,
 #contact #quote-form .quote-form-field {
-  background-color: #000000 !important;
-  border: 1px solid rgba(255, 255, 255, 0.65) !important;
-  color: #ffffff !important;
+  background-color: #ffffff !important;
+  border: 1px solid rgba(0, 0, 0, 0.22) !important;
+  color: #000000 !important;
   border-radius: 0 !important;
   font-size: 1.0625rem !important;
   font-weight: 600 !important;
-  caret-color: #ffffff;
+  caret-color: #000000;
 }
 #contact #quote-form input:focus,
 #contact #quote-form textarea:focus,
 #contact #quote-form .quote-form-field:focus {
   outline: none !important;
-  border-color: #ffffff !important;
-  background-color: #000000 !important;
-  box-shadow: 0 0 0 1px rgba(255, 255, 255, 0.85) !important;
+  border-color: rgba(0, 0, 0, 0.55) !important;
+  background-color: #ffffff !important;
+  box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.35) !important;
 }
 #contact #quote-form input::placeholder,
 #contact #quote-form textarea::placeholder {
-  color: rgba(255, 255, 255, 0.45) !important;
+  color: rgba(0, 0, 0, 0.4) !important;
   font-weight: 400 !important;
 }
-/* Kill WebKit autofill yellow/blue; keep black field + white value text */
+/* Kill WebKit autofill yellow/blue; keep white field + black value text */
 #contact #quote-form input:-webkit-autofill,
 #contact #quote-form input:-webkit-autofill:hover,
 #contact #quote-form input:-webkit-autofill:focus,
 #contact #quote-form textarea:-webkit-autofill,
 #contact #quote-form textarea:-webkit-autofill:hover,
 #contact #quote-form textarea:-webkit-autofill:focus {
-  -webkit-text-fill-color: #ffffff !important;
-  caret-color: #ffffff;
-  box-shadow: 0 0 0 1000px #000000 inset !important;
+  -webkit-text-fill-color: #000000 !important;
+  caret-color: #000000;
+  box-shadow: 0 0 0 1000px #ffffff inset !important;
   transition: background-color 99999s ease-out;
 }
 #contact #quote-form input::selection,
 #contact #quote-form textarea::selection {
-  background: rgba(255, 255, 255, 0.28) !important;
-  color: #ffffff !important;
+  background: rgba(0, 0, 0, 0.18) !important;
+  color: #000000 !important;
 }
 #contact #quote-form input::-moz-selection,
 #contact #quote-form textarea::-moz-selection {
-  background: rgba(255, 255, 255, 0.28) !important;
-  color: #ffffff !important;
+  background: rgba(0, 0, 0, 0.18) !important;
+  color: #000000 !important;
 }
 #contact #quote-form textarea,
 .contact-page-form textarea {
   resize: none !important;
 }
 #contact #quote-form .quote-form-dropdown {
-  background-color: #000000 !important;
-  border: 1px solid rgba(255, 255, 255, 0.65) !important;
-  color: #ffffff !important;
+  background-color: #ffffff !important;
+  border: 1px solid rgba(0, 0, 0, 0.22) !important;
+  color: #000000 !important;
   font-size: 1.0625rem !important;
   font-weight: 700 !important;
+}
+#contact #quote-form .quote-form-dropdown::placeholder {
+  color: rgba(0, 0, 0, 0.4) !important;
+}
+#contact #quote-form .quote-form-dropdown-menu {
+  background-color: #ffffff !important;
+  border-color: rgba(0, 0, 0, 0.18) !important;
+}
+#contact #quote-form .quote-form-dropdown-item {
+  color: #000000 !important;
+}
+#contact #quote-form .quote-form-dropdown-item:hover {
+  background-color: rgba(0, 0, 0, 0.06) !important;
+}
+#contact #quote-form .services-dropdown-container button {
+  color: rgba(0, 0, 0, 0.45) !important;
+}
+#contact #quote-form .services-dropdown-container button:hover {
+  color: #000000 !important;
 }
 
 /* Dedicated /contact page form (same treatment as homepage quote) */
@@ -3350,12 +3997,12 @@ html:not(.dark) body:has(.fs-projects-page) {
 .contact-page-form textarea {
   font-size: 1.0625rem !important;
   font-weight: 700 !important;
-  background-color: #000000 !important;
+  background-color: var(--page-bg) !important;
   caret-color: #ffffff;
 }
 .contact-page-form input:focus,
 .contact-page-form textarea:focus {
-  background-color: #000000 !important;
+  background-color: var(--page-bg) !important;
 }
 .contact-page-form input:-webkit-autofill,
 .contact-page-form input:-webkit-autofill:hover,
@@ -3365,7 +4012,7 @@ html:not(.dark) body:has(.fs-projects-page) {
 .contact-page-form textarea:-webkit-autofill:focus {
   -webkit-text-fill-color: #ffffff !important;
   caret-color: #ffffff;
-  box-shadow: 0 0 0 1000px #000000 inset !important;
+  box-shadow: 0 0 0 1000px var(--page-bg) inset !important;
   transition: background-color 99999s ease-out;
 }
 .contact-page-form input::selection,
@@ -3379,12 +4026,12 @@ html:not(.dark) body:has(.fs-projects-page) {
   color: #ffffff !important;
 }
 .contact-page-form button#service {
-  background-color: #000000 !important;
+  background-color: var(--page-bg) !important;
   font-size: 1.0625rem !important;
   font-weight: 700 !important;
 }
 .contact-page-form button#service:focus {
-  background-color: #000000 !important;
+  background-color: var(--page-bg) !important;
 }
 .contact-page-form input[type="text"],
 .contact-page-form input[type="email"],
@@ -3410,7 +4057,7 @@ html:not(.dark) body:has(.fs-projects-page) {
   box-shadow: none !important;
 }
 .contact-page-form input[type="radio"]:checked {
-  background: #000000 !important;
+  background: var(--page-bg) !important;
   border: 2px solid #ffffff !important;
 }
 .contact-page-form input[type="radio"]:focus-visible {
@@ -3422,12 +4069,12 @@ html:not(.dark) body:has(.fs-projects-page) {
   border: 2px solid #ffffff !important;
 }
 .dark .contact-page-form input[type="radio"]:checked {
-  background: #000000 !important;
+  background: var(--page-bg) !important;
   border: 2px solid #ffffff !important;
 }
 #contact #quote-form .quote-form-dropdown-menu,
 .contact-page-form .quote-form-dropdown-menu {
-  background: rgba(0, 0, 0, 0.95) !important;
+  background: rgba(10, 10, 10, 0.96) !important;
   backdrop-filter: blur(12px);
   border: 2px solid #ffffff !important;
   border-radius: 0 !important;
@@ -3474,7 +4121,7 @@ html:not(.dark) body:has(.fs-projects-page) {
   box-shadow: none !important;
 }
 #contact #quote-form input[type="radio"]:checked {
-  background: #000000 !important;
+  background: var(--page-bg) !important;
   border: 2px solid #ffffff !important;
 }
 html:not(.dark) #contact #quote-form input[type="radio"] {
@@ -3482,7 +4129,7 @@ html:not(.dark) #contact #quote-form input[type="radio"] {
   border: 2px solid rgba(0, 0, 0, 0.25) !important;
 }
 html:not(.dark) #contact #quote-form input[type="radio"]:checked {
-  background: #000000 !important;
+  background: var(--page-bg) !important;
   border: 2px solid #000000 !important;
   box-shadow: inset 0 0 0 2px #ffffff !important;
 }
@@ -3525,7 +4172,7 @@ html:not(.dark) #quote-form textarea::placeholder {
   color: #666666 !important;
 }
 html:not(.dark) #quote-form button[type="submit"] {
-  background-color: #000000 !important;
+  background-color: var(--page-bg) !important;
   border: 1px solid #000000 !important;
   color: #ffffff !important;
 }
@@ -3535,7 +4182,7 @@ html:not(.dark) #quote-form button[type="submit"]:not(.pill-btn):hover {
   color: #ffffff !important;
 }
 html:not(.dark) #quote-form .form-submit-btn.pill-btn:hover:not(:disabled) {
-  background-color: #000000 !important;
+  background-color: var(--page-bg) !important;
   border-color: #000000 !important;
 }
 
@@ -3548,7 +4195,7 @@ html:not(.dark) #quote-form .form-submit-btn.pill-btn:hover:not(:disabled) {
   max-width: 20rem;
   height: 3.5rem;
   margin: 0 auto;
-  background-color: #000000 !important;
+  background-color: var(--page-bg) !important;
   border: 1px solid #ffffff !important;
   box-sizing: border-box;
   isolation: isolate;
@@ -3567,7 +4214,7 @@ html:not(.dark) #quote-form .form-submit-btn.pill-btn:hover:not(:disabled) {
   box-shadow: 0 0 0 1px rgba(255, 255, 255, 0.5);
 }
 .form-submit-btn.pill-btn:not(:disabled):hover {
-  background-color: #000000 !important;
+  background-color: var(--page-bg) !important;
   border-color: #ffffff !important;
   box-shadow: none;
 }
@@ -3769,7 +4416,7 @@ html.about-page-active {
   isolation: isolate;
 }
 .about-block--black {
-  background-color: #000;
+  background-color: var(--page-bg);
   color: #fff;
 }
 .about-block--white {
@@ -3808,11 +4455,102 @@ html.about-page-active {
 /* Full-bleed hero photo: no radial wash on this layer */
 .about-hero-parallax .about-hero-parallax__bg--photo {
   background: none !important;
+  overflow: hidden;
 }
 .about-hero-parallax .about-hero-parallax__bg--photo .about-hero-parallax__photo {
   position: absolute;
   inset: 0;
+  /* Mobile: tighter crop on the subject; clipped by overflow so it can't bleed into copy */
+  transform: scale(1.22);
+  transform-origin: 70% 35%;
 }
+@media (min-width: 640px) {
+  .about-hero-parallax .about-hero-parallax__bg--photo .about-hero-parallax__photo {
+    transform: none;
+  }
+}
+
+/* About hero: photo stage for title, then charcoal feather for body copy */
+.about-hero-blend {
+  background-color: var(--page-bg);
+}
+.about-hero-blend__media {
+  /* Shorter stage so the feather (and body copy) clear the subject sooner */
+  height: min(68vh, 40rem);
+  min-height: 26rem;
+  overflow: hidden;
+}
+.about-hero-blend__shade {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  /* Keep the engineer / van readable on the right */
+  background: linear-gradient(
+    90deg,
+    rgba(10, 10, 10, 0.94) 0%,
+    rgba(10, 10, 10, 0.82) 26%,
+    rgba(10, 10, 10, 0.42) 48%,
+    rgba(10, 10, 10, 0.12) 68%,
+    rgba(10, 10, 10, 0.18) 100%
+  );
+}
+.about-hero-blend__feather {
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  /* Settle into page charcoal in the lower third — body copy never sits on the photo */
+  background: linear-gradient(
+    to top,
+    var(--page-bg) 0%,
+    var(--page-bg) 22%,
+    rgba(10, 10, 10, 0.98) 36%,
+    rgba(10, 10, 10, 0.82) 50%,
+    rgba(10, 10, 10, 0.4) 68%,
+    rgba(10, 10, 10, 0.08) 84%,
+    transparent 100%
+  );
+}
+.about-hero-blend__content {
+  max-width: none;
+  padding-top: clamp(6.5rem, 14vh, 9.5rem);
+  padding-bottom: clamp(3.5rem, 8vw, 6.5rem);
+}
+.about-hero-blend__lead {
+  /* Title + mantra live in the photo stage */
+  min-height: clamp(18rem, 48vh, 30rem);
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  padding-bottom: clamp(1.25rem, 3vh, 2.25rem);
+}
+.about-hero-blend__title {
+  font-size: clamp(2.75rem, 6.5vw, 5.75rem);
+  line-height: 0.95;
+}
+.about-hero-blend__body {
+  /* Lands in the black feather / solid black continuation */
+  padding-top: clamp(1.75rem, 4vh, 3rem);
+  padding-bottom: clamp(1rem, 2vh, 2rem);
+}
+.about-hero-blend__year-slot {
+  width: 100%;
+  min-width: 0;
+}
+.about-hero-blend__year {
+  font-size: clamp(4.5rem, 9vw, 7.5rem);
+  letter-spacing: -0.04em;
+  font-variant-numeric: tabular-nums;
+  font-feature-settings: "tnum" 1;
+}
+@media (min-width: 1024px) {
+  .about-hero-blend__media {
+    height: min(72vh, 44rem);
+  }
+  .about-hero-blend__lead {
+    min-height: clamp(22rem, 52vh, 34rem);
+  }
+}
+
 /* Mount / scroll reveal, rise into place; see components/Reveal.tsx */
 .about-reveal {
   opacity: 0;
@@ -3844,6 +4582,13 @@ html.about-page-active {
 .letter-reveal--split {
   display: block;
 }
+.letter-reveal__line {
+  display: block;
+}
+.letter-reveal__word {
+  display: inline-block;
+  white-space: nowrap;
+}
 .letter-reveal__char {
   display: inline-block;
   opacity: 0;
@@ -3852,6 +4597,9 @@ html.about-page-active {
     opacity 0.45s ease-out,
     transform 0.55s cubic-bezier(0.22, 1, 0.36, 1);
   transition-delay: 0ms;
+}
+.letter-reveal__char--space {
+  min-width: 0.28em;
 }
 .letter-reveal__char--in {
   opacity: 1;
@@ -3938,7 +4686,7 @@ html.about-page-active {
   transform: translate3d(0, 0, 0);
 }
 
-/* Tabs rise from behind the panel (desktop) — must beat base tab `transition/transform !important` */
+/* Detached pills fade/rise in above the card (desktop timing via --tab-delay) */
 @media (min-width: 768px) {
   #services .fs-what-we-offer .fs-offer-folder {
     position: relative;
@@ -3947,27 +4695,21 @@ html.about-page-active {
   #services .fs-what-we-offer .fs-offer-tablist {
     position: relative;
     z-index: 1;
-    margin-bottom: -2px;
-    /* Clip the rising tabs so they emerge from under the card top */
-    overflow: visible;
   }
   #services .fs-what-we-offer .fs-offer-panel {
     position: relative;
-    z-index: 3;
+    z-index: 0;
   }
   #services .fs-what-we-offer button.fs-offer-tab.fs-offer-seq__tab {
-    position: relative;
-    z-index: 1;
     transition:
-      opacity 0.55s ease-out,
-      transform 0.65s cubic-bezier(0.22, 1, 0.36, 1),
-      background-color 0.28s ease,
-      color 0.28s ease,
-      border-color 0.28s ease !important;
-    transition-delay: var(--tab-delay, 0ms) !important;
+      opacity 0.45s ease-out var(--tab-delay, 0ms),
+      transform 0.55s cubic-bezier(0.22, 1, 0.36, 1) var(--tab-delay, 0ms),
+      background-color 0.15s ease,
+      color 0.15s ease,
+      border-color 0.15s ease !important;
   }
   #services .fs-what-we-offer button.fs-offer-tab.fs-offer-seq__tab:not(.is-in) {
-    transform: translate3d(0, 100%, 0) !important;
+    transform: translate3d(0, 0.6rem, 0) !important;
     opacity: 0 !important;
     pointer-events: none;
   }
@@ -3975,15 +4717,6 @@ html.about-page-active {
     transform: translate3d(0, 0, 0) !important;
     opacity: 1 !important;
     pointer-events: auto;
-  }
-  /* Active tab also rises — don't lock transform until revealed */
-  #services .fs-what-we-offer button.fs-offer-tab.fs-offer-seq__tab.fs-offer-tab--active:not(.is-in) {
-    transform: translate3d(0, 100%, 0) !important;
-    z-index: 1;
-  }
-  #services .fs-what-we-offer button.fs-offer-tab.fs-offer-seq__tab.fs-offer-tab--active.is-in {
-    transform: translate3d(0, 0, 0) !important;
-    z-index: 4;
   }
 }
 
@@ -4233,29 +4966,62 @@ html.about-page-active {
   Keep overflow visible, raise z-index, and pad the bottom so the blur softens
   inside this section's own background.
 */
-#join-the-team.about-block,
 #our-story.about-block {
   isolation: auto;
   overflow: visible;
-  z-index: 2;
+  z-index: 1;
 }
-#join-the-team.about-section-y {
-  padding-bottom: clamp(5.5rem, 12vw, 9rem);
-}
-#our-story.about-section-y {
-  padding-bottom: clamp(5.5rem, 12vw, 9rem);
-}
-#join-the-team .about-section-inner,
-#join-the-team .about-reveal,
-#our-story .about-section-inner,
-#our-story .about-reveal {
+#join-the-team.about-block {
+  isolation: auto;
   overflow: visible;
+  z-index: 3;
 }
 
-/* Commitments: pull heading up (diagonal splice reads as empty space otherwise) */
 .about-block--black.about-commitments-section.about-section-y {
+  isolation: auto;
   padding-top: clamp(3.5rem, 9vw, 6.75rem);
+  padding-bottom: clamp(3.5rem, 8vw, 5.5rem);
+  overflow: visible;
+  z-index: 1;
+}
+
+#our-story.about-section-y {
+  padding-top: clamp(3.5rem, 8vw, 5.5rem);
+  /* Room for Join the Team image to sit deep into this band */
+  padding-bottom: clamp(8rem, 14vw, 12rem);
+}
+
+/* Join the Team image — clear overlap into Our Story; copy sits lower in the white band */
+#join-the-team.about-section-y {
+  padding-top: clamp(1.25rem, 3vw, 2rem);
   padding-bottom: clamp(5.5rem, 12vw, 9rem);
+}
+#join-the-team .about-careers-media {
+  position: relative;
+  z-index: 4;
+  margin-top: clamp(-7rem, -12vw, -5rem);
+}
+#join-the-team .about-careers-copy {
+  padding-top: clamp(0.5rem, 2vw, 1.25rem);
+}
+@media (min-width: 1024px) {
+  #our-story.about-section-y {
+    padding-bottom: clamp(10rem, 14vw, 14rem);
+  }
+  #join-the-team.about-section-y {
+    padding-top: clamp(0.75rem, 2vw, 1.5rem);
+  }
+  #join-the-team .about-careers-media {
+    margin-top: clamp(-10rem, -14vw, -7.5rem);
+  }
+  /* Copy + CTA bottom-align with the hanging image (no large top pad) */
+  #join-the-team .about-careers-copy {
+    padding-top: 0;
+  }
+}
+#join-the-team .about-section-inner,
+#join-the-team .about-reveal {
+  overflow: visible;
 }
 /* Quote stats (About), blur non-hovered cards when one is hovered */
 .about-quote-stat-card {
@@ -4320,7 +5086,7 @@ html.about-page-active {
   display: flex;
   flex-direction: column;
   gap: var(--marquee-gap);
-  max-width: 100vw;
+  max-width: 100%;
 }
 .logo-marquee-section .logo-marquee {
   display: flex;
@@ -4417,7 +5183,62 @@ html.about-page-active {
   pointer-events: none;
 }
 
-/* ========== Projects section, white band, dark header copy (cards unchanged) ========== */
+/*
+ * Service pages: completed-project / installation cards.
+ * 3+ items: up to 3 equal columns that fill the row (no hollow right column).
+ * 1–2 items: capped track width so cards stay a sensible size, left-aligned with copy.
+ */
+.fs-service-installations-grid {
+  grid-template-columns: 1fr;
+}
+@media (min-width: 768px) {
+  .fs-service-installations-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+  .fs-service-installations-grid:not(.fs-service-installations-grid--fill):has(> :nth-child(1):last-child) {
+    grid-template-columns: minmax(0, 22.5rem);
+  }
+}
+@media (min-width: 1024px) {
+  .fs-service-installations-grid {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+  .fs-service-installations-grid:not(.fs-service-installations-grid--fill):has(> :nth-child(1):last-child) {
+    grid-template-columns: minmax(0, 22.5rem);
+  }
+  .fs-service-installations-grid:not(.fs-service-installations-grid--fill):has(> :nth-child(2):last-child) {
+    grid-template-columns: repeat(2, minmax(0, 22.5rem));
+    justify-content: start;
+  }
+}
+
+/* When a fill-CTA is present, always use the full responsive column track */
+@media (min-width: 768px) {
+  .fs-service-installations-grid--fill {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+@media (min-width: 1024px) {
+  .fs-service-installations-grid--fill {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+}
+
+/* Service pages: static customer logo grid (larger than homepage marquee) */
+.our-customers-logo-grid__img {
+  display: block;
+  width: auto;
+  max-width: 100%;
+  height: clamp(2.75rem, 5.5vw, 4.25rem);
+  object-fit: contain;
+}
+@media (min-width: 768px) {
+  .our-customers-logo-grid__img {
+    height: clamp(3.25rem, 4.5vw, 5rem);
+  }
+}
+
+/* ========== Projects section — white split: left intro / right card strip ========== */
 #projects.projects-section,
 #projects.projects-section .projects-section__sticky {
   background-color: #ffffff !important;
@@ -4425,42 +5246,166 @@ html.about-page-active {
 #projects.projects-section .section-label,
 #projects.projects-section h2,
 #projects.projects-section h2.home-section-title,
-#projects.projects-section .projects-section-head,
-#projects.projects-section .projects-section-head *:not(.projects-nav-btn):not(svg) {
+#projects.projects-section .projects-section__intro,
+#projects.projects-section .projects-section__intro *:not(.projects-nav-btn):not(svg) {
   color: #000000 !important;
 }
 
-/* ========== Projects section, 3 cards in view, feathered glass ========== */
-#projects .projects-card {
-  width: min(420px, calc((100vw - 3rem - 3rem) / 3));
-  min-width: min(320px, 85vw);
+#projects .projects-section__sticky {
+  min-height: 100dvh;
+  display: flex;
+  align-items: stretch;
 }
-@media (min-width: 768px) {
-  #projects .projects-card {
-    width: min(480px, calc((100vw - 4rem - 4rem) / 3));
-    min-width: 320px;
+
+.projects-section__split {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  flex: 1;
+  min-height: 100dvh;
+  gap: 2rem;
+  padding: 5.5rem var(--site-gutter) 3rem;
+  box-sizing: border-box;
+}
+
+.projects-section__intro {
+  flex-shrink: 0;
+  max-width: 28rem;
+}
+
+.projects-section__nav {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  margin-top: 2rem;
+}
+
+.projects-section__track {
+  flex: 1;
+  min-width: 0;
+  /* Break out of section side padding so strip bleeds to the right edge */
+  margin-right: calc(-1 * var(--site-gutter));
+}
+
+.projects-strip {
+  display: flex;
+  gap: 1.25rem;
+}
+
+.projects-card-shelf {
+  flex-shrink: 0;
+}
+
+@media (min-width: 1024px) {
+  .projects-section__split {
+    flex-direction: row;
+    align-items: center;
+    gap: 0;
+    /* Generous left margin like the reference; no right pad so cards bleed off */
+    padding: 0 0 0 clamp(2.5rem, 6vw, 5.5rem);
+    min-height: 100dvh;
   }
+
+  .projects-section__intro {
+    /* ~40% column, wide enough for the full title scale */
+    width: clamp(22rem, 34vw, 30rem);
+    max-width: none;
+    flex-shrink: 0;
+    padding-right: clamp(1.75rem, 3vw, 3rem);
+  }
+
+  .projects-section__track {
+    --projects-feather: 3.5rem;
+    flex: 1 1 auto;
+    min-width: 0;
+    margin-right: 0;
+    overflow: hidden;
+    /* Soft left fade — only catches cards once the strip scrolls under it */
+    -webkit-mask-image: linear-gradient(
+      to right,
+      transparent 0%,
+      rgba(0, 0, 0, 0.4) calc(var(--projects-feather) * 0.4),
+      #000 var(--projects-feather),
+      #000 100%
+    );
+    mask-image: linear-gradient(
+      to right,
+      transparent 0%,
+      rgba(0, 0, 0, 0.4) calc(var(--projects-feather) * 0.4),
+      #000 var(--projects-feather),
+      #000 100%
+    );
+  }
+
+  .projects-strip {
+    gap: 1.35rem;
+    /* Park first card clear of the feather at rest */
+    padding-left: var(--projects-feather);
+  }
+}
+
+/* Cards sized like the reference: tall portrait tiles (~2 + peek visible) */
+#projects .projects-card {
+  display: block;
+  width: min(18rem, 78vw);
 }
 @media (min-width: 1024px) {
   #projects .projects-card {
-    width: min(520px, calc((100vw - 4rem - 4rem) / 3));
-    min-width: 360px;
+    /* Height-led: fill most of the sticky viewport, width from 3:4 */
+    --projects-card-h: min(72vh, 36.5rem);
+    width: calc(var(--projects-card-h) * 0.72);
+    min-width: calc(var(--projects-card-h) * 0.72);
   }
 }
 #projects .projects-card__inner {
-  min-height: 520px;
-  /* Very slight inner glow on card edge for beveled look */
+  position: relative;
+  width: 100%;
+  aspect-ratio: 3 / 4;
+  overflow: hidden;
   box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.08);
-}
-/* Project card number (01, 02, …), same font as section titles (Outfit) */
-#projects .projects-card-number {
-  font-family: var(--font-title, "Outfit", sans-serif) !important;
 }
 @media (min-width: 1024px) {
   #projects .projects-card__inner {
-    min-height: 560px;
+    aspect-ratio: auto;
+    height: var(--projects-card-h);
   }
 }
+
+#projects .projects-card-number {
+  font-family: var(--font-title, "Outfit", sans-serif) !important;
+  font-size: clamp(2.25rem, 3.5vw, 3.25rem) !important;
+  line-height: 1;
+}
+
+#projects .projects-card-glass {
+  top: auto !important;
+  height: 48%;
+  min-height: 48%;
+  padding: 1.35rem 1.35rem 1.15rem !important;
+  padding-right: 3.5rem !important;
+  padding-top: 3.75rem !important;
+  box-shadow: inset 0 -1px 0 0 rgba(255, 255, 255, 0.05);
+}
+
+#projects .projects-card__title {
+  font-size: clamp(1.2rem, 1.6vw, 1.55rem);
+  min-height: 0;
+}
+
+#projects .projects-card__desc {
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+#projects .projects-card-arrow {
+  bottom: 1rem !important;
+  right: 1rem !important;
+  width: 2.5rem !important;
+  height: 2.5rem !important;
+}
+
 /* Projects header nav (white section): black outline, invert on hover */
 #projects .projects-nav-btn {
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
@@ -4468,7 +5413,7 @@ html.about-page-active {
 #projects .projects-nav-btn:hover,
 #projects .projects-nav-btn:focus,
 #projects .projects-nav-btn:focus-visible {
-  background-color: #000000 !important;
+  background-color: var(--page-bg) !important;
   color: #ffffff !important;
   border-color: #000000 !important;
 }
@@ -4490,14 +5435,6 @@ html.about-page-active {
   background-color: white;
   color: black;
   border-color: white;
-}
-
-#projects .projects-card-glass {
-  /* Bottom half panel; text sits above .projects-card-glass-backdrop (mask applies only to blur layers) */
-  height: 50%;
-  min-height: 50%;
-  /* No border-top here, it sat at 50% card height and read as a harsh line over the hero image */
-  box-shadow: inset 0 -1px 0 0 rgba(255, 255, 255, 0.05);
 }
 
 /* Feathered top edge of the glass effect, must not mask typography (sibling .relative.z-20) */
@@ -4583,13 +5520,32 @@ html.about-page-active {
   }
 }
 
-/* Header logo: subtle grow on hover */
+/* Header logo: subtle grow on hover — pad so scale isn't clipped by the drop-in mask */
+.header-logo-mask {
+  overflow: visible;
+}
+@media (min-width: 1024px) {
+  .header-logo-mask {
+    overflow: hidden;
+  }
+}
 .header-logo-hover-wrap {
   display: inline-block;
+  transform-origin: center center;
   transition: transform 0.35s ease;
 }
 .header-logo-drop-in:hover .header-logo-hover-wrap {
   transform: scale(1.06);
+}
+@media (max-width: 1023px) {
+  /* Room for hover scale; avoid clipping against the header shell */
+  .header-logo-mask {
+    padding-block: 0.2rem;
+    margin-block: -0.2rem;
+  }
+  .header-logo-drop-in:hover .header-logo-hover-wrap {
+    transform: scale(1.04);
+  }
 }
 
 /* Header logo entrance: fully hidden until animation runs (avoids flash before CSS / double appear) */
@@ -4642,7 +5598,7 @@ body {
     radial-gradient(ellipse 2000px 1500px at 20% 30%, rgba(255, 255, 255, 0.02) 0%, transparent 60%),
     radial-gradient(ellipse 1500px 2000px at 80% 70%, rgba(255, 255, 255, 0.015) 0%, transparent 60%),
     radial-gradient(ellipse 2500px 1000px at 50% 50%, rgba(255, 255, 255, 0.01) 0%, transparent 70%),
-    #000000;
+    var(--page-bg);
   background-attachment: fixed;
   min-height: 100%;
   width: 100%;
@@ -4654,9 +5610,9 @@ body {
   overflow-x: hidden;
 }
 
-/* FS: Light theme, body and sections use light background, black text */
+/* FS: default page canvas is charcoal; white bands/pages paint their own surfaces */
 html:not(.dark) body {
-  background: #ffffff !important;
+  background: var(--page-bg) !important;
   background-attachment: fixed;
 }
 
@@ -4835,42 +5791,30 @@ html.cursor-invert.curzr-big-circle-active .apx-cursor-big-circle__dot {
   background-color: #000;
 }
 
-/* Wrapper so black fill sits behind footer without clipping footer border/radius */
+/* Wrapper so precede-section fill sits behind footer without clipping radius */
 .footer-outer-wrapper {
   position: relative;
   overflow: visible;
+  /* Matches the section above the footer (set in JS as --footer-precede-bg) */
+  background-color: var(--footer-precede-bg, var(--page-bg));
 }
-/* Subtle black ramp above footer, darkens the band behind the white border curve on light pages */
+/* Soft fade from the preceding section into the footer join (no forced charcoal) */
 .footer-outer-wrapper::before {
-  content: "";
-  position: absolute;
-  left: 0;
-  right: 0;
-  top: calc(-1 * clamp(3.25rem, 6.5vw, 5rem));
-  height: clamp(3.25rem, 6.5vw, 5rem);
-  background: linear-gradient(
-    to bottom,
-    rgba(0, 0, 0, 0) 0%,
-    rgba(0, 0, 0, 0.22) 32%,
-    rgba(0, 0, 0, 0.55) 68%,
-    rgba(0, 0, 0, 0.9) 92%,
-    #000000 100%
-  );
-  pointer-events: none;
-  z-index: 1;
+  content: none;
+  display: none;
 }
 /* FS: Footer, one wrapper: rounded top, border top + sides (no bottom), logo on top */
 footer.footer-expand-wrapper {
   position: relative;
-  background-color: #000000 !important;
+  background-color: var(--page-bg) !important;
   transform: none !important;
-  border: 2px solid #fff;
+  border: 1.5px solid #fff;
   border-bottom: none;
   border-top-left-radius: 30px;
   border-top-right-radius: 30px;
   isolation: isolate;
 }
-/* Black fill behind footer: use inset + % width (not 100vw) to avoid a stray edge strip on mobile when layout width ≠ layout viewport (scrollbar / iOS). */
+/* Fill behind rounded corners — same colour as the section above the footer */
 .footer-black-fill {
   position: absolute;
   left: 0;
@@ -4878,12 +5822,13 @@ footer.footer-expand-wrapper {
   width: 100%;
   top: 0;
   bottom: 0;
-  background-color: #000000;
+  background-color: var(--footer-precede-bg, var(--page-bg));
   z-index: 0;
   pointer-events: none;
 }
 footer.footer-expand-wrapper > .footer-head,
-footer.footer-expand-wrapper > .footer-expand {
+footer.footer-expand-wrapper > .footer-expand,
+footer.footer-expand-wrapper > .footer-legal {
   position: relative;
   z-index: 1;
 }
@@ -4904,10 +5849,33 @@ footer a.footer-level-credit:hover {
 .footer-columns {
   align-items: start;
 }
+
+/* Underline: draw in from the left, wipe out to the right */
+.footer-link-underline {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  height: 2px;
+  width: 100%;
+  background-color: #fff;
+  transform: scaleX(0);
+  transform-origin: right;
+  transition: transform 0.45s ease;
+  pointer-events: none;
+}
+.group:hover .footer-link-underline,
+.group:focus-visible .footer-link-underline {
+  transform: scaleX(1);
+  transform-origin: left;
+}
 @media (min-width: 1024px) {
   .footer-columns {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+}
+@media (min-width: 1280px) {
+  .footer-columns {
     grid-template-columns: repeat(5, minmax(0, 1fr));
-    align-items: stretch;
   }
 }
 
@@ -4920,7 +5888,7 @@ footer a.footer-level-credit:hover {
   max-height: 0;
   overflow: hidden;
   transition: max-height 0.45s ease-out;
-  background-color: #000000;
+  background-color: var(--page-bg);
 }
 .footer-expand-wrapper:hover .footer-expand {
   max-height: 1800px;
@@ -4949,22 +5917,116 @@ footer a.footer-level-credit:hover {
   .footer-hint {
     display: none;
   }
-  /* Shorter top ramp — always-open footer sits closer to last section */
-  .footer-outer-wrapper::before {
-    top: calc(-1 * clamp(1.75rem, 5vw, 2.75rem));
-    height: clamp(1.75rem, 5vw, 2.75rem);
+}
+
+/* Mobile: accordion footer is centred; desktop columns stay left */
+@media (max-width: 767.98px) {
+  .footer-mobile-acc {
+    text-align: center;
+  }
+
+  .footer-mobile-acc .footer-link-underline {
+    left: 50%;
+    transform: translateX(-50%) scaleX(0);
+    transform-origin: center;
+  }
+  .footer-mobile-acc .group:hover .footer-link-underline,
+  .footer-mobile-acc .group:focus-visible .footer-link-underline {
+    transform: translateX(-50%) scaleX(1);
+  }
+
+  .footer-legal,
+  .footer-legal-stack {
+    text-align: center !important;
+    align-items: center !important;
+  }
+
+  .footer-legal-links {
+    justify-items: center !important;
+    justify-content: center !important;
+  }
+
+  .footer-legal-links > a,
+  .footer-legal-links > button {
+    width: 100%;
+    text-align: center;
+  }
+
+  .footer-legal .footer-link-underline {
+    left: 50%;
+    transform: translateX(-50%) scaleX(0);
+    transform-origin: center;
+  }
+  .footer-legal .group:hover .footer-link-underline,
+  .footer-legal .group:focus-visible .footer-link-underline {
+    transform: translateX(-50%) scaleX(1);
+  }
+
+  .footer-level-line {
+    display: block;
+    width: 100%;
+    text-align: center;
+  }
+
+  footer.footer-expand-wrapper {
+    border-width: 0.75px;
+  }
+
+  /* Beat global white button fill on accordion triggers */
+  .footer-mobile-acc-trigger,
+  .footer-mobile-acc-trigger:hover,
+  .footer-mobile-acc-trigger:active,
+  .footer-mobile-acc-trigger:focus,
+  .footer-mobile-acc-trigger:focus-visible,
+  .footer-cookie-prefs-btn,
+  .footer-cookie-prefs-btn:hover,
+  .footer-cookie-prefs-btn:active,
+  .footer-cookie-prefs-btn:focus,
+  .footer-cookie-prefs-btn:focus-visible {
+    background: transparent !important;
+    background-color: transparent !important;
+    border: none !important;
+    box-shadow: none !important;
+    color: inherit !important;
   }
 }
 
-/* Mobile-only: left-align service labels inside the two-column grid */
-@media (max-width: 639.98px) {
-  .footer-services-list > li {
-    display: flex;
-    justify-content: flex-start;
+/* Mobile header chrome: menu icon has no box; search (desktop) keeps thin border */
+@media (max-width: 1023.98px) {
+  .fs-header-search-trigger {
+    border-width: 1px !important;
   }
 
-  .footer-services-list > li > a {
-    text-align: left;
+  .fs-header-menu-trigger {
+    border: none !important;
+    border-width: 0 !important;
+    background: transparent !important;
+    box-shadow: none !important;
+  }
+
+  .header-bar-expand {
+    border-width: 1px !important;
+  }
+
+  /*
+   * Mobile keyboards: keep text fields ≥16px and interactive (iOS otherwise
+   * zooms / can refuse focus paths on undersized or non-text controls).
+   */
+  input:not([type="checkbox"]):not([type="radio"]):not([type="range"]):not([type="file"]):not([type="hidden"]):not([type="button"]):not([type="submit"]):not([type="reset"]),
+  textarea,
+  select {
+    font-size: max(16px, 1em);
+  }
+
+  input[type="search"],
+  input[inputmode="search"],
+  .home-search-intent__input,
+  .careers-search-input,
+  .team-directory__search,
+  .quote-form-field {
+    -webkit-user-select: text;
+    user-select: text;
+    touch-action: manipulation;
   }
 }
 
@@ -5958,7 +7020,7 @@ html {
 
     /* FORCE DARK MODE STYLING - OVERRIDE EVERYTHING */
     .dark #quote-form {
-        background-color: #000000 !important;
+        background-color: var(--page-bg) !important;
         border: 1px solid #ffffff !important;
     }
     
@@ -5975,7 +7037,7 @@ html {
     .dark #quote-form input[type="tel"],
     .dark #quote-form select,
     .dark #quote-form textarea {
-        background-color: #000000 !important;
+        background-color: var(--page-bg) !important;
         border: 1px solid #ffffff !important;
         color: #ffffff !important;
         outline: none !important;
@@ -5987,7 +7049,7 @@ html {
     .dark #quote-form input[type="tel"]:focus,
     .dark #quote-form select:focus,
     .dark #quote-form textarea:focus {
-        background-color: #000000 !important;
+        background-color: var(--page-bg) !important;
         border: 1px solid #ffffff !important;
         color: #ffffff !important;
         outline: none !important;
@@ -6002,7 +7064,7 @@ html {
     }
     
     .dark #quote-form button[type="submit"] {
-        background-color: #000000 !important;
+        background-color: var(--page-bg) !important;
         border: 1px solid #ffffff !important;
         color: #ffffff !important;
     }
@@ -6163,11 +7225,11 @@ html {
 
 /* Modal close (X) button: black fill, white border, white icon */
 .cookie-settings-modal-close {
-  background-color: #000000 !important;
+  background-color: var(--page-bg) !important;
   color: #ffffff !important;
 }
 .cookie-settings-modal-close:hover {
-  background-color: #111111 !important;
+  background-color: var(--page-bg) !important;
 }
 .cookie-settings-modal-close svg {
   color: #ffffff !important;
@@ -6176,11 +7238,11 @@ html {
 
 /* Floating FAB (gear): black fill, white border, white icon */
 .cookie-settings-fab {
-  background-color: #000000 !important;
+  background-color: var(--page-bg) !important;
   color: #ffffff !important;
 }
 .cookie-settings-fab:hover {
-  background-color: #111111 !important;
+  background-color: var(--page-bg) !important;
 }
 .cookie-settings-fab-icon,
 .cookie-settings-fab svg {
@@ -6190,11 +7252,11 @@ html {
 
 /* Modal Cancel button: black fill, white border, white text */
 .cookie-settings-cancel {
-  background-color: #000000 !important;
+  background-color: var(--page-bg) !important;
   color: #ffffff !important;
 }
 .cookie-settings-cancel:hover {
-  background-color: #111111 !important;
+  background-color: var(--page-bg) !important;
 }
 
 .cookie-settings-modal button[style*="backgroundColor: '#000000'"],
@@ -6221,13 +7283,13 @@ html {
 .cookie-banner,
 .cookie-banner-wrapper .cookie-banner,
 .cookie-banner .cookie-banner-tab {
-  background-color: #000000 !important;
+  background-color: var(--page-bg) !important;
 }
 
 /* Cookie banner: pill buttons, black fill by default, white fill on hover only */
 .cookie-banner .pill-btn,
 .cookie-banner .cookie-banner-pill {
-  background-color: #000000 !important;
+  background-color: var(--page-bg) !important;
 }
 .cookie-banner .pill-btn .pill-text {
   color: #ffffff !important;
@@ -6258,10 +7320,10 @@ header {
   background: transparent !important;
   background-color: transparent !important;
 }
-/* Overrides global transparent header on routes that need a solid black band (light body is white; see Header.tsx) */
+/* Overrides global transparent header on routes that need a solid charcoal page band (see Header.tsx) */
 header.fs-black-header-canvas {
-  background: #000000 !important;
-  background-color: #000000 !important;
+  background: var(--page-bg) !important;
+  background-color: var(--page-bg) !important;
 }
 header.header-border-light {
   border-bottom: 1px solid #000000 !important;
@@ -6328,9 +7390,9 @@ header nav .fs-services-cctv-toggle-btn svg {
   stroke: #ffffff !important;
 }
 
-/* Desktop Services dropdown, 2px border matches header-bar-expand */
+/* Desktop Services dropdown, 1px border matches header-bar-expand / contact chrome */
 .site-header {
-  --fs-header-border-width: 2px;
+  --fs-header-border-width: 1px;
   --fs-services-dropdown-width: 28rem;
   --fs-services-dropdown-inset-x: -2.03125rem;
   --fs-services-dropdown-offset-y: 1.2rem;
@@ -6497,7 +7559,7 @@ html:not(.dark) .mep-section-light-bg::after {
   content: "";
   position: absolute;
   inset: 0;
-  background: #000000;
+  background: var(--page-bg);
   pointer-events: none;
   z-index: 0;
 }
@@ -6523,7 +7585,7 @@ html:not(.dark) .mep-cards-section .text-gray-300 {
   stroke: #ffffff;
 }
 html:not(.dark) .mep-cards-section .mep-cards-grid li {
-  background: #000000;
+  background: var(--page-bg);
 }
 
 .mep-cards-grid {
@@ -6778,9 +7840,9 @@ html:not(.dark) .mep-cards-section .mep-cards-grid li {
   font-weight: 500;
 }
 
-/* Delivery methodology page, black canvas */
+/* Delivery methodology page, near-black canvas */
 .dm-page {
-  background: #000000;
+  background: var(--page-bg);
   min-height: 100vh;
 }
 .dm-page .font-title,
@@ -6803,8 +7865,8 @@ html:not(.dark) .mep-cards-section .mep-cards-grid li {
   }
 }
 html:not(.dark) body:has(.dm-page) {
-  background: #000000 !important;
-  background-color: #000000 !important;
+  background: var(--page-bg) !important;
+  background-color: var(--page-bg) !important;
 }
 
 /* Delivery methodology journey transitions, keep MS_OUT / MS_IN in sync */

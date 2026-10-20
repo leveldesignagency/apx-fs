@@ -4,9 +4,11 @@ import Image from "next/image"
 import Link from "next/link"
 import { ServicePageClosingSections } from "@/components/ServicePageClosingSections"
 import { CustomPillButton } from "@/components/ui/CustomPillButton"
+import { CallPhoneCta } from "@/components/ui/CallPhoneCta"
 import { ServicePageHero } from "@/components/ServicePageHero"
 import { Reveal } from "@/components/Reveal"
 import { ServiceItemReveal } from "@/components/ServiceItemReveal"
+import { ServiceInstallationsGrid } from "@/components/ServiceInstallationsGrid"
 import { serviceHeroImages } from "@/lib/serviceHeroImages"
 import { ApxPartnerLogoStrip } from "@/components/ApxPartnerLogoStrip"
 import { ACCESS_CONTROL_PARTNERS } from "@/lib/apx-partner-logos"
@@ -36,6 +38,7 @@ import {
   Wrench,
   type LucideIcon,
 } from "lucide-react"
+import { SERVICE_HERO_BRIDGE_GRADIENT } from "@/lib/heroBackgroundGradients"
 
 const ACCESS_CONTROL_CAPABILITIES: { Icon: LucideIcon; title: string; text: string; id?: string }[] = [
   {
@@ -217,7 +220,7 @@ const heroBridge = (
   <div
     className="pointer-events-none absolute left-0 right-0 top-0 h-28 sm:h-36"
     style={{
-      background: "linear-gradient(to bottom, rgba(0,0,0,0) 0%, rgba(0,0,0,0.82) 52%, rgba(0,0,0,1) 100%)",
+      background: SERVICE_HERO_BRIDGE_GRADIENT,
     }}
     aria-hidden
   />
@@ -236,6 +239,7 @@ export default function AccessControlPage() {
         imageSrc={ACCESS_CONTROL_HERO_IMAGE_SRC}
         imageClassName="object-cover object-right object-center"
         heroCompliance={["BS EN 60839"]}
+        heroSummary="Commercial and multi-tenant access control design, installation and maintenance, from door controllers to site-wide credential management."
         intro={
           <>
             <p className="mb-4">
@@ -252,13 +256,15 @@ export default function AccessControlPage() {
         }
       />
 
-      <div className="relative bg-black">
+      <div className="relative bg-[var(--page-bg)]">
         {heroBridge}
 
-        <section className="container relative z-[1] mx-auto px-6 py-16 lg:py-16">
+        <div className="relative z-[1] border-t border-white/15" aria-hidden />
+
+        <section className="site-container relative z-[1] py-16 lg:py-16">
           <Reveal>
             <h2 className="mb-4 text-left font-title text-3xl font-bold text-white sm:text-4xl">
-              What we deliver
+              What We Deliver
             </h2>
           </Reveal>
           <Reveal delayMs={70}>
@@ -284,7 +290,7 @@ export default function AccessControlPage() {
 
         <div className="border-t border-white/15" />
 
-        <section className="container relative z-[1] mx-auto px-6 py-16 lg:py-16">
+        <section className="site-container relative z-[1] py-16 lg:py-16">
           <Reveal>
             <h2 className="mb-10 text-left font-title text-3xl font-bold text-white sm:text-4xl">
               Benefits of access control
@@ -311,6 +317,7 @@ export default function AccessControlPage() {
           titleId="bespoke-access-control-heading"
           imageSrc={BESPOKE_ACCESS_CONTROL_IMAGE_SRC}
           imageAlt="Access control card reader at a secure door entry"
+          variant="light"
         >
           <p>
             Building on a heritage dating back to 1986, we design access control for commercial and residential clients
@@ -328,31 +335,31 @@ export default function AccessControlPage() {
             integrations.
           </p>
           <div className="pt-2">
-            <CustomPillButton href="/contact?service=access-control-systems" size="md">
+            <CustomPillButton href="/contact?service=access-control-systems" size="md" variant="onLight">
               Access control enquiry
             </CustomPillButton>
           </div>
-          <div className="mt-8 max-w-3xl border-t border-white/10 pt-8">
-            <p className="text-base leading-relaxed text-gray-300">
+          <div className="mt-8 max-w-3xl border-t border-black/10 pt-8">
+            <p className="text-base leading-relaxed text-neutral-700">
               Installations are specified and handed over with reference to BS EN 60839 where applicable, including access
               schedules, user permissions and structured training. See also{" "}
               <Link
                 href="/services/video-door-entry-systems"
-                className="text-white underline decoration-white/35 underline-offset-2 hover:decoration-white"
+                className="text-black underline decoration-black/35 underline-offset-2 hover:decoration-black"
               >
                 video door entry
               </Link>
               ,{" "}
               <Link
                 href="/services/gate-automation-systems"
-                className="text-white underline decoration-white/35 underline-offset-2 hover:decoration-white"
+                className="text-black underline decoration-black/35 underline-offset-2 hover:decoration-black"
               >
                 gate automation
               </Link>{" "}
               and the{" "}
               <Link
                 href="/services/security-systems"
-                className="text-white underline decoration-white/35 underline-offset-2 hover:decoration-white"
+                className="text-black underline decoration-black/35 underline-offset-2 hover:decoration-black"
               >
                 security systems overview
               </Link>
@@ -370,7 +377,7 @@ export default function AccessControlPage() {
 
         <div className="border-t border-white/15" />
 
-        <section className="container mx-auto px-6 py-16 lg:py-16">
+        <section className="site-container py-16 lg:py-16">
           <Reveal>
             <h2 className="mb-4 text-left font-title text-3xl font-bold text-white sm:text-4xl">Our Access Control System Installations</h2>
           </Reveal>
@@ -379,7 +386,10 @@ export default function AccessControlPage() {
               Examples of the access control systems that we have installed for our customers:
             </p>
           </Reveal>
-          <div className="grid grid-cols-1 gap-8 md:grid-cols-2 lg:grid-cols-3">
+          <ServiceInstallationsGrid
+            count={ACCESS_CONTROL_INSTALLATIONS.length}
+            ctaHref="/contact?service=access-control-systems"
+          >
             {ACCESS_CONTROL_INSTALLATIONS.map((item, index) => (
               <ServiceItemReveal key={`${item.imageSrc}-${index}`} index={index} className="h-full min-h-0">
                 <article className={FS_SERVICE_INSTALLATION_CARD}>
@@ -390,7 +400,7 @@ export default function AccessControlPage() {
                     alt=""
                     fill
                     className="object-cover object-center"
-                    sizes="(min-width: 1024px) 33vw, (min-width: 768px) 50vw, 100vw"
+                    sizes="(min-width: 768px) 22.5rem, 100vw"
                   />
                   </div>
                 </div>
@@ -402,22 +412,20 @@ export default function AccessControlPage() {
                 </article>
               </ServiceItemReveal>
             ))}
-          </div>
+          </ServiceInstallationsGrid>
         </section>
 
         <ServicePageClosingSections
           serviceTitleShort="Access control"
           ctaImageSrc={serviceHeroImages.accessControl}
-          ctaHeadline="Talk to us about"
-          ctaHeadlineAccent="access control."
+          ctaHeadline="Talk to Us About"
+          ctaHeadlineAccent="Access Control."
           ctaDescription="From single doors to networked multi-tenant sites, including maintenance takeovers, we design and install access systems to suit your building and operations."
         >
           <CustomPillButton href="/contact?service=access-control-systems" size="md">
             Get a free quote
           </CustomPillButton>
-          <CustomPillButton href="tel:02083032280" size="md" variant="outline">
-            Call 020 8303 2280
-          </CustomPillButton>
+          <CallPhoneCta size="md" />
         </ServicePageClosingSections>
 
       </div>

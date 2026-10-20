@@ -1,22 +1,38 @@
 import type { Metadata } from "next"
-import { FS_SITE_NAME, fsKeywordsMetaString, getFsSiteUrl } from "./seo"
+import {
+  FS_DEFAULT_OG_PATH,
+  FS_SITE_NAME,
+  fsAbsoluteUrl,
+  fsKeywordsMetaString,
+  getFsSiteUrl,
+} from "./seo"
 
 type BuildFsOpts = {
   title: string
   description: string
-  /** Path only, e.g. `/contact` */
+  /** e.g. `/contact` */
   pathname: string
   keywords?: string
   robots?: Metadata["robots"]
-  /** Absolute URL for OG/Twitter preview image */
+  /** path or absolute URL; falls back to /og/default.png */
   imageUrl?: string
   openGraphType?: "website" | "article"
   publishedTime?: string
+  socialTitle?: string
 }
 
-/**
- * Per-page metadata with OG/Twitter/canonical, use for layouts and server pages.
- */
+const INDEXABLE: NonNullable<Metadata["robots"]> = {
+  index: true,
+  follow: true,
+  googleBot: {
+    index: true,
+    follow: true,
+    "max-image-preview": "large",
+    "max-snippet": -1,
+    "max-video-preview": -1,
+  },
+}
+
 export function buildFsMetadata({
   title,
   description,
@@ -26,38 +42,61 @@ export function buildFsMetadata({
   imageUrl,
   openGraphType = "website",
   publishedTime,
+  socialTitle,
 }: BuildFsOpts): Metadata {
   const base = getFsSiteUrl()
   const path = pathname.startsWith("/") ? pathname : `/${pathname}`
-  const url = `${base}${path}`
-  const ogImages = imageUrl ? [{ url: imageUrl, alt: title }] : undefined
+  const url = path === "/" ? base : `${base}${path}`
+  const cardTitle = socialTitle ?? title
+  const image = imageUrl
+    ? imageUrl.startsWith("http")
+      ? imageUrl
+      : fsAbsoluteUrl(imageUrl)
+    : fsAbsoluteUrl(FS_DEFAULT_OG_PATH)
+
+  const ogImages = [
+    {
+      url: image,
+      width: 1200,
+      height: 630,
+      alt: cardTitle,
+      type: image.endsWith(".jpg") || image.endsWith(".jpeg") ? "image/jpeg" : "image/png",
+    },
+  ]
 
   return {
     title,
     description,
     keywords: keywords ?? fsKeywordsMetaString(),
-    robots: robots ?? { index: true, follow: true },
+    applicationName: FS_SITE_NAME,
+    robots: robots ?? INDEXABLE,
     openGraph: {
-      title,
+      title: cardTitle,
       description,
       url,
       type: openGraphType,
       locale: "en_GB",
       siteName: FS_SITE_NAME,
-      ...(ogImages ? { images: ogImages } : {}),
+      images: ogImages,
       ...(publishedTime && openGraphType === "article"
         ? { publishedTime, modifiedTime: publishedTime }
         : {}),
     },
     twitter: {
       card: "summary_large_image",
-      title,
+      title: cardTitle,
       description,
-      ...(imageUrl ? { images: [imageUrl] } : {}),
+      images: [image],
     },
     alternates: {
-      /** Absolute URL, avoids mismatches with path-only canonicals in audits */
       canonical: url,
     },
   }
+}
+
+export function buildFsNoIndexMetadata(opts: Omit<BuildFsOpts, "robots">): Metadata {
+  return buildFsMetadata({
+    ...opts,
+    robots: { index: false, follow: false, googleBot: { index: false, follow: false } },
+  })
 }

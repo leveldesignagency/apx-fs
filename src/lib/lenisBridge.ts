@@ -48,9 +48,27 @@ export function getDocumentScrollY() {
 export function scrollDocumentTo(targetY: number) {
   if (lenisInstance) {
     lenisInstance.scrollTo(targetY, { immediate: true, force: true })
-    return
   }
+  // Instant — ignore html { scroll-behavior: smooth } which can leave you mid-page
+  const html = document.documentElement
+  const prev = html.style.scrollBehavior
+  html.style.scrollBehavior = "auto"
   window.scrollTo(0, targetY)
+  html.scrollTop = targetY
+  document.body.scrollTop = targetY
+  html.style.scrollBehavior = prev
+}
+
+/** Force homepage to the hero after logo nav / refresh (beats scroll restoration). */
+export function forceDocumentScrollTop() {
+  try {
+    if ("scrollRestoration" in history) {
+      history.scrollRestoration = "manual"
+    }
+  } catch {
+    /* ignore */
+  }
+  scrollDocumentTo(0)
 }
 
 /** Scroll to an element (Lenis-aware). Offset pulls the target slightly below the header. */

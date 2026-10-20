@@ -1,5 +1,6 @@
 import type { Metadata } from "next"
 import { buildFsMetadata } from "@/lib/seo-metadata"
+import { FsBreadcrumbJsonLd } from "@/components/seo/FsBreadcrumbJsonLd"
 
 export const metadata: Metadata = buildFsMetadata({
   title: "About Us | Fire & Security Specialists | London, Kent & Essex | APX",
@@ -9,5 +10,10 @@ export const metadata: Metadata = buildFsMetadata({
 })
 
 export default function AboutLayout({ children }: { children: React.ReactNode }) {
-  return children
+  return (
+    <>
+      <FsBreadcrumbJsonLd crumbs={[{ name: "About", path: "/about" }]} />
+      {children}
+    </>
+  )
 }

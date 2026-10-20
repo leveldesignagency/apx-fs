@@ -1,6 +1,7 @@
 import type { Metadata } from "next"
 import { buildFsMetadata } from "@/lib/seo-metadata"
 import { FS_SERVICE_ROUTES } from "@/lib/fs-service-routes"
+import { FsServiceJsonLd } from "@/components/seo/FsServiceJsonLd"
 
 export const metadata: Metadata = buildFsMetadata({
   title: "Gate, Barrier & Bollard Automation | Install, Service & Repair | APX Fire & Security",
@@ -10,5 +11,14 @@ export const metadata: Metadata = buildFsMetadata({
 })
 
 export default function Layout({ children }: { children: React.ReactNode }) {
-  return children
+  return (
+    <>
+      <FsServiceJsonLd
+        pathname="/services/gate-automation-systems"
+        description="Gate Safe trained engineers for automated gates, barriers and bollards. Installation, servicing, repairs and maintenance across Roger Technology, BFT, CAME, FAAC and Nice. London and the Home Counties."
+        name="Gate, Barrier & Bollard Automation"
+      />
+      {children}
+    </>
+  )
 }

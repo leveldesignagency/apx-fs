@@ -15,7 +15,7 @@ type ServicePageClosingSectionsProps = {
   children: ReactNode
 }
 
-/** Standard page tail: customer marquee, FAQ, inset CTA card (replaces full-bleed photo band). */
+/** Standard page tail: customer logo grid, FAQ, inset CTA card (replaces full-bleed photo band). */
 export function ServicePageClosingSections({
   serviceTitleShort,
   ctaImageSrc,

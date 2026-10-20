@@ -55,7 +55,7 @@ export function HomeQuoteFormDrawShell({ active, children, allowOverflow = false
 
   return (
     <div
-      className={`quote-form-draw-shell relative rounded-none max-lg:outline max-lg:outline-1 max-lg:outline-white/45 max-lg:outline-offset-0 lg:outline-none ${allowOverflow ? "overflow-visible" : "overflow-hidden"}`}
+      className={`quote-form-draw-shell relative rounded-none text-white max-lg:outline max-lg:outline-1 max-lg:outline-current max-lg:outline-offset-0 lg:outline-none ${allowOverflow ? "overflow-visible" : "overflow-hidden"}`}
       style={shellStyle}
     >
       {/*
@@ -72,7 +72,7 @@ export function HomeQuoteFormDrawShell({ active, children, allowOverflow = false
           ref={pathRef}
           d={BORDER_PATH}
           fill="none"
-          stroke="#ffffff"
+          stroke="currentColor"
           strokeWidth={0.14}
           strokeLinecap="round"
           strokeLinejoin="round"
