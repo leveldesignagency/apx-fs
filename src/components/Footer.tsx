@@ -226,12 +226,13 @@ export default function Footer() {
     window.addEventListener("resize", sync)
 
     const main = document.querySelector("main")
-    const mo =
-      main &&
-      new MutationObserver(() => {
+    let mo: MutationObserver | undefined
+    if (main) {
+      mo = new MutationObserver(() => {
         requestAnimationFrame(sync)
       })
-    mo?.observe(main, { childList: true, subtree: true, attributes: true, attributeFilter: ["class", "style"] })
+      mo.observe(main, { childList: true, subtree: true, attributes: true, attributeFilter: ["class", "style"] })
+    }
 
     return () => {
       cancelled = true
