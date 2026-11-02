@@ -45,7 +45,7 @@ export default function CookiePolicyPage() {
   const isDark = theme === "dark"
 
   return (
-    <LegalPageShell title="Cookie Policy">
+    <LegalPageShell title="Cookie Policy" lastUpdated="2 November 2026">
       <LegalSection title="Who We Are">
         <p>
           This Cookie Policy applies to the website operated by{" "}
@@ -120,9 +120,11 @@ export default function CookiePolicyPage() {
               <strong>Duration:</strong> Up to 2 years (if enabled)
             </p>
             <p className="text-sm">
-              <strong>Current status:</strong> No analytics tools (such as Google Analytics) are installed on this
-              website at present. This category is reserved so preferences remain ready if analytics are added later;
-              nothing in this category loads unless you consent and a tool is actually configured.
+              <strong>Current status:</strong> No cookie-based analytics tools (such as Google Analytics) are installed.
+              First-party, cookieless Vercel Web Analytics and Speed Insights run to measure traffic and Core Web Vitals.
+              Those tools do not use advertising cookies and are not part of this optional category. This category stays
+              reserved if a cookie-based analytics tool is added later; nothing in this category loads unless you consent
+              and a tool is actually configured.
             </p>
           </CookieTypeCard>
 
@@ -231,7 +233,7 @@ export default function CookiePolicyPage() {
         </p>
         <p>
           We do not currently load Google Analytics, Meta/Facebook Pixel, Google Ads, or similar third-party tracking
-          scripts on this site.
+          scripts on this site. Hosting and cookieless performance telemetry are provided by Vercel as described above.
         </p>
       </LegalSection>
 

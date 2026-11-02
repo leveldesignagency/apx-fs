@@ -5,6 +5,7 @@ import {
   buildBreadcrumbJsonLd,
   buildFaqPageJsonLd,
   buildServiceJsonLd,
+  buildWebPageJsonLd,
 } from "@/lib/seo-jsonld"
 import { JsonLd } from "@/components/seo/JsonLd"
 
@@ -50,6 +51,11 @@ export function FsServiceJsonLd({ pathname, name, description }: Props) {
           description,
           pathname,
           serviceType: serviceName,
+        }),
+        buildWebPageJsonLd({
+          name: serviceName,
+          description,
+          pathname,
         }),
       ]}
     />

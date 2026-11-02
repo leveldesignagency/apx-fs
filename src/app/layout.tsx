@@ -1,4 +1,4 @@
-import type { Metadata } from "next"
+import type { Metadata, Viewport } from "next"
 import { Bebas_Neue, Inter, Plus_Jakarta_Sans } from "next/font/google"
 import "./globals.css"
 import Footer from "@/components/Footer"
@@ -17,6 +17,7 @@ import {
   fsKeywordsMetaString,
   getFsSiteUrl,
 } from "@/lib/seo"
+import { Analytics } from "@vercel/analytics/next"
 import { SpeedInsights } from "@vercel/speed-insights/next"
 import Script from "next/script"
 
@@ -42,6 +43,14 @@ const bebasNeue = Bebas_Neue({
 
 const fsSiteUrl = getFsSiteUrl()
 const defaultOg = fsAbsoluteUrl(FS_DEFAULT_OG_PATH)
+const googleVerification = process.env.NEXT_PUBLIC_GOOGLE_SITE_VERIFICATION?.trim()
+const bingVerification = process.env.NEXT_PUBLIC_BING_SITE_VERIFICATION?.trim()
+
+export const viewport: Viewport = {
+  themeColor: "#000000",
+  width: "device-width",
+  initialScale: 1,
+}
 
 export const metadata: Metadata = {
   metadataBase: new URL(fsSiteUrl),
@@ -111,7 +120,28 @@ export const metadata: Metadata = {
   },
   alternates: {
     canonical: fsSiteUrl,
+    languages: {
+      "en-GB": fsSiteUrl,
+      "x-default": fsSiteUrl,
+    },
+    types: {
+      "application/rss+xml": `${fsSiteUrl}/feed.xml`,
+    },
   },
+  other: {
+    "geo.region": "GB-KEN",
+    "geo.placename": "Erith, Kent",
+    "geo.position": "51.4805;0.1752",
+    ICBM: "51.4805, 0.1752",
+  },
+  ...(googleVerification || bingVerification
+    ? {
+        verification: {
+          ...(googleVerification ? { google: googleVerification } : {}),
+          ...(bingVerification ? { other: { "msvalidate.01": bingVerification } } : {}),
+        },
+      }
+    : {}),
 }
 
 export default function RootLayout({
@@ -153,6 +183,7 @@ export default function RootLayout({
             </TitleFontProvider>
           </ThemeProvider>
         </PremiumScroll>
+        <Analytics />
         <SpeedInsights />
       </body>
     </html>

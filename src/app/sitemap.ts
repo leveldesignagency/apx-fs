@@ -7,7 +7,9 @@ import { getFsSiteUrl } from "@/lib/seo"
 
 const ACCREDITOR_SLUGS = ["bafe", "nsi", "constructionline", "fia"] as const
 
-// Static paths we want indexed (no thank-you / private stuff)
+/** Honest lastmod for static URLs. Do not stamp "now" on every request. */
+const STATIC_LASTMOD = new Date("2026-11-02T12:00:00.000Z")
+
 const STATIC: Array<{
   path: string
   changeFrequency: MetadataRoute.Sitemap[number]["changeFrequency"]
@@ -55,7 +57,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
   for (const item of STATIC) {
     urls.push({
       url: item.path ? `${base}/${item.path}` : base,
-      lastModified: new Date(),
+      lastModified: STATIC_LASTMOD,
       changeFrequency: item.changeFrequency,
       priority: item.priority,
     })
@@ -64,7 +66,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
   for (const r of FS_CAREER_ROLES) {
     urls.push({
       url: `${base}/careers/apply/${r.id}`,
-      lastModified: new Date(),
+      lastModified: STATIC_LASTMOD,
       changeFrequency: "monthly",
       priority: 0.55,
     })
@@ -73,7 +75,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
   for (const slug of ACCREDITOR_SLUGS) {
     urls.push({
       url: `${base}/accreditations/${slug}`,
-      lastModified: new Date(),
+      lastModified: STATIC_LASTMOD,
       changeFrequency: "yearly",
       priority: 0.65,
     })
@@ -82,7 +84,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
   for (const slug of MAIN_CASE_STUDY_SLUGS) {
     urls.push({
       url: `${base}/projects/${slug}`,
-      lastModified: new Date(),
+      lastModified: STATIC_LASTMOD,
       changeFrequency: "monthly",
       priority: 0.75,
     })
@@ -91,7 +93,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
   for (const slug of getAllCctvCameraTypeSlugs()) {
     urls.push({
       url: `${base}/services/cctv/camera-types/${slug}`,
-      lastModified: new Date(),
+      lastModified: STATIC_LASTMOD,
       changeFrequency: "monthly",
       priority: 0.72,
     })
@@ -100,7 +102,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
   for (const article of FS_NEWS_ARTICLES) {
     urls.push({
       url: `${base}/news/${article.slug}`,
-      lastModified: new Date(article.publishedAt),
+      lastModified: new Date(`${article.publishedAt}T12:00:00.000Z`),
       changeFrequency: "yearly",
       priority: 0.6,
     })

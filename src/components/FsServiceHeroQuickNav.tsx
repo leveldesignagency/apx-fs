@@ -5,11 +5,11 @@ import { usePathname } from "next/navigation"
 import { FS_SERVICE_QUICK_LINKS, normalizeFsPath } from "@/lib/fs-service-navigation"
 
 export const fsServiceHeroPillLinkClass =
-  "quick-nav-pill-shimmer inline-flex min-h-[44px] w-full max-w-full items-center justify-center rounded-full border border-white/40 bg-black/45 px-3 py-2 text-center text-sm font-semibold leading-snug tracking-tight text-white/95 backdrop-blur-sm transition-[border-color,color] duration-300 hover:border-white/70 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/50 sm:min-h-0 sm:min-w-0 sm:px-4 sm:py-2"
+  "quick-nav-pill-shimmer inline-flex min-h-[44px] w-full max-w-full items-center justify-center rounded-full border border-white/40 bg-black/45 px-3 py-2 text-center text-sm font-semibold leading-snug tracking-tight text-white/95 backdrop-blur-sm transition-[background-color,border-color,color] duration-300 hover:border-white hover:bg-white hover:text-black focus-visible:outline-none focus-visible:border-white focus-visible:bg-white focus-visible:text-black focus-visible:ring-2 focus-visible:ring-white/50 sm:min-h-0 sm:min-w-0 sm:px-4 sm:py-2"
 
 /** Same pill look as quick nav, slightly larger for in-hero CTAs */
 export const fsServiceHeroPillLinkClassLg =
-  "quick-nav-pill-shimmer inline-flex min-h-[44px] min-w-[8.5rem] items-center justify-center rounded-full border border-white/40 bg-black/45 px-3.5 py-2 text-center text-sm font-semibold leading-snug tracking-tight text-white/95 backdrop-blur-sm transition-[border-color,color] duration-300 hover:border-white/70 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/50 sm:min-h-[46px] sm:min-w-[9rem]"
+  "quick-nav-pill-shimmer inline-flex min-h-[44px] min-w-[8.5rem] items-center justify-center rounded-full border border-white/40 bg-black/45 px-3.5 py-2 text-center text-sm font-semibold leading-snug tracking-tight text-white/95 backdrop-blur-sm transition-[background-color,border-color,color] duration-300 hover:border-white hover:bg-white hover:text-black focus-visible:outline-none focus-visible:border-white focus-visible:bg-white focus-visible:text-black focus-visible:ring-2 focus-visible:ring-white/50 sm:min-h-[46px] sm:min-w-[9rem]"
 
 const pillClass = fsServiceHeroPillLinkClass
 

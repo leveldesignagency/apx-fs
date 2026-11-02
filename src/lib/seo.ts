@@ -1,6 +1,7 @@
 // SEO helpers for APX Fire & Security. Prefer NEXT_PUBLIC_SITE_URL in prod.
 
 import { APX_SOCIAL_LINKS } from "./apxSocialLinks"
+import { FS_SERVICE_NAV_LINKS } from "./fs-service-navigation"
 import { HOME_COUNTIES_AND_REGIONS, LONDON_BOROUGHS } from "./seo-geo-areas"
 
 export const FS_SITE_NAME = "APX Fire & Security"
@@ -14,6 +15,14 @@ export const FS_DEFAULT_OG_PATH = "/og/default.png"
 export const FS_GOOGLE_LOGO_PATH = "/google-logo.png"
 
 export const FS_ORG_LOGO_PATH = "/icon-512.png"
+
+export const FS_PHONE_DISPLAY = "020 8303 2280"
+export const FS_PHONE_E164 = "+442083032280"
+export const FS_EMAIL = "enquiries@apx-fs.co.uk"
+export const FS_COMPANIES_HOUSE_URL =
+  "https://find-and-update.company-information.service.gov.uk/company/04915204"
+export const FS_SLOGAN =
+  "NSI and BAFE-aligned fire alarms, CCTV and access control across London and the Home Counties"
 
 export function getFsSiteUrl(): string {
   const u = process.env.NEXT_PUBLIC_SITE_URL
@@ -76,10 +85,7 @@ export const FS_KNOWS_ABOUT = [
 ] as const
 
 export function fsKeywordsMetaString(): string {
-  const boroughs = LONDON_BOROUGHS.join(", ")
-  const regions = HOME_COUNTIES_AND_REGIONS.join(", ")
-  const primary = FS_SEO_KEYWORDS.join(", ")
-  return `${primary}, ${boroughs}, ${regions}, Greater London, South East England`
+  return FS_SEO_KEYWORDS.join(", ")
 }
 
 export function fsDefaultDescription(): string {
@@ -87,7 +93,8 @@ export function fsDefaultDescription(): string {
 }
 
 function fsSameAs(): string[] {
-  return APX_SOCIAL_LINKS.map((l) => l.href).filter((href) => !href.includes("google.com/search"))
+  const social = APX_SOCIAL_LINKS.map((l) => l.href).filter((href) => !href.includes("google.com/search"))
+  return [...social, FS_COMPANIES_HOUSE_URL]
 }
 
 export function fsJsonLdGraph(): Record<string, unknown> {
@@ -120,6 +127,40 @@ export function fsJsonLdGraph(): Record<string, unknown> {
     height: 160,
     caption: `${FS_LEGAL_NAME} logo`,
   }
+  const geoAreas = [
+    { "@type": "City" as const, name: "London" },
+    { "@type": "AdministrativeArea" as const, name: "Greater London" },
+    { "@type": "AdministrativeArea" as const, name: "South East England" },
+    ...LONDON_BOROUGHS.map((name) => ({
+      "@type": "AdministrativeArea" as const,
+      name,
+    })),
+    ...HOME_COUNTIES_AND_REGIONS.map((name) => ({
+      "@type": "AdministrativeArea" as const,
+      name,
+    })),
+  ]
+  const memberOf = [
+    { "@type": "Organization" as const, name: "National Security Inspectorate", url: "https://www.nsi.org.uk/" },
+    { "@type": "Organization" as const, name: "BAFE Fire Safety Register", url: "https://www.bafe.org.uk/" },
+    { "@type": "Organization" as const, name: "Constructionline", url: "https://www.constructionline.co.uk/" },
+    { "@type": "Organization" as const, name: "Fire Industry Association", url: "https://www.fia.uk.com/" },
+  ]
+  const offerCatalog = {
+    "@type": "OfferCatalog" as const,
+    "@id": `${url}/#services`,
+    name: "Fire and Security services",
+    itemListElement: FS_SERVICE_NAV_LINKS.map((service, index) => ({
+      "@type": "Offer" as const,
+      position: index + 1,
+      itemOffered: {
+        "@type": "Service" as const,
+        name: service.label,
+        url: fsAbsoluteUrl(service.href),
+        provider: { "@id": `${url}/#organization` },
+      },
+    })),
+  }
 
   return {
     "@context": "https://schema.org",
@@ -129,12 +170,13 @@ export function fsJsonLdGraph(): Record<string, unknown> {
         "@id": `${url}/#organization`,
         name: FS_SITE_NAME,
         legalName: FS_LEGAL_NAME,
-        alternateName: ["APX FS", "APX Fire and Security"],
+        alternateName: ["APX FS", "APX Fire and Security", "APX Fire & Security Limited"],
+        slogan: FS_SLOGAN,
         url,
         logo: { "@id": `${url}/#logo` },
         image: [{ "@id": `${url}/#logo` }, { "@id": `${url}/#brandlogo` }],
-        email: "enquiries@apx-fs.co.uk",
-        telephone: "+442083032280",
+        email: FS_EMAIL,
+        telephone: FS_PHONE_E164,
         address: postalAddress,
         foundingDate: "1986",
         taxID: FS_COMPANY_NUMBER,
@@ -143,29 +185,43 @@ export function fsJsonLdGraph(): Record<string, unknown> {
           name: "Company number",
           value: FS_COMPANY_NUMBER,
         },
-        areaServed: [
-          { "@type": "City", name: "London" },
-          { "@type": "AdministrativeArea", name: "Greater London" },
-          ...HOME_COUNTIES_AND_REGIONS.map((name) => ({
-            "@type": "AdministrativeArea" as const,
-            name,
-          })),
-        ],
+        areaServed: geoAreas,
         knowsAbout: [...FS_KNOWS_ABOUT],
+        knowsLanguage: ["en-GB"],
         sameAs: fsSameAs(),
+        award: [
+          "NSI Gold, Security",
+          "NSI Gold, Fire",
+          "BAFE Registered Organisation 301168",
+          "Constructionline Gold",
+          "FIA Full Member",
+          "BS EN ISO 9001:2015",
+        ],
+        memberOf,
+        hasOfferCatalog: { "@id": `${url}/#services` },
         contactPoint: [
           {
             "@type": "ContactPoint",
-            telephone: "+442083032280",
+            telephone: FS_PHONE_E164,
             contactType: "customer service",
-            email: "enquiries@apx-fs.co.uk",
+            email: FS_EMAIL,
             areaServed: "GB",
             availableLanguage: ["English"],
+          },
+          {
+            "@type": "ContactPoint",
+            telephone: FS_PHONE_E164,
+            contactType: "sales",
+            email: FS_EMAIL,
+            areaServed: "GB",
+            availableLanguage: ["English"],
+            url: fsAbsoluteUrl("/contact"),
           },
         ],
       },
       logoImage,
       brandLogo,
+      offerCatalog,
       {
         "@type": "WebSite",
         "@id": `${url}/#website`,
@@ -174,17 +230,20 @@ export function fsJsonLdGraph(): Record<string, unknown> {
         description: fsDefaultDescription(),
         publisher: { "@id": `${url}/#organization` },
         inLanguage: "en-GB",
+        isAccessibleForFree: true,
       },
       {
         "@type": ["ProfessionalService", "LocalBusiness"],
         "@id": `${url}/#localbusiness`,
         name: FS_SITE_NAME,
         legalName: FS_LEGAL_NAME,
+        slogan: FS_SLOGAN,
         image: [logoUrl, googleLogoUrl, fsAbsoluteUrl(FS_DEFAULT_OG_PATH)],
         url,
-        telephone: "+442083032280",
-        email: "enquiries@apx-fs.co.uk",
+        telephone: FS_PHONE_E164,
+        email: FS_EMAIL,
         priceRange: "$$",
+        currenciesAccepted: "GBP",
         address: postalAddress,
         geo: {
           "@type": "GeoCoordinates",
@@ -204,17 +263,12 @@ export function fsJsonLdGraph(): Record<string, unknown> {
             description:
               "Greater London, Home Counties and South East, Fire and Security installations and maintenance.",
           },
-          ...LONDON_BOROUGHS.slice(0, 12).map((name) => ({
-            "@type": "AdministrativeArea" as const,
-            name,
-          })),
-          ...HOME_COUNTIES_AND_REGIONS.map((name) => ({
-            "@type": "AdministrativeArea" as const,
-            name,
-          })),
+          ...geoAreas,
         ],
         serviceType: [...FS_KNOWS_ABOUT],
         knowsAbout: [...FS_KNOWS_ABOUT],
+        memberOf,
+        hasOfferCatalog: { "@id": `${url}/#services` },
         parentOrganization: { "@id": `${url}/#organization` },
         sameAs: fsSameAs(),
       },

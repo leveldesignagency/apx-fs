@@ -59,6 +59,67 @@ export function buildServiceJsonLd(opts: {
       { "@type": "AdministrativeArea", name: "Hertfordshire" },
     ],
     brand: { "@type": "Brand", name: FS_SITE_NAME },
+    audience: { "@type": "BusinessAudience", audienceType: "Commercial, public-sector and residential clients" },
+    availableChannel: {
+      "@type": "ServiceChannel",
+      serviceUrl: fsAbsoluteUrl("/contact"),
+      availableLanguage: "English",
+    },
+    termsOfService: fsAbsoluteUrl("/terms"),
+  }
+}
+
+export function buildWebPageJsonLd(opts: {
+  name: string
+  description: string
+  pathname: string
+  speakableSelectors?: string[]
+}): Record<string, unknown> {
+  const url = getFsSiteUrl()
+  const pageUrl = opts.pathname === "/" ? url : fsAbsoluteUrl(opts.pathname)
+  return {
+    "@context": "https://schema.org",
+    "@type": "WebPage",
+    "@id": `${pageUrl}#webpage`,
+    url: pageUrl,
+    name: opts.name,
+    description: opts.description,
+    inLanguage: "en-GB",
+    isPartOf: { "@id": `${url}/#website` },
+    about: { "@id": `${url}/#organization` },
+    speakable: {
+      "@type": "SpeakableSpecification",
+      cssSelector: opts.speakableSelectors ?? ["h1", ".service-page-hero__intro"],
+    },
+  }
+}
+
+export function buildProjectJsonLd(opts: {
+  title: string
+  description: string
+  pathname: string
+  imageUrl?: string
+  location?: string
+}): Record<string, unknown> {
+  const url = getFsSiteUrl()
+  const pageUrl = fsAbsoluteUrl(opts.pathname)
+  return {
+    "@context": "https://schema.org",
+    "@type": "Article",
+    headline: opts.title,
+    description: opts.description,
+    url: pageUrl,
+    mainEntityOfPage: { "@type": "WebPage", "@id": pageUrl },
+    inLanguage: "en-GB",
+    articleSection: "Projects",
+    ...(opts.imageUrl ? { image: [opts.imageUrl] } : {}),
+    ...(opts.location ? { contentLocation: { "@type": "Place", name: opts.location } } : {}),
+    author: { "@type": "Organization", name: FS_SITE_NAME, url },
+    publisher: {
+      "@type": "Organization",
+      name: FS_SITE_NAME,
+      logo: { "@id": `${url}/#logo` },
+    },
   }
 }
 
@@ -105,12 +166,14 @@ export function buildArticleJsonLd(opts: {
   const pageUrl = fsAbsoluteUrl(opts.pathname)
   return {
     "@context": "https://schema.org",
-    "@type": "Article",
+    "@type": "NewsArticle",
     headline: opts.title,
     description: opts.description,
     image: [opts.imageUrl],
     datePublished: opts.publishedAt,
     dateModified: opts.modifiedAt ?? opts.publishedAt,
+    url: pageUrl,
+    inLanguage: "en-GB",
     mainEntityOfPage: { "@type": "WebPage", "@id": pageUrl },
     author: { "@type": "Organization", name: FS_SITE_NAME, url },
     publisher: {

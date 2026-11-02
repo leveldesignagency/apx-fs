@@ -190,6 +190,22 @@ const GlobalStyles = createGlobalStyle<{ theme: typeof lightTheme }>`
     background-color: #ffffff !important;
   }
 
+  /* Service-page hero pills (fire/CCTV tabs + quick nav): full white, black label */
+  #hero a.quick-nav-pill-shimmer:hover,
+  #hero a.quick-nav-pill-shimmer:focus-visible,
+  nav a.quick-nav-pill-shimmer:hover,
+  nav a.quick-nav-pill-shimmer:focus-visible {
+    color: #000000 !important;
+    background-color: #ffffff !important;
+    border-color: #ffffff !important;
+  }
+  #hero a.quick-nav-pill-shimmer:hover,
+  #hero a.quick-nav-pill-shimmer:hover *,
+  #hero a.quick-nav-pill-shimmer:focus-visible,
+  #hero a.quick-nav-pill-shimmer:focus-visible * {
+    color: #000000 !important;
+  }
+
   /* Button styling */
   button {
     background: ${({ theme }) => theme.buttonBg} !important;

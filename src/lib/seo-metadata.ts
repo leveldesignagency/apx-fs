@@ -33,6 +33,23 @@ const INDEXABLE: NonNullable<Metadata["robots"]> = {
   },
 }
 
+function stripBrandTitleSuffix(title: string): string {
+  return title
+    .replace(/\s*\|\s*APX Fire & Security\s*$/i, "")
+    .replace(/\s*\|\s*APX FS\s*$/i, "")
+    .replace(/\s*\|\s*APX\s*$/i, "")
+    .trim()
+}
+
+/** One branded document title: never "… | APX Fire & Security | APX Fire & Security". */
+export function brandedDocumentTitle(title: string): string {
+  const stripped = stripBrandTitleSuffix(title)
+  if (stripped === FS_SITE_NAME || stripped.startsWith(`${FS_SITE_NAME} |`)) {
+    return stripped
+  }
+  return `${stripped} | ${FS_SITE_NAME}`
+}
+
 export function buildFsMetadata({
   title,
   description,
@@ -47,7 +64,8 @@ export function buildFsMetadata({
   const base = getFsSiteUrl()
   const path = pathname.startsWith("/") ? pathname : `/${pathname}`
   const url = path === "/" ? base : `${base}${path}`
-  const cardTitle = socialTitle ?? title
+  const documentTitle = brandedDocumentTitle(title)
+  const cardTitle = socialTitle ? brandedDocumentTitle(socialTitle) : documentTitle
   const image = imageUrl
     ? imageUrl.startsWith("http")
       ? imageUrl
@@ -65,7 +83,7 @@ export function buildFsMetadata({
   ]
 
   return {
-    title,
+    title: { absolute: documentTitle },
     description,
     keywords: keywords ?? fsKeywordsMetaString(),
     applicationName: FS_SITE_NAME,
@@ -90,6 +108,10 @@ export function buildFsMetadata({
     },
     alternates: {
       canonical: url,
+      languages: {
+        "en-GB": url,
+        "x-default": url,
+      },
     },
   }
 }

@@ -1,6 +1,26 @@
 import type { MetadataRoute } from "next"
 import { getFsSiteUrl } from "@/lib/seo"
 
+const PRIVATE_PATHS = ["/api/", "/thank-you", "/x/", "/email-signatures/"]
+
+const AI_CRAWLERS = [
+  "GPTBot",
+  "ChatGPT-User",
+  "Google-Extended",
+  "GoogleOther",
+  "PerplexityBot",
+  "ClaudeBot",
+  "anthropic-ai",
+  "Claude-Web",
+  "Applebot-Extended",
+  "Amazonbot",
+  "CCBot",
+  "Bytespider",
+  "cohere-ai",
+  "YouBot",
+  "DuckAssistBot",
+] as const
+
 export default function robots(): MetadataRoute.Robots {
   const base = getFsSiteUrl()
   return {
@@ -8,39 +28,13 @@ export default function robots(): MetadataRoute.Robots {
       {
         userAgent: "*",
         allow: "/",
-        disallow: [
-          "/api/",
-          "/thank-you",
-          "/x/",
-          "/email-signatures/",
-          "/_next/",
-        ],
+        disallow: [...PRIVATE_PATHS, "/_next/"],
       },
-      {
-        userAgent: "GPTBot",
+      ...AI_CRAWLERS.map((userAgent) => ({
+        userAgent,
         allow: "/",
-        disallow: ["/api/", "/thank-you", "/x/"],
-      },
-      {
-        userAgent: "ChatGPT-User",
-        allow: "/",
-        disallow: ["/api/", "/thank-you", "/x/"],
-      },
-      {
-        userAgent: "Google-Extended",
-        allow: "/",
-        disallow: ["/api/", "/thank-you", "/x/"],
-      },
-      {
-        userAgent: "PerplexityBot",
-        allow: "/",
-        disallow: ["/api/", "/thank-you", "/x/"],
-      },
-      {
-        userAgent: "ClaudeBot",
-        allow: "/",
-        disallow: ["/api/", "/thank-you", "/x/"],
-      },
+        disallow: PRIVATE_PATHS,
+      })),
     ],
     sitemap: `${base}/sitemap.xml`,
     host: base.replace(/^https?:\/\//, ""),

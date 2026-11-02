@@ -15,7 +15,8 @@ import { FsInsetCtaCard } from "@/components/FsInsetCtaCard"
 import { CustomPillButton } from "@/components/ui/CustomPillButton"
 import { CallPhoneCta } from "@/components/ui/CallPhoneCta"
 import { JsonLd } from "@/components/seo/JsonLd"
-import { breadcrumbsSimple, buildBreadcrumbJsonLd } from "@/lib/seo-jsonld"
+import { breadcrumbsSimple, buildBreadcrumbJsonLd, buildProjectJsonLd } from "@/lib/seo-jsonld"
+import { fsAbsoluteUrl } from "@/lib/seo"
 
 type Props = {
   params: Promise<{ slug: string }>
@@ -53,12 +54,21 @@ export default async function ProjectDetailPage({ params }: Props) {
   return (
     <div className="fs-projects-page fs-project-detail-page min-h-screen bg-[var(--page-bg)] text-white">
       <JsonLd
-        data={buildBreadcrumbJsonLd(
-          breadcrumbsSimple(
-            { name: "Projects", path: "/projects" },
-            { name: project.title, path: `/projects/${slug}` }
-          )
-        )}
+        data={[
+          buildBreadcrumbJsonLd(
+            breadcrumbsSimple(
+              { name: "Projects", path: "/projects" },
+              { name: project.title, path: `/projects/${slug}` }
+            )
+          ),
+          buildProjectJsonLd({
+            title: project.title,
+            description: project.shortDescription,
+            pathname: `/projects/${slug}`,
+            imageUrl: fsAbsoluteUrl(project.heroImage),
+            location: project.location,
+          }),
+        ]}
       />
       <section className="relative isolate flex min-h-[64vh] flex-col overflow-hidden border-b border-white/10 md:min-h-[72vh]">
         <div className="absolute inset-0">

@@ -5,7 +5,7 @@ import { LegalContactBox, LegalPageShell, LegalSection } from "@/components/Lega
 
 export default function PrivacyPolicyPage() {
   return (
-    <LegalPageShell title="Privacy Policy" lastUpdated="30 September 2026">
+    <LegalPageShell title="Privacy Policy" lastUpdated="2 November 2026">
       <LegalSection title="Introduction">
         <p>
           APX Fire &amp; Security Limited, trading as APX Fire &amp; Security (&ldquo;APX&rdquo;, &ldquo;we&rdquo;,
@@ -148,7 +148,8 @@ export default function PrivacyPolicyPage() {
         <p>We may share personal data with:</p>
         <ul className="list-disc list-inside space-y-2">
           <li>
-            <strong>Vercel</strong>: website hosting and delivery;
+            <strong>Vercel</strong>: website hosting and delivery, plus cookieless Web Analytics and Speed Insights used
+            to understand traffic and page performance;
           </li>
           <li>
             <strong>Resend</strong>: email delivery for form notifications and confirmation messages (processor acting on our

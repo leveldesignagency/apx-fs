@@ -1527,70 +1527,26 @@ section h2 {
   border-bottom-left-radius: 0 !important;
 }
 
-/* Service hero “Quick navigation” pills, subtle fill + light sweep on hover */
+/* Service hero pills (fire/CCTV tabs + quick nav): solid white fill, black text */
 .quick-nav-pill-shimmer {
   position: relative;
   z-index: 0;
   overflow: hidden;
   isolation: isolate;
+  transition:
+    background-color 0.25s ease,
+    border-color 0.25s ease,
+    color 0.25s ease;
 }
-.quick-nav-pill-shimmer::after {
-  content: "";
-  position: absolute;
-  inset: 0;
-  z-index: 0;
-  border-radius: inherit;
-  background-color: rgba(255, 255, 255, 0);
-  transition: background-color 0.3s ease;
-  pointer-events: none;
+.quick-nav-pill-shimmer:hover,
+.quick-nav-pill-shimmer:focus-visible {
+  background-color: #ffffff !important;
+  border-color: #ffffff !important;
+  color: #000000 !important;
 }
-.quick-nav-pill-shimmer:hover::after {
-  background-color: rgba(255, 255, 255, 0.1);
-}
-.quick-nav-pill-shimmer::before {
-  content: "";
-  position: absolute;
-  inset: -20% -40%;
-  z-index: 1;
-  background: linear-gradient(
-    105deg,
-    transparent 0%,
-    transparent 38%,
-    rgba(255, 255, 255, 0.07) 48%,
-    rgba(255, 255, 255, 0.14) 50%,
-    rgba(255, 255, 255, 0.07) 52%,
-    transparent 62%,
-    transparent 100%
-  );
-  transform: translateX(-55%) skewX(-14deg);
-  opacity: 0;
-  pointer-events: none;
-  transition: opacity 0.2s ease;
-}
-.quick-nav-pill-shimmer:hover::before {
-  opacity: 1;
-  animation: quick-nav-shimmer-sweep 0.75s ease-out forwards;
-}
-@keyframes quick-nav-shimmer-sweep {
-  0% {
-    transform: translateX(-55%) skewX(-14deg);
-  }
-  100% {
-    transform: translateX(155%) skewX(-14deg);
-  }
-}
-@media (prefers-reduced-motion: reduce) {
-  .quick-nav-pill-shimmer::before {
-    animation: none !important;
-    transition: none;
-  }
-  .quick-nav-pill-shimmer:hover::before {
-    opacity: 0.35;
-    transform: translateX(0) skewX(-14deg);
-  }
-  .quick-nav-pill-shimmer:hover::after {
-    background-color: rgba(255, 255, 255, 0.12);
-  }
+.quick-nav-pill-shimmer:hover *,
+.quick-nav-pill-shimmer:focus-visible * {
+  color: #000000 !important;
 }
 
 /* FS: ABOUT intro, full-bleed story band */

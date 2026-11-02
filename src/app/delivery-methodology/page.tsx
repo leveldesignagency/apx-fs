@@ -1,6 +1,7 @@
 import type { Metadata } from "next"
 import { DeliveryMethodologyPageContent } from "@/components/DeliveryMethodologyPageContent"
 import { buildFsMetadata } from "@/lib/seo-metadata"
+import { FsBreadcrumbJsonLd } from "@/components/seo/FsBreadcrumbJsonLd"
 
 export const metadata: Metadata = buildFsMetadata({
   title: "Delivery Methodology | Fire & Security Projects | London & South East | APX",
@@ -10,5 +11,10 @@ export const metadata: Metadata = buildFsMetadata({
 })
 
 export default function DeliveryMethodologyPage() {
-  return <DeliveryMethodologyPageContent />
+  return (
+    <>
+      <FsBreadcrumbJsonLd crumbs={[{ name: "Delivery methodology", path: "/delivery-methodology" }]} />
+      <DeliveryMethodologyPageContent />
+    </>
+  )
 }
