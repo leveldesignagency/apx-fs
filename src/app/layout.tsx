@@ -98,7 +98,7 @@ export const metadata: Metadata = {
         url: defaultOg,
         width: 1200,
         height: 630,
-        alt: `${FS_SITE_NAME} — Fire alarms, CCTV and access control`,
+        alt: `${FS_SITE_NAME}: Fire alarms, CCTV and access control`,
         type: "image/png",
       },
     ],

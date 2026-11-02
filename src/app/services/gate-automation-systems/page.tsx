@@ -8,23 +8,12 @@ import { CallPhoneCta } from "@/components/ui/CallPhoneCta"
 import { ServicePageHero } from "@/components/ServicePageHero"
 import { Reveal } from "@/components/Reveal"
 import { ServiceItemReveal } from "@/components/ServiceItemReveal"
-import { ServiceFeatureIconCard } from "@/components/ServiceFeatureIconCard"
+import { ServiceFeatureImageCard } from "@/components/ServiceFeatureImageCard"
 import { FsServiceTextImageSection } from "@/components/FsServiceTextImageSection"
 import { FsServiceTextImageSectionGroup } from "@/components/FsServiceTextImageSectionGroup"
 import { serviceHeroImages, serviceSectionImages } from "@/lib/serviceHeroImages"
 import { FS_SERVICE_ROUTES } from "@/lib/fs-service-routes"
-import {
-  AlertTriangle,
-  Car,
-  ClipboardCheck,
-  Fence,
-  Shield,
-  Wrench,
-} from "lucide-react"
 import { SERVICE_HERO_BRIDGE_GRADIENT } from "@/lib/heroBackgroundGradients"
-
-const cardClass =
-  "rounded-tl-[1.5rem] rounded-br-[1.5rem] border border-white/20 bg-black p-8 text-white transition-colors hover:border-white/45"
 
 const linkClass =
   "underline decoration-white/40 underline-offset-[3px] transition-colors hover:decoration-white"
@@ -84,55 +73,61 @@ export default function GateAutomationSystemsPage() {
           <div className="grid grid-cols-1 gap-8 md:grid-cols-2 lg:grid-cols-3">
             {[
               {
-                Icon: Fence,
                 title: "Gates, barriers & bollards",
                 description:
                   "Automated swing and sliding gates, vehicle barriers and bollards specified for the entrance, duty cycle and site conditions.",
                 id: "gate-swing-sliding",
+                imageSrc: "/service%20images/gate-capabilities/gates.jpg",
+                imageAlt: "Engineer inspecting a gated entrance control cabinet",
               },
               {
-                Icon: Wrench,
                 title: "Install, service & repair",
                 description:
                   "Gate Safe trained engineers for new installations, servicing, fault-finding and repairs across Roger Technology, BFT, CAME, FAAC and Nice systems.",
                 id: "gate-install-service",
+                imageSrc: "/service%20images/gate-capabilities/install.jpg",
+                imageAlt: "Engineer diagnosing gate-control hardware with a multimeter",
               },
               {
-                Icon: ClipboardCheck,
                 title: "Maintenance programmes",
                 description:
                   "Planned maintenance so powered entrances stay reliable, and so managed or commercial sites can evidence regular upkeep.",
                 id: "gate-maintenance",
+                imageSrc: "/service%20images/gate-capabilities/maintenance.jpg",
+                imageAlt: "Engineer completing a gate maintenance inspection checklist",
               },
               {
-                Icon: Shield,
                 title: "Safety devices",
                 description:
                   "Photocells, safety edges and related protective devices configured so the installation is safe for users and the public.",
                 id: "gate-safety",
+                imageSrc: "/service%20images/gate-capabilities/safety.jpg",
+                imageAlt: "Site engineers reviewing safety records on a live entrance project",
               },
               {
-                Icon: Car,
                 title: "Vehicle entrance control",
                 description:
                   "Barriers and gate lines for car parks, yards and shared residential entrances, coordinated with how traffic actually moves on site.",
                 id: "gate-barriers",
+                imageSrc: "/service%20images/gate-capabilities/vehicle.jpg",
+                imageAlt: "Vehicle roadway coverage used for barrier and ANPR control",
               },
               {
-                Icon: AlertTriangle,
                 title: "Risk recognition",
                 description:
                   "We look for compliance issues, crushing and dragging points, inadequate safety devices and incorrectly installed equipment before they become incidents.",
                 id: "gate-risks",
+                imageSrc: "/service%20images/gate-capabilities/risk.jpg",
+                imageAlt: "Engineers reviewing drawings for crushing and dragging hazards",
               },
-            ].map(({ Icon, title, description, id }, index) => (
+            ].map(({ title, description, id, imageSrc, imageAlt }, index) => (
               <ServiceItemReveal key={title} index={index} className="h-full min-h-0">
-                <ServiceFeatureIconCard
+                <ServiceFeatureImageCard
                   id={id}
-                  icon={Icon}
                   title={title}
                   description={description}
-                  shellClassName={cardClass}
+                  imageSrc={imageSrc}
+                  imageAlt={imageAlt}
                   className="transition-transform duration-300 hover:scale-[1.02]"
                 />
               </ServiceItemReveal>

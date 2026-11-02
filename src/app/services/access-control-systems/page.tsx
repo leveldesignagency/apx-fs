@@ -14,140 +14,148 @@ import { ApxPartnerLogoStrip } from "@/components/ApxPartnerLogoStrip"
 import { ACCESS_CONTROL_PARTNERS } from "@/lib/apx-partner-logos"
 import { ServiceTechnologyProductsSection } from "@/components/ServiceTechnologyProductsSection"
 import { FsServiceTextImageSection } from "@/components/FsServiceTextImageSection"
-import { ServiceFeatureIconCard } from "@/components/ServiceFeatureIconCard"
+import { ServiceFeatureImageCard } from "@/components/ServiceFeatureImageCard"
 import {
   FS_SERVICE_IMAGE_GROW_INNER,
   FS_SERVICE_INSTALLATION_CARD,
   FS_SERVICE_INSTALLATION_CARD_IMAGE,
 } from "@/lib/fsServicePageCards"
-import {
-  Key,
-  Clock,
-  Flame,
-  ShieldCheck,
-  ClipboardList,
-  Cpu,
-  CreditCard,
-  Smartphone,
-  Network,
-  DoorOpen,
-  Building2,
-  ArrowUpDown,
-  Video,
-  Car,
-  Wrench,
-  type LucideIcon,
-} from "lucide-react"
 import { SERVICE_HERO_BRIDGE_GRADIENT } from "@/lib/heroBackgroundGradients"
 
-const ACCESS_CONTROL_CAPABILITIES: { Icon: LucideIcon; title: string; text: string; id?: string }[] = [
+const IMG = "/service%20images/access-capabilities"
+
+const ACCESS_CONTROL_CAPABILITIES: {
+  title: string
+  text: string
+  imageSrc: string
+  imageAlt: string
+  id?: string
+}[] = [
   {
-    Icon: CreditCard,
     title: "Fob and card access",
     text: "Proximity fobs and cards with revoke-and-replace credentials, no wholesale rekeying when something is lost.",
     id: "access-fob-card",
+    imageSrc: `${IMG}/fob-card.jpg`,
+    imageAlt: "Office user presenting a proximity card at a glass-door reader",
   },
   {
-    Icon: Key,
     title: "Keypads",
     text: "PIN/keypad entry where codes suit the door and user group, alone or alongside readers.",
     id: "access-keypads",
+    imageSrc: `${IMG}/keypads.jpg`,
+    imageAlt: "Illuminated wall-mounted access keypad",
   },
   {
-    Icon: Smartphone,
     title: "Mobile credentials where offered",
     text: "Phone-based credentials on platforms that support them, specified on survey, not assumed for every system.",
     id: "access-mobile",
+    imageSrc: `${IMG}/mobile.jpg`,
+    imageAlt: "Smartphone used for mobile credentials",
   },
   {
-    Icon: DoorOpen,
     title: "Single-door and networked systems",
     text: "From one controlled door to multi-door networked systems with schedules, zones and central management.",
     id: "access-networked",
+    imageSrc: `${IMG}/networked.jpg`,
+    imageAlt: "Secure commercial door lock and handle",
   },
   {
-    Icon: Building2,
     title: "Multi-tenant systems",
     text: "Shared buildings and estates with tenant, landlord and visitor permissions structured clearly at handover.",
     id: "access-multi-tenant",
+    imageSrc: `${IMG}/multi-tenant.jpg`,
+    imageAlt: "Modern apartment block with shared entrances",
   },
   {
-    Icon: Cpu,
     title: "Door controllers",
     text: "Controllers, readers and locks engineered as a coherent package with commissioning and user training.",
+    imageSrc: `${IMG}/controllers.jpg`,
+    imageAlt: "Engineer working on rack-mounted door controllers",
   },
   {
-    Icon: Flame,
     title: "Fire alarm release interfaces",
     text: "Where the fire strategy and door design require it, we interface access control for emergency release, not every door or system uses the same fail-safe or lockdown behaviour.",
     id: "access-fire-release",
+    imageSrc: `${IMG}/fire-release.jpg`,
+    imageAlt: "Red fire alarm call point used for emergency door release",
   },
   {
-    Icon: ArrowUpDown,
     title: "Lift control where offered",
     text: "Floor and lift access permissions where the lift interface and building brief support them.",
     id: "access-lift",
+    imageSrc: `${IMG}/lift.jpg`,
+    imageAlt: "Multi-storey commercial building with lift access control",
   },
   {
-    Icon: Video,
     title: "Intercom / video entry integration",
     text: "Coordinate with video door entry and intercoms so visitors and residents are managed in one workflow.",
     id: "access-video-entry",
+    imageSrc: `${IMG}/video-entry.jpg`,
+    imageAlt: "Video door entry panel with camera, keypad and call buttons",
   },
   {
-    Icon: Car,
     title: "Gate, barrier and ANPR integration",
     text: "Link vehicle gates and barriers to access control, with ANPR where offered and suitable for the site.",
     id: "access-gate-anpr",
+    imageSrc: `${IMG}/gate-anpr.jpg`,
+    imageAlt: "Vehicle roadway coverage used for ANPR and barrier control",
   },
   {
-    Icon: Wrench,
     title: "Maintenance and system takeovers",
     text: "PPM, corrective works and takeovers of existing access systems so credentials and schedules stay manageable.",
+    imageSrc: `${IMG}/maintenance.jpg`,
+    imageAlt: "Engineer diagnosing access-control hardware with a multimeter",
   },
   {
-    Icon: Network,
     title: "CCTV and intruder coordination",
     text: "Event-linked recording and alarm workflows with CCTV and intruder systems where the brief requires a joined-up package.",
+    imageSrc: `${IMG}/cctv-intruder.jpg`,
+    imageAlt: "IP turret camera used for event-linked recording with access control",
   },
 ]
 
-const ACCESS_CONTROL_BENEFITS: { Icon: LucideIcon; title: string; text: string }[] = [
+const ACCESS_CONTROL_BENEFITS: { title: string; text: string; imageSrc: string; imageAlt: string }[] = [
   {
-    Icon: Key,
     title: "Credentials instead of keys",
     text:
       "Revoke or replace a lost fob or card without rekeying every door, avoiding the cost and disruption of wholesale lock changes.",
+    imageSrc: `${IMG}/fob-card.jpg`,
+    imageAlt: "Office user presenting a proximity card at a glass-door reader",
   },
   {
-    Icon: Clock,
     title: "Smarter schedules",
     text:
       "Reduce reliance on staff for manual unlock and lock-up; grant access by day, time and zone so doors match how your building actually runs.",
+    imageSrc: `${IMG}/schedules.jpg`,
+    imageAlt: "Facilities manager reviewing access schedules on a tablet in a warehouse",
   },
   {
-    Icon: Flame,
     title: "Emergency release where designed",
     text:
       "Fire alarm release and emergency unlock behaviour are configured only where the fire strategy, door hardware and access system support them, not a default of every installation.",
+    imageSrc: `${IMG}/fire-release.jpg`,
+    imageAlt: "Red fire alarm call point used for emergency door release",
   },
   {
-    Icon: ShieldCheck,
     title: "Authorised entry",
     text:
       "Credentials at controlled doors reduce unauthorised access; lost credentials can be disabled without issuing new keys to everyone.",
+    imageSrc: `${IMG}/networked.jpg`,
+    imageAlt: "Secure commercial door lock and handle",
   },
   {
-    Icon: ClipboardList,
     title: "Audit and accountability",
     text:
       "See who accessed sensitive areas and when, valuable for investigations, contractor visits and compliance reporting.",
+    imageSrc: `${IMG}/audit.jpg`,
+    imageAlt: "Engineer completing an access audit checklist",
   },
   {
-    Icon: Cpu,
     title: "Networked integration",
     text:
       "On larger sites, networked systems can sit alongside CCTV, intruder alarms, video entry and gate automation on one coherent platform.",
+    imageSrc: `${IMG}/networked-integration.jpg`,
+    imageAlt: "Network switch ports used to join access control with wider systems",
   },
 ]
 
@@ -274,13 +282,14 @@ export default function AccessControlPage() {
             </p>
           </Reveal>
           <div className="grid grid-cols-1 gap-8 md:grid-cols-2 lg:grid-cols-3">
-            {ACCESS_CONTROL_CAPABILITIES.map(({ Icon, title, text, id }, i) => (
+            {ACCESS_CONTROL_CAPABILITIES.map(({ title, text, id, imageSrc, imageAlt }, i) => (
               <ServiceItemReveal key={title} index={i} className="h-full min-h-0">
-                <ServiceFeatureIconCard
+                <ServiceFeatureImageCard
                   id={id}
-                  icon={Icon}
                   title={title}
                   description={text}
+                  imageSrc={imageSrc}
+                  imageAlt={imageAlt}
                   className="transition-transform duration-300 hover:scale-[1.02]"
                 />
               </ServiceItemReveal>
@@ -297,12 +306,13 @@ export default function AccessControlPage() {
             </h2>
           </Reveal>
           <div className="grid grid-cols-1 gap-8 md:grid-cols-2 lg:grid-cols-3">
-            {ACCESS_CONTROL_BENEFITS.map(({ Icon, title, text }, i) => (
+            {ACCESS_CONTROL_BENEFITS.map(({ title, text, imageSrc, imageAlt }, i) => (
               <ServiceItemReveal key={title} index={i} className="h-full min-h-0">
-                <ServiceFeatureIconCard
-                  icon={Icon}
+                <ServiceFeatureImageCard
                   title={title}
                   description={text}
+                  imageSrc={imageSrc}
+                  imageAlt={imageAlt}
                   className="transition-transform duration-300 hover:scale-[1.02]"
                 />
               </ServiceItemReveal>

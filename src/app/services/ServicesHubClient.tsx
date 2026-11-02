@@ -97,7 +97,7 @@ export function ServicesHubClient() {
               APX Fire & Security Services
             </h1>
             <p className="mt-4 max-w-3xl text-base leading-relaxed text-gray-300 md:text-lg">
-              Design, installation, commissioning and maintenance of Fire and Security systems across London and the Home Counties — listed in the same order as our site menu.
+              Design, installation, commissioning and maintenance of Fire and Security systems across London and the Home Counties, listed in the same order as our site menu.
             </p>
           </Reveal>
 

@@ -8,75 +8,72 @@ import { CallPhoneCta } from "@/components/ui/CallPhoneCta"
 import { ServicePageHero } from "@/components/ServicePageHero"
 import { Reveal } from "@/components/Reveal"
 import { ServiceItemReveal } from "@/components/ServiceItemReveal"
-import { ServiceFeatureIconCard } from "@/components/ServiceFeatureIconCard"
+import { ServiceFeatureImageCard } from "@/components/ServiceFeatureImageCard"
 import { FsServiceTextImageSection } from "@/components/FsServiceTextImageSection"
 import { serviceHeroImages, serviceSectionImages } from "@/lib/serviceHeroImages"
 import { FS_SERVICE_ROUTES } from "@/lib/fs-service-routes"
-import {
-  BatteryCharging,
-  ClipboardList,
-  Clock,
-  FileText,
-  RefreshCw,
-  Shield,
-  Siren,
-  Wrench,
-} from "lucide-react"
 import { SERVICE_HERO_BRIDGE_GRADIENT } from "@/lib/heroBackgroundGradients"
-
-const cardClass =
-  "rounded-tl-[1.5rem] rounded-br-[1.5rem] border border-white/20 bg-black p-8 text-white transition-colors hover:border-white/45"
 
 const linkClass = "underline decoration-white/40 underline-offset-2 hover:decoration-white"
 
+const IMG = "/service%20images/maintenance-capabilities"
+
 const CAPABILITIES = [
   {
-    Icon: RefreshCw,
     title: "System takeovers",
     description:
       "Assess existing Fire and Security installations, bring them under APX care, and plan upgrades without unnecessary downtime.",
+    imageSrc: `${IMG}/takeovers.jpg`,
+    imageAlt: "Engineer inspecting an outdoor control cabinet during a system takeover",
   },
   {
-    Icon: ClipboardList,
     title: "Planned PPM",
     description:
       "Annual and six-monthly planned preventative maintenance structured around your site risk profile and operating hours.",
+    imageSrc: `${IMG}/ppm.jpg`,
+    imageAlt: "Engineer in high-visibility clothing completing a site inspection checklist",
   },
   {
-    Icon: Wrench,
     title: "Corrective works",
     description:
       "Fault diagnosis, repairs and corrective works so systems stay available between scheduled visits.",
+    imageSrc: `${IMG}/corrective.jpg`,
+    imageAlt: "Engineer diagnosing control gear with a multimeter",
   },
   {
-    Icon: Shield,
     title: "Obsolescence planning",
     description:
       "Lifecycle and obsolescence advice so aging panels, cameras and controllers are replaced before they become a liability.",
+    imageSrc: `${IMG}/obsolescence.jpg`,
+    imageAlt: "Ageing wall-mounted intercom panel due for replacement",
   },
   {
-    Icon: BatteryCharging,
     title: "Batteries & consumables",
     description:
       "Battery replacement and routine consumables as part of the maintenance programme where included in the agreement.",
+    imageSrc: `${IMG}/batteries.jpg`,
+    imageAlt: "Server rack drives and power hardware used as backup and consumable stock",
   },
   {
-    Icon: Clock,
     title: "Remote support",
     description:
       "Remote diagnostics and support where the installed platform allows, reducing downtime before an engineer attends.",
+    imageSrc: `${IMG}/remote.jpg`,
+    imageAlt: "Smartphone used for remote system status and diagnostics",
   },
   {
-    Icon: Siren,
     title: "24/7 call-out cover",
     description:
       "Out-of-hours emergency response for contracted customers, coordinated with monitoring pathways where in place.",
+    imageSrc: `${IMG}/callout.jpg`,
+    imageAlt: "Engineer with clipboard and van coordinating an emergency call-out",
   },
   {
-    Icon: FileText,
     title: "Clear service reports",
     description:
       "Visit reports, defect and remedial records, plus asset and compliance evidence packs where included in the agreement.",
+    imageSrc: `${IMG}/reports.jpg`,
+    imageAlt: "Operator reviewing service paperwork while on a headset",
   },
 ] as const
 
@@ -154,13 +151,13 @@ export default function MaintenanceSupportPage() {
             </p>
           </Reveal>
           <div className="grid grid-cols-1 gap-8 md:grid-cols-2 lg:grid-cols-3">
-            {CAPABILITIES.map(({ Icon, title, description }, index) => (
+            {CAPABILITIES.map(({ title, description, imageSrc, imageAlt }, index) => (
               <ServiceItemReveal key={title} index={index} className="h-full min-h-0">
-                <ServiceFeatureIconCard
-                  icon={Icon}
+                <ServiceFeatureImageCard
                   title={title}
                   description={description}
-                  shellClassName={cardClass}
+                  imageSrc={imageSrc}
+                  imageAlt={imageAlt}
                   className="transition-transform duration-300 hover:scale-[1.02]"
                 />
               </ServiceItemReveal>

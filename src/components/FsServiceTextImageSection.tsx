@@ -37,7 +37,10 @@ export type FsServiceTextImageSectionProps = {
   imageEdgeWidthVw?: number
   /** @deprecated Masked/edge layout removed, ignored. */
   imageEdgeMaxWidth?: string
-  /** @deprecated No longer used. */
+  /**
+   * Desktop min-height for the photo. Short copy cannot shrink below this;
+   * taller copy still stretches the image to match.
+   */
   imageMinHeightClassName?: string
 }
 
@@ -59,6 +62,7 @@ export function FsServiceTextImageSection({
   className,
   imageSide: imageSideProp,
   variant = "dark",
+  imageMinHeightClassName = "lg:min-h-[26rem]",
 }: FsServiceTextImageSectionProps) {
   const headingId = titleId ?? "fs-service-text-image-heading"
   const resolvedImageSrc = imageSrc ?? fsPlaceholderImageForKey(headingId)
@@ -90,9 +94,14 @@ export function FsServiceTextImageSection({
   )
 
   const imageColumn = (
-    <Reveal className="min-h-0 min-w-0 h-full" delayMs={90}>
-      <div className="relative h-full min-h-0 w-full overflow-hidden rounded-2xl bg-neutral-900 lg:min-h-0">
-        {/* Mobile: shorter crop so section photos do not dominate; desktop fills the text column */}
+    <Reveal className={cn("min-h-0 min-w-0 h-full", imageMinHeightClassName)} delayMs={90}>
+      <div
+        className={cn(
+          "relative h-full min-h-0 w-full overflow-hidden rounded-2xl bg-neutral-900",
+          imageMinHeightClassName
+        )}
+      >
+        {/* Mobile: shorter crop so section photos do not dominate; desktop fills the text column (with a min-height floor) */}
         <div className="relative aspect-[4/3] max-h-[min(42vh,16.5rem)] w-full sm:aspect-[16/10] sm:max-h-none lg:absolute lg:inset-0 lg:aspect-auto lg:max-h-none">
           <Image
             src={resolvedImageSrc}
@@ -147,6 +156,7 @@ export function FsServiceTextImageSection({
           <div
             className={cn(
               "min-h-0 min-w-0",
+              imageMinHeightClassName,
               imageOnLeft ? "order-2 lg:order-1" : "order-2 lg:order-2"
             )}
           >

@@ -11,7 +11,7 @@ import { FsServiceBenefitsList } from "@/components/FsServiceBenefitsList"
 import { FsServiceTextImageSection } from "@/components/FsServiceTextImageSection"
 import { FsServiceTextImageSectionGroup } from "@/components/FsServiceTextImageSectionGroup"
 import { ServicePageHero } from "@/components/ServicePageHero"
-import { ServiceFeatureIconCard } from "@/components/ServiceFeatureIconCard"
+import { ServiceFeatureImageCard } from "@/components/ServiceFeatureImageCard"
 import { Reveal } from "@/components/Reveal"
 import { ServiceItemReveal } from "@/components/ServiceItemReveal"
 import { ServiceInstallationsGrid } from "@/components/ServiceInstallationsGrid"
@@ -24,17 +24,6 @@ import {
   FS_SERVICE_INSTALLATION_CARD_IMAGE,
 } from "@/lib/fsServicePageCards"
 import { FS_SERVICE_ROUTES } from "@/lib/fs-service-routes"
-import {
-  Building2,
-  Car,
-  GraduationCap,
-  HeartPulse,
-  Hotel,
-  Landmark,
-  Link2,
-  Monitor,
-  ShoppingBag,
-} from "lucide-react"
 import { SERVICE_HERO_BRIDGE_GRADIENT } from "@/lib/heroBackgroundGradients"
 
 const linkClass =
@@ -68,69 +57,82 @@ const COMMERCIAL_CCTV_BENEFITS = [
   "Help lone workers and small teams view more of the premises from a single location.",
 ] as const
 
+const CCTV_IMG = "/service%20images/cctv-capabilities"
+
 const COMMERCIAL_CCTV_SECTORS = [
   {
-    icon: ShoppingBag,
     label: "Retail",
     text: "Coverage for shop floors, stock rooms and till points to support day-to-day oversight and provide clear footage when incidents need reviewing.",
+    imageSrc: `${CCTV_IMG}/retail.jpg`,
+    imageAlt: "Shopkeeper watching the shop floor from behind the counter",
   },
   {
-    icon: Hotel,
     label: "Hotels",
     text: "Reception areas, corridors, car parks and service entrances, supporting guest and staff safety alongside day-to-day operations.",
+    imageSrc: `${CCTV_IMG}/hotels.jpg`,
+    imageAlt: "Multi-storey hotel and apartment building with shared entrances",
   },
   {
-    icon: HeartPulse,
     label: "Healthcare",
     text: "Wards, clinics and car parks with discreet camera placement aligned with healthcare site requirements and privacy expectations.",
+    imageSrc: `${CCTV_IMG}/healthcare.jpg`,
+    imageAlt: "Clean interior space typical of clinics and care environments",
   },
   {
-    icon: GraduationCap,
     label: "Education",
     text: "Entrances, playgrounds and shared areas to help schools and colleges manage access, monitor activity and respond to incidents.",
+    imageSrc: `${CCTV_IMG}/education.jpg`,
+    imageAlt: "Engineers reviewing site drawings for an education building",
   },
   {
-    icon: Landmark,
     label: "Banking",
     text: "Counters, cash-handling areas and high-value zones with recording suitable for audit and investigation review.",
+    imageSrc: `${CCTV_IMG}/banking.jpg`,
+    imageAlt: "Secure commercial door lock at a high-value entrance",
   },
   {
-    icon: Building2,
     label: "Corporate",
     text: "From single offices to multi-site estates, scalable CCTV that integrates with access control, intruder alarms and remote monitoring.",
+    imageSrc: `${CCTV_IMG}/corporate.jpg`,
+    imageAlt: "Modern commercial office building",
   },
 ] as const
 
 const INTEGRATIONS = [
   {
-    icon: Link2,
     title: "Access control",
     text: "Event-triggered recording and shared workflows with door access systems.",
     href: FS_SERVICE_ROUTES.accessControlSystems,
+    imageSrc: `${CCTV_IMG}/access.jpg`,
+    imageAlt: "Office user presenting a proximity card at a glass-door reader",
   },
   {
-    icon: Link2,
     title: "Intruder alarms",
     text: "Alarm-linked camera call-up and coordinated commissioning with graded intruder systems.",
     href: FS_SERVICE_ROUTES.intruderAlarmSystems,
+    imageSrc: `${CCTV_IMG}/intruder.jpg`,
+    imageAlt: "Illuminated wall-mounted security keypad",
   },
   {
-    icon: Car,
     title: "Gate automation",
     text: "Vehicle gate and barrier coverage coordinated with access and CCTV where the site requires it.",
     href: FS_SERVICE_ROUTES.gateAutomationSystems,
+    imageSrc: `${CCTV_IMG}/gate.jpg`,
+    imageAlt: "Engineer inspecting a gated entrance control cabinet",
   },
   {
-    icon: Car,
     title: "ANPR",
     text: "Automatic number-plate recognition where offered and suitable for the location and brief.",
     href: FS_SERVICE_ROUTES.cctvSystems,
+    imageSrc: `${CCTV_IMG}/anpr.jpg`,
+    imageAlt: "Vehicle roadway coverage used for ANPR",
   },
   {
-    icon: Monitor,
     title: "Remote monitoring",
     text: "Remote viewing and ARC / monitoring pathways where the platform and contract support them.",
     href: "/services/monitoring",
+    imageSrc: `${CCTV_IMG}/remote-viewing.jpg`,
+    imageAlt: "Operator reviewing live multi-camera CCTV feeds in a control room",
   },
 ] as const
 
@@ -212,10 +214,15 @@ export default function CommercialCctvPage() {
             </p>
           </Reveal>
           <div className="grid grid-cols-1 gap-8 md:grid-cols-2 lg:grid-cols-3">
-            {INTEGRATIONS.map(({ icon: Icon, title, text, href }, i) => (
+            {INTEGRATIONS.map(({ title, text, href, imageSrc, imageAlt }, i) => (
               <ServiceItemReveal key={title} index={i} className="h-full min-h-0">
                 <Link href={href} className="block h-full text-inherit no-underline">
-                  <ServiceFeatureIconCard icon={Icon} title={title} description={text} />
+                  <ServiceFeatureImageCard
+                    title={title}
+                    description={text}
+                    imageSrc={imageSrc}
+                    imageAlt={imageAlt}
+                  />
                 </Link>
               </ServiceItemReveal>
             ))}
@@ -235,9 +242,14 @@ export default function CommercialCctvPage() {
             </p>
           </Reveal>
           <div className="grid grid-cols-1 gap-8 md:grid-cols-3">
-            {COMMERCIAL_CCTV_SECTORS.map(({ icon: Icon, label, text }, i) => (
+            {COMMERCIAL_CCTV_SECTORS.map(({ label, text, imageSrc, imageAlt }, i) => (
               <ServiceItemReveal key={label} index={i} className="h-full min-h-0">
-                <ServiceFeatureIconCard icon={Icon} title={label} description={text} />
+                <ServiceFeatureImageCard
+                  title={label}
+                  description={text}
+                  imageSrc={imageSrc}
+                  imageAlt={imageAlt}
+                />
               </ServiceItemReveal>
             ))}
           </div>

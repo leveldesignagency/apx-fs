@@ -7393,7 +7393,7 @@ header nav .fs-services-cctv-toggle-btn svg {
 /* Desktop Services dropdown, 1px border matches header-bar-expand / contact chrome */
 .site-header {
   --fs-header-border-width: 1px;
-  --fs-services-dropdown-width: 28rem;
+  --fs-services-dropdown-width: 20rem;
   --fs-services-dropdown-inset-x: -2.03125rem;
   --fs-services-dropdown-offset-y: 1.2rem;
 }

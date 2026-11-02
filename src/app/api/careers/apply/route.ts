@@ -183,7 +183,7 @@ export async function POST(req: Request) {
 
   await sendSiteEmailViaResend({
     to: email,
-    subject: `We received your application — ${role.title}`,
+    subject: `We received your application: ${role.title}`,
     replyTo: "enquiries@apx-fs.co.uk",
     text: [
       `Hello ${fullName},`,

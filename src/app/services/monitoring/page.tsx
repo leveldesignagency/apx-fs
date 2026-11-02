@@ -8,75 +8,72 @@ import { CallPhoneCta } from "@/components/ui/CallPhoneCta"
 import { ServicePageHero } from "@/components/ServicePageHero"
 import { Reveal } from "@/components/Reveal"
 import { ServiceItemReveal } from "@/components/ServiceItemReveal"
-import { ServiceFeatureIconCard } from "@/components/ServiceFeatureIconCard"
+import { ServiceFeatureImageCard } from "@/components/ServiceFeatureImageCard"
 import { FsServiceTextImageSection } from "@/components/FsServiceTextImageSection"
 import { serviceHeroImages, serviceSectionImages } from "@/lib/serviceHeroImages"
 import { FS_SERVICE_ROUTES } from "@/lib/fs-service-routes"
-import {
-  Antenna,
-  Eye,
-  FileText,
-  Flame,
-  Link2,
-  Radio,
-  Shield,
-  Wrench,
-} from "lucide-react"
 import { SERVICE_HERO_BRIDGE_GRADIENT } from "@/lib/heroBackgroundGradients"
-
-const cardClass =
-  "rounded-tl-[1.5rem] rounded-br-[1.5rem] border border-white/20 bg-black p-8 text-white transition-colors hover:border-white/45"
 
 const linkClass = "underline decoration-white/40 underline-offset-2 hover:decoration-white"
 
+const IMG = "/service%20images/monitoring-capabilities"
+
 const CAPABILITIES = [
   {
-    Icon: Radio,
     title: "ARC signalling",
     description:
       "Alarm receiving centre pathways so intruder, fire and selected CCTV events reach trained operators when the site is unattended.",
+    imageSrc: `${IMG}/arc.jpg`,
+    imageAlt: "Operator reviewing live camera and alarm feeds in a control room",
   },
   {
-    Icon: Antenna,
     title: "Dual-path resilience",
     description:
       "Resilient / dual-path signalling options where insurance, ARC grade or site risk requires backup communications.",
+    imageSrc: `${IMG}/dual-path.jpg`,
+    imageAlt: "Network switch ports used for resilient alarm signalling paths",
   },
   {
-    Icon: Shield,
     title: "Intruder monitoring",
     description:
       "Monitored intruder pathways aligned with PD 6662 / BS EN 50131 expectations and the ARC response grade agreed at survey.",
+    imageSrc: `${IMG}/intruder.jpg`,
+    imageAlt: "Illuminated wall-mounted security keypad",
   },
   {
-    Icon: Flame,
     title: "Fire signalling",
     description:
       "Fire alarm signalling arrangements where the fire strategy and ARC product require remote notification of fire events.",
+    imageSrc: `${IMG}/fire.jpg`,
+    imageAlt: "Red fire alarm call point and fire sign on a concrete wall",
   },
   {
-    Icon: Eye,
     title: "CCTV remote pathways",
     description:
       "Event-linked or remote viewing pathways where offered, so operators can verify incidents before escalation.",
+    imageSrc: `${IMG}/cctv.jpg`,
+    imageAlt: "Operator reviewing live multi-camera CCTV feeds in a control room",
   },
   {
-    Icon: FileText,
     title: "Keyholder documentation",
     description:
       "Police / keyholder response schedules and handover notes so facilities and security teams know who is contacted and when.",
+    imageSrc: `${IMG}/keyholder.jpg`,
+    imageAlt: "Operator reviewing keyholder paperwork while on a headset",
   },
   {
-    Icon: Link2,
     title: "New installs & takeovers",
     description:
       "Monitoring designed into new systems, or added when we take over an existing Fire and Security installation.",
+    imageSrc: `${IMG}/takeovers.jpg`,
+    imageAlt: "Engineer inspecting an outdoor control cabinet at a gated entrance",
   },
   {
-    Icon: Wrench,
     title: "Ongoing signalling checks",
     description:
       "Periodic signalling tests and ARC health checks as part of planned maintenance agreements.",
+    imageSrc: `${IMG}/signalling-checks.jpg`,
+    imageAlt: "Rack status lights used to check signalling health",
   },
 ] as const
 
@@ -143,13 +140,13 @@ export default function MonitoringServicePage() {
             </p>
           </Reveal>
           <div className="grid grid-cols-1 gap-8 md:grid-cols-2 lg:grid-cols-3">
-            {CAPABILITIES.map(({ Icon, title, description }, index) => (
+            {CAPABILITIES.map(({ title, description, imageSrc, imageAlt }, index) => (
               <ServiceItemReveal key={title} index={index} className="h-full min-h-0">
-                <ServiceFeatureIconCard
-                  icon={Icon}
+                <ServiceFeatureImageCard
                   title={title}
                   description={description}
-                  shellClassName={cardClass}
+                  imageSrc={imageSrc}
+                  imageAlt={imageAlt}
                   className="transition-transform duration-300 hover:scale-[1.02]"
                 />
               </ServiceItemReveal>

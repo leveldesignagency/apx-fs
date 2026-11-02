@@ -92,13 +92,13 @@ export default function RecruitmentPrivacyPage() {
             <h2 className="font-title text-xl font-bold text-black">How long we keep it</h2>
             <ul className="mt-3 list-disc space-y-2 pl-5">
               <li>
-                <strong>Unsuccessful applications</strong> — we retain application materials for{" "}
+                <strong>Unsuccessful applications</strong>: we retain application materials for{" "}
                 <strong>one (1) year</strong> from the date of application (or from the end of that recruitment exercise, if
                 later), then delete emails and any saved CV copies, unless a longer period is required by law or you ask us to
                 keep your details for future roles.
               </li>
               <li>
-                <strong>Successful applicants</strong> — your information becomes part of the employment / HR record and is
+                <strong>Successful applicants</strong>: your information becomes part of the employment / HR record and is
                 retained under separate employment policies for the duration of employment and for any period required after
                 employment ends.
               </li>

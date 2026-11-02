@@ -174,7 +174,7 @@ export async function POST(req: Request) {
   ]
 
   const text = [
-    "CONTACT FORM SUBMISSION — APX Fire & Security",
+    "CONTACT FORM SUBMISSION: APX Fire & Security",
     "",
     ...rows.map((r) => `${r.label}: ${r.value}`),
     "",
@@ -206,7 +206,7 @@ export async function POST(req: Request) {
   if (emailOk) {
     await sendSiteEmailViaResend({
       to: email,
-      subject: "We received your enquiry — APX Fire & Security",
+      subject: "We received your enquiry: APX Fire & Security",
       replyTo: "enquiries@apx-fs.co.uk",
       text: [
         `Hello ${name},`,
@@ -232,7 +232,7 @@ export async function POST(req: Request) {
           { label: "Urgent?", value: "Call 020 8303 2280" },
         ],
         footerNote:
-          "We process your details to respond to this enquiry. You can read our privacy policy at https://www.apx-fs.co.uk/privacy. This is an automated confirmation — reply to this email if you need to add anything.",
+          "We process your details to respond to this enquiry. You can read our privacy policy at https://www.apx-fs.co.uk/privacy. This is an automated confirmation: reply to this email if you need to add anything.",
       }),
     }).catch(() => null)
   }

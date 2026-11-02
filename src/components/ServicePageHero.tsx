@@ -39,6 +39,8 @@ export type ServicePageHeroProps = {
   heroCompliance?: readonly string[]
   /** Optional row under the intro paragraph (e.g. domestic / commercial pills on CCTV hub) */
   afterIntro?: ReactNode
+  /** Small line directly under the H1 (scope, not a second heading) */
+  titleDetail?: string
 }
 
 function HeroIntro({ children }: { children: ReactNode }) {
@@ -64,6 +66,7 @@ export function ServicePageHero({
   compact = false,
   heroCompliance,
   afterIntro,
+  titleDetail,
 }: ServicePageHeroProps) {
   const showImage = Boolean(imageSrc)
   const compactLayout = Boolean(compact && !showImage && heroNav === false)
@@ -95,19 +98,19 @@ export function ServicePageHero({
   const heroBandClass = compactLayout
     ? "service-page-hero service-page-hero--compact-pillar relative flex min-h-0 flex-col overflow-hidden bg-transparent"
     : hasStackedHeroNav
-      ? // Mobile: height follows content so dual pill rows are never cropped
-        "service-page-hero service-page-hero--stacked-nav relative flex flex-col overflow-hidden bg-transparent sm:h-[70vh] sm:min-h-0"
+      ? // Dual pill rows: never crop nav. Floor at 70vh, grow if the title/intro needs it.
+        "service-page-hero service-page-hero--stacked-nav relative flex min-h-[26rem] flex-col overflow-hidden bg-transparent sm:min-h-[70vh]"
       : "service-page-hero relative flex h-[min(78vh,36rem)] min-h-[26rem] flex-col overflow-hidden bg-transparent sm:h-[70vh] sm:min-h-0"
 
   const heroInnerClass = compactLayout
     ? "service-page-hero__compact-container site-container relative z-20 flex flex-col pb-5 sm:pb-6"
     : hasStackedHeroNav
-      ? "site-container relative z-20 flex flex-col pt-36 pb-6 sm:h-full sm:min-h-0 sm:flex-1 sm:pt-44 sm:pb-10"
+      ? "site-container relative z-20 flex flex-1 flex-col pt-36 pb-6 sm:pt-44 sm:pb-10"
       : "site-container relative z-20 flex h-full min-h-0 flex-1 flex-col pt-36 pb-5 sm:pt-44 sm:pb-10"
 
   const heroStackClass = showBottomNav
     ? hasStackedHeroNav
-      ? "relative flex w-full min-w-0 flex-col gap-5 sm:min-h-0 sm:flex-1 sm:gap-0"
+      ? "relative flex min-h-0 w-full min-w-0 flex-1 flex-col gap-5 sm:gap-0"
       : "relative flex min-h-0 w-full min-w-0 flex-1 flex-col"
     : compactLayout
       ? "service-page-hero__pillar-stack relative w-full"
@@ -148,6 +151,11 @@ export function ServicePageHero({
                   <h1 className="service-page-hero__title mb-0 font-title text-3xl font-bold text-left text-white sm:text-4xl md:text-5xl lg:text-6xl">
                     {toTitleCase(title)}
                   </h1>
+                  {titleDetail ? (
+                    <p className="mt-2 text-[0.7rem] font-normal uppercase tracking-[0.16em] text-white/70 sm:mt-3 sm:text-xs md:text-sm">
+                      {titleDetail}
+                    </p>
+                  ) : null}
                 </Reveal>
                 <div className="service-page-hero__intro-slot w-full min-w-0">
                   <Reveal show={heroReveal} delayMs={90}>
@@ -169,9 +177,14 @@ export function ServicePageHero({
           ) : (
             <div className="w-full min-w-0 max-w-full space-y-3 sm:space-y-4 md:max-w-[min(52rem,68vw)] lg:max-w-[min(60rem,72vw)]">
               <Reveal show={heroReveal} delayMs={0}>
-                <h1 className="mb-1 font-title text-3xl font-bold text-left text-white sm:mb-3 sm:text-4xl md:text-5xl lg:text-6xl">
+                <h1 className={`font-title text-3xl font-bold text-left text-white sm:text-4xl md:text-5xl lg:text-6xl ${titleDetail ? "mb-0" : "mb-1 sm:mb-3"}`}>
                   {toTitleCase(title)}
                 </h1>
+                {titleDetail ? (
+                  <p className="mt-2 max-w-xl text-left text-[0.7rem] font-normal uppercase leading-snug tracking-[0.16em] text-white/70 sm:mt-3 sm:text-xs md:text-sm">
+                    {titleDetail}
+                  </p>
+                ) : null}
               </Reveal>
               {/* Mobile: standards under the title */}
               {heroCompliance?.length && showImage ? (

@@ -21,7 +21,7 @@ export function FsServiceHeroQuickNav() {
   return (
     <nav aria-label="Other services" className="w-full min-w-0 max-w-full overflow-hidden">
       <p className="mb-3 text-xs font-semibold uppercase tracking-[0.16em] text-white/45">
-        Quick navigation — scroll for more
+        Quick navigation: scroll for more
       </p>
       <div className="w-full min-w-0 max-w-full">
         <ul

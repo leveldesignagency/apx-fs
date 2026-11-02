@@ -86,7 +86,7 @@ export function FsCctvCameraTypesStrip() {
                   className="group mx-auto block w-full sm:mx-0"
                   aria-label={`${label} CCTV - full guide`}
                 >
-                  <div className="relative aspect-square w-full overflow-hidden rounded-tl-2xl rounded-br-2xl border border-white/25 bg-[var(--page-bg)] shadow-[0_14px_36px_rgba(0,0,0,0.65)] transition-transform duration-300 ease-out will-change-transform group-hover:scale-[1.06] group-focus-visible:scale-[1.04] group-focus-visible:outline group-focus-visible:outline-2 group-focus-visible:outline-offset-4 group-focus-visible:outline-white/40">
+                  <div className="relative aspect-square w-full overflow-hidden rounded-tl-2xl rounded-br-2xl border border-white/25 bg-[var(--page-bg)] shadow-[0_14px_36px_rgba(0,0,0,0.65)] transition-transform duration-300 ease-out will-change-transform group-hover:scale-[1.06] group-focus-visible:scale-[1.04] group-focus-visible:outline group-focus-visible:outline-2 group-focus-visible:outline-offset-4 group-focus-visible:outline-white/40 md:rounded-none md:border-0 md:bg-transparent md:shadow-none">
                     <span className="absolute left-3 top-3 z-[2] max-w-[calc(100%-1.5rem)] truncate rounded-full border border-white/25 bg-black/75 px-3 py-1.5 text-sm font-bold tracking-tight text-white backdrop-blur-sm">
                       {label}
                     </span>

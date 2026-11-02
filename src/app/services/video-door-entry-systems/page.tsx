@@ -20,22 +20,14 @@ import {
 import { ApxPartnerLogoStrip } from "@/components/ApxPartnerLogoStrip"
 import { VIDEO_DOOR_TECH_PARTNERS } from "@/lib/apx-partner-logos"
 import { ServiceTechnologyProductsSection } from "@/components/ServiceTechnologyProductsSection"
-import { ServiceFeatureIconCard } from "@/components/ServiceFeatureIconCard"
+import { ServiceFeatureImageCard } from "@/components/ServiceFeatureImageCard"
 import { FS_SERVICE_ROUTES } from "@/lib/fs-service-routes"
 import {
   BellOff,
-  Building2,
-  Car,
-  Eye,
-  Home,
-  Link2,
   Network,
-  Phone,
   ShieldAlert,
   Smartphone,
   UserCheck,
-  Video,
-  Wrench,
   type LucideIcon,
 } from "lucide-react"
 import { SERVICE_HERO_BRIDGE_GRADIENT } from "@/lib/heroBackgroundGradients"
@@ -72,56 +64,68 @@ const VIDEO_DOOR_BENEFITS: { Icon: LucideIcon; title: string; text: string }[] =
   },
 ]
 
-const VIDEO_DOOR_CAPABILITIES: { Icon: LucideIcon; title: string; text: string }[] = [
+const VIDEO_IMG = "/service%20images/video-door-capabilities"
+
+const VIDEO_DOOR_CAPABILITIES: { title: string; text: string; imageSrc: string; imageAlt: string }[] = [
   {
-    Icon: Phone,
     title: "Audio and video entry",
     text: "Audio-only or audio-and-video door stations so occupants can speak to, and where specified see, callers before granting entry.",
+    imageSrc: `${VIDEO_IMG}/audio-video.jpg`,
+    imageAlt: "Video door entry panel with camera, keypad and call buttons",
   },
   {
-    Icon: Home,
     title: "Single residence systems",
     text: "Houses and single dwellings with clear internal handsets or monitors matched to how the household wants to answer calls.",
+    imageSrc: `${VIDEO_IMG}/single-residence.jpg`,
+    imageAlt: "Detached UK house with a controlled front entrance",
   },
   {
-    Icon: Building2,
     title: "Multi-occupancy systems",
     text: "Apartment blocks and multi-tenant buildings with panel directories, flat stations and permissions structured for shared entrances.",
+    imageSrc: `${VIDEO_IMG}/multi-occupancy.jpg`,
+    imageAlt: "Modern apartment block with shared video-entry entrances",
   },
   {
-    Icon: Eye,
     title: "Concierge integration where applicable",
     text: "Link entry calls to a concierge or reception desk where the building operates a staffed desk and the platform supports it.",
+    imageSrc: `${VIDEO_IMG}/concierge.jpg`,
+    imageAlt: "Reception operator answering visitor calls on a headset",
   },
   {
-    Icon: Network,
     title: "IP and networked systems",
     text: "IP and networked video entry for larger estates, with structured cabling and handover documentation for operators.",
+    imageSrc: `${VIDEO_IMG}/ip.jpg`,
+    imageAlt: "Network switch ports used for IP video door entry",
   },
   {
-    Icon: Smartphone,
     title: "Mobile answering where available",
     text: "Answer and release from a phone or tablet where the system supplied supports mobile answering, not assumed for every product.",
+    imageSrc: `${VIDEO_IMG}/mobile.jpg`,
+    imageAlt: "Smartphone used to answer and release a video door entry call",
   },
   {
-    Icon: Link2,
     title: "Access-control integration",
     text: "Coordinate with fob/card access so visitor release and resident credentials work as one package.",
+    imageSrc: `${VIDEO_IMG}/access.jpg`,
+    imageAlt: "Office user presenting a proximity card at a glass-door reader",
   },
   {
-    Icon: Car,
     title: "Gate automation integration",
     text: "Integrate with vehicle gates and barriers where the site needs shared visitor and vehicle entry control.",
+    imageSrc: `${VIDEO_IMG}/gate.jpg`,
+    imageAlt: "Engineer inspecting a gated entrance control cabinet",
   },
   {
-    Icon: Wrench,
     title: "Maintenance and upgrades",
     text: "PPM, fault attendance, system takeovers and upgrades so ageing panels and handsets can be modernised without unnecessary downtime.",
+    imageSrc: `${VIDEO_IMG}/maintenance.jpg`,
+    imageAlt: "Engineer diagnosing video-entry hardware with a multimeter",
   },
   {
-    Icon: Video,
     title: "CCTV coordination",
     text: "Where required, align entry cameras and recording with wider CCTV so events and visitor footage stay coherent.",
+    imageSrc: `${VIDEO_IMG}/cctv.jpg`,
+    imageAlt: "IP turret camera used alongside video door entry",
   },
 ]
 
@@ -245,12 +249,13 @@ export default function VideoDoorEntrySystemsPage() {
             </p>
           </Reveal>
           <div className="grid grid-cols-1 gap-8 md:grid-cols-2 lg:grid-cols-3">
-            {VIDEO_DOOR_CAPABILITIES.map(({ Icon, title, text }, i) => (
+            {VIDEO_DOOR_CAPABILITIES.map(({ title, text, imageSrc, imageAlt }, i) => (
               <ServiceItemReveal key={title} index={i} className="h-full min-h-0">
-                <ServiceFeatureIconCard
-                  icon={Icon}
+                <ServiceFeatureImageCard
                   title={title}
                   description={text}
+                  imageSrc={imageSrc}
+                  imageAlt={imageAlt}
                   className="transition-transform duration-300 hover:scale-[1.02]"
                 />
               </ServiceItemReveal>

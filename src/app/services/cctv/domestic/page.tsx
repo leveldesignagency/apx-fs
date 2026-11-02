@@ -14,9 +14,8 @@ import { Reveal } from "@/components/Reveal"
 import { ServiceItemReveal } from "@/components/ServiceItemReveal"
 import { CustomPillButton } from "@/components/ui/CustomPillButton"
 import { CallPhoneCta } from "@/components/ui/CallPhoneCta"
-import { ServiceFeatureIconCard } from "@/components/ServiceFeatureIconCard"
+import { ServiceFeatureImageCard } from "@/components/ServiceFeatureImageCard"
 import { serviceHeroImages } from "@/lib/serviceHeroImages"
-import { Home, Shield, Smartphone } from "lucide-react"
 import { SERVICE_HERO_BRIDGE_GRADIENT } from "@/lib/heroBackgroundGradients"
 
 /** Public folder: `public/service images/cctv /` */
@@ -102,23 +101,31 @@ export default function DomesticCctvPage() {
           <div className="grid grid-cols-1 gap-8 md:grid-cols-3">
             {[
               {
-                icon: Home,
                 title: "Tailored to your home",
                 text: "Houses, flats and driveways, coverage planned on survey, not a one-size-fits-all kit.",
+                imageSrc: "/service%20images/cctv-capabilities/home.jpg",
+                imageAlt: "Detached UK house with driveway and garden approaches",
               },
               {
-                icon: Smartphone,
                 title: "Remote viewing where supported",
                 text: "Live and recorded access from phone or tablet only where the system supplied supports it.",
+                imageSrc: "/service%20images/cctv-capabilities/remote-viewing.jpg",
+                imageAlt: "Operator reviewing live multi-camera CCTV feeds",
               },
               {
-                icon: Shield,
                 title: "Evidence & oversight",
                 text: "Recording supports review and insurance when incidents occur, CCTV does not guarantee crime will be prevented.",
+                imageSrc: "/service%20images/cctv-capabilities/recording.jpg",
+                imageAlt: "NVR drive bays used for CCTV recording and evidence export",
               },
             ].map((item, i) => (
-              <ServiceItemReveal key={i} index={i} className="h-full min-h-0">
-                <ServiceFeatureIconCard icon={item.icon} title={item.title} description={item.text} />
+              <ServiceItemReveal key={item.title} index={i} className="h-full min-h-0">
+                <ServiceFeatureImageCard
+                  title={item.title}
+                  description={item.text}
+                  imageSrc={item.imageSrc}
+                  imageAlt={item.imageAlt}
+                />
               </ServiceItemReveal>
             ))}
           </div>

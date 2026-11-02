@@ -6,7 +6,7 @@ import { FsBreadcrumbJsonLd } from "@/components/seo/FsBreadcrumbJsonLd"
 
 export const metadata: Metadata = buildFsMetadata({
   title: `Our Team | Engineers & Project Leads | ${FS_SITE_NAME}`,
-  description: `Meet the ${FS_SITE_NAME} team — engineers, project leads and support staff delivering Fire and Security systems across London and the Home Counties.`,
+  description: `Meet the ${FS_SITE_NAME} team: engineers, project leads and support staff delivering Fire and Security systems across London and the Home Counties.`,
   pathname: "/team",
 })
 

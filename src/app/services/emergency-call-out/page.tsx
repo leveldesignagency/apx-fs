@@ -8,75 +8,72 @@ import { CallPhoneCta } from "@/components/ui/CallPhoneCta"
 import { ServicePageHero } from "@/components/ServicePageHero"
 import { Reveal } from "@/components/Reveal"
 import { ServiceItemReveal } from "@/components/ServiceItemReveal"
-import { ServiceFeatureIconCard } from "@/components/ServiceFeatureIconCard"
+import { ServiceFeatureImageCard } from "@/components/ServiceFeatureImageCard"
 import { FsServiceTextImageSection } from "@/components/FsServiceTextImageSection"
 import { serviceHeroImages, serviceSectionImages } from "@/lib/serviceHeroImages"
 import { FS_SERVICE_ROUTES } from "@/lib/fs-service-routes"
-import {
-  Clock,
-  FileText,
-  Flame,
-  Headphones,
-  PhoneCall,
-  Shield,
-  Siren,
-  Wrench,
-} from "lucide-react"
 import { SERVICE_HERO_BRIDGE_GRADIENT } from "@/lib/heroBackgroundGradients"
-
-const cardClass =
-  "rounded-tl-[1.5rem] rounded-br-[1.5rem] border border-white/20 bg-black p-8 text-white transition-colors hover:border-white/45"
 
 const linkClass = "underline decoration-white/40 underline-offset-2 hover:decoration-white"
 
+const IMG = "/service%20images/callout-capabilities"
+
 const CAPABILITIES = [
   {
-    Icon: Clock,
     title: "24/7 engineer response",
     description:
       "Out-of-hours emergency engineer attendance for contracted customers across London and the Home Counties.",
+    imageSrc: `${IMG}/engineer.jpg`,
+    imageAlt: "Engineer with clipboard and van coordinating an emergency call-out",
   },
   {
-    Icon: Flame,
     title: "Fire alarm attendance",
     description:
       "Fault and false-alarm attendance on fire detection systems so sites can return to normal operation quickly.",
+    imageSrc: `${IMG}/fire.jpg`,
+    imageAlt: "Red fire alarm call point and fire sign on a concrete wall",
   },
   {
-    Icon: Shield,
     title: "Security system support",
     description:
       "Reactive support for intruder, CCTV, access control and video entry faults that need urgent on-site attention.",
+    imageSrc: `${IMG}/security.jpg`,
+    imageAlt: "Secure commercial door lock and handle",
   },
   {
-    Icon: PhoneCall,
     title: "Escalation & SLAs",
     description:
       "Call handling and escalation aligned to your site contacts and the response expectations in your agreement.",
+    imageSrc: `${IMG}/sla.jpg`,
+    imageAlt: "Operator handling an escalation while reviewing paperwork",
   },
   {
-    Icon: Headphones,
     title: "Monitoring coordination",
     description:
       "Coordination with monitoring / ARC pathways where in place, so operator alerts and engineer attendance work together.",
+    imageSrc: `${IMG}/monitoring.jpg`,
+    imageAlt: "Operator reviewing live camera and alarm feeds in a control room",
   },
   {
-    Icon: Wrench,
     title: "Follow-up remediations",
     description:
       "Recommended remediations and parts after emergency attendance, scheduled so temporary fixes become lasting ones.",
+    imageSrc: `${IMG}/remediations.jpg`,
+    imageAlt: "Engineer diagnosing control gear with a multimeter after a call-out",
   },
   {
-    Icon: Siren,
     title: "Ad-hoc attendance",
     description:
       "Emergency attendance for sites without a contract can be discussed case by case - tell us your system type and location.",
+    imageSrc: `${IMG}/adhoc.jpg`,
+    imageAlt: "Engineer inspecting an outdoor control cabinet on an ad-hoc attendance",
   },
   {
-    Icon: FileText,
     title: "Attendance records",
     description:
       "Clear attendance and defect records after each call-out for facilities and security managers.",
+    imageSrc: `${IMG}/records.jpg`,
+    imageAlt: "Engineer completing an attendance checklist on a clipboard",
   },
 ] as const
 
@@ -133,13 +130,13 @@ export default function EmergencyCallOutPage() {
             </p>
           </Reveal>
           <div className="grid grid-cols-1 gap-8 md:grid-cols-2 lg:grid-cols-3">
-            {CAPABILITIES.map(({ Icon, title, description }, index) => (
+            {CAPABILITIES.map(({ title, description, imageSrc, imageAlt }, index) => (
               <ServiceItemReveal key={title} index={index} className="h-full min-h-0">
-                <ServiceFeatureIconCard
-                  icon={Icon}
+                <ServiceFeatureImageCard
                   title={title}
                   description={description}
-                  shellClassName={cardClass}
+                  imageSrc={imageSrc}
+                  imageAlt={imageAlt}
                   className="transition-transform duration-300 hover:scale-[1.02]"
                 />
               </ServiceItemReveal>
@@ -150,7 +147,7 @@ export default function EmergencyCallOutPage() {
         <div className="border-t border-white/15" />
 
         <FsServiceTextImageSection
-          title="When something needs attending tonight"
+          title="Faults don't wait for office hours"
           titleId="call-out-when-heading"
           imageSrc={serviceSectionImages.emergencyCallOutBody}
           imageAlt="Fire and security control equipment that may need emergency attendance"

@@ -1175,7 +1175,7 @@ export default function Home() {
                 delayMs={80}
               />
               <p className="mt-8 max-w-md text-base leading-relaxed text-white/55">
-                Don&apos;t just take our word for it — hear from clients about their experience with APX Fire &amp;
+                Don&apos;t just take our word for it: hear from clients about their experience with APX Fire &amp;
                 Security across London and the Home Counties.
               </p>
             </div>

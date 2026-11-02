@@ -10,7 +10,7 @@ import { createPortal } from "react-dom"
 import { useTheme } from '@/contexts/ThemeContext'
 import { cn } from "@/lib/utils"
 import { openFsHomeSearch } from "@/lib/fsHomeSearchUi"
-import { FS_SERVICE_NAV_LINKS } from "@/lib/fs-service-navigation"
+import { FS_CCTV_TAB_LINKS, FS_FIRE_TAB_LINKS, FS_SERVICE_NAV_LINKS } from "@/lib/fs-service-navigation"
 import { forceDocumentScrollTop } from "@/lib/lenisBridge"
 
 export default function Header() {
@@ -30,7 +30,7 @@ export default function Header() {
     { href: "/projects", label: "Projects" },
     { href: "/contact", label: "Contact" },
   ] as const
-  const isCareersPage = path === "/careers"
+  const isCareersPage = path === "/careers" || path.startsWith("/careers/")
   const isHomePage = path === "/"
   const isCapabilityDetailPage =
     path === "/services/security-systems" ||
@@ -47,7 +47,8 @@ export default function Header() {
     isCapabilityDetailPage ||
     isServicesHubPage ||
     isMethodologyPage ||
-    isProjectsPage
+    isProjectsPage ||
+    isCareersPage
   const isTransparentHeaderPage = isServiceSubpage || isProjectDetailPage
   const isServicesPage = pathname.startsWith("/services/") || isProjectDetailPage
   /** Solid black header shell, not on service subpages where a transparent bar sits over the hero */
@@ -64,6 +65,9 @@ export default function Header() {
   /** Fallback if `transitionend` for the panel transform is missed (browser / stacking quirks). */
   const fsMenuCloseTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null)
   const [isCctvExpanded, setIsCctvExpanded] = useState(false)
+  const [isFireExpanded, setIsFireExpanded] = useState(false)
+  const [isMobileFireExpanded, setIsMobileFireExpanded] = useState(false)
+  const [isMobileCctvExpanded, setIsMobileCctvExpanded] = useState(false)
   /** Defer logo drop-in until after first paint so the SVG never flashes before the animation. */
   const [logoAnimArmed, setLogoAnimArmed] = useState(isServicesPage)
 
@@ -85,6 +89,7 @@ export default function Header() {
       servicesCloseTimeoutRef.current = null
     } else if (!isServicesOpen) {
       setIsCctvExpanded(false)
+      setIsFireExpanded(false)
     }
     setIsServicesOpen(true)
   }
@@ -92,6 +97,7 @@ export default function Header() {
     servicesCloseTimeoutRef.current = setTimeout(() => {
       setIsServicesOpen(false)
       setIsCctvExpanded(false)
+      setIsFireExpanded(false)
     }, 280)
   }
 
@@ -102,7 +108,25 @@ export default function Header() {
       clearTimeout(servicesCloseTimeoutRef.current)
       servicesCloseTimeoutRef.current = null
     }
-    setIsCctvExpanded((expanded) => !expanded)
+    setIsCctvExpanded((expanded) => {
+      const next = !expanded
+      if (next) setIsFireExpanded(false)
+      return next
+    })
+  }
+
+  const toggleFireExpanded = (e: MouseEvent<HTMLButtonElement>) => {
+    e.preventDefault()
+    e.stopPropagation()
+    if (servicesCloseTimeoutRef.current) {
+      clearTimeout(servicesCloseTimeoutRef.current)
+      servicesCloseTimeoutRef.current = null
+    }
+    setIsFireExpanded((expanded) => {
+      const next = !expanded
+      if (next) setIsCctvExpanded(false)
+      return next
+    })
   }
 
   const closeFsMenu = useCallback(() => {
@@ -168,10 +192,16 @@ export default function Header() {
     setFsMenuPanelIn(false)
     setIsMenuOpen(false)
     setIsMobileServicesOpen(false)
+    setIsMobileFireExpanded(false)
+    setIsMobileCctvExpanded(false)
   }, [pathname, clearFsMenuCloseTimer])
 
   useEffect(() => {
-    if (!isMenuOpen) setIsMobileServicesOpen(false)
+    if (!isMenuOpen) {
+      setIsMobileServicesOpen(false)
+      setIsMobileFireExpanded(false)
+      setIsMobileCctvExpanded(false)
+    }
   }, [isMenuOpen])
 
   const copyToClipboard = async (text: string, type: 'phone' | 'email') => {
@@ -203,10 +233,6 @@ export default function Header() {
    */
   const headerLayoutClass =
     "absolute top-0 left-0 right-0 z-[100] w-full max-w-full pointer-events-auto"
-
-  if (isCareersPage) {
-    return null
-  }
 
   return (
     <>
@@ -528,12 +554,13 @@ export default function Header() {
                 <div
                   className="fs-services-nav-dropdown fs-services-nav-dropdown--open"
                   style={{
-                    maxHeight: isCctvExpanded ? "min(70vh, 720px)" : "min(70vh, 640px)",
+                    maxHeight: isCctvExpanded || isFireExpanded ? "min(70vh, 720px)" : "min(70vh, 640px)",
                     overflowY: "auto",
                   }}
                   onMouseEnter={openServices}
                   onMouseLeave={() => {
                     setIsCctvExpanded(false)
+                    setIsFireExpanded(false)
                     closeServices()
                   }}
                 >
@@ -542,10 +569,62 @@ export default function Header() {
                       const closeDropdown = () => {
                         setIsServicesOpen(false)
                         setIsCctvExpanded(false)
+                        setIsFireExpanded(false)
                         if (servicesCloseTimeoutRef.current) {
                           clearTimeout(servicesCloseTimeoutRef.current)
                           servicesCloseTimeoutRef.current = null
                         }
+                      }
+                      if ("nestedUnderHeader" in link && link.nestedUnderHeader) {
+                        return null
+                      }
+                      if ("hasFireSubnav" in link && link.hasFireSubnav) {
+                        return (
+                          <div key={link.href} className="bg-black transition-colors">
+                            <div className="relative flex w-full items-stretch justify-between bg-black">
+                              <a
+                                href={link.href}
+                                className="dropdown-item relative group flex min-w-0 flex-1 items-center px-4 py-2 text-sm leading-relaxed cursor-pointer"
+                                style={{ color: "#fff" }}
+                                onClick={closeDropdown}
+                              >
+                                <span className="absolute top-0 left-0 w-full h-0.5 transform scale-x-0 origin-left transition-transform duration-500 group-hover:scale-x-100" style={{ backgroundColor: "#fff" }} />
+                                <span className="absolute bottom-0 left-0 w-full h-0.5 transform scale-x-0 origin-left transition-transform duration-500 group-hover:scale-x-100" style={{ backgroundColor: "#fff" }} />
+                                <span>{link.navLabel}</span>
+                              </a>
+                              <button
+                                type="button"
+                                className="fs-services-cctv-toggle-btn flex flex-shrink-0 items-center justify-center border-l border-white/10 px-3 py-2 text-white opacity-85 transition-opacity hover:opacity-100 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-[-2px] focus-visible:outline-white/60"
+                                aria-expanded={isFireExpanded}
+                                aria-label={isFireExpanded ? "Collapse fire alarm systems menu" : "Expand fire alarm systems menu"}
+                                onClick={toggleFireExpanded}
+                              >
+                                {isFireExpanded ? (
+                                  <Minus className="h-3.5 w-3.5 flex-shrink-0" stroke="#fff" aria-hidden />
+                                ) : (
+                                  <Plus className="h-3.5 w-3.5 flex-shrink-0" stroke="#fff" aria-hidden />
+                                )}
+                              </button>
+                            </div>
+                            {isFireExpanded && (
+                              <>
+                                {FS_FIRE_TAB_LINKS.map(({ href, label }) => (
+                                  <a
+                                    key={href}
+                                    href={href}
+                                    className="dropdown-item dropdown-sub-item relative group block px-4 py-2 pl-6 text-sm leading-relaxed cursor-pointer uppercase border-t border-white/[0.08]"
+                                    style={{ color: "#fff" }}
+                                    onClick={closeDropdown}
+                                  >
+                                    <span className="absolute top-0 left-0 w-full h-0.5 transform scale-x-0 origin-left transition-transform duration-500 group-hover:scale-x-100" style={{ backgroundColor: "#fff" }} />
+                                    <span className="absolute bottom-0 left-0 w-full h-0.5 transform scale-x-0 origin-left transition-transform duration-500 group-hover:scale-x-100" style={{ backgroundColor: "#fff" }} />
+                                    {label}
+                                  </a>
+                                ))}
+                              </>
+                            )}
+                          </div>
+                        )
                       }
                       if ("hasCctvSubnav" in link && link.hasCctvSubnav) {
                         return (
@@ -619,7 +698,7 @@ export default function Header() {
                           className="dropdown-item relative group block px-4 py-2 text-sm leading-relaxed cursor-pointer transition-opacity duration-200"
                           style={{
                             color: "#fff",
-                            opacity: isCctvExpanded ? 0.45 : 1,
+                            opacity: isCctvExpanded || isFireExpanded ? 0.45 : 1,
                           }}
                           onClick={closeDropdown}
                         >
@@ -856,28 +935,145 @@ export default function Header() {
                             <Link
                               href="/services"
                               onClick={closeFsMenu}
-                              className="block py-2 text-sm font-semibold uppercase tracking-[0.08em] text-white/55 transition-colors hover:text-white"
+                              className="block py-2.5 text-[1.0625rem] font-normal uppercase tracking-[0.16em] text-white/55 transition-colors hover:text-white"
                               style={{ fontFamily: "var(--font-menu), sans-serif" }}
                             >
                               All services
                             </Link>
                           </li>
-                          {FS_SERVICE_NAV_LINKS.map(({ href, shortLabel }) => (
-                            <li key={href}>
+                          {FS_SERVICE_NAV_LINKS.map((link) => {
+                            if ("nestedUnderHeader" in link && link.nestedUnderHeader) {
+                              return null
+                            }
+                            if ("hasFireSubnav" in link && link.hasFireSubnav) {
+                              return (
+                                <li key={link.href}>
+                                  <div className="flex items-stretch justify-between gap-2">
+                                    <Link
+                                      href={link.href}
+                                      onClick={closeFsMenu}
+                                      className={cn(
+                                        "block min-w-0 flex-1 py-2.5 text-[1.0625rem] font-normal uppercase tracking-[0.16em] text-white/80 transition-colors hover:text-white",
+                                        isFsNavActive(link.href) && "text-white"
+                                      )}
+                                      style={{ fontFamily: "var(--font-menu), sans-serif" }}
+                                      aria-current={isFsNavActive(link.href) ? "page" : undefined}
+                                    >
+                                      {link.shortLabel}
+                                    </Link>
+                                    <button
+                                      type="button"
+                                      className="flex shrink-0 items-center justify-center px-2 text-white/70"
+                                      aria-expanded={isMobileFireExpanded}
+                                      aria-label={isMobileFireExpanded ? "Collapse fire alarm systems menu" : "Expand fire alarm systems menu"}
+                                      onClick={() => {
+                                        setIsMobileFireExpanded((open) => !open)
+                                        setIsMobileCctvExpanded(false)
+                                      }}
+                                    >
+                                      {isMobileFireExpanded ? (
+                                        <Minus className="h-4 w-4" strokeWidth={1.75} aria-hidden />
+                                      ) : (
+                                        <Plus className="h-4 w-4" strokeWidth={1.75} aria-hidden />
+                                      )}
+                                    </button>
+                                  </div>
+                                  {isMobileFireExpanded ? (
+                                    <ul className="mb-1 ml-3 flex list-none flex-col border-l border-white/15 pl-3">
+                                      {FS_FIRE_TAB_LINKS.map(({ href, label }) => (
+                                        <li key={href}>
+                                          <Link
+                                            href={href}
+                                            onClick={closeFsMenu}
+                                            className={cn(
+                                              "block py-2 text-[0.95rem] font-normal uppercase tracking-[0.14em] text-white/70 transition-colors hover:text-white",
+                                              isFsNavActive(href) && "text-white"
+                                            )}
+                                            style={{ fontFamily: "var(--font-menu), sans-serif" }}
+                                            aria-current={isFsNavActive(href) ? "page" : undefined}
+                                          >
+                                            {label}
+                                          </Link>
+                                        </li>
+                                      ))}
+                                    </ul>
+                                  ) : null}
+                                </li>
+                              )
+                            }
+                            if ("hasCctvSubnav" in link && link.hasCctvSubnav) {
+                              return (
+                                <li key={link.href}>
+                                  <div className="flex items-stretch justify-between gap-2">
+                                    <Link
+                                      href={link.href}
+                                      onClick={closeFsMenu}
+                                      className={cn(
+                                        "block min-w-0 flex-1 py-2.5 text-[1.0625rem] font-normal uppercase tracking-[0.16em] text-white/80 transition-colors hover:text-white",
+                                        isFsNavActive(link.href) && "text-white"
+                                      )}
+                                      style={{ fontFamily: "var(--font-menu), sans-serif" }}
+                                      aria-current={isFsNavActive(link.href) ? "page" : undefined}
+                                    >
+                                      {link.shortLabel}
+                                    </Link>
+                                    <button
+                                      type="button"
+                                      className="flex shrink-0 items-center justify-center px-2 text-white/70"
+                                      aria-expanded={isMobileCctvExpanded}
+                                      aria-label={isMobileCctvExpanded ? "Collapse CCTV systems menu" : "Expand CCTV systems menu"}
+                                      onClick={() => {
+                                        setIsMobileCctvExpanded((open) => !open)
+                                        setIsMobileFireExpanded(false)
+                                      }}
+                                    >
+                                      {isMobileCctvExpanded ? (
+                                        <Minus className="h-4 w-4" strokeWidth={1.75} aria-hidden />
+                                      ) : (
+                                        <Plus className="h-4 w-4" strokeWidth={1.75} aria-hidden />
+                                      )}
+                                    </button>
+                                  </div>
+                                  {isMobileCctvExpanded ? (
+                                    <ul className="mb-1 ml-3 flex list-none flex-col border-l border-white/15 pl-3">
+                                      {FS_CCTV_TAB_LINKS.map(({ href, label }) => (
+                                        <li key={href}>
+                                          <Link
+                                            href={href}
+                                            onClick={closeFsMenu}
+                                            className={cn(
+                                              "block py-2 text-[0.95rem] font-normal uppercase tracking-[0.14em] text-white/70 transition-colors hover:text-white",
+                                              isFsNavActive(href) && "text-white"
+                                            )}
+                                            style={{ fontFamily: "var(--font-menu), sans-serif" }}
+                                            aria-current={isFsNavActive(href) ? "page" : undefined}
+                                          >
+                                            {label}
+                                          </Link>
+                                        </li>
+                                      ))}
+                                    </ul>
+                                  ) : null}
+                                </li>
+                              )
+                            }
+                            return (
+                            <li key={link.href}>
                               <Link
-                                href={href}
+                                href={link.href}
                                 onClick={closeFsMenu}
                                 className={cn(
-                                  "block py-2 text-[0.95rem] font-medium tracking-wide text-white/80 transition-colors hover:text-white",
-                                  isFsNavActive(href) && "text-white"
+                                  "block py-2.5 text-[1.0625rem] font-normal uppercase tracking-[0.16em] text-white/80 transition-colors hover:text-white",
+                                  isFsNavActive(link.href) && "text-white"
                                 )}
                                 style={{ fontFamily: "var(--font-menu), sans-serif" }}
-                                aria-current={isFsNavActive(href) ? "page" : undefined}
+                                aria-current={isFsNavActive(link.href) ? "page" : undefined}
                               >
-                                {shortLabel}
+                                {link.shortLabel}
                               </Link>
                             </li>
-                          ))}
+                            )
+                          })}
                         </ul>
                       </div>
                     </div>

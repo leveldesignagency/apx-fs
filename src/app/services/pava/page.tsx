@@ -7,30 +7,18 @@ import { ServicePageClosingSections } from "@/components/ServicePageClosingSecti
 import { CustomPillButton } from "@/components/ui/CustomPillButton"
 import { CallPhoneCta } from "@/components/ui/CallPhoneCta"
 import { ServicePageHero } from "@/components/ServicePageHero"
+import { FsFireSubpageHeroButtons } from "@/components/FsFireSubpageHeroButtons"
 import { Reveal } from "@/components/Reveal"
 import { ServiceItemReveal } from "@/components/ServiceItemReveal"
 import { ServiceInstallationsGrid } from "@/components/ServiceInstallationsGrid"
-import { ServiceFeatureIconCard } from "@/components/ServiceFeatureIconCard"
+import { ServiceFeatureImageCard } from "@/components/ServiceFeatureImageCard"
 import { serviceHeroImages } from "@/lib/serviceHeroImages"
 import {
   FS_SERVICE_IMAGE_GROW_INNER,
   FS_SERVICE_INSTALLATION_CARD,
   FS_SERVICE_INSTALLATION_CARD_IMAGE,
 } from "@/lib/fsServicePageCards"
-import {
-  CheckCircle,
-  Flame,
-  Layers,
-  Music,
-  Speaker,
-  Volume2,
-  Wrench,
-  Zap,
-} from "lucide-react"
 import { SERVICE_HERO_BRIDGE_GRADIENT } from "@/lib/heroBackgroundGradients"
-
-const cardClass =
-  "rounded-tl-[1.5rem] rounded-br-[1.5rem] border border-white/20 bg-black p-8 text-white transition-colors hover:border-white/45"
 
 const FIRE_ALARM_INSTALLATIONS_DIR = "/fire%20alarm%20system%20installations" as const
 
@@ -49,54 +37,64 @@ const PAVA_PROJECTS = [
   },
 ] as const
 
+const IMG = "/service%20images/pava-capabilities"
+
 const CAPABILITIES = [
   {
-    Icon: Zap,
     title: "Zoned evacuation messages",
     description:
       "Zone-based emergency messaging aligned to your fire strategy, with prioritised announcements and local control where required.",
+    imageSrc: `${IMG}/zoned.jpg`,
+    imageAlt: "Wall-mounted voice-alarm loudspeaker in a commercial corridor",
   },
   {
-    Icon: Layers,
     title: "Phased evacuation",
     description:
       "Staged or phased building evacuation messaging so floors and areas can be instructed in sequence under the fire plan.",
+    imageSrc: `${IMG}/phased.jpg`,
+    imageAlt: "Illuminated fire exit sign over a commercial ceiling grid",
   },
   {
-    Icon: Flame,
     title: "Fire alarm integration",
     description:
       "Interfaces to the fire detection and alarm system so voice messages follow the agreed cause-and-effect logic.",
+    imageSrc: `${IMG}/fire-integration.jpg`,
+    imageAlt: "Red fire alarm call point and fire sign on a concrete wall",
   },
   {
-    Icon: Music,
     title: "Background music & general announcements",
     description:
       "Where the design allows shared PAVA infrastructure, we coordinate non-emergency paging and background music with emergency priority override.",
+    imageSrc: `${IMG}/music.jpg`,
+    imageAlt: "Audio mixing desk, amplifiers and loudspeakers",
   },
   {
-    Icon: Speaker,
     title: "Amplifiers and loudspeakers",
     description:
       "Selection, placement and commissioning of amplifiers and loudspeakers for audibility and speech intelligibility across occupied spaces.",
+    imageSrc: `${IMG}/amplifiers.jpg`,
+    imageAlt: "Ceiling-mounted public address speakers around an emergency exit sign",
   },
   {
-    Icon: CheckCircle,
     title: "Cause-and-effect testing",
     description:
       "Witnessed testing of message triggers, priorities and fault behaviour against the fire strategy and interface schedules.",
+    imageSrc: `${IMG}/cause-effect.jpg`,
+    imageAlt: "Engineers reviewing building drawings and cause-and-effect schedules",
   },
   {
-    Icon: Volume2,
     title: "Commissioning",
     description:
       "Structured audio commissioning, configuration records and operator familiarisation at handover.",
+    imageSrc: `${IMG}/commissioning.jpg`,
+    imageAlt: "Site engineers reviewing commissioning records on a live project",
   },
   {
-    Icon: Wrench,
     title: "Maintenance",
     description:
       "Planned maintenance, routine testing and reactive support so PAVA systems remain available and compliant in service.",
+    imageSrc: `${IMG}/maintenance.jpg`,
+    imageAlt: "Engineer testing control gear with a multimeter",
   },
 ] as const
 
@@ -106,8 +104,11 @@ export default function PavaSystemsPage() {
       <ServicePageHero
         title="PAVA Systems"
         imageSrc={serviceHeroImages.pava}
+        imageAlt="Shopping centre concourse with ceiling loudspeakers for public address and voice alarm"
+        imageClassName="object-cover object-center"
         heroCompliance={["BS 5839-8"]}
         heroSummary="Public address and voice alarm (PAVA) systems designed, installed and maintained for clear emergency messaging and everyday announcements."
+        afterIntro={<FsFireSubpageHeroButtons />}
         intro={
           <>
             <p className="mb-4">
@@ -152,13 +153,13 @@ export default function PavaSystemsPage() {
             </p>
           </Reveal>
           <div className="grid grid-cols-1 gap-8 md:grid-cols-2 lg:grid-cols-3">
-            {CAPABILITIES.map(({ Icon, title, description }, index) => (
+            {CAPABILITIES.map(({ title, description, imageSrc, imageAlt }, index) => (
               <ServiceItemReveal key={title} index={index} className="h-full min-h-0">
-                <ServiceFeatureIconCard
-                  icon={Icon}
+                <ServiceFeatureImageCard
                   title={title}
                   description={description}
-                  shellClassName={cardClass}
+                  imageSrc={imageSrc}
+                  imageAlt={imageAlt}
                   className="transition-transform duration-300 hover:scale-[1.02]"
                 />
               </ServiceItemReveal>

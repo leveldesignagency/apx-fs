@@ -6,17 +6,19 @@ export const serviceHeroImages = {
     "/service%20images/cctv%20/hero-commercial-cctv-system-installation.jpg",
   cctvAdvice: "/service%20images/cctv%20/hero-useful-cctv-advice.jpg",
   fireAlarm:
-    "/service%20images/fire%20alarm%20systems/smoke%20alarm.png",
+    "/service%20images/fire%20alarm%20systems/hero-commercial-fire-alarm.jpg",
   intruder: "/client%20logos/service%20pages%20image/home-intruder-alarm-system-installer-800x533.jpg",
   accessControl: "/client%20logos/service%20pages%20image/home-access-control-system-installer-800x533.jpg",
   videoDoor: "/projects/library/home-video-door-entry-system-installer.jpg",
   gateAutomation: "/gate%20automation.jpg",
-  /** PAVA: wall-mount voice / PA loudspeaker */
-  pava: "/service%20images/evac/voice-alarm-public-address.jpg",
+  /** PAVA: retail concourse with ceiling loudspeakers (HD) */
+  pava: "/service%20images/evac/hero-hd-pava-retail-concourse.jpg",
   /** @deprecated use `pava` — kept for older imports */
-  evacVoice: "/service%20images/evac/voice-alarm-public-address.jpg",
-  /** EVAC (BS 8629): evacuation alert / exit route cue */
-  evac: "/service%20images/fire%20alarm%20systems/green-emergency-exit-sign-ceiling%20hero%20image.jpg",
+  evacVoice: "/service%20images/evac/hero-hd-pava-retail-concourse.jpg",
+  /** EVAC (BS 8629): hotel corridor with emergency lighting on the right (HD) */
+  evac: "/service%20images/evac/hero-hd-evac-exit-right-v2.jpg",
+  /** Disabled refuge / EVC: school corridor with fire cabinet and exit route */
+  refuge: "/service%20images/refuge/hero-disabled-refuge-school-corridor.jpg",
   monitoring: "/projects/library/intruder-alarm-monitoring-company-sq.jpg",
   maintenance: "/service%20images/MAINTAINENCE%20AND%20SUPPORT.jpg",
   emergencyCallOut: "/projects/library/apx-fire-security-alarm-box.jpg",

@@ -16,40 +16,46 @@ import { ServiceInstallationsGrid } from "@/components/ServiceInstallationsGrid"
 import { serviceHeroImages } from "@/lib/serviceHeroImages"
 import { FsServiceTextImageSection } from "@/components/FsServiceTextImageSection"
 import { FsServiceTextImageSectionGroup } from "@/components/FsServiceTextImageSectionGroup"
-import { ServiceFeatureIconCard } from "@/components/ServiceFeatureIconCard"
+import { ServiceFeatureImageCard } from "@/components/ServiceFeatureImageCard"
 import {
   FS_SERVICE_IMAGE_GROW_INNER,
   FS_SERVICE_INSTALLATION_CARD,
   FS_SERVICE_INSTALLATION_CARD_IMAGE,
 } from "@/lib/fsServicePageCards"
-import { Shield, CheckCircle, Monitor, Smartphone, Package } from "lucide-react"
 import { SERVICE_HERO_BRIDGE_GRADIENT } from "@/lib/heroBackgroundGradients"
+
+const IMG = "/service%20images/intruder-capabilities"
 
 const MONITORING_BENEFITS = [
   {
-    icon: Shield,
     title: "Commercial-grade protection",
     text: "Detection and signalling designed for offices, schools, hospitals, construction sites, residential developments, hotels and industrial premises.",
+    imageSrc: `${IMG}/commercial.jpg`,
+    imageAlt: "Modern commercial building with controlled access and occupancy",
   },
   {
-    icon: Monitor,
     title: "ARC monitoring",
     text: "Alarm receiving centre (ARC) signalling so events are escalated when your site is unattended, with police response where applicable.",
+    imageSrc: `${IMG}/arc.jpg`,
+    imageAlt: "Operator reviewing live camera and alarm feeds in a control room",
   },
   {
-    icon: Package,
     title: "Dual-path signalling",
     text: "Resilient dual-path signalling for monitored systems, including CSL GradeShift Pro where your insurer or risk assessment requires it.",
+    imageSrc: `${IMG}/dual-path.jpg`,
+    imageAlt: "Network switch ports used for resilient alarm signalling paths",
   },
   {
-    icon: Smartphone,
     title: "Remote control",
     text: "App and keypad control so authorised users can arm, disarm and check system status remotely.",
+    imageSrc: `${IMG}/remote.jpg`,
+    imageAlt: "Illuminated wall-mounted security keypad",
   },
   {
-    icon: CheckCircle,
     title: "Takeover, maintenance & call-out",
     text: "System takeover and upgrades, planned preventative maintenance, and 24/7 call-out cover for faults and emergencies.",
+    imageSrc: `${IMG}/takeover.jpg`,
+    imageAlt: "Engineer with clipboard and van coordinating a site call-out",
   },
 ]
 
@@ -126,11 +132,12 @@ export default function IntruderAlarmSystemsPage() {
           </Reveal>
           <div className="grid grid-cols-1 gap-8 md:grid-cols-2 lg:grid-cols-3">
             {MONITORING_BENEFITS.map((item, index) => (
-              <ServiceItemReveal key={index} index={index} className="h-full min-h-0">
-                <ServiceFeatureIconCard
-                  icon={item.icon}
+              <ServiceItemReveal key={item.title} index={index} className="h-full min-h-0">
+                <ServiceFeatureImageCard
                   title={item.title}
                   description={item.text}
+                  imageSrc={item.imageSrc}
+                  imageAlt={item.imageAlt}
                   className="transition-transform duration-300 hover:scale-[1.02]"
                 />
               </ServiceItemReveal>

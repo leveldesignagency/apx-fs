@@ -13,9 +13,8 @@ import { Reveal } from "@/components/Reveal"
 import { ServiceItemReveal } from "@/components/ServiceItemReveal"
 import { CustomPillButton } from "@/components/ui/CustomPillButton"
 import { CallPhoneCta } from "@/components/ui/CallPhoneCta"
-import { ServiceFeatureIconCard } from "@/components/ServiceFeatureIconCard"
+import { ServiceFeatureImageCard } from "@/components/ServiceFeatureImageCard"
 import { serviceHeroImages } from "@/lib/serviceHeroImages"
-import { Camera, FileCheck, HelpCircle } from "lucide-react"
 import { SERVICE_HERO_BRIDGE_GRADIENT } from "@/lib/heroBackgroundGradients"
 
 const WHAT_WE_OFFER_ITEMS = [
@@ -64,23 +63,31 @@ export default function UsefulCctvAdvicePage() {
           <div className="grid grid-cols-1 gap-8 md:grid-cols-3">
             {[
               {
-                icon: Camera,
                 title: "Choosing the right system",
                 text: "Indoor vs outdoor, resolution, night vision, and wired vs wireless (wireless still needs power).",
+                imageSrc: "/service%20images/cctv-capabilities/ip-cctv.jpg",
+                imageAlt: "IP turret camera mounted on a commercial ceiling grid",
               },
               {
-                icon: FileCheck,
                 title: "Placement & coverage",
                 text: "Where to put cameras for useful coverage and evidence, within lawful and proportionate limits.",
+                imageSrc: "/service%20images/cctv-capabilities/analytics.jpg",
+                imageAlt: "External camera, detector and floodlight covering a building approach",
               },
               {
-                icon: HelpCircle,
                 title: "Data protection & signage",
                 text: "UK GDPR, signage, retention and sharing footage, you remain responsible for lawful day-to-day use.",
+                imageSrc: "/service%20images/cctv-capabilities/recording.jpg",
+                imageAlt: "NVR drive bays used for CCTV recording and retention",
               },
             ].map((item, i) => (
-              <ServiceItemReveal key={i} index={i} className="h-full min-h-0">
-                <ServiceFeatureIconCard icon={item.icon} title={item.title} description={item.text} />
+              <ServiceItemReveal key={item.title} index={i} className="h-full min-h-0">
+                <ServiceFeatureImageCard
+                  title={item.title}
+                  description={item.text}
+                  imageSrc={item.imageSrc}
+                  imageAlt={item.imageAlt}
+                />
               </ServiceItemReveal>
             ))}
           </div>

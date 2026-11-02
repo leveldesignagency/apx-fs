@@ -6,9 +6,11 @@ import { ServicePageClosingSections } from "@/components/ServicePageClosingSecti
 import { CustomPillButton } from "@/components/ui/CustomPillButton"
 import { CallPhoneCta } from "@/components/ui/CallPhoneCta"
 import { ServicePageHero } from "@/components/ServicePageHero"
+import { FsFireSubpageHeroButtons } from "@/components/FsFireSubpageHeroButtons"
 import { Reveal } from "@/components/Reveal"
 import { ServiceItemReveal } from "@/components/ServiceItemReveal"
 import { ServiceInstallationsGrid } from "@/components/ServiceInstallationsGrid"
+import { ServiceFeatureImageCard } from "@/components/ServiceFeatureImageCard"
 import { FsServiceTextImageSection } from "@/components/FsServiceTextImageSection"
 import { FsServiceTextImageSectionGroup } from "@/components/FsServiceTextImageSectionGroup"
 import { ApxPartnerLogoStrip } from "@/components/ApxPartnerLogoStrip"
@@ -23,17 +25,82 @@ import {
 import { Check } from "lucide-react"
 import { SERVICE_HERO_BRIDGE_GRADIENT } from "@/lib/heroBackgroundGradients"
 
-const SYSTEM_TYPES = [
-  "Design, installation and commissioning",
-  "Cause-and-effect testing and witnessed acceptance",
-  "Addressable and conventional fire alarm systems",
-  "Networked fire alarm systems",
-  "Wireless / wire-free fire alarm systems",
-  "Aspirating (air sampling) detection",
-  "Interfaces with BMS, access control and smoke control",
-  "Maintenance and emergency call-outs",
-  "Zone charts and O&M documentation",
-]
+const IMG = "/service%20images/fire-alarm-capabilities"
+
+const CAPABILITIES = [
+  {
+    title: "Design, installation and commissioning",
+    description:
+      "Survey-led design, installation and commissioning of fire detection and alarm systems for commercial and public-sector buildings across London and the Home Counties.",
+    id: "fire-design",
+    imageSrc: `${IMG}/design.jpg`,
+    imageAlt: "Hotel restaurant at Hilton DoubleTree Kingston with an APX fire alarm installation",
+  },
+  {
+    title: "Cause-and-effect testing",
+    description:
+      "Witnessed cause-and-effect testing of call points, detectors, sounders and interfaces against the fire strategy and agreed acceptance criteria.",
+    id: "fire-cause-effect",
+    imageSrc: `${IMG}/cause-effect.jpg`,
+    imageAlt: "Red manual call point and fire-action sign on a concrete wall",
+  },
+  {
+    title: "Addressable and conventional systems",
+    description:
+      "Addressable and conventional fire alarm systems specified to the building, occupancy and fire risk assessment, including detectors, call points and sounders.",
+    id: "fire-addressable",
+    imageSrc: `${IMG}/detectors.jpg`,
+    imageAlt: "Ceiling-mounted smoke detector on a fire detection and alarm system",
+  },
+  {
+    title: "Networked fire alarm systems",
+    description:
+      "Networked panels and loops for multi-building and multi-storey sites, with clear zoning so operators can locate and manage events quickly.",
+    id: "fire-networked",
+    imageSrc: `${IMG}/networked.jpg`,
+    imageAlt: "Sancroft Building interior, City of London, prepared for networked fire detection",
+  },
+  {
+    title: "Wireless and wire-free systems",
+    description:
+      "Wireless and wire-free fire alarm options where cabling is constrained, specified on survey and commissioned to the same handover standard as wired systems.",
+    id: "fire-wireless",
+    imageSrc: `${IMG}/wireless.jpg`,
+    imageAlt: "Occupied lounge with a ceiling fire detector at Scape Bloomsbury student accommodation",
+  },
+  {
+    title: "Aspirating air sampling detection",
+    description:
+      "Aspirating (air sampling) detection for high-value, high-airflow or early-warning applications, designed into the fire alarm package where the risk requires it.",
+    id: "fire-aspirating",
+    imageSrc: `${IMG}/aspirating.jpg`,
+    imageAlt: "Exposed ceiling services and fire exit signage in a commercial building",
+  },
+  {
+    title: "BMS, access and smoke-control interfaces",
+    description:
+      "Interfaces to BMS, access control, smoke control and other plant so doors, dampers and related systems follow the agreed fire cause-and-effect.",
+    id: "fire-interfaces",
+    imageSrc: `${IMG}/interfaces.jpg`,
+    imageAlt: "Zoned fire protection pipework and valves interfaced to building fire systems",
+  },
+  {
+    title: "Maintenance and emergency call-outs",
+    description:
+      "Planned preventative maintenance, battery and device replacement, and emergency call-outs so fire alarm systems remain available after handover.",
+    id: "fire-maintenance",
+    imageSrc: `${IMG}/maintenance.jpg`,
+    imageAlt: "Engineer testing control gear with a multimeter during a maintenance visit",
+  },
+  {
+    title: "Zone charts and O&M documentation",
+    description:
+      "Zone charts, as-built drawings, commissioning certificates and O&M packs aligned with BS 5839-1 for approval, handover and ongoing audit.",
+    id: "fire-documentation",
+    imageSrc: `${IMG}/documentation.jpg`,
+    imageAlt: "Engineers reviewing building drawings and handover documentation",
+  },
+] as const
 
 const SCOPE_CAPABILITIES = [
   "Addressable and conventional fire alarm systems",
@@ -170,9 +237,9 @@ const heroBridge = (
   />
 )
 
-/** Detector close-up for the hero. */
+/** Commercial office floor with ceiling detectors (Sancroft). */
 const FIRE_ALARM_HERO_IMAGE_SRC =
-  "/service%20images/fire%20alarm%20systems/smoke%20alarm.png"
+  "/service%20images/fire%20alarm%20systems/hero-commercial-fire-alarm.jpg"
 
 /** Exit sign + smoke detector for the installer / systems section. */
 const FIRE_ALARM_BODY_IMAGE_SRC =
@@ -192,8 +259,11 @@ export default function FireSafetySystemsPage() {
       <ServicePageHero
         title="Fire Alarm Systems"
         imageSrc={FIRE_ALARM_HERO_IMAGE_SRC}
+        imageAlt="Commercial office floor with ceiling-mounted fire detectors"
+        imageClassName="object-cover object-[center_top]"
         heroCompliance={["BS 5839-1"]}
         heroSummary="Design, installation and maintenance of addressable and conventional fire alarms for commercial and public-sector sites across London and the Home Counties."
+        afterIntro={<FsFireSubpageHeroButtons />}
         intro={
           <>
             <p className="mb-4">
@@ -214,6 +284,37 @@ export default function FireSafetySystemsPage() {
 
         <div className="relative z-[1] border-t border-white/15" aria-hidden />
 
+        <section className="site-container relative z-[1] py-16 lg:py-16">
+          <Reveal>
+            <h2 className="mb-4 text-left font-title text-3xl font-bold text-white sm:text-4xl">
+              Fire alarm capabilities
+            </h2>
+          </Reveal>
+          <Reveal delayMs={70}>
+            <p className="mb-10 max-w-3xl text-left text-gray-300">
+              Design, installation, commissioning and maintenance of fire detection and alarm systems to BS 5839-1,
+              from addressable and conventional panels through to networked, wireless and aspirating detection, with
+              clear cause-and-effect records at handover.
+            </p>
+          </Reveal>
+          <div className="grid grid-cols-1 gap-8 md:grid-cols-2 lg:grid-cols-3">
+            {CAPABILITIES.map(({ title, description, id, imageSrc, imageAlt }, index) => (
+              <ServiceItemReveal key={title} index={index} className="h-full min-h-0">
+                <ServiceFeatureImageCard
+                  id={id}
+                  title={title}
+                  description={description}
+                  imageSrc={imageSrc}
+                  imageAlt={imageAlt}
+                  className="transition-transform duration-300 hover:scale-[1.02]"
+                />
+              </ServiceItemReveal>
+            ))}
+          </div>
+        </section>
+
+        <div className="border-t border-white/15" />
+
         <FsServiceTextImageSectionGroup>
         <FsServiceTextImageSection
           title="Fire Alarm System Installer London"
@@ -229,13 +330,9 @@ export default function FireSafetySystemsPage() {
           </p>
           <p>
             Systems are designed and delivered to NSI Gold standards for fire, with commercial and public-sector work as
-            our primary focus. We specialise in:
+            our primary focus, addressable and conventional detection, networked and wireless options, aspirating
+            systems, plant interfaces, and maintenance after handover.
           </p>
-          <ul className="list-inside list-disc space-y-2 text-gray-300">
-            {SYSTEM_TYPES.map((name, i) => (
-              <li key={i}>{name}</li>
-            ))}
-          </ul>
           <p>
             By installing a fire alarm system which will give you an early warning of the outbreak of fire, an effective
             alarm can prevent a small incident becoming a total devastation.

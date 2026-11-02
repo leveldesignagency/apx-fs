@@ -19,7 +19,7 @@ type FsCctvHeroNavProps = {
 /** Bottom-of-hero CCTV pills, same layout and style as FsServiceHeroQuickNav */
 export function FsCctvHeroNav({
   links = FS_CCTV_TAB_LINKS,
-  eyebrow = "Quick navigation — scroll for more",
+  eyebrow = "Quick navigation: scroll for more",
   ariaLabel = "CCTV section",
 }: FsCctvHeroNavProps) {
   const path = normalizeFsPath(usePathname())

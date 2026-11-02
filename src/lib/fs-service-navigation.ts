@@ -16,6 +16,7 @@ export const FS_SERVICE_NAV_LINKS = [
     label: "Fire Alarm Systems",
     shortLabel: "Fire",
     navLabel: "Fire Alarm Systems",
+    hasFireSubnav: true,
   },
   {
     href: FS_SERVICE_ROUTES.cctvSystems,
@@ -47,18 +48,21 @@ export const FS_SERVICE_NAV_LINKS = [
     label: "PAVA Systems",
     shortLabel: "PAVA",
     navLabel: "PAVA (Public Address & Voice Alarm)",
+    nestedUnderHeader: "fire",
   },
   {
     href: FS_SERVICE_ROUTES.evac,
     label: "EVAC Systems",
     shortLabel: "EVAC",
     navLabel: "EVAC (Evacuation Alert Systems)",
+    nestedUnderHeader: "fire",
   },
   {
     href: FS_SERVICE_ROUTES.refugeDisabledCommunication,
     label: "Disabled Refuge, Fire Telephone & Toilet Alarm Systems",
     shortLabel: "Refuge & Toilets",
     navLabel: "Disabled Refuge, Fire Telephone & Toilet Alarm Systems",
+    nestedUnderHeader: "fire",
   },
   {
     href: FS_SERVICE_ROUTES.monitoring,
@@ -93,6 +97,23 @@ export const FS_CCTV_TAB_LINKS = [
   { href: "/services/cctv/commercial", label: "Commercial" },
   { href: "/services/cctv/advice", label: "Useful Advice" },
   { href: "/services/cctv/domestic", label: "Domestic" },
+] as const
+
+/** Nested under Fire Alarm Systems in the header Services dropdown. */
+export const FS_FIRE_TAB_LINKS = [
+  { href: FS_SERVICE_ROUTES.pava, label: "PAVA Systems" },
+  { href: FS_SERVICE_ROUTES.evac, label: "EVAC Systems" },
+  {
+    href: FS_SERVICE_ROUTES.refugeDisabledCommunication,
+    label: "Disabled Refuge, Fire Telephone & Toilet Alarms",
+  },
+] as const
+
+/** Hero pills on Fire Alarm + PAVA / EVAC / Refuge pages (same pattern as CCTV). */
+export const FS_FIRE_HERO_TAB_LINKS = [
+  { href: FS_SERVICE_ROUTES.pava, label: "PAVA" },
+  { href: FS_SERVICE_ROUTES.evac, label: "EVAC" },
+  { href: FS_SERVICE_ROUTES.refugeDisabledCommunication, label: "Refuge & Toilets" },
 ] as const
 
 export function normalizeFsPath(pathname: string): string {

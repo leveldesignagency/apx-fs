@@ -10,19 +10,8 @@ import { CallPhoneCta } from "@/components/ui/CallPhoneCta"
 import { ServicePageHero } from "@/components/ServicePageHero"
 import { Reveal } from "@/components/Reveal"
 import { ServiceItemReveal } from "@/components/ServiceItemReveal"
-import { ServiceFeatureIconCard } from "@/components/ServiceFeatureIconCard"
+import { ServiceFeatureImageCard } from "@/components/ServiceFeatureImageCard"
 import { serviceHeroImages } from "@/lib/serviceHeroImages"
-import {
-  Activity,
-  Car,
-  HardDrive,
-  Network,
-  Scan,
-  Shield,
-  Smartphone,
-  Video,
-  Wrench,
-} from "lucide-react"
 import { SERVICE_HERO_BRIDGE_GRADIENT } from "@/lib/heroBackgroundGradients"
 
 const heroBridge = (
@@ -35,58 +24,67 @@ const heroBridge = (
 
 const CAPABILITIES = [
   {
-    Icon: Video,
     title: "IP CCTV",
     description: "Network IP cameras and NVR platforms for commercial sites, with clear handover for operators and IT teams.",
     id: "cctv-ip",
+    imageSrc: "/service%20images/cctv-capabilities/ip-cctv.jpg",
+    imageAlt: "IP turret camera mounted on a commercial ceiling grid",
   },
   {
-    Icon: HardDrive,
     title: "HD analogue upgrades",
     description: "Upgrade paths from legacy analogue to HD analogue or hybrid recording where a full IP refresh is not required.",
     id: "cctv-hd-analogue",
+    imageSrc: "/service%20images/cctv-capabilities/hd-analogue.jpg",
+    imageAlt: "Pair of analogue bullet cameras and conduit on a masonry wall",
   },
   {
-    Icon: Smartphone,
     title: "Remote viewing",
     description: "Secure remote live and playback access where the platform supplied supports it, with permissions set at handover.",
     id: "cctv-remote",
+    imageSrc: "/service%20images/cctv-capabilities/remote-viewing.jpg",
+    imageAlt: "Operator reviewing live multi-camera CCTV feeds in a control room",
   },
   {
-    Icon: Shield,
     title: "Recording and retention",
     description: "Recording design with retention periods agreed to your policy, plus export paths for incidents and insurers.",
     id: "cctv-recording",
+    imageSrc: "/service%20images/cctv-capabilities/recording.jpg",
+    imageAlt: "Network video recorder with drive bays for on-site footage retention",
   },
   {
-    Icon: Activity,
     title: "Camera health monitoring",
     description: "Health checks and fault alerting so cameras and recorders stay online and recoverable when something fails.",
     id: "cctv-health",
+    imageSrc: "/service%20images/cctv-capabilities/health-monitoring.jpg",
+    imageAlt: "Rack-mounted storage with status lights used to monitor system health",
   },
   {
-    Icon: Car,
     title: "ANPR where offered",
     description: "Automatic number-plate recognition for vehicle access and site control where the brief and location require it.",
     id: "cctv-anpr",
+    imageSrc: "/service%20images/cctv-capabilities/anpr.jpg",
+    imageAlt: "Camera covering a roadway for vehicle access and number-plate capture",
   },
   {
-    Icon: Scan,
     title: "Analytics where offered",
     description: "Motion, line-crossing and other analytics options where the selected system and site policy support them.",
     id: "cctv-analytics",
+    imageSrc: "/service%20images/cctv-capabilities/analytics.jpg",
+    imageAlt: "Caged camera, PIR detectors and flood lighting on a brick elevation",
   },
   {
-    Icon: Network,
     title: "Network segregation",
     description: "CCTV VLAN / segregated network design so video traffic is isolated from corporate IT where required.",
     id: "cctv-network",
+    imageSrc: "/service%20images/cctv-capabilities/network.jpg",
+    imageAlt: "Ethernet switch with labelled ports isolating CCTV network traffic",
   },
   {
-    Icon: Wrench,
     title: "Maintenance and repairs",
     description: "PPM, corrective repairs and system health visits so commercial CCTV remains reliable after handover.",
     id: "cctv-maintenance",
+    imageSrc: "/service%20images/cctv-capabilities/maintenance.jpg",
+    imageAlt: "Engineer working on rack cabling during a CCTV maintenance visit",
   },
 ] as const
 
@@ -143,14 +141,14 @@ export default function CctvSecurityPage() {
             </p>
           </Reveal>
           <div className="grid grid-cols-1 gap-8 md:grid-cols-2 lg:grid-cols-3">
-            {CAPABILITIES.map(({ Icon, title, description, id }, index) => (
+            {CAPABILITIES.map(({ title, description, id, imageSrc, imageAlt }, index) => (
               <ServiceItemReveal key={title} index={index} className="h-full min-h-0">
-                <ServiceFeatureIconCard
+                <ServiceFeatureImageCard
                   id={id}
-                  icon={Icon}
                   title={title}
                   description={description}
-                  className="transition-transform duration-300 hover:scale-[1.02]"
+                  imageSrc={imageSrc}
+                  imageAlt={imageAlt}
                 />
               </ServiceItemReveal>
             ))}

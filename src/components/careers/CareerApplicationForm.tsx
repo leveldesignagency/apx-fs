@@ -312,7 +312,7 @@ export function CareerApplicationForm({
             </div>
             <p className="text-xs leading-relaxed text-black/45">
               By submitting, you confirm the information is accurate and agree that we may contact you about this
-              application. CVs contain personal data — please read our{" "}
+              application. CVs contain personal data: please read our{" "}
               <Link href="/recruitment-privacy" className="font-semibold underline underline-offset-2">
                 recruitment privacy notice
               </Link>{" "}

@@ -6,66 +6,64 @@ import { ServicePageClosingSections } from "@/components/ServicePageClosingSecti
 import { CustomPillButton } from "@/components/ui/CustomPillButton"
 import { CallPhoneCta } from "@/components/ui/CallPhoneCta"
 import { ServicePageHero } from "@/components/ServicePageHero"
+import { FsFireSubpageHeroButtons } from "@/components/FsFireSubpageHeroButtons"
 import { Reveal } from "@/components/Reveal"
 import { ServiceItemReveal } from "@/components/ServiceItemReveal"
-import { ServiceFeatureIconCard } from "@/components/ServiceFeatureIconCard"
+import { ServiceFeatureImageCard } from "@/components/ServiceFeatureImageCard"
 import { serviceHeroImages } from "@/lib/serviceHeroImages"
-import {
-  Building2,
-  CheckCircle,
-  Flame,
-  Layers,
-  Radio,
-  Shield,
-  Wrench,
-} from "lucide-react"
 import { SERVICE_HERO_BRIDGE_GRADIENT } from "@/lib/heroBackgroundGradients"
 
-const cardClass =
-  "rounded-tl-[1.5rem] rounded-br-[1.5rem] border border-white/20 bg-black p-8 text-white transition-colors hover:border-white/45"
+const IMG = "/service%20images/evac-capabilities"
 
 const CAPABILITIES = [
   {
-    Icon: Building2,
     title: "Residential blocks & flats",
     description:
       "Evacuation alert systems for buildings containing flats, designed so the fire and rescue service can alert residents in a controlled way during an incident.",
+    imageSrc: `${IMG}/residential.jpg`,
+    imageAlt: "Modern apartment block of the type served by evacuation alert systems",
   },
   {
-    Icon: Radio,
     title: "Alert devices in dwellings",
     description:
       "Dwelling alert devices and associated wiring arranged to give a clear, recognisable alert within individual flats when activated from the fire service control point.",
+    imageSrc: `${IMG}/dwellings.jpg`,
+    imageAlt: "Interior of a contemporary flat where dwelling alert devices are installed",
   },
   {
-    Icon: Layers,
     title: "Control & indicating equipment",
     description:
       "Fire-service operable control and indicating equipment, zoning and indication configured to the building layout and evacuation strategy.",
+    imageSrc: `${IMG}/control.jpg`,
+    imageAlt: "Fire alarm call point and fire sign on a concrete wall",
   },
   {
-    Icon: Flame,
     title: "Fire strategy coordination",
     description:
       "Design and cause-and-effect aligned with the fire strategy, fire risk assessment inputs and any interfaces to the wider fire detection package.",
+    imageSrc: `${IMG}/strategy.jpg`,
+    imageAlt: "Engineers reviewing building drawings against the fire strategy",
   },
   {
-    Icon: Shield,
     title: "BS 8629 aligned delivery",
     description:
       "Design, installation, commissioning and records structured around BS 8629 for evacuation alert systems, distinct from PAVA voice alarm under BS 5839-8.",
+    imageSrc: `${IMG}/bs8629.jpg`,
+    imageAlt: "Brick residential building with external fire-escape stairs",
   },
   {
-    Icon: CheckCircle,
     title: "Commissioning & handover",
     description:
       "Witnessed testing, as-built information and operator / duty-holder guidance so the system can be demonstrated at completion.",
+    imageSrc: `${IMG}/handover.jpg`,
+    imageAlt: "Site engineers reviewing commissioning records on a live project",
   },
   {
-    Icon: Wrench,
     title: "Maintenance & testing",
     description:
       "Planned testing, fault attendance and ongoing maintenance options aligned with manufacturer guidance and BS 8629.",
+    imageSrc: `${IMG}/testing.jpg`,
+    imageAlt: "Engineer testing control gear with a multimeter",
   },
 ] as const
 
@@ -75,8 +73,11 @@ export default function EvacSystemsPage() {
       <ServicePageHero
         title="EVAC Systems"
         imageSrc={serviceHeroImages.evac}
+        imageAlt="Hotel corridor with emergency exit lighting on the right-hand side of the escape route"
+        imageClassName="object-cover object-center"
         heroCompliance={["BS 8629"]}
         heroSummary="EVAC alert systems that support safer evacuation, designed and commissioned to meet relevant British Standards for life safety."
+        afterIntro={<FsFireSubpageHeroButtons />}
         intro={
           <>
             <p className="mb-4">
@@ -120,13 +121,13 @@ export default function EvacSystemsPage() {
             </p>
           </Reveal>
           <div className="grid grid-cols-1 gap-8 md:grid-cols-2 lg:grid-cols-3">
-            {CAPABILITIES.map(({ Icon, title, description }, index) => (
+            {CAPABILITIES.map(({ title, description, imageSrc, imageAlt }, index) => (
               <ServiceItemReveal key={title} index={index} className="h-full min-h-0">
-                <ServiceFeatureIconCard
-                  icon={Icon}
+                <ServiceFeatureImageCard
                   title={title}
                   description={description}
-                  shellClassName={cardClass}
+                  imageSrc={imageSrc}
+                  imageAlt={imageAlt}
                   className="transition-transform duration-300 hover:scale-[1.02]"
                 />
               </ServiceItemReveal>
@@ -183,7 +184,7 @@ export default function EvacSystemsPage() {
           serviceTitleShort="EVAC"
           ctaImageSrc={serviceHeroImages.evac}
           ctaHeadline="Need an"
-          ctaHeadlineAccent="EVAC (BS 8629) System?"
+          ctaHeadlineAccent="EVAC System?"
           ctaDescription="Tell us about your residential block and fire strategy. We can survey, specify and deliver evacuation alert systems under BS 8629."
         >
           <CustomPillButton href="/contact?service=evac" size="md">

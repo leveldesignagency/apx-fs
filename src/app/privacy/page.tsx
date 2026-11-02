@@ -113,11 +113,11 @@ export default function PrivacyPolicyPage() {
           </li>
           <li>
             <strong>Legitimate interests</strong> (Article 6(1)(f)), where processing is necessary for our legitimate business
-            interests — such as responding to enquiries, keeping business records during a client relationship, improving our
-            services and securing our website — provided your rights do not override those interests.
+            interests, such as responding to enquiries, keeping business records during a client relationship, improving our
+            services and securing our website, provided your rights do not override those interests.
           </li>
           <li>
-            <strong>Consent</strong> (Article 6(1)(a)), where you have given clear consent — for example non-essential cookies,
+            <strong>Consent</strong> (Article 6(1)(a)), where you have given clear consent: for example non-essential cookies,
             or SMS / text message contact where you have selected that method and confirmed SMS consent. You may withdraw
             consent at any time.
           </li>
@@ -148,14 +148,14 @@ export default function PrivacyPolicyPage() {
         <p>We may share personal data with:</p>
         <ul className="list-disc list-inside space-y-2">
           <li>
-            <strong>Vercel</strong> — website hosting and delivery;
+            <strong>Vercel</strong>: website hosting and delivery;
           </li>
           <li>
-            <strong>Resend</strong> — email delivery for form notifications and confirmation messages (processor acting on our
+            <strong>Resend</strong>: email delivery for form notifications and confirmation messages (processor acting on our
             instructions);
           </li>
           <li>
-            <strong>Cloudflare</strong> — Turnstile bot protection on forms (processes a verification token / limited technical
+            <strong>Cloudflare</strong>: Turnstile bot protection on forms (processes a verification token / limited technical
             data);
           </li>
           <li>other service providers who support IT, telephony or office systems we use to run the business;</li>
@@ -175,27 +175,27 @@ export default function PrivacyPolicyPage() {
         </p>
         <ul className="list-disc list-inside space-y-2">
           <li>
-            <strong>Active clients</strong> — we keep relevant personal and project contact data{" "}
+            <strong>Active clients</strong>: we keep relevant personal and project contact data{" "}
             <strong>throughout the client relationship</strong> so we can deliver and support services.
           </li>
           <li>
-            <strong>After a client relationship ends</strong> — we remove or anonymise personal contact data{" "}
+            <strong>After a client relationship ends</strong>: we remove or anonymise personal contact data{" "}
             <strong>one (1) year</strong> after the relationship ends, unless a longer period is required (see below).
           </li>
           <li>
-            <strong>Website enquiries that do not become clients</strong> — we keep enquiry emails and related notes for{" "}
+            <strong>Website enquiries that do not become clients</strong>: we keep enquiry emails and related notes for{" "}
             <strong>one (1) year</strong> from the enquiry (or from the last meaningful contact about that enquiry), then
             delete them.
           </li>
           <li>
-            <strong>Job applications</strong> — see the{" "}
+            <strong>Job applications</strong>: see the{" "}
             <Link href="/recruitment-privacy" className="underline hover:opacity-80">
               Recruitment Privacy Notice
             </Link>{" "}
             (unsuccessful applications: normally one year).
           </li>
           <li>
-            <strong>Contracts, invoices and tax records</strong> — may be kept for longer where the law requires (often up to
+            <strong>Contracts, invoices and tax records</strong>: may be kept for longer where the law requires (often up to
             six years for accounting records). In those cases we keep what is needed for compliance and remove unnecessary
             personal details where practical.
           </li>

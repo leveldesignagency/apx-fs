@@ -6,73 +6,71 @@ import { ServicePageClosingSections } from "@/components/ServicePageClosingSecti
 import { CustomPillButton } from "@/components/ui/CustomPillButton"
 import { CallPhoneCta } from "@/components/ui/CallPhoneCta"
 import { ServicePageHero } from "@/components/ServicePageHero"
+import { FsFireSubpageHeroButtons } from "@/components/FsFireSubpageHeroButtons"
 import { Reveal } from "@/components/Reveal"
 import { ServiceItemReveal } from "@/components/ServiceItemReveal"
-import { ServiceFeatureIconCard } from "@/components/ServiceFeatureIconCard"
-import { serviceSectionImages } from "@/lib/serviceHeroImages"
-import {
-  Building2,
-  CheckCircle,
-  Phone,
-  Accessibility,
-  Layers,
-  MessageSquare,
-  Wrench,
-} from "lucide-react"
+import { ServiceFeatureImageCard } from "@/components/ServiceFeatureImageCard"
+import { serviceHeroImages, serviceSectionImages } from "@/lib/serviceHeroImages"
 import { SERVICE_HERO_BRIDGE_GRADIENT } from "@/lib/heroBackgroundGradients"
 
-const cardClass =
-  "rounded-tl-[1.5rem] rounded-br-[1.5rem] border border-white/20 bg-black p-8 text-white transition-colors hover:border-white/45"
+const IMG = "/service%20images/refuge-capabilities"
 
 const CAPABILITIES = [
   {
-    Icon: Accessibility,
     title: "Disabled refuge systems",
     description:
       "Refuge communication outstations with clear, reliable two-way speech paths for staged evacuation in multi-storey buildings.",
     id: "fire-refuge",
+    imageSrc: `${IMG}/refuge.jpg`,
+    imageAlt: "Green disabled refuge emergency call point with braille and two-way speech",
   },
   {
-    Icon: Phone,
     title: "Fire telephone systems",
     description:
       "Firefighter and staging telephones where your design requires dedicated voice circuits alongside the wider EVC network.",
     id: "fire-telephone",
+    imageSrc: `${IMG}/telephone.jpg`,
+    imageAlt: "Wall-mounted keypad and speaker used as a dedicated voice circuit",
   },
   {
-    Icon: Building2,
     title: "Disabled toilet alarms",
     description:
       "Accessible WC alarm call points with remote indication and reset where toilet alarms form part of the emergency communication strategy.",
     id: "fire-toilet",
+    imageSrc: `${IMG}/toilet.jpg`,
+    imageAlt: "Red emergency call point on a concrete wall",
   },
   {
-    Icon: Layers,
     title: "Central control panels",
     description:
       "Head-end EVC panels, zoning and monitoring configured for your site layout and duty-holder workflows.",
     id: "fire-evc-panels",
+    imageSrc: `${IMG}/panels.jpg`,
+    imageAlt: "Engineer working on rack-mounted control and indicating equipment",
   },
   {
-    Icon: MessageSquare,
     title: "Two-way communication",
     description:
       "Speech paths between refuge points, fire telephones, toilet alarms and the central panel so staff and the fire service can communicate during an incident.",
     id: "fire-two-way",
+    imageSrc: `${IMG}/two-way.jpg`,
+    imageAlt: "Wall-mounted emergency loudspeaker used for two-way voice communication",
   },
   {
-    Icon: CheckCircle,
     title: "Commissioning and handover",
     description:
       "BS 5839-9 aligned commissioning, witnessed testing, user guidance and records so the system is demonstrably compliant at completion.",
     id: "fire-evc-commissioning",
+    imageSrc: `${IMG}/commissioning.jpg`,
+    imageAlt: "Site engineers reviewing commissioning records on a live project",
   },
   {
-    Icon: Wrench,
     title: "Routine testing and maintenance",
     description:
       "Planned testing, fault attendance and ongoing maintenance options aligned with manufacturer guidance and BS 5839-9.",
     id: "fire-evc-maintenance",
+    imageSrc: `${IMG}/maintenance.jpg`,
+    imageAlt: "Engineer testing control gear with a multimeter",
   },
 ] as const
 
@@ -80,10 +78,14 @@ export default function RefugeDisabledCommunicationPage() {
   return (
     <div className="service-page-root min-h-screen overflow-x-hidden bg-black text-white">
       <ServicePageHero
-        title="Disabled Refuge, Fire Telephone & Disabled Toilet Alarm Systems"
-        imageSrc={serviceSectionImages.refuge}
+        title="Disabled Refuge Systems"
+        titleDetail="Disabled refuge, fire telephone and toilet alarms"
+        imageSrc={serviceHeroImages.refuge}
+        imageAlt="School corridor with wall-mounted fire equipment, lockers and an emergency exit at the far end"
+        imageClassName="object-cover object-center"
         heroCompliance={["BS 5839-9"]}
         heroSummary="Disabled refuge, fire telephone and toilet alarm systems that keep emergency communication clear when it matters most."
+        afterIntro={<FsFireSubpageHeroButtons />}
         intro={
           <>
             <p className="mb-4">
@@ -125,14 +127,14 @@ export default function RefugeDisabledCommunicationPage() {
             </p>
           </Reveal>
           <div className="grid grid-cols-1 gap-8 md:grid-cols-2 lg:grid-cols-3">
-            {CAPABILITIES.map(({ Icon, title, description, id }, index) => (
+            {CAPABILITIES.map(({ title, description, id, imageSrc, imageAlt }, index) => (
               <ServiceItemReveal key={title} index={index} className="h-full min-h-0">
-                <ServiceFeatureIconCard
+                <ServiceFeatureImageCard
                   id={id}
-                  icon={Icon}
                   title={title}
                   description={description}
-                  shellClassName={cardClass}
+                  imageSrc={imageSrc}
+                  imageAlt={imageAlt}
                   className="transition-transform duration-300 hover:scale-[1.02]"
                 />
               </ServiceItemReveal>
