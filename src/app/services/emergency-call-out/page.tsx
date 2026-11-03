@@ -83,6 +83,8 @@ export default function EmergencyCallOutPage() {
       <ServicePageHero
         title="24/7 Emergency Call-Out"
         imageSrc={serviceHeroImages.emergencyCallOut}
+        imageAlt="Response van on the motorway for 24/7 emergency fire and security call-out"
+        imageClassName="object-cover object-center"
         heroCompliance={["Contracted cover"]}
         heroSummary="24/7 emergency call-out for Fire and Security faults, with contracted engineer response when systems need urgent attention."
         intro={

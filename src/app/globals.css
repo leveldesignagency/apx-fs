@@ -1527,6 +1527,26 @@ section h2 {
   border-bottom-left-radius: 0 !important;
 }
 
+/* Opposite cant: rounded top-right + bottom-left (homepage services Contact) */
+.pill-btn--corners-tr-bl {
+  border-top-left-radius: 0 !important;
+  border-bottom-right-radius: 0 !important;
+  border-top-right-radius: 1rem !important;
+  border-bottom-left-radius: 1rem !important;
+}
+.pill-btn--corners-tr-bl .pill-btn-inner {
+  border-top-left-radius: 0 !important;
+  border-bottom-right-radius: 0 !important;
+  border-top-right-radius: 1rem !important;
+  border-bottom-left-radius: 1rem !important;
+}
+.pill-btn--corners-tr-bl .pill-btn-border {
+  border-top-left-radius: 0 !important;
+  border-bottom-right-radius: 0 !important;
+  border-top-right-radius: 1rem !important;
+  border-bottom-left-radius: 1rem !important;
+}
+
 /* Service hero pills (fire/CCTV tabs + quick nav): solid white fill, black text */
 .quick-nav-pill-shimmer {
   position: relative;

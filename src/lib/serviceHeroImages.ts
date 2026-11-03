@@ -6,9 +6,9 @@ export const serviceHeroImages = {
     "/service%20images/cctv%20/hero-commercial-cctv-system-installation.jpg",
   cctvAdvice: "/service%20images/cctv%20/hero-useful-cctv-advice.jpg",
   fireAlarm:
-    "/service%20images/fire%20alarm%20systems/hero-commercial-fire-alarm.jpg",
-  intruder: "/client%20logos/service%20pages%20image/home-intruder-alarm-system-installer-800x533.jpg",
-  accessControl: "/client%20logos/service%20pages%20image/home-access-control-system-installer-800x533.jpg",
+    "/service%20images/fire%20alarm%20systems/hero-fire-alarm-call-point-wide.jpg",
+  intruder: "/service%20images/intruders/hero-hd-forced-entry-door-crowbar.jpg",
+  accessControl: "/service%20images/access%20control/hero-access-control-commercial-entry.jpg",
   videoDoor: "/projects/library/home-video-door-entry-system-installer.jpg",
   gateAutomation: "/gate%20automation.jpg",
   /** PAVA: retail concourse with ceiling loudspeakers (HD) */
@@ -21,7 +21,7 @@ export const serviceHeroImages = {
   refuge: "/service%20images/refuge/hero-disabled-refuge-school-corridor.jpg",
   monitoring: "/projects/library/intruder-alarm-monitoring-company-sq.jpg",
   maintenance: "/service%20images/MAINTAINENCE%20AND%20SUPPORT.jpg",
-  emergencyCallOut: "/projects/library/apx-fire-security-alarm-box.jpg",
+  emergencyCallOut: "/service%20images/callout-capabilities/hero-24-hour-call-out.png",
 } as const
 
 /**

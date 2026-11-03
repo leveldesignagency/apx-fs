@@ -380,9 +380,9 @@ export function WhatWeOfferSection() {
                     href="/contact"
                     variant="outline"
                     size="md"
-                    className="w-full justify-center sm:w-auto"
+                    className="pill-btn--corners-tr-bl w-full justify-center sm:w-auto"
                   >
-                    Contact
+                    Contact us
                   </CustomPillButton>
                 </div>
               </div>

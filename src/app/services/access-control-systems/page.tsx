@@ -234,8 +234,10 @@ const heroBridge = (
   />
 )
 
-/** Hero from legacy APX access control page (`public/service images/access control/`) */
-const ACCESS_CONTROL_HERO_IMAGE_SRC = "/service%20images/access%20control/hero-access-control-systems.jpg"
+/** HD Paxton-style proximity reader in a commercial corridor (replaces tight fob crop). */
+const ACCESS_CONTROL_HERO_IMAGE_SRC =
+  "/service%20images/access%20control/hero-access-control-commercial-entry.jpg"
+/** Mid-page: person presenting a card at a commercial glass-door reader. */
 const BESPOKE_ACCESS_CONTROL_IMAGE_SRC =
   "/service%20images/access%20control/access-control-systems-door-entry-card-sq.jpg"
 
@@ -245,7 +247,8 @@ export default function AccessControlPage() {
       <ServicePageHero
         title="Access Control Systems"
         imageSrc={ACCESS_CONTROL_HERO_IMAGE_SRC}
-        imageClassName="object-cover object-right object-center"
+        imageAlt="Paxton-style proximity card reader on a commercial corridor beside a secure door"
+        imageClassName="object-cover object-center"
         heroCompliance={["BS EN 60839"]}
         heroSummary="Commercial and multi-tenant access control design, installation and maintenance, from door controllers to site-wide credential management."
         intro={

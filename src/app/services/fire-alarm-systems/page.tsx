@@ -74,7 +74,7 @@ const CAPABILITIES = [
       "Aspirating (air sampling) detection for high-value, high-airflow or early-warning applications, designed into the fire alarm package where the risk requires it.",
     id: "fire-aspirating",
     imageSrc: `${IMG}/aspirating.jpg`,
-    imageAlt: "Exposed ceiling services and fire exit signage in a commercial building",
+    imageAlt: "Firefighters directing a hose at a commercial building fire",
   },
   {
     title: "BMS, access and smoke-control interfaces",
@@ -237,17 +237,17 @@ const heroBridge = (
   />
 )
 
-/** Commercial office floor with ceiling detectors (Sancroft). */
+/** Manual call point hero — landscape crop so the unit sits in the mask (from fire alarm systems.jpg). */
 const FIRE_ALARM_HERO_IMAGE_SRC =
-  "/service%20images/fire%20alarm%20systems/hero-commercial-fire-alarm.jpg"
+  "/service%20images/fire%20alarm%20systems/hero-fire-alarm-call-point-wide.jpg"
 
-/** Exit sign + smoke detector for the installer / systems section. */
+/** Manual call point — Fire Alarm System Installer / Bespoke section. */
 const FIRE_ALARM_BODY_IMAGE_SRC =
-  "/client%20logos/service%20pages%20image/home-fire-alarm-system-installer-800x533.jpg"
+  "/service%20images/fire%20alarm%20systems/section-bespoke-fire-alarm-systems.jpg"
 
-/** Emergency exit / warning cue for the “do you need a system?” section. */
+/** London Fire Brigade appliance on a UK high street — “do you need a system?” section. */
 const FIRE_ALARM_REGULATION_IMAGE_SRC =
-  "/service%20images/fire%20alarm%20systems/green-emergency-exit-sign-ceiling%20hero%20image.jpg"
+  "/service%20images/fire%20alarm%20systems/section-uk-london-fire-brigade.jpg"
 
 /** Commercial project backdrop for BAFE strip (kept sharp, no artificial blur). */
 const FIRE_ALARM_BAFE_IMAGE_SRC =
@@ -259,8 +259,8 @@ export default function FireSafetySystemsPage() {
       <ServicePageHero
         title="Fire Alarm Systems"
         imageSrc={FIRE_ALARM_HERO_IMAGE_SRC}
-        imageAlt="Commercial office floor with ceiling-mounted fire detectors"
-        imageClassName="object-cover object-[center_top]"
+        imageAlt="Red Siemens manual call point on a commercial wall"
+        imageClassName="object-cover object-[70%_center]"
         heroCompliance={["BS 5839-1"]}
         heroSummary="Design, installation and maintenance of addressable and conventional fire alarms for commercial and public-sector sites across London and the Home Counties."
         afterIntro={<FsFireSubpageHeroButtons />}
@@ -320,7 +320,7 @@ export default function FireSafetySystemsPage() {
           title="Fire Alarm System Installer London"
           titleId="fire-alarm-installer-london-heading"
           imageSrc={FIRE_ALARM_BODY_IMAGE_SRC}
-          imageAlt="Smoke detector and emergency exit sign on a fire detection and warning system"
+          imageAlt="Red manual call point on a commercial concrete wall"
         >
           <h3 className="font-title text-2xl font-semibold text-white">Bespoke Fire Alarm Systems</h3>
           <p>
@@ -345,7 +345,7 @@ export default function FireSafetySystemsPage() {
           title="Do all businesses need a fire alarm system?"
           titleId="fire-alarm-regulation-heading"
           imageSrc={FIRE_ALARM_REGULATION_IMAGE_SRC}
-          imageAlt="Illuminated emergency exit sign for fire warning and evacuation"
+          imageAlt="London Fire Brigade appliance attending an incident on a UK high street"
         >
           <p>
             UK fire safety law requires suitable fire detection and warning arrangements for the premises, determined by

@@ -8,8 +8,8 @@ export const FS_SITE_NAME = "APX Fire & Security"
 export const FS_LEGAL_NAME = "APX Fire & Security Limited"
 export const FS_COMPANY_NUMBER = "04915204"
 
-// 1200x630 — swap the file when proper art is ready
-export const FS_DEFAULT_OG_PATH = "/og/default.png"
+/** Site-wide Open Graph / Twitter share image (1200×630). */
+export const FS_DEFAULT_OG_PATH = "/og/default.jpg"
 
 // Footer lockup on black — used as the Google logo asset
 export const FS_GOOGLE_LOGO_PATH = "/google-logo.png"

@@ -84,7 +84,7 @@ const INTRUDER_ALARM_INSTALLATIONS: { title: string; venue: string; context: str
 ]
 
 /** Public folder: `public/service images/intruders/` */
-const INTRUDER_HERO_IMAGE_SRC = "/service%20images/intruders/thieves-wear-black-hats-pry-windows-steal-things.jpg"
+const INTRUDER_HERO_IMAGE_SRC = "/service%20images/intruders/hero-hd-forced-entry-door-crowbar.jpg"
 const BESPOKE_INTRUDER_IMAGE_SRC = "/service%20images/intruders/breaking%20and%20entering.jpg"
 const COMMERCIAL_INTRUDER_IMAGE_SRC =
   "/service%20images/intruders/Commercial%20%26%20Industrial%20Intruder%20Systems.jpg"
@@ -107,6 +107,8 @@ export default function IntruderAlarmSystemsPage() {
       <ServicePageHero
         title="Intruder Alarm Systems"
         imageSrc={INTRUDER_HERO_IMAGE_SRC}
+        imageAlt="Gloved hand forcing a door handle with a crowbar during a break-in attempt"
+        imageClassName="object-cover object-center"
         heroCompliance={["PD 6662", "BS EN 50131"]}
         heroSummary="Grade 2 and Grade 3 commercial intruder alarms with ARC monitoring, dual-path signalling and NSI-aligned installation across London and the Home Counties."
         intro={
