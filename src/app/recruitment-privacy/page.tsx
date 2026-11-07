@@ -15,7 +15,7 @@ export default function RecruitmentPrivacyPage() {
       <section className="site-container max-w-3xl pb-24 pt-16 sm:pb-28 sm:pt-20">
         <p className="text-[11px] font-semibold uppercase tracking-[0.22em] text-black/45">Legal</p>
         <h1 className="mt-3 font-title text-3xl font-bold leading-tight text-black sm:text-4xl">
-          Recruitment privacy notice
+          Recruitment Privacy Notice
         </h1>
         <p className="mt-2 text-sm text-black/50">Last updated: 30 September 2026</p>
         <p className="mt-4 text-base leading-relaxed text-black/65">
@@ -30,7 +30,7 @@ export default function RecruitmentPrivacyPage() {
 
         <div className="mt-10 space-y-8 text-base leading-relaxed text-black/80">
           <div>
-            <h2 className="font-title text-xl font-bold text-black">Data controller</h2>
+            <h2 className="font-title text-xl font-bold text-black">Data Controller</h2>
             <p className="mt-3">
               APX Fire &amp; Security Limited is the data controller. Contact:{" "}
               <a href="mailto:enquiries@apx-fs.co.uk" className="font-semibold underline underline-offset-2">
@@ -42,7 +42,7 @@ export default function RecruitmentPrivacyPage() {
           </div>
 
           <div>
-            <h2 className="font-title text-xl font-bold text-black">What we collect</h2>
+            <h2 className="font-title text-xl font-bold text-black">What We Collect</h2>
             <p className="mt-3">
               When you apply online we typically collect your name, email address, telephone number, details of your
               experience, and your CV (and any other information you choose to include). CVs often contain personal data such
@@ -56,7 +56,7 @@ export default function RecruitmentPrivacyPage() {
           </div>
 
           <div>
-            <h2 className="font-title text-xl font-bold text-black">How we use your information</h2>
+            <h2 className="font-title text-xl font-bold text-black">How We Use Your Information</h2>
             <p className="mt-3">
               We use applicant information to assess suitability for the role you applied for, to contact you about your
               application, and to keep records of our recruitment process. We do not use application data for unrelated
@@ -65,7 +65,7 @@ export default function RecruitmentPrivacyPage() {
           </div>
 
           <div>
-            <h2 className="font-title text-xl font-bold text-black">How applications are received</h2>
+            <h2 className="font-title text-xl font-bold text-black">How Applications Are Received</h2>
             <p className="mt-3">
               Website applications are submitted through our careers form and emailed to our designated recruitment mailbox (
               <strong>enquiries@apx-fs.co.uk</strong>) via our email service provider (Resend). CVs are attached to that
@@ -78,7 +78,7 @@ export default function RecruitmentPrivacyPage() {
           </div>
 
           <div>
-            <h2 className="font-title text-xl font-bold text-black">Legal basis</h2>
+            <h2 className="font-title text-xl font-bold text-black">Legal Basis</h2>
             <p className="mt-3">
               We process recruitment data because it is necessary to take steps at your request before entering into a
               contract (considering you for employment) and/or because we have a legitimate interest in recruiting suitable
@@ -89,7 +89,7 @@ export default function RecruitmentPrivacyPage() {
           </div>
 
           <div>
-            <h2 className="font-title text-xl font-bold text-black">How long we keep it</h2>
+            <h2 className="font-title text-xl font-bold text-black">How Long We Keep It</h2>
             <ul className="mt-3 list-disc space-y-2 pl-5">
               <li>
                 <strong>Unsuccessful applications</strong>: we retain application materials for{" "}
@@ -110,7 +110,7 @@ export default function RecruitmentPrivacyPage() {
           </div>
 
           <div>
-            <h2 className="font-title text-xl font-bold text-black">Your rights</h2>
+            <h2 className="font-title text-xl font-bold text-black">Your Rights</h2>
             <p className="mt-3">
               You may request access to, correction of, or erasure of your personal data in certain circumstances, and you may
               object to or restrict certain processing. To exercise these rights, or if you have a complaint about how we
@@ -136,7 +136,7 @@ export default function RecruitmentPrivacyPage() {
           </div>
 
           <div>
-            <h2 className="font-title text-xl font-bold text-black">Equal opportunities</h2>
+            <h2 className="font-title text-xl font-bold text-black">Equal Opportunities</h2>
             <p className="mt-3">
               APX Fire &amp; Security is an equal-opportunities employer. We welcome applications from all suitably qualified
               candidates regardless of age, disability, gender reassignment, marriage or civil partnership, pregnancy or
@@ -146,7 +146,7 @@ export default function RecruitmentPrivacyPage() {
           </div>
 
           <div>
-            <h2 className="font-title text-xl font-bold text-black">Related policies</h2>
+            <h2 className="font-title text-xl font-bold text-black">Related Policies</h2>
             <p className="mt-3">
               For general website privacy information, see our{" "}
               <Link href="/privacy" className="font-semibold underline underline-offset-2">

@@ -10,7 +10,7 @@ import { FsFireSubpageHeroButtons } from "@/components/FsFireSubpageHeroButtons"
 import { Reveal } from "@/components/Reveal"
 import { ServiceItemReveal } from "@/components/ServiceItemReveal"
 import { ServiceFeatureImageCard } from "@/components/ServiceFeatureImageCard"
-import { serviceHeroImages } from "@/lib/serviceHeroImages"
+import { serviceHeroImages, serviceSectionImages } from "@/lib/serviceHeroImages"
 import { SERVICE_HERO_BRIDGE_GRADIENT } from "@/lib/heroBackgroundGradients"
 
 const IMG = "/service%20images/evac-capabilities"
@@ -20,6 +20,7 @@ const CAPABILITIES = [
     title: "Residential blocks & flats",
     description:
       "Evacuation alert systems for buildings containing flats, designed so the fire and rescue service can alert residents in a controlled way during an incident.",
+    id: "evac-residential",
     imageSrc: `${IMG}/residential.jpg`,
     imageAlt: "Modern apartment block of the type served by evacuation alert systems",
   },
@@ -27,6 +28,7 @@ const CAPABILITIES = [
     title: "Alert devices in dwellings",
     description:
       "Dwelling alert devices and associated wiring arranged to give a clear, recognisable alert within individual flats when activated from the fire service control point.",
+    id: "evac-dwellings",
     imageSrc: `${IMG}/dwellings.jpg`,
     imageAlt: "Interior of a contemporary flat where dwelling alert devices are installed",
   },
@@ -34,13 +36,15 @@ const CAPABILITIES = [
     title: "Control & indicating equipment",
     description:
       "Fire-service operable control and indicating equipment, zoning and indication configured to the building layout and evacuation strategy.",
-    imageSrc: `${IMG}/control.jpg`,
-    imageAlt: "Fire alarm call point and fire sign on a concrete wall",
+    id: "evac-cie",
+    imageSrc: `${IMG}/control-eacie-advanced-evacgo.jpg`,
+    imageAlt: "Advanced EvacGo evacuation alert control and indicating equipment with firefighter zone toggles",
   },
   {
     title: "Fire strategy coordination",
     description:
       "Design and cause-and-effect aligned with the fire strategy, fire risk assessment inputs and any interfaces to the wider fire detection package.",
+    id: "evac-strategy",
     imageSrc: `${IMG}/strategy.jpg`,
     imageAlt: "Engineers reviewing building drawings against the fire strategy",
   },
@@ -48,6 +52,7 @@ const CAPABILITIES = [
     title: "BS 8629 aligned delivery",
     description:
       "Design, installation, commissioning and records structured around BS 8629 for evacuation alert systems, distinct from PAVA voice alarm under BS 5839-8.",
+    id: "evac-bs8629",
     imageSrc: `${IMG}/bs8629.jpg`,
     imageAlt: "Brick residential building with external fire-escape stairs",
   },
@@ -55,6 +60,7 @@ const CAPABILITIES = [
     title: "Commissioning & handover",
     description:
       "Witnessed testing, as-built information and operator / duty-holder guidance so the system can be demonstrated at completion.",
+    id: "evac-commissioning",
     imageSrc: `${IMG}/handover.jpg`,
     imageAlt: "Site engineers reviewing commissioning records on a live project",
   },
@@ -62,6 +68,7 @@ const CAPABILITIES = [
     title: "Maintenance & testing",
     description:
       "Planned testing, fault attendance and ongoing maintenance options aligned with manufacturer guidance and BS 8629.",
+    id: "evac-maintenance",
     imageSrc: `${IMG}/testing.jpg`,
     imageAlt: "Engineer testing control gear with a multimeter",
   },
@@ -121,9 +128,10 @@ export default function EvacSystemsPage() {
             </p>
           </Reveal>
           <div className="grid grid-cols-1 gap-8 md:grid-cols-2 lg:grid-cols-3">
-            {CAPABILITIES.map(({ title, description, imageSrc, imageAlt }, index) => (
+            {CAPABILITIES.map(({ title, description, id, imageSrc, imageAlt }, index) => (
               <ServiceItemReveal key={title} index={index} className="h-full min-h-0">
                 <ServiceFeatureImageCard
+                  id={id}
                   title={title}
                   description={description}
                   imageSrc={imageSrc}
@@ -182,7 +190,7 @@ export default function EvacSystemsPage() {
 
         <ServicePageClosingSections
           serviceTitleShort="EVAC"
-          ctaImageSrc={serviceHeroImages.evac}
+          ctaImageSrc={serviceSectionImages.evacBody}
           ctaHeadline="Need an"
           ctaHeadlineAccent="EVAC System?"
           ctaDescription="Tell us about your residential block and fire strategy. We can survey, specify and deliver evacuation alert systems under BS 8629."

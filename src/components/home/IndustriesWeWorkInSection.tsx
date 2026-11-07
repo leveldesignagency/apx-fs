@@ -13,6 +13,7 @@ import {
   type LucideIcon,
 } from "lucide-react"
 import { cn } from "@/lib/utils"
+import { toTitleCase } from "@/lib/titleCase"
 
 type IndustrySlide = {
   label: string
@@ -32,43 +33,32 @@ type IndustryFeature = {
 
 const INDUSTRIES: readonly IndustrySlide[] = [
   {
-    label: "Education",
-    imageSrc: "/university.webp",
-    imageAlt: "Fire alarm systems for education campuses",
+    label: "Education & Schools",
+    imageSrc: "/industries/education-university-london.jpg",
+    imageAlt: "University of London campus, Senate House",
     href: "/projects/university-of-west-london",
-    // Wide banner crop: pin on the UWL emblem (left of frame centre)
-    objectPosition: "32% 48%",
-  },
-  {
-    label: "Schools",
-    imageSrc:
-      "/projects/case-studies/john-keats-primary-school/fire-alarm-installation-john-keats-primary-school-playground.jpg",
-    imageAlt: "Fire and security installation at a primary school",
-    href: "/projects",
   },
   {
     label: "Commercial",
-    imageSrc:
-      "/projects/case-studies/sancroft-building/case-study-sancroft-building-fire-alarm-installation-exterior.jpg",
+    imageSrc: "/industries/commercial.jpg",
     imageAlt: "Fire and security systems for commercial offices",
     href: "/projects/sancroft-building",
   },
   {
     label: "Hospitals",
-    imageSrc:
-      "/projects/case-studies/kings-college-hospital/case-study-kings-college-hospital-nhs-foundation-trust.jpg",
-    imageAlt: "Security systems at King's College Hospital",
+    imageSrc: "/industries/hospitals.jpg",
+    imageAlt: "Fire and security systems for hospitals and healthcare sites",
     href: "/projects/kings-college-hospital",
   },
   {
     label: "Housing",
-    imageSrc: "/housing.jpg",
-    imageAlt: "Fire and security systems for residential housing",
+    imageSrc: "/industries/housing-london-integrated-entry.jpg",
+    imageAlt: "High-end London home with integrated entry and access",
     href: "/projects/mayfair-townhouse",
   },
   {
     label: "Hotels",
-    imageSrc: "/hotel.jpg",
+    imageSrc: "/industries/hotels.jpg",
     imageAlt: "Fire and security systems for hotels",
     href: "/projects",
   },
@@ -77,19 +67,19 @@ const INDUSTRIES: readonly IndustrySlide[] = [
 const FEATURES: readonly IndustryFeature[] = [
   {
     Icon: Flame,
-    title: "Fire & life safety",
+    title: "Fire & Life Safety",
     text: "Addressable and conventional fire alarms, cause-and-effect programming, and BS 5839 handover documentation for live sites.",
     href: "/services/fire-life-safety",
   },
   {
     Icon: Shield,
-    title: "Integrated security",
+    title: "Integrated Security",
     text: "Intruder, CCTV, video entry, access control and gate automation designed to work together across the estate.",
     href: "/services/security-systems",
   },
   {
     Icon: Wrench,
-    title: "Maintenance & repairs",
+    title: "Maintenance & Repairs",
     text: "Planned preventative maintenance, system upgrades and 24/7 call-out so systems stay reliable after handover.",
     href: "/services/maintenance-support",
   },
@@ -141,7 +131,7 @@ export function IndustriesWeWorkInSection() {
   return (
     <section
       id="industries"
-      className="industries-section relative overflow-x-hidden bg-[var(--page-bg)] pt-10 pb-20 md:pt-12 md:pb-24 lg:pt-14 lg:pb-28"
+      className="industries-section section-spacing relative overflow-x-hidden bg-[var(--page-bg)]"
       aria-labelledby="industries-heading"
     >
       <div className="site-container">
@@ -154,18 +144,18 @@ export function IndustriesWeWorkInSection() {
           </span>
           <h2
             id="industries-heading"
-            className="home-section-title mt-3 text-white font-title"
+            className="home-section-title text-white font-title"
           >
             Industries We Work In
           </h2>
-          <p className="mt-4 max-w-2xl text-pretty text-sm leading-relaxed text-white/65 sm:text-base">
-            From schools and hospitals to commercial offices, housing and hotels, we design and install
+          <p className="section-intro-gap max-w-2xl text-pretty text-sm leading-relaxed text-white/65 sm:text-base">
+            From education and hospitals to commercial offices, high-end housing and hotels, we design and install
             fire and security systems that fit how each site actually operates.
           </p>
         </div>
       </div>
 
-      <div className="industries-split mt-12 lg:mt-16">
+      <div className="industries-split mt-10 lg:mt-12">
         <div className="industries-carousel-col">
           <div
             ref={scrollerRef}
@@ -186,8 +176,9 @@ export function IndustriesWeWorkInSection() {
                     src={item.imageSrc}
                     alt={item.imageAlt}
                     fill
+                    quality={80}
                     className={cn(
-                      "scale-110 object-cover transition-transform duration-700 ease-out motion-reduce:transition-none motion-safe:group-hover:scale-100",
+                      "scale-105 object-cover transition-transform duration-700 ease-out motion-reduce:transition-none motion-safe:group-hover:scale-100",
                       !item.objectPosition && "object-center"
                     )}
                     style={
@@ -195,14 +186,15 @@ export function IndustriesWeWorkInSection() {
                         ? { objectPosition: item.objectPosition }
                         : undefined
                     }
-                    sizes="(min-width: 1024px) 20rem, (min-width: 640px) 48vw, 72vw"
+                    sizes="(min-width: 1024px) 24rem, (min-width: 640px) 55vw, 85vw"
                   />
+                  <div className="home-photo-swarm absolute inset-0" aria-hidden />
                   <div
                     className="pointer-events-none absolute inset-0 bg-gradient-to-t from-black/80 via-black/30 to-black/15"
                     aria-hidden
                   />
                   <h3 className="absolute bottom-5 left-5 right-5 origin-bottom-left font-title text-xl font-bold tracking-tight text-white transition-transform duration-500 ease-out motion-reduce:transition-none motion-safe:group-hover:scale-[1.04] sm:text-2xl">
-                    {item.label}
+                    {toTitleCase(item.label)}
                   </h3>
                 </Link>
               </article>
@@ -251,7 +243,7 @@ export function IndustriesWeWorkInSection() {
                 />
                 <div className="min-w-0">
                   <h3 className="font-title text-lg font-bold tracking-tight text-white sm:text-xl">
-                    {title}
+                    {toTitleCase(title)}
                   </h3>
                   <p className="mt-2 text-sm leading-relaxed text-white/60 sm:text-[0.95rem]">
                     {text}

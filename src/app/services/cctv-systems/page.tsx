@@ -34,8 +34,8 @@ const CAPABILITIES = [
     title: "HD analogue upgrades",
     description: "Upgrade paths from legacy analogue to HD analogue or hybrid recording where a full IP refresh is not required.",
     id: "cctv-hd-analogue",
-    imageSrc: "/service%20images/cctv-capabilities/hd-analogue.jpg",
-    imageAlt: "Pair of analogue bullet cameras and conduit on a masonry wall",
+    imageSrc: "/service%20images/cctv-capabilities/hd-analogue-web.jpg",
+    imageAlt: "Outdoor HD bullet CCTV camera mounted against a clear blue sky",
   },
   {
     title: "Remote viewing",
@@ -48,15 +48,15 @@ const CAPABILITIES = [
     title: "Recording and retention",
     description: "Recording design with retention periods agreed to your policy, plus export paths for incidents and insurers.",
     id: "cctv-recording",
-    imageSrc: "/service%20images/cctv-capabilities/recording.jpg",
-    imageAlt: "Network video recorder with drive bays for on-site footage retention",
+    imageSrc: "/service%20images/cctv-capabilities/recording-web.jpg",
+    imageAlt: "Active server rack with status displays used for CCTV recording and retention",
   },
   {
     title: "Camera health monitoring",
     description: "Health checks and fault alerting so cameras and recorders stay online and recoverable when something fails.",
     id: "cctv-health",
-    imageSrc: "/service%20images/cctv-capabilities/health-monitoring.jpg",
-    imageAlt: "Rack-mounted storage with status lights used to monitor system health",
+    imageSrc: "/service%20images/cctv-capabilities/camera-health-web.jpg",
+    imageAlt: "Array of outdoor bullet CCTV cameras representing multi-camera health and status monitoring",
   },
   {
     title: "ANPR where offered",
@@ -69,8 +69,8 @@ const CAPABILITIES = [
     title: "Analytics where offered",
     description: "Motion, line-crossing and other analytics options where the selected system and site policy support them.",
     id: "cctv-analytics",
-    imageSrc: "/service%20images/cctv-capabilities/analytics.jpg",
-    imageAlt: "Caged camera, PIR detectors and flood lighting on a brick elevation",
+    imageSrc: "/service%20images/cctv-capabilities/analytics-web.jpg",
+    imageAlt: "Live thermal video analytics with person detection bounding box and temperature overlay",
   },
   {
     title: "Network segregation",
@@ -128,7 +128,7 @@ export default function CctvSecurityPage() {
         <section className="site-container relative z-[1] py-16 lg:py-16">
           <Reveal>
             <h2 className="mb-4 text-left font-title text-3xl font-bold text-white sm:text-4xl">
-              Commercial CCTV capabilities
+              Commercial CCTV Capabilities
             </h2>
           </Reveal>
           <Reveal delayMs={70}>

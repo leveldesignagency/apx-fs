@@ -16,7 +16,7 @@ export default function ThankYouPage() {
       <div className="h-[0.75px] w-full bg-white/30" aria-hidden />
       <section className="site-container flex flex-col items-center px-6 py-24 text-center md:py-32">
         <CheckCircle2 className="h-14 w-14 text-emerald-400" aria-hidden />
-        <h1 className="mt-8 font-title text-4xl font-bold tracking-tight md:text-5xl">Thank you</h1>
+        <h1 className="mt-8 font-title text-4xl font-bold tracking-tight md:text-5xl">Thank You</h1>
         <p className="mt-5 max-w-xl text-base leading-relaxed text-white/70 md:text-lg">
           We have received your enquiry and will respond using your preferred contact method. A confirmation email has
           also been sent to the address you provided.

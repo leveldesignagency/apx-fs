@@ -16,6 +16,8 @@ type CallPhoneCtaProps = {
 /**
  * Desktop: circular phone icon + number beside it.
  * Mobile: centered number link only (no icon).
+ * Doppler radar rings are scoped via `.fs-inset-cta-card` in globals.css
+ * so only bottom CTA banner Call Us icons animate.
  */
 export function CallPhoneCta({
   variant = "onDark",
@@ -32,7 +34,7 @@ export function CallPhoneCta({
     <a
       href={FS_PHONE_HREF}
       className={cn(
-        "group inline-flex w-full items-center justify-center rounded-sm sm:w-auto sm:justify-start sm:gap-3.5",
+        "call-phone-cta group inline-flex w-full items-center justify-center rounded-sm sm:w-auto sm:justify-start sm:gap-3.5",
         "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2",
         onDark
           ? "focus-visible:ring-white/50 focus-visible:ring-offset-[var(--page-bg)]"
@@ -43,7 +45,7 @@ export function CallPhoneCta({
     >
       <span
         className={cn(
-          "relative hidden shrink-0 items-center justify-center rounded-full transition-transform duration-300 ease-out motion-reduce:transition-none motion-safe:group-hover:scale-[1.05] sm:inline-flex",
+          "call-phone-cta__icon relative hidden shrink-0 items-center justify-center rounded-full transition-transform duration-300 ease-out motion-reduce:transition-none motion-safe:group-hover:scale-[1.05] sm:inline-flex",
           iconBox,
           onDark
             ? "bg-black ring-2 ring-white shadow-[0_0_0_1px_rgba(255,255,255,0.2)]"
@@ -51,7 +53,10 @@ export function CallPhoneCta({
         )}
         aria-hidden
       >
-        <Phone className={cn(iconSize, "text-white")} strokeWidth={2} />
+        <span className="call-phone-cta__radar" />
+        <span className="call-phone-cta__radar" />
+        <span className="call-phone-cta__radar" />
+        <Phone className={cn("relative z-[1]", iconSize, "text-white")} strokeWidth={2} />
       </span>
       <span className="flex min-w-0 flex-col items-center gap-0.5 text-center sm:items-start sm:text-left">
         <span

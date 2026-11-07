@@ -35,7 +35,7 @@ export default function LocationsPage() {
             className="text-left text-3xl font-bold sm:text-4xl md:text-5xl lg:text-6xl"
             style={{ fontFamily: "var(--font-menu)" }}
           >
-            Locations we cover
+            Locations We Cover
           </h1>
           <p className="mt-4 max-w-2xl text-left text-base font-normal tracking-tight text-white/70 sm:text-lg md:text-xl">
             APX Fire &amp; Security designs, installs and maintains fire and electronic security systems across
@@ -57,7 +57,7 @@ export default function LocationsPage() {
           id="locations-primary-heading"
           className="font-title text-2xl font-bold tracking-tight sm:text-3xl"
         >
-          Primary coverage
+          Primary Coverage
         </h2>
         <p className="mt-4 max-w-2xl text-base leading-relaxed text-white/70">
           Our core service area is Greater London plus neighbouring Home Counties. We regularly install and maintain
@@ -94,7 +94,7 @@ export default function LocationsPage() {
             id="locations-boroughs-heading"
             className="font-title text-2xl font-bold tracking-tight sm:text-3xl"
           >
-            Greater London boroughs
+            Greater London Boroughs
           </h2>
           <p className="mt-4 max-w-2xl text-base leading-relaxed text-white/70">
             We install and support fire detection, CCTV, access control and related systems across London boroughs,
@@ -115,7 +115,7 @@ export default function LocationsPage() {
           id="locations-services-heading"
           className="font-title text-2xl font-bold tracking-tight sm:text-3xl"
         >
-          What we install across our service area
+          What We Install Across Our Service Area
         </h2>
         <p className="mt-4 max-w-2xl text-base leading-relaxed text-white/70">
           From single-door access control to networked fire alarms and multi-site CCTV, our engineers deliver NSI

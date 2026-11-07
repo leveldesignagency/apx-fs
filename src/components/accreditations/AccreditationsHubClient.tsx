@@ -19,6 +19,7 @@ import {
   FS_ACCREDITATIONS_HERO_IMAGE,
   FS_ACCREDITATIONS_SECTION_PX,
 } from "@/lib/fsAccreditationsLayout"
+import { toTitleCase } from "@/lib/titleCase"
 
 /** Independent certification / registration / pre-qualification */
 const ACCREDITATIONS: FsAccreditationSlug[] = ["nsi", "bafe", "constructionline"]
@@ -46,7 +47,7 @@ function CredentialCards({ slugs, baseDelay }: { slugs: FsAccreditationSlug[]; b
                     className="mt-3 text-3xl font-bold leading-tight text-white md:text-4xl lg:text-[2.65rem]"
                     style={{ fontFamily: "var(--font-menu)" }}
                   >
-                    {item.name}
+                    {toTitleCase(item.name)}
                   </h3>
                   <p className="mt-5 max-w-2xl text-base leading-relaxed text-white/72 md:mt-6 md:text-[1.0625rem] lg:text-lg">
                     {item.intro}
@@ -117,7 +118,7 @@ export function AccreditationsHubClient() {
               className="text-2xl font-bold text-white md:text-3xl"
               style={{ fontFamily: "var(--font-menu)" }}
             >
-              At a glance
+              At a Glance
             </h2>
           </Reveal>
           <ul className="mt-8 grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
@@ -140,7 +141,7 @@ export function AccreditationsHubClient() {
               className="mb-3 text-2xl font-bold text-white md:text-3xl"
               style={{ fontFamily: "var(--font-menu)" }}
             >
-              Accreditations &amp; certifications
+              Accreditations &amp; Certifications
             </h2>
             <p className="mb-10 max-w-2xl text-sm leading-relaxed text-white/60 md:mb-12 md:text-base">
               Third-party approval, registration and pre-qualification that relate to how we design, install and maintain
@@ -176,7 +177,7 @@ export function AccreditationsHubClient() {
         backgroundImageSrc={FS_ACCREDITATIONS_HERO_IMAGE}
         showBorderTop={false}
         headline="Discuss your"
-        headlineAccent="requirements."
+        headlineAccent="requirements"
         description="Need assurance on standards, certification or procurement for an upcoming project? Our team can talk through how these credentials apply to your scope."
       >
         <CustomPillButton href="/contact" size="lg">

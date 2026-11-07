@@ -73,7 +73,7 @@ export function NewsHubClient({ articles }: NewsHubClientProps) {
                 className="text-left text-3xl font-bold text-black sm:text-4xl md:text-5xl lg:text-6xl"
                 style={{ fontFamily: "var(--font-menu)" }}
               >
-                Security systems news &amp; information
+                Security Systems News &amp; Information
               </h1>
               <p className="mt-4 max-w-2xl text-left text-base font-normal tracking-tight text-black/70 sm:text-lg md:text-xl">
                 Project wins, sector updates and practical guidance from our Fire and Security teams across London and

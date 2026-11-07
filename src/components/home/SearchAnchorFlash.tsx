@@ -6,9 +6,9 @@ import { scrollDocumentToElement } from "@/lib/lenisBridge"
 
 const FLASH_KEY = "apx-fs-search-flash-id"
 const FLASH_EVENT = "apx-fs-run-search-flash"
-/** Hold at full white, then allow border to ease back to CSS opacity. */
-const FOCUS_HOLD_MS = 900
-const FOCUS_FADE_MS = 450
+/** Hold isolated focus, then ease blur/border back to normal. */
+const FOCUS_HOLD_MS = 1100
+const FOCUS_FADE_MS = 400
 
 /** In-memory backup: sessionStorage alone can race with route transitions. */
 let pendingFlashId: string | null = null
@@ -62,23 +62,33 @@ function clearFocusEffects() {
 
 function softBlurSiblings(el: HTMLElement) {
   const wrap = (el.closest(".about-reveal") as HTMLElement | null) ?? el.parentElement
-  const grid = wrap?.parentElement
   const section = el.closest("section") as HTMLElement | null
-  const sectionParent = section?.parentElement
+  const pageRoot =
+    (el.closest(".service-page-root") as HTMLElement | null) ??
+    (el.closest("main") as HTMLElement | null) ??
+    document.body
 
   const mark = (node: Element | null | undefined) => {
-    if (node instanceof HTMLElement) node.classList.add("search-anchor-soft-blur")
+    if (!(node instanceof HTMLElement)) return
+    if (wrap && (node === wrap || wrap.contains(node) || node.contains(wrap))) return
+    node.classList.add("search-anchor-soft-blur")
   }
 
-  if (grid && wrap) {
-    for (const child of Array.from(grid.children)) {
-      if (child !== wrap) mark(child)
+  // Blur every other reveal card on the page so the target reads in isolation
+  pageRoot.querySelectorAll(".about-reveal").forEach((node) => {
+    if (node !== wrap) mark(node)
+  })
+
+  // Blur sibling blocks within the page (hero, other sections, closing CTAs)
+  if (section?.parentElement) {
+    for (const child of Array.from(section.parentElement.children)) {
+      mark(child)
     }
   }
-
-  if (sectionParent && section) {
-    for (const child of Array.from(sectionParent.children)) {
-      if (child !== section) mark(child)
+  if (pageRoot !== document.body) {
+    for (const child of Array.from(pageRoot.children)) {
+      if (section && child.contains(section)) continue
+      mark(child)
     }
   }
 

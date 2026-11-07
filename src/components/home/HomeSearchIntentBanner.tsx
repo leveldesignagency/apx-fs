@@ -60,8 +60,12 @@ export function HomeSearchIntentBanner() {
         setActiveIndex(0)
         // scroll: false so Next does not jump to top and cancel Lenis card scroll
         router.push(path, { scroll: false })
-        if (hash && current === target) {
+        if (!hash) return
+        // Same page: run immediately. Cross-page: retry after route paint.
+        if (current === target) {
           requestSearchAnchorFlash()
+        } else {
+          window.setTimeout(() => requestSearchAnchorFlash(), 280)
         }
       }, 160)
     },

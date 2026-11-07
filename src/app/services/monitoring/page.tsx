@@ -37,15 +37,15 @@ const CAPABILITIES = [
     title: "Intruder monitoring",
     description:
       "Monitored intruder pathways aligned with PD 6662 / BS EN 50131 expectations and the ARC response grade agreed at survey.",
-    imageSrc: `${IMG}/intruder.jpg`,
-    imageAlt: "Illuminated wall-mounted security keypad",
+    imageSrc: `${IMG}/intruder-monitoring-commercial-night.jpg`,
+    imageAlt: "Commercial office building at night — the kind of unattended premises ARC-monitored intruder systems protect after hours",
   },
   {
     title: "Fire signalling",
     description:
       "Fire alarm signalling arrangements where the fire strategy and ARC product require remote notification of fire events.",
-    imageSrc: `${IMG}/fire.jpg`,
-    imageAlt: "Red fire alarm call point and fire sign on a concrete wall",
+    imageSrc: `${IMG}/fire-signalling-advanced-mxpro.jpg`,
+    imageAlt: "Advanced MxPro fire alarm control panel in a commercial premises",
   },
   {
     title: "CCTV remote pathways",
@@ -160,7 +160,7 @@ export default function MonitoringServicePage() {
           title="How monitoring fits your site"
           titleId="monitoring-how-it-fits-heading"
           imageSrc={serviceSectionImages.monitoringBody}
-          imageAlt="Remote monitoring workstation reviewing security events"
+          imageAlt="Operators reviewing live multi-camera CCTV feeds in a monitoring centre"
           imageSide="right"
         >
           <p>

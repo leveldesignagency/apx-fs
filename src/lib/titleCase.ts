@@ -43,17 +43,23 @@ const ACRONYMS = new Set([
   "bms",
   "bs",
   "cctv",
+  "en",
   "evac",
+  "evc",
   "fia",
   "gdpr",
   "ip",
+  "ir",
   "m&e",
+  "nhs",
   "nsi",
   "o&m",
   "pa/va",
   "pava",
   "ppm",
+  "ptz",
   "rams",
+  "ukas",
   "wc",
 ])
 
@@ -95,10 +101,11 @@ function capitaliseWord(raw: string): string {
 
 /**
  * Title Case for display headings. Small words stay lowercase unless first/last.
+ * Trailing full stops are removed (client preference: no periods on headers).
  * Empty / whitespace-only strings are returned unchanged.
  */
 export function toTitleCase(input: string): string {
-  const trimmed = input.trim()
+  const trimmed = input.trim().replace(/\.+$/, "")
   if (!trimmed) return input
 
   const words = trimmed.split(/\s+/)
@@ -116,4 +123,5 @@ export function toTitleCase(input: string): string {
       return capitaliseWord(word)
     })
     .join(" ")
+    .replace(/\.+$/, "")
 }

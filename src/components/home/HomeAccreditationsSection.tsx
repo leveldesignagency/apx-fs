@@ -1,7 +1,7 @@
 "use client"
 
 import Link from "next/link"
-import { useEffect, useRef } from "react"
+import { useEffect, useRef, type CSSProperties } from "react"
 import { CustomPillButton } from "@/components/ui/CustomPillButton"
 import { cn } from "@/lib/utils"
 
@@ -18,6 +18,9 @@ const ACCREDITATIONS_LOGOS: { slug: string; src: string; alt: string }[] = [
 type HomeAccreditationsSectionProps = {
   visible?: boolean
 }
+
+const delayStyle = (ms: number): CSSProperties =>
+  ({ "--acc-delay": `${ms}ms` }) as CSSProperties
 
 /** Accreditations band, viewport-fixed photo, content scrolls over it */
 export function HomeAccreditationsSection({ visible = true }: HomeAccreditationsSectionProps) {
@@ -68,60 +71,68 @@ export function HomeAccreditationsSection({ visible = true }: HomeAccreditations
           alt=""
           className="h-full w-full object-cover object-center"
         />
+        <div className="home-photo-swarm absolute inset-0" aria-hidden />
       </div>
 
       <section
         ref={sectionRef}
         id="accreditations"
-        className="home-accreditations-section relative z-[16] bg-transparent"
+        className={cn(
+          "home-accreditations-section relative z-[16] bg-transparent",
+          visible && "home-accreditations-section--in",
+        )}
         aria-labelledby="home-accreditations-heading"
       >
         <div className="pointer-events-none absolute inset-0 bg-black/58" aria-hidden />
 
-        <div
-          className={cn(
-            "site-container relative z-10 py-20 text-center home-scroll-rise sm:py-20 lg:py-24",
-            visible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-14",
-          )}
-        >
-          <span
-            className="section-label mb-1 block text-white/70"
-            style={{ fontFamily: "var(--font-menu), sans-serif" }}
-          >
-            Accreditations &amp; Memberships
-          </span>
-          <h3
-            id="home-accreditations-heading"
-            className="home-section-title font-title text-white"
-          >
-            Accredited &amp; Fully Qualified
-          </h3>
-          <p className="mx-auto mt-5 max-w-2xl text-base leading-relaxed text-white/82">
-            Our public credentials match the Accreditations page: NSI Gold (Security and Fire), BAFE Registered,
-            Constructionline Gold, FIA Full Member and BS EN ISO 9001:2015, so procurement and duty holders see the same
-            claims site-wide.
-          </p>
+        <div className="site-container section-spacing relative z-10 text-center">
+          <div className="home-acc-clip mx-auto" style={delayStyle(0)}>
+            <span
+              className="home-acc-clip__inner section-label text-white/70"
+              style={{ fontFamily: "var(--font-menu), sans-serif" }}
+            >
+              Accreditations &amp; Memberships
+            </span>
+          </div>
 
-          <div className="mx-auto mt-10 grid w-full max-w-5xl grid-cols-2 place-items-center gap-6 sm:gap-8 lg:max-w-6xl lg:grid-cols-4 lg:gap-10">
-            {ACCREDITATIONS_LOGOS.map(({ slug, src, alt }) => (
+          <div className="home-acc-clip mx-auto mt-3" style={delayStyle(70)}>
+            <h3
+              id="home-accreditations-heading"
+              className="home-acc-clip__inner home-section-title font-title text-white"
+            >
+              Accredited &amp; Fully Qualified
+            </h3>
+          </div>
+
+          <div className="home-acc-clip mx-auto mt-4 max-w-2xl" style={delayStyle(140)}>
+            <p className="home-acc-clip__inner section-intro-gap text-base leading-relaxed text-white/82">
+              Our public credentials match the Accreditations page: NSI Gold (Security and Fire), BAFE Registered,
+              Constructionline Gold, FIA Full Member and BS EN ISO 9001:2015, so procurement and duty holders see the same
+              claims site-wide.
+            </p>
+          </div>
+
+          <div className="mx-auto mt-10 grid w-full max-w-5xl grid-cols-2 place-items-center gap-6 sm:gap-8 lg:max-w-6xl lg:grid-cols-4 lg:gap-8">
+            {ACCREDITATIONS_LOGOS.map(({ slug, src, alt }, i) => (
               <Link
                 key={slug}
                 href={`/accreditations/${slug}`}
-                className="group flex h-24 w-full items-center justify-center sm:h-28"
+                className="home-acc-rise group flex h-24 w-full items-center justify-center sm:h-28"
+                style={delayStyle(220 + i * 80)}
                 aria-label={`${alt}, view dedicated accreditation page`}
               >
                 {/* eslint-disable-next-line @next/next/no-img-element */}
                 <img
                   src={src}
                   alt=""
-                  className="h-20 w-auto max-w-[85%] object-contain opacity-90 transition-[opacity,transform] duration-300 ease-out group-hover:scale-[1.06] group-hover:opacity-100 sm:h-24"
+                  className="h-20 w-auto max-w-[85%] object-contain opacity-90 transition-transform duration-300 ease-out group-hover:scale-[1.06] sm:h-24"
                   aria-hidden
                 />
               </Link>
             ))}
           </div>
 
-          <div className="mt-10 flex justify-center">
+          <div className="home-acc-rise mt-10 flex justify-center" style={delayStyle(560)}>
             <CustomPillButton href="/accreditations" size="md">
               View accreditations
             </CustomPillButton>

@@ -21,7 +21,7 @@ export default function CareersPage() {
         <div className="careers-page-header careers-divider-b max-w-2xl border-b border-white/12 pb-10 sm:pb-12">
           <p className="text-[11px] font-semibold uppercase tracking-[0.22em] text-white/45">Careers</p>
           <h1 className="mt-3 font-title text-3xl font-bold leading-tight tracking-tight text-white sm:text-4xl md:text-5xl">
-            Find your next role
+            Find Your Next Role
           </h1>
           <p className="mt-4 text-base leading-relaxed text-white/65 sm:text-lg">
             Skilled engineers and installers who share our standards for compliant, quality delivery on site across
@@ -32,7 +32,7 @@ export default function CareersPage() {
         <CareersSearchAndRoles roles={FS_CAREER_ROLES} />
 
         <aside className="mt-16 max-w-3xl border-t border-white/12 pt-10 sm:mt-20 sm:pt-12">
-          <h2 className="font-title text-xl font-bold text-white sm:text-2xl">Equal opportunities &amp; privacy</h2>
+          <h2 className="font-title text-xl font-bold text-white sm:text-2xl">Equal Opportunities &amp; Privacy</h2>
           <p className="mt-4 text-sm leading-relaxed text-white/65 sm:text-base">
             APX Fire &amp; Security is an equal-opportunities employer. We welcome applications from all suitably
             qualified candidates. Decisions are based on experience, skills and ability to do the job.

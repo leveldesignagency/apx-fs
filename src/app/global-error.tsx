@@ -15,7 +15,7 @@ export default function GlobalError({
   return (
     <html lang="en-GB">
       <body className="min-h-dvh bg-black p-6 font-sans text-white antialiased">
-        <h1 className="text-lg font-semibold">Something went wrong</h1>
+        <h1 className="text-lg font-semibold">Something Went Wrong</h1>
         <p className="mt-2 text-sm text-white/80">{error.message}</p>
         <button
           type="button"

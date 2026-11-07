@@ -13,6 +13,7 @@ import {
   CCTV_CAMERA_TYPE_QUICK_LINKS,
   type CctvCameraTypePage,
 } from "@/data/cctvCameraTypePages"
+import { toTitleCase } from "@/lib/titleCase"
 
 function FadeInBlock({ children, delayMs = 0 }: { children: ReactNode; delayMs?: number }) {
   const ref = useRef<HTMLDivElement>(null)
@@ -76,7 +77,7 @@ export function CctvCameraTypeDetailClient({ page }: { page: CctvCameraTypePage 
           <div className="grid grid-cols-1 gap-10 lg:grid-cols-12 lg:items-center lg:gap-12 xl:gap-16">
             <div className="min-w-0 lg:col-span-7">
               <h1 className="font-title text-4xl font-bold leading-tight tracking-tight text-white sm:text-5xl lg:text-[2.75rem] lg:leading-[1.08]">
-                {page.title}
+                {toTitleCase(page.title)}
               </h1>
               <p className="mt-6 max-w-3xl text-lg leading-relaxed text-gray-300 sm:text-xl">{page.heroIntro}</p>
               <div className="mt-8 flex flex-col items-start gap-4 sm:flex-row sm:flex-wrap sm:items-center">
@@ -132,7 +133,9 @@ export function CctvCameraTypeDetailClient({ page }: { page: CctvCameraTypePage 
             {page.sections.map((section, i) => (
               <FadeInBlock key={section.heading} delayMs={i * 90}>
                 <section className={i > 0 ? "mt-14 border-t border-white/10 pt-14" : ""}>
-                  <h2 className="font-title text-2xl font-bold text-white sm:text-3xl">{section.heading}</h2>
+                  <h2 className="font-title text-2xl font-bold text-white sm:text-3xl">
+                    {toTitleCase(section.heading)}
+                  </h2>
                   <p className="mt-5 text-base leading-relaxed text-gray-300 sm:text-lg">{section.body}</p>
                 </section>
               </FadeInBlock>

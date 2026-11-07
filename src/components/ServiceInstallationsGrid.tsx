@@ -6,6 +6,7 @@ import { ArrowRight } from "lucide-react"
 import { ServiceItemReveal } from "@/components/ServiceItemReveal"
 import { FS_SERVICE_INSTALLATIONS_GRID, FS_SERVICE_SHIMMER_CARD } from "@/lib/fsServicePageCards"
 import { cn } from "@/lib/utils"
+import { toTitleCase } from "@/lib/titleCase"
 
 export type ServiceInstallationsGridProps = {
   /** Number of project cards rendered as children (used for fill-CTA span). */
@@ -28,7 +29,7 @@ export function ServiceInstallationsGrid({
   count,
   children,
   ctaHref,
-  ctaTitle = "Planning a similar project?",
+  ctaTitle = "Planning a Similar Project?",
   ctaBody = "Tell us about your site - we will survey, design and quote.",
   ctaLabel = "Get a free quote",
   className,
@@ -72,7 +73,7 @@ export function ServiceInstallationsGrid({
               Next project
             </p>
             <h3 className="max-w-[16rem] font-title text-xl font-bold leading-snug tracking-tight text-white sm:text-2xl">
-              {ctaTitle}
+              {toTitleCase(ctaTitle)}
             </h3>
             <p className="mt-3 max-w-sm text-sm leading-relaxed text-white/65 sm:text-[0.9375rem]">
               {ctaBody}

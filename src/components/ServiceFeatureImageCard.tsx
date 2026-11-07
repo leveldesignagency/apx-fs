@@ -9,6 +9,8 @@ type ServiceFeatureImageCardProps = {
   imageSrc: string
   imageAlt: string
   className?: string
+  /** Extra classes on the fill Image (e.g. object-bottom to reframe within the mask). */
+  imageClassName?: string
   /** Anchor id for homepage search deep-links + flash highlight. */
   id?: string
 }
@@ -24,6 +26,7 @@ export function ServiceFeatureImageCard({
   imageSrc,
   imageAlt,
   className,
+  imageClassName,
   id,
 }: ServiceFeatureImageCardProps) {
   return (
@@ -36,24 +39,24 @@ export function ServiceFeatureImageCard({
         className
       )}
     >
-      <div className="relative aspect-[4/5] w-full overflow-hidden bg-white/5 md:aspect-[16/10]">
+      <div className="relative aspect-[4/3] w-full overflow-hidden bg-white/5 sm:aspect-[5/4] md:aspect-[16/10]">
         <Image
           src={imageSrc}
           alt={imageAlt}
           fill
           sizes="(min-width: 1024px) 30vw, (min-width: 768px) 45vw, 100vw"
-          className={cn(FS_SERVICE_IMAGE_GROW_INNER, "object-cover")}
+          className={cn(FS_SERVICE_IMAGE_GROW_INNER, "object-cover object-center", imageClassName)}
         />
         <div
-          className="pointer-events-none absolute inset-x-0 bottom-0 h-[78%] bg-gradient-to-t from-black from-[18%] via-black/80 via-[48%] to-transparent md:h-[85%] md:from-[12%] md:via-[40%]"
+          className="pointer-events-none absolute inset-x-0 bottom-0 h-[82%] bg-gradient-to-t from-black from-[22%] via-black/80 via-[52%] to-transparent md:h-[85%] md:from-[12%] md:via-[40%]"
           aria-hidden
         />
-        <div className="absolute inset-x-0 bottom-0 z-[1] flex flex-col px-6 pb-6 pt-8 sm:px-7 sm:pb-7 md:px-6 md:pb-5 md:pt-6">
-          <h3 className="min-w-0 text-left font-title text-xl font-bold leading-tight tracking-tight text-white sm:text-[1.35rem]">
+        <div className="absolute inset-x-0 bottom-0 z-[1] flex flex-col px-5 pb-5 pt-6 sm:px-7 sm:pb-7 sm:pt-8 md:px-6 md:pb-5 md:pt-6">
+          <h3 className="min-w-0 text-left font-title text-lg font-bold leading-tight tracking-tight text-white sm:text-xl md:text-[1.35rem]">
             {toTitleCase(title)}
           </h3>
           <p
-            className="mt-3 text-left text-[15px] leading-[1.65] text-white/90 md:mt-0 md:max-h-0 md:overflow-hidden md:opacity-0 md:transition-[max-height,opacity,margin] md:duration-300 md:ease-out md:group-hover:mt-2 md:group-hover:max-h-40 md:group-hover:opacity-100 motion-reduce:md:mt-2 motion-reduce:md:max-h-none motion-reduce:md:opacity-100"
+            className="mt-2 text-left text-[14px] leading-[1.55] text-white/90 sm:mt-3 sm:text-[15px] sm:leading-[1.65] md:mt-0 md:max-h-0 md:overflow-hidden md:opacity-0 md:transition-[max-height,opacity,margin] md:duration-300 md:ease-out md:group-hover:mt-2 md:group-hover:max-h-40 md:group-hover:opacity-100 motion-reduce:md:mt-2 motion-reduce:md:max-h-none motion-reduce:md:opacity-100"
           >
             {description}
           </p>

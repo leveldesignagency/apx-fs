@@ -95,7 +95,7 @@ export default function DomesticCctvPage() {
         <section className="site-container relative z-[1] py-16 lg:py-16">
           <Reveal>
             <h2 className="mb-10 text-left font-title text-3xl font-bold text-white sm:text-4xl">
-              Residential CCTV, surveyed properly
+              Residential CCTV, Surveyed Properly
             </h2>
           </Reveal>
           <div className="grid grid-cols-1 gap-8 md:grid-cols-3">
@@ -115,8 +115,8 @@ export default function DomesticCctvPage() {
               {
                 title: "Evidence & oversight",
                 text: "Recording supports review and insurance when incidents occur, CCTV does not guarantee crime will be prevented.",
-                imageSrc: "/service%20images/cctv-capabilities/recording.jpg",
-                imageAlt: "NVR drive bays used for CCTV recording and evidence export",
+                imageSrc: "/service%20images/cctv-capabilities/evidence-oversight.jpg",
+                imageAlt: "Residential CCTV-style view of an attempted break-in at patio doors, for incident review and evidence",
               },
             ].map((item, i) => (
               <ServiceItemReveal key={item.title} index={i} className="h-full min-h-0">
@@ -235,7 +235,7 @@ export default function DomesticCctvPage() {
           serviceTitleShort="Domestic CCTV"
           ctaImageSrc={serviceHeroImages.domesticCctv}
           ctaHeadline="Request a"
-          ctaHeadlineAccent="Residential Survey."
+          ctaHeadlineAccent="Residential Survey"
           ctaDescription="Free site visit and recommendations for homes in London and the Home Counties. Quotes follow the survey, no online package pricing. No obligation."
         >
           <CustomPillButton href={RESIDENTIAL_ENQUIRY_HREF} size="md">

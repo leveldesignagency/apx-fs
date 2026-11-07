@@ -46,18 +46,20 @@ export const VIDEO_DOOR_TECH_PARTNERS: readonly PartnerLogoEntry[] = [
 ]
 
 export const INTRUDER_ALARM_TECHNOLOGY_PARTNERS: readonly PartnerLogoEntry[] = [
-  { name: "Honeywell", href: "https://buildings.honeywell.com/uk/en", logoSrc: `${INTRUDER_ALARM_BRANDS_DIR}/honeywell-logo-1.svg`, logoScaleClass: "scale-[0.95]" },
-  { name: "Eaton", href: "https://www.eaton.com/gb/en-gb/catalog/security-intrusion---detection.html", logoSrc: `${INTRUDER_ALARM_BRANDS_DIR}/eaton-6-1.svg`, logoScaleClass: "scale-[0.95]" },
-  { name: "Optex", href: "https://www.optex.eu/", logoSrc: `${INTRUDER_ALARM_BRANDS_DIR}/optex-vehicle-sensors-vector-logo.svg`, logoScaleClass: "scale-[1.55]" },
+  { name: "Honeywell", href: "https://buildings.honeywell.com/uk/en", logoSrc: `${INTRUDER_ALARM_BRANDS_DIR}/honeywell-logo-1.svg`, logoScaleClass: "scale-[1]" },
+  { name: "Eaton", href: "https://www.eaton.com/gb/en-gb/catalog/security-intrusion---detection.html", logoSrc: `${INTRUDER_ALARM_BRANDS_DIR}/eaton-6-1.svg`, logoScaleClass: "scale-[1]" },
+  { name: "Optex", href: "https://www.optex.eu/", logoSrc: `${INTRUDER_ALARM_BRANDS_DIR}/optex-vehicle-sensors-vector-logo.svg`, logoScaleClass: "scale-[1]" },
   { name: "Texecom", href: "https://www.texe.com/", logoSrc: `${INTRUDER_ALARM_BRANDS_DIR}/texecom.png`, logoScaleClass: "scale-[1]", logoLightClassName: "brightness-0" },
   { name: "CQR", href: "https://www.cqr-alarms.com/", logoSrc: "/service%20images/intruders/cqr%20logo.png", logoScaleClass: "scale-[1]", logoLightClassName: "brightness-0" },
 ]
 
 export const FIRE_ALARM_EQUIPMENT_PARTNERS: readonly PartnerLogoEntry[] = [
-  { name: "Xtralis", href: "https://www.xtralis.com/", logoSrc: `${FIRE_ALARM_BRANDS_DIR}/xtralis-logo-anthracite.svg`, logoScaleClass: "scale-[1.05]" },
-  { name: "Vox Ignis", href: "https://www.voxignis.com/", logoSrc: `${FIRE_ALARM_BRANDS_DIR}/product-logo-vox-ignis-600x400.png`, logoScaleClass: "scale-[1.15]" },
-  { name: "Advanced", href: "https://www.advanced.co.uk/", logoSrc: `${FIRE_ALARM_BRANDS_DIR}/product-logo-advanced-600x400.png`, logoScaleClass: "scale-[1.15]" },
-  { name: "Reach Wireless", href: "https://www.reachwireless.co.uk/", logoSrc: `${FIRE_ALARM_BRANDS_DIR}/product-logo-reach-wireless-600x400.png`, logoScaleClass: "scale-[1.15]" },
-  { name: "Apollo", href: "https://www.apollo-fire.co.uk/", logoSrc: `${FIRE_ALARM_BRANDS_DIR}/product-logo-apollo-600x400.png`, logoScaleClass: "scale-[1.15]" },
-  { name: "EMS", href: "https://www.emsgroupuk.com/", logoSrc: `${FIRE_ALARM_BRANDS_DIR}/product-logo-ems-600x400.png`, logoScaleClass: "scale-[1.15]" },
+  { name: "Hochiki", href: "https://www.hochikieurope.com/en-gb/", logoSrc: `${FIRE_ALARM_BRANDS_DIR}/product-logo-hochiki.svg` },
+  { name: "EDA", href: "https://www.electrodetectors.co.uk/", logoSrc: `${FIRE_ALARM_BRANDS_DIR}/product-logo-eda.png` },
+  { name: "Xtralis", href: "https://www.xtralis.com/", logoSrc: `${FIRE_ALARM_BRANDS_DIR}/xtralis-logo-anthracite.svg` },
+  { name: "Vox Ignis", href: "https://www.voxignis.com/", logoSrc: `${FIRE_ALARM_BRANDS_DIR}/product-logo-vox-ignis-600x400.png?v=trim` },
+  { name: "Advanced", href: "https://www.advanced.co.uk/", logoSrc: `${FIRE_ALARM_BRANDS_DIR}/product-logo-advanced-600x400.png?v=trim` },
+  { name: "Reach Wireless", href: "https://www.reachwireless.co.uk/", logoSrc: `${FIRE_ALARM_BRANDS_DIR}/product-logo-reach-wireless-600x400.png?v=trim` },
+  { name: "Apollo", href: "https://www.apollo-fire.co.uk/", logoSrc: `${FIRE_ALARM_BRANDS_DIR}/product-logo-apollo-600x400.png?v=trim` },
+  { name: "EMS", href: "https://www.emsgroupuk.com/", logoSrc: `${FIRE_ALARM_BRANDS_DIR}/product-logo-ems-600x400.png?v=trim` },
 ]

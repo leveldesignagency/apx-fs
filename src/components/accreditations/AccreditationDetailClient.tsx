@@ -19,6 +19,7 @@ import {
   FS_ACCREDITATIONS_HERO_IMAGE,
   FS_ACCREDITATIONS_SECTION_PX,
 } from "@/lib/fsAccreditationsLayout"
+import { toTitleCase } from "@/lib/titleCase"
 import { cn } from "@/lib/utils"
 
 type AccredBody = (typeof FS_ACCREDITATIONS)[FsAccreditationSlug]
@@ -27,10 +28,10 @@ const DETAIL_BLOCKS: {
   key: keyof Pick<AccredBody, "intro" | "apxStatus" | "scope" | "whyItMatters">
   heading: string
 }[] = [
-  { key: "intro", heading: "What the organisation is" },
-  { key: "apxStatus", heading: "APX's status" },
-  { key: "scope", heading: "Scope covered" },
-  { key: "whyItMatters", heading: "Why it matters to customers" },
+  { key: "intro", heading: "What the Organisation Is" },
+  { key: "apxStatus", heading: "APX's Status" },
+  { key: "scope", heading: "Scope Covered" },
+  { key: "whyItMatters", heading: "Why It Matters to Customers" },
 ]
 
 export function AccreditationDetailClient({
@@ -101,7 +102,7 @@ export function AccreditationDetailClient({
                     className="mt-3 text-3xl font-bold leading-[1.08] text-white md:text-4xl lg:text-5xl xl:text-[3.25rem]"
                     style={{ fontFamily: "var(--font-menu)" }}
                   >
-                    {accred.title}
+                    {toTitleCase(accred.title)}
                   </h1>
                   <p className="mt-5 max-w-2xl pb-2 text-base leading-relaxed text-white/85 md:mt-6 md:pb-4 md:text-lg lg:pb-6">
                     {accred.apxStatus}
@@ -161,7 +162,7 @@ export function AccreditationDetailClient({
                   className="text-lg font-bold text-white md:text-xl"
                   style={{ fontFamily: "var(--font-menu)" }}
                 >
-                  UKAS, accurate wording
+                  UKAS, Accurate Wording
                 </h2>
                 <p className="mt-3 max-w-3xl text-base leading-relaxed text-white/72 md:text-[1.0625rem]">
                   {accred.ukasNote}
@@ -177,7 +178,7 @@ export function AccreditationDetailClient({
                   className="text-xl font-bold text-white md:text-2xl"
                   style={{ fontFamily: "var(--font-menu)" }}
                 >
-                  Official register / website
+                  Official Register / Website
                 </h2>
                 <p className="mt-3 max-w-2xl text-sm leading-relaxed text-white/60 md:text-base">
                   Verify the live listing where a public register is available. Do not rely on website copy alone for

@@ -1,9 +1,7 @@
 "use client"
 
-import { useMemo, useState } from "react"
 import Image from "next/image"
 import Link from "next/link"
-import { ChevronLeft, ChevronRight, X } from "lucide-react"
 import { CustomPillButton } from "@/components/ui/CustomPillButton"
 import { CallPhoneCta } from "@/components/ui/CallPhoneCta"
 import { FsInsetCtaCard } from "@/components/FsInsetCtaCard"
@@ -11,205 +9,102 @@ import { Reveal } from "@/components/Reveal"
 import { ServiceItemReveal } from "@/components/ServiceItemReveal"
 import { MAIN_CASE_STUDIES } from "@/data/projects"
 import { FS_PROJECTS_CONTENT_MAX, FS_PROJECTS_SECTION_PX } from "@/lib/fsProjectsLayout"
-
-/** Grid card CTAs only, square corners; “Get in touch” uses `CustomPillButton` (TL/BR rounded like hero). */
-const PROJECTS_GRID_CTA_CLASS =
-  "pill-btn pill-btn--square relative inline-flex cursor-pointer items-center justify-center overflow-hidden bg-black px-4 py-2.5 text-xs uppercase tracking-[0.12em] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/50 focus-visible:ring-offset-2 focus-visible:ring-offset-black"
+import { toTitleCase } from "@/lib/titleCase"
 
 export default function ProjectsPage() {
-  const [activeProjectSlug, setActiveProjectSlug] = useState<string | null>(null)
-  const [activeImageIndex, setActiveImageIndex] = useState(0)
-  const textClass = "text-white"
-  const mutedClass = "text-white/70"
-  const bgStyle = { backgroundColor: "var(--page-bg)" }
-  const projects = useMemo(() => MAIN_CASE_STUDIES, [])
-  const activeProject = activeProjectSlug
-    ? projects.find((project) => project.slug === activeProjectSlug) ?? null
-    : null
-  const activeGallery = activeProject?.gallery ?? []
-
-  const openGallery = (slug: string, imageIndex = 0) => {
-    setActiveProjectSlug(slug)
-    setActiveImageIndex(imageIndex)
-  }
-
-  const closeGallery = () => {
-    setActiveProjectSlug(null)
-    setActiveImageIndex(0)
-  }
-
-  const prevImage = () => {
-    if (!activeGallery.length) return
-    setActiveImageIndex((idx) => (idx - 1 + activeGallery.length) % activeGallery.length)
-  }
-
-  const nextImage = () => {
-    if (!activeGallery.length) return
-    setActiveImageIndex((idx) => (idx + 1) % activeGallery.length)
-  }
+  const projects = MAIN_CASE_STUDIES
 
   return (
-    <div className="fs-projects-page min-h-screen overflow-x-hidden" style={bgStyle}>
-      <section className={`page-title-band ${FS_PROJECTS_SECTION_PX}`}>
+    <div className="fs-projects-page min-h-screen overflow-x-hidden bg-[var(--page-bg)] text-white">
+      <section className={`page-title-band border-b border-white/10 ${FS_PROJECTS_SECTION_PX}`}>
         <div className={FS_PROJECTS_CONTENT_MAX}>
-          <div className="max-w-2xl">
+          <div className="max-w-3xl">
             <Reveal>
-              <span className="section-label mb-3 block text-white/75">Work in focus</span>
+              <span className="section-label mb-3 block text-white/75">Work in Focus</span>
               <h1
-                className={`text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold mb-2 md:mb-3 text-left ${textClass}`}
-                style={{ fontFamily: "var(--font-menu)" }}
+                className="text-left font-title text-3xl font-bold tracking-tight sm:text-4xl md:text-5xl lg:text-6xl"
               >
-                Built to sign off, Fire & Security that endures
+                Built to Sign Off, Fire &amp; Security That Endures
               </h1>
-              <p className={`text-base sm:text-lg md:text-xl font-normal text-left tracking-tight ${mutedClass}`}>
-                A selection of Fire and Security installations we have delivered for commercial, public sector, and domestic clients across London and the Home Counties.
+              <p className="mt-4 max-w-2xl text-left text-base font-normal leading-relaxed tracking-tight text-white/70 sm:text-lg md:text-xl">
+                A selection of fire and security installations we have delivered for commercial, public-sector and
+                domestic clients across London and the Home Counties.
               </p>
             </Reveal>
           </div>
         </div>
       </section>
 
-      <section className={`py-16 lg:py-16 ${FS_PROJECTS_SECTION_PX}`} style={bgStyle}>
+      <section className={`border-b border-white/10 py-16 sm:py-20 lg:py-24 ${FS_PROJECTS_SECTION_PX}`}>
         <div className={FS_PROJECTS_CONTENT_MAX}>
-          <div className="space-y-8 md:space-y-10">
+          <ul className="m-0 grid list-none grid-cols-1 gap-8 p-0 md:grid-cols-2 md:gap-10 xl:grid-cols-3">
             {projects.map((project, index) => (
-              <ServiceItemReveal key={project.slug} index={index} stepMs={75} className="block">
-              <article className="grid grid-cols-1 gap-0 border border-white/70 bg-black md:grid-cols-2">
-                <button
-                  type="button"
-                  onClick={() => openGallery(project.slug, 0)}
-                  className="group relative aspect-[16/10] w-full overflow-hidden border-b-2 border-white/70 md:border-b-0 md:border-r-2 md:border-white/70"
-                  aria-label={`Open gallery for ${project.title}`}
-                >
-                  <Image
-                    src={project.heroImage}
-                    alt={project.title}
-                    fill
-                    className="object-cover transition-transform duration-500 group-hover:scale-105"
-                    sizes="(max-width: 768px) 100vw, 50vw"
-                  />
-                  <div className="absolute inset-0 bg-black/20 group-hover:bg-black/10 transition-colors" />
-                  <span className="absolute bottom-3 left-3 border border-white bg-black/55 px-3 py-1 text-[11px] uppercase tracking-[0.14em] text-white">
-                    View gallery ({project.gallery.length})
-                  </span>
-                </button>
-
-                <div className="flex flex-col justify-between p-6 md:p-8">
-                  <div>
-                    <p className={`text-xs font-semibold uppercase tracking-[0.14em] ${mutedClass}`}>
-                      {project.sector} · {project.location}
-                    </p>
-                    <h2 className={`mt-3 text-3xl font-title font-bold leading-tight md:text-4xl ${textClass}`}>
-                      <Link href={`/projects/${project.slug}`} className="hover:opacity-85 transition-opacity">
-                        {project.title}
-                      </Link>
-                    </h2>
-                    <p className={`mt-4 text-base leading-relaxed ${mutedClass}`}>{project.shortDescription}</p>
-                    <p className={`mt-3 text-base leading-relaxed ${mutedClass}`}>{project.summary}</p>
-                  </div>
-
-                  <div className="mt-6 flex flex-wrap items-center gap-3">
+              <li key={project.slug} className="m-0 min-w-0 p-0">
+                <ServiceItemReveal index={index} stepMs={70} className="h-full">
+                  <article className="group relative flex h-full flex-col overflow-hidden border border-white/12 bg-black/40 transition-[border-color] duration-300 hover:border-white/35">
                     <Link
                       href={`/projects/${project.slug}`}
-                      className={PROJECTS_GRID_CTA_CLASS}
+                      className="absolute inset-0 z-10"
+                      aria-label={`View ${project.title} project`}
                     >
-                      <span className="pill-btn-inner" aria-hidden />
-                      <span className="pill-btn-border" aria-hidden />
-                      <span className="pill-text font-bold">View Project</span>
+                      <span className="sr-only">View {toTitleCase(project.title)}</span>
                     </Link>
-                    <button
-                      type="button"
-                      onClick={() => openGallery(project.slug, 0)}
-                      className={PROJECTS_GRID_CTA_CLASS}
-                    >
-                      <span className="pill-btn-inner" aria-hidden />
-                      <span className="pill-btn-border" aria-hidden />
-                      <span className="pill-text font-bold">Open Gallery</span>
-                    </button>
-                  </div>
-                </div>
-              </article>
-              </ServiceItemReveal>
+
+                    <div className="relative aspect-[16/10] w-full overflow-hidden">
+                      <Image
+                        src={project.heroImage}
+                        alt=""
+                        fill
+                        className="object-cover transition-transform duration-700 ease-out motion-safe:group-hover:scale-[1.04]"
+                        sizes="(max-width: 767px) 100vw, (max-width: 1279px) 50vw, 33vw"
+                      />
+                      <div
+                        className="pointer-events-none absolute inset-0 bg-gradient-to-t from-black/55 via-black/10 to-transparent"
+                        aria-hidden
+                      />
+                      <span className="absolute bottom-3 left-3 rounded-full border border-white/25 bg-black/70 px-3 py-1 text-[0.625rem] font-semibold uppercase tracking-[0.14em] text-white/90 backdrop-blur-sm">
+                        {project.sector}
+                      </span>
+                    </div>
+
+                    <div className="relative z-0 flex flex-1 flex-col p-5 sm:p-6 md:p-7">
+                      <p className="text-[0.6875rem] font-semibold uppercase tracking-[0.14em] text-white/45">
+                        {project.location}
+                        <span aria-hidden> · </span>
+                        {project.status}
+                      </p>
+                      <h2 className="mt-2 font-title text-xl font-bold leading-snug tracking-tight text-white sm:text-2xl">
+                        {toTitleCase(project.title)}
+                      </h2>
+                      <p className="mt-3 flex-1 text-sm leading-relaxed text-white/65 sm:text-base">
+                        {project.shortDescription}
+                      </p>
+                      <div className="pointer-events-none mt-6" aria-hidden>
+                        <CustomPillButton href={`/projects/${project.slug}`} size="sm" tabIndex={-1}>
+                          View Project
+                        </CustomPillButton>
+                      </div>
+                    </div>
+                  </article>
+                </ServiceItemReveal>
+              </li>
             ))}
-          </div>
+          </ul>
         </div>
       </section>
 
-      <div className="w-full h-[2px] bg-white/45" />
-
       <FsInsetCtaCard
-        variant="light"
-        showBorderTop={false}
-        headline="Start your"
-        headlineAccent="next project."
+        variant="service"
+        backgroundImageSrc="/projects/cta-architectural-blueprints.jpg"
+        headline="Start Your"
+        headlineAccent="Next Project"
         description="Discuss your fire or security requirements with our team. We offer free surveys and tailored solutions across London and the Home Counties."
       >
-        <CustomPillButton href="/contact" size="lg" variant="onLight">
-          Get in touch
+        <CustomPillButton href="/contact" size="lg">
+          Get in Touch
         </CustomPillButton>
-        <CallPhoneCta size="lg" variant="onLight" />
+        <CallPhoneCta size="lg" />
       </FsInsetCtaCard>
-
-      {activeProject && activeGallery.length > 0 && (
-        <div className="fixed inset-0 z-[120] bg-black/90 backdrop-blur-[2px]">
-          <div className="mx-auto flex h-full w-full max-w-[min(100%,100rem)] flex-col px-4 py-4 sm:px-6">
-            <div className="mb-3 flex items-center justify-between">
-              <p className="text-sm uppercase tracking-[0.14em] text-white/80">{activeProject.title}</p>
-              <button
-                type="button"
-                onClick={closeGallery}
-                className="inline-flex h-10 w-10 items-center justify-center border border-white/70 text-white hover:border-white"
-                aria-label="Close gallery"
-              >
-                <X className="h-5 w-5" />
-              </button>
-            </div>
-
-            <div className="relative flex-1 overflow-hidden border border-white/45">
-              <Image
-                src={activeGallery[activeImageIndex]!}
-                alt={`${activeProject.title} image ${activeImageIndex + 1}`}
-                fill
-                className="object-contain"
-                sizes="100vw"
-              />
-
-              <button
-                type="button"
-                onClick={prevImage}
-                  className="absolute left-3 top-1/2 -translate-y-1/2 inline-flex h-11 w-11 items-center justify-center border border-white/70 bg-black/45 text-white hover:border-white"
-                aria-label="Previous image"
-              >
-                <ChevronLeft className="h-6 w-6" />
-              </button>
-              <button
-                type="button"
-                onClick={nextImage}
-                  className="absolute right-3 top-1/2 -translate-y-1/2 inline-flex h-11 w-11 items-center justify-center border border-white/70 bg-black/45 text-white hover:border-white"
-                aria-label="Next image"
-              >
-                <ChevronRight className="h-6 w-6" />
-              </button>
-            </div>
-
-            <div className="mt-3 flex gap-2 overflow-x-auto pb-1 scrollbar-hide">
-              {activeGallery.map((img, idx) => (
-                <button
-                  key={`${img}-${idx}`}
-                  type="button"
-                  onClick={() => setActiveImageIndex(idx)}
-                  className={`relative h-16 w-24 shrink-0 overflow-hidden border ${
-                    idx === activeImageIndex ? "border-white" : "border-white/60"
-                  }`}
-                  aria-label={`Go to image ${idx + 1}`}
-                >
-                  <Image src={img} alt="" fill className="object-cover" sizes="96px" />
-                </button>
-              ))}
-            </div>
-          </div>
-        </div>
-      )}
     </div>
   )
 }

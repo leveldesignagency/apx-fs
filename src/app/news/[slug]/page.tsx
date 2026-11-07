@@ -20,6 +20,7 @@ import { CustomPillButton } from "@/components/ui/CustomPillButton"
 import { CallPhoneCta } from "@/components/ui/CallPhoneCta"
 import { JsonLd } from "@/components/seo/JsonLd"
 import { breadcrumbsSimple, buildArticleJsonLd, buildBreadcrumbJsonLd } from "@/lib/seo-jsonld"
+import { toTitleCase } from "@/lib/titleCase"
 
 type Props = {
   params: Promise<{ slug: string }>
@@ -110,7 +111,7 @@ export default async function NewsArticlePage({ params }: Props) {
                   ))}
                 </div>
                 <h1 className="mt-4 font-title text-3xl font-bold normal-case leading-tight text-black md:text-4xl lg:text-[clamp(2rem,3.2vw,3.25rem)]">
-                  {article.title}
+                  {toTitleCase(article.title)}
                 </h1>
                 {article.body[0] ? (
                   <NewsArticleHeroLead text={article.body[0]} inlineLinks={article.inlineLinks} />
@@ -189,7 +190,7 @@ export default async function NewsArticlePage({ params }: Props) {
         backgroundImageSrc={article.imageSrc}
         showBorderTop
         headline="Contact APX"
-        headlineAccent="Fire & Security."
+        headlineAccent="Fire & Security"
         description="Discuss a similar fire or security project, maintenance plan or survey across London and the Home Counties."
       >
         <CustomPillButton href="/contact" size="lg">

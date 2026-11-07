@@ -1,6 +1,5 @@
 "use client"
 
-import Image from "next/image"
 import Link from "next/link"
 import { ServiceComplianceSection } from "@/components/ServiceComplianceSection"
 import { ServicePageClosingSections } from "@/components/ServicePageClosingSections"
@@ -11,13 +10,9 @@ import { FsFireSubpageHeroButtons } from "@/components/FsFireSubpageHeroButtons"
 import { Reveal } from "@/components/Reveal"
 import { ServiceItemReveal } from "@/components/ServiceItemReveal"
 import { ServiceInstallationsGrid } from "@/components/ServiceInstallationsGrid"
+import { ServiceInstallationCard } from "@/components/ServiceInstallationCard"
 import { ServiceFeatureImageCard } from "@/components/ServiceFeatureImageCard"
-import { serviceHeroImages } from "@/lib/serviceHeroImages"
-import {
-  FS_SERVICE_IMAGE_GROW_INNER,
-  FS_SERVICE_INSTALLATION_CARD,
-  FS_SERVICE_INSTALLATION_CARD_IMAGE,
-} from "@/lib/fsServicePageCards"
+import { serviceHeroImages, serviceSectionImages } from "@/lib/serviceHeroImages"
 import { SERVICE_HERO_BRIDGE_GRADIENT } from "@/lib/heroBackgroundGradients"
 
 const FIRE_ALARM_INSTALLATIONS_DIR = "/fire%20alarm%20system%20installations" as const
@@ -38,54 +33,64 @@ const PAVA_PROJECTS = [
 ] as const
 
 const IMG = "/service%20images/pava-capabilities"
+/** Shared with Fire Alarm Systems: same card title, one image, no other card uses it (Kentec Taktis touchscreen panel, product photo). */
+const CAUSE_EFFECT_IMAGE = "/service%20images/shared/cause-and-effect-kentec-taktis-panel.jpg"
 
 const CAPABILITIES = [
   {
     title: "Zoned evacuation messages",
     description:
       "Zone-based emergency messaging aligned to your fire strategy, with prioritised announcements and local control where required.",
+    id: "pava-zoned",
     imageSrc: `${IMG}/zoned.jpg`,
-    imageAlt: "Wall-mounted voice-alarm loudspeaker in a commercial corridor",
+    imageAlt: "Multi-level shopping atrium where zoned public-address evacuation messages apply by floor and area",
   },
   {
     title: "Phased evacuation",
     description:
       "Staged or phased building evacuation messaging so floors and areas can be instructed in sequence under the fire plan.",
+    id: "pava-phased",
     imageSrc: `${IMG}/phased.jpg`,
-    imageAlt: "Illuminated fire exit sign over a commercial ceiling grid",
+    imageAlt: "Multi-storey fire escape stairs used for staged, floor-by-floor building evacuation",
   },
   {
     title: "Fire alarm integration",
     description:
       "Interfaces to the fire detection and alarm system so voice messages follow the agreed cause-and-effect logic.",
+    id: "pava-fire-integration",
     imageSrc: `${IMG}/fire-integration.jpg`,
-    imageAlt: "Red fire alarm call point and fire sign on a concrete wall",
+    imageAlt: "Red manual call point on a concrete wall interfaced to the fire and voice-alarm system",
+    imageClassName: "object-[center_70%]",
   },
   {
     title: "Background music & general announcements",
     description:
       "Where the design allows shared PAVA infrastructure, we coordinate non-emergency paging and background music with emergency priority override.",
+    id: "pava-music",
     imageSrc: `${IMG}/music.jpg`,
-    imageAlt: "Audio mixing desk, amplifiers and loudspeakers",
+    imageAlt: "Occupied commercial lounge and café where public address and background music share the voice-alarm system",
   },
   {
     title: "Amplifiers and loudspeakers",
     description:
       "Selection, placement and commissioning of amplifiers and loudspeakers for audibility and speech intelligibility across occupied spaces.",
+    id: "pava-amplifiers",
     imageSrc: `${IMG}/amplifiers.jpg`,
-    imageAlt: "Ceiling-mounted public address speakers around an emergency exit sign",
+    imageAlt: "High-ceiling event hall with trusses and loudspeaker positions for public address coverage",
   },
   {
     title: "Cause-and-effect testing",
     description:
       "Witnessed testing of message triggers, priorities and fault behaviour against the fire strategy and interface schedules.",
-    imageSrc: `${IMG}/cause-effect.jpg`,
-    imageAlt: "Engineers reviewing building drawings and cause-and-effect schedules",
+    id: "pava-cause-effect",
+    imageSrc: CAUSE_EFFECT_IMAGE,
+    imageAlt: "Kentec Taktis touchscreen fire control panel interface used for cause-and-effect testing",
   },
   {
     title: "Commissioning",
     description:
       "Structured audio commissioning, configuration records and operator familiarisation at handover.",
+    id: "pava-commissioning",
     imageSrc: `${IMG}/commissioning.jpg`,
     imageAlt: "Site engineers reviewing commissioning records on a live project",
   },
@@ -93,6 +98,7 @@ const CAPABILITIES = [
     title: "Maintenance",
     description:
       "Planned maintenance, routine testing and reactive support so PAVA systems remain available and compliant in service.",
+    id: "pava-maintenance",
     imageSrc: `${IMG}/maintenance.jpg`,
     imageAlt: "Engineer testing control gear with a multimeter",
   },
@@ -153,13 +159,15 @@ export default function PavaSystemsPage() {
             </p>
           </Reveal>
           <div className="grid grid-cols-1 gap-8 md:grid-cols-2 lg:grid-cols-3">
-            {CAPABILITIES.map(({ title, description, imageSrc, imageAlt }, index) => (
-              <ServiceItemReveal key={title} index={index} className="h-full min-h-0">
+            {CAPABILITIES.map((item, index) => (
+              <ServiceItemReveal key={item.title} index={index} className="h-full min-h-0">
                 <ServiceFeatureImageCard
-                  title={title}
-                  description={description}
-                  imageSrc={imageSrc}
-                  imageAlt={imageAlt}
+                  id={item.id}
+                  title={item.title}
+                  description={item.description}
+                  imageSrc={item.imageSrc}
+                  imageAlt={item.imageAlt}
+                  imageClassName={"imageClassName" in item ? item.imageClassName : undefined}
                   className="transition-transform duration-300 hover:scale-[1.02]"
                 />
               </ServiceItemReveal>
@@ -231,24 +239,13 @@ export default function PavaSystemsPage() {
           >
             {PAVA_PROJECTS.map((item, index) => (
               <ServiceItemReveal key={item.title} index={index} className="h-full min-h-0">
-                <article className={FS_SERVICE_INSTALLATION_CARD}>
-                  <div className={FS_SERVICE_INSTALLATION_CARD_IMAGE}>
-                    <div className={FS_SERVICE_IMAGE_GROW_INNER}>
-                      <Image
-                        src={item.imageSrc}
-                        alt={item.title}
-                        fill
-                        className="object-cover object-center"
-                        sizes="(min-width: 768px) 22.5rem, 100vw"
-                      />
-                    </div>
-                  </div>
-                  <div className="p-6 md:p-8">
-                    <h3 className="mb-2 text-base font-semibold leading-snug text-white sm:text-lg">{item.title}</h3>
-                    <p className="font-medium text-white/95">{item.venue}</p>
-                    <p className="mt-1 text-gray-300">{item.context}</p>
-                  </div>
-                </article>
+                <ServiceInstallationCard
+                  imageSrc={item.imageSrc}
+                  imageAlt={item.title}
+                  title={item.title}
+                  subtitle={item.venue}
+                  meta={item.context}
+                />
               </ServiceItemReveal>
             ))}
           </ServiceInstallationsGrid>
@@ -256,7 +253,7 @@ export default function PavaSystemsPage() {
 
         <ServicePageClosingSections
           serviceTitleShort="PAVA"
-          ctaImageSrc={serviceHeroImages.pava}
+          ctaImageSrc={serviceSectionImages.pavaBody}
           ctaHeadline="Planning a"
           ctaHeadlineAccent="PAVA System?"
           ctaDescription="Share your drawings and fire strategy. We can advise on zoning, phased evacuation, amplifiers, loudspeakers and BS 5839-8 commissioning for a compliant PAVA installation."

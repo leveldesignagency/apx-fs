@@ -1,6 +1,5 @@
 "use client"
 
-import Image from "next/image"
 import Link from "next/link"
 import { ServicePageClosingSections } from "@/components/ServicePageClosingSections"
 import { CustomPillButton } from "@/components/ui/CustomPillButton"
@@ -10,6 +9,7 @@ import { FsFireSubpageHeroButtons } from "@/components/FsFireSubpageHeroButtons"
 import { Reveal } from "@/components/Reveal"
 import { ServiceItemReveal } from "@/components/ServiceItemReveal"
 import { ServiceInstallationsGrid } from "@/components/ServiceInstallationsGrid"
+import { ServiceInstallationCard } from "@/components/ServiceInstallationCard"
 import { ServiceFeatureImageCard } from "@/components/ServiceFeatureImageCard"
 import { FsServiceTextImageSection } from "@/components/FsServiceTextImageSection"
 import { FsServiceTextImageSectionGroup } from "@/components/FsServiceTextImageSectionGroup"
@@ -17,15 +17,12 @@ import { ApxPartnerLogoStrip } from "@/components/ApxPartnerLogoStrip"
 import { FIRE_ALARM_EQUIPMENT_PARTNERS } from "@/lib/apx-partner-logos"
 import { ServiceComplianceSection } from "@/components/ServiceComplianceSection"
 import { ServiceTechnologyProductsSection } from "@/components/ServiceTechnologyProductsSection"
-import {
-  FS_SERVICE_IMAGE_GROW_INNER,
-  FS_SERVICE_INSTALLATION_CARD,
-  FS_SERVICE_INSTALLATION_CARD_IMAGE,
-} from "@/lib/fsServicePageCards"
 import { Check } from "lucide-react"
 import { SERVICE_HERO_BRIDGE_GRADIENT } from "@/lib/heroBackgroundGradients"
 
 const IMG = "/service%20images/fire-alarm-capabilities"
+/** Shared with PAVA: same card title, one image, no other card uses it (Kentec Taktis touchscreen panel, product photo). */
+const CAUSE_EFFECT_IMAGE = "/service%20images/shared/cause-and-effect-kentec-taktis-panel.jpg"
 
 const CAPABILITIES = [
   {
@@ -33,40 +30,40 @@ const CAPABILITIES = [
     description:
       "Survey-led design, installation and commissioning of fire detection and alarm systems for commercial and public-sector buildings across London and the Home Counties.",
     id: "fire-design",
-    imageSrc: `${IMG}/design.jpg`,
-    imageAlt: "Hotel restaurant at Hilton DoubleTree Kingston with an APX fire alarm installation",
+    imageSrc: `${IMG}/design-installation-commissioning.jpg`,
+    imageAlt: "High-visibility engineer commissioning plant control panels on a commercial site",
   },
   {
     title: "Cause-and-effect testing",
     description:
       "Witnessed cause-and-effect testing of call points, detectors, sounders and interfaces against the fire strategy and agreed acceptance criteria.",
     id: "fire-cause-effect",
-    imageSrc: `${IMG}/cause-effect.jpg`,
-    imageAlt: "Red manual call point and fire-action sign on a concrete wall",
+    imageSrc: CAUSE_EFFECT_IMAGE,
+    imageAlt: "Kentec Taktis touchscreen fire control panel interface used for cause-and-effect testing",
   },
   {
     title: "Addressable and conventional systems",
     description:
       "Addressable and conventional fire alarm systems specified to the building, occupancy and fire risk assessment, including detectors, call points and sounders.",
     id: "fire-addressable",
-    imageSrc: `${IMG}/detectors.jpg`,
-    imageAlt: "Ceiling-mounted smoke detector on a fire detection and alarm system",
+    imageSrc: `${IMG}/addressable-conventional-advanced.jpg`,
+    imageAlt: "Advanced addressable fire system devices: Axis sounder-beacon, AlarmCalm unit, detectors and interface modules",
   },
   {
     title: "Networked fire alarm systems",
     description:
       "Networked panels and loops for multi-building and multi-storey sites, with clear zoning so operators can locate and manage events quickly.",
     id: "fire-networked",
-    imageSrc: `${IMG}/networked.jpg`,
-    imageAlt: "Sancroft Building interior, City of London, prepared for networked fire detection",
+    imageSrc: `${IMG}/networked-advanced-mxpro.jpg`,
+    imageAlt: "Advanced MxPro 5 networked fire alarm control panel mounted on a wall in a commercial cafe",
   },
   {
     title: "Wireless and wire-free systems",
     description:
       "Wireless and wire-free fire alarm options where cabling is constrained, specified on survey and commissioned to the same handover standard as wired systems.",
     id: "fire-wireless",
-    imageSrc: `${IMG}/wireless.jpg`,
-    imageAlt: "Occupied lounge with a ceiling fire detector at Scape Bloomsbury student accommodation",
+    imageSrc: `${IMG}/wireless-reach-apollo-kit.jpg`,
+    imageAlt: "Apollo REACH Wireless system: loop interfaces, detectors, sounders, call point and survey kit case",
   },
   {
     title: "Aspirating air sampling detection",
@@ -74,7 +71,7 @@ const CAPABILITIES = [
       "Aspirating (air sampling) detection for high-value, high-airflow or early-warning applications, designed into the fire alarm package where the risk requires it.",
     id: "fire-aspirating",
     imageSrc: `${IMG}/aspirating.jpg`,
-    imageAlt: "Firefighters directing a hose at a commercial building fire",
+    imageAlt: "Aspirating smoke detector with sampling pipes in a data centre environment",
   },
   {
     title: "BMS, access and smoke-control interfaces",
@@ -237,9 +234,8 @@ const heroBridge = (
   />
 )
 
-/** Manual call point hero — landscape crop so the unit sits in the mask (from fire alarm systems.jpg). */
-const FIRE_ALARM_HERO_IMAGE_SRC =
-  "/service%20images/fire%20alarm%20systems/hero-fire-alarm-call-point-wide.jpg"
+/** Apollo MCP hero — from /public/fire alarm hero.png (Canva export). */
+const FIRE_ALARM_HERO_IMAGE_SRC = "/fire%20alarm%20hero.png"
 
 /** Manual call point — Fire Alarm System Installer / Bespoke section. */
 const FIRE_ALARM_BODY_IMAGE_SRC =
@@ -251,7 +247,7 @@ const FIRE_ALARM_REGULATION_IMAGE_SRC =
 
 /** Commercial project backdrop for BAFE strip (kept sharp, no artificial blur). */
 const FIRE_ALARM_BAFE_IMAGE_SRC =
-  `${FIRE_ALARM_INSTALLATIONS_DIR}/fire-alarm-system-sancroft-building-interior-600x400.jpg`
+  "/service%20images/fire%20alarm%20systems/hero-commercial-fire-alarm.jpg"
 
 export default function FireSafetySystemsPage() {
   return (
@@ -259,8 +255,8 @@ export default function FireSafetySystemsPage() {
       <ServicePageHero
         title="Fire Alarm Systems"
         imageSrc={FIRE_ALARM_HERO_IMAGE_SRC}
-        imageAlt="Red Siemens manual call point on a commercial wall"
-        imageClassName="object-cover object-[70%_center]"
+        imageAlt="Apollo manual call point on a commercial pillar"
+        imageClassName="object-cover object-[72%_center]"
         heroCompliance={["BS 5839-1"]}
         heroSummary="Design, installation and maintenance of addressable and conventional fire alarms for commercial and public-sector sites across London and the Home Counties."
         afterIntro={<FsFireSubpageHeroButtons />}
@@ -287,7 +283,7 @@ export default function FireSafetySystemsPage() {
         <section className="site-container relative z-[1] py-16 lg:py-16">
           <Reveal>
             <h2 className="mb-4 text-left font-title text-3xl font-bold text-white sm:text-4xl">
-              Fire alarm capabilities
+              Fire Alarm Capabilities
             </h2>
           </Reveal>
           <Reveal delayMs={70}>
@@ -448,7 +444,7 @@ export default function FireSafetySystemsPage() {
           title="Fire Alarm & Detection Systems Equipment"
           description="We are proud to install fire alarm technology from the world&apos;s leading brands"
         >
-          <ApxPartnerLogoStrip partners={FIRE_ALARM_EQUIPMENT_PARTNERS} variant="light" />
+          <ApxPartnerLogoStrip partners={FIRE_ALARM_EQUIPMENT_PARTNERS} variant="light" density="dense" />
         </ServiceTechnologyProductsSection>
 
         <div className="border-t border-white/15" />
@@ -466,23 +462,11 @@ export default function FireSafetySystemsPage() {
           >
             {FIRE_INSTALLATIONS.map((item, index) => (
               <ServiceItemReveal key={index} index={index} className="h-full min-h-0">
-                <article className={FS_SERVICE_INSTALLATION_CARD}>
-                <div className={FS_SERVICE_INSTALLATION_CARD_IMAGE}>
-                  <div className={FS_SERVICE_IMAGE_GROW_INNER}>
-                  <Image
-                    src={item.imageSrc}
-                    alt=""
-                    fill
-                    className="object-cover object-center"
-                    sizes="(min-width: 768px) 22.5rem, 100vw"
-                  />
-                  </div>
-                </div>
-                <div className="p-6 md:p-8">
-                  <h3 className="mb-2 text-lg font-semibold text-white">{item.title}</h3>
-                  <p className="text-gray-300">{item.org}</p>
-                </div>
-                </article>
+                <ServiceInstallationCard
+                  imageSrc={item.imageSrc}
+                  title={item.title}
+                  subtitle={item.org}
+                />
               </ServiceItemReveal>
             ))}
           </ServiceInstallationsGrid>
@@ -490,7 +474,7 @@ export default function FireSafetySystemsPage() {
 
         <ServicePageClosingSections
           serviceTitleShort="Fire alarm"
-          ctaImageSrc={FIRE_ALARM_HERO_IMAGE_SRC}
+          ctaImageSrc="/service%20images/fire%20alarm%20systems/green-emergency-exit-sign-ceiling%20hero%20image.jpg"
           ctaHeadline="Need a Fire"
           ctaHeadlineAccent="Alarm System?"
           ctaDescription="Contact us for a free survey and expert advice on fire detection and alarm design for your premises."

@@ -67,7 +67,7 @@ export function TeamDirectoryClient() {
               People
             </p>
             <h1 className="font-title text-4xl font-bold leading-[1.02] tracking-tight text-black sm:text-5xl lg:text-6xl">
-              The team.
+              The Team
             </h1>
             <p className="mt-4 max-w-md text-base leading-relaxed text-black/60 sm:text-lg">
               Everyone behind APX Fire &amp; Security. Search by name or role.

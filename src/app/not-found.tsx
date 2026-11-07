@@ -7,7 +7,7 @@ export default function NotFound() {
       <div className="h-[0.75px] w-full bg-white/30" aria-hidden />
       <section className="site-container flex flex-col items-center px-6 py-24 text-center md:py-32">
         <p className="text-sm font-semibold uppercase tracking-[0.2em] text-white/45">Error 404</p>
-        <h1 className="mt-4 font-title text-4xl font-bold tracking-tight md:text-5xl">Page not found</h1>
+        <h1 className="mt-4 font-title text-4xl font-bold tracking-tight md:text-5xl">Page Not Found</h1>
         <p className="mt-5 max-w-lg text-base leading-relaxed text-white/70 md:text-lg">
           The page you requested does not exist or may have moved. Use the links below to continue, or contact us if you
           need help finding something.

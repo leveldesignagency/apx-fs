@@ -8,9 +8,9 @@ import { FS_PROJECTS_CONTENT_MAX, FS_PROJECTS_SECTION_PX } from "@/lib/fsProject
 import { ProjectDetailStory } from "@/components/projects/ProjectDetailStory"
 import {
   ProjectDetailClientReview,
-  ProjectDetailGallery,
   ProjectDetailRelated,
 } from "@/components/projects/ProjectDetailAnimatedSections"
+import { ProjectDetailGalleryCarousel } from "@/components/projects/ProjectDetailGalleryCarousel"
 import { FsInsetCtaCard } from "@/components/FsInsetCtaCard"
 import { CustomPillButton } from "@/components/ui/CustomPillButton"
 import { CallPhoneCta } from "@/components/ui/CallPhoneCta"
@@ -111,7 +111,7 @@ export default async function ProjectDetailPage({ params }: Props) {
       {galleryImages.length > 0 ? (
         <section className={`relative z-10 border-t border-white/10 bg-[var(--page-bg)] ${FS_PROJECTS_SECTION_PX}`}>
           <div className={`${FS_PROJECTS_CONTENT_MAX} py-10 md:py-12`}>
-            <ProjectDetailGallery title={project.title} images={galleryImages} />
+            <ProjectDetailGalleryCarousel title={project.title} images={galleryImages} />
           </div>
         </section>
       ) : null}
@@ -138,7 +138,7 @@ export default async function ProjectDetailPage({ params }: Props) {
         backgroundImageSrc={project.heroImage}
         showBorderTop
         headline="Start your"
-        headlineAccent="next project."
+        headlineAccent="next project"
         description="Discuss a similar fire or security project with our team. We offer free surveys across London and the Home Counties."
       >
         <CustomPillButton href={`/contact?project=${encodeURIComponent(project.slug)}`} size="lg">

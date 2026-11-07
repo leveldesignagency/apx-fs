@@ -539,7 +539,7 @@ export default function Header() {
                 </span>
               </div>
             </div>
-            <div className="relative z-10 ml-auto hidden flex-shrink-0 items-center gap-x-4 text-white lg:flex [&_svg]:stroke-white">
+            <div className="relative z-10 ml-auto hidden flex-shrink-0 items-center gap-x-4 text-white lg:flex [&_a_svg]:stroke-white">
               <div className="pointer-events-auto relative header-nav-item-in flex items-center" style={{ animationDelay: '2.9s' }}>
                 <Link
                   href="/services"
@@ -727,7 +727,7 @@ export default function Header() {
               <button
                 type="button"
                 onClick={() => openFsHomeSearch()}
-                className="fs-header-search-trigger pointer-events-auto header-nav-item-in flex h-8 w-8 min-h-8 min-w-8 items-center justify-center rounded-full border border-white transition-opacity hover:opacity-80"
+                className="fs-header-search-trigger pointer-events-auto header-nav-item-in flex h-8 w-8 min-h-8 min-w-8 items-center justify-center rounded-full border border-white transition-colors"
                 style={{ animationDelay: "3.46s" }}
                 aria-label="Search services"
               >

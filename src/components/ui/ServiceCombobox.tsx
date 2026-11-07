@@ -193,32 +193,52 @@ export function ServiceCombobox({
             }
           }}
           className={cn(
-            "quote-form-field quote-form-dropdown w-full rounded-none border border-white/15 bg-black py-3.5 pl-4 pr-12 text-left text-base font-bold text-white outline-none transition-[border,box-shadow] placeholder:font-normal placeholder:text-white/40 focus:border-white/50 focus:bg-black focus:ring-0 sm:text-[17px]",
+            "quote-form-field quote-form-dropdown w-full rounded-none border border-white/15 bg-black py-3.5 pl-4 pr-20 text-left text-base font-bold text-white outline-none transition-[border,box-shadow] placeholder:font-normal placeholder:text-white/40 focus:border-white/50 focus:bg-black focus:ring-0 sm:text-[17px]",
             inputClassName
           )}
         />
-        <button
-          type="button"
-          tabIndex={-1}
-          aria-label={open ? "Close service list" : "Open service list"}
-          className="absolute inset-y-0 right-0 flex items-center px-3 text-white/60 transition-colors hover:text-white"
-          onClick={() => {
-            const next = !open
-            setOpenState(next)
-            if (next) inputRef.current?.focus()
-          }}
-        >
-          <svg
-            className="h-5 w-5 shrink-0 transition-transform duration-200"
-            style={{ transform: open ? "rotate(180deg)" : "rotate(0deg)" } as CSSProperties}
-            fill="none"
-            stroke="currentColor"
-            viewBox="0 0 24 24"
-            aria-hidden
+        <div className="absolute inset-y-0 right-0 z-10 flex items-center">
+          {query.trim().length > 0 ? (
+            <button
+              type="button"
+              tabIndex={-1}
+              aria-label="Clear service"
+              className="quote-form-clear-btn flex items-center px-2 text-red-500"
+              onClick={(e) => {
+                e.preventDefault()
+                e.stopPropagation()
+                commitSelection(null)
+                inputRef.current?.focus()
+              }}
+            >
+              <svg className="h-5 w-5 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden>
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M6 18L18 6M6 6l12 12" />
+              </svg>
+            </button>
+          ) : null}
+          <button
+            type="button"
+            tabIndex={-1}
+            aria-label={open ? "Close service list" : "Open service list"}
+            className="quote-form-chevron-btn flex items-center px-3 text-white/60 transition-colors hover:text-white"
+            onClick={() => {
+              const next = !open
+              setOpenState(next)
+              if (next) inputRef.current?.focus()
+            }}
           >
-            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
-          </svg>
-        </button>
+            <svg
+              className="h-5 w-5 shrink-0 transition-transform duration-200"
+              style={{ transform: open ? "rotate(180deg)" : "rotate(0deg)" } as CSSProperties}
+              fill="none"
+              stroke="currentColor"
+              viewBox="0 0 24 24"
+              aria-hidden
+            >
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+            </svg>
+          </button>
+        </div>
       </div>
 
       {name ? <input type="hidden" name={name} value={submittedValue} /> : null}
@@ -228,6 +248,7 @@ export function ServiceCombobox({
           id={listId}
           role="listbox"
           className="quote-form-dropdown-menu absolute left-0 right-0 top-full z-50 mt-2 max-h-60 overflow-y-auto overscroll-contain rounded-none border border-white/12 bg-zinc-950 py-2 shadow-2xl"
+          style={{ backgroundColor: "#09090b", color: "#ffffff" }}
           data-lenis-prevent
           onWheel={containDropdownWheelScroll}
         >
@@ -235,14 +256,15 @@ export function ServiceCombobox({
             <button
               type="button"
               role="option"
-              className="quote-form-dropdown-item block w-full px-4 py-3 text-left text-[17px] font-bold text-white/90 transition-colors hover:bg-white/10"
+              className="quote-form-dropdown-item block w-full px-4 py-3 text-[17px] font-bold transition-colors hover:bg-white/10"
+              style={{ color: "#ffffff", backgroundColor: "transparent", textAlign: "left" }}
               onClick={() => commitSelection(null)}
             >
               {emptyLabel}
             </button>
           ) : null}
           {filtered.length === 0 ? (
-            <p className="px-4 py-3 text-sm font-semibold text-white/50">
+            <p className="px-4 py-3 text-sm font-semibold" style={{ color: "rgba(255,255,255,0.5)" }}>
               {allowCustom ? "No matches - keep typing to use a custom service" : "No matching services"}
             </p>
           ) : (
@@ -252,7 +274,8 @@ export function ServiceCombobox({
                 type="button"
                 role="option"
                 aria-selected={opt.value === selected?.value}
-                className="quote-form-dropdown-item block w-full px-4 py-3 text-left text-[17px] font-bold text-white transition-colors hover:bg-white/10"
+                className="quote-form-dropdown-item block w-full px-4 py-3 text-[17px] font-bold transition-colors hover:bg-white/10"
+                style={{ color: "#ffffff", backgroundColor: "transparent", textAlign: "left" }}
                 onClick={() => commitSelection(opt)}
               >
                 {opt.label}

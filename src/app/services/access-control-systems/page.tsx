@@ -1,7 +1,15 @@
 "use client"
 
-import Image from "next/image"
 import Link from "next/link"
+import {
+  CalendarClock,
+  ClipboardList,
+  KeyRound,
+  Network,
+  ShieldCheck,
+  Siren,
+  type LucideIcon,
+} from "lucide-react"
 import { ServicePageClosingSections } from "@/components/ServicePageClosingSections"
 import { CustomPillButton } from "@/components/ui/CustomPillButton"
 import { CallPhoneCta } from "@/components/ui/CallPhoneCta"
@@ -9,18 +17,15 @@ import { ServicePageHero } from "@/components/ServicePageHero"
 import { Reveal } from "@/components/Reveal"
 import { ServiceItemReveal } from "@/components/ServiceItemReveal"
 import { ServiceInstallationsGrid } from "@/components/ServiceInstallationsGrid"
+import { ServiceInstallationCard } from "@/components/ServiceInstallationCard"
 import { serviceHeroImages } from "@/lib/serviceHeroImages"
 import { ApxPartnerLogoStrip } from "@/components/ApxPartnerLogoStrip"
 import { ACCESS_CONTROL_PARTNERS } from "@/lib/apx-partner-logos"
 import { ServiceTechnologyProductsSection } from "@/components/ServiceTechnologyProductsSection"
 import { FsServiceTextImageSection } from "@/components/FsServiceTextImageSection"
 import { ServiceFeatureImageCard } from "@/components/ServiceFeatureImageCard"
-import {
-  FS_SERVICE_IMAGE_GROW_INNER,
-  FS_SERVICE_INSTALLATION_CARD,
-  FS_SERVICE_INSTALLATION_CARD_IMAGE,
-} from "@/lib/fsServicePageCards"
 import { SERVICE_HERO_BRIDGE_GRADIENT } from "@/lib/heroBackgroundGradients"
+import { toTitleCase } from "@/lib/titleCase"
 
 const IMG = "/service%20images/access-capabilities"
 
@@ -35,22 +40,22 @@ const ACCESS_CONTROL_CAPABILITIES: {
     title: "Fob and card access",
     text: "Proximity fobs and cards with revoke-and-replace credentials, no wholesale rekeying when something is lost.",
     id: "access-fob-card",
-    imageSrc: `${IMG}/fob-card.jpg`,
-    imageAlt: "Office user presenting a proximity card at a glass-door reader",
+    imageSrc: `${IMG}/fob-card-assa.jpg`,
+    imageAlt: "Hand presenting a proximity access card to a wall-mounted reader",
   },
   {
     title: "Keypads",
     text: "PIN/keypad entry where codes suit the door and user group, alone or alongside readers.",
     id: "access-keypads",
-    imageSrc: `${IMG}/keypads.jpg`,
-    imageAlt: "Illuminated wall-mounted access keypad",
+    imageSrc: `${IMG}/keypads-tdsi-dual-tech.jpg`,
+    imageAlt: "TDSi Dual-Tech access control keypad with PIN entry",
   },
   {
     title: "Mobile credentials where offered",
     text: "Phone-based credentials on platforms that support them, specified on survey, not assumed for every system.",
     id: "access-mobile",
-    imageSrc: `${IMG}/mobile.jpg`,
-    imageAlt: "Smartphone used for mobile credentials",
+    imageSrc: `${IMG}/mobile-assa.jpg`,
+    imageAlt: "Smartphone used as a mobile credential at a commercial door",
   },
   {
     title: "Single-door and networked systems",
@@ -69,15 +74,16 @@ const ACCESS_CONTROL_CAPABILITIES: {
   {
     title: "Door controllers",
     text: "Controllers, readers and locks engineered as a coherent package with commissioning and user training.",
-    imageSrc: `${IMG}/controllers.jpg`,
-    imageAlt: "Engineer working on rack-mounted door controllers",
+    id: "access-controllers",
+    imageSrc: `${IMG}/controllers-door-reader.jpg`,
+    imageAlt: "Access control proximity reader on a commercial corridor door",
   },
   {
     title: "Fire alarm release interfaces",
     text: "Where the fire strategy and door design require it, we interface access control for emergency release, not every door or system uses the same fail-safe or lockdown behaviour.",
     id: "access-fire-release",
-    imageSrc: `${IMG}/fire-release.jpg`,
-    imageAlt: "Red fire alarm call point used for emergency door release",
+    imageSrc: `${IMG}/fire-release-edr-beside-fire-door.jpg`,
+    imageAlt: "Emergency door release and press-to-exit beside a fire door with vision panel",
   },
   {
     title: "Lift control where offered",
@@ -103,59 +109,49 @@ const ACCESS_CONTROL_CAPABILITIES: {
   {
     title: "Maintenance and system takeovers",
     text: "PPM, corrective works and takeovers of existing access systems so credentials and schedules stay manageable.",
+    id: "access-maintenance",
     imageSrc: `${IMG}/maintenance.jpg`,
     imageAlt: "Engineer diagnosing access-control hardware with a multimeter",
   },
   {
     title: "CCTV and intruder coordination",
     text: "Event-linked recording and alarm workflows with CCTV and intruder systems where the brief requires a joined-up package.",
+    id: "access-cctv-intruder",
     imageSrc: `${IMG}/cctv-intruder.jpg`,
     imageAlt: "IP turret camera used for event-linked recording with access control",
   },
 ]
 
-const ACCESS_CONTROL_BENEFITS: { title: string; text: string; imageSrc: string; imageAlt: string }[] = [
+const ACCESS_CONTROL_BENEFITS: { Icon: LucideIcon; title: string; text: string }[] = [
   {
+    Icon: KeyRound,
     title: "Credentials instead of keys",
-    text:
-      "Revoke or replace a lost fob or card without rekeying every door, avoiding the cost and disruption of wholesale lock changes.",
-    imageSrc: `${IMG}/fob-card.jpg`,
-    imageAlt: "Office user presenting a proximity card at a glass-door reader",
+    text: "Revoke or replace a lost fob or card without rekeying every door.",
   },
   {
+    Icon: CalendarClock,
     title: "Smarter schedules",
-    text:
-      "Reduce reliance on staff for manual unlock and lock-up; grant access by day, time and zone so doors match how your building actually runs.",
-    imageSrc: `${IMG}/schedules.jpg`,
-    imageAlt: "Facilities manager reviewing access schedules on a tablet in a warehouse",
+    text: "Grant access by day, time and zone so doors match how the building runs.",
   },
   {
+    Icon: Siren,
     title: "Emergency release where designed",
-    text:
-      "Fire alarm release and emergency unlock behaviour are configured only where the fire strategy, door hardware and access system support them, not a default of every installation.",
-    imageSrc: `${IMG}/fire-release.jpg`,
-    imageAlt: "Red fire alarm call point used for emergency door release",
+    text: "Fire release and emergency unlock only where strategy and hardware support them.",
   },
   {
+    Icon: ShieldCheck,
     title: "Authorised entry",
-    text:
-      "Credentials at controlled doors reduce unauthorised access; lost credentials can be disabled without issuing new keys to everyone.",
-    imageSrc: `${IMG}/networked.jpg`,
-    imageAlt: "Secure commercial door lock and handle",
+    text: "Controlled doors reduce unauthorised access; lost credentials can be disabled fast.",
   },
   {
+    Icon: ClipboardList,
     title: "Audit and accountability",
-    text:
-      "See who accessed sensitive areas and when, valuable for investigations, contractor visits and compliance reporting.",
-    imageSrc: `${IMG}/audit.jpg`,
-    imageAlt: "Engineer completing an access audit checklist",
+    text: "See who accessed sensitive areas and when, for investigations and compliance.",
   },
   {
+    Icon: Network,
     title: "Networked integration",
-    text:
-      "On larger sites, networked systems can sit alongside CCTV, intruder alarms, video entry and gate automation on one coherent platform.",
-    imageSrc: `${IMG}/networked-integration.jpg`,
-    imageAlt: "Network switch ports used to join access control with wider systems",
+    text: "Sit alongside CCTV, intruder, video entry and gate automation on one platform.",
   },
 ]
 
@@ -302,24 +298,38 @@ export default function AccessControlPage() {
 
         <div className="border-t border-white/15" />
 
-        <section className="site-container relative z-[1] py-16 lg:py-16">
-          <Reveal>
-            <h2 className="mb-10 text-left font-title text-3xl font-bold text-white sm:text-4xl">
-              Benefits of access control
-            </h2>
-          </Reveal>
-          <div className="grid grid-cols-1 gap-8 md:grid-cols-2 lg:grid-cols-3">
-            {ACCESS_CONTROL_BENEFITS.map(({ title, text, imageSrc, imageAlt }, i) => (
-              <ServiceItemReveal key={title} index={i} className="h-full min-h-0">
-                <ServiceFeatureImageCard
-                  title={title}
-                  description={text}
-                  imageSrc={imageSrc}
-                  imageAlt={imageAlt}
-                  className="transition-transform duration-300 hover:scale-[1.02]"
-                />
-              </ServiceItemReveal>
-            ))}
+        <section
+          className="relative z-[1] border-t border-white/15 bg-[var(--page-bg)]"
+          aria-labelledby="access-control-benefits-heading"
+        >
+          <div className="site-container py-14 sm:py-16 lg:py-20">
+            <Reveal>
+              <h2
+                id="access-control-benefits-heading"
+                className="mb-10 text-left font-title text-3xl font-bold text-white sm:mb-12 sm:text-4xl"
+              >
+                Benefits of Access Control
+              </h2>
+            </Reveal>
+            <div className="grid grid-cols-1 gap-10 sm:grid-cols-2 sm:gap-x-8 sm:gap-y-12 lg:grid-cols-3 lg:gap-x-10 lg:gap-y-14">
+              {ACCESS_CONTROL_BENEFITS.map(({ Icon, title, text }, i) => (
+                <ServiceItemReveal key={title} index={i} className="h-full min-h-0">
+                  <div className="flex h-full flex-col items-center text-center">
+                    <Icon
+                      className="mb-5 h-12 w-12 text-white sm:mb-6 sm:h-14 sm:w-14"
+                      strokeWidth={1.25}
+                      aria-hidden
+                    />
+                    <h3 className="font-title text-lg font-bold tracking-tight text-white sm:text-xl">
+                      {toTitleCase(title)}
+                    </h3>
+                    <p className="mt-3 max-w-[14rem] text-[15px] leading-relaxed text-white/60 sm:mt-3.5 sm:max-w-[15rem]">
+                      {text}
+                    </p>
+                  </div>
+                </ServiceItemReveal>
+              ))}
+            </div>
           </div>
         </section>
 
@@ -405,24 +415,12 @@ export default function AccessControlPage() {
           >
             {ACCESS_CONTROL_INSTALLATIONS.map((item, index) => (
               <ServiceItemReveal key={`${item.imageSrc}-${index}`} index={index} className="h-full min-h-0">
-                <article className={FS_SERVICE_INSTALLATION_CARD}>
-                <div className={FS_SERVICE_INSTALLATION_CARD_IMAGE}>
-                  <div className={FS_SERVICE_IMAGE_GROW_INNER}>
-                  <Image
-                    src={item.imageSrc}
-                    alt=""
-                    fill
-                    className="object-cover object-center"
-                    sizes="(min-width: 768px) 22.5rem, 100vw"
-                  />
-                  </div>
-                </div>
-                <div className="p-6 md:p-8">
-                  <h3 className="mb-2 text-base font-semibold leading-snug text-white sm:text-lg">{item.title}</h3>
-                  <p className="font-medium text-white/95">{item.venue}</p>
-                  <p className="mt-1 text-gray-300">{item.context}</p>
-                </div>
-                </article>
+                <ServiceInstallationCard
+                  imageSrc={item.imageSrc}
+                  title={item.title}
+                  subtitle={item.venue}
+                  meta={item.context}
+                />
               </ServiceItemReveal>
             ))}
           </ServiceInstallationsGrid>
@@ -432,7 +430,7 @@ export default function AccessControlPage() {
           serviceTitleShort="Access control"
           ctaImageSrc={serviceHeroImages.accessControl}
           ctaHeadline="Talk to Us About"
-          ctaHeadlineAccent="Access Control."
+          ctaHeadlineAccent="Access Control"
           ctaDescription="From single doors to networked multi-tenant sites, including maintenance takeovers, we design and install access systems to suit your building and operations."
         >
           <CustomPillButton href="/contact?service=access-control-systems" size="md">

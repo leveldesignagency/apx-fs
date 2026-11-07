@@ -17,14 +17,36 @@ const GlobalStyles = createGlobalStyle<{ theme: typeof lightTheme }>`
     transition: background-color 0.3s ease, color 0.3s ease;
   }
 
-  /* Force all text to use theme colors */
+  /* Force all text to use theme colors — exclude quote form dropdown (always white on dark) */
   h1, h2, h3, h4, h5, h6, p, span, div, a, button {
     color: ${({ theme }) => theme.text} !important;
+  }
+  #quote-form .quote-form-dropdown-menu,
+  #quote-form .quote-form-dropdown-menu *,
+  #quote-form button.quote-form-dropdown-item,
+  #quote-form button.quote-form-dropdown-item *,
+  .quote-form-dropdown-menu,
+  .quote-form-dropdown-menu *,
+  button.quote-form-dropdown-item,
+  button.quote-form-dropdown-item * {
+    color: #ffffff !important;
+  }
+  #quote-form button.quote-form-clear-btn,
+  #quote-form button.quote-form-clear-btn *,
+  button.quote-form-clear-btn,
+  button.quote-form-clear-btn * {
+    color: #ef4444 !important;
   }
 
   /* Specific overrides for common classes */
   .text-white {
     color: ${({ theme }) => theme.text} !important;
+  }
+  #quote-form .quote-form-dropdown-menu .text-white,
+  #quote-form button.quote-form-dropdown-item.text-white,
+  .quote-form-dropdown-menu .text-white,
+  button.quote-form-dropdown-item.text-white {
+    color: #ffffff !important;
   }
 
   .text-gray-300 {
@@ -42,6 +64,10 @@ const GlobalStyles = createGlobalStyle<{ theme: typeof lightTheme }>`
   /* Override specific text colors that might be hardcoded */
   .text-left {
     color: ${({ theme }) => theme.text} !important;
+  }
+  #quote-form button.quote-form-dropdown-item.text-left,
+  button.quote-form-dropdown-item.text-left {
+    color: #ffffff !important;
   }
 
   /* Ensure all headings are visible */
@@ -206,7 +232,7 @@ const GlobalStyles = createGlobalStyle<{ theme: typeof lightTheme }>`
     color: #000000 !important;
   }
 
-  /* Button styling */
+  /* Button styling — quote dropdown items stay dark/transparent with white type */
   button {
     background: ${({ theme }) => theme.buttonBg} !important;
     color: ${({ theme }) => theme.buttonText} !important;
@@ -215,6 +241,20 @@ const GlobalStyles = createGlobalStyle<{ theme: typeof lightTheme }>`
 
   button:hover {
     background: ${({ theme }) => theme.buttonHover} !important;
+  }
+
+  button.quote-form-dropdown-item,
+  #quote-form button.quote-form-dropdown-item {
+    background: transparent !important;
+    background-color: transparent !important;
+    border-color: transparent !important;
+    color: #ffffff !important;
+  }
+  button.quote-form-dropdown-item:hover,
+  #quote-form button.quote-form-dropdown-item:hover {
+    background: rgba(255, 255, 255, 0.1) !important;
+    background-color: rgba(255, 255, 255, 0.1) !important;
+    color: #ffffff !important;
   }
 
   /* Locations postcode check: white off-hover, black fill on hover */
@@ -230,6 +270,80 @@ const GlobalStyles = createGlobalStyle<{ theme: typeof lightTheme }>`
     background-color: #000000 !important;
     color: #ffffff !important;
     border-color: #ffffff !important;
+  }
+
+  /* Quote / contact form — shared dark fields + ServiceCombobox (homepage + /contact) */
+  #quote-form .quote-form-field,
+  #quote-form input.quote-form-dropdown,
+  #quote-form textarea.quote-form-field {
+    background: #000000 !important;
+    background-color: #000000 !important;
+    border-color: rgba(255, 255, 255, 0.15) !important;
+    color: #ffffff !important;
+  }
+  #quote-form .quote-form-field::placeholder,
+  #quote-form input.quote-form-dropdown::placeholder {
+    color: rgba(255, 255, 255, 0.4) !important;
+  }
+  .quote-form-dropdown-menu {
+    background: #09090b !important;
+    background-color: #09090b !important;
+    border-color: rgba(255, 255, 255, 0.12) !important;
+    color: #ffffff !important;
+  }
+  .quote-form-dropdown-menu p,
+  .quote-form-dropdown-menu span,
+  .quote-form-dropdown-menu div {
+    color: rgba(255, 255, 255, 0.55) !important;
+  }
+  button.quote-form-dropdown-item,
+  button.quote-form-dropdown-item:hover,
+  button.quote-form-dropdown-item:focus,
+  button.quote-form-dropdown-item:focus-visible {
+    background: transparent !important;
+    background-color: transparent !important;
+    border-color: transparent !important;
+    color: #ffffff !important;
+    box-shadow: none !important;
+  }
+  button.quote-form-dropdown-item:hover {
+    background: rgba(255, 255, 255, 0.1) !important;
+    background-color: rgba(255, 255, 255, 0.1) !important;
+    color: #ffffff !important;
+  }
+  button.quote-form-clear-btn,
+  button.quote-form-clear-btn:hover,
+  button.quote-form-clear-btn:focus,
+  button.quote-form-clear-btn:focus-visible {
+    background: transparent !important;
+    background-color: transparent !important;
+    border-color: transparent !important;
+    color: #ef4444 !important;
+    box-shadow: none !important;
+  }
+  button.quote-form-clear-btn:hover {
+    color: #f87171 !important;
+  }
+  button.quote-form-clear-btn svg {
+    color: inherit !important;
+    stroke: currentColor !important;
+  }
+  button.quote-form-chevron-btn,
+  button.quote-form-chevron-btn:hover,
+  button.quote-form-chevron-btn:focus,
+  button.quote-form-chevron-btn:focus-visible {
+    background: transparent !important;
+    background-color: transparent !important;
+    border-color: transparent !important;
+    color: rgba(255, 255, 255, 0.65) !important;
+    box-shadow: none !important;
+  }
+  button.quote-form-chevron-btn:hover {
+    color: #ffffff !important;
+  }
+  button.quote-form-chevron-btn svg {
+    color: inherit !important;
+    stroke: currentColor !important;
   }
 
   /* Contact page email copy control */
@@ -439,8 +553,8 @@ const GlobalStyles = createGlobalStyle<{ theme: typeof lightTheme }>`
     -webkit-tap-highlight-color: transparent !important;
   }
 
-  /* Header search: global button rule is white fill, keep black pill + white icon */
-  .fs-header-search-trigger {
+  /* Header search: black pill + white icon; invert on hover/focus (hover must beat focus) */
+  header.site-header button.fs-header-search-trigger {
     background: #0a0a0a !important;
     background-color: #0a0a0a !important;
     color: #ffffff !important;
@@ -448,24 +562,35 @@ const GlobalStyles = createGlobalStyle<{ theme: typeof lightTheme }>`
     border-color: #ffffff !important;
     box-shadow: none !important;
   }
-  .fs-header-search-trigger:hover {
-    background: #121212 !important;
-    background-color: #121212 !important;
+  header.site-header button.fs-header-search-trigger svg,
+  header.site-header button.fs-header-search-trigger svg * {
     color: #ffffff !important;
+    stroke: #ffffff !important;
+  }
+  header.site-header button.fs-header-search-trigger:hover,
+  header.site-header button.fs-header-search-trigger:focus-visible,
+  header.site-header button.fs-header-search-trigger:hover:focus,
+  header.site-header button.fs-header-search-trigger:hover:focus-visible {
+    background: #ffffff !important;
+    background-color: #ffffff !important;
+    color: #000000 !important;
     border-color: #ffffff !important;
     opacity: 1 !important;
   }
-  .fs-header-search-trigger:focus,
-  .fs-header-search-trigger:focus-visible {
-    background: #0a0a0a !important;
-    color: #ffffff !important;
-    border-color: #ffffff !important;
+  header.site-header button.fs-header-search-trigger:hover svg,
+  header.site-header button.fs-header-search-trigger:hover svg *,
+  header.site-header button.fs-header-search-trigger:focus-visible svg,
+  header.site-header button.fs-header-search-trigger:focus-visible svg *,
+  header.site-header button.fs-header-search-trigger:hover:focus svg,
+  header.site-header button.fs-header-search-trigger:hover:focus svg *,
+  header.site-header button.fs-header-search-trigger:hover:focus-visible svg,
+  header.site-header button.fs-header-search-trigger:hover:focus-visible svg * {
+    color: #000000 !important;
+    stroke: #000000 !important;
+  }
+  header.site-header button.fs-header-search-trigger:focus-visible {
     outline: 2px solid rgba(255, 255, 255, 0.45) !important;
     outline-offset: 2px !important;
-  }
-  .fs-header-search-trigger svg {
-    color: #ffffff !important;
-    stroke: #ffffff !important;
   }
 
   /* Homepage services mobile arrows: match projects nav (48px), black fill, white border/icon */
@@ -764,6 +889,46 @@ const GlobalStyles = createGlobalStyle<{ theme: typeof lightTheme }>`
     color: ${({ theme }) => theme.text === '#FFFFFF' ? '#888888' : '#666666'} !important;
   }
 
+  /* Must follow global input remap — homepage + /contact share dark quote fields */
+  #quote-form input.quote-form-field,
+  #quote-form input.quote-form-dropdown,
+  #quote-form textarea.quote-form-field,
+  #quote-form .quote-form-field {
+    background: #000000 !important;
+    background-color: #000000 !important;
+    border-color: rgba(255, 255, 255, 0.15) !important;
+    color: #ffffff !important;
+  }
+  #quote-form input.quote-form-field::placeholder,
+  #quote-form input.quote-form-dropdown::placeholder,
+  #quote-form textarea.quote-form-field::placeholder {
+    color: rgba(255, 255, 255, 0.4) !important;
+  }
+  #quote-form .quote-form-dropdown-menu {
+    background: #09090b !important;
+    background-color: #09090b !important;
+    border-color: rgba(255, 255, 255, 0.12) !important;
+    color: #ffffff !important;
+  }
+  #quote-form button.quote-form-dropdown-item {
+    background: transparent !important;
+    background-color: transparent !important;
+    color: #ffffff !important;
+  }
+  #quote-form button.quote-form-dropdown-item:hover {
+    background: rgba(255, 255, 255, 0.1) !important;
+    background-color: rgba(255, 255, 255, 0.1) !important;
+    color: #ffffff !important;
+  }
+  #quote-form button.quote-form-clear-btn {
+    background: transparent !important;
+    color: #ef4444 !important;
+  }
+  #quote-form button.quote-form-chevron-btn {
+    background: transparent !important;
+    color: rgba(255, 255, 255, 0.65) !important;
+  }
+
   /* Contact tab buttons - keep transparent so globals.css ::before pill shows on hover */
   .header-contact-tab--dark button,
   .header-contact-tab--light button {
@@ -945,6 +1110,44 @@ const GlobalStyles = createGlobalStyle<{ theme: typeof lightTheme }>`
 
   .fixed.right-6 .w-px {
     background: ${({ theme }) => theme.text === '#FFFFFF' ? '#666666' : '#4B5563'} !important;
+  }
+
+  /* FINAL: quote service dropdown always white type on dark (beats buttonText=#000) */
+  #quote-form .quote-form-dropdown-menu,
+  .quote-form-dropdown-menu {
+    background: #09090b !important;
+    background-color: #09090b !important;
+    color: #ffffff !important;
+  }
+  #quote-form button.quote-form-dropdown-item,
+  #quote-form button.quote-form-dropdown-item:hover,
+  #quote-form button.quote-form-dropdown-item:focus,
+  #quote-form button.quote-form-dropdown-item:focus-visible,
+  button.quote-form-dropdown-item,
+  button.quote-form-dropdown-item:hover,
+  button.quote-form-dropdown-item:focus,
+  button.quote-form-dropdown-item:focus-visible {
+    background: transparent !important;
+    background-color: transparent !important;
+    border: none !important;
+    border-color: transparent !important;
+    color: #ffffff !important;
+    -webkit-text-fill-color: #ffffff !important;
+  }
+  #quote-form button.quote-form-dropdown-item:hover,
+  button.quote-form-dropdown-item:hover {
+    background: rgba(255, 255, 255, 0.1) !important;
+    background-color: rgba(255, 255, 255, 0.1) !important;
+    color: #ffffff !important;
+    -webkit-text-fill-color: #ffffff !important;
+  }
+  #quote-form button.quote-form-clear-btn,
+  #quote-form button.quote-form-clear-btn:hover,
+  button.quote-form-clear-btn,
+  button.quote-form-clear-btn:hover {
+    background: transparent !important;
+    color: #ef4444 !important;
+    -webkit-text-fill-color: #ef4444 !important;
   }
 `
 

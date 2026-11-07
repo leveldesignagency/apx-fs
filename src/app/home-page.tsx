@@ -25,9 +25,9 @@ import { GlassFormPanel } from "@/components/ui/GlassFormPanel"
 import { MAIN_CASE_STUDIES } from "@/data/projects"
 import { getNewsArticlesSorted, NEWS_HUB_PATH } from "@/data/fsNewsArticles"
 import { AboutIntroSection } from "@/components/home/AboutIntroSection"
-import { GoogleBusinessReviewsSlot } from "@/components/home/GoogleBusinessReviewsSlot"
 import HeroVideoBackground from "@/components/HeroVideoBackground"
 import { HomeAccreditationsSection } from "@/components/home/HomeAccreditationsSection"
+import { HomeSectionArcBead } from "@/components/home/HomeSectionArcBead"
 import { WhatWeOfferSection } from "@/components/home/WhatWeOfferSection"
 import { HomeQuoteFormDrawShell, HOME_QUOTE_FORM_INNER_DELAY_MS } from "@/components/home/HomeQuoteFormDrawShell"
 import { HomeSectionDivider } from "@/components/home/HomeSectionDivider"
@@ -39,8 +39,9 @@ import { FS_SERVICE_QUICK_LINKS } from "@/lib/fs-service-navigation"
 import { forceDocumentScrollTop } from "@/lib/lenisBridge"
 
 /** Homepage Ready form fields — white fill, black text (globals `#contact` reinforces). */
+/** Match contact page quote fields: dark field, white type */
 const HOME_QUOTE_FIELD_CLASS =
-  "w-full rounded-none border border-black/20 bg-white px-4 py-3.5 text-[17px] font-bold text-black placeholder:text-black/40 placeholder:font-normal outline-none transition-[border,box-shadow] focus:border-black/50 focus:ring-0 focus:bg-white"
+  "quote-form-field w-full rounded-none border border-white/15 bg-black px-4 py-3.5 text-[17px] font-bold text-white placeholder:text-white/40 placeholder:font-normal outline-none transition-[border,box-shadow] focus:border-white/50 focus:ring-0 focus:bg-black"
 
 const HOME_QUOTE_SERVICES = [
   { value: "intruder-alarms", label: "Intruder Alarm Systems" },
@@ -113,6 +114,8 @@ export default function Home() {
   const projectsViewportRef = useRef<HTMLDivElement>(null)
   const projectsStripAnchorRef = useRef<HTMLDivElement>(null)
   const projectsSectionRef = useRef<HTMLElement>(null)
+  const servicesSectionRef = useRef<HTMLElement>(null)
+  const servicesLensRef = useRef<HTMLImageElement>(null)
   const projectsHorizontalPxRef = useRef(0)
   const testimonialQuoteStackRef = useRef<HTMLDivElement>(null)
   const [testimonialsQuoteMinPx, setTestimonialsQuoteMinPx] = useState<number | undefined>(undefined)
@@ -132,6 +135,7 @@ export default function Home() {
     testimonials: false,
     contact: false,
     about: false,
+    accreditations: false,
   })
   const clientLogoPaths = useMemo(() => {
     const base = ['_-01', '_-02', '_-03', '_-04', '_-05', '_-06', '_-07', '_-08', '_-09', '_-10', '_-11']
@@ -375,6 +379,44 @@ export default function Home() {
     return () => timers.forEach((id) => window.clearTimeout(id))
   }, [])
 
+  // Services lens: full 360° rotation driven by scroll through the section
+  useEffect(() => {
+    const section = servicesSectionRef.current
+    const lens = servicesLensRef.current
+    if (!section || !lens) return
+    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
+      lens.style.transform = "rotate(0deg)"
+      return
+    }
+
+    let frame = 0
+    const update = () => {
+      frame = 0
+      const rect = section.getBoundingClientRect()
+      const vh = window.innerHeight
+      // Start as soon as the section enters the viewport; finish ~¾ through it
+      const start = vh
+      const end = -rect.height * 0.75
+      const progress = Math.min(1, Math.max(0, (start - rect.top) / (start - end)))
+      // Opposite of previous direction
+      lens.style.transform = `rotate(${(-progress * 360).toFixed(2)}deg)`
+    }
+
+    const onScroll = () => {
+      if (frame) return
+      frame = requestAnimationFrame(update)
+    }
+
+    update()
+    window.addEventListener("scroll", onScroll, { passive: true })
+    window.addEventListener("resize", onScroll)
+    return () => {
+      window.removeEventListener("scroll", onScroll)
+      window.removeEventListener("resize", onScroll)
+      if (frame) cancelAnimationFrame(frame)
+    }
+  }, [])
+
   // Hero animation sequence
   useEffect(() => {
     const timer1 = setTimeout(() => {
@@ -427,6 +469,7 @@ export default function Home() {
       ...(FS_SHOW_NEWS_AND_ARTICLES ? ([{ id: "why-mep", key: "news" as const }] as const) : []),
       { id: "contact", key: "contact" as const },
       { id: "about", key: "about" as const },
+      { id: "accreditations", key: "accreditations" as const },
     ]
     const observer = new IntersectionObserver(
       (entries) => {
@@ -612,39 +655,28 @@ export default function Home() {
     }
   }, [sections, updateActiveSection])
 
-  // Force dark mode styling for form
+  // Keep quote form on the shared dark style (same as /contact) — do not flip to white fields
   useEffect(() => {
     const applyDarkModeStyles = () => {
       const form = document.getElementById('quote-form');
       if (!form) return;
 
-      // Use the same theme detection as header
-      const isDarkMode = theme === 'dark';
-      
-      // Apply proper styling based on theme
-      if (isDarkMode) {
-        // Form container
-        form.style.backgroundColor = '#000000';
-        form.style.border = '1px solid #ffffff';
-        
-        // Title
-        const title = form.querySelector('h3');
-        if (title) {
-          title.style.color = '#ffffff';
-        }
-        
-        // Labels
-        const labels = form.querySelectorAll('label');
-        labels.forEach((label) => {
-          (label as HTMLLabelElement).style.color = '#ffffff';
-        });
-        
-        // Text inputs and textarea
-        const textInputs = form.querySelectorAll('input[type="text"], input[type="email"], input[type="tel"], textarea');
-        textInputs.forEach((input) => {
+      form.style.backgroundColor = '#000000'
+      form.style.border = '1px solid #ffffff'
+
+      const title = form.querySelector('h3')
+      if (title) title.style.color = '#ffffff'
+
+      form.querySelectorAll('label').forEach((label) => {
+        ;(label as HTMLLabelElement).style.color = '#ffffff'
+      })
+
+      form
+        .querySelectorAll('input[type="text"], input[type="email"], input[type="tel"], textarea')
+        .forEach((input) => {
           const el = input as HTMLInputElement | HTMLTextAreaElement
           el.style.backgroundColor = '#000000'
-          el.style.border = '1px solid #ffffff'
+          el.style.border = '1px solid rgba(255,255,255,0.15)'
           el.style.color = '#ffffff'
           el.style.fontSize = '1.0625rem'
           el.style.fontWeight = '600'
@@ -653,108 +685,30 @@ export default function Home() {
           el.style.setProperty('--tw-ring-color', 'transparent', 'important')
         })
 
-        const serviceDropdown = form.querySelector('.quote-form-dropdown') as HTMLElement | null
-        if (serviceDropdown) {
-          serviceDropdown.style.backgroundColor = '#000000'
-          serviceDropdown.style.fontSize = '1.0625rem'
-          serviceDropdown.style.fontWeight = '700'
-        }
-
-        // Select dropdown - custom styling (if present)
-        const select = form.querySelector('select');
-        if (select) {
-          select.style.backgroundColor = '#000000';
-          select.style.border = '1px solid #ffffff';
-          select.style.color = '#ffffff';
-          select.style.outline = 'none';
-          select.style.boxShadow = 'none';
-          select.style.appearance = 'none';
-          select.style.backgroundImage = 'url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns=\'http://www.w3.org/2000/svg\' viewBox=\'0 0 24 24\' fill=\'none\' stroke=\'white\' stroke-width=\'3\' stroke-linecap=\'round\' stroke-linejoin=\'round\'%3e%3cpolyline points=\'6,9 12,15 18,9\'%3e%3c/polyline%3e%3c/svg%3e")';
-          select.style.backgroundRepeat = 'no-repeat';
-          select.style.backgroundPosition = 'right 12px center';
-          select.style.backgroundSize = '20px';
-          select.style.paddingRight = '50px';
-        }
-        
-        // Preferred contact radios: styled in globals.css (#contact #quote-form), white fill when checked
-        
-        // Submit button
-        const button = form.querySelector('button');
-        if (button) {
-          button.style.backgroundColor = '#000000';
-          button.style.border = '1px solid #ffffff';
-          button.style.color = '#ffffff';
-        }
-      } else {
-        // Light mode - reset all custom styling
-        form.style.backgroundColor = '#ffffff';
-        form.style.border = '1px solid #000000';
-        
-        // Title
-        const title = form.querySelector('h3');
-        if (title) {
-          title.style.color = '#000000';
-        }
-        
-        // Labels
-        const labels = form.querySelectorAll('label');
-        labels.forEach((label) => {
-          (label as HTMLLabelElement).style.color = '#000000';
-        });
-        
-        // Text inputs and textarea
-        const textInputs = form.querySelectorAll('input[type="text"], input[type="email"], input[type="tel"], textarea');
-        textInputs.forEach((input) => {
-          const el = input as HTMLInputElement | HTMLTextAreaElement
-          el.style.backgroundColor = '#ffffff'
-          el.style.border = '1px solid #000000'
-          el.style.color = '#000000'
-          el.style.fontSize = ''
-          el.style.fontWeight = ''
-          el.style.outline = 'none'
-          el.style.boxShadow = 'none'
-        })
-
-        const serviceDropdownLight = form.querySelector('.quote-form-dropdown') as HTMLElement | null
-        if (serviceDropdownLight) {
-          serviceDropdownLight.style.fontSize = ''
-          serviceDropdownLight.style.fontWeight = ''
-        }
-
-        // Select dropdown - reset to default browser styling
-        const select = form.querySelector('select');
-        if (select) {
-          select.style.backgroundColor = '#ffffff';
-          select.style.border = '1px solid #000000';
-          select.style.color = '#000000';
-          select.style.outline = 'none';
-          select.style.boxShadow = 'none';
-          select.style.appearance = 'auto'; // Reset to browser default
-          select.style.backgroundImage = 'none';
-          select.style.backgroundRepeat = 'initial';
-          select.style.backgroundPosition = 'initial';
-          select.style.backgroundSize = 'initial';
-          select.style.paddingRight = 'initial';
-        }
-        
-        // Preferred contact radios: styled in globals.css (#contact #quote-form)
-        
-        // Submit button
-        const button = form.querySelector('button');
-        if (button) {
-          button.style.backgroundColor = '#ffffff';
-          button.style.border = '1px solid #000000';
-          button.style.color = '#000000';
-        }
+      const serviceDropdown = form.querySelector('.quote-form-dropdown') as HTMLElement | null
+      if (serviceDropdown) {
+        serviceDropdown.style.backgroundColor = '#000000'
+        serviceDropdown.style.color = '#ffffff'
+        serviceDropdown.style.fontSize = '1.0625rem'
+        serviceDropdown.style.fontWeight = '700'
       }
+
+      const menu = form.querySelector('.quote-form-dropdown-menu') as HTMLElement | null
+      if (menu) {
+        menu.style.backgroundColor = '#09090b'
+        menu.style.color = '#ffffff'
+      }
+      form.querySelectorAll('.quote-form-dropdown-item').forEach((item) => {
+        const el = item as HTMLElement
+        el.style.backgroundColor = 'transparent'
+        el.style.color = '#ffffff'
+      })
     };
 
-    // Apply styles immediately and with delay to ensure form exists
     setTimeout(applyDarkModeStyles, 100);
     setTimeout(applyDarkModeStyles, 500);
     setTimeout(applyDarkModeStyles, 1000);
     
-    // Also apply on window load
     window.addEventListener('load', applyDarkModeStyles);
     
     // Manual dark mode toggle for debugging
@@ -937,11 +891,23 @@ export default function Home() {
         </div>
       </section>
 
-      <section id="services" className="home-services-band section-spacing relative overflow-visible bg-black">
-        <div className="site-container">
-          <div className="section-content-gap space-y-16 text-white">
-            <WhatWeOfferSection />
-          </div>
+      <section
+        ref={servicesSectionRef}
+        id="services"
+        className="home-services-band section-spacing relative overflow-hidden bg-black"
+      >
+        {/* Monochrome CCTV lens atmosphere — scroll-driven 360° */}
+        <div className="home-services-lens-bg pointer-events-none absolute inset-0 z-0" aria-hidden>
+          {/* eslint-disable-next-line @next/next/no-img-element -- decorative section atmosphere */}
+          <img
+            ref={servicesLensRef}
+            src="/services-cctv-lens-mono.png"
+            alt=""
+            className="home-services-lens-bg__img absolute select-none"
+          />
+        </div>
+        <div className="site-container relative z-[1] text-white">
+          <WhatWeOfferSection />
         </div>
       </section>
 
@@ -969,7 +935,7 @@ export default function Home() {
               <span className="section-label section-label--black">Projects</span>
               <LetterReveal
                 as="h2"
-                text="Built to Last, Delivered with Care."
+                text="Built to Last, Delivered with Care"
                 className="home-section-title text-black font-title"
                 active={sectionMotion.projects}
               />
@@ -1024,6 +990,7 @@ export default function Home() {
                           className="absolute inset-0 scale-110 bg-cover bg-center transition-transform duration-700 ease-out motion-reduce:transition-none motion-safe:group-hover:scale-100"
                           style={{ backgroundImage: `url(${p.image})` }}
                         />
+                        <div className="home-photo-swarm absolute inset-0" aria-hidden />
                         <div className="projects-card-glass absolute inset-x-0 bottom-0 flex flex-col justify-end overflow-hidden">
                           <div className="projects-card-glass-backdrop pointer-events-none absolute inset-0" aria-hidden>
                             <div
@@ -1065,80 +1032,73 @@ export default function Home() {
         }`}
       >
         <div className="site-container">
-          <div className="section-content-gap space-y-16">
-            <div className="grid grid-cols-1 items-start gap-12 lg:grid-cols-2 lg:gap-14 xl:gap-20">
-              {/* Mobile: copy then cards. Desktop: cards left, copy right */}
-              <div className="why-choose-us-copy min-w-0 text-black lg:order-2">
-                <span className="section-label section-label--black about-reveal" style={{ transitionDelay: "0ms" }}>TRUSTED &amp; REVIEWED</span>
-                <LetterReveal
-                  as="h2"
-                  text={"Trust, Quality,\nPeace of Mind."}
-                  className="home-section-title section-title-gap font-title text-black"
-                  active={sectionMotion.about}
-                  delayMs={80}
-                />
-                <LineReveal
-                  as="p"
-                  text="Building on a heritage dating back to 1986, APX Fire & Security (formerly Smiths Technical Systems Ltd) designs, installs and maintains integrated fire, life-safety and electronic security systems across London and the Home Counties. We hold NSI Gold approval for both security and fire, with 24/7 call-out cover and monitoring options available where your site needs them."
-                  className="section-intro-gap mt-8 max-w-xl text-base leading-relaxed text-gray-600 md:mt-10"
-                  active={sectionMotion.about}
-                  delayMs={160}
-                />
+          <div className="grid grid-cols-1 items-start gap-8 sm:gap-12 lg:grid-cols-2 lg:gap-16">
+            {/* Mobile: copy then cards. Desktop: cards left, copy right */}
+            <div className="why-choose-us-copy min-w-0 text-black lg:order-2">
+              <span className="section-label section-label--black about-reveal" style={{ transitionDelay: "0ms" }}>TRUSTED &amp; REVIEWED</span>
+              <LetterReveal
+                as="h2"
+                text={"Trust, Quality,\nPeace of Mind"}
+                className="home-section-title font-title text-black"
+                active={sectionMotion.about}
+                delayMs={80}
+              />
+              <LineReveal
+                as="p"
+                text="Building on a heritage dating back to 1986, APX Fire & Security (formerly Smiths Technical Systems Ltd) designs, installs and maintains integrated fire, life-safety and electronic security systems across London and the Home Counties. We hold NSI Gold approval for both security and fire, with 24/7 call-out cover and monitoring options available where your site needs them."
+                className="section-intro-gap max-w-xl text-base leading-relaxed text-gray-600"
+                active={sectionMotion.about}
+                delayMs={160}
+              />
 
-                <div
-                  className="stats-section mt-10 flex max-w-xl flex-col gap-4 sm:mt-12 sm:flex-row sm:flex-wrap sm:items-stretch sm:justify-start sm:gap-4"
-                  data-stats-section
-                >
-                  <div className="stats-card rounded-xl px-6 py-5 text-center animate-stats-in sm:flex-1 sm:min-w-[9rem]" style={{ animationDelay: "320ms" }}>
-                    <div className="stats-card-number text-3xl font-bold leading-none sm:text-4xl" data-stats-text style={{ color: "#000000" }}>
-                      <CountUp target={500} suffix="+" duration={2000} />
-                    </div>
-                    <div className="stats-card-label mt-2 text-sm" data-stats-text style={{ color: "#000000" }}>
-                      Projects Completed
-                    </div>
+              <div
+                className="stats-section mt-10 flex max-w-xl flex-col gap-4 sm:mt-12 sm:flex-row sm:flex-wrap sm:items-stretch sm:justify-start sm:gap-4"
+                data-stats-section
+              >
+                <div className="stats-card rounded-xl px-6 py-5 text-center animate-stats-in sm:flex-1 sm:min-w-[9rem]" style={{ animationDelay: "320ms" }}>
+                  <div className="stats-card-number text-3xl font-bold leading-none sm:text-4xl" data-stats-text style={{ color: "#000000" }}>
+                    <CountUp target={500} suffix="+" duration={2000} />
                   </div>
-                  <div className="stats-card rounded-xl px-6 py-5 text-center animate-stats-in sm:flex-1 sm:min-w-[9rem]" style={{ animationDelay: "420ms" }}>
-                    <div className="stats-card-number text-3xl font-bold leading-none sm:text-4xl" data-stats-text style={{ color: "#000000" }}>
-                      <CountUp target={40} suffix="+" duration={2000} />
-                    </div>
-                    <div className="stats-card-label mt-2 text-sm" data-stats-text style={{ color: "#000000" }}>
-                      Years&apos; Experience
-                    </div>
+                  <div className="stats-card-label mt-2 text-sm" data-stats-text style={{ color: "#000000" }}>
+                    Projects Completed
                   </div>
                 </div>
-              </div>
-
-              <div className="grid w-full min-w-0 grid-cols-1 gap-6 self-center lg:order-1 lg:mr-auto lg:max-w-[46rem] lg:grid-cols-2 lg:gap-x-5 lg:gap-y-8 lg:justify-self-start">
-                {WHY_CHOOSE_CARDS.map(({ Icon, title, bullets }, idx) => (
-                  <div key={title} className="why-choose-card-shell about-reveal flex h-full min-h-0 min-w-0 flex-col items-center" style={{ transitionDelay: `${360 + idx * 90}ms` }}>
-                    <div
-                      className="why-choose-icon-badge relative z-10 flex h-11 w-11 shrink-0 items-center justify-center rounded-lg border border-white/25 bg-black shadow-[0_6px_22px_rgba(0,0,0,0.5)] md:h-12 md:w-12 md:rounded-xl"
-                      aria-hidden
-                    >
-                      <Icon className="h-5 w-5 shrink-0 text-white/90 md:h-6 md:w-6" strokeWidth={1.5} />
-                    </div>
-                    <article className="why-choose-card -mt-6 flex min-h-0 w-full min-w-0 flex-1 flex-col rounded-2xl border border-white/40 bg-black px-5 pb-5 pt-8 text-center text-white md:px-4 md:pb-5 md:pt-9">
-                      <h4 className="font-title text-lg font-semibold leading-snug text-white md:text-lg">{title}</h4>
-                      <ul className="apx-site-table apx-capability-list mt-3 flex-1 text-center text-sm sm:mt-4">
-                        {bullets.map((line) => (
-                          <li key={line} className="apx-capability-list__item">
-                            {line}
-                          </li>
-                        ))}
-                      </ul>
-                    </article>
+                <div className="stats-card rounded-xl px-6 py-5 text-center animate-stats-in sm:flex-1 sm:min-w-[9rem]" style={{ animationDelay: "420ms" }}>
+                  <div className="stats-card-number text-3xl font-bold leading-none sm:text-4xl" data-stats-text style={{ color: "#000000" }}>
+                    <CountUp target={40} suffix="+" duration={2000} />
                   </div>
-                ))}
-                <div
-                  className="why-choose-card-shell about-reveal flex h-full min-h-0 min-w-0 flex-col items-center"
-                  style={{ transitionDelay: "760ms" }}
-                >
-                  <GoogleBusinessReviewsSlot />
+                  <div className="stats-card-label mt-2 text-sm" data-stats-text style={{ color: "#000000" }}>
+                    Years&apos; Experience
+                  </div>
                 </div>
               </div>
             </div>
+
+            <div className="grid w-full min-w-0 grid-cols-1 gap-6 self-center lg:order-1 lg:mr-auto lg:max-w-[46rem] lg:grid-cols-2 lg:gap-8 lg:justify-self-start">
+              {WHY_CHOOSE_CARDS.map(({ Icon, title, bullets }, idx) => (
+                <div key={title} className="why-choose-card-shell about-reveal flex h-full min-h-0 min-w-0 flex-col items-center" style={{ transitionDelay: `${360 + idx * 90}ms` }}>
+                  <div
+                    className="why-choose-icon-badge relative z-10 flex h-11 w-11 shrink-0 items-center justify-center rounded-lg border border-white/25 bg-black shadow-[0_6px_22px_rgba(0,0,0,0.5)] md:h-12 md:w-12 md:rounded-xl"
+                    aria-hidden
+                  >
+                    <Icon className="h-5 w-5 shrink-0 text-white/90 md:h-6 md:w-6" strokeWidth={1.5} />
+                  </div>
+                  <article className="why-choose-card -mt-6 flex min-h-0 w-full min-w-0 flex-1 flex-col rounded-2xl border border-white/40 bg-black px-5 pb-5 pt-8 text-center text-white md:px-4 md:pb-5 md:pt-9">
+                    <h4 className="font-title text-lg font-semibold leading-snug text-white md:text-lg">{title}</h4>
+                    <ul className="apx-site-table apx-capability-list mt-3 flex-1 text-center text-sm sm:mt-4">
+                      {bullets.map((line) => (
+                        <li key={line} className="apx-capability-list__item">
+                          {line}
+                        </li>
+                      ))}
+                    </ul>
+                  </article>
+                </div>
+              ))}
+            </div>
           </div>
         </div>
+
       </section>
 
       {/* reviews off for now */}
@@ -1270,7 +1230,9 @@ export default function Home() {
       </section>
       )}
 
-      <HomeAccreditationsSection visible={sectionMotion.about} />
+      <HomeSectionArcBead />
+
+      <HomeAccreditationsSection visible={sectionMotion.accreditations} />
 
       <HomeSectionDivider surface="on-light" width="full" />
 
@@ -1281,7 +1243,7 @@ export default function Home() {
         aria-label="Our clients"
       >
         <div
-          className={`logo-marquee-wrapper pt-12 pb-12 lg:pt-14 lg:pb-14 home-scroll-rise ${
+          className={`logo-marquee-wrapper py-10 lg:py-12 home-scroll-rise ${
             sectionMotion.marquee ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"
           }`}
         >
@@ -1374,9 +1336,9 @@ export default function Home() {
                     </ul>
                   </nav>
                   <div className="news-section__footer">
-                    <Link href={NEWS_HUB_PATH} className="news-section__view-all">
-                      View all news &amp; articles
-                    </Link>
+                    <CustomPillButton href={NEWS_HUB_PATH} size="md">
+                      View all
+                    </CustomPillButton>
                   </div>
                 </div>
               </div>
@@ -1395,7 +1357,7 @@ export default function Home() {
           <div className="grid grid-cols-1 items-start gap-8 sm:gap-12 lg:grid-cols-2 lg:gap-16">
             {/* Left side - Title and Button (extra top space clears hanging news image) */}
             <div
-              className="contact-section-head space-y-8 pt-10 lg:pt-28"
+              className="contact-section-head pt-10 lg:pt-28"
               style={
                 sectionMotion.contact ? { transitionDelay: `${HOME_QUOTE_FORM_INNER_DELAY_MS}ms` } : undefined
               }
@@ -1417,8 +1379,8 @@ export default function Home() {
                 active={sectionMotion.contact}
                 delayMs={HOME_QUOTE_FORM_INNER_DELAY_MS}
               />
-              
-              <div className="space-y-6 max-w-lg">
+
+              <div className="section-intro-gap max-w-lg space-y-5">
                 <LineReveal
                   as="p"
                   text="As one of the leading Fire and Security system installers in London and the South East, we are pleased to offer a free survey and report for your property. Our systems are designed in accordance with NSI Gold standards for both security and fire, covering domestic and commercial sites."
@@ -1426,7 +1388,7 @@ export default function Home() {
                   active={sectionMotion.contact}
                   delayMs={HOME_QUOTE_FORM_INNER_DELAY_MS + 80}
                 />
-                
+
                 <LineReveal
                   as="p"
                   text="Whether you need security, fire detection, monitoring and ARC signalling, or 24/7 call-out support, contact us for a chat about your requirements. We respond promptly and provide detailed, competitive quotes tailored to your needs."
@@ -1523,8 +1485,8 @@ export default function Home() {
                     placeholder="Select or type a service"
                     required
                     allowCustom
+                    emptyLabel="Select a service"
                     containerClassName="services-dropdown-container"
-                    inputClassName="border-black/20 bg-white text-black placeholder:text-black/40 focus:border-black/50 focus:bg-white"
                   />
                 </div>
                 

@@ -1,9 +1,9 @@
 "use client"
 
-import Image from "next/image"
 import Link from "next/link"
 import { CctvComplianceSection } from "@/components/CctvComplianceSection"
 import { CctvWhatWeOfferSection } from "@/components/CctvWhatWeOfferSection"
+import { CctvSectorLockScroll } from "@/components/CctvSectorLockScroll"
 import { FsCctvCameraTypesStrip } from "@/components/FsCctvCameraTypesStrip"
 import { ServicePageClosingSections } from "@/components/ServicePageClosingSections"
 import { FsCctvSubpageHeroButtons } from "@/components/FsCctvSubpageHeroButtons"
@@ -15,14 +15,10 @@ import { ServiceFeatureImageCard } from "@/components/ServiceFeatureImageCard"
 import { Reveal } from "@/components/Reveal"
 import { ServiceItemReveal } from "@/components/ServiceItemReveal"
 import { ServiceInstallationsGrid } from "@/components/ServiceInstallationsGrid"
+import { ServiceInstallationCard } from "@/components/ServiceInstallationCard"
 import { CustomPillButton } from "@/components/ui/CustomPillButton"
 import { CallPhoneCta } from "@/components/ui/CallPhoneCta"
 import { serviceHeroImages } from "@/lib/serviceHeroImages"
-import {
-  FS_SERVICE_IMAGE_GROW_INNER,
-  FS_SERVICE_INSTALLATION_CARD,
-  FS_SERVICE_INSTALLATION_CARD_IMAGE,
-} from "@/lib/fsServicePageCards"
 import { FS_SERVICE_ROUTES } from "@/lib/fs-service-routes"
 import { SERVICE_HERO_BRIDGE_GRADIENT } from "@/lib/heroBackgroundGradients"
 
@@ -57,44 +53,37 @@ const COMMERCIAL_CCTV_BENEFITS = [
   "Help lone workers and small teams view more of the premises from a single location.",
 ] as const
 
-const CCTV_IMG = "/service%20images/cctv-capabilities"
-
+/** Homepage SECTORS band images (`public/industries/`) */
 const COMMERCIAL_CCTV_SECTORS = [
   {
-    label: "Retail",
-    text: "Coverage for shop floors, stock rooms and till points to support day-to-day oversight and provide clear footage when incidents need reviewing.",
-    imageSrc: `${CCTV_IMG}/retail.jpg`,
-    imageAlt: "Shopkeeper watching the shop floor from behind the counter",
+    label: "Education & Schools",
+    text: "Entrances, playgrounds and shared areas to help schools and colleges manage access, monitor activity and respond to incidents.",
+    imageSrc: "/industries/education-university-london.jpg",
+    imageAlt: "University of London campus, Senate House",
+  },
+  {
+    label: "Commercial",
+    text: "From single offices to multi-site estates, scalable CCTV that integrates with access control, intruder alarms and remote monitoring.",
+    imageSrc: "/industries/commercial.jpg",
+    imageAlt: "Fire and security systems for commercial offices",
+  },
+  {
+    label: "Hospitals",
+    text: "Wards, clinics and car parks with discreet camera placement aligned with healthcare site requirements and privacy expectations.",
+    imageSrc: "/industries/hospitals.jpg",
+    imageAlt: "Fire and security systems for hospitals and healthcare sites",
+  },
+  {
+    label: "Housing",
+    text: "Residential blocks and multi-occupancy sites, covering entrances, courtyards and shared areas with privacy-conscious recording.",
+    imageSrc: "/industries/housing-london-integrated-entry.jpg",
+    imageAlt: "High-end London home with integrated entry and access",
   },
   {
     label: "Hotels",
     text: "Reception areas, corridors, car parks and service entrances, supporting guest and staff safety alongside day-to-day operations.",
-    imageSrc: `${CCTV_IMG}/hotels.jpg`,
-    imageAlt: "Multi-storey hotel and apartment building with shared entrances",
-  },
-  {
-    label: "Healthcare",
-    text: "Wards, clinics and car parks with discreet camera placement aligned with healthcare site requirements and privacy expectations.",
-    imageSrc: `${CCTV_IMG}/healthcare.jpg`,
-    imageAlt: "Clean interior space typical of clinics and care environments",
-  },
-  {
-    label: "Education",
-    text: "Entrances, playgrounds and shared areas to help schools and colleges manage access, monitor activity and respond to incidents.",
-    imageSrc: `${CCTV_IMG}/education.jpg`,
-    imageAlt: "Engineers reviewing site drawings for an education building",
-  },
-  {
-    label: "Banking",
-    text: "Counters, cash-handling areas and high-value zones with recording suitable for audit and investigation review.",
-    imageSrc: `${CCTV_IMG}/banking.jpg`,
-    imageAlt: "Secure commercial door lock at a high-value entrance",
-  },
-  {
-    label: "Corporate",
-    text: "From single offices to multi-site estates, scalable CCTV that integrates with access control, intruder alarms and remote monitoring.",
-    imageSrc: `${CCTV_IMG}/corporate.jpg`,
-    imageAlt: "Modern commercial office building",
+    imageSrc: "/industries/hotels.jpg",
+    imageAlt: "Fire and security systems for hotels",
   },
 ] as const
 
@@ -103,36 +92,43 @@ const INTEGRATIONS = [
     title: "Access control",
     text: "Event-triggered recording and shared workflows with door access systems.",
     href: FS_SERVICE_ROUTES.accessControlSystems,
-    imageSrc: `${CCTV_IMG}/access.jpg`,
-    imageAlt: "Office user presenting a proximity card at a glass-door reader",
+    imageSrc: serviceHeroImages.accessControl,
+    imageAlt: "Commercial access control entry system",
   },
   {
     title: "Intruder alarms",
     text: "Alarm-linked camera call-up and coordinated commissioning with graded intruder systems.",
     href: FS_SERVICE_ROUTES.intruderAlarmSystems,
-    imageSrc: `${CCTV_IMG}/intruder.jpg`,
-    imageAlt: "Illuminated wall-mounted security keypad",
+    imageSrc: serviceHeroImages.intruder,
+    imageAlt: "Forced entry attempt on a secured commercial door",
   },
   {
     title: "Gate automation",
     text: "Vehicle gate and barrier coverage coordinated with access and CCTV where the site requires it.",
     href: FS_SERVICE_ROUTES.gateAutomationSystems,
-    imageSrc: `${CCTV_IMG}/gate.jpg`,
-    imageAlt: "Engineer inspecting a gated entrance control cabinet",
+    imageSrc: serviceHeroImages.gateAutomation,
+    imageAlt: "Automated vehicle gate and barrier system",
   },
   {
     title: "ANPR",
     text: "Automatic number-plate recognition where offered and suitable for the location and brief.",
     href: FS_SERVICE_ROUTES.cctvSystems,
-    imageSrc: `${CCTV_IMG}/anpr.jpg`,
-    imageAlt: "Vehicle roadway coverage used for ANPR",
+    imageSrc: "/service%20images/access-capabilities/gate-anpr.jpg",
+    imageAlt: "Vehicle roadway coverage used for ANPR and barrier control",
   },
   {
     title: "Remote monitoring",
     text: "Remote viewing and ARC / monitoring pathways where the platform and contract support them.",
     href: "/services/monitoring",
-    imageSrc: `${CCTV_IMG}/remote-viewing.jpg`,
-    imageAlt: "Operator reviewing live multi-camera CCTV feeds in a control room",
+    imageSrc: serviceHeroImages.monitoring,
+    imageAlt: "Alarm receiving centre monitoring workstation",
+  },
+  {
+    title: "Video door entry",
+    text: "Coordinate visitor entry with camera coverage so reception and security share one clear view of who is calling.",
+    href: FS_SERVICE_ROUTES.videoDoorEntrySystems,
+    imageSrc: serviceHeroImages.videoDoor,
+    imageAlt: "Video door entry panel used with commercial CCTV coverage",
   },
 ] as const
 
@@ -166,7 +162,8 @@ export default function CommercialCctvPage() {
       <ServicePageHero
         title="Commercial CCTV systems"
         imageSrc={serviceHeroImages.commercialCctv}
-        imageClassName="object-cover [object-position:50%_78%] sm:[object-position:50%_82%]"
+        imageAlt="Looking up at glass commercial skyscrapers in a city business district"
+        imageClassName="object-cover object-[50%_35%] sm:object-[50%_40%]"
         heroCompliance={["BS EN 62676"]}
         heroSummary="Commercial and industrial CCTV for offices, retail, warehouses and multi-site estates, surveyed and commissioned to your brief."
         afterIntro={<FsCctvSubpageHeroButtons />}
@@ -205,7 +202,7 @@ export default function CommercialCctvPage() {
         <section className="site-container relative z-[1] py-16 lg:py-16">
           <Reveal>
             <h2 className="mb-4 text-left font-title text-3xl font-bold text-white sm:text-4xl">
-              Integration &amp; monitoring
+              Integration &amp; Monitoring
             </h2>
           </Reveal>
           <Reveal delayMs={70}>
@@ -228,31 +225,6 @@ export default function CommercialCctvPage() {
             ))}
           </div>
 
-          <Reveal>
-            <h2
-              id="commercial-cctv-businesses-heading"
-              className="mb-4 mt-16 text-left font-title text-3xl font-bold text-white sm:mt-20 sm:text-4xl lg:mt-24"
-            >
-              CCTV for businesses
-            </h2>
-          </Reveal>
-          <Reveal delayMs={70}>
-            <p className="mb-10 max-w-3xl text-left text-base leading-relaxed text-gray-300 sm:text-lg">
-              We design and install commercial CCTV across the following sectors:
-            </p>
-          </Reveal>
-          <div className="grid grid-cols-1 gap-8 md:grid-cols-3">
-            {COMMERCIAL_CCTV_SECTORS.map(({ label, text, imageSrc, imageAlt }, i) => (
-              <ServiceItemReveal key={label} index={i} className="h-full min-h-0">
-                <ServiceFeatureImageCard
-                  title={label}
-                  description={text}
-                  imageSrc={imageSrc}
-                  imageAlt={imageAlt}
-                />
-              </ServiceItemReveal>
-            ))}
-          </div>
         </section>
 
         <div className="border-t border-white/15" />
@@ -260,7 +232,7 @@ export default function CommercialCctvPage() {
         <section className="site-container py-16 lg:py-16">
           <Reveal>
             <h2 className="mb-4 text-left font-title text-3xl font-bold text-white sm:text-4xl">
-              APX commercial examples
+              APX Commercial Examples
             </h2>
           </Reveal>
           <Reveal delayMs={70}>
@@ -275,24 +247,13 @@ export default function CommercialCctvPage() {
             {COMMERCIAL_CCTV_PROJECTS.map((item, index) => (
               <ServiceItemReveal key={item.title} index={index} className="h-full min-h-0">
                 <Link href={item.href} className="block h-full text-inherit no-underline">
-                  <article className={FS_SERVICE_INSTALLATION_CARD}>
-                    <div className={FS_SERVICE_INSTALLATION_CARD_IMAGE}>
-                      <div className={FS_SERVICE_IMAGE_GROW_INNER}>
-                        <Image
-                          src={item.imageSrc}
-                          alt={item.title}
-                          fill
-                          className="object-cover object-center"
-                          sizes="(min-width: 768px) 22.5rem, 100vw"
-                        />
-                      </div>
-                    </div>
-                    <div className="p-6 md:p-8">
-                      <h3 className="mb-2 text-base font-semibold leading-snug text-white sm:text-lg">{item.title}</h3>
-                      <p className="font-medium text-white/95">{item.venue}</p>
-                      <p className="mt-1 text-gray-300">{item.context}</p>
-                    </div>
-                  </article>
+                  <ServiceInstallationCard
+                    imageSrc={item.imageSrc}
+                    imageAlt={item.title}
+                    title={item.title}
+                    subtitle={item.venue}
+                    meta={item.context}
+                  />
                 </Link>
               </ServiceItemReveal>
             ))}
@@ -374,6 +335,10 @@ export default function CommercialCctvPage() {
 
         <div className="border-t border-white/15" />
 
+        <CctvSectorLockScroll sectors={COMMERCIAL_CCTV_SECTORS} />
+
+        <div className="border-t border-white/15" />
+
         <CctvComplianceSection
           intro="For offices, retail, warehouses and multi-site estates we design and install scalable CCTV with remote monitoring options, perimeter coverage and secure network configuration, aligned with NSI expectations and BS EN 62676 where applicable. Recording and retention can be designed with privacy in mind; lawful operation remains the customer's responsibility under UK GDPR."
           standardsItems={[
@@ -430,7 +395,7 @@ export default function CommercialCctvPage() {
           serviceTitleShort="Commercial CCTV"
           ctaImageSrc={serviceHeroImages.commercialCctv}
           ctaHeadline="Request Your"
-          ctaHeadlineAccent="Free Commercial Survey."
+          ctaHeadlineAccent="Free Commercial Survey"
           ctaDescription="Site visit, coverage review and written recommendations. No obligation. We respond promptly across London and the Home Counties."
         >
           <CustomPillButton href="/contact?service=cctv-systems" size="md">

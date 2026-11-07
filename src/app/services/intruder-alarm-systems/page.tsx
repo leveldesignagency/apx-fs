@@ -1,6 +1,5 @@
 "use client"
 
-import Image from "next/image"
 import Link from "next/link"
 import { ApxPartnerLogoStrip } from "@/components/ApxPartnerLogoStrip"
 import { INTRUDER_ALARM_TECHNOLOGY_PARTNERS } from "@/lib/apx-partner-logos"
@@ -9,20 +8,18 @@ import { ServiceTechnologyProductsSection } from "@/components/ServiceTechnology
 import { ServicePageClosingSections } from "@/components/ServicePageClosingSections"
 import { CustomPillButton } from "@/components/ui/CustomPillButton"
 import { CallPhoneCta } from "@/components/ui/CallPhoneCta"
-import { ServicePageHero } from "@/components/ServicePageHero"
+import { ServiceHeroGridTilt } from "@/components/ServiceHeroGridTilt"
 import { Reveal } from "@/components/Reveal"
 import { ServiceItemReveal } from "@/components/ServiceItemReveal"
 import { ServiceInstallationsGrid } from "@/components/ServiceInstallationsGrid"
+import { ServiceInstallationCard } from "@/components/ServiceInstallationCard"
 import { serviceHeroImages } from "@/lib/serviceHeroImages"
 import { FsServiceTextImageSection } from "@/components/FsServiceTextImageSection"
 import { FsServiceTextImageSectionGroup } from "@/components/FsServiceTextImageSectionGroup"
 import { ServiceFeatureImageCard } from "@/components/ServiceFeatureImageCard"
-import {
-  FS_SERVICE_IMAGE_GROW_INNER,
-  FS_SERVICE_INSTALLATION_CARD,
-  FS_SERVICE_INSTALLATION_CARD_IMAGE,
-} from "@/lib/fsServicePageCards"
+import { FS_SERVICE_IMAGE_GROW_INNER } from "@/lib/fsServicePageCards"
 import { SERVICE_HERO_BRIDGE_GRADIENT } from "@/lib/heroBackgroundGradients"
+import { toTitleCase } from "@/lib/titleCase"
 
 const IMG = "/service%20images/intruder-capabilities"
 
@@ -30,30 +27,35 @@ const MONITORING_BENEFITS = [
   {
     title: "Commercial-grade protection",
     text: "Detection and signalling designed for offices, schools, hospitals, construction sites, residential developments, hotels and industrial premises.",
+    id: "intruder-commercial",
     imageSrc: `${IMG}/commercial.jpg`,
     imageAlt: "Modern commercial building with controlled access and occupancy",
   },
   {
     title: "ARC monitoring",
     text: "Alarm receiving centre (ARC) signalling so events are escalated when your site is unattended, with police response where applicable.",
+    id: "intruder-arc",
     imageSrc: `${IMG}/arc.jpg`,
     imageAlt: "Operator reviewing live camera and alarm feeds in a control room",
   },
   {
     title: "Dual-path signalling",
     text: "Resilient dual-path signalling for monitored systems, including CSL GradeShift Pro where your insurer or risk assessment requires it.",
+    id: "intruder-dual-path",
     imageSrc: `${IMG}/dual-path.jpg`,
     imageAlt: "Network switch ports used for resilient alarm signalling paths",
   },
   {
     title: "Remote control",
     text: "App and keypad control so authorised users can arm, disarm and check system status remotely.",
-    imageSrc: `${IMG}/remote.jpg`,
-    imageAlt: "Illuminated wall-mounted security keypad",
+    id: "intruder-remote",
+    imageSrc: `${IMG}/remote-texecom-chrome-neutral.jpg`,
+    imageAlt: "Chrome Texecom security keypad on a neutral wall for remote system control",
   },
   {
     title: "Takeover, maintenance & call-out",
     text: "System takeover and upgrades, planned preventative maintenance, and 24/7 call-out cover for faults and emergencies.",
+    id: "intruder-takeover",
     imageSrc: `${IMG}/takeover.jpg`,
     imageAlt: "Engineer with clipboard and van coordinating a site call-out",
   },
@@ -104,23 +106,14 @@ const heroBridge = (
 export default function IntruderAlarmSystemsPage() {
   return (
     <div className="service-page-root min-h-screen overflow-x-hidden bg-black text-white">
-      <ServicePageHero
+      <ServiceHeroGridTilt
         title="Intruder Alarm Systems"
+        fillSeed="intruder-alarm-systems"
         imageSrc={INTRUDER_HERO_IMAGE_SRC}
         imageAlt="Gloved hand forcing a door handle with a crowbar during a break-in attempt"
         imageClassName="object-cover object-center"
         heroCompliance={["PD 6662", "BS EN 50131"]}
-        heroSummary="Grade 2 and Grade 3 commercial intruder alarms with ARC monitoring, dual-path signalling and NSI-aligned installation across London and the Home Counties."
-        intro={
-          <>
-            <p className="mb-4">
-              APX installs and maintains intruder alarm systems for commercial and industrial environments, with Grade 2 and Grade 3 installations, ARC monitoring options and NSI-aligned workmanship.
-            </p>
-            <p>
-              Building on a heritage dating back to 1986, we design systems that link to CCTV, video entry and access control where required, with dual-path signalling (CSL GradeShift Pro), planned maintenance and 24/7 call-out cover available.
-            </p>
-          </>
-        }
+        summary="Grade 2 and Grade 3 commercial intruder alarms with ARC monitoring, dual-path signalling and NSI-aligned installation across London and the Home Counties."
       />
 
       <div className="relative bg-[var(--page-bg)]">
@@ -136,7 +129,8 @@ export default function IntruderAlarmSystemsPage() {
             {MONITORING_BENEFITS.map((item, index) => (
               <ServiceItemReveal key={item.title} index={index} className="h-full min-h-0">
                 <ServiceFeatureImageCard
-                  title={item.title}
+                  id={item.id}
+                  title={toTitleCase(item.title)}
                   description={item.text}
                   imageSrc={item.imageSrc}
                   imageAlt={item.imageAlt}
@@ -177,7 +171,7 @@ export default function IntruderAlarmSystemsPage() {
           imageAlt="Bespoke intruder alarm system installation"
           imageClassName="object-cover object-[20%_center] brightness-[1.18] contrast-[1.05] saturate-[1.06]"
         >
-          <h3 className="font-title text-2xl font-semibold text-white">Survey-led design &amp; installation</h3>
+          <h3 className="font-title text-2xl font-semibold text-white">Survey-Led Design &amp; Installation</h3>
           <p>
             Every system is surveyed and designed around how the building is used, detection zones, signalling path and
             integration with your wider security stack, so you get a well-designed, well-installed and reliable installation.
@@ -289,24 +283,13 @@ export default function IntruderAlarmSystemsPage() {
           >
             {INTRUDER_ALARM_INSTALLATIONS.map((item, index) => (
               <ServiceItemReveal key={item.title} index={index} className="h-full min-h-0">
-                <article className={FS_SERVICE_INSTALLATION_CARD}>
-                <div className={FS_SERVICE_INSTALLATION_CARD_IMAGE}>
-                  <div className={FS_SERVICE_IMAGE_GROW_INNER}>
-                  <Image
-                    src={item.imageSrc}
-                    alt={item.title}
-                    fill
-                    className="object-cover object-center"
-                    sizes="(min-width: 768px) 22.5rem, 100vw"
-                  />
-                  </div>
-                </div>
-                <div className="p-6 md:p-8">
-                  <h3 className="mb-2 text-base font-semibold leading-snug text-white sm:text-lg">{item.title}</h3>
-                  <p className="font-medium text-white/95">{item.venue}</p>
-                  <p className="mt-1 text-gray-300">{item.context}</p>
-                </div>
-                </article>
+                <ServiceInstallationCard
+                  imageSrc={item.imageSrc}
+                  imageAlt={item.title}
+                  title={item.title}
+                  subtitle={item.venue}
+                  meta={item.context}
+                />
               </ServiceItemReveal>
             ))}
           </ServiceInstallationsGrid>

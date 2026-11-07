@@ -1,6 +1,6 @@
-import Link from "next/link"
 import type { FsNewsArticle } from "@/data/fsNewsArticles"
 import { NewsArticleCard } from "@/components/news/NewsArticleCard"
+import { CustomPillButton } from "@/components/ui/CustomPillButton"
 import { FS_PROJECTS_CONTENT_MAX, FS_PROJECTS_SECTION_PX } from "@/lib/fsProjectsLayout"
 
 type NewsMoreArticlesStripProps = {
@@ -29,15 +29,12 @@ export function NewsMoreArticlesStrip({ articles }: NewsMoreArticlesStripProps) 
               id="news-more-articles-heading"
               className="mt-2 font-title text-2xl font-bold normal-case tracking-tight text-black md:text-3xl lg:text-4xl"
             >
-              More articles
+              More Articles
             </h2>
           </div>
-          <Link
-            href="/news"
-            className="inline-flex w-fit shrink-0 text-xs font-bold uppercase tracking-[0.14em] text-black underline decoration-black/30 underline-offset-[0.2em] transition-colors hover:decoration-black"
-          >
-            View all news
-          </Link>
+          <CustomPillButton href="/news" size="sm" variant="onLight">
+            View all
+          </CustomPillButton>
         </div>
 
         <div className="mt-8 grid grid-cols-1 gap-5 sm:mt-10 md:grid-cols-3 md:gap-6 lg:gap-8">

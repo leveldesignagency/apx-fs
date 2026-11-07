@@ -11,12 +11,9 @@ import { ServicePageHero } from "@/components/ServicePageHero"
 import { Reveal } from "@/components/Reveal"
 import { ServiceItemReveal } from "@/components/ServiceItemReveal"
 import { ServiceInstallationsGrid } from "@/components/ServiceInstallationsGrid"
+import { ServiceInstallationCard } from "@/components/ServiceInstallationCard"
 import { serviceHeroImages } from "@/lib/serviceHeroImages"
-import {
-  FS_SERVICE_IMAGE_GROW_INNER,
-  FS_SERVICE_INSTALLATION_CARD,
-  FS_SERVICE_INSTALLATION_CARD_IMAGE,
-} from "@/lib/fsServicePageCards"
+import { FS_SERVICE_IMAGE_GROW_INNER } from "@/lib/fsServicePageCards"
 import { ApxPartnerLogoStrip } from "@/components/ApxPartnerLogoStrip"
 import { VIDEO_DOOR_TECH_PARTNERS } from "@/lib/apx-partner-logos"
 import { ServiceTechnologyProductsSection } from "@/components/ServiceTechnologyProductsSection"
@@ -31,6 +28,7 @@ import {
   type LucideIcon,
 } from "lucide-react"
 import { SERVICE_HERO_BRIDGE_GRADIENT } from "@/lib/heroBackgroundGradients"
+import { toTitleCase } from "@/lib/titleCase"
 
 const linkClass =
   "underline decoration-white/45 underline-offset-[3px] transition-colors hover:decoration-white"
@@ -66,64 +64,80 @@ const VIDEO_DOOR_BENEFITS: { Icon: LucideIcon; title: string; text: string }[] =
 
 const VIDEO_IMG = "/service%20images/video-door-capabilities"
 
-const VIDEO_DOOR_CAPABILITIES: { title: string; text: string; imageSrc: string; imageAlt: string }[] = [
+const VIDEO_DOOR_CAPABILITIES: {
+  title: string
+  text: string
+  id: string
+  imageSrc: string
+  imageAlt: string
+}[] = [
   {
     title: "Audio and video entry",
     text: "Audio-only or audio-and-video door stations so occupants can speak to, and where specified see, callers before granting entry.",
+    id: "vde-audio-video",
     imageSrc: `${VIDEO_IMG}/audio-video.jpg`,
     imageAlt: "Video door entry panel with camera, keypad and call buttons",
   },
   {
     title: "Single residence systems",
     text: "Houses and single dwellings with clear internal handsets or monitors matched to how the household wants to answer calls.",
+    id: "vde-single-residence",
     imageSrc: `${VIDEO_IMG}/single-residence.jpg`,
-    imageAlt: "Detached UK house with a controlled front entrance",
+    imageAlt: "Prime UK residence with wrought-iron automated gates and brick gate piers",
   },
   {
     title: "Multi-occupancy systems",
     text: "Apartment blocks and multi-tenant buildings with panel directories, flat stations and permissions structured for shared entrances.",
+    id: "vde-multi-occupancy",
     imageSrc: `${VIDEO_IMG}/multi-occupancy.jpg`,
     imageAlt: "Modern apartment block with shared video-entry entrances",
   },
   {
     title: "Concierge integration where applicable",
     text: "Link entry calls to a concierge or reception desk where the building operates a staffed desk and the platform supports it.",
+    id: "vde-concierge",
     imageSrc: `${VIDEO_IMG}/concierge.jpg`,
     imageAlt: "Reception operator answering visitor calls on a headset",
   },
   {
     title: "IP and networked systems",
     text: "IP and networked video entry for larger estates, with structured cabling and handover documentation for operators.",
+    id: "vde-ip",
     imageSrc: `${VIDEO_IMG}/ip.jpg`,
     imageAlt: "Network switch ports used for IP video door entry",
   },
   {
     title: "Mobile answering where available",
     text: "Answer and release from a phone or tablet where the system supplied supports mobile answering, not assumed for every product.",
+    id: "vde-mobile",
     imageSrc: `${VIDEO_IMG}/mobile.jpg`,
     imageAlt: "Smartphone used to answer and release a video door entry call",
   },
   {
     title: "Access-control integration",
     text: "Coordinate with fob/card access so visitor release and resident credentials work as one package.",
+    id: "vde-access",
     imageSrc: `${VIDEO_IMG}/access.jpg`,
     imageAlt: "Office user presenting a proximity card at a glass-door reader",
   },
   {
     title: "Gate automation integration",
     text: "Integrate with vehicle gates and barriers where the site needs shared visitor and vehicle entry control.",
+    id: "vde-gate",
     imageSrc: `${VIDEO_IMG}/gate.jpg`,
     imageAlt: "Engineer inspecting a gated entrance control cabinet",
   },
   {
     title: "Maintenance and upgrades",
     text: "PPM, fault attendance, system takeovers and upgrades so ageing panels and handsets can be modernised without unnecessary downtime.",
+    id: "vde-maintenance",
     imageSrc: `${VIDEO_IMG}/maintenance.jpg`,
     imageAlt: "Engineer diagnosing video-entry hardware with a multimeter",
   },
   {
     title: "CCTV coordination",
     text: "Where required, align entry cameras and recording with wider CCTV so events and visitor footage stay coherent.",
+    id: "vde-cctv",
     imageSrc: `${VIDEO_IMG}/cctv.jpg`,
     imageAlt: "IP turret camera used alongside video door entry",
   },
@@ -225,7 +239,7 @@ export default function VideoDoorEntrySystemsPage() {
                       strokeWidth={1.25}
                       aria-hidden
                     />
-                    <h3 className="font-title text-lg font-bold tracking-tight text-white sm:text-xl">{title}</h3>
+                    <h3 className="font-title text-lg font-bold tracking-tight text-white sm:text-xl">{toTitleCase(title)}</h3>
                     <p className="mt-3 max-w-[16rem] text-[15px] leading-relaxed text-white/60 sm:mt-3.5 lg:max-w-none">
                       {text}
                     </p>
@@ -249,9 +263,10 @@ export default function VideoDoorEntrySystemsPage() {
             </p>
           </Reveal>
           <div className="grid grid-cols-1 gap-8 md:grid-cols-2 lg:grid-cols-3">
-            {VIDEO_DOOR_CAPABILITIES.map(({ title, text, imageSrc, imageAlt }, i) => (
+            {VIDEO_DOOR_CAPABILITIES.map(({ title, text, id, imageSrc, imageAlt }, i) => (
               <ServiceItemReveal key={title} index={i} className="h-full min-h-0">
                 <ServiceFeatureImageCard
+                  id={id}
                   title={title}
                   description={text}
                   imageSrc={imageSrc}
@@ -369,7 +384,7 @@ export default function VideoDoorEntrySystemsPage() {
         <section className="site-container py-16 lg:py-16">
           <Reveal>
             <h2 className="mb-4 text-left font-title text-3xl font-bold text-white sm:text-4xl">
-              Our video entry installations
+              Our Video Entry Installations
             </h2>
           </Reveal>
           <Reveal delayMs={70}>
@@ -383,24 +398,13 @@ export default function VideoDoorEntrySystemsPage() {
           >
             {VIDEO_DOOR_INSTALLATIONS.map((item, index) => (
               <ServiceItemReveal key={`${item.imageSrc}-${index}`} index={index} className="h-full min-h-0">
-                <article className={FS_SERVICE_INSTALLATION_CARD}>
-                  <div className={FS_SERVICE_INSTALLATION_CARD_IMAGE}>
-                    <div className={FS_SERVICE_IMAGE_GROW_INNER}>
-                      <Image
-                        src={item.imageSrc}
-                        alt={item.title}
-                        fill
-                        className="object-cover object-center"
-                        sizes="(min-width: 768px) 22.5rem, 100vw"
-                      />
-                    </div>
-                  </div>
-                  <div className="p-6 md:p-8">
-                    <h3 className="mb-2 text-base font-semibold leading-snug text-white sm:text-lg">{item.title}</h3>
-                    <p className="font-medium text-white/95">{item.venue}</p>
-                    <p className="mt-1 text-gray-300">{item.context}</p>
-                  </div>
-                </article>
+                <ServiceInstallationCard
+                  imageSrc={item.imageSrc}
+                  imageAlt={item.title}
+                  title={item.title}
+                  subtitle={item.venue}
+                  meta={item.context}
+                />
               </ServiceItemReveal>
             ))}
           </ServiceInstallationsGrid>
@@ -410,7 +414,7 @@ export default function VideoDoorEntrySystemsPage() {
           serviceTitleShort="Video door entry"
           ctaImageSrc={serviceHeroImages.videoDoor}
           ctaHeadline="Upgrade Your"
-          ctaHeadlineAccent="Video Entry."
+          ctaHeadlineAccent="Video Entry"
           ctaDescription="Expert design, installation, access-control and gate integration, plus maintenance and upgrades for residential and commercial buildings."
         >
           <CustomPillButton href="/contact?service=video-door-entry-systems" size="md">

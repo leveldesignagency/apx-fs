@@ -36,7 +36,7 @@ export default function UsefulCctvAdvicePage() {
   return (
     <div className="service-page-root min-h-screen overflow-x-hidden text-white">
       <ServicePageHero
-        title="Useful CCTV advice"
+        title="Useful CCTV Advice"
         imageSrc={serviceHeroImages.cctvAdvice}
         heroCompliance={["BS EN 62676"]}
         heroSummary="Practical CCTV advice on camera types, placement, recording and privacy, before you enquire for a professional install."
@@ -58,7 +58,7 @@ export default function UsefulCctvAdvicePage() {
 
         <section className="site-container relative z-[1] py-16 lg:py-16">
           <Reveal>
-            <h2 className="mb-10 text-left font-title text-3xl font-bold text-white sm:text-4xl">CCTV advice & guidance</h2>
+            <h2 className="mb-10 text-left font-title text-3xl font-bold text-white sm:text-4xl">CCTV Advice & Guidance</h2>
           </Reveal>
           <div className="grid grid-cols-1 gap-8 md:grid-cols-3">
             {[
@@ -71,14 +71,14 @@ export default function UsefulCctvAdvicePage() {
               {
                 title: "Placement & coverage",
                 text: "Where to put cameras for useful coverage and evidence, within lawful and proportionate limits.",
-                imageSrc: "/service%20images/cctv-capabilities/analytics.jpg",
+                imageSrc: "/service%20images/cctv-capabilities/placement-coverage.jpg",
                 imageAlt: "External camera, detector and floodlight covering a building approach",
               },
               {
                 title: "Data protection & signage",
                 text: "UK GDPR, signage, retention and sharing footage, you remain responsible for lawful day-to-day use.",
-                imageSrc: "/service%20images/cctv-capabilities/recording.jpg",
-                imageAlt: "NVR drive bays used for CCTV recording and retention",
+                imageSrc: "/service%20images/cctv-capabilities/recording-web.jpg",
+                imageAlt: "Active server rack with status displays used for CCTV recording and retention",
               },
             ].map((item, i) => (
               <ServiceItemReveal key={item.title} index={i} className="h-full min-h-0">
@@ -218,7 +218,7 @@ export default function UsefulCctvAdvicePage() {
           serviceTitleShort="CCTV advice"
           ctaImageSrc={serviceHeroImages.cctvAdvice}
           ctaHeadline="Get Tailored"
-          ctaHeadlineAccent="CCTV Advice."
+          ctaHeadlineAccent="CCTV Advice"
           ctaDescription="Book a free, no-obligation survey and we will recommend the right camera coverage, recording and compliance approach for your home or business."
         >
           <CustomPillButton href="/contact?service=cctv-systems" size="md">

@@ -1,6 +1,13 @@
 "use client"
 
 import Link from "next/link"
+import {
+  BadgeAlert,
+  MoveHorizontal,
+  ShieldOff,
+  Wrench,
+  type LucideIcon,
+} from "lucide-react"
 import { ServiceComplianceSection } from "@/components/ServiceComplianceSection"
 import { ServicePageClosingSections } from "@/components/ServicePageClosingSections"
 import { CustomPillButton } from "@/components/ui/CustomPillButton"
@@ -14,6 +21,30 @@ import { FsServiceTextImageSectionGroup } from "@/components/FsServiceTextImageS
 import { serviceHeroImages, serviceSectionImages } from "@/lib/serviceHeroImages"
 import { FS_SERVICE_ROUTES } from "@/lib/fs-service-routes"
 import { SERVICE_HERO_BRIDGE_GRADIENT } from "@/lib/heroBackgroundGradients"
+import { toTitleCase } from "@/lib/titleCase"
+
+const GATE_RISKS: { Icon: LucideIcon; title: string; body: string }[] = [
+  {
+    Icon: BadgeAlert,
+    title: "Compliance Issues",
+    body: "Gaps against machinery regulations, Gate Safe expectations and the records a surveyor or insurer will expect to see.",
+  },
+  {
+    Icon: MoveHorizontal,
+    title: "Crushing and Dragging Points",
+    body: "Closing edges, hinge zones and draw-in areas where people, clothing or vehicles can be trapped as the gate moves.",
+  },
+  {
+    Icon: ShieldOff,
+    title: "Inadequate Safety Devices",
+    body: "Missing or poorly aimed photocells, edges and controls that should stop or reverse the gate before contact.",
+  },
+  {
+    Icon: Wrench,
+    title: "Incorrectly Installed Equipment",
+    body: "Operators, stops and wiring fitted outside manufacturer guidance, so the entrance is unreliable or unsafe under load.",
+  },
+]
 
 const linkClass =
   "underline decoration-white/40 underline-offset-[3px] transition-colors hover:decoration-white"
@@ -144,7 +175,7 @@ export default function GateAutomationSystemsPage() {
                     Site survey focus
                   </p>
                   <h2 className="max-w-xl text-left font-title text-4xl font-bold leading-[1.05] text-white sm:text-5xl">
-                    Risks we look for
+                    Risks We Look For
                   </h2>
                 </Reveal>
                 <Reveal delayMs={70}>
@@ -155,44 +186,27 @@ export default function GateAutomationSystemsPage() {
                 </Reveal>
               </div>
 
-              <ol className="m-0 list-none border-t border-white/25 p-0 lg:col-span-7">
-                {[
-                  {
-                    title: "Compliance issues",
-                    body: "Gaps against machinery regulations, Gate Safe expectations and the records a surveyor or insurer will expect to see.",
-                  },
-                  {
-                    title: "Crushing and dragging points",
-                    body: "Closing edges, hinge zones and draw-in areas where people, clothing or vehicles can be trapped as the gate moves.",
-                  },
-                  {
-                    title: "Inadequate safety devices",
-                    body: "Missing or poorly aimed photocells, edges and controls that should stop or reverse the gate before contact.",
-                  },
-                  {
-                    title: "Incorrectly installed equipment",
-                    body: "Operators, stops and wiring fitted outside manufacturer guidance, so the entrance is unreliable or unsafe under load.",
-                  },
-                ].map((item, i) => (
-                  <li key={item.title} className="border-b border-white/25 py-7 sm:py-8">
+              <ul className="m-0 list-none border-t border-white/25 p-0 lg:col-span-7">
+                {GATE_RISKS.map(({ Icon, title, body }, i) => (
+                  <li key={title} className="border-b border-white/25 py-7 sm:py-8">
                     <Reveal delayMs={90 + i * 70}>
-                      <div className="grid grid-cols-[auto_minmax(0,1fr)] items-start gap-x-5 gap-y-2 sm:gap-x-7">
-                        <span className="font-title text-sm font-semibold tracking-[0.18em] text-white/40">
-                          {String(i + 1).padStart(2, "0")}
+                      <div className="grid grid-cols-[auto_minmax(0,1fr)] items-center gap-x-5 gap-y-2 sm:gap-x-7">
+                        <span className="flex h-11 w-11 shrink-0 items-center justify-center text-white/70 sm:h-12 sm:w-12">
+                          <Icon className="h-7 w-7 sm:h-8 sm:w-8" strokeWidth={1.25} aria-hidden />
                         </span>
-                        <div className="min-w-0">
+                        <div className="min-w-0 text-left">
                           <h3 className="font-title text-xl font-bold leading-tight text-white sm:text-2xl">
-                            {item.title}
+                            {toTitleCase(title)}
                           </h3>
                           <p className="mt-2.5 max-w-xl text-sm leading-relaxed text-white/68 sm:text-base">
-                            {item.body}
+                            {body}
                           </p>
                         </div>
                       </div>
                     </Reveal>
                   </li>
                 ))}
-              </ol>
+              </ul>
             </div>
           </div>
         </section>
@@ -324,7 +338,7 @@ export default function GateAutomationSystemsPage() {
           serviceTitleShort="Gate automation"
           ctaImageSrc={serviceHeroImages.gateAutomation}
           ctaHeadline="Arrange a"
-          ctaHeadlineAccent="Survey."
+          ctaHeadlineAccent="Survey"
           ctaDescription="Contact us to book a survey for gates, barriers or bollards, new installs, servicing, repairs or maintenance."
         >
           <CustomPillButton href="/contact?service=gate-automation-systems" size="md">

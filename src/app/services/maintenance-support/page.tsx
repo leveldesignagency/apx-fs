@@ -23,8 +23,8 @@ const CAPABILITIES = [
     title: "System takeovers",
     description:
       "Assess existing Fire and Security installations, bring them under APX care, and plan upgrades without unnecessary downtime.",
-    imageSrc: `${IMG}/takeovers.jpg`,
-    imageAlt: "Engineer inspecting an outdoor control cabinet during a system takeover",
+    imageSrc: `${IMG}/system-takeover-panel.jpg`,
+    imageAlt: "Existing fire control panel interface assessed during a system takeover",
   },
   {
     title: "Planned PPM",
@@ -58,8 +58,8 @@ const CAPABILITIES = [
     title: "Remote support",
     description:
       "Remote diagnostics and support where the installed platform allows, reducing downtime before an engineer attends.",
-    imageSrc: `${IMG}/remote.jpg`,
-    imageAlt: "Smartphone used for remote system status and diagnostics",
+    imageSrc: `${IMG}/remote-support-office.jpg`,
+    imageAlt: "Support engineer on a phone call at a desk laptop diagnosing a system remotely",
   },
   {
     title: "24/7 call-out cover",

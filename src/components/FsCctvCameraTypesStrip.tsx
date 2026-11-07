@@ -5,6 +5,7 @@ import Image from "next/image"
 import Link from "next/link"
 import { Reveal } from "@/components/Reveal"
 import { CCTV_CAMERA_TYPE_PAGES } from "@/data/cctvCameraTypePages"
+import { toTitleCase } from "@/lib/titleCase"
 
 const CCTV_TYPES_FOLDER = "/cctv%20camera%20types"
 
@@ -58,7 +59,7 @@ export function FsCctvCameraTypesStrip() {
               id="cctv-camera-types-heading"
               className="mb-6 max-w-3xl text-left font-title text-3xl font-bold text-white sm:mb-8 sm:text-4xl"
             >
-              CCTV camera types
+              {toTitleCase("CCTV Camera Types")}
             </h2>
           </Reveal>
           <Reveal show={stripShow} delayMs={STRIP_INTRO_DELAY_MS}>
@@ -88,7 +89,7 @@ export function FsCctvCameraTypesStrip() {
                 >
                   <div className="relative aspect-square w-full overflow-hidden rounded-tl-2xl rounded-br-2xl border border-white/25 bg-[var(--page-bg)] shadow-[0_14px_36px_rgba(0,0,0,0.65)] transition-transform duration-300 ease-out will-change-transform group-hover:scale-[1.06] group-focus-visible:scale-[1.04] group-focus-visible:outline group-focus-visible:outline-2 group-focus-visible:outline-offset-4 group-focus-visible:outline-white/40 md:rounded-none md:border-0 md:bg-transparent md:shadow-none">
                     <span className="absolute left-3 top-3 z-[2] max-w-[calc(100%-1.5rem)] truncate rounded-full border border-white/25 bg-black/75 px-3 py-1.5 text-sm font-bold tracking-tight text-white backdrop-blur-sm">
-                      {label}
+                      {toTitleCase(label)}
                     </span>
                     <Image
                       src={`${CCTV_TYPES_FOLDER}/${file}`}

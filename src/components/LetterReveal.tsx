@@ -8,6 +8,7 @@ import {
   type ElementType,
   type ReactNode,
 } from "react"
+import { toTitleCase } from "@/lib/titleCase"
 import { cn } from "@/lib/utils"
 
 type LetterRevealProps = {
@@ -85,14 +86,18 @@ export function LetterReveal({
   }, [controlled, reduceMotion])
 
   const useLetters = !reduceMotion && (!desktopOnly || desktop)
-  const lines = text.split("\n")
+  const displayText = text
+    .split("\n")
+    .map((line) => toTitleCase(line))
+    .join("\n")
+  const lines = displayText.split("\n")
 
   return (
     <Tag
       ref={ref as never}
       id={id}
       className={cn("letter-reveal", useLetters && "letter-reveal--split", className)}
-      aria-label={text.replace(/\n/g, " ")}
+      aria-label={displayText.replace(/\n/g, " ")}
     >
       {useLetters
         ? lines.map((line, lineIndex) => {
@@ -144,7 +149,7 @@ export function LetterReveal({
             )
           })
         : children ??
-          text.split("\n").map((line, i) => (
+          lines.map((line, i) => (
             <span key={i} className="block">
               {line}
             </span>

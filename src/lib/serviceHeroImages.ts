@@ -2,8 +2,7 @@
 export const serviceHeroImages = {
   cctv: "/client%20logos/service%20pages%20image/home-cctv-system-installer-800x533.jpg",
   domesticCctv: "/service%20images/cctv%20/domestic%20cctv%20hero.jpg",
-  commercialCctv:
-    "/service%20images/cctv%20/hero-commercial-cctv-system-installation.jpg",
+  commercialCctv: "/industries/commercial.jpg",
   cctvAdvice: "/service%20images/cctv%20/hero-useful-cctv-advice.jpg",
   fireAlarm:
     "/service%20images/fire%20alarm%20systems/hero-fire-alarm-call-point-wide.jpg",
@@ -17,8 +16,8 @@ export const serviceHeroImages = {
   evacVoice: "/service%20images/evac/hero-hd-pava-retail-concourse.jpg",
   /** EVAC (BS 8629): hotel corridor with emergency lighting on the right (HD) */
   evac: "/service%20images/evac/hero-hd-evac-exit-right-v2.jpg",
-  /** Disabled refuge / EVC: school corridor with fire cabinet and exit route */
-  refuge: "/service%20images/refuge/hero-disabled-refuge-school-corridor.jpg",
+  /** Disabled refuge / EVC hero: client-supplied webp */
+  refuge: "/disabled%20refuge.webp",
   monitoring: "/projects/library/intruder-alarm-monitoring-company-sq.jpg",
   maintenance: "/service%20images/MAINTAINENCE%20AND%20SUPPORT.jpg",
   emergencyCallOut: "/service%20images/callout-capabilities/hero-24-hour-call-out.png",
@@ -32,7 +31,8 @@ export const serviceSectionImages = {
   gateDidYouKnow: "/Comprehensive%20Security%20Systems.jpg",
   gateManagedSites: "/projects/library/access-control-systems-door-entry-card-sq.jpg",
   refuge: "/Fire%20Telephone.jpeg",
-  refugeCta: "/service%20images/refuge/disabled-refuge-outstation.jpg",
+  /** Refuge closing CTA: keep distinct from hero (school corridor, not the exit-wheelchair hero) */
+  refugeCta: "/service%20images/refuge/hero-disabled-refuge-school-corridor.jpg",
   fireAlarmBody:
     "/projects/case-studies/university-of-west-london/fire-alarm-installation-university-of-west-london-reception.jpg",
   accessBody: "/projects/library/access-control-systems-door-card-sq.jpg",
@@ -43,7 +43,7 @@ export const serviceSectionImages = {
   pavaBody: "/projects/library/case-study-pa-va-system-installation-reception.jpg",
   /** EVAC mid-page: keep distinct from PAVA speaker hero */
   evacBody: "/projects/library/home-fire-alarm-system-installer.jpg",
-  monitoringBody: "/projects/library/commercial-cctv-monitor-business.jpg",
+  monitoringBody: "/projects/library/monitoring-cctv-display-sharp.jpg",
   maintenanceBody: "/projects/library/hero-fire-alarm-system-installer.jpg",
   emergencyCallOutBody: "/projects/library/apx-fire-security-alarm-box.jpg",
 } as const

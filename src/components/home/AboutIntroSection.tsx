@@ -113,12 +113,13 @@ export function AboutIntroSection({ intro = DEFAULT_INTRO, steps = ABOUT_STEPS }
       aria-label="Our story"
     >
       {/* 1) mask  2) shift down  3) sit above Projects */}
-      <div className="about-intro-media relative mx-auto mt-[clamp(1.25rem,3.5vw,2.25rem)] mb-0 w-[90%] overflow-hidden rounded-[1.5rem] sm:rounded-[1.75rem] lg:rounded-[2rem]">
+      <div className="about-intro-media site-container relative mx-auto mt-[clamp(1.25rem,3.5vw,2.25rem)] mb-0 overflow-hidden rounded-[1.5rem] sm:rounded-[1.75rem] lg:rounded-[2rem]">
         <div
           className="about-intro-bg pointer-events-none absolute inset-x-0 -top-[8%] h-[116%] bg-cover bg-center bg-no-repeat brightness-[1.12] saturate-[1.02] contrast-[1.04]"
           style={{ backgroundImage: `url("${ABOUT_INTRO_BACKGROUND_IMAGE}")` }}
           aria-hidden
         />
+        <div className="home-photo-swarm home-photo-swarm--corners absolute inset-0" aria-hidden />
         <div className="pointer-events-none absolute inset-0 bg-[rgb(10_10_10/0.35)]" aria-hidden />
         <div
           className="pointer-events-none absolute inset-0 bg-gradient-to-r from-[rgb(10_10_10/0.75)] via-[rgb(10_10_10/0.45)] to-[rgb(10_10_10/0.25)]"
@@ -132,7 +133,7 @@ export function AboutIntroSection({ intro = DEFAULT_INTRO, steps = ABOUT_STEPS }
               <Line
                 index={0}
                 active={on}
-                className="section-label mb-4 block text-sm tracking-[0.2em] text-white/75 sm:mb-5 sm:text-base"
+                className="section-label text-white/75"
                 style={{ fontFamily: "var(--font-menu), sans-serif" }}
               >
                 OUR STORY
@@ -140,7 +141,7 @@ export function AboutIntroSection({ intro = DEFAULT_INTRO, steps = ABOUT_STEPS }
               <h2 className="about-intro-heading font-title font-bold uppercase text-white">
                 <LetterReveal
                   as="span"
-                  text="Built on Experience."
+                  text="Built on Experience"
                   className="about-intro-heading__line block lg:whitespace-nowrap text-white/50"
                   active={on}
                   delayMs={STAGGER_MS}
@@ -148,7 +149,7 @@ export function AboutIntroSection({ intro = DEFAULT_INTRO, steps = ABOUT_STEPS }
                 />
                 <LetterReveal
                   as="span"
-                  text="Driven by Standards."
+                  text="Driven by Standards"
                   className="about-intro-heading__line block lg:whitespace-nowrap text-white"
                   active={on}
                   delayMs={STAGGER_MS + 420}

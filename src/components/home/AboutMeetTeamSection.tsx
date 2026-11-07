@@ -125,7 +125,7 @@ export function AboutMeetTeamSection() {
                 id="about-meet-the-team-heading"
                 className="font-title text-4xl font-bold leading-[1.02] tracking-tight text-black sm:text-5xl lg:text-6xl"
               >
-                Meet the team.
+                Meet the Team
               </h2>
             </div>
           </Reveal>

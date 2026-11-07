@@ -92,7 +92,7 @@ export function ContactFaqSection({ items = CONTACT_FAQ_ITEMS }: Props) {
       <div className="site-container">
         <header className="contact-faq__header">
           <h2 id="contact-faq-heading" className="contact-faq__title font-title">
-            Looking for answers?
+            Looking for Answers?
           </h2>
           <p className="contact-faq__subtitle">
             Common questions about surveys, quotes, coverage and getting in touch with APX Fire &amp; Security.

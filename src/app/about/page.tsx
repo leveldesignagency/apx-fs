@@ -7,6 +7,7 @@ import { Reveal } from "@/components/Reveal";
 import { LetterReveal } from "@/components/LetterReveal";
 import { LineReveal } from "@/components/LineReveal";
 import { FsInsetCtaCard } from "@/components/FsInsetCtaCard";
+import { ServiceHeroGridTilt } from "@/components/ServiceHeroGridTilt";
 import { CustomPillButton } from "@/components/ui/CustomPillButton";
 import { CallPhoneCta } from "@/components/ui/CallPhoneCta";
 
@@ -75,7 +76,7 @@ function whoSupportImage(filename: string): string {
 const ACC_MONO = "/accreditations mono";
 const EXPERTISE_ACCRED_LOGOS = [
   { href: "/accreditations/bafe", src: `${ACC_MONO}/Coloured/BAFE-01.svg`, alt: "BAFE" },
-  { href: "/accreditations/nsi", src: `${ACC_MONO}/NSI-01.svg`, alt: "NSI" },
+  { href: "/accreditations/nsi", src: `${ACC_MONO}/Coloured/NSI-01.png`, alt: "NSI" },
   { href: "/accreditations/constructionline", src: `${ACC_MONO}/Coloured/ConstructionOnline-01.svg`, alt: "Constructionline" },
   { href: "/accreditations/fia", src: `${ACC_MONO}/Coloured/FIA-01.svg`, alt: "FIA" },
 ] as const;
@@ -89,31 +90,31 @@ type WhoWeSupportItem = {
 
 const WHO_WE_SUPPORT: WhoWeSupportItem[] = [
   {
-    title: "M&E contractors",
+    title: "M&E Contractors",
     description:
       "We slot into wider MEP programmes with coordinated installs, commissioning packs, and handover documentation that matches your testing strategy, from containment and risers through to integrated Fire and Security interfaces.",
-    highlights: "Integrated delivery · Commissioning & O&M",
+    highlights: "Integrated Delivery · Commissioning & O&M",
     imageSrc: whoSupportImage("Consultants and architects.jpg"),
   },
   {
-    title: "Facility management teams",
+    title: "Facility Management Teams",
     description:
       "Ongoing maintenance, upgrades, and clear records for multi-site portfolios. We help keep systems compliant, minimise downtime, and plan lifecycle replacements without surprises for building users.",
-    highlights: "Planned maintenance · Emergency response",
+    highlights: "Planned Maintenance · Emergency Response",
     imageSrc: whoSupportImage("Facility management teams.jpg"),
   },
   {
-    title: "Consultants and architects",
+    title: "Consultants and Architects",
     description:
       "Early input on coverage, cause-and-effect, and system architecture so specifications stay buildable. We support RIBA stages, tender reviews, and design-team workshops where Fire and Security must align with the wider brief.",
-    highlights: "Design stages · Specification support",
+    highlights: "Design Stages · Specification Support",
     imageSrc: whoSupportImage("M&E contractors.jpg"),
   },
   {
-    title: "Main contractors",
+    title: "Main Contractors",
     description:
       "Programme-led delivery with disciplined site coordination, clear interfaces with other trades, and predictable milestones from first fix to client handover, including the documentation package your package needs to close out.",
-    highlights: "Site coordination · Handover packages",
+    highlights: "Site Coordination · Handover Packages",
     imageSrc: whoSupportImage("Main contractors.jpg"),
   },
 ];
@@ -176,7 +177,7 @@ const HERITAGE_YEAR_END = 2026;
 
 export default function AboutPage() {
   const [reduceMotion, setReduceMotion] = useState(false);
-  const [heroReveal, setHeroReveal] = useState(false);
+  const [heritageReveal, setHeritageReveal] = useState(false);
   const [heritageYear, setHeritageYear] = useState(HERITAGE_YEAR_START);
   const heritageYearTrackRef = useRef<HTMLDivElement>(null);
 
@@ -190,10 +191,10 @@ export default function AboutPage() {
 
   useEffect(() => {
     if (reduceMotion) {
-      setHeroReveal(true);
+      setHeritageReveal(true);
       return;
     }
-    const id = requestAnimationFrame(() => setHeroReveal(true));
+    const id = requestAnimationFrame(() => setHeritageReveal(true));
     return () => cancelAnimationFrame(id);
   }, [reduceMotion]);
 
@@ -214,9 +215,9 @@ export default function AboutPage() {
       const track = heritageYearTrackRef.current;
       if (!track) return;
       const trackTop = window.scrollY + track.getBoundingClientRect().top;
-      const start = trackTop - window.innerHeight * 0.65;
-      /* Completes over ~1.5 viewports so the count is visible while the year is on screen */
-      const span = window.innerHeight * 0.75;
+      const start = trackTop - window.innerHeight * 0.55;
+      /* Short span = faster year tick through 1986-2026 while heritage is on screen */
+      const span = window.innerHeight * 0.32;
       const t = Math.min(1, Math.max(0, (window.scrollY - start) / span));
       const eased = t * t * (3 - 2 * t);
       const next = Math.round(
@@ -241,69 +242,27 @@ export default function AboutPage() {
 
   return (
     <div className="about-parallax-page about-page-shell">
-      {/* Hero: photo holds title + mantra; body copy lands in the black feather below */}
-      <section
-        className="about-block about-block--black about-hero-blend about-hero-parallax relative overflow-hidden"
-        aria-label="About APX Fire and Security"
-      >
-        <div className="about-hero-blend__media pointer-events-none absolute inset-x-0 top-0 z-0" aria-hidden>
-          <div className="about-parallax-bg about-hero-parallax__bg about-hero-parallax__bg--photo relative h-full w-full">
-            <Image
-              src={ABOUT_HERO_BG_SRC}
-              alt=""
-              fill
-              priority
-              className="about-hero-parallax__photo object-cover object-[72%_center] sm:object-[68%_center] lg:object-[62%_center]"
-              sizes="100vw"
-            />
-          </div>
-          <div className="about-hero-blend__shade" />
-          <div className="about-hero-blend__feather" />
-        </div>
-
-        <div className="about-hero-blend__content about-section-px relative z-20 mx-auto w-full">
-          <div className="about-hero-blend__lead about-section-inner">
-            <Reveal show={heroReveal} delayMs={0}>
-              <p
-                className="mb-4 text-[11px] font-semibold uppercase tracking-[0.28em] text-white/55 sm:mb-5 sm:text-xs"
-                style={{ fontFamily: "var(--font-menu)" }}
-              >
-                Est. 2025
-              </p>
-            </Reveal>
-            <Reveal show={heroReveal} delayMs={40}>
-              <LetterReveal
-                as="h1"
-                text={"About\nAPX Fire & Security"}
-                className="about-hero-blend__title text-left font-bold tracking-tight text-white drop-shadow-sm [font-family:var(--font-menu)]"
-                active={heroReveal}
-                delayMs={40}
-                desktopOnly={false}
-              />
-            </Reveal>
-            <Reveal show={heroReveal} delayMs={110}>
-              <p className="about-hero-mantra mt-5 max-w-3xl text-left text-base font-medium italic leading-snug tracking-[0.04em] text-white/88 drop-shadow-sm sm:mt-6 sm:text-lg md:text-xl md:leading-snug">
-                Protecting People, Property and Businesses Through
-                <br />
-                Intelligent Fire &amp; Security Solutions
-              </p>
-            </Reveal>
-          </div>
-
-          <div
-            ref={heritageYearTrackRef}
-            className="about-hero-blend__body about-section-inner"
-          >
+      <ServiceHeroGridTilt
+        title="About APX Fire & Security"
+        fillSeed="about"
+        imageSrc={ABOUT_HERO_BG_SRC}
+        imageAlt="APX Fire and Security engineer on site"
+        imageClassName="object-cover object-[72%_center] sm:object-[68%_center] lg:object-[62%_center]"
+        titleDetail="Est. 2025"
+        heroNav={false}
+        className="service-hero-grid--about"
+        body={
+          <div ref={heritageYearTrackRef} className="service-hero-grid__heritage">
             <div
-              className={`about-hero-blend__rule h-px w-14 bg-white/30 transition-opacity duration-700 ${
-                heroReveal ? "opacity-100" : "opacity-0"
+              className={`h-px w-14 bg-white/30 transition-opacity duration-700 ${
+                heritageReveal ? "opacity-100" : "opacity-0"
               }`}
               aria-hidden
             />
-            <div className="about-hero-blend__copy mt-8 grid gap-8 sm:mt-10 lg:mt-12 lg:grid-cols-[12.5rem_minmax(0,1fr)] lg:items-start lg:gap-x-12 xl:grid-cols-[14rem_minmax(0,1fr)] xl:gap-x-14">
-              <Reveal show={heroReveal} delayMs={180} className="about-hero-blend__year-slot hidden lg:block">
+            <div className="mt-8 grid gap-8 sm:mt-10 lg:grid-cols-[12.5rem_minmax(0,1fr)] lg:items-start lg:gap-x-12 xl:grid-cols-[14rem_minmax(0,1fr)] xl:gap-x-14">
+              <Reveal show={heritageReveal} delayMs={80} className="about-hero-blend__year-slot hidden lg:block">
                 <p
-                  className="about-hero-blend__year select-none font-bold leading-none text-white/[0.08]"
+                  className="about-hero-blend__year select-none font-bold leading-none text-white/[0.67]"
                   style={{ fontFamily: "var(--font-menu)" }}
                   aria-hidden
                 >
@@ -317,27 +276,27 @@ export default function AboutPage() {
                     as="p"
                     text={para}
                     className="relative text-[0.95rem] font-normal leading-relaxed tracking-tight text-white/82 sm:text-base md:text-[1.05rem] md:leading-[1.7]"
-                    delayMs={240 + i * 150}
+                    delayMs={120 + i * 150}
                     staggerMs={48}
-                    active={heroReveal}
+                    active={heritageReveal}
                     desktopOnly={false}
                   />
                 ))}
               </div>
             </div>
           </div>
-        </div>
-      </section>
+        }
+      />
 
       {/* Who we support - full-bleed image cards with overlay copy */}
-      <section className="about-block about-block--black about-section-y about-section-px">
+      <section className="about-block about-block--black about-section-y about-section-px about-who-support-section">
         <div className="about-section-inner space-y-10 md:space-y-12">
           <Reveal>
             <div className="max-w-3xl">
               <span className="section-label mb-3 block text-white/65">Who We Support</span>
               <LetterReveal
                 as="h2"
-                text={"Delivery-first partner\nfor complex projects"}
+                text={"Delivery-First Partner\nfor Complex Projects"}
                 className="text-3xl font-bold leading-tight text-white md:text-4xl lg:text-5xl [font-family:var(--font-menu)]"
                 desktopOnly={false}
               />
@@ -392,14 +351,18 @@ export default function AboutPage() {
             <span className="section-label mb-4 block text-white/70">Our Commitments</span>
             <LetterReveal
               as="h2"
-              text="Quality, safety & environment"
+              text="Quality, Safety & Environment"
               className="mb-10 max-w-3xl text-3xl font-bold leading-tight text-white md:mb-12 md:text-4xl lg:text-5xl [font-family:var(--font-menu)]"
               desktopOnly={false}
             />
           </Reveal>
           <div className="about-commitments-icons grid w-full grid-cols-1 gap-5 sm:grid-cols-3 sm:gap-5 md:gap-6 lg:gap-8">
             {ABOUT_COMMITMENTS.map((item, i) => (
-              <Reveal key={item.line1} delayMs={i * 85} className="w-full">
+              <Reveal
+                key={item.line1}
+                delayMs={i * 160}
+                className="about-reveal--from-left w-full"
+              >
                 <article className="group relative flex min-h-[18rem] w-full flex-col items-center justify-center overflow-hidden rounded-3xl border border-white/15 px-6 py-10 text-center sm:min-h-[20rem] sm:px-5 sm:py-12 md:min-h-[22rem] md:rounded-[1.75rem]">
                   <div
                     className="pointer-events-none absolute inset-[-12%] scale-110 transition-transform duration-700 ease-out motion-safe:group-hover:scale-100"
@@ -463,7 +426,7 @@ export default function AboutPage() {
                 <LetterReveal
                   as="h2"
                   id="about-our-story-heading"
-                  text="Built on recommendations."
+                  text="Built on Recommendations"
                   className="text-3xl font-bold leading-tight tracking-tight text-white md:text-4xl lg:text-5xl [font-family:var(--font-menu)]"
                   desktopOnly={false}
                 />
@@ -531,7 +494,7 @@ export default function AboutPage() {
                 <LetterReveal
                   as="h2"
                   id="about-join-the-team-heading"
-                  text={"Join the\nteam."}
+                  text={"Join the\nTeam"}
                   className="about-join-team-title font-title text-5xl font-bold tracking-tight text-black sm:text-6xl lg:text-7xl xl:text-[5.25rem]"
                   desktopOnly={false}
                 />
@@ -578,18 +541,18 @@ export default function AboutPage() {
               <Reveal key={item.alt} delayMs={i * 70}>
                 <Link
                   href={item.href}
-                  className="group flex w-full max-w-[210px] items-center justify-center px-5 py-6 transition-opacity hover:opacity-90"
+                  className="group flex w-full max-w-[230px] items-center justify-center px-5 py-6 transition-opacity hover:opacity-90"
                   aria-label={`Learn more about ${item.alt}`}
                 >
                   {/* eslint-disable-next-line @next/next/no-img-element */}
                   <img
                     src={item.src}
                     alt={item.alt}
-                    width={280}
-                    height={180}
+                    width={300}
+                    height={200}
                     loading="lazy"
                     decoding="async"
-                    className="h-auto max-h-24 w-full max-w-full object-contain transition-transform duration-300 group-hover:scale-[1.03] sm:max-h-28 lg:max-h-32"
+                    className="h-auto max-h-28 w-full max-w-full object-contain transition-transform duration-300 group-hover:scale-[1.03] sm:max-h-32 lg:max-h-36"
                   />
                 </Link>
               </Reveal>
@@ -607,7 +570,7 @@ export default function AboutPage() {
             <span className="section-label section-label--black mb-4 block">How We Work</span>
             <LetterReveal
               as="h2"
-              text="Disciplines & integrated delivery"
+              text="Disciplines & Integrated Delivery"
               className="text-2xl font-bold leading-tight text-black md:text-3xl lg:text-4xl [font-family:var(--font-menu)]"
               desktopOnly={false}
             />
@@ -691,7 +654,7 @@ export default function AboutPage() {
         backgroundImageSrc={ABOUT_HERO_BG_SRC}
         headingId="about-contact-cta-heading"
         headline="Get in"
-        headlineAccent="touch."
+        headlineAccent="touch"
         description="Ready to discuss your fire safety or security requirements? We would love to hear from you."
       >
         <CustomPillButton href="/contact" size="md">

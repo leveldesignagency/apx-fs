@@ -96,7 +96,7 @@ export function CareerApplicationForm({
     return (
       <div className="mx-auto w-full max-w-lg text-center">
         <CheckCircle2 className="mx-auto h-14 w-14 text-emerald-600" aria-hidden />
-        <h2 className="mt-6 font-title text-2xl font-bold text-black sm:text-3xl">Application sent</h2>
+        <h2 className="mt-6 font-title text-2xl font-bold text-black sm:text-3xl">Application Sent</h2>
         <p className="mt-4 text-base leading-relaxed text-black/65">
           Thank you, we have received your application for <span className="font-medium text-black">{role.title}</span>.
           If your profile matches the role, our team will be in touch.

@@ -107,9 +107,7 @@ export const FS_PROJECTS: FsProject[] = [
       "/projects/case-studies/kings-college-hospital/case-study-kings-college-hospital-nhs-foundation-trust.jpg",
     gallery: [
       "/projects/case-studies/kings-college-hospital/case-study-kings-college-hospital-nhs-foundation-trust.jpg",
-      "/projects/case-studies/kings-college-hospital/case-study-kings-college-hospital-nhs-foundation-trust-2.jpg",
       "/projects/case-studies/kings-college-hospital/case-study-kings-college-hospital-exterior-800x533-willowfield.jpg",
-      "/projects/case-studies/kings-college-hospital/case-study-kings-college-hospital-renal-dialysis-800x533-renal-dialysis.jpg",
       "/projects/case-studies/kings-college-hospital/intruder-alarm-kings-college-hospital-renal-dialysis.jpg",
     ],
   },

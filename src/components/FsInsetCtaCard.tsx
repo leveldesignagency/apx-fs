@@ -3,6 +3,7 @@
 import type { ReactNode } from "react"
 import Image from "next/image"
 import { Reveal } from "@/components/Reveal"
+import { toTitleCase } from "@/lib/titleCase"
 import { cn } from "@/lib/utils"
 
 export type FsInsetCtaCardProps = {
@@ -102,18 +103,18 @@ export function FsInsetCtaCard({
               <div className="min-w-0">
                 <h2
                   id={headingId}
-                  aria-label={`${headline.trimEnd()} ${headlineAccent.trimStart()}`}
+                  aria-label={`${toTitleCase(headline.trimEnd())} ${toTitleCase(headlineAccent.trimStart())}`}
                   className={cn(
                     "font-title text-4xl font-bold leading-[1.02] tracking-tight sm:text-5xl lg:text-[3.35rem] xl:text-6xl",
                     isDarkPanel ? "text-white" : "text-black"
                   )}
                 >
                   <span className={cn("block", isDarkPanel ? "text-white/88" : "text-neutral-600")} aria-hidden>
-                    {headline.trimEnd()}
+                    {toTitleCase(headline.trimEnd())}
                   </span>
                   <span className="sr-only"> </span>
                   <span className={cn("block", isDarkPanel ? "text-white" : "text-black")} aria-hidden>
-                    {headlineAccent.trimStart()}
+                    {toTitleCase(headlineAccent.trimStart())}
                   </span>
                 </h2>
               </div>

@@ -5,6 +5,7 @@ import { ChevronRight } from "lucide-react"
 import { Reveal } from "@/components/Reveal"
 import { ServiceItemReveal } from "@/components/ServiceItemReveal"
 import { cn } from "@/lib/utils"
+import { toTitleCase } from "@/lib/titleCase"
 
 const CCTV_CONSIDERATION_ITEMS = [
   {
@@ -94,7 +95,7 @@ export function CctvAdviceConsiderationsSection() {
               id="cctv-advice-considerations-heading"
               className="max-w-xl text-left font-title text-2xl font-bold leading-tight tracking-tight text-white sm:text-3xl md:text-4xl"
             >
-              Things to consider with a CCTV system
+              {toTitleCase("Things to Consider with a CCTV System")}
             </h2>
             <p className="mt-6 max-w-xl text-left text-base leading-relaxed text-gray-300 sm:text-lg">
               Some useful questions you should ask yourself when thinking about a CCTV system:

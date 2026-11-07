@@ -29,32 +29,32 @@ const CAPABILITIES = [
     description:
       "Firefighter and staging telephones where your design requires dedicated voice circuits alongside the wider EVC network.",
     id: "fire-telephone",
-    imageSrc: `${IMG}/telephone.jpg`,
-    imageAlt: "Wall-mounted keypad and speaker used as a dedicated voice circuit",
+    imageSrc: `${IMG}/telephone-lexicomm-outstations-tight.jpg`,
+    imageAlt: "Lexicomm Type A fire telephone and Type B/C refuge outstations",
   },
   {
     title: "Disabled toilet alarms",
     description:
       "Accessible WC alarm call points with remote indication and reset where toilet alarms form part of the emergency communication strategy.",
     id: "fire-toilet",
-    imageSrc: `${IMG}/toilet.jpg`,
-    imageAlt: "Red emergency call point on a concrete wall",
+    imageSrc: `${IMG}/toilet-lexicomm-assist-tight.jpg`,
+    imageAlt: "AssistCall disabled toilet alarm overdoor light, pull cord and cancel reset plate",
   },
   {
     title: "Central control panels",
     description:
       "Head-end EVC panels, zoning and monitoring configured for your site layout and duty-holder workflows.",
     id: "fire-evc-panels",
-    imageSrc: `${IMG}/panels.jpg`,
-    imageAlt: "Engineer working on rack-mounted control and indicating equipment",
+    imageSrc: `${IMG}/panels-lexicomm-tight.jpg`,
+    imageAlt: "Lexicomm EVC touchscreen masterstation with fire telephone and refuge outstations",
   },
   {
     title: "Two-way communication",
     description:
       "Speech paths between refuge points, fire telephones, toilet alarms and the central panel so staff and the fire service can communicate during an incident.",
     id: "fire-two-way",
-    imageSrc: `${IMG}/two-way.jpg`,
-    imageAlt: "Wall-mounted emergency loudspeaker used for two-way voice communication",
+    imageSrc: `${IMG}/two-way-lexicomm-outstations-tight.jpg`,
+    imageAlt: "Lexicomm refuge and fire telephone outstations for two-way emergency speech",
   },
   {
     title: "Commissioning and handover",
@@ -81,7 +81,7 @@ export default function RefugeDisabledCommunicationPage() {
         title="Disabled Refuge Systems"
         titleDetail="Disabled refuge, fire telephone and toilet alarms"
         imageSrc={serviceHeroImages.refuge}
-        imageAlt="School corridor with wall-mounted fire equipment, lockers and an emergency exit at the far end"
+        imageAlt="Disabled refuge emergency voice communication — accessible evacuation provision"
         imageClassName="object-cover object-center"
         heroCompliance={["BS 5839-9"]}
         heroSummary="Disabled refuge, fire telephone and toilet alarm systems that keep emergency communication clear when it matters most."
@@ -116,7 +116,7 @@ export default function RefugeDisabledCommunicationPage() {
         <section className="site-container relative z-[1] py-16 lg:py-16">
           <Reveal>
             <h2 className="mb-4 text-left font-title text-3xl font-bold text-white sm:text-4xl">
-              Full EVC scope
+              Full EVC Scope
             </h2>
           </Reveal>
           <Reveal delayMs={70}>

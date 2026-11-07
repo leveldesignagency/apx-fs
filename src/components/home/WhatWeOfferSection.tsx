@@ -1,13 +1,27 @@
 "use client"
 
-import { useEffect, useState, type CSSProperties } from "react"
+import {
+  useCallback,
+  useEffect,
+  useRef,
+  useState,
+  type CSSProperties,
+} from "react"
 import Image from "next/image"
 import Link from "next/link"
 import { CustomPillButton } from "@/components/ui/CustomPillButton"
 import { LetterReveal } from "@/components/LetterReveal"
 import { LineReveal } from "@/components/LineReveal"
 import { FS_SERVICE_NAV_LINKS } from "@/lib/fs-service-navigation"
+import { toTitleCase } from "@/lib/titleCase"
 import { cn } from "@/lib/utils"
+
+/** Offer panel photo: mouse-tracked tilt (desktop only) */
+const OFFER_MAX_TILT_DEG = 5
+const OFFER_MAX_SHIFT_PX = 14
+const OFFER_BASE_SCALE = 1.1
+const OFFER_TILT_IDLE =
+  `perspective(1200px) rotateX(0deg) rotateY(0deg) scale(${OFFER_BASE_SCALE}) translate3d(0,0,0)` as const
 
 export type WhatWeOfferItem = {
   tabLabel: string
@@ -41,7 +55,7 @@ const OFFERS: WhatWeOfferItem[] = [
     headline: "Fire Alarm Detection\n& Life Safety",
     description:
       "Conventional and addressable fire alarm systems for offices, schools, care and industrial sites, cause and effect, testing and certification to BS 5839.",
-    image: "/fire%20alarm%20system%20installations/fire-alarm-system-sancroft-building-exterior-600x400.jpg",
+    image: "/fire%20alarm%20hero.png",
     href: "/services/fire-alarm-systems",
     features: [
       "Addressable & conventional systems",
@@ -69,7 +83,7 @@ const OFFERS: WhatWeOfferItem[] = [
     headline: "Electronic Access Control\n& Door Security",
     description:
       "Cards, fobs and readers on single doors or fully networked estates, permissions, anti-passback and audit trails for commercial, retail and multi-tenant sites.",
-    image: "/client%20logos/service%20pages%20image/home-access-control-system-installer-800x533.jpg",
+    image: "/service%20images/access%20control/hero-access-control-commercial-entry.jpg",
     href: "/services/access-control-systems",
     features: [
       "Door hardware & reader integration",
@@ -133,6 +147,11 @@ export function WhatWeOfferSection() {
   const [desktopPlay, setDesktopPlay] = useState(false)
   const [isMobile, setIsMobile] = useState<boolean | null>(null)
   const [reduceMotion, setReduceMotion] = useState(false)
+  const [tiltStyle, setTiltStyle] = useState<CSSProperties>({ transform: OFFER_TILT_IDLE })
+  const panelRef = useRef<HTMLDivElement>(null)
+  const tiltFrameRef = useRef(0)
+  const tiltTargetRef = useRef({ x: 0, y: 0 })
+  const tiltCurrentRef = useRef({ x: 0, y: 0 })
   const item = OFFERS[active]!
   const count = OFFERS.length
   const linkCount = HOME_DISCIPLINE_LINKS.length
@@ -155,6 +174,70 @@ export function WhatWeOfferSection() {
       mqReduce.removeEventListener("change", sync)
     }
   }, [])
+
+  const tickTilt = useCallback(() => {
+    const cur = tiltCurrentRef.current
+    const tgt = tiltTargetRef.current
+    cur.x += (tgt.x - cur.x) * 0.1
+    cur.y += (tgt.y - cur.y) * 0.1
+
+    const rotateY = cur.x * OFFER_MAX_TILT_DEG
+    const rotateX = -cur.y * OFFER_MAX_TILT_DEG
+    const tx = cur.x * OFFER_MAX_SHIFT_PX
+    const ty = cur.y * OFFER_MAX_SHIFT_PX
+
+    setTiltStyle({
+      transform: `perspective(1200px) rotateX(${rotateX.toFixed(3)}deg) rotateY(${rotateY.toFixed(3)}deg) scale(${OFFER_BASE_SCALE}) translate3d(${tx.toFixed(2)}px, ${ty.toFixed(2)}px, 0)`,
+    })
+
+    if (Math.abs(tgt.x - cur.x) > 0.0008 || Math.abs(tgt.y - cur.y) > 0.0008) {
+      tiltFrameRef.current = requestAnimationFrame(tickTilt)
+    } else {
+      tiltFrameRef.current = 0
+    }
+  }, [])
+
+  const queueTiltTick = useCallback(() => {
+    if (tiltFrameRef.current) return
+    tiltFrameRef.current = requestAnimationFrame(tickTilt)
+  }, [tickTilt])
+
+  // Desktop mouse-tracked tilt on the offer panel photo
+  useEffect(() => {
+    const el = panelRef.current
+    if (!el || !desktop || reduceMotion) {
+      tiltTargetRef.current = { x: 0, y: 0 }
+      tiltCurrentRef.current = { x: 0, y: 0 }
+      setTiltStyle({ transform: OFFER_TILT_IDLE })
+      return
+    }
+
+    const onMove = (e: PointerEvent) => {
+      const rect = el.getBoundingClientRect()
+      if (rect.width < 1 || rect.height < 1) return
+      const nx = ((e.clientX - rect.left) / rect.width) * 2 - 1
+      const ny = ((e.clientY - rect.top) / rect.height) * 2 - 1
+      tiltTargetRef.current = {
+        x: Math.max(-1, Math.min(1, nx)),
+        y: Math.max(-1, Math.min(1, ny)),
+      }
+      queueTiltTick()
+    }
+
+    const onLeave = () => {
+      tiltTargetRef.current = { x: 0, y: 0 }
+      queueTiltTick()
+    }
+
+    el.addEventListener("pointermove", onMove, { passive: true })
+    el.addEventListener("pointerleave", onLeave)
+    return () => {
+      el.removeEventListener("pointermove", onMove)
+      el.removeEventListener("pointerleave", onLeave)
+      if (tiltFrameRef.current) cancelAnimationFrame(tiltFrameRef.current)
+      tiltFrameRef.current = 0
+    }
+  }, [desktop, reduceMotion, queueTiltTick])
 
   // Keep the active pill in view on the mobile scroll strip
   useEffect(() => {
@@ -253,7 +336,7 @@ export function WhatWeOfferSection() {
             as="h2"
             text={"Integrated Fire & Security\nSolutions Designed\nAround Your Site"}
             className={cn(
-              "home-section-title section-title-gap services-section-title text-left font-title text-white",
+              "home-section-title services-section-title text-left font-title text-white",
               mobile && "fs-offer-seq__title",
               mobile && showTitle && "is-in"
             )}
@@ -264,7 +347,7 @@ export function WhatWeOfferSection() {
             as="p"
             text={INTRO_COPY}
             className={cn(
-              "max-w-3xl text-pretty text-sm leading-relaxed section-intro-gap hero-services-intro text-white sm:text-base",
+              "section-intro-gap max-w-3xl text-pretty text-sm leading-relaxed hero-services-intro text-white sm:text-base",
               mobile && "fs-offer-seq__para",
               mobile && showPara && "is-in"
             )}
@@ -322,6 +405,7 @@ export function WhatWeOfferSection() {
         </div>
 
         <div
+          ref={panelRef}
           role="tabpanel"
           id={`fs-offer-panel-${active}`}
           aria-labelledby={`fs-offer-tab-${active}`}
@@ -336,15 +420,19 @@ export function WhatWeOfferSection() {
               className="relative h-44 w-full overflow-hidden sm:h-52 md:absolute md:inset-0 md:h-auto"
               aria-hidden
             >
-              <Image
-                src={item.image}
-                alt=""
-                fill
-                sizes="(max-width: 767px) 100vw, (max-width: 1023px) 100vw, 60vw"
-                className="object-cover object-center"
-                priority={false}
-                unoptimized
-              />
+              <div className="fs-offer-panel__tilt" style={tiltStyle}>
+                <Image
+                  src={item.image}
+                  alt=""
+                  fill
+                  sizes="(max-width: 767px) 100vw, (max-width: 1023px) 100vw, 60vw"
+                  className="object-cover object-center"
+                  priority={false}
+                  unoptimized
+                />
+              </div>
+              {/* Digital swarm / scan field over service photography */}
+              <div className="fs-offer-digital-swarm absolute inset-0" aria-hidden />
               <div
                 className="absolute inset-0 bg-gradient-to-b from-black/35 via-black/20 to-black md:bg-gradient-to-b md:from-black/90 md:via-black/75 md:to-black/85 lg:bg-gradient-to-r lg:from-black/[0.88] lg:via-black/45 lg:to-black/20"
                 aria-hidden
@@ -360,7 +448,7 @@ export function WhatWeOfferSection() {
                 <h3 className="font-title text-[1.5rem] font-bold leading-[1.1] tracking-tight text-white sm:text-3xl md:text-[clamp(1.75rem,4vw,2.75rem)]">
                   {item.headline.split("\n").map((line, i) => (
                     <span key={i} className="block">
-                      {line}
+                      {toTitleCase(line)}
                     </span>
                   ))}
                 </h3>
@@ -391,14 +479,14 @@ export function WhatWeOfferSection() {
                 <p data-offer-features="label" className="text-xs font-bold uppercase tracking-[0.2em] text-white sm:text-sm">
                   The features
                 </p>
-                <ul className="mt-3.5 divide-y divide-white/15 border-t border-white/15 sm:mt-5">
+                <ul className="fs-offer-features mt-3.5 border-t border-white/15 sm:mt-5">
                   {item.features.map((line) => (
                     <li
                       key={line}
                       data-offer-feature
-                      className="px-0 py-2.5 text-sm leading-snug text-white sm:py-3 sm:text-base"
+                      className="fs-offer-features__item"
                     >
-                      {line}
+                      <span className="fs-offer-features__text">{line}</span>
                     </li>
                   ))}
                 </ul>
