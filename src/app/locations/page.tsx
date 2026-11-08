@@ -1,6 +1,5 @@
 import Link from "next/link"
 import { LocationsPostcodeCheck } from "@/components/locations/LocationsPostcodeCheck"
-import { CustomPillButton } from "@/components/ui/CustomPillButton"
 import { CallPhoneCta } from "@/components/ui/CallPhoneCta"
 import { FS_SERVICE_NAV_LINKS } from "@/lib/fs-service-navigation"
 import { HOME_COUNTIES_AND_REGIONS, LONDON_BOROUGHS } from "@/lib/seo-geo-areas"
@@ -37,16 +36,13 @@ export default function LocationsPage() {
             residential sites throughout the South East.
           </p>
           <LocationsPostcodeCheck />
-          <div className="mt-8 flex flex-col items-center gap-4 sm:flex-row sm:flex-wrap sm:items-center sm:justify-start">
-            <CustomPillButton href="/contact" size="md" className="mx-auto sm:mx-0">
-              Request a survey
-            </CustomPillButton>
+          <div className="mt-6 flex justify-center sm:mt-8 sm:justify-start">
             <CallPhoneCta />
           </div>
         </div>
       </section>
 
-      <section className="site-container border-t border-white/15 py-16 lg:py-20" aria-labelledby="locations-primary-heading">
+      <section className="site-container border-t border-white/15 py-12 sm:py-16 lg:py-20" aria-labelledby="locations-primary-heading">
         <h2
           id="locations-primary-heading"
           className="font-title text-2xl font-bold tracking-tight sm:text-3xl"
@@ -80,7 +76,7 @@ export default function LocationsPage() {
       </section>
 
       <section
-        className="border-t border-white/15 bg-black/40 py-16 lg:py-20"
+        className="border-t border-white/15 bg-black/40 py-12 sm:py-16 lg:py-20"
         aria-labelledby="locations-boroughs-heading"
       >
         <div className="site-container">
@@ -104,7 +100,7 @@ export default function LocationsPage() {
         </div>
       </section>
 
-      <section className="site-container border-t border-white/15 py-16 lg:py-20" aria-labelledby="locations-services-heading">
+      <section className="site-container border-t border-white/15 py-12 sm:py-16 lg:py-20" aria-labelledby="locations-services-heading">
         <h2
           id="locations-services-heading"
           className="font-title text-2xl font-bold tracking-tight sm:text-3xl"

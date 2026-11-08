@@ -449,7 +449,7 @@ export function ContactPageClient() {
               <div className="contact-page-copy flex min-h-0 flex-col">
                 <Reveal show={mounted} delayMs={0}>
                   <span className="section-label mb-5 block text-white/55">Contact</span>
-                  <h1 className="contact-page-title font-title text-left text-3xl font-bold text-white sm:text-4xl md:text-5xl lg:text-6xl">
+                  <h1 className="contact-page-title font-title text-left text-4xl font-bold text-white sm:text-5xl md:text-6xl lg:text-7xl">
                     Let&apos;s Start a Conversation
                   </h1>
                   <p className="contact-page-credibility mt-5 max-w-md text-sm leading-relaxed text-white/55 sm:text-base">

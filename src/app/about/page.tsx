@@ -288,7 +288,7 @@ export default function AboutPage() {
         fillSeed="about"
         imageSrc={ABOUT_HERO_BG_SRC}
         imageAlt="APX Fire and Security engineer on site"
-        imageClassName="object-cover object-[72%_center] sm:object-[68%_center] lg:object-[62%_center]"
+        imageClassName="object-cover object-[55%_35%] sm:object-[62%_center] lg:object-[62%_center]"
         titleDetail="Est. 2025"
         heroNav={false}
         className="service-hero-grid--about"

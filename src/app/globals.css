@@ -325,6 +325,22 @@ footer {
   width: 100%;
   height: 100%;
 }
+.home-section-bead--arcs .home-section-bead__arc {
+  opacity: 0;
+  transition: opacity 0.28s ease;
+}
+.home-section-bead--arcs .home-section-bead__arc--on {
+  opacity: 1;
+}
+.home-section-bead--arcs .home-section-bead__arc--off {
+  opacity: 0;
+}
+@media (prefers-reduced-motion: reduce) {
+  .home-section-bead--arcs .home-section-bead__arc {
+    opacity: 1 !important;
+    transition: none !important;
+  }
+}
 
 /* Pull sections together on large screens only */
 section + section {
@@ -968,12 +984,12 @@ section#services.home-services-band.section-spacing {
   }
 }
 
-/* Homepage major section titles — mobile matches service pages (text-3xl); scales up from sm */
+/* Homepage major section titles — mobile matches About section titles; scales up from sm */
 .home-section-title {
   font-family: var(--font-title, "Oxanium", sans-serif);
-  font-size: 1.875rem; /* text-3xl — same as service section titles on mobile */
-  line-height: 1.02;
-  letter-spacing: -0.025em;
+  font-size: 2.625rem; /* match .about-section-title mobile floor */
+  line-height: 0.92;
+  letter-spacing: 0;
   font-weight: 700;
   text-transform: none;
 }
@@ -985,20 +1001,28 @@ section#services.home-services-band.section-spacing {
   }
 }
 
-/* Mobile only (< sm): one section-title size sitewide = service pages text-3xl (1.875rem). */
+/* Mobile only (< sm): default section titles; homepage/about display titles override below. */
 /* Skip small UI subheads (text-xl and below). Home display hero + delivery-methodology stage copy keep their own scale. */
 @media (max-width: 639.98px) {
   /* Exclude grid-tilt service / about heroes - they keep their own display scale */
   .site-shell main h1.font-title:not([class~="text-xl"]):not([class~="text-lg"]):not([class~="text-base"]):not([class~="text-sm"]):not(.service-hero-grid__title),
-  .site-shell main h2.font-title:not([class~="text-xl"]):not([class~="text-lg"]):not([class~="text-base"]):not([class~="text-sm"]),
-  .site-shell main h2.home-section-title,
-  .site-shell main h3.home-section-title,
-  .site-shell main .about-block h2,
+  .site-shell main h2.font-title:not([class~="text-xl"]):not([class~="text-lg"]):not([class~="text-base"]):not([class~="text-sm"]):not(.home-section-title):not(.about-section-title),
   .site-shell main #about-intro .about-intro-heading,
   .site-shell main #fs-service-faq-heading {
     font-size: 1.875rem !important;
     line-height: 1.1 !important;
     letter-spacing: -0.025em !important;
+  }
+
+  /* Homepage + About section titles share the same mobile display size */
+  .site-shell main h2.home-section-title,
+  .site-shell main h3.home-section-title,
+  .site-shell main .home-page-trial .home-section-title,
+  .site-shell main .about-page-shell .about-section-title,
+  .site-shell main .about-block h2.about-section-title {
+    font-size: 2.625rem !important;
+    line-height: 0.92 !important;
+    letter-spacing: 0 !important;
   }
 
   .site-shell main .service-page-root h1.font-title,
@@ -1022,9 +1046,19 @@ section#services.home-services-band.section-spacing {
   }
 
   .site-shell main .fs-inset-cta-card h2.font-title {
-    font-size: 2.25rem !important; /* text-4xl - keep CTA titles a step up on mobile */
+    font-size: 2.75rem !important; /* a step up from text-4xl on mobile CTA banners */
     line-height: 0.9 !important;
     letter-spacing: -0.025em !important;
+  }
+
+  /* Main page titles stay display-scale on mobile */
+  .site-shell main .contact-page-title,
+  .site-shell main .fs-projects-page h1.font-title,
+  .site-shell main .dm-page h1.font-title,
+  .site-shell main .services-hub-page h1.font-title {
+    font-size: clamp(2.5rem, 11vw, 3.25rem) !important;
+    line-height: 0.95 !important;
+    letter-spacing: 0 !important;
   }
 
   .site-shell main #about-join-the-team-heading.about-join-team-title {
@@ -2398,13 +2432,13 @@ main .service-page-white-band .pill-btn .pill-text,
   overflow: hidden;
 }
 .home-services-lens-bg__img {
-  /* Half the graphic hangs off the right edge of the viewport */
+  /* Half the graphic hangs off the right edge; sit in the title / tabs band (not mid-section) */
   right: 0;
   left: auto;
-  top: 50%;
+  top: clamp(3.5rem, 8vh, 6.5rem);
   width: min(200vw, 140rem);
   max-width: none;
-  translate: 50% -50%;
+  translate: 50% -18%;
   opacity: 0.14;
   mix-blend-mode: screen;
   filter: contrast(1.08) brightness(0.92);
@@ -2469,11 +2503,19 @@ main .service-page-white-band .pill-btn .pill-text,
   mask-composite: intersect;
   -webkit-mask-composite: source-in;
 }
+@media (min-width: 1024px) {
+  .home-services-lens-bg__img {
+    /* Keep optical centre beside the services headline on desktop */
+    top: clamp(4rem, 9vh, 7.5rem);
+    translate: 50% -22%;
+  }
+}
 @media (max-width: 767px) {
   .home-services-lens-bg__img {
     opacity: 0.1;
     width: min(260vw, 110rem);
-    top: 58%;
+    top: 42%;
+    translate: 50% -50%;
   }
 }
 @media (prefers-reduced-motion: reduce) {
@@ -2706,6 +2748,28 @@ main .service-page-white-band .pill-btn .pill-text,
   display: none;
 }
 
+/* Mobile: bleed to right edge + feather mask (same idea as service hero quick nav) */
+@media (max-width: 767.98px) {
+  #services .fs-what-we-offer .fs-offer-tablist {
+    width: calc(100% + var(--site-gutter, 1.25rem));
+    max-width: none;
+    margin-right: calc(-1 * var(--site-gutter, 1.25rem));
+    padding-right: 2.75rem;
+    -webkit-mask-image: linear-gradient(
+      to right,
+      #000 0%,
+      #000 calc(100% - 2.75rem),
+      transparent 100%
+    );
+    mask-image: linear-gradient(
+      to right,
+      #000 0%,
+      #000 calc(100% - 2.75rem),
+      transparent 100%
+    );
+  }
+}
+
 @media (min-width: 768px) {
   #services .fs-what-we-offer .fs-offer-tablist {
     flex-wrap: wrap;
@@ -2714,6 +2778,8 @@ main .service-page-white-band .pill-btn .pill-text,
     padding: 0;
     margin: 0;
     gap: 0.55rem;
+    mask-image: none;
+    -webkit-mask-image: none;
   }
 }
 
@@ -3782,6 +3848,43 @@ html:not(.dark) .news-page,
 html:not(.dark) .news-article-page {
   background: #fff;
   color: #000;
+}
+
+/*
+ * News hub + article type system:
+ * titles = Teko, paragraphs = Oxanium, category/meta tabs = Teko.
+ * Find-an-article filter panel is left alone.
+ */
+.news-page h1.font-title,
+.news-page h2.font-title,
+.news-page .font-title,
+.news-article-page h1.font-title,
+.news-article-page h2.font-title,
+.news-article-page .font-title,
+.news-page .news-hub__tab,
+.news-page .news-card__meta,
+.news-article-page .news-hub__tab,
+.news-article-page .news-card__meta,
+.news-article-page .news-article-page__back-link {
+  font-family: var(--font-title, var(--font-teko), "Teko", sans-serif) !important;
+}
+
+.news-page .news-hub__intro-copy,
+.news-page .news-card__excerpt,
+.news-page .news-card p,
+.news-article-page .news-article-page__paragraph,
+.news-article-page .news-article-page__body,
+.news-article-page .news-article-page__body p,
+.news-article-page .news-article-page__hero-lead,
+.news-article-page .news-card__excerpt,
+.news-article-page .news-card p {
+  font-family: var(--font-body, var(--font-oxanium), "Oxanium", sans-serif) !important;
+  text-transform: none;
+}
+
+.news-page .news-card__read-more,
+.news-article-page .news-card__read-more {
+  font-family: var(--font-body, var(--font-oxanium), "Oxanium", sans-serif) !important;
 }
 
 /* News index: no homepage section pull (search bar was touching hero border) */
@@ -5949,15 +6052,29 @@ html.about-page-active {
 }
 .about-parallax-page > .service-hero-grid--about .service-hero-grid__copy,
 .about-parallax-page > .service-hero-grid--about .service-hero-grid__aside {
-  justify-content: center;
-  align-items: center;
+  justify-content: flex-end;
+  align-items: flex-start;
+  text-align: left;
+}
+/* Mobile: keep hero photo sharp (tilt inset + scale was over-zooming) */
+@media (max-width: 1023.98px) {
+  .about-parallax-page > .service-hero-grid--about .service-hero-grid__tilt {
+    inset: 0;
+    transform: none !important;
+  }
+  .about-parallax-page > .service-hero-grid--about .service-hero-grid__tilt img,
+  .about-parallax-page > .service-hero-grid--about .service-hero-grid__tilt span {
+    object-position: 55% 35% !important;
+  }
 }
 @media (min-width: 1024px) {
   .about-parallax-page > .service-hero-grid--about .service-hero-grid__content {
     align-items: center;
   }
+  .about-parallax-page > .service-hero-grid--about .service-hero-grid__copy,
   .about-parallax-page > .service-hero-grid--about .service-hero-grid__aside {
-    align-items: center;
+    justify-content: center;
+    align-items: flex-start;
   }
 }
 .service-hero-grid__body {
@@ -7824,8 +7941,19 @@ footer a.footer-level-credit:hover {
 
 /* Mobile: accordion footer is centred; desktop columns stay left */
 @media (max-width: 767.98px) {
+  /* Tighten space under the overhanging logo bridge */
+  footer.footer-expand-wrapper > .footer-head {
+    min-height: 4.25rem;
+  }
   .footer-mobile-acc {
     text-align: center;
+  }
+  .footer-mobile-acc .footer-mobile-brand-title {
+    font-family: var(--font-title, var(--font-teko), "Teko", sans-serif) !important;
+    font-size: 2.15rem !important;
+    line-height: 0.95 !important;
+    letter-spacing: 0 !important;
+    text-transform: none !important;
   }
 
   .footer-mobile-acc .footer-link-underline {

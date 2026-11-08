@@ -105,7 +105,7 @@ export function FsInsetCtaCard({
                   id={headingId}
                   aria-label={`${toTitleCase(headline.trimEnd())} ${toTitleCase(headlineAccent.trimStart())}`}
                   className={cn(
-                    "font-title text-5xl font-bold leading-[0.88] tracking-normal sm:text-6xl lg:text-7xl xl:text-[4.75rem]",
+                    "font-title text-6xl font-bold leading-[0.88] tracking-normal sm:text-6xl lg:text-7xl xl:text-[4.75rem]",
                     isDarkPanel ? "text-white" : "text-black"
                   )}
                 >

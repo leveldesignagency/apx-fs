@@ -8,7 +8,7 @@ type NewsMoreArticlesStripProps = {
 }
 
 /**
- * Bottom �read next� strip on article pages.
+ * Bottom "read next" strip on article pages.
  * Reserved band for more articles (or a future client promo slot).
  */
 export function NewsMoreArticlesStrip({ articles }: NewsMoreArticlesStripProps) {

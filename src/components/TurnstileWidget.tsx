@@ -13,6 +13,7 @@ declare global {
           "expired-callback"?: () => void
           "error-callback"?: () => void
           theme?: "light" | "dark" | "auto"
+          appearance?: "always" | "execute" | "interaction-only"
         }
       ) => string
       reset: (widgetId?: string) => void
@@ -55,6 +56,9 @@ export function TurnstileWidget({ onToken, theme = "dark", className }: Props) {
       widgetIdRef.current = window.turnstile.render(hostRef.current, {
         sitekey: siteKey,
         theme,
+        // Free plan cannot remove Cloudflare branding (Offlabel is Enterprise-only).
+        // interaction-only keeps the widget hidden unless a challenge is required.
+        appearance: "interaction-only",
         callback: (token) => onTokenRef.current(token),
         "expired-callback": () => onTokenRef.current(null),
         "error-callback": () => onTokenRef.current(null),

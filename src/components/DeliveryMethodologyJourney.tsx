@@ -248,8 +248,7 @@ export function DeliveryMethodologyJourney({ steps }: Props) {
             <div className="min-w-0 max-w-5xl">
               <span className="section-label mb-3 block text-white/75">Delivery methodology</span>
               <h1
-                className="text-left text-3xl font-bold tracking-tight text-white sm:text-4xl md:text-5xl lg:text-6xl"
-                style={{ fontFamily: "var(--font-menu)" }}
+                className="text-left font-title text-4xl font-bold tracking-tight text-white sm:text-5xl md:text-6xl lg:text-7xl"
               >
                 Clear Stages from
                 <br />

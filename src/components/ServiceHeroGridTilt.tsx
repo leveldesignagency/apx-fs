@@ -368,6 +368,7 @@ export function ServiceHeroGridTilt({
             alt={imageAlt}
             fill
             priority
+            quality={90}
             sizes="100vw"
             className={cn(
               "object-cover object-center",

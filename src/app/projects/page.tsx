@@ -22,7 +22,7 @@ export default function ProjectsPage() {
             <Reveal>
               <span className="section-label mb-3 block text-white/75">Work in Focus</span>
               <h1
-                className="text-left font-title text-3xl font-bold tracking-tight sm:text-4xl md:text-5xl lg:text-6xl"
+                className="text-left font-title text-4xl font-bold tracking-tight sm:text-5xl md:text-6xl lg:text-7xl"
               >
                 Built to Sign Off, Fire &amp; Security That Endures
               </h1>

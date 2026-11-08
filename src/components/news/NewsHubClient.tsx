@@ -69,13 +69,10 @@ export function NewsHubClient({ articles }: NewsHubClientProps) {
           <div className="grid grid-cols-1 items-start gap-8 lg:grid-cols-[minmax(0,1.05fr)_minmax(0,0.95fr)] lg:gap-10 xl:gap-14">
             <div className="news-hub__intro min-w-0 max-w-3xl">
               <span className="section-label mb-3 block text-black/55">News &amp; articles</span>
-              <h1
-                className="text-left text-3xl font-bold text-black sm:text-4xl md:text-5xl lg:text-6xl"
-                style={{ fontFamily: "var(--font-menu)" }}
-              >
+              <h1 className="font-title text-left text-3xl font-bold text-black sm:text-4xl md:text-5xl lg:text-6xl">
                 Security Systems News &amp; Information
               </h1>
-              <p className="mt-4 max-w-2xl text-left text-base font-normal tracking-tight text-black/70 sm:text-lg md:text-xl">
+              <p className="news-hub__intro-copy mt-4 max-w-2xl text-left text-base font-normal tracking-tight text-black/70 sm:text-lg md:text-xl">
                 Project wins, sector updates and practical guidance from our Fire and Security teams across London and
                 the Home Counties.
               </p>
@@ -165,7 +162,7 @@ export function NewsHubClient({ articles }: NewsHubClientProps) {
             <div className="news-hub__grid space-y-8 md:space-y-10">
               {featured && (
                 <div>
-                  <p className="mb-4 text-[11px] font-bold uppercase tracking-[0.2em] text-black/55">Latest</p>
+                  <p className="news-hub__tab mb-4 text-[11px] font-bold uppercase tracking-[0.2em] text-black/55">Latest</p>
                   <NewsArticleCard article={featured} featured />
                 </div>
               )}

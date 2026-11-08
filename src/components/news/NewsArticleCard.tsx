@@ -37,19 +37,19 @@ export function NewsArticleCard({ article, featured = false }: NewsArticleCardPr
           featured ? "border-t-2 border-black md:border-t-0 md:border-l-2" : "border-t-2 border-black"
         } ${featured ? "p-6 md:p-8 lg:p-10" : "p-5 md:p-6"}`}
       >
-        <div className="flex flex-wrap items-center gap-x-3 gap-y-1 text-[11px] font-bold uppercase tracking-[0.16em] text-black/55">
+        <div className="news-card__meta flex flex-wrap items-center gap-x-3 gap-y-1 text-[11px] font-bold uppercase tracking-[0.16em] text-black/55">
           <time dateTime={article.publishedAt}>{article.publishedLabel}</time>
           <span aria-hidden className="text-black/30">
             |
           </span>
-          <span>{categoryLabel}</span>
+          <span className="news-hub__tab">{categoryLabel}</span>
         </div>
         <h2 className={`mt-3 font-title font-bold leading-tight text-black ${featured ? "text-2xl md:text-3xl lg:text-4xl" : "text-xl md:text-2xl"}`}>
           <Link href={`/news/${article.slug}`} className="news-card__title-link">
             {article.title}
           </Link>
         </h2>
-        <p className={`mt-3 flex-1 text-sm leading-relaxed text-black/75 md:text-base ${featured ? "md:text-lg" : ""}`}>
+        <p className={`news-card__excerpt mt-3 flex-1 text-sm leading-relaxed text-black/75 md:text-base ${featured ? "md:text-lg" : ""}`}>
           {article.excerpt}
         </p>
         <Link

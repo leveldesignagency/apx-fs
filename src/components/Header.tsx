@@ -935,7 +935,7 @@ export default function Header() {
                             <Link
                               href="/services"
                               onClick={closeFsMenu}
-                              className="block py-2.5 text-[1.0625rem] font-normal uppercase tracking-[0.16em] text-white/55 transition-colors hover:text-white"
+                              className="block py-2.5 text-[1.1875rem] font-normal uppercase tracking-[0.16em] text-white/55 transition-colors hover:text-white"
                               style={{ fontFamily: "var(--font-menu), sans-serif" }}
                             >
                               All services
@@ -953,7 +953,7 @@ export default function Header() {
                                       href={link.href}
                                       onClick={closeFsMenu}
                                       className={cn(
-                                        "block min-w-0 flex-1 py-2.5 text-[1.0625rem] font-normal uppercase tracking-[0.16em] text-white/80 transition-colors hover:text-white",
+                                        "block min-w-0 flex-1 py-2.5 text-[1.1875rem] font-normal uppercase tracking-[0.16em] text-white/80 transition-colors hover:text-white",
                                         isFsNavActive(link.href) && "text-white"
                                       )}
                                       style={{ fontFamily: "var(--font-menu), sans-serif" }}
@@ -986,7 +986,7 @@ export default function Header() {
                                             href={href}
                                             onClick={closeFsMenu}
                                             className={cn(
-                                              "block py-2 text-[0.95rem] font-normal uppercase tracking-[0.14em] text-white/70 transition-colors hover:text-white",
+                                              "block py-2 text-[1.0625rem] font-normal uppercase tracking-[0.14em] text-white/70 transition-colors hover:text-white",
                                               isFsNavActive(href) && "text-white"
                                             )}
                                             style={{ fontFamily: "var(--font-menu), sans-serif" }}
@@ -1009,7 +1009,7 @@ export default function Header() {
                                       href={link.href}
                                       onClick={closeFsMenu}
                                       className={cn(
-                                        "block min-w-0 flex-1 py-2.5 text-[1.0625rem] font-normal uppercase tracking-[0.16em] text-white/80 transition-colors hover:text-white",
+                                        "block min-w-0 flex-1 py-2.5 text-[1.1875rem] font-normal uppercase tracking-[0.16em] text-white/80 transition-colors hover:text-white",
                                         isFsNavActive(link.href) && "text-white"
                                       )}
                                       style={{ fontFamily: "var(--font-menu), sans-serif" }}
@@ -1042,7 +1042,7 @@ export default function Header() {
                                             href={href}
                                             onClick={closeFsMenu}
                                             className={cn(
-                                              "block py-2 text-[0.95rem] font-normal uppercase tracking-[0.14em] text-white/70 transition-colors hover:text-white",
+                                              "block py-2 text-[1.0625rem] font-normal uppercase tracking-[0.14em] text-white/70 transition-colors hover:text-white",
                                               isFsNavActive(href) && "text-white"
                                             )}
                                             style={{ fontFamily: "var(--font-menu), sans-serif" }}
@@ -1063,7 +1063,7 @@ export default function Header() {
                                 href={link.href}
                                 onClick={closeFsMenu}
                                 className={cn(
-                                  "block py-2.5 text-[1.0625rem] font-normal uppercase tracking-[0.16em] text-white/80 transition-colors hover:text-white",
+                                  "block py-2.5 text-[1.1875rem] font-normal uppercase tracking-[0.16em] text-white/80 transition-colors hover:text-white",
                                   isFsNavActive(link.href) && "text-white"
                                 )}
                                 style={{ fontFamily: "var(--font-menu), sans-serif" }}

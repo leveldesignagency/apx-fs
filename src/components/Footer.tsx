@@ -268,7 +268,7 @@ export default function Footer() {
                 alt="APX Fire & Security Logo"
                 width={280}
                 height={94}
-                className="h-28 w-auto sm:h-32"
+                className="footer-logo-bridge__img w-auto max-md:h-[5.5rem] md:h-28 lg:h-32"
               />
             </Link>
           </div>
@@ -279,11 +279,13 @@ export default function Footer() {
         </div>
 
         <div className="footer-expand">
-          <div className="site-container py-12 pt-16 pb-28 md:pb-12">
+          <div className="site-container py-12 pt-8 pb-28 md:pt-16 md:pb-12">
             {/* Mobile: centred accordion menu */}
             <div className="footer-mobile-acc md:hidden">
               <div className="mx-auto flex max-w-md flex-col items-center text-center">
-                <h4 className="text-xl font-semibold tracking-tight">APX Fire &amp; Security</h4>
+                <h4 className="footer-mobile-brand-title text-3xl font-semibold tracking-tight sm:text-4xl">
+                  APX Fire &amp; Security
+                </h4>
                 <p className="mt-3 text-base leading-relaxed text-white/70">
                   Fire, life-safety and security systems across London and the Home Counties. Heritage dating back to
                   1986.

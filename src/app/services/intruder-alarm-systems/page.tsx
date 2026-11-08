@@ -194,10 +194,10 @@ export default function IntruderAlarmSystemsPage() {
             <CustomPillButton href="/contact?service=intruder-alarm-systems" size="md">
               Enquiry form
             </CustomPillButton>
-            <CustomPillButton href="/services/monitoring" size="md" variant="outline">
+            <CustomPillButton href="/services/monitoring" size="md">
               Monitored upgrade
             </CustomPillButton>
-            <CustomPillButton href="/services/maintenance-support" size="md" variant="outline">
+            <CustomPillButton href="/services/maintenance-support" size="md">
               Maintenance takeover
             </CustomPillButton>
           </div>

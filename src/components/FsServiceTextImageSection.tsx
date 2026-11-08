@@ -159,11 +159,11 @@ export function FsServiceTextImageSection({
     >
       <div className="site-container py-10 sm:py-16 lg:py-20">
         <div className="grid grid-cols-1 items-stretch gap-6 sm:gap-10 lg:grid-cols-2 lg:gap-12 xl:gap-16">
-          {/* Mobile: text first; desktop places image by imageSide */}
+          {/* Mobile: image above title; desktop places image by imageSide */}
           <div
             className={cn(
               "min-h-0 min-w-0",
-              imageOnLeft ? "order-1 lg:order-2" : "order-1 lg:order-1"
+              imageOnLeft ? "order-2 lg:order-2" : "order-2 lg:order-1"
             )}
           >
             {textColumn}
@@ -172,7 +172,7 @@ export function FsServiceTextImageSection({
             className={cn(
               "min-h-0 min-w-0",
               imageMinHeightClassName,
-              imageOnLeft ? "order-2 lg:order-1" : "order-2 lg:order-2"
+              imageOnLeft ? "order-1 lg:order-1" : "order-1 lg:order-2"
             )}
           >
             {imageColumn}

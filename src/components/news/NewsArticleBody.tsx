@@ -51,17 +51,17 @@ export function NewsArticleBody({ paragraphs, inlineLinks, quote }: NewsArticleB
   return (
     <div className="news-article-page__body space-y-5 text-base leading-relaxed text-black/85 md:text-lg md:leading-relaxed">
       {paragraphs.map((paragraph, i) => (
-        <p key={i}>
+        <p key={i} className="news-article-page__paragraph">
           <NewsArticleParagraph text={paragraph} paragraphIndex={i} inlineLinks={inlineLinks} />
         </p>
       ))}
       {quote ? (
         <figure className="space-y-4">
-          {quote.intro ? <p className="font-semibold text-black">{quote.intro}</p> : null}
+          {quote.intro ? <p className="news-article-page__paragraph font-semibold text-black">{quote.intro}</p> : null}
           <blockquote className="border-l-2 border-black/20 pl-5 md:pl-6">
           <div className="space-y-4">
             {quote.paragraphs.map((paragraph, i) => (
-              <p key={i} className="text-black/80">
+              <p key={i} className="news-article-page__paragraph text-black/80">
                 {paragraph}
               </p>
             ))}

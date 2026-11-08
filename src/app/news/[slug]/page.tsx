@@ -102,10 +102,10 @@ export default async function NewsArticlePage({ params }: Props) {
 
             <div className="mt-8 grid grid-cols-1 gap-8 lg:grid-cols-2 lg:items-start lg:gap-10 xl:gap-12">
               <div className="order-2 min-w-0 lg:order-1">
-                <div className="flex flex-wrap items-center gap-x-3 gap-y-2 text-[11px] font-bold uppercase tracking-[0.16em] text-black/55">
+                <div className="news-card__meta flex flex-wrap items-center gap-x-3 gap-y-2 text-[11px] font-bold uppercase tracking-[0.16em] text-black/55">
                   <time dateTime={article.publishedAt}>{article.publishedLabel}</time>
                   {article.categories.map((cat) => (
-                    <span key={cat} className="rounded-full border border-black/20 px-2.5 py-1 text-[10px]">
+                    <span key={cat} className="news-hub__tab rounded-full border border-black/20 px-2.5 py-1 text-[10px]">
                       {NEWS_CATEGORY_LABELS[cat]}
                     </span>
                   ))}
