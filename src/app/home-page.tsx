@@ -1,9 +1,11 @@
 "use client"
 
 import Link from "next/link"
+import { useRouter } from "next/navigation"
 import {
   Shield,
   CheckCircle,
+  Check,
   Clock,
   Cog,
   Zap,
@@ -15,13 +17,14 @@ import {
   Star,
   type LucideIcon,
 } from "lucide-react"
-import { useEffect, useLayoutEffect, useState, useMemo, useCallback, useRef, type CSSProperties } from "react"
+import { useEffect, useLayoutEffect, useState, useMemo, useCallback, useRef, type CSSProperties, type ReactNode } from "react"
 import { GlobalStyles, lightTheme, darkTheme } from '@/components/ThemeToggle'
 import { useTheme } from '@/contexts/ThemeContext'
 import { CountUp } from '@/components/ui/CountUp'
 import { CustomPillButton } from '@/components/ui/CustomPillButton'
 import { FormSubmitButton } from '@/components/ui/FormSubmitButton'
 import { GlassFormPanel } from "@/components/ui/GlassFormPanel"
+import { TurnstileWidget } from "@/components/TurnstileWidget"
 import { MAIN_CASE_STUDIES } from "@/data/projects"
 import { getNewsArticlesSorted, NEWS_HUB_PATH } from "@/data/fsNewsArticles"
 import { AboutIntroSection } from "@/components/home/AboutIntroSection"
@@ -36,27 +39,95 @@ import { LetterReveal } from "@/components/LetterReveal"
 import { LineReveal } from "@/components/LineReveal"
 import { ServiceCombobox } from "@/components/ui/ServiceCombobox"
 import { FS_SERVICE_QUICK_LINKS } from "@/lib/fs-service-navigation"
+import { FS_CONTACT_SERVICE_SLUGS } from "@/lib/fs-service-routes"
 import { forceDocumentScrollTop } from "@/lib/lenisBridge"
 
-/** Homepage Ready form fields — white fill, black text (globals `#contact` reinforces). */
-/** Match contact page quote fields: dark field, white type */
+/** Exact match to /contact form fields */
 const HOME_QUOTE_FIELD_CLASS =
-  "quote-form-field w-full rounded-none border border-white/15 bg-black px-4 py-3.5 text-[17px] font-bold text-white placeholder:text-white/40 placeholder:font-normal outline-none transition-[border,box-shadow] focus:border-white/50 focus:ring-0 focus:bg-black"
+  "quote-form-field w-full rounded-none border border-white/20 bg-black px-3.5 py-2.5 text-base font-bold text-white placeholder:text-white/40 placeholder:font-normal outline-none transition-[border-color] duration-200 focus:border-white focus:ring-0 focus:bg-black"
 
 const HOME_QUOTE_SERVICES = [
-  { value: "intruder-alarms", label: "Intruder Alarm Systems" },
-  { value: "fire-alarms", label: "Fire Alarm Systems" },
-  { value: "cctv", label: "CCTV Systems" },
-  { value: "access-control", label: "Access Control Systems" },
-  { value: "video-door-entry", label: "Video Door Entry Systems" },
-  { value: "gate-automation", label: "Gate Automation" },
-  { value: "pava", label: "PAVA Systems" },
-  { value: "evac", label: "EVAC Systems" },
-  { value: "refuge-disabled-communication", label: "Disabled Refuge, Fire Telephone & Toilet Alarm Systems" },
-  { value: "monitoring", label: "Monitoring" },
-  { value: "maintenance-support", label: "Maintenance, Repairs & 24/7 Call-Outs" },
-  { value: "other", label: "Other" },
+  { value: FS_CONTACT_SERVICE_SLUGS.intruderAlarmSystems, label: "Intruder Alarm Systems" },
+  { value: FS_CONTACT_SERVICE_SLUGS.fireAlarmSystems, label: "Fire Alarm Systems" },
+  { value: FS_CONTACT_SERVICE_SLUGS.cctvSystems, label: "CCTV Systems" },
+  { value: FS_CONTACT_SERVICE_SLUGS.accessControlSystems, label: "Access Control Systems" },
+  { value: FS_CONTACT_SERVICE_SLUGS.videoDoorEntrySystems, label: "Video Door Entry Systems" },
+  { value: FS_CONTACT_SERVICE_SLUGS.gateAutomationSystems, label: "Gate Automation" },
+  { value: FS_CONTACT_SERVICE_SLUGS.pava, label: "PAVA Systems" },
+  { value: FS_CONTACT_SERVICE_SLUGS.evac, label: "EVAC Systems" },
+  {
+    value: FS_CONTACT_SERVICE_SLUGS.refugeDisabledCommunication,
+    label: "Disabled Refuge, Fire Telephone & Toilet Alarm Systems",
+  },
+  { value: FS_CONTACT_SERVICE_SLUGS.monitoring, label: "Monitoring" },
+  { value: FS_CONTACT_SERVICE_SLUGS.maintenanceSupport, label: "Maintenance & Repairs" },
+  { value: FS_CONTACT_SERVICE_SLUGS.emergencyCallOut, label: "Emergency Call-Out" },
 ] as const
+
+function HomeConsentCheckbox({
+  id,
+  checked,
+  onChange,
+  required,
+  children,
+}: {
+  id: string
+  checked: boolean
+  onChange: (next: boolean) => void
+  required?: boolean
+  children: ReactNode
+}) {
+  return (
+    <label
+      htmlFor={id}
+      className="contact-consent group flex cursor-pointer items-start gap-3.5 text-sm leading-relaxed text-white/75"
+    >
+      <span className="relative mt-0.5 inline-flex shrink-0">
+        <input
+          id={id}
+          type="checkbox"
+          className="peer sr-only"
+          checked={checked}
+          onChange={(e) => onChange(e.target.checked)}
+          required={required}
+        />
+        <span
+          aria-hidden
+          className="flex h-6 w-6 items-center justify-center border border-white/45 bg-[var(--page-bg)] transition-[border-color,background-color,box-shadow] peer-checked:border-white peer-checked:bg-white peer-focus-visible:ring-2 peer-focus-visible:ring-white/55 peer-focus-visible:ring-offset-2 peer-focus-visible:ring-offset-black group-hover:border-white/70"
+        >
+          <Check
+            className={`h-3.5 w-3.5 text-black transition-opacity ${checked ? "opacity-100" : "opacity-0"}`}
+            strokeWidth={3}
+          />
+        </span>
+      </span>
+      <span className="contact-consent__text min-w-0 pt-0.5">{children}</span>
+    </label>
+  )
+}
+
+function HomeFieldLabel({
+  htmlFor,
+  children,
+  required,
+  optional,
+}: {
+  htmlFor?: string
+  children: ReactNode
+  required?: boolean
+  optional?: boolean
+}) {
+  return (
+    <label
+      htmlFor={htmlFor}
+      className="quote-form-label mb-2 flex flex-wrap items-baseline gap-x-2 gap-y-0.5 text-sm font-semibold uppercase tracking-[0.12em] text-white/55"
+    >
+      <span>{children}</span>
+      {required ? <span className="text-[0.8125rem] normal-case tracking-normal text-white/70">(required)</span> : null}
+      {optional ? <span className="text-[0.8125rem] normal-case tracking-normal text-white/40">(optional)</span> : null}
+    </label>
+  )
+}
 
 const WHY_CHOOSE_CARDS: { Icon: LucideIcon; title: string; bullets: string[] }[] = [
   {
@@ -97,10 +168,18 @@ const FS_SHOW_NEWS_AND_ARTICLES = true
 export default function Home() {
   const { theme } = useTheme()
   const themeMode = theme === "light" ? lightTheme : darkTheme
+  const router = useRouter()
   
   const [, setActiveSection] = useState(0)
   const [isServicesDropdownOpen, setIsServicesDropdownOpen] = useState(false)
   const [selectedService, setSelectedService] = useState('')
+  const [contactMethod, setContactMethod] = useState<"phone" | "email" | "text">("email")
+  const [privacyConsent, setPrivacyConsent] = useState(false)
+  const [smsConsent, setSmsConsent] = useState(false)
+  const [submitError, setSubmitError] = useState<string | null>(null)
+  const [turnstileToken, setTurnstileToken] = useState<string | null>(null)
+  const homeFormRef = useRef<HTMLFormElement>(null)
+  const homeFormStartedAtRef = useRef(Date.now())
 
   const [currentTestimonial, setCurrentTestimonial] = useState(0)
   const [testimonialsPaused, setTestimonialsPaused] = useState(false)
@@ -191,18 +270,36 @@ export default function Home() {
     []
   )
 
-  const scrollProjects = useCallback((dir: "left" | "right") => {
-    const strip = projectsScrollRef.current
-    const view = projectsViewportRef.current
-    if (!strip || !view) return
-    const maxX = Math.max(0, strip.scrollWidth - view.clientWidth)
-    const card = strip.querySelector("a.projects-card") as HTMLElement | null
-    const step = (card?.offsetWidth ?? 360) + 24
-    const cur = projectsHorizontalPxRef.current
-    const next = dir === "left" ? Math.max(0, cur - step) : Math.min(maxX, cur + step)
-    projectsHorizontalPxRef.current = next
-    strip.style.transform = `translate3d(${-next}px,0,0)`
+  /** Mobile / touch: native overflow swipe. Desktop: transform + wheel lock. */
+  const projectsUseNativeScroll = useCallback(() => {
+    if (typeof window === "undefined") return false
+    return (
+      window.matchMedia("(pointer: coarse)").matches ||
+      window.matchMedia("(max-width: 1023px)").matches
+    )
   }, [])
+
+  const scrollProjects = useCallback(
+    (dir: "left" | "right") => {
+      const strip = projectsScrollRef.current
+      const view = projectsViewportRef.current
+      if (!strip || !view) return
+      const card = strip.querySelector("a.projects-card") as HTMLElement | null
+      const step = (card?.offsetWidth ?? 360) + 24
+
+      if (projectsUseNativeScroll()) {
+        view.scrollBy({ left: dir === "left" ? -step : step, behavior: "smooth" })
+        return
+      }
+
+      const maxX = Math.max(0, strip.scrollWidth - view.clientWidth)
+      const cur = projectsHorizontalPxRef.current
+      const next = dir === "left" ? Math.max(0, cur - step) : Math.min(maxX, cur + step)
+      projectsHorizontalPxRef.current = next
+      strip.style.transform = `translate3d(${-next}px,0,0)`
+    },
+    [projectsUseNativeScroll]
+  )
 
   useLayoutEffect(() => {
     const strip = projectsScrollRef.current
@@ -211,16 +308,25 @@ export default function Home() {
     if (!strip || !view || !section) return
 
     const applyTransform = () => {
+      if (projectsUseNativeScroll()) {
+        strip.style.transform = ""
+        return
+      }
       strip.style.transform = `translate3d(${-projectsHorizontalPxRef.current}px,0,0)`
     }
 
     const clampToMax = () => {
+      if (projectsUseNativeScroll()) {
+        strip.style.transform = ""
+        return
+      }
       const maxX = Math.max(0, strip.scrollWidth - view.clientWidth)
       projectsHorizontalPxRef.current = Math.min(projectsHorizontalPxRef.current, maxX)
       applyTransform()
     }
 
     const onScrollReset = () => {
+      if (projectsUseNativeScroll()) return
       const r = section.getBoundingClientRect()
       if (r.bottom < -80 || r.top > window.innerHeight + 80) {
         if (projectsHorizontalPxRef.current !== 0) {
@@ -240,12 +346,13 @@ export default function Home() {
       window.removeEventListener("resize", clampToMax)
       window.removeEventListener("scroll", onScrollReset)
     }
-  }, [projects.length])
+  }, [projects.length, projectsUseNativeScroll])
 
-  // Projects: strip anchor crosses LOCK_LINE; cards viewport bottom > -72 keeps pan through subpixel / fast frames.
+  // Desktop only: strip anchor crosses LOCK_LINE; wheel pans the transform strip.
   useEffect(() => {
     if (typeof window === "undefined") return
     if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return
+    if (projectsUseNativeScroll()) return
 
     const strip = projectsScrollRef.current
     const view = projectsViewportRef.current
@@ -299,7 +406,7 @@ export default function Home() {
     const opts: AddEventListenerOptions = { passive: false, capture: true }
     window.addEventListener("wheel", onWheel, opts)
     return () => window.removeEventListener("wheel", onWheel, opts)
-  }, [])
+  }, [projectsUseNativeScroll])
 
   const testimonials = [
     {
@@ -379,12 +486,20 @@ export default function Home() {
     return () => timers.forEach((id) => window.clearTimeout(id))
   }, [])
 
-  // Services lens: full 360° rotation driven by scroll through the section
+  // Services lens: full 360° rotation driven by scroll through the section (desktop only)
   useEffect(() => {
     const section = servicesSectionRef.current
     const lens = servicesLensRef.current
     if (!section || !lens) return
     if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
+      lens.style.transform = "rotate(0deg)"
+      return
+    }
+    // Skip on touch / narrow — scroll-driven rotate fights mobile scrolling
+    if (
+      window.matchMedia("(pointer: coarse)").matches ||
+      window.matchMedia("(max-width: 1023px)").matches
+    ) {
       lens.style.transform = "rotate(0deg)"
       return
     }
@@ -676,10 +791,8 @@ export default function Home() {
         .forEach((input) => {
           const el = input as HTMLInputElement | HTMLTextAreaElement
           el.style.backgroundColor = '#000000'
-          el.style.border = '1px solid rgba(255,255,255,0.15)'
+          el.style.border = '1px solid rgba(255,255,255,0.2)'
           el.style.color = '#ffffff'
-          el.style.fontSize = '1.0625rem'
-          el.style.fontWeight = '600'
           el.style.outline = 'none'
           el.style.boxShadow = 'none'
           el.style.setProperty('--tw-ring-color', 'transparent', 'important')
@@ -689,8 +802,6 @@ export default function Home() {
       if (serviceDropdown) {
         serviceDropdown.style.backgroundColor = '#000000'
         serviceDropdown.style.color = '#ffffff'
-        serviceDropdown.style.fontSize = '1.0625rem'
-        serviceDropdown.style.fontWeight = '700'
       }
 
       const menu = form.querySelector('.quote-form-dropdown-menu') as HTMLElement | null
@@ -773,47 +884,46 @@ export default function Home() {
       <GlobalStyles theme={themeMode} />
       <div className="home-page-trial relative z-10 min-h-screen overflow-x-clip">
 
-      {/* Hero Section, full viewport height */}
+      {/* Hero: section can grow with mobile browser chrome (dvh); UI shell stays locked to svh */}
       <section
         id="hero"
         className="relative flex min-h-[100dvh] flex-col overflow-hidden bg-[var(--page-bg)]"
       >
         <HeroVideoBackground />
         <div
-          className={`relative z-20 site-container flex min-h-[100dvh] w-full flex-col pb-5 sm:pb-6 lg:pb-8 transition-all duration-1000 ${
+          className={`hero-foreground relative z-20 site-container flex h-[100svh] max-h-[100svh] min-h-[100svh] w-full flex-col pb-5 sm:pb-6 lg:h-auto lg:max-h-none lg:min-h-[100dvh] lg:pb-8 transition-[opacity,transform] duration-1000 ${
             heroAnimation.videoVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-10"
           }`}
         >
           <div className="mx-auto flex w-full max-w-2xl flex-1 flex-col items-center justify-center space-y-4 pt-20 text-center min-[400px]:pt-[5.25rem] sm:pt-24 md:pt-[6.25rem] lg:mx-0 lg:max-w-xl lg:items-start lg:justify-center lg:pt-24 lg:text-left xl:max-w-2xl xl:pt-28">
             <div className="space-y-2 sm:space-y-2.5">
               <p
-                className={`hero-mantra text-[11px] font-semibold uppercase tracking-[0.22em] text-white/70 transition-all duration-1000 sm:text-xs ${
+                className={`hero-mantra text-sm font-semibold uppercase tracking-[0.18em] text-white/70 transition-all duration-1000 sm:text-base ${
                   heroAnimation.titleVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"
                 }`}
-                style={{ fontFamily: "var(--font-menu)" }}
               >
                 Protect. Prevent. Perform.
               </p>
               <h1
-                className={`hero-title-reveal mb-0 font-title text-4xl font-extrabold uppercase leading-[1.02] tracking-wide text-white transition-all duration-[1200ms] sm:text-5xl md:text-6xl lg:text-7xl ${
+                className={`hero-title-reveal mb-0 font-title text-5xl font-extrabold uppercase leading-[0.72] tracking-normal text-white transition-all duration-[1200ms] sm:text-6xl md:text-7xl lg:text-8xl ${
                   heroAnimation.titleVisible ? "opacity-100 translate-y-0 blur-0 scale-100" : "opacity-0 translate-y-16 blur-[8px] scale-[0.985]"
                 }`}
               >
                 <span className="block">The Fire &amp;</span>
-                <span className="block">
-                  Security{" "}
-                  <span className="hero-title-accent">Specialists</span>
+                <span className="block">Security</span>
+                <span className="hero-title-accent-line block">
+                  <span className="hero-title-accent">
+                    <span className="hero-title-accent__cut">Specialists</span>
+                  </span>
                 </span>
               </h1>
             </div>
             <p
-              className={`hero-subtitle-reveal mx-auto mt-2 max-w-2xl text-lg font-bold tracking-tight text-white transition-all duration-1000 sm:mt-3 sm:text-xl md:mt-4 md:text-2xl lg:mx-0 ${
+              className={`hero-subtitle-reveal mx-auto mt-2 max-w-3xl text-base font-normal tracking-normal text-white transition-all duration-1000 sm:mt-3 sm:whitespace-nowrap sm:text-lg md:mt-4 md:text-xl lg:mx-0 ${
                 heroAnimation.titleVisible ? "opacity-100 translate-y-0 blur-0" : "opacity-0 translate-y-12 blur-[6px]"
               }`}
             >
-              APX Fire &amp; Security is your NSI Gold
-              <br />
-              Fire &amp; Security Systems Installer.
+              Your NSI Gold Fire &amp; Security Systems Installer.
             </p>
 
             <div
@@ -821,7 +931,7 @@ export default function Home() {
                 heroAnimation.subtitleVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-14"
               }`}
             >
-              <CustomPillButton href="#quote-form" size="md">
+              <CustomPillButton href="#quote-form" size="md" className="hero-quote-cta">
                 Get a free quote
               </CustomPillButton>
               <a
@@ -961,7 +1071,8 @@ export default function Home() {
 
             <div
               ref={projectsViewportRef}
-              className="projects-section__track relative min-w-0 overflow-x-hidden"
+              className="projects-section__track relative min-w-0 overflow-x-auto overscroll-x-contain touch-pan-x scroll-smooth [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden lg:overflow-x-hidden lg:overscroll-auto lg:touch-auto lg:scroll-auto"
+              data-lenis-prevent
             >
               <div
                 ref={projectsStripAnchorRef}
@@ -970,24 +1081,24 @@ export default function Home() {
               />
               <div
                 ref={projectsScrollRef}
-                className="projects-strip flex w-max items-stretch will-change-transform"
+                className="projects-strip flex w-max items-stretch lg:will-change-transform"
               >
                 {projects.map((p, i) => (
                   <div key={i} className="projects-card-shelf shrink-0">
                     <Link
                       href={p.href}
-                      className="projects-card group flex flex-col overflow-hidden rounded-[1.25rem] bg-black transition-transform duration-300 ease-out hover:-translate-y-1.5"
+                      className="projects-card projects-card--lift group flex flex-col overflow-hidden rounded-[1.25rem] bg-black"
                     >
                       <div className="projects-card__inner relative">
                         <span
                           className="projects-card-number absolute top-5 right-5 z-10 font-bold tabular-nums text-white drop-shadow-md"
-                          style={{ fontFamily: 'var(--font-title, "Outfit", sans-serif)' }}
+                          style={{ fontFamily: 'var(--font-title, "Oxanium", sans-serif)' }}
                           aria-hidden
                         >
                           {(i + 1).toString().padStart(2, "0")}
                         </span>
                         <div
-                          className="absolute inset-0 scale-110 bg-cover bg-center transition-transform duration-700 ease-out motion-reduce:transition-none motion-safe:group-hover:scale-100"
+                          className="projects-card__media absolute inset-0 scale-110 bg-cover bg-center"
                           style={{ backgroundImage: `url(${p.image})` }}
                         />
                         <div className="home-photo-swarm absolute inset-0" aria-hidden />
@@ -999,14 +1110,14 @@ export default function Home() {
                             />
                             <div className="projects-card-glass-overlay absolute inset-0" />
                           </div>
-                          <div className="relative z-20 origin-bottom-left transition-transform duration-500 ease-out motion-reduce:transition-none motion-safe:group-hover:scale-[1.03]">
+                          <div className="projects-card__copy relative z-20 origin-bottom-left">
                             <p className="mb-2 text-[11px] uppercase tracking-[0.14em] text-white">{p.stat}</p>
                             <p className="projects-card__title mb-1.5 font-bold leading-[1.12] text-white">{p.title}</p>
                             <p className="mb-2 text-xs uppercase tracking-[0.11em] text-white/90">{p.location}</p>
                             <p className="projects-card__desc text-sm leading-relaxed text-white">{p.description}</p>
                           </div>
                           <span
-                            className="projects-card-arrow absolute z-20 flex items-center justify-center rounded-full bg-white/20 text-white transition-transform duration-200 group-hover:rotate-12"
+                            className="projects-card-arrow absolute z-20 flex items-center justify-center rounded-full bg-white/20 text-white"
                             aria-hidden
                           >
                             <ChevronRight className="h-5 w-5" />
@@ -1401,80 +1512,105 @@ export default function Home() {
             
             {/* Right side - Contact Form (glassmorphic), animated SVG border + delayed inner fade */}
             <HomeQuoteFormDrawShell active={sectionMotion.contact} allowOverflow={isServicesDropdownOpen}>
-            <div id="quote-form" className="relative w-full">
+            <div id="quote-form" className={`relative w-full ${isServicesDropdownOpen ? "overflow-visible" : ""}`}>
               <GlassFormPanel>
-              <form className="space-y-5" onSubmit={(e) => e.preventDefault()}>
-                <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 sm:gap-5">
+              <form
+                ref={homeFormRef}
+                className="contact-page-form space-y-3.5"
+                onSubmit={(e) => e.preventDefault()}
+                noValidate
+              >
+                <label className="sr-only" htmlFor="home-website-hp">
+                  Website
+                </label>
+                <input
+                  id="home-website-hp"
+                  name="website"
+                  type="text"
+                  tabIndex={-1}
+                  autoComplete="off"
+                  className="absolute -left-[9999px] h-px w-px opacity-0"
+                />
+
+                <div className="grid grid-cols-1 gap-3.5 sm:grid-cols-2">
                   <div>
-                    <label className="mb-2 block text-xs font-semibold uppercase tracking-[0.12em] text-white/50">
-                      First Name *
-                    </label>
+                    <HomeFieldLabel htmlFor="home-name" required>
+                      Name
+                    </HomeFieldLabel>
                     <input
+                      id="home-name"
                       type="text"
+                      name="name"
+                      required
                       inputMode="text"
                       enterKeyHint="next"
-                      required
                       className={HOME_QUOTE_FIELD_CLASS}
-                      placeholder="Enter your first name"
-                      autoComplete="given-name"
+                      placeholder="Your full name"
+                      autoComplete="name"
                     />
-                </div>
-                  
+                  </div>
                   <div>
-                    <label className="mb-2 block text-xs font-semibold uppercase tracking-[0.12em] text-white/50">
-                      Last Name *
-                    </label>
+                    <HomeFieldLabel htmlFor="home-companyName" optional>
+                      Company
+                    </HomeFieldLabel>
                     <input
+                      id="home-companyName"
                       type="text"
-                      inputMode="text"
-                      enterKeyHint="next"
-                      required
+                      name="companyName"
                       className={HOME_QUOTE_FIELD_CLASS}
-                      placeholder="Enter your last name"
-                      autoComplete="family-name"
+                      placeholder="Company or organisation"
+                      autoComplete="organization"
                     />
                   </div>
                 </div>
-                
-                <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 sm:gap-5">
+
+                <div className="grid grid-cols-1 gap-3.5 sm:grid-cols-2">
                   <div>
-                    <label className="mb-2 block text-xs font-semibold uppercase tracking-[0.12em] text-white/50">
-                      Email Address *
-                    </label>
+                    <HomeFieldLabel
+                      htmlFor="home-email"
+                      required={contactMethod === "email"}
+                      optional={contactMethod !== "email"}
+                    >
+                      Email
+                    </HomeFieldLabel>
                     <input
+                      id="home-email"
                       type="email"
+                      name="email"
+                      required={contactMethod === "email"}
                       inputMode="email"
                       enterKeyHint="next"
-                      required
                       className={HOME_QUOTE_FIELD_CLASS}
-                      placeholder="Enter your email"
+                      placeholder="your@email.com"
                       autoComplete="email"
                     />
                   </div>
-                  
                   <div>
-                    <label className="mb-2 block text-xs font-semibold uppercase tracking-[0.12em] text-white/50">
-                      Phone Number *
-                    </label>
+                    <HomeFieldLabel
+                      htmlFor="home-phone"
+                      required={contactMethod === "phone" || contactMethod === "text"}
+                      optional={contactMethod !== "phone" && contactMethod !== "text"}
+                    >
+                      Phone
+                    </HomeFieldLabel>
                     <input
+                      id="home-phone"
                       type="tel"
+                      name="phone"
+                      required={contactMethod === "phone" || contactMethod === "text"}
                       inputMode="tel"
                       enterKeyHint="next"
-                      required
                       className={HOME_QUOTE_FIELD_CLASS}
-                      placeholder="Enter your phone number"
+                      placeholder="020 0000 0000"
                       autoComplete="tel"
                     />
                   </div>
                 </div>
-                
+
                 <div className="relative services-dropdown-container">
-                  <label
-                    htmlFor="home-quote-service"
-                    className="mb-2 block text-xs font-semibold uppercase tracking-[0.12em] text-white/50"
-                  >
-                    Service Required *
-                  </label>
+                  <HomeFieldLabel htmlFor="home-quote-service" optional>
+                    Service
+                  </HomeFieldLabel>
                   <ServiceCombobox
                     id="home-quote-service"
                     name="service"
@@ -1483,50 +1619,174 @@ export default function Home() {
                     onChange={setSelectedService}
                     onOpenChange={setIsServicesDropdownOpen}
                     placeholder="Select or type a service"
-                    required
-                    allowCustom
                     emptyLabel="Select a service"
+                    allowCustom
                     containerClassName="services-dropdown-container"
+                    inputClassName="border-white/20 px-3.5 py-2.5 text-base focus:border-white sm:text-base"
                   />
                 </div>
-                
+
                 <div>
-                  <label className="mb-2 block text-xs font-semibold uppercase tracking-[0.12em] text-white/50">
-                    Project Description *
-                  </label>
+                  <HomeFieldLabel htmlFor="home-message" required>
+                    Message
+                  </HomeFieldLabel>
                   <textarea
+                    id="home-message"
+                    name="message"
+                    rows={3}
                     required
-                    rows={4}
-                    className={`${HOME_QUOTE_FIELD_CLASS} min-h-[140px] resize-y`}
-                    placeholder="Please describe your project requirements..."
-                  ></textarea>
+                    className={`${HOME_QUOTE_FIELD_CLASS} min-h-[96px] resize-y`}
+                    placeholder="Tell us about your project or enquiry…"
+                  />
                 </div>
-                
+
                 <div>
-                  <label className="mb-3 block text-xs font-semibold uppercase tracking-[0.12em] text-white/50">
-                    Preferred Contact Method
-                  </label>
-                  <div className="flex flex-wrap gap-6">
-                    <label className="flex cursor-pointer items-center gap-2.5 text-sm text-white/85">
-                      <input type="radio" name="contact-method" value="phone" className="mr-0" />
-                      Phone Call
+                  <p className="quote-form-label mb-2 text-sm font-semibold uppercase tracking-[0.12em] text-white/55">
+                    Preferred contact{" "}
+                    <span className="text-[0.8125rem] normal-case tracking-normal text-white/70">(required)</span>
+                  </p>
+                  <div className="flex flex-wrap gap-5">
+                    <label className="flex cursor-pointer items-center gap-2.5">
+                      <input
+                        type="radio"
+                        name="contact-method"
+                        value="phone"
+                        checked={contactMethod === "phone"}
+                        onChange={() => setContactMethod("phone")}
+                      />
+                      <span className="contact-pref-option text-base text-white/90">Phone</span>
                     </label>
-                    <label className="flex cursor-pointer items-center gap-2.5 text-sm text-white/85">
-                      <input type="radio" name="contact-method" value="email" defaultChecked className="mr-0" />
-                      Email
+                    <label className="flex cursor-pointer items-center gap-2.5">
+                      <input
+                        type="radio"
+                        name="contact-method"
+                        value="email"
+                        checked={contactMethod === "email"}
+                        onChange={() => setContactMethod("email")}
+                      />
+                      <span className="contact-pref-option text-base text-white/90">Email</span>
                     </label>
-                    <label className="flex cursor-pointer items-center gap-2.5 text-sm text-white/85">
-                      <input type="radio" name="contact-method" value="text" className="mr-0" />
-                      Text Message
+                    <label className="flex cursor-pointer items-center gap-2.5">
+                      <input
+                        type="radio"
+                        name="contact-method"
+                        value="text"
+                        checked={contactMethod === "text"}
+                        onChange={() => setContactMethod("text")}
+                      />
+                      <span className="contact-pref-option text-base text-white/90">Text message</span>
                     </label>
                   </div>
+                  {contactMethod === "text" ? (
+                    <div className="mt-4">
+                      <HomeConsentCheckbox id="home-sms-consent" checked={smsConsent} onChange={setSmsConsent} required>
+                        I consent to APX Fire &amp; Security contacting me by SMS / text message about this enquiry.
+                        Message and data rates may apply.{" "}
+                        <span className="text-white/55">(required for text message)</span>
+                      </HomeConsentCheckbox>
+                    </div>
+                  ) : null}
                 </div>
-                
-                <FormSubmitButton onSubmit={async () => {
-                  /* Wire your real submit here (e.g. fetch or form action) */
-                }}>
-                  Send message
-                </FormSubmitButton>
+
+                <HomeConsentCheckbox
+                  id="home-privacy-consent"
+                  checked={privacyConsent}
+                  onChange={setPrivacyConsent}
+                  required
+                >
+                  I have read the{" "}
+                  <Link
+                    href="/privacy"
+                    className="font-semibold text-white underline decoration-white/40 underline-offset-2 hover:decoration-white"
+                  >
+                    Privacy Policy
+                  </Link>{" "}
+                  and understand APX Fire &amp; Security will process my details to respond to this enquiry.{" "}
+                  <span className="text-white/55">(required)</span>
+                </HomeConsentCheckbox>
+
+                {submitError ? (
+                  <p className="text-center text-sm text-red-300" role="alert">
+                    {submitError}
+                  </p>
+                ) : null}
+
+                <div className="flex w-full justify-center">
+                  <TurnstileWidget onToken={setTurnstileToken} theme="dark" />
+                </div>
+
+                <div className="flex w-full justify-end">
+                  <FormSubmitButton
+                    className="contact-form-submit"
+                    onSubmit={async () => {
+                      setSubmitError(null)
+                      const form = homeFormRef.current
+                      if (!form) throw new Error("missing-form")
+                      if (!privacyConsent) {
+                        setSubmitError("Please confirm you have read the Privacy Policy.")
+                        throw new Error("privacy")
+                      }
+                      if (contactMethod === "text" && !smsConsent) {
+                        setSubmitError("Please confirm you consent to SMS contact.")
+                        throw new Error("sms")
+                      }
+                      const fd = new FormData(form)
+                      const emailVal = String(fd.get("email") ?? "").trim()
+                      const phoneVal = String(fd.get("phone") ?? "").trim()
+                      const emailLooksOk = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(emailVal)
+                      const phoneLooksOk = phoneVal.length >= 8
+                      if (!emailLooksOk && !phoneLooksOk) {
+                        setSubmitError("Please provide at least one contact method (email or phone).")
+                        throw new Error("contact-method")
+                      }
+                      if (contactMethod === "email" && !emailLooksOk) {
+                        setSubmitError("Please enter a valid email address.")
+                        throw new Error("email")
+                      }
+                      if ((contactMethod === "phone" || contactMethod === "text") && !phoneLooksOk) {
+                        setSubmitError("Please enter a phone number for your preferred contact method.")
+                        throw new Error("phone")
+                      }
+                      const websiteHp = String(fd.get("website") ?? "").trim()
+                      if (websiteHp.length > 0) {
+                        router.push("/thank-you")
+                        return
+                      }
+                      const serviceLabel = selectedService
+                        ? (HOME_QUOTE_SERVICES.find((o) => o.value === selectedService)?.label ?? selectedService)
+                        : ""
+                      const res = await fetch("/api/contact", {
+                        method: "POST",
+                        headers: { "Content-Type": "application/json" },
+                        body: JSON.stringify({
+                          name: String(fd.get("name") ?? "").trim(),
+                          companyName: String(fd.get("companyName") ?? "").trim(),
+                          email: emailVal,
+                          phone: phoneVal,
+                          service: selectedService,
+                          serviceLabel: selectedService ? serviceLabel : "",
+                          contactMethod,
+                          message: String(fd.get("message") ?? "").trim(),
+                          website: websiteHp,
+                          privacyConsent,
+                          smsConsent: contactMethod === "text" ? smsConsent : false,
+                          formStartedAt: homeFormStartedAtRef.current,
+                          turnstileToken: turnstileToken ?? "",
+                        }),
+                      })
+                      const data = (await res.json().catch(() => ({}))) as { error?: string }
+                      if (!res.ok) {
+                        setSubmitError(
+                          data.error ?? "Could not send. Please try again or email us directly."
+                        )
+                        throw new Error("contact-failed")
+                      }
+                      router.push("/thank-you")
+                    }}
+                  >
+                    Send message
+                  </FormSubmitButton>
+                </div>
               </form>
               </GlassFormPanel>
             </div>

@@ -127,7 +127,7 @@ export default function CctvSecurityPage() {
 
         <section className="site-container relative z-[1] py-16 lg:py-16">
           <Reveal>
-            <h2 className="mb-4 text-left font-title text-3xl font-bold text-white sm:text-4xl">
+            <h2 className="mb-4 text-left font-title text-4xl font-bold text-white sm:text-5xl">
               Commercial CCTV Capabilities
             </h2>
           </Reveal>

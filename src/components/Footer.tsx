@@ -10,6 +10,7 @@ import { careerApplyHref } from "@/components/careers/careers-types"
 import { FS_CAREER_ROLES } from "@/data/fsCareersRoles"
 import { FS_CORE_SERVICE_LINKS } from "@/lib/fs-service-navigation"
 import { getLatestNewsArticle, NEWS_HUB_PATH } from "@/data/fsNewsArticles"
+import { forceDocumentScrollTop } from "@/lib/lenisBridge"
 
 const FOOTER_ACCREDITATIONS = [
   "NSI Gold, Security",
@@ -99,6 +100,12 @@ function FooterLink({ href, children }: { href: string; children: ReactNode }) {
     <Link
       href={href}
       className="group relative inline-block w-fit max-w-full cursor-pointer pb-1 text-base transition-colors hover:text-white md:text-sm"
+      onClick={() => {
+        // Soft nav from a deep footer scroll often resumes mid-page past the hero on mobile
+        forceDocumentScrollTop()
+        window.setTimeout(forceDocumentScrollTop, 50)
+        window.setTimeout(forceDocumentScrollTop, 200)
+      }}
     >
       {children}
       <FooterUnderline />

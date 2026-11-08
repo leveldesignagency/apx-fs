@@ -2,6 +2,7 @@ import Link from "next/link"
 import { LocationsPostcodeCheck } from "@/components/locations/LocationsPostcodeCheck"
 import { CustomPillButton } from "@/components/ui/CustomPillButton"
 import { CallPhoneCta } from "@/components/ui/CallPhoneCta"
+import { FS_SERVICE_NAV_LINKS } from "@/lib/fs-service-navigation"
 import { HOME_COUNTIES_AND_REGIONS, LONDON_BOROUGHS } from "@/lib/seo-geo-areas"
 
 const PRIMARY_COUNTIES = [
@@ -16,14 +17,7 @@ const FURTHER_COUNTIES = HOME_COUNTIES_AND_REGIONS.filter(
   (name) => !(PRIMARY_COUNTIES as readonly string[]).includes(name)
 )
 
-const CORE_SERVICES = [
-  { href: "/services/fire-alarm-systems", label: "Fire alarm systems" },
-  { href: "/services/cctv-systems", label: "CCTV systems" },
-  { href: "/services/access-control-systems", label: "Access control" },
-  { href: "/services/intruder-alarm-systems", label: "Intruder alarms" },
-  { href: "/services/maintenance-support", label: "Maintenance & repairs" },
-  { href: "/services/emergency-call-out", label: "24/7 call-out" },
-] as const
+const ALL_SERVICES = FS_SERVICE_NAV_LINKS.map(({ href, label }) => ({ href, label }))
 
 export default function LocationsPage() {
   return (
@@ -43,8 +37,8 @@ export default function LocationsPage() {
             residential sites throughout the South East.
           </p>
           <LocationsPostcodeCheck />
-          <div className="mt-8 flex flex-wrap items-center gap-4">
-            <CustomPillButton href="/contact" size="md">
+          <div className="mt-8 flex flex-col items-center gap-4 sm:flex-row sm:flex-wrap sm:items-center sm:justify-start">
+            <CustomPillButton href="/contact" size="md" className="mx-auto sm:mx-0">
               Request a survey
             </CustomPillButton>
             <CallPhoneCta />
@@ -121,8 +115,8 @@ export default function LocationsPage() {
           From single-door access control to networked fire alarms and multi-site CCTV, our engineers deliver NSI
           Gold-aligned systems with clear documentation and ongoing support.
         </p>
-        <ul className="mt-8 grid grid-cols-1 gap-3 sm:grid-cols-2 md:max-w-3xl">
-          {CORE_SERVICES.map((service) => (
+        <ul className="mt-8 grid grid-cols-1 gap-3 sm:grid-cols-2 md:max-w-4xl">
+          {ALL_SERVICES.map((service) => (
             <li key={service.href}>
               <Link
                 href={service.href}

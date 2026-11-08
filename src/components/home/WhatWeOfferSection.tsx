@@ -415,9 +415,9 @@ export function WhatWeOfferSection() {
             mobile && showPanel && "is-in"
           )}
         >
-          <div className="relative md:min-h-[min(480px,75vh)] lg:min-h-[440px]">
+          <div className="fs-offer-panel__body relative md:min-h-[min(480px,75vh)] lg:min-h-[440px]">
             <div
-              className="relative h-44 w-full overflow-hidden sm:h-52 md:absolute md:inset-0 md:h-auto"
+              className="fs-offer-panel__media pointer-events-none absolute inset-x-0 top-0 z-0 h-[22rem] overflow-hidden sm:h-[24rem] md:inset-0 md:h-auto"
               aria-hidden
             >
               <div className="fs-offer-panel__tilt" style={tiltStyle}>
@@ -433,15 +433,21 @@ export function WhatWeOfferSection() {
               </div>
               {/* Digital swarm / scan field over service photography */}
               <div className="fs-offer-digital-swarm absolute inset-0" aria-hidden />
+              {/* Mobile: soft top dim + feathered transparent bottom so title/copy sit on the photo */}
               <div
-                className="absolute inset-0 bg-gradient-to-b from-black/35 via-black/20 to-black md:bg-gradient-to-b md:from-black/90 md:via-black/75 md:to-black/85 lg:bg-gradient-to-r lg:from-black/[0.88] lg:via-black/45 lg:to-black/20"
+                className="fs-offer-panel__feather absolute inset-0 md:hidden"
+                aria-hidden
+              />
+              {/* Desktop / tablet gradients */}
+              <div
+                className="absolute inset-0 hidden bg-gradient-to-b from-black/90 via-black/75 to-black/85 md:block lg:bg-gradient-to-r lg:from-black/[0.88] lg:via-black/45 lg:to-black/20"
                 aria-hidden
               />
             </div>
 
-            <div className="relative grid gap-0 bg-[var(--page-bg)] md:bg-transparent lg:min-h-[440px] lg:grid-cols-[1.1fr_0.9fr]">
-              <div className="flex flex-col justify-center px-5 py-7 sm:px-10 sm:py-10 lg:px-12 lg:py-14">
-                <div className="mb-3 inline-flex w-fit items-center justify-center rounded-full border border-white/40 bg-black/50 py-1.5 pl-3.5 pr-[calc(0.875rem+0.12em)] text-center text-[0.625rem] font-semibold uppercase tracking-[0.12em] text-white sm:mb-5 sm:pl-5 sm:pr-[calc(1.25rem+0.12em)] sm:text-sm">
+            <div className="relative z-[1] grid gap-0 bg-transparent lg:min-h-[440px] lg:grid-cols-[1.1fr_0.9fr]">
+              <div className="fs-offer-panel__copy flex flex-col justify-center px-5 pb-7 pt-[7.5rem] sm:px-10 sm:pb-10 sm:pt-[8.5rem] md:px-10 md:py-10 lg:px-12 lg:py-14">
+                <div className="fs-offer-panel__tag mb-3 inline-flex w-fit items-center justify-center rounded-full border border-white/40 bg-black/50 py-1.5 pl-3.5 pr-[calc(0.875rem+0.12em)] text-center text-[0.625rem] font-semibold uppercase tracking-[0.12em] text-white sm:mb-5 sm:pl-5 sm:pr-[calc(1.25rem+0.12em)] sm:text-sm">
                   {item.tagLabel}
                 </div>
 
@@ -455,6 +461,23 @@ export function WhatWeOfferSection() {
                 <p className="mt-3 max-w-xl text-sm leading-relaxed text-white/85 sm:mt-4 sm:text-base sm:text-white lg:text-lg">
                   {item.description}
                 </p>
+
+                {/* Mobile: features above CTAs */}
+                <div className="fs-offer-panel__features-mobile mt-7 border-t border-white/15 pt-6 md:mt-8 lg:hidden">
+                  <p
+                    data-offer-features="label"
+                    className="text-xs font-bold uppercase tracking-[0.2em] text-white sm:text-sm"
+                  >
+                    The features
+                  </p>
+                  <ul className="fs-offer-features mt-3.5 border-t border-white/15 sm:mt-5">
+                    {item.features.map((line) => (
+                      <li key={line} data-offer-feature className="fs-offer-features__item">
+                        <span className="fs-offer-features__text">{line}</span>
+                      </li>
+                    ))}
+                  </ul>
+                </div>
 
                 <div className="mt-6 flex w-full flex-col gap-2.5 sm:mt-8 sm:w-auto sm:flex-row sm:flex-wrap sm:items-center sm:gap-3">
                   <CustomPillButton
@@ -475,7 +498,8 @@ export function WhatWeOfferSection() {
                 </div>
               </div>
 
-              <div className="flex flex-col justify-center border-t border-white/15 px-5 py-7 sm:px-10 sm:py-10 lg:border-t-0 lg:px-10 lg:py-14 lg:pl-6">
+              {/* Desktop: features in right column */}
+              <div className="hidden flex-col justify-center border-t border-white/15 px-5 py-7 sm:px-10 sm:py-10 lg:flex lg:border-t-0 lg:px-10 lg:py-14 lg:pl-6">
                 <p data-offer-features="label" className="text-xs font-bold uppercase tracking-[0.2em] text-white sm:text-sm">
                   The features
                 </p>

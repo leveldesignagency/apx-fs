@@ -115,7 +115,7 @@ export function checkFsServiceCoverage(input: string): FsCoverageResult {
       status: "covered",
       normalised: parsed.normalised,
       area: parsed.area,
-      message: `${parsed.normalised} is within our London and Home Counties service area. We can survey and quote for this location.`,
+      message: `${parsed.normalised} sits in our London and Home Counties coverage. We can survey and quote for this location.`,
     }
   }
 

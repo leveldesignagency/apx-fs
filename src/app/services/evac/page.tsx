@@ -10,7 +10,7 @@ import { FsFireSubpageHeroButtons } from "@/components/FsFireSubpageHeroButtons"
 import { Reveal } from "@/components/Reveal"
 import { ServiceItemReveal } from "@/components/ServiceItemReveal"
 import { ServiceFeatureImageCard } from "@/components/ServiceFeatureImageCard"
-import { serviceHeroImages, serviceSectionImages } from "@/lib/serviceHeroImages"
+import { serviceHeroImages } from "@/lib/serviceHeroImages"
 import { SERVICE_HERO_BRIDGE_GRADIENT } from "@/lib/heroBackgroundGradients"
 
 const IMG = "/service%20images/evac-capabilities"
@@ -119,7 +119,7 @@ export default function EvacSystemsPage() {
 
         <section className="site-container relative z-[1] py-16 lg:py-16">
           <Reveal>
-            <h2 className="mb-4 text-left font-title text-3xl font-bold text-white sm:text-4xl">Capabilities</h2>
+            <h2 className="mb-4 text-left font-title text-4xl font-bold text-white sm:text-5xl">Capabilities</h2>
           </Reveal>
           <Reveal delayMs={70}>
             <p className="mb-10 max-w-3xl text-left text-gray-300">
@@ -136,7 +136,6 @@ export default function EvacSystemsPage() {
                   description={description}
                   imageSrc={imageSrc}
                   imageAlt={imageAlt}
-                  className="transition-transform duration-300 hover:scale-[1.02]"
                 />
               </ServiceItemReveal>
             ))}
@@ -190,7 +189,7 @@ export default function EvacSystemsPage() {
 
         <ServicePageClosingSections
           serviceTitleShort="EVAC"
-          ctaImageSrc={serviceSectionImages.evacBody}
+          ctaImageSrc={serviceHeroImages.evac}
           ctaHeadline="Need an"
           ctaHeadlineAccent="EVAC System?"
           ctaDescription="Tell us about your residential block and fire strategy. We can survey, specify and deliver evacuation alert systems under BS 8629."

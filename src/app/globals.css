@@ -9,8 +9,11 @@
   --muted: #666666;
   --border: #333333;
   --accent: #ffffff;
-  --font-title: "Outfit", sans-serif;
-  --font-menu: "Erbaum", sans-serif;
+  /* Type system: titles/menu = Teko; paragraphs/items/buttons = Oxanium */
+  --font-title: var(--font-teko), "Teko", sans-serif;
+  --font-subtitle: var(--font-oxanium), "Oxanium", sans-serif;
+  --font-body: var(--font-oxanium), "Oxanium", sans-serif;
+  --font-menu: var(--font-teko), "Teko", sans-serif;
   /* In-page anchor targets (#section): modest offset so headings aren’t flush to the top */
   --site-header-offset: 1.25rem;
   /* Global horizontal gutters — aligned with About page mobile margins */
@@ -21,6 +24,19 @@
   --scroll-rise-transform-duration: 1.2s;
   --scroll-rise-opacity-duration: 550ms;
   --scroll-rise-ease: cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+/* Soft lock: discourage casual image / video save (drag + select). Not a hard DRM. */
+img,
+picture,
+video,
+canvas {
+  -webkit-user-drag: none;
+  user-select: none;
+  -webkit-user-select: none;
+}
+img {
+  -webkit-touch-callout: none;
 }
 
 /* Shared page column: thinner side margins, wider max width than default `container` */
@@ -337,14 +353,20 @@ main.accreditations-hub section + section {
     margin-bottom: 5rem;
   }
 }
-/* Small ALL CAPS label above section titles */
+/* Small ALL CAPS label above section titles — match hero mantra face + size */
 .section-label {
-  font-size: 0.75rem;
+  font-family: var(--font-teko), "Teko", sans-serif !important;
+  font-size: 0.875rem; /* = hero-mantra text-sm */
   font-weight: 600;
-  letter-spacing: 0.2em;
+  letter-spacing: 0.18em;
   text-transform: uppercase;
   margin-bottom: 0.5rem;
   display: block;
+}
+@media (min-width: 640px) {
+  .section-label {
+    font-size: 1rem; /* = hero-mantra sm:text-base */
+  }
 }
 .section-label--black {
   color: #000000 !important;
@@ -948,9 +970,9 @@ section#services.home-services-band.section-spacing {
 
 /* Homepage major section titles — mobile matches service pages (text-3xl); scales up from sm */
 .home-section-title {
-  font-family: var(--font-title, "Outfit", sans-serif);
+  font-family: var(--font-title, "Oxanium", sans-serif);
   font-size: 1.875rem; /* text-3xl — same as service section titles on mobile */
-  line-height: 1.1;
+  line-height: 1.02;
   letter-spacing: -0.025em;
   font-weight: 700;
   text-transform: none;
@@ -959,7 +981,7 @@ section#services.home-services-band.section-spacing {
 @media (min-width: 640px) {
   .home-section-title {
     font-size: clamp(2.25rem, 8vw, 4rem);
-    line-height: 1.03;
+    line-height: 0.96;
   }
 }
 
@@ -979,10 +1001,18 @@ section#services.home-services-band.section-spacing {
     letter-spacing: -0.025em !important;
   }
 
+  .site-shell main .service-page-root h1.font-title,
+  .site-shell main .service-page-root h2.font-title,
+  .site-shell main .service-page-root .fs-service-text-image__title,
+  .site-shell main .service-page-root #fs-service-faq-heading,
+  .site-shell main .service-page-root .service-hero-grid__title {
+    letter-spacing: 0 !important;
+  }
+
   .site-shell main #hero h1.font-title {
-    font-size: 2.25rem !important; /* text-4xl display */
-    line-height: 1.02 !important;
-    letter-spacing: 0.025em !important;
+    font-size: 3rem !important; /* text-5xl display */
+    line-height: 0.72 !important;
+    letter-spacing: normal !important;
   }
 
   .site-shell main .dm-journey-content h2.font-title {
@@ -993,7 +1023,7 @@ section#services.home-services-band.section-spacing {
 
   .site-shell main .fs-inset-cta-card h2.font-title {
     font-size: 2.25rem !important; /* text-4xl - keep CTA titles a step up on mobile */
-    line-height: 1.05 !important;
+    line-height: 0.9 !important;
     letter-spacing: -0.025em !important;
   }
 
@@ -1017,13 +1047,164 @@ section#services.home-services-band.section-spacing {
 
 /* Title font: set by TitleFontContext, used for all headings, all caps */
 .font-title {
-  font-family: var(--font-title, "Outfit", sans-serif);
+  font-family: var(--font-title, "Oxanium", sans-serif);
   text-transform: uppercase;
+}
+
+.font-subtitle {
+  font-family: var(--font-subtitle, var(--font-title), "Oxanium", sans-serif);
+}
+
+/* All page titles use Oxanium */
+.site-shell main h1,
+.site-shell main h2,
+.site-shell main h3,
+.site-shell main h4,
+.service-hero-grid__title {
+  font-family: var(--font-title, "Oxanium", sans-serif);
+}
+
+/* Subtitles / supporting title lines sitewide */
+.hero-subtitle-reveal,
+.section-intro-gap,
+.contact-faq__subtitle,
+.service-hero-grid__summary,
+.service-page-hero__intro,
+.home-section-subtitle {
+  font-family: var(--font-subtitle, var(--font-title), "Oxanium", sans-serif);
+}
+
+/*
+ * Homepage type system (roll out to other pages later):
+ * - Titles / section labels / menu: Teko
+ * - Paragraphs / list items / feature copy: Oxanium
+ * - Buttons: Oxanium bold, title case (no all-caps)
+ */
+.home-page-trial h1.font-title,
+.home-page-trial h2.font-title,
+.home-page-trial h3.font-title,
+.home-page-trial h4.font-title,
+.home-page-trial .home-section-title,
+.home-page-trial .font-title {
+  font-family: var(--font-title, var(--font-teko), "Teko", sans-serif) !important;
+}
+
+.home-page-trial p,
+.home-page-trial .section-intro-gap,
+.home-page-trial .hero-services-intro,
+.home-page-trial .fs-offer-features__text,
+.home-page-trial .fs-offer-tab__label,
+.home-page-trial li,
+.home-page-trial .why-choose-card p,
+.home-page-trial .why-choose-card li {
+  font-family: var(--font-body, var(--font-oxanium), "Oxanium", sans-serif) !important;
+}
+
+.home-page-trial .pill-btn,
+.home-page-trial .pill-btn .pill-text,
+.home-page-trial .hero-quote-cta,
+.home-page-trial .hero-quote-cta .pill-text {
+  font-family: var(--font-oxanium), "Oxanium", sans-serif !important;
+  font-weight: 700 !important;
+  text-transform: none !important;
+  letter-spacing: 0.02em;
+}
+
+/* Homepage stats cards */
+.home-page-trial .stats-card-number {
+  font-family: var(--font-title, var(--font-teko), "Teko", sans-serif) !important;
+}
+.home-page-trial .stats-card-label {
+  font-family: var(--font-body, var(--font-oxanium), "Oxanium", sans-serif) !important;
+}
+
+/* Homepage contact / quote form */
+.home-page-trial #contact .home-section-title,
+.home-page-trial #contact .section-label {
+  font-family: var(--font-title, var(--font-teko), "Teko", sans-serif) !important;
+}
+
+/*
+ * Quote / contact forms (homepage + /contact):
+ * field titles / labels = Teko; typed text, placeholders, dropdowns = Oxanium
+ */
+#quote-form label,
+.contact-page #quote-form label,
+.home-page-trial #quote-form label,
+#quote-form .quote-form-label {
+  font-family: var(--font-menu), var(--font-teko), "Teko", sans-serif !important;
+  font-size: 0.9375rem !important;
+}
+#quote-form input,
+#quote-form textarea,
+#quote-form select,
+#quote-form .quote-form-field,
+#quote-form .quote-form-dropdown,
+#quote-form .quote-form-dropdown-item,
+#quote-form button,
+#quote-form .pill-text,
+.contact-page #quote-form input,
+.contact-page #quote-form textarea,
+.contact-page #quote-form select,
+.contact-page #quote-form .quote-form-field,
+.contact-page #quote-form .quote-form-dropdown,
+.contact-page #quote-form .quote-form-dropdown-item,
+.home-page-trial #quote-form input,
+.home-page-trial #quote-form textarea,
+.home-page-trial #quote-form select,
+.home-page-trial #quote-form .quote-form-field,
+.home-page-trial #quote-form .quote-form-dropdown,
+.home-page-trial #quote-form .quote-form-dropdown-item {
+  font-family: var(--font-body, var(--font-oxanium), "Oxanium", sans-serif) !important;
+}
+#quote-form input::placeholder,
+#quote-form textarea::placeholder,
+#quote-form .quote-form-field::placeholder,
+.contact-page #quote-form input::placeholder,
+.contact-page #quote-form textarea::placeholder,
+.contact-page #quote-form .quote-form-field::placeholder,
+.home-page-trial #quote-form input::placeholder,
+.home-page-trial #quote-form textarea::placeholder,
+.home-page-trial #quote-form .quote-form-field::placeholder {
+  font-family: var(--font-body, var(--font-oxanium), "Oxanium", sans-serif) !important;
+}
+
+/* Site footer type system */
+.footer-expand-wrapper h4 {
+  font-family: var(--font-title, var(--font-teko), "Teko", sans-serif) !important;
+}
+.footer-expand-wrapper p,
+.footer-expand-wrapper li,
+.footer-expand-wrapper a,
+.footer-expand-wrapper button,
+.footer-expand-wrapper span,
+.footer-expand-wrapper .footer-legal-copy,
+.footer-expand-wrapper .footer-hint {
+  font-family: var(--font-body, var(--font-oxanium), "Oxanium", sans-serif) !important;
+}
+.footer-expand-wrapper h4 span {
+  font-family: var(--font-title, var(--font-teko), "Teko", sans-serif) !important;
 }
 
 /* Charcoal page canvas under hero media so light-theme body and header stack show imagery, not white */
 #hero {
   background-color: var(--page-bg);
+}
+
+/*
+ * Mobile Safari: 100dvh grows/shrinks as the URL bar hides.
+ * Keep foreground UI on a stable 100svh shell so copy/CTAs don't reflow;
+ * the section + video may still expand with dvh behind it.
+ */
+@media (max-width: 1023.98px) {
+  #hero {
+    min-height: 100dvh;
+  }
+  #hero .hero-foreground {
+    height: 100svh !important;
+    min-height: 100svh !important;
+    max-height: 100svh !important;
+  }
 }
 
 /* Homepage hero: subtle grow (Ken Burns), top-aligned; no horizontal pan */
@@ -1050,12 +1231,34 @@ section#services.home-services-band.section-spacing {
   }
 }
 
-/* Hero h1: stacked all-caps display line */
+/* Hero title + mantra use title face (Teko) */
+#hero h1.font-title,
+#hero .hero-mantra {
+  font-family: var(--font-title, var(--font-teko), "Teko", sans-serif) !important;
+}
+
+/* Services title: title face + normal character spacing */
+.services-section-title {
+  font-family: var(--font-title, var(--font-teko), "Teko", sans-serif) !important;
+  letter-spacing: normal !important;
+}
+
+/* Hero h1: stacked all-caps display — normal tracking, tight leading */
 #hero h1.font-title {
   text-transform: uppercase;
-  letter-spacing: 0.04em;
-  line-height: 0.95;
+  letter-spacing: normal;
+  line-height: 0.72 !important;
   font-weight: 800 !important;
+}
+
+/*
+ * Subtitle: same face as services intro paragraph (.section-intro-gap /
+ * .hero-services-intro) - Oxanium via --font-subtitle.
+ */
+#hero .hero-subtitle-reveal {
+  font-family: var(--font-subtitle, var(--font-oxanium), "Oxanium", sans-serif) !important;
+  letter-spacing: normal;
+  font-weight: 400 !important;
 }
 
 #hero .font-title:not(h1) {
@@ -1064,6 +1267,15 @@ section#services.home-services-band.section-spacing {
 
 #hero .hero-mantra {
   text-transform: uppercase;
+}
+
+/* Hero quote CTA: Oxanium bold, title case */
+#hero .hero-quote-cta,
+#hero .hero-quote-cta .pill-text {
+  font-family: var(--font-oxanium), "Oxanium", sans-serif !important;
+  text-transform: none !important;
+  font-weight: 700 !important;
+  letter-spacing: 0.02em;
 }
 
 /* Section titles: title case (not all caps); keep APX FS / APX Fire & Security in all caps via inline style */
@@ -1088,7 +1300,7 @@ section h2 {
 
 #hero h1 {
   font-weight: 800;
-  line-height: 1.02;
+  line-height: 0.72 !important;
 }
 #hero p,
 #hero .text-base,
@@ -1096,7 +1308,7 @@ section h2 {
   font-weight: 400;
 }
 #hero .hero-subtitle-reveal {
-  font-weight: 700 !important;
+  font-weight: 400 !important;
 }
 #hero .hero-copy-reveal {
   font-weight: 500 !important;
@@ -1250,13 +1462,13 @@ section h2 {
 #hero .hero-services-quick-nav__link {
   display: inline-flex;
   align-items: center;
-  padding: 0.5rem 0.85rem;
+  padding: 0.55rem 0.95rem;
   border-radius: 9999px;
   border: none;
   background: transparent;
   color: rgba(255, 255, 255, 0.88);
   font-family: var(--font-menu), sans-serif;
-  font-size: 0.875rem;
+  font-size: 1rem;
   font-weight: 600;
   letter-spacing: 0.04em;
   line-height: 1.25;
@@ -1275,14 +1487,14 @@ section h2 {
 }
 @media (min-width: 640px) {
   #hero .hero-services-quick-nav__link {
-    font-size: 0.8125rem;
-    padding: 0.45rem 0.75rem;
+    font-size: 0.9375rem;
+    padding: 0.5rem 0.85rem;
   }
 }
 @media (min-width: 1280px) {
   #hero .hero-services-quick-nav__link {
-    font-size: 0.875rem;
-    padding: 0.5rem 0.85rem;
+    font-size: 1.0625rem;
+    padding: 0.55rem 1rem;
   }
 }
 
@@ -1293,6 +1505,196 @@ section h2 {
 .service-page-hero .service-page-hero__intro,
 .service-page-hero .service-page-hero__intro p {
   font-weight: 400;
+}
+
+/*
+ * Service pages type system (same as homepage):
+ * titles/labels/quick-nav = Teko (+ size bump; Teko reads smaller)
+ * paragraphs / body / list items = Oxanium
+ * buttons = Oxanium bold, title case
+ */
+.service-page-hero h1,
+.service-page-hero .service-hero-grid__title,
+.service-page-hero .font-title,
+.fs-capability-outer .font-title,
+.fs-capability-outer h2,
+.fs-capability-outer h3,
+main .service-page-white-band h2.font-title,
+main .service-page-white-band h3.font-title,
+main .fs-service-faq h2,
+main .ServiceComplianceSection h2,
+main [class*="compliance"] .font-title,
+.fs-inset-cta-card h2.font-title {
+  font-family: var(--font-title, var(--font-teko), "Teko", sans-serif) !important;
+}
+
+/* Teko size compensation on service heroes / section titles */
+.service-page-hero h1.font-title,
+.service-page-hero .service-hero-grid__title {
+  font-size: clamp(2.35rem, 6vw, 4.25rem) !important;
+  letter-spacing: 0 !important;
+  line-height: 0.95 !important;
+}
+.service-page-root .service-hero-grid__title,
+.service-page-root h1.font-title {
+  letter-spacing: 0 !important;
+}
+.service-page-hero .section-label,
+.fs-capability-outer .section-label,
+main .service-page-white-band .section-label {
+  font-family: var(--font-teko), "Teko", sans-serif !important;
+  font-size: 0.9375rem !important;
+}
+@media (min-width: 640px) {
+  .service-page-hero .section-label,
+  .fs-capability-outer .section-label,
+  main .service-page-white-band .section-label {
+    font-size: 1.0625rem !important;
+  }
+}
+
+.service-page-hero .service-page-hero__intro,
+.service-page-hero .service-page-hero__intro p,
+.service-page-hero .service-hero-grid__summary,
+.fs-capability-outer p,
+.fs-capability-outer li,
+.fs-capability-outer .apx-capability-list__item,
+main .service-page-white-band p,
+main .service-page-white-band li,
+main .fs-service-faq p,
+main .fs-service-faq .fs-service-faq__answer,
+.fs-inset-cta-card p {
+  font-family: var(--font-body, var(--font-oxanium), "Oxanium", sans-serif) !important;
+}
+
+/* Service quick nav: Teko + larger to compensate */
+.fs-service-quick-nav__hint,
+.fs-service-quick-nav__pill,
+.fs-service-quick-nav__pill span {
+  font-family: var(--font-menu), var(--font-teko), "Teko", sans-serif !important;
+}
+.fs-service-quick-nav__hint {
+  letter-spacing: 0.14em !important;
+}
+.fs-service-quick-nav__pill {
+  font-weight: 600 !important;
+  letter-spacing: normal !important;
+  text-transform: uppercase !important;
+  font-size: 1.125rem !important;
+}
+@media (min-width: 640px) {
+  .fs-service-quick-nav__pill {
+    font-size: 1.1875rem !important;
+  }
+}
+
+/* Service page pills / CTAs */
+.service-page-hero .pill-btn,
+.service-page-hero .pill-btn .pill-text,
+.fs-capability-outer .pill-btn,
+.fs-capability-outer .pill-btn .pill-text,
+main .service-page-white-band .pill-btn,
+main .service-page-white-band .pill-btn .pill-text,
+.fs-inset-cta-card .pill-btn,
+.fs-inset-cta-card .pill-btn .pill-text {
+  font-family: var(--font-oxanium), "Oxanium", sans-serif !important;
+  font-weight: 700 !important;
+  text-transform: none !important;
+  letter-spacing: 0.02em;
+}
+
+/* Bottom CTA banner: tighter title leading */
+.fs-inset-cta-card h2.font-title {
+  line-height: 0.9 !important;
+}
+
+/* Capability pillar tabs + compliance / standards headings */
+.fs-capability-tab-link {
+  font-family: var(--font-menu), var(--font-teko), "Teko", sans-serif !important;
+  font-size: 1.0625rem !important;
+  font-weight: 600 !important;
+  letter-spacing: 0.03em;
+}
+.fs-service-compliance-section h2,
+.fs-service-compliance-section h3 {
+  font-family: var(--font-title, var(--font-teko), "Teko", sans-serif) !important;
+}
+.fs-service-compliance-section p,
+.fs-service-compliance-section li {
+  font-family: var(--font-body, var(--font-oxanium), "Oxanium", sans-serif) !important;
+}
+.fs-service-compliance-section h2.font-title {
+  font-size: clamp(2.15rem, 4vw, 3rem) !important; /* Teko size bump */
+}
+.fs-service-compliance-section h3 {
+  font-size: 1.35rem !important;
+}
+@media (min-width: 640px) {
+  .fs-service-compliance-section h3 {
+    font-size: 1.5rem !important;
+  }
+}
+
+/* Service page root: catch remaining body / cards / buttons */
+.service-page-root h2.font-title,
+.service-page-root h3.font-title,
+.service-page-root .font-title,
+.service-page-root .fs-service-text-image__title,
+.service-page-root .fs-service-feature-card__title {
+  font-family: var(--font-title, var(--font-teko), "Teko", sans-serif) !important;
+  letter-spacing: 0 !important;
+}
+.service-page-root h2.font-title {
+  font-size: clamp(2.65rem, 5vw, 3.75rem) !important;
+  line-height: 1.05 !important;
+}
+.service-page-root .fs-service-text-image__title {
+  font-size: clamp(2.5rem, 5vw, 3.75rem) !important;
+  line-height: 1.02 !important;
+}
+.service-page-root .fs-service-installations-heading,
+.service-page-root section .fs-service-installations-heading {
+  font-size: clamp(2.85rem, 5.5vw, 4rem) !important;
+  line-height: 1.02 !important;
+  letter-spacing: 0 !important;
+}
+.service-page-root .fs-service-installation-card__title {
+  font-family: var(--font-title, var(--font-teko), "Teko", sans-serif) !important;
+  font-size: clamp(1.2rem, 2vw, 1.4rem) !important;
+  line-height: 1.08 !important;
+  letter-spacing: 0 !important;
+}
+.service-page-root .fs-service-feature-card__title {
+  font-size: clamp(1.5rem, 2.6vw, 2rem) !important;
+}
+.service-page-root p,
+.service-page-root li,
+.service-page-root .fs-service-text-image__body,
+.service-page-root .fs-service-text-image__body p,
+.service-page-root .fs-service-feature-card__body,
+.service-page-root .apx-capability-list__item,
+.service-page-root .call-phone-cta,
+.service-page-root .call-phone-cta span:not(.font-title) {
+  font-family: var(--font-body, var(--font-oxanium), "Oxanium", sans-serif) !important;
+}
+.service-page-root .pill-btn,
+.service-page-root .pill-btn .pill-text,
+.service-page-root a.pill-btn,
+.service-page-root .pill-btn span {
+  font-family: var(--font-oxanium), "Oxanium", sans-serif !important;
+  font-weight: 700 !important;
+  text-transform: none !important;
+  letter-spacing: 0.02em;
+}
+.service-page-root .fs-service-faq h2.font-title,
+.service-page-root .fs-service-faq-section h2.font-title {
+  font-size: clamp(2.5rem, 5vw, 3.75rem) !important;
+  line-height: 0.92 !important;
+  letter-spacing: 0 !important;
+}
+.service-page-root .fs-service-faq-card__question,
+.service-page-root .fs-service-faq-card__answer {
+  font-family: var(--font-body, var(--font-oxanium), "Oxanium", sans-serif) !important;
 }
 
 /* Intruder test hero: full-bleed image + large grid + mouse tilt */
@@ -1354,6 +1756,13 @@ section h2 {
   width: var(--grid-cell);
   height: var(--grid-cell);
   background: rgba(255, 255, 255, 0.06);
+  transition: background-color 0.28s ease, opacity 0.28s ease;
+  will-change: background-color;
+}
+@media (prefers-reduced-motion: reduce) {
+  .service-hero-grid__fill {
+    transition: none;
+  }
 }
 .service-hero-grid__title-detail {
   margin: 0.65rem 0 0;
@@ -1398,8 +1807,8 @@ section h2 {
   margin: 0;
   max-width: 9ch;
   font-size: clamp(2.85rem, 11vw, 4.5rem);
-  line-height: 0.92;
-  letter-spacing: -0.035em;
+  line-height: 0.88;
+  letter-spacing: 0;
   text-shadow: 0 2px 28px rgba(0, 0, 0, 0.45);
 }
 .service-hero-grid__aside {
@@ -1481,9 +1890,9 @@ section h2 {
 @media (max-width: 639.98px) {
   .service-hero-grid__title {
     font-size: clamp(3.75rem, 17vw, 5rem) !important;
-    line-height: 0.9 !important;
+    line-height: 0.88 !important;
     max-width: 8.5ch;
-    letter-spacing: -0.04em !important;
+    letter-spacing: 0 !important;
   }
   .service-hero-grid__copy {
     gap: 0.75rem;
@@ -1542,24 +1951,47 @@ section h2 {
 #hero .text-xs {
   color: #ffffff !important;
 }
-#hero h1 .hero-title-accent,
 #hero h1 span.bg-white {
   color: #000000 !important;
 }
 
+/* Pull Specialists back toward SECURITY */
+#hero h1 .hero-title-accent-line {
+  margin-top: -0.06em;
+}
+
 #hero h1 .hero-title-accent {
-  /* White slab behind the word, slight pad, not full line-box tall */
-  display: inline-block;
-  line-height: 0.88;
-  padding: 0.02em 0.05em 0.08em 0.12em;
-  margin-left: -0.12em; /* box hangs left; glyphs stay on the title's left edge */
-  vertical-align: baseline;
-  border-top-left-radius: 0.22em;
-  border-bottom-right-radius: 0.22em;
+  /*
+   * White slab overhangs left (glyphs stay aligned with lines above).
+   * Teko sits high in the em box - use asymmetric CSS pad + glyph
+   * shift so optical top/bottom distances match.
+   */
+  --hero-accent-pad-x: 0.2em;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  line-height: 1;
+  /* Extra top / less bottom to cancel Teko's empty foot */
+  padding: 0.16em var(--hero-accent-pad-x) 0.04em;
+  margin: 0 0 0 calc(var(--hero-accent-pad-x) * -1) !important;
+  vertical-align: top;
+  border-radius: 0;
   background-color: #ffffff !important;
   color: #000000 !important;
+  isolation: isolate;
+  overflow: hidden;
   box-decoration-break: clone;
   -webkit-box-decoration-break: clone;
+}
+#hero h1 .hero-title-accent__cut {
+  display: block;
+  line-height: 0.72;
+  transform: translateY(0.04em);
+  margin: 0;
+  padding: 0;
+  color: #000000 !important;
+  /* Cuts the white slab so the hero video shows through the glyphs */
+  mix-blend-mode: destination-out;
 }
 
 .service-page-hero h1,
@@ -1853,8 +2285,16 @@ section h2 {
   padding-left: 0;
   text-align: left;
 }
-#about-intro .about-intro-step p {
+#about-intro .about-intro-step p,
+#about-intro .about-intro-step__body {
   color: rgba(255, 255, 255, 0.78) !important;
+  font-family: var(--font-body, var(--font-oxanium), "Oxanium", sans-serif) !important;
+}
+#about-intro .about-intro-step__title {
+  font-family: var(--font-title, var(--font-teko), "Teko", sans-serif) !important;
+}
+#about-intro .about-intro-step__num {
+  font-family: var(--font-title, var(--font-teko), "Teko", sans-serif) !important;
 }
 #about-intro .about-intro-steps {
   list-style: none;
@@ -1881,6 +2321,17 @@ section h2 {
   will-change: transform;
   backface-visibility: hidden;
   animation: about-intro-bg-drift 36s ease-in-out infinite alternate;
+}
+/* Mobile: less crop so the photo stays sharp (was oversized via height + drift) */
+@media (max-width: 639.98px) {
+  #about-intro .about-intro-bg {
+    top: 0 !important;
+    height: 100% !important;
+    background-size: cover;
+    background-position: center 40%;
+    animation: none;
+    transform: none;
+  }
 }
 @media (prefers-reduced-motion: reduce) {
   #about-intro .about-intro-bg {
@@ -1939,7 +2390,7 @@ section h2 {
 /* Services headline: full home-section scale; width breathes in the wider title column */
 #services .services-section-title.home-section-title {
   max-width: none;
-  line-height: 1.06;
+  line-height: 0.96;
 }
 
 /* Services band: monochrome CCTV lens watermark (right atmosphere) */
@@ -2059,6 +2510,7 @@ section h2 {
 }
 #services .fs-offer-features__text {
   display: inline-block;
+  font-family: var(--font-oxanium), "Oxanium", sans-serif !important;
   font-style: normal;
   transform: translateX(0);
   transition:
@@ -2085,6 +2537,26 @@ section h2 {
   }
   #services .fs-offer-features__item:hover .fs-offer-features__text {
     transform: none;
+  }
+}
+
+/* Homepage services offer panel: mobile photo sits behind title/copy, feathered out */
+@media (max-width: 767.98px) {
+  #services .fs-offer-panel__media {
+    height: min(26rem, 72vw);
+  }
+  #services .fs-offer-panel__feather {
+    background: linear-gradient(
+      to bottom,
+      rgba(0, 0, 0, 0.45) 0%,
+      rgba(0, 0, 0, 0.28) 32%,
+      rgba(10, 10, 10, 0.55) 62%,
+      rgba(10, 10, 10, 0.92) 82%,
+      var(--page-bg) 100%
+    );
+  }
+  #services .fs-offer-panel__copy {
+    padding-top: 9.5rem;
   }
 }
 
@@ -2142,40 +2614,54 @@ section h2 {
     transparent 78%
   );
 }
-/* Our Story: swarm in top-right and bottom-left */
-.home-photo-swarm--corners {
-  mask-image:
-    radial-gradient(
-      70% 65% at 100% 0%,
-      #000 0%,
-      #000 28%,
-      rgba(0, 0, 0, 0.45) 52%,
-      transparent 78%
-    ),
-    radial-gradient(
-      70% 65% at 0% 100%,
-      #000 0%,
-      #000 28%,
-      rgba(0, 0, 0, 0.45) 52%,
-      transparent 78%
+/* Dark/charcoal grounds: dots match --page-bg */
+.home-photo-swarm--page-bg,
+.fs-offer-digital-swarm {
+  opacity: 0.7;
+  mix-blend-mode: normal;
+  background-image:
+    radial-gradient(circle at 1px 1px, var(--page-bg) 1.15px, transparent 0),
+    linear-gradient(
+      180deg,
+      transparent 0%,
+      color-mix(in srgb, var(--page-bg) 18%, transparent) 48%,
+      transparent 52%,
+      transparent 100%
     );
-  -webkit-mask-image:
-    radial-gradient(
-      70% 65% at 100% 0%,
-      #000 0%,
-      #000 28%,
-      rgba(0, 0, 0, 0.45) 52%,
-      transparent 78%
-    ),
-    radial-gradient(
-      70% 65% at 0% 100%,
-      #000 0%,
-      #000 28%,
-      rgba(0, 0, 0, 0.45) 52%,
-      transparent 78%
-    );
-  mask-composite: add;
-  -webkit-mask-composite: source-over;
+}
+/* Our Story: top-right charcoal only */
+.home-photo-swarm--corner-tr {
+  mask-image: radial-gradient(
+    70% 65% at 100% 0%,
+    #000 0%,
+    #000 28%,
+    rgba(0, 0, 0, 0.45) 52%,
+    transparent 78%
+  );
+  -webkit-mask-image: radial-gradient(
+    70% 65% at 100% 0%,
+    #000 0%,
+    #000 28%,
+    rgba(0, 0, 0, 0.45) 52%,
+    transparent 78%
+  );
+}
+/* Our Story: bottom-left white only */
+.home-photo-swarm--corner-bl {
+  mask-image: radial-gradient(
+    70% 65% at 0% 100%,
+    #000 0%,
+    #000 28%,
+    rgba(0, 0, 0, 0.45) 52%,
+    transparent 78%
+  );
+  -webkit-mask-image: radial-gradient(
+    70% 65% at 0% 100%,
+    #000 0%,
+    #000 28%,
+    rgba(0, 0, 0, 0.45) 52%,
+    transparent 78%
+  );
 }
 @keyframes home-photo-swarm-drift {
   0% {
@@ -2243,7 +2729,7 @@ section h2 {
   background: transparent !important;
   color: #ffffff !important;
   font-size: 0.75rem !important;
-  font-weight: 600;
+  font-weight: 700 !important;
   line-height: 1.2 !important;
   letter-spacing: 0.04em;
   text-transform: uppercase;
@@ -2295,8 +2781,16 @@ section h2 {
 }
 
 #services .fs-what-we-offer button.fs-offer-tab .fs-offer-tab__label {
+  font-family: var(--font-oxanium), "Oxanium", sans-serif !important;
+  font-weight: 700 !important;
   color: inherit !important;
   transition: color 0.12s ease;
+}
+
+/* Card category tag (Access Control / CCTV Systems / …) — same face as tabs */
+#services .fs-offer-panel__tag {
+  font-family: var(--font-oxanium), "Oxanium", sans-serif !important;
+  font-weight: 700 !important;
 }
 #services .fs-what-we-offer button.fs-offer-tab.fs-offer-tab--active .fs-offer-tab__label {
   color: #000000 !important;
@@ -2310,13 +2804,20 @@ section h2 {
   gap: 0.45rem;
   max-width: 100%;
   padding-bottom: 0.2rem;
+  font-family: var(--font-oxanium), "Oxanium", sans-serif !important;
   font-size: 0.9375rem;
   font-weight: 600;
   line-height: 1.35;
   color: #ffffff;
   text-decoration: none;
   transform: translateX(0);
-  transition: transform 0.35s cubic-bezier(0.22, 1, 0.36, 1), color 0.25s ease;
+  filter: blur(0);
+  opacity: 1;
+  transition:
+    transform 0.35s cubic-bezier(0.22, 1, 0.36, 1),
+    color 0.25s ease,
+    filter 0.3s ease,
+    opacity 0.3s ease;
 }
 #services .fs-offer-all-services__link::before {
   content: "";
@@ -2324,12 +2825,37 @@ section h2 {
   width: 0.5cm;
   height: 5px;
   background: currentColor;
+  transform-origin: left center;
+  transition: width 0.3s cubic-bezier(0.22, 1, 0.36, 1);
 }
 #services .fs-offer-all-services__link:hover,
 #services .fs-offer-all-services__link:focus-visible {
   color: #ffffff;
   transform: translateX(0.4rem);
   outline: none;
+  filter: blur(0);
+  opacity: 1;
+}
+/* Hovered item: bullet shortens */
+#services .fs-offer-all-services__link:hover::before,
+#services .fs-offer-all-services__link:focus-visible::before {
+  width: 0.18cm;
+}
+/* Sibling items soft-blur while one is hovered */
+#services .fs-offer-all-services:has(.fs-offer-all-services__link:hover) .fs-offer-all-services__link:not(:hover),
+#services .fs-offer-all-services:has(.fs-offer-all-services__link:focus-visible) .fs-offer-all-services__link:not(:focus-visible) {
+  filter: blur(1.4px);
+  opacity: 0.42;
+}
+@media (prefers-reduced-motion: reduce) {
+  #services .fs-offer-all-services__link,
+  #services .fs-offer-all-services__link::before {
+    transition: none;
+  }
+  #services .fs-offer-all-services:has(.fs-offer-all-services__link:hover) .fs-offer-all-services__link:not(:hover) {
+    filter: none;
+    opacity: 0.55;
+  }
 }
 
 /* FS: Service cards, no border; full white text; no black overlay, image visible with black feather bottom */
@@ -2619,19 +3145,26 @@ main.min-h-screen.bg-black,
 }
 @media (max-width: 639px) {
   .home-accreditations-section {
-    /* Taller band on phones so the fixed crop reads as a full image, not a thin strip */
-    min-height: min(88vh, 40rem);
+    min-height: min(72vh, 34rem);
   }
-  .home-accreditations-section__fixed-bg img {
-    object-fit: cover;
-    object-position: center 28%;
-    transform: scale(1.18);
-    transform-origin: center 35%;
-  }
+}
+.home-accreditations-section--static-bg {
+  isolation: isolate;
+}
+.home-accreditations-section__static-img {
+  object-position: center 28%;
 }
 .home-accreditations-section__fixed-bg {
   will-change: clip-path;
   overflow: hidden;
+}
+@media (hover: hover) and (pointer: fine) {
+  .home-acc-logo-img {
+    transition: transform 0.3s ease-out;
+  }
+  .group:hover .home-acc-logo-img {
+    transform: scale(1.06);
+  }
 }
 #accreditations .home-section-title,
 #accreditations h3 {
@@ -2743,6 +3276,28 @@ html:not(.dark) .services-drawer-list-item::before {
 .industries-features {
   min-width: 0;
 }
+
+/* Sectors capability list: scroll-in icon → title → paragraph per item */
+#industries .industries-feature__part {
+  opacity: 0;
+  transform: translate3d(0, 1.15rem, 0);
+  transition:
+    opacity 0.55s ease-out calc(var(--feat-step, 0) * 95ms),
+    transform 0.7s cubic-bezier(0.22, 1, 0.36, 1) calc(var(--feat-step, 0) * 95ms);
+  will-change: opacity, transform;
+}
+#industries .industries-features--in .industries-feature__part {
+  opacity: 1;
+  transform: translate3d(0, 0, 0);
+}
+@media (prefers-reduced-motion: reduce) {
+  #industries .industries-feature__part {
+    opacity: 1 !important;
+    transform: none !important;
+    transition: none !important;
+  }
+}
+
 @media (min-width: 640px) {
   .industries-carousel__card {
     width: min(48vw, 20rem);
@@ -2854,7 +3409,7 @@ html:not(.dark) .services-drawer-list-item::before {
   margin-bottom: 0.5rem;
 }
 .news-section__title {
-  font-family: var(--font-title, "Outfit", sans-serif);
+  font-family: var(--font-title, "Oxanium", sans-serif);
   font-size: 1.875rem;
   font-weight: 700;
   color: #fff;
@@ -4328,7 +4883,7 @@ html:not(.dark) body:has(.fs-projects-page) {
 }
 .contact-page-title {
   line-height: 0.95;
-  letter-spacing: -0.03em;
+  letter-spacing: 0 !important;
   max-width: 11ch;
 }
 
@@ -4346,7 +4901,260 @@ html:not(.dark) body:has(.fs-projects-page) {
   }
 }
 
-/* Left contact methods: always-visible details, no hover gimmick */
+/* Contact form: field titles a touch larger; consent in body face */
+.contact-page #quote-form .quote-form-label,
+.contact-page #quote-form label.quote-form-label {
+  font-size: 0.9375rem !important;
+  letter-spacing: 0.12em !important;
+}
+.contact-page #quote-form .quote-form-label span.normal-case,
+.contact-page #quote-form label.quote-form-label span.normal-case {
+  font-size: 0.875rem !important;
+}
+.contact-consent,
+.contact-consent__text,
+.contact-consent__text a {
+  font-family: var(--font-body, var(--font-oxanium), "Oxanium", sans-serif) !important;
+  font-size: 0.875rem !important;
+  line-height: 1.5 !important;
+}
+.contact-page #quote-form .contact-pref-option,
+.home-page-trial #contact #quote-form .contact-pref-option {
+  font-family: var(--font-body, var(--font-oxanium), "Oxanium", sans-serif) !important;
+  font-size: 1.0625rem !important;
+}
+
+/* Contact redact: **** block → natural letters (no shared fixed-width slots) */
+.contact-redact {
+  display: inline;
+}
+.contact-redact__plain {
+  white-space: pre;
+}
+.contact-redact__swap {
+  position: relative;
+  display: inline-block;
+  vertical-align: baseline;
+}
+/* Letters reserve natural width; stars overlay that box as a solid **** run */
+.contact-redact__letters {
+  display: inline;
+  white-space: pre;
+  letter-spacing: normal;
+}
+.contact-redact__stars {
+  position: absolute;
+  left: 0;
+  top: 0;
+  display: inline;
+  white-space: pre;
+  letter-spacing: 0.04em;
+  pointer-events: none;
+}
+.contact-redact__star,
+.contact-redact__letter {
+  display: inline;
+  transition:
+    opacity 0.2s ease,
+    filter 0.2s ease;
+  transition-delay: calc(var(--redact-i, 0) * 36ms);
+}
+.contact-redact__star {
+  opacity: 1;
+  color: rgba(255, 255, 255, 0.55);
+}
+.contact-redact__letter {
+  opacity: 0;
+  filter: blur(2.5px);
+}
+.contact-method-row:hover .contact-redact__star,
+.contact-method-row:focus-visible .contact-redact__star {
+  opacity: 0;
+  filter: blur(2px);
+}
+.contact-method-row:hover .contact-redact__letter,
+.contact-method-row:focus-visible .contact-redact__letter {
+  opacity: 1;
+  filter: blur(0);
+}
+
+/* Soft-focus sibling rows while one method is hovered */
+.contact-page-methods > * {
+  transition:
+    filter 0.35s ease,
+    opacity 0.35s ease;
+}
+.contact-page-methods:has(.contact-method-row:hover) > *:not(:hover),
+.contact-page-methods:has(.contact-method-row:focus-visible) > *:not(:focus-within):not(:hover) {
+  filter: blur(2.5px);
+  opacity: 0.45;
+}
+
+@media (hover: none) {
+  .contact-page-methods:has(.contact-method-row:hover) > *:not(:hover) {
+    filter: none;
+    opacity: 1;
+  }
+}
+
+/* 404 clears absolute header + contact pill */
+.site-shell main .not-found-page .not-found-page__section,
+.not-found-page__section {
+  padding-top: 11rem !important;
+}
+@media (min-width: 640px) {
+  .site-shell main .not-found-page .not-found-page__section,
+  .not-found-page__section {
+    padding-top: 12rem !important;
+  }
+}
+@media (min-width: 768px) {
+  .site-shell main .not-found-page .not-found-page__section,
+  .not-found-page__section {
+    padding-top: 14rem !important;
+  }
+}
+@media (min-width: 1024px) {
+  .site-shell main .not-found-page .not-found-page__section,
+  .not-found-page__section {
+    padding-top: 15rem !important;
+  }
+}
+
+/* 404 page type system */
+.not-found-page__code {
+  font-family: var(--font-title, var(--font-teko), "Teko", sans-serif) !important;
+  font-size: clamp(9rem, 42vw, 22rem) !important;
+  font-weight: 700 !important;
+  letter-spacing: 0 !important;
+  line-height: 0.78 !important;
+  margin: 0 !important;
+}
+.site-shell main .not-found-page .not-found-page__code,
+.site-shell main .not-found-page p.not-found-page__code.font-title {
+  font-size: clamp(9rem, 42vw, 22rem) !important;
+  line-height: 0.78 !important;
+  letter-spacing: 0 !important;
+}
+.not-found-page__title {
+  font-family: var(--font-title, var(--font-teko), "Teko", sans-serif) !important;
+  letter-spacing: 0 !important;
+  line-height: 0.95 !important;
+}
+.not-found-page__body,
+.not-found-page__body a {
+  font-family: var(--font-body, var(--font-oxanium), "Oxanium", sans-serif) !important;
+}
+.not-found-page .pill-btn,
+.not-found-page .pill-btn .pill-text {
+  font-family: var(--font-oxanium), "Oxanium", sans-serif !important;
+  font-weight: 700 !important;
+  text-transform: none !important;
+}
+
+/* Custom email action popup (replaces native Chrome / mailto prompt UX) */
+.contact-email-popup {
+  position: fixed;
+  inset: 0;
+  z-index: 80;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 1.25rem;
+}
+.contact-email-popup__backdrop {
+  position: absolute;
+  inset: 0;
+  border: 0;
+  background: rgba(0, 0, 0, 0.72);
+  cursor: pointer;
+}
+.contact-email-popup__card {
+  position: relative;
+  z-index: 1;
+  width: min(100%, 26rem);
+  border: 0.5px solid rgba(255, 255, 255, 0.85);
+  background: #000000;
+  padding: 1.5rem 1.35rem 1.25rem;
+  text-align: center;
+}
+.contact-email-popup__eyebrow {
+  margin: 0;
+  font-family: var(--font-menu), var(--font-teko), "Teko", sans-serif;
+  font-size: 0.8125rem;
+  font-weight: 600;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: rgba(255, 255, 255, 0.5);
+}
+.contact-email-popup__address {
+  margin: 0.85rem 0 0;
+  font-family: var(--font-body, var(--font-oxanium), "Oxanium", sans-serif);
+  font-size: clamp(1.05rem, 2.4vw, 1.25rem);
+  font-weight: 700;
+  line-height: 1.3;
+  color: #ffffff;
+  word-break: break-all;
+}
+.contact-email-popup__status {
+  margin: 0.65rem 0 0;
+  font-family: var(--font-body, var(--font-oxanium), "Oxanium", sans-serif);
+  font-size: 0.875rem;
+  color: rgba(255, 255, 255, 0.55);
+}
+.contact-email-popup__actions {
+  display: flex;
+  flex-direction: column;
+  gap: 0.65rem;
+  margin-top: 1.25rem;
+}
+@media (min-width: 480px) {
+  .contact-email-popup__actions {
+    flex-direction: row;
+    justify-content: center;
+  }
+}
+.contact-email-popup__btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 2.75rem;
+  padding: 0.65rem 1.1rem;
+  border: 0.5px solid rgba(255, 255, 255, 0.85);
+  font-family: var(--font-body, var(--font-oxanium), "Oxanium", sans-serif);
+  font-size: 0.9375rem;
+  font-weight: 700;
+  text-decoration: none;
+  transition: background-color 0.2s ease, color 0.2s ease;
+}
+.contact-email-popup__btn--primary {
+  background: #ffffff;
+  color: #000000;
+}
+.contact-email-popup__btn--primary:hover {
+  background: rgba(255, 255, 255, 0.88);
+}
+.contact-email-popup__btn--ghost {
+  background: transparent;
+  color: #ffffff;
+}
+.contact-email-popup__btn--ghost:hover {
+  background: rgba(255, 255, 255, 0.08);
+}
+.contact-email-popup__close {
+  margin-top: 0.85rem;
+  border: 0;
+  background: transparent;
+  font-family: var(--font-body, var(--font-oxanium), "Oxanium", sans-serif);
+  font-size: 0.8125rem;
+  color: rgba(255, 255, 255, 0.45);
+  cursor: pointer;
+}
+.contact-email-popup__close:hover {
+  color: rgba(255, 255, 255, 0.8);
+}
+
+/* Left contact methods */
 .contact-page-methods {
   gap: 0;
   border-top: 1px solid rgba(255, 255, 255, 0.14);
@@ -4403,7 +5211,7 @@ html:not(.dark) body:has(.fs-projects-page) {
   color: rgba(255, 255, 255, 0.48);
 }
 .contact-method-row__detail {
-  font-family: var(--font-title, "Outfit", sans-serif);
+  font-family: var(--font-body, var(--font-oxanium), "Oxanium", sans-serif);
   font-size: clamp(1.05rem, 1.8vw, 1.25rem);
   font-weight: 700;
   line-height: 1.3;
@@ -4542,73 +5350,105 @@ html:not(.dark) body:has(.fs-projects-page) {
 #contact #quote-form input[type="email"],
 #contact #quote-form input[type="tel"],
 #contact #quote-form textarea,
-#contact #quote-form .quote-form-field {
-  background-color: #ffffff !important;
-  border: 1px solid rgba(0, 0, 0, 0.22) !important;
-  color: #000000 !important;
+#contact #quote-form .quote-form-field,
+#quote-form input[type="text"],
+#quote-form input[type="email"],
+#quote-form input[type="tel"],
+#quote-form textarea,
+#quote-form .quote-form-field {
+  background-color: #000000 !important;
+  border: 1px solid rgba(255, 255, 255, 0.22) !important;
+  color: #ffffff !important;
   border-radius: 0 !important;
   font-size: 1.0625rem !important;
   font-weight: 600 !important;
-  caret-color: #000000;
+  caret-color: #ffffff;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
 }
 #contact #quote-form input:focus,
 #contact #quote-form textarea:focus,
-#contact #quote-form .quote-form-field:focus {
+#contact #quote-form .quote-form-field:focus,
+#quote-form input:focus,
+#quote-form textarea:focus,
+#quote-form .quote-form-field:focus {
   outline: none !important;
-  border-color: rgba(0, 0, 0, 0.55) !important;
-  background-color: #ffffff !important;
-  box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.35) !important;
+  border-color: rgba(255, 255, 255, 0.95) !important;
+  background-color: #000000 !important;
+  box-shadow: none !important;
 }
 #contact #quote-form input::placeholder,
-#contact #quote-form textarea::placeholder {
-  color: rgba(0, 0, 0, 0.4) !important;
+#contact #quote-form textarea::placeholder,
+#quote-form input::placeholder,
+#quote-form textarea::placeholder {
+  color: rgba(255, 255, 255, 0.4) !important;
   font-weight: 400 !important;
 }
-/* Kill WebKit autofill yellow/blue; keep white field + black value text */
+/* Kill WebKit autofill yellow/blue; keep black field + white value text */
 #contact #quote-form input:-webkit-autofill,
 #contact #quote-form input:-webkit-autofill:hover,
 #contact #quote-form input:-webkit-autofill:focus,
 #contact #quote-form textarea:-webkit-autofill,
 #contact #quote-form textarea:-webkit-autofill:hover,
-#contact #quote-form textarea:-webkit-autofill:focus {
-  -webkit-text-fill-color: #000000 !important;
-  caret-color: #000000;
-  box-shadow: 0 0 0 1000px #ffffff inset !important;
+#contact #quote-form textarea:-webkit-autofill:focus,
+#quote-form input:-webkit-autofill,
+#quote-form input:-webkit-autofill:hover,
+#quote-form input:-webkit-autofill:focus,
+#quote-form textarea:-webkit-autofill,
+#quote-form textarea:-webkit-autofill:hover,
+#quote-form textarea:-webkit-autofill:focus {
+  -webkit-text-fill-color: #ffffff !important;
+  caret-color: #ffffff;
+  box-shadow: 0 0 0 1000px #000000 inset !important;
   transition: background-color 99999s ease-out;
 }
 #contact #quote-form input::selection,
-#contact #quote-form textarea::selection {
-  background: rgba(0, 0, 0, 0.18) !important;
-  color: #000000 !important;
+#contact #quote-form textarea::selection,
+#quote-form input::selection,
+#quote-form textarea::selection {
+  background: rgba(255, 255, 255, 0.22) !important;
+  color: #ffffff !important;
 }
 #contact #quote-form input::-moz-selection,
-#contact #quote-form textarea::-moz-selection {
-  background: rgba(0, 0, 0, 0.18) !important;
-  color: #000000 !important;
+#contact #quote-form textarea::-moz-selection,
+#quote-form input::-moz-selection,
+#quote-form textarea::-moz-selection {
+  background: rgba(255, 255, 255, 0.22) !important;
+  color: #ffffff !important;
 }
 #contact #quote-form textarea,
 .contact-page-form textarea {
   resize: none !important;
 }
-#contact #quote-form .quote-form-dropdown {
-  background-color: #ffffff !important;
-  border: 1px solid rgba(0, 0, 0, 0.22) !important;
-  color: #000000 !important;
+#contact #quote-form .quote-form-dropdown,
+#quote-form .quote-form-dropdown {
+  background-color: #000000 !important;
+  border: 1px solid rgba(255, 255, 255, 0.22) !important;
+  color: #ffffff !important;
   font-size: 1.0625rem !important;
   font-weight: 700 !important;
+  transition: border-color 0.2s ease;
 }
-#contact #quote-form .quote-form-dropdown::placeholder {
-  color: rgba(0, 0, 0, 0.4) !important;
+#contact #quote-form .quote-form-dropdown:focus,
+#quote-form .quote-form-dropdown:focus {
+  border-color: rgba(255, 255, 255, 0.95) !important;
 }
-#contact #quote-form .quote-form-dropdown-menu {
-  background-color: #ffffff !important;
-  border-color: rgba(0, 0, 0, 0.18) !important;
+#contact #quote-form .quote-form-dropdown::placeholder,
+#quote-form .quote-form-dropdown::placeholder {
+  color: rgba(255, 255, 255, 0.4) !important;
 }
-#contact #quote-form .quote-form-dropdown-item {
-  color: #000000 !important;
+#contact #quote-form .quote-form-dropdown-menu,
+#quote-form .quote-form-dropdown-menu {
+  background-color: #000000 !important;
+  border: 1px solid #ffffff !important;
+  box-sizing: border-box;
 }
-#contact #quote-form .quote-form-dropdown-item:hover {
-  background-color: rgba(0, 0, 0, 0.06) !important;
+#contact #quote-form .quote-form-dropdown-item,
+#quote-form .quote-form-dropdown-item {
+  color: #ffffff !important;
+}
+#contact #quote-form .quote-form-dropdown-item:hover,
+#quote-form .quote-form-dropdown-item:hover {
+  background-color: rgba(255, 255, 255, 0.08) !important;
 }
 #contact #quote-form .services-dropdown-container button {
   color: rgba(0, 0, 0, 0.45) !important;
@@ -4701,10 +5541,11 @@ html:not(.dark) body:has(.fs-projects-page) {
 }
 #contact #quote-form .quote-form-dropdown-menu,
 .contact-page-form .quote-form-dropdown-menu {
-  background: rgba(10, 10, 10, 0.96) !important;
-  backdrop-filter: blur(12px);
-  border: 2px solid #ffffff !important;
+  background: #000000 !important;
+  backdrop-filter: none;
+  border: 1px solid #ffffff !important;
   border-radius: 0 !important;
+  box-shadow: none !important;
   /* Keep wheel/trackpad scroll inside the list; pairs with data-lenis-prevent on the node */
   overscroll-behavior: contain;
   -webkit-overflow-scrolling: touch;
@@ -4760,21 +5601,54 @@ html:not(.dark) #contact #quote-form input[type="radio"]:checked {
   border: 2px solid #000000 !important;
   box-shadow: inset 0 0 0 2px #ffffff !important;
 }
-#contact #quote-form .form-submit-btn,
-#contact #quote-form button[type="submit"] {
-  border: 1px solid #ffffff !important;
+/* Contact Send message: compact solid white fill (no hollow / black hairline) */
+#contact #quote-form .form-submit-btn.contact-form-submit,
+#contact #quote-form .form-submit-btn.pill-btn.contact-form-submit {
+  width: auto !important;
+  max-width: none !important;
+  min-width: 11rem;
+  height: 3rem !important;
+  margin: 0 !important;
+  padding: 0 1.35rem;
+  background-color: #ffffff !important;
+  border: none !important;
+  box-shadow: none !important;
   box-sizing: border-box !important;
-  isolation: isolate;
-  transform: translateZ(0);
-  backface-visibility: hidden;
 }
-#contact #quote-form .form-submit-btn:hover:not(:disabled),
-#contact #quote-form button[type="submit"]:hover:not(:disabled) {
-  border-color: #ffffff !important;
+#contact #quote-form .form-submit-btn.contact-form-submit .pill-btn-inner {
+  background-color: #ffffff;
 }
-/* Flat hover only if not using pill slide-up fill */
-#contact #quote-form .form-submit-btn:not(.pill-btn):hover:not(:disabled) {
-  background-color: #1a1a1a !important;
+#contact #quote-form .form-submit-btn.contact-form-submit .pill-btn-inner::before {
+  background-color: #000000;
+}
+#contact #quote-form .form-submit-btn.contact-form-submit .pill-btn-border {
+  border: 1px solid #ffffff !important;
+}
+#contact #quote-form .form-submit-btn.contact-form-submit .form-submit-btn__text,
+#contact #quote-form .form-submit-btn.contact-form-submit .pill-text {
+  width: auto !important;
+  padding: 0 !important;
+  color: #000000 !important;
+}
+#contact #quote-form .form-submit-btn.contact-form-submit:hover:not(:disabled) .form-submit-btn__text,
+#contact #quote-form .form-submit-btn.contact-form-submit:hover:not(:disabled) .pill-text {
+  color: #ffffff !important;
+}
+#contact #quote-form .form-submit-btn.contact-form-submit:hover:not(:disabled) {
+  background-color: #ffffff !important;
+  border: none !important;
+  box-shadow: none !important;
+}
+#contact #quote-form .form-submit-btn.contact-form-submit.form-submit-btn--running,
+#contact #quote-form .form-submit-btn.contact-form-submit.form-submit-btn--done {
+  min-width: 2.75rem !important;
+  width: 2.75rem !important;
+  padding: 0 !important;
+  background-color: #000000 !important;
+}
+#contact #quote-form .form-submit-btn.contact-form-submit.form-submit-btn--running .pill-btn-inner,
+#contact #quote-form .form-submit-btn.contact-form-submit.form-submit-btn--done .pill-btn-inner {
+  background-color: transparent;
 }
 /* Fallback: quote form outside contact (e.g. other pages, light theme), #contact #quote-form overrides when present */
 html:not(.dark) #quote-form {
@@ -5056,6 +5930,11 @@ html.about-page-active {
   min-height: 100dvh;
   max-height: none;
 }
+.about-parallax-page > .service-hero-grid--about .service-hero-grid__title {
+  font-size: clamp(3.35rem, 12.5vw, 5.35rem) !important;
+  letter-spacing: 0 !important;
+  line-height: 0.88 !important;
+}
 .about-parallax-page > .service-hero-grid--about .service-hero-grid__inner {
   position: relative;
   z-index: 4;
@@ -5164,9 +6043,9 @@ html.about-page-active {
 .about-hero-parallax .about-hero-parallax__bg--photo .about-hero-parallax__photo {
   position: absolute;
   inset: 0;
-  /* Mobile: tighter crop on the subject; clipped by overflow so it can't bleed into copy */
-  transform: scale(1.22);
-  transform-origin: 70% 35%;
+  /* Mobile: light reframing only — heavy scale was pixelating the hero */
+  transform: scale(1.04);
+  transform-origin: 62% 40%;
 }
 @media (min-width: 640px) {
   .about-hero-parallax .about-hero-parallax__bg--photo .about-hero-parallax__photo {
@@ -5237,14 +6116,15 @@ html.about-page-active {
   padding-bottom: clamp(1rem, 2vh, 2rem);
 }
 .about-hero-blend__year-slot {
+  --about-year-size: clamp(5.75rem, 12vw, 9.5rem);
   position: relative;
-  align-self: start;
-  width: 100%;
-  min-width: 0;
-  height: clamp(12rem, 20vw, 16.5rem);
+  align-self: stretch;
+  width: var(--about-year-size);
+  min-width: var(--about-year-size);
+  height: 100%;
+  min-height: clamp(14rem, 24vw, 20rem);
 }
 .about-hero-blend__year {
-  --about-year-size: clamp(4.5rem, 9vw, 7.5rem);
   position: absolute;
   bottom: 0;
   display: inline-block;
@@ -5253,14 +6133,14 @@ html.about-page-active {
   white-space: nowrap;
   line-height: 1;
   /*
-    rotate(-90deg) around left-bottom swings the glyph tops left by ~1em.
-    Offset the origin by 1em so those tops land on the title left edge
-    (site-container), not the viewport edge.
+    rotate(-90deg) around left-bottom: glyph tops swing left by 1em.
+    left: 1em keeps visual left on the slot left (heritage block is
+    shifted right via margin). Size is JS-synced at ~88% of copy height.
   */
-  left: calc(var(--about-year-size) * 1.9);
+  left: 1em;
   transform: rotate(-90deg);
   transform-origin: left bottom;
-  letter-spacing: -0.04em;
+  letter-spacing: 0;
   font-variant-numeric: tabular-nums;
   font-feature-settings: "tnum" 1;
 }
@@ -5505,6 +6385,37 @@ html.about-page-active {
 .about-page-shell {
   --about-px: clamp(1.25rem, 3vw, 2.35rem);
 }
+
+/* About page type system: titles Teko, body Oxanium */
+.about-page-shell p,
+.about-page-shell li,
+.about-page-shell td,
+.about-page-shell .service-hero-grid__heritage p,
+.about-page-shell .about-block p,
+.about-page-shell .fs-inset-cta-card p {
+  font-family: var(--font-body, var(--font-oxanium), "Oxanium", sans-serif) !important;
+}
+.about-page-shell h1.font-title,
+.about-page-shell h2.font-title,
+.about-page-shell h3.font-title,
+.about-page-shell .font-title,
+.about-page-shell .service-hero-grid__title,
+.about-page-shell .section-label,
+.about-page-shell .about-hero-blend__year {
+  font-family: var(--font-title, var(--font-teko), "Teko", sans-serif) !important;
+}
+.about-page-shell .about-section-title {
+  font-family: var(--font-title, var(--font-teko), "Teko", sans-serif) !important;
+  font-size: clamp(2.625rem, 5.35vw, 4.125rem) !important; /* ~2px under previous */
+  line-height: 0.92 !important;
+  letter-spacing: 0 !important;
+  font-weight: 700 !important;
+}
+.about-page-shell .fs-inset-cta-card h2.font-title {
+  font-size: clamp(3.25rem, 7vw, 5.25rem) !important;
+  line-height: 0.88 !important;
+  letter-spacing: 0 !important;
+}
 .about-section-px {
   /* Match .about-page-shell --about-px when used outside that wrapper (e.g. accreditations) */
   padding-left: var(--about-px, clamp(1.25rem, 3vw, 2.35rem));
@@ -5703,6 +6614,10 @@ html.about-page-active {
   isolation: auto;
   overflow: visible;
   z-index: 3;
+}
+
+.about-commitments-card__bg {
+  filter: blur(3.5px);
 }
 
 .about-block--black.about-commitments-section.about-section-y {
@@ -6046,23 +6961,6 @@ html.about-page-active {
   opacity: 0.95;
 }
 
-.our-customers-logo-grid__cta-corners {
-  position: absolute;
-  inset: 0.55rem;
-  z-index: 0;
-  pointer-events: none;
-  opacity: 0.55;
-  background:
-    linear-gradient(#fff, #fff) top right / 0.7rem 1px no-repeat,
-    linear-gradient(#fff, #fff) top right / 1px 0.7rem no-repeat,
-    linear-gradient(#fff, #fff) bottom left / 0.7rem 1px no-repeat,
-    linear-gradient(#fff, #fff) bottom left / 1px 0.7rem no-repeat;
-  transition: opacity 0.3s ease, inset 0.35s ease;
-}
-.our-customers-logo-grid__cta:hover .our-customers-logo-grid__cta-corners {
-  opacity: 0.9;
-}
-
 @media (prefers-reduced-motion: reduce) {
   .our-customers-logo-grid__cta,
   .our-customers-logo-grid__cta-pattern,
@@ -6145,6 +7043,62 @@ html.about-page-active {
   gap: 2rem;
   padding: 5.5rem var(--site-gutter) 3rem;
   box-sizing: border-box;
+}
+
+/* Mobile: no sticky pin (fights vertical scroll); native horizontal swipe on the track */
+@media (max-width: 1023.98px) {
+  #projects .projects-section__sticky {
+    position: relative;
+    top: auto;
+    min-height: 0;
+  }
+  .projects-section__split {
+    min-height: 0;
+    padding-top: 4rem;
+    padding-bottom: 3rem;
+  }
+  #projects .projects-section__track {
+    -webkit-overflow-scrolling: touch;
+  }
+  #projects .projects-strip {
+    transform: none !important;
+  }
+}
+
+/* Desktop-only project card hover motion (never on touch — sticky hover fights scroll) */
+@media (hover: hover) and (pointer: fine) {
+  #projects .projects-card--lift {
+    transition: transform 0.3s ease-out;
+  }
+  #projects .projects-card--lift:hover {
+    transform: translateY(-0.375rem);
+  }
+  #projects .projects-card__media {
+    transition: transform 0.7s ease-out;
+  }
+  #projects .projects-card--lift:hover .projects-card__media {
+    transform: scale(1);
+  }
+  #projects .projects-card__copy {
+    transition: transform 0.5s ease-out;
+  }
+  #projects .projects-card--lift:hover .projects-card__copy {
+    transform: scale(1.03);
+  }
+  #projects .projects-card-arrow {
+    transition: transform 0.2s ease;
+  }
+  #projects .projects-card--lift:hover .projects-card-arrow {
+    transform: rotate(12deg);
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  #projects .projects-card--lift,
+  #projects .projects-card__media,
+  #projects .projects-card__copy,
+  #projects .projects-card-arrow {
+    transition: none !important;
+  }
 }
 
 .projects-section__intro {
@@ -6298,7 +7252,7 @@ html.about-page-active {
 }
 
 #projects .projects-card-number {
-  font-family: var(--font-title, "Outfit", sans-serif) !important;
+  font-family: var(--font-title, "Oxanium", sans-serif) !important;
   font-size: clamp(2.25rem, 3.5vw, 3.25rem) !important;
   line-height: 1;
 }
@@ -6542,13 +7496,36 @@ html:not(.dark) body {
   background-attachment: fixed;
 }
 
-/* Touch / iOS: `background-attachment: fixed` on body can jank or mis-render; scroll is safer */
-@media (hover: none) and (pointer: coarse) {
+/* Touch / iOS: native scroll, no smooth-behavior lag, no fixed bg jank, kill sticky-hover transforms */
+@media (hover: none), (pointer: coarse) {
+  html {
+    scroll-behavior: auto !important;
+  }
   body {
     background-attachment: scroll !important;
+    overscroll-behavior-y: none;
   }
   html:not(.dark) body {
     background-attachment: scroll !important;
+  }
+  /* Prevent “stuck hover” transforms from fighting finger scroll */
+  .group:hover .group-hover\:scale-\[1\.06\],
+  .group:hover .group-hover\:scale-110,
+  .group:hover .group-hover\:scale-105,
+  .group:hover .group-hover\:scale-\[1\.04\],
+  .group:hover .group-hover\:scale-\[1\.03\],
+  .group:hover .group-hover\:scale-\[1\.02\],
+  .group:hover .group-hover\:rotate-12,
+  .group:hover .group-hover\:rotate-45,
+  .group:hover .motion-safe\:group-hover\:scale-100,
+  .group:hover .motion-safe\:group-hover\:scale-\[1\.03\],
+  .group:hover .motion-safe\:group-hover\:scale-\[1\.04\],
+  .group:hover .motion-safe\:group-hover\:scale-\[1\.05\] {
+    transform: none !important;
+  }
+  /* Service feature cards: never scale the bordered shell on touch */
+  .service-page-root .group:hover {
+    transform: none !important;
   }
 }
 
@@ -8205,11 +9182,105 @@ html {
     color: #000000 !important;
 }
 
-/* Cookie banner: always black background, no white fill */
+/* Cookie banner shell + mobile-first stacked actions */
+.cookie-banner-wrapper {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  z-index: 9999;
+  display: flex;
+  justify-content: center;
+  padding: 0 1rem 1.25rem;
+  pointer-events: none;
+}
+@media (min-width: 640px) {
+  .cookie-banner-wrapper {
+    padding: 0 1.5rem 3.5rem 3rem;
+  }
+}
 .cookie-banner,
 .cookie-banner-wrapper .cookie-banner,
 .cookie-banner .cookie-banner-tab {
   background-color: var(--page-bg) !important;
+}
+.cookie-banner {
+  pointer-events: auto;
+  width: 100%;
+  max-width: 1400px;
+  margin-left: auto;
+  margin-right: auto;
+  border: 1px solid #ffffff;
+  border-top-left-radius: 1.75rem;
+  border-top-right-radius: 0;
+  border-bottom-left-radius: 0;
+  border-bottom-right-radius: 1.75rem;
+  box-shadow: 0 -4px 24px rgba(0, 0, 0, 0.3);
+  padding: 1.25rem 1.15rem 1.5rem;
+}
+@media (min-width: 640px) {
+  .cookie-banner {
+    padding: 1.5rem 1.5rem 2rem;
+  }
+}
+.cookie-banner__layout {
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  gap: 1.15rem;
+}
+@media (min-width: 900px) {
+  .cookie-banner__layout {
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1.5rem;
+  }
+}
+.cookie-banner__copy {
+  min-width: 0;
+  flex: 1 1 auto;
+}
+.cookie-banner__heading {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  margin-bottom: 0.5rem;
+}
+.cookie-banner__actions {
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  gap: 0.75rem;
+  width: 100%;
+  flex-shrink: 0;
+}
+.cookie-banner__actions .cookie-banner-pill,
+.cookie-banner__actions .pill-btn {
+  width: 100%;
+}
+@media (min-width: 900px) {
+  .cookie-banner__actions {
+    flex-direction: row;
+    flex-wrap: wrap;
+    width: auto;
+  }
+  .cookie-banner__actions .cookie-banner-pill,
+  .cookie-banner__actions .pill-btn {
+    width: auto;
+  }
+}
+.cookie-settings-modal__actions {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  padding-top: 1rem;
+  border-top: 1px solid rgba(255, 255, 255, 0.3);
+}
+@media (min-width: 640px) {
+  .cookie-settings-modal__actions {
+    flex-direction: row;
+  }
 }
 
 /* Cookie banner: pill buttons, black fill by default, white fill on hover only */
@@ -8268,10 +9339,17 @@ header.site-header nav .nav-menu-item {
   padding: 0.4rem 0.85rem;
   margin-block: -0.4rem;
   border-radius: 9999px;
+  font-size: 1rem !important; /* bigger than default text-sm; contact tab stays smaller */
   transition:
     background-color 0.25s ease,
     color 0.25s ease !important;
   opacity: 1 !important;
+}
+@media (min-width: 1280px) {
+  header.site-header nav a.nav-menu-item,
+  header.site-header nav .nav-menu-item {
+    font-size: 1.0625rem !important;
+  }
 }
 header.site-header nav a.nav-menu-item:hover,
 header.site-header nav a.nav-menu-item:focus-visible,
@@ -8395,7 +9473,8 @@ header nav .fs-services-cctv-toggle-btn svg {
     overflow: hidden;
     background-color: #000;
     text-transform: none;
-    font-size: 0.875rem;
+    font-family: var(--font-menu), var(--font-teko), "Teko", sans-serif !important;
+    font-size: 1.125rem !important;
     line-height: 1.45;
     white-space: normal;
   }
@@ -8445,7 +9524,14 @@ header nav .fs-services-cctv-toggle-btn svg {
 }
 .header-contact-tab--dark .header-contact-btn,
 .header-contact-tab--dark .header-contact-btn span {
+    font-family: var(--font-menu), "Teko", sans-serif !important;
     color: #ffffff !important;
+}
+.header-contact-tab--dark .header-contact-btn__label {
+    font-size: 1.125rem !important; /* compensate Teko optical size */
+    line-height: 1.2 !important;
+    font-weight: 500 !important;
+    letter-spacing: 0.02em;
 }
 .header-contact-tab--dark .header-contact-btn svg {
     color: #ffffff !important;
@@ -8493,7 +9579,14 @@ header nav .fs-services-cctv-toggle-btn svg {
 }
 .header-contact-tab--light .header-contact-btn,
 .header-contact-tab--light .header-contact-btn span {
+    font-family: var(--font-menu), "Teko", sans-serif !important;
     color: #000000 !important;
+}
+.header-contact-tab--light .header-contact-btn__label {
+    font-size: 1.125rem !important;
+    line-height: 1.2 !important;
+    font-weight: 500 !important;
+    letter-spacing: 0.02em;
 }
 .header-contact-tab--light .header-contact-btn svg {
     color: #000000 !important;
@@ -8972,6 +10065,30 @@ html:not(.dark) body:has(.dm-page) {
 /* Homepage intent search banner, blur site behind (no solid white wash) */
 .home-search-intent {
   pointer-events: auto;
+}
+
+/* Search modal type system: Teko titles/labels, Oxanium body/input/buttons */
+.home-search-intent__eyebrow,
+.home-search-intent__result-parent {
+  font-family: var(--font-menu), var(--font-teko), "Teko", sans-serif !important;
+  letter-spacing: 0.16em !important;
+}
+.home-search-intent__title {
+  font-family: var(--font-title, var(--font-teko), "Teko", sans-serif) !important;
+  letter-spacing: 0 !important;
+  line-height: 0.95 !important;
+}
+.home-search-intent__input,
+.home-search-intent__input::placeholder,
+.home-search-intent__empty,
+.home-search-intent__result-title,
+.home-search-intent__go {
+  font-family: var(--font-body, var(--font-oxanium), "Oxanium", sans-serif) !important;
+}
+.home-search-intent__go {
+  font-weight: 700 !important;
+  text-transform: none !important;
+  letter-spacing: 0.02em !important;
 }
 
 .home-search-intent__backdrop {

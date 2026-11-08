@@ -259,6 +259,7 @@ const GlobalStyles = createGlobalStyle<{ theme: typeof lightTheme }>`
 
   /* Locations postcode check: white off-hover, black fill on hover */
   .fs-coverage-check-btn {
+    position: relative;
     background: #ffffff !important;
     background-color: #ffffff !important;
     color: #000000 !important;
@@ -270,6 +271,15 @@ const GlobalStyles = createGlobalStyle<{ theme: typeof lightTheme }>`
     background-color: #000000 !important;
     color: #ffffff !important;
     border-color: #ffffff !important;
+  }
+  .fs-coverage-check-btn.fs-coverage-check-btn--success,
+  .fs-coverage-check-btn.fs-coverage-check-btn--success:hover,
+  .fs-coverage-check-btn.fs-coverage-check-btn--success:focus-visible {
+    background: #16a34a !important;
+    background-color: #16a34a !important;
+    color: #ffffff !important;
+    border-color: #16a34a !important;
+    cursor: default;
   }
 
   /* Quote / contact form — shared dark fields + ServiceCombobox (homepage + /contact) */
@@ -784,46 +794,119 @@ const GlobalStyles = createGlobalStyle<{ theme: typeof lightTheme }>`
     border-color: rgba(255, 255, 255, 0.45) !important;
   }
 
-  /* Careers apply (white page): outline controls stay black on white */
-  .careers-apply-page,
+  /* Careers apply: dark page, dark fields, white borders / text
+     (beats global span/button color + white button fill rules) */
+  .careers-apply-page {
+    background: var(--page-bg, #0a0a0a) !important;
+    color: #ffffff !important;
+  }
   .careers-apply-page h1,
   .careers-apply-page h2,
   .careers-apply-page h3,
   .careers-apply-page p,
   .careers-apply-page span,
   .careers-apply-page label,
-  .careers-apply-page a,
-  .careers-apply-page li {
-    color: #000000 !important;
+  .careers-apply-page div,
+  .careers-apply-page li,
+  .careers-apply-page button {
+    color: #ffffff !important;
+  }
+  .careers-apply-page .careers-apply-muted {
+    color: rgba(255, 255, 255, 0.45) !important;
+  }
+  .careers-apply-page .careers-apply-label {
+    color: rgba(255, 255, 255, 0.5) !important;
+  }
+  .careers-apply-page .careers-apply-body {
+    color: rgba(255, 255, 255, 0.7) !important;
   }
   .careers-apply-page a {
-    color: rgba(0, 0, 0, 0.55) !important;
+    color: rgba(255, 255, 255, 0.55) !important;
   }
   .careers-apply-page a:hover {
-    color: #000000 !important;
+    color: #ffffff !important;
   }
-  .careers-apply-page .careers-apply-outline-btn {
+  .careers-apply-page a.careers-apply-link-strong {
+    color: #ffffff !important;
+  }
+  .careers-apply-page .careers-step-active {
+    color: #000000 !important;
     background: #ffffff !important;
     background-color: #ffffff !important;
-    color: #000000 !important;
-    border: 2px solid rgba(0, 0, 0, 0.2) !important;
+    border-color: #ffffff !important;
+  }
+  .careers-apply-page .careers-step-idle {
+    color: rgba(255, 255, 255, 0.4) !important;
+    background: transparent !important;
+    background-color: transparent !important;
+    border-color: rgba(255, 255, 255, 0.25) !important;
+  }
+  .careers-apply-page .careers-step-done {
+    color: #6ee7b7 !important;
+    background: rgba(16, 185, 129, 0.15) !important;
+    background-color: rgba(16, 185, 129, 0.15) !important;
+    border-color: rgba(52, 211, 153, 0.7) !important;
+  }
+  .careers-apply-page .careers-step-label-active {
+    color: #ffffff !important;
+  }
+  .careers-apply-page .careers-step-label-idle {
+    color: rgba(255, 255, 255, 0.4) !important;
+  }
+  .careers-apply-page .careers-apply-panel {
+    background: rgba(0, 0, 0, 0.4) !important;
+    border-color: rgba(255, 255, 255, 0.2) !important;
+  }
+  .careers-apply-page .careers-apply-outline-btn {
+    background: transparent !important;
+    background-color: transparent !important;
+    color: #ffffff !important;
+    border: 1.5px solid rgba(255, 255, 255, 0.3) !important;
     box-shadow: none !important;
   }
   .careers-apply-page .careers-apply-outline-btn:hover:not(:disabled) {
-    background: rgba(0, 0, 0, 0.03) !important;
-    background-color: rgba(0, 0, 0, 0.03) !important;
-    color: #000000 !important;
-    border-color: rgba(0, 0, 0, 0.4) !important;
+    background: rgba(255, 255, 255, 0.05) !important;
+    background-color: rgba(255, 255, 255, 0.05) !important;
+    color: #ffffff !important;
+    border-color: rgba(255, 255, 255, 0.55) !important;
   }
-  .careers-apply-page input,
+  .careers-apply-page input:not([type="checkbox"]):not([type="file"]):not([type="radio"]),
   .careers-apply-page textarea {
-    background: #ffffff !important;
-    color: #000000 !important;
-    border-color: rgba(0, 0, 0, 0.15) !important;
+    background: #000000 !important;
+    background-color: #000000 !important;
+    color: #ffffff !important;
+    border-color: rgba(255, 255, 255, 0.3) !important;
   }
   .careers-apply-page input::placeholder,
   .careers-apply-page textarea::placeholder {
-    color: rgba(0, 0, 0, 0.35) !important;
+    color: rgba(255, 255, 255, 0.35) !important;
+  }
+  .careers-apply-page input[type="file"] {
+    color: rgba(255, 255, 255, 0.7) !important;
+    background: transparent !important;
+    background-color: transparent !important;
+    border-color: transparent !important;
+  }
+  .careers-apply-page input[type="file"]::file-selector-button {
+    background: #000000 !important;
+    background-color: #000000 !important;
+    color: #ffffff !important;
+    border: 1.5px solid rgba(255, 255, 255, 0.3) !important;
+  }
+  .careers-apply-page .careers-apply-check {
+    background: #000000 !important;
+    background-color: #000000 !important;
+    border-color: rgba(255, 255, 255, 0.45) !important;
+    color: #000000 !important;
+  }
+  .careers-apply-page input[type="checkbox"]:checked + .careers-apply-check,
+  .careers-apply-page .peer:checked + .careers-apply-check {
+    background: #ffffff !important;
+    background-color: #ffffff !important;
+    border-color: #ffffff !important;
+  }
+  .careers-apply-page .careers-apply-check svg {
+    color: #000000 !important;
   }
 
   .careers-apply-page .pill-btn,

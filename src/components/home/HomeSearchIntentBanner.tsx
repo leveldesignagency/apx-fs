@@ -176,12 +176,12 @@ export function HomeSearchIntentBanner() {
             <X className="h-4 w-4" strokeWidth={2} />
           </button>
           <div className="relative z-[1] flex h-full flex-col justify-end px-5 pb-5 pt-14 sm:px-6 sm:pb-6">
-            <p className="mb-2 text-[0.65rem] font-semibold uppercase tracking-[0.2em] text-white/65">
+            <p className="home-search-intent__eyebrow mb-2 text-[0.7rem] font-semibold uppercase tracking-[0.16em] text-white/65">
               APX Fire &amp; Security
             </p>
             <h2
               id={titleId}
-              className="font-title text-[1.65rem] font-bold leading-[1.08] tracking-tight text-white sm:text-[1.85rem]"
+              className="home-search-intent__title font-title text-[2.15rem] font-bold leading-[0.95] tracking-normal text-white sm:text-[2.55rem]"
               style={{ textTransform: "none" }}
             >
               What Are You
@@ -232,7 +232,7 @@ export function HomeSearchIntentBanner() {
                 }
               }}
               placeholder="Search..."
-              className="home-search-intent__input w-full rounded-full border border-white/40 bg-black/55 py-3 pl-10 pr-4 text-base text-white outline-none placeholder:text-white/40 transition-[border-color,box-shadow] focus:border-white/70 focus:shadow-[0_0_0_3px_rgba(255,255,255,0.08)]"
+              className="home-search-intent__input w-full rounded-full border border-white/40 bg-black/55 py-3 pl-10 pr-4 text-base font-medium text-white outline-none placeholder:text-white/40 transition-[border-color,box-shadow] focus:border-white/70 focus:shadow-[0_0_0_3px_rgba(255,255,255,0.08)]"
               aria-controls={listId}
               aria-autocomplete="list"
               aria-expanded={hasQuery}
@@ -247,7 +247,7 @@ export function HomeSearchIntentBanner() {
               className="home-search-intent__results max-h-[13.5rem] overflow-y-auto rounded-2xl border border-white/25 bg-black/70 p-1.5"
             >
               {results.length === 0 ? (
-                <p className="px-3 py-3 text-sm text-white/55">
+                <p className="home-search-intent__empty px-3 py-3 text-sm text-white/55">
                   No matching APX services. Try CCTV, fire alarm, access, gates...
                 </p>
               ) : (
@@ -270,7 +270,7 @@ export function HomeSearchIntentBanner() {
                               {item.title}
                             </span>
                             {item.parentLabel ? (
-                              <span className="home-search-intent__result-parent mt-0.5 block text-[0.7rem] uppercase tracking-[0.12em]">
+                              <span className="home-search-intent__result-parent mt-0.5 block text-[0.72rem] uppercase tracking-[0.14em]">
                                 {item.parentLabel}
                               </span>
                             ) : null}
@@ -295,7 +295,7 @@ export function HomeSearchIntentBanner() {
               disabled={!selected}
               onClick={() => selected && goTo(selected)}
               className={cn(
-                "home-search-intent__go inline-flex items-center justify-center rounded-full border px-5 py-2 text-xs font-semibold uppercase tracking-[0.14em] transition-colors",
+                "home-search-intent__go inline-flex items-center justify-center rounded-full border px-5 py-2.5 text-sm font-bold tracking-normal transition-colors",
                 selected
                   ? "home-search-intent__go--ready"
                   : "cursor-not-allowed border-white/25 text-white/35"

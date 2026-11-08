@@ -131,7 +131,7 @@ export default function MonitoringServicePage() {
 
         <section className="site-container relative z-[1] py-16 lg:py-16">
           <Reveal>
-            <h2 className="mb-4 text-left font-title text-3xl font-bold text-white sm:text-4xl">Capabilities</h2>
+            <h2 className="mb-4 text-left font-title text-4xl font-bold text-white sm:text-5xl">Capabilities</h2>
           </Reveal>
           <Reveal delayMs={70}>
             <p className="mb-10 max-w-3xl text-left text-gray-300">
@@ -147,7 +147,6 @@ export default function MonitoringServicePage() {
                   description={description}
                   imageSrc={imageSrc}
                   imageAlt={imageAlt}
-                  className="transition-transform duration-300 hover:scale-[1.02]"
                 />
               </ServiceItemReveal>
             ))}

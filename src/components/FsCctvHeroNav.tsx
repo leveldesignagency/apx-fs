@@ -26,7 +26,9 @@ export function FsCctvHeroNav({
 
   return (
     <nav aria-label={ariaLabel} className="w-full min-w-0 max-w-full overflow-hidden">
-      <p className="mb-3 text-xs font-semibold uppercase tracking-[0.16em] text-white/45">{eyebrow}</p>
+      <p className="fs-service-quick-nav__hint mb-3 text-sm font-semibold uppercase tracking-[0.16em] text-white/45 sm:text-base">
+        {eyebrow}
+      </p>
       <div className="w-full min-w-0 max-w-full">
         <ul
           data-lenis-prevent=""
@@ -37,14 +39,16 @@ export function FsCctvHeroNav({
             return (
               <li
                 key={href}
-                className="inline-flex w-[9.25rem] min-w-[9.25rem] max-w-[9.25rem] shrink-0 sm:w-auto sm:min-w-0 sm:max-w-none"
+                className="inline-flex w-[10.75rem] min-w-[10.75rem] max-w-[10.75rem] shrink-0 sm:w-auto sm:min-w-0 sm:max-w-none"
               >
                 <Link
                   href={href}
                   className={`${fsServiceHeroPillLinkClass} ${active ? activePillClass : ""} sm:min-w-0 sm:w-auto sm:shrink-0`}
                   aria-current={active ? "page" : undefined}
                 >
-                  <span className="relative z-10 line-clamp-2 text-balance sm:line-clamp-none">{label}</span>
+                  <span className="relative z-10 line-clamp-2 text-balance uppercase sm:line-clamp-none">
+                    {label}
+                  </span>
                 </Link>
               </li>
             )

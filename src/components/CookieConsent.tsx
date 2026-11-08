@@ -127,53 +127,11 @@ const CookieConsent = () => {
 
       {/* Cookie Consent: always-visible bar at bottom, black background, rounded top-left + bottom-right */}
       {showBanner && !showSettings && (
-        <div
-          className="cookie-banner-wrapper"
-          style={{
-            position: 'fixed',
-            bottom: 0,
-            left: 0,
-            right: 0,
-            zIndex: 9999,
-            display: 'flex',
-            justifyContent: 'center',
-            padding: '0 24px 56px 48px',
-            pointerEvents: 'none',
-          }}
-        >
-          <div
-            className="cookie-banner"
-            style={{
-              pointerEvents: 'auto',
-              width: '100%',
-              maxWidth: '1400px',
-              marginLeft: 'auto',
-              marginRight: 'auto',
-              backgroundColor: '#000000',
-              border: '1px solid #ffffff',
-              borderTopLeftRadius: '1.75rem',
-              borderTopRightRadius: '0',
-              borderBottomLeftRadius: '0',
-              borderBottomRightRadius: '1.75rem',
-              boxShadow: '0 -4px 24px rgba(0, 0, 0, 0.3)',
-              padding: '24px 24px 32px',
-            }}
-          >
-            <div style={{
-              display: 'flex',
-              flexDirection: 'row',
-              alignItems: 'center',
-              justifyContent: 'space-between',
-              gap: '24px',
-              flexWrap: 'wrap',
-            }}>
-              <div style={{ flex: '1 1 300px', minWidth: 0 }}>
-                <div style={{
-                  display: 'flex',
-                  alignItems: 'center',
-                  gap: '12px',
-                  marginBottom: '8px',
-                }}>
+        <div className="cookie-banner-wrapper">
+          <div className="cookie-banner">
+            <div className="cookie-banner__layout">
+              <div className="cookie-banner__copy">
+                <div className="cookie-banner__heading">
                   <AlertCircle style={{ width: '22px', height: '22px', color: '#ffffff', flexShrink: 0 }} />
                   <h3 style={{ fontSize: '18px', fontWeight: 'bold', color: '#ffffff', margin: 0 }}>
                     Cookie Consent
@@ -189,11 +147,11 @@ const CookieConsent = () => {
                   .
                 </p>
               </div>
-              <div style={{ display: 'flex', flexDirection: 'row', flexWrap: 'wrap', gap: '12px', flexShrink: 0 }}>
+              <div className="cookie-banner__actions">
                 <button
                   type="button"
                   onClick={handleRejectAll}
-                  className="cookie-banner-pill pill-btn px-6 py-3.5 text-base relative inline-flex items-center justify-center font-bold overflow-hidden rounded-tl-2xl rounded-br-2xl cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/50 focus-visible:ring-offset-2 focus-visible:ring-offset-black"
+                  className="cookie-banner-pill pill-btn px-6 py-3.5 text-base relative inline-flex w-full items-center justify-center font-bold overflow-hidden rounded-tl-2xl rounded-br-2xl cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/50 focus-visible:ring-offset-2 focus-visible:ring-offset-black sm:w-auto"
                 >
                   <span className="pill-btn-inner" aria-hidden />
                   <span className="pill-btn-border" aria-hidden />
@@ -202,7 +160,7 @@ const CookieConsent = () => {
                 <button
                   type="button"
                   onClick={() => setShowSettings(true)}
-                  className="cookie-banner-pill pill-btn px-6 py-3.5 text-base relative inline-flex items-center justify-center font-bold overflow-hidden rounded-tl-2xl rounded-br-2xl cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/50 focus-visible:ring-offset-2 focus-visible:ring-offset-black"
+                  className="cookie-banner-pill pill-btn px-6 py-3.5 text-base relative inline-flex w-full items-center justify-center font-bold overflow-hidden rounded-tl-2xl rounded-br-2xl cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/50 focus-visible:ring-offset-2 focus-visible:ring-offset-black sm:w-auto"
                 >
                   <span className="pill-btn-inner" aria-hidden />
                   <span className="pill-btn-border" aria-hidden />
@@ -211,7 +169,7 @@ const CookieConsent = () => {
                 <button
                   type="button"
                   onClick={handleAcceptAll}
-                  className="cookie-banner-pill pill-btn px-6 py-3.5 text-base relative inline-flex items-center justify-center font-bold overflow-hidden rounded-tl-2xl rounded-br-2xl cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/50 focus-visible:ring-offset-2 focus-visible:ring-offset-black"
+                  className="cookie-banner-pill pill-btn px-6 py-3.5 text-base relative inline-flex w-full items-center justify-center font-bold overflow-hidden rounded-tl-2xl rounded-br-2xl cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/50 focus-visible:ring-offset-2 focus-visible:ring-offset-black sm:w-auto"
                 >
                   <span className="pill-btn-inner" aria-hidden />
                   <span className="pill-btn-border" aria-hidden />
@@ -585,13 +543,7 @@ const CookieConsent = () => {
             </div>
           </div>
 
-          <div style={{
-            display: 'flex',
-            flexDirection: 'row',
-            gap: '12px',
-            paddingTop: '16px',
-            borderTop: '1px solid rgba(255, 255, 255, 0.3)'
-          }}>
+          <div className="cookie-settings-modal__actions">
             <button
               type="button"
               className="cookie-settings-cancel"
@@ -607,7 +559,8 @@ const CookieConsent = () => {
                 border: '2px solid #ffffff',
                 cursor: 'pointer',
                 transition: 'background-color 0.3s ease',
-                flex: 1
+                flex: 1,
+                width: '100%',
               }}
               onMouseEnter={(e) => {
                 e.currentTarget.style.backgroundColor = '#111111'
@@ -633,7 +586,8 @@ const CookieConsent = () => {
                 color: '#000000',
                 cursor: 'pointer',
                 transition: 'all 0.3s ease',
-                flex: 1
+                flex: 1,
+                width: '100%',
               }}
               onMouseEnter={(e) => {
                 e.currentTarget.style.backgroundColor = 'rgba(255, 255, 255, 0.9)'

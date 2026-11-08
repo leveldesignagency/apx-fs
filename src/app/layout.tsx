@@ -1,5 +1,11 @@
 import type { Metadata, Viewport } from "next"
-import { Bebas_Neue, Inter, Plus_Jakarta_Sans } from "next/font/google"
+import {
+  Bebas_Neue,
+  Inter,
+  Oxanium,
+  Plus_Jakarta_Sans,
+  Teko,
+} from "next/font/google"
 import "./globals.css"
 import Footer from "@/components/Footer"
 import { ThemeProvider } from "@/contexts/ThemeContext"
@@ -9,6 +15,7 @@ import HeaderClient from "@/components/HeaderClient"
 import { PremiumScroll } from "@/components/PremiumScroll"
 import { RootJsonLd } from "@/components/RootJsonLd"
 import { DeferredSiteChrome } from "@/components/DeferredSiteChrome"
+import { ImageProtect } from "@/components/ImageProtect"
 import {
   FS_DEFAULT_OG_PATH,
   FS_SITE_NAME,
@@ -33,11 +40,26 @@ const plusJakartaSans = Plus_Jakarta_Sans({
   display: "swap",
 })
 
+/** Sitewide titles + subtitles */
+const oxanium = Oxanium({
+  subsets: ["latin"],
+  variable: "--font-oxanium",
+  display: "swap",
+})
+
 // fallback display font next to Erbaum
 const bebasNeue = Bebas_Neue({
   weight: "400",
   subsets: ["latin"],
   variable: "--font-bebas-neue",
+  display: "swap",
+})
+
+/** Hero / menu / services titles trial */
+const teko = Teko({
+  subsets: ["latin"],
+  weight: ["400", "500", "600", "700"],
+  variable: "--font-teko",
   display: "swap",
 })
 
@@ -152,7 +174,7 @@ export default function RootLayout({
   return (
     <html
       lang="en-GB"
-      className={`${inter.variable} ${plusJakartaSans.variable} ${bebasNeue.variable}`}
+      className={`${inter.variable} ${plusJakartaSans.variable} ${oxanium.variable} ${bebasNeue.variable} ${teko.variable}`}
       data-scroll-behavior="smooth"
       suppressHydrationWarning
     >
@@ -162,7 +184,7 @@ export default function RootLayout({
           id="fs-home-hero-scroll"
           strategy="beforeInteractive"
           dangerouslySetInnerHTML={{
-            __html: `(function(){try{if("scrollRestoration"in history)history.scrollRestoration="manual";var p=location.pathname.replace(/\\/$/,"")||"/";var h=location.hash;if(p==="/"&&(!h||h==="#hero"||h==="#services")){if(h==="#services"||h==="#hero")history.replaceState(null,"",location.pathname+location.search);window.scrollTo(0,0);document.documentElement.scrollTop=0;document.body.scrollTop=0;}}catch(e){}})();`,
+            __html: `(function(){try{if("scrollRestoration"in history)history.scrollRestoration="manual";var h=location.hash;if(h&&h!=="#hero"&&h!=="#services")return;if(h==="#services"||h==="#hero"){try{history.replaceState(null,"",location.pathname+location.search);}catch(e){}}window.scrollTo(0,0);document.documentElement.scrollTop=0;document.body.scrollTop=0;}catch(e){}})();`,
           }}
         />
         <RootJsonLd />
@@ -178,6 +200,7 @@ export default function RootLayout({
                     <Footer />
                   </div>
                   <DeferredSiteChrome />
+                  <ImageProtect />
                 </div>
               </ThemeWrapper>
             </TitleFontProvider>

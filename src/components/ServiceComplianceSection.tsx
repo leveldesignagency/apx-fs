@@ -37,8 +37,8 @@ export function ServiceComplianceSection({
   className,
 }: ServiceComplianceSectionProps) {
   const columnTitleClass = sectionTitle
-    ? "mb-4 text-left text-xl font-semibold text-black"
-    : "mb-6 text-left font-title text-3xl font-bold text-black sm:text-4xl"
+    ? "mb-4 text-left font-title text-2xl font-semibold text-black sm:text-[1.65rem]"
+    : "mb-6 text-left font-title text-4xl font-bold text-black sm:text-5xl"
 
   return (
     <>
@@ -47,7 +47,7 @@ export function ServiceComplianceSection({
         <div className="site-container py-16 lg:py-16">
           {sectionTitle ? (
             <Reveal>
-              <h2 className="mb-4 text-left font-title text-3xl font-bold text-black sm:text-4xl">
+              <h2 className="mb-4 text-left font-title text-4xl font-bold text-black sm:text-5xl">
                 {toTitleCase(sectionTitle)}
               </h2>
             </Reveal>

@@ -70,8 +70,8 @@ const INTRUDER_ALARM_INSTALLATIONS: { title: string; venue: string; context: str
     imageSrc: "/projects/case-studies/kings-college-hospital/case-study-kings-college-hospital-nhs-foundation-trust.jpg",
   },
   {
-    title: "Intruder Alarm St Mary Magdalene CoE School",
-    venue: "St Mary Magdalene C of E School",
+    title: "Intruder Alarm St. Mary Magdalene C of E School Secondary",
+    venue: "St. Mary Magdalene C of E School Secondary",
     context: "Greenwich Peninsula, London",
     imageSrc:
       "/projects/case-studies/st-mary-magdalene-school/intruder-alarm-system-st-mary-magdalene-coe-school-exterior.jpg",
@@ -123,7 +123,7 @@ export default function IntruderAlarmSystemsPage() {
 
         <section className="site-container relative z-[1] py-16 lg:py-16">
           <Reveal>
-            <h2 className="mb-10 text-left font-title text-3xl font-bold text-white sm:text-4xl">Constant Protection</h2>
+            <h2 className="mb-10 text-left font-title text-4xl font-bold text-white sm:text-5xl">Constant Protection</h2>
           </Reveal>
           <div className="grid grid-cols-1 gap-8 md:grid-cols-2 lg:grid-cols-3">
             {MONITORING_BENEFITS.map((item, index) => (
@@ -134,7 +134,6 @@ export default function IntruderAlarmSystemsPage() {
                   description={item.text}
                   imageSrc={item.imageSrc}
                   imageAlt={item.imageAlt}
-                  className="transition-transform duration-300 hover:scale-[1.02]"
                 />
               </ServiceItemReveal>
             ))}
@@ -145,10 +144,17 @@ export default function IntruderAlarmSystemsPage() {
 
         <FsServiceTextImageSectionGroup>
           <FsServiceTextImageSection
-          title="Commercial & Industrial Intruder Systems"
+          title={
+            <>
+              Commercial &amp; Industrial
+              <br />
+              Intruder Systems
+            </>
+          }
           titleId="commercial-intruder-systems-heading"
           imageSrc={COMMERCIAL_INTRUDER_IMAGE_SRC}
           imageAlt="Commercial intruder alarm system installation"
+          imageSide="right"
         >
           <p>
             Commercial and industrial intruder systems are our primary focus, designed and commissioned for insurance-grade
@@ -167,11 +173,11 @@ export default function IntruderAlarmSystemsPage() {
           <FsServiceTextImageSection
           title="Bespoke Intruder Alarm Systems"
           titleId="bespoke-intruder-alarm-heading"
+          eyebrow="Survey-Led Design & Installation"
           imageSrc={BESPOKE_INTRUDER_IMAGE_SRC}
           imageAlt="Bespoke intruder alarm system installation"
           imageClassName="object-cover object-[20%_center] brightness-[1.18] contrast-[1.05] saturate-[1.06]"
         >
-          <h3 className="font-title text-2xl font-semibold text-white">Survey-Led Design &amp; Installation</h3>
           <p>
             Every system is surveyed and designed around how the building is used, detection zones, signalling path and
             integration with your wider security stack, so you get a well-designed, well-installed and reliable installation.
@@ -262,8 +268,7 @@ export default function IntruderAlarmSystemsPage() {
         <ServiceTechnologyProductsSection
           title="Intruder Alarm Technology"
           titleId="intruder-alarm-technology-heading"
-          description="We are proud to install the latest intruder alarm technology from the world&apos;s leading brands."
-          eyebrow="Leading brands"
+          description="We are proud to install the latest intruder alarm technology."
         >
           <ApxPartnerLogoStrip partners={INTRUDER_ALARM_TECHNOLOGY_PARTNERS} variant="light" />
         </ServiceTechnologyProductsSection>
@@ -272,7 +277,7 @@ export default function IntruderAlarmSystemsPage() {
 
         <section className="site-container py-16 lg:py-16">
           <Reveal>
-            <h2 className="mb-4 text-left font-title text-3xl font-bold text-white sm:text-4xl">Our Intruder Alarm System Installations</h2>
+            <h2 className="fs-service-installations-heading mb-4 text-left font-title text-5xl font-bold text-white sm:text-6xl">Our Intruder Alarm System Installations</h2>
           </Reveal>
           <Reveal delayMs={70}>
             <p className="mb-8 max-w-2xl text-left text-gray-300">Examples of intruder alarm systems that we have installed for our customers:</p>

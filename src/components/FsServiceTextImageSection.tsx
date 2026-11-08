@@ -8,9 +8,11 @@ import { toTitleCase } from "@/lib/titleCase"
 import { cn } from "@/lib/utils"
 
 export type FsServiceTextImageSectionProps = {
-  title: string
+  title: ReactNode
   /** Optional id for the section heading (a11y) */
   titleId?: string
+  /** Small uppercase label above the title (hero-mantra style) */
+  eyebrow?: string
   children: ReactNode
   /** When omitted, a stock image from the site library is shown until real artwork is set. */
   imageSrc?: string | null
@@ -52,6 +54,7 @@ export type FsServiceTextImageSectionProps = {
 export function FsServiceTextImageSection({
   title,
   titleId,
+  eyebrow,
   children,
   imageSrc,
   imageAlt = "",
@@ -68,22 +71,34 @@ export function FsServiceTextImageSection({
   const resolvedImageSrc = imageSrc ?? fsPlaceholderImageForKey(headingId)
   const isLight = variant === "light"
   const imageOnLeft = (imageSideProp ?? "left") === "left"
+  const titleContent = typeof title === "string" ? toTitleCase(title) : title
 
   const textColumn = (
     <Reveal className="min-h-0 min-w-0 h-full" delayMs={0}>
       <div className="flex h-full w-full min-w-0 flex-col justify-center">
+        {eyebrow ? (
+          <p
+            className={cn(
+              "fs-service-text-image__eyebrow mb-2 font-title text-sm font-semibold uppercase tracking-[0.18em] sm:mb-3 sm:text-base",
+              isLight ? "text-black/55" : "text-white/70"
+            )}
+          >
+            {eyebrow}
+          </p>
+        ) : null}
         <h2
           id={headingId}
           className={cn(
-            "mb-5 text-left font-title text-3xl font-bold sm:mb-6 sm:text-4xl",
+            "fs-service-text-image__title mb-5 text-left font-title text-5xl font-bold tracking-normal sm:mb-6 sm:text-6xl",
+            eyebrow ? "mt-0" : null,
             isLight ? "text-black" : "text-white"
           )}
         >
-          {toTitleCase(title)}
+          {titleContent}
         </h2>
         <div
           className={cn(
-            "space-y-4 text-base leading-relaxed sm:text-lg",
+            "fs-service-text-image__body space-y-4 text-lg leading-relaxed sm:text-xl",
             isLight ? "text-neutral-700" : "text-gray-300"
           )}
         >

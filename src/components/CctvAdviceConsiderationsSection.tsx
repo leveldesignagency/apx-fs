@@ -93,7 +93,7 @@ export function CctvAdviceConsiderationsSection() {
           <Reveal className="lg:pt-1">
             <h2
               id="cctv-advice-considerations-heading"
-              className="max-w-xl text-left font-title text-2xl font-bold leading-tight tracking-tight text-white sm:text-3xl md:text-4xl"
+              className="max-w-xl text-left font-title text-3xl font-bold leading-tight tracking-tight text-white sm:text-4xl md:text-5xl"
             >
               {toTitleCase("Things to Consider with a CCTV System")}
             </h2>

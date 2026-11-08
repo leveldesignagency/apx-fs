@@ -12,7 +12,7 @@ import { ServiceItemReveal } from "@/components/ServiceItemReveal"
 import { ServiceInstallationsGrid } from "@/components/ServiceInstallationsGrid"
 import { ServiceInstallationCard } from "@/components/ServiceInstallationCard"
 import { ServiceFeatureImageCard } from "@/components/ServiceFeatureImageCard"
-import { serviceHeroImages, serviceSectionImages } from "@/lib/serviceHeroImages"
+import { serviceHeroImages } from "@/lib/serviceHeroImages"
 import { SERVICE_HERO_BRIDGE_GRADIENT } from "@/lib/heroBackgroundGradients"
 
 const FIRE_ALARM_INSTALLATIONS_DIR = "/fire%20alarm%20system%20installations" as const
@@ -149,7 +149,7 @@ export default function PavaSystemsPage() {
 
         <section className="site-container relative z-[1] py-16 lg:py-16">
           <Reveal>
-            <h2 className="mb-4 text-left font-title text-3xl font-bold text-white sm:text-4xl">Capabilities</h2>
+            <h2 className="mb-4 text-left font-title text-4xl font-bold text-white sm:text-5xl">Capabilities</h2>
           </Reveal>
           <Reveal delayMs={70}>
             <p className="mb-10 max-w-3xl text-left text-gray-300">
@@ -168,7 +168,6 @@ export default function PavaSystemsPage() {
                   imageSrc={item.imageSrc}
                   imageAlt={item.imageAlt}
                   imageClassName={"imageClassName" in item ? item.imageClassName : undefined}
-                  className="transition-transform duration-300 hover:scale-[1.02]"
                 />
               </ServiceItemReveal>
             ))}
@@ -224,7 +223,7 @@ export default function PavaSystemsPage() {
 
         <section className="site-container py-16 lg:py-16">
           <Reveal>
-            <h2 className="mb-4 text-left font-title text-3xl font-bold text-white sm:text-4xl">
+            <h2 className="mb-4 text-left font-title text-4xl font-bold text-white sm:text-5xl">
               Completed Project
             </h2>
           </Reveal>
@@ -253,7 +252,7 @@ export default function PavaSystemsPage() {
 
         <ServicePageClosingSections
           serviceTitleShort="PAVA"
-          ctaImageSrc={serviceSectionImages.pavaBody}
+          ctaImageSrc={serviceHeroImages.pava}
           ctaHeadline="Planning a"
           ctaHeadlineAccent="PAVA System?"
           ctaDescription="Share your drawings and fire strategy. We can advise on zoning, phased evacuation, amplifiers, loudspeakers and BS 5839-8 commissioning for a compliant PAVA installation."

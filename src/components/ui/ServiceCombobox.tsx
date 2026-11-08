@@ -193,7 +193,7 @@ export function ServiceCombobox({
             }
           }}
           className={cn(
-            "quote-form-field quote-form-dropdown w-full rounded-none border border-white/15 bg-black py-3.5 pl-4 pr-20 text-left text-base font-bold text-white outline-none transition-[border,box-shadow] placeholder:font-normal placeholder:text-white/40 focus:border-white/50 focus:bg-black focus:ring-0 sm:text-[17px]",
+            "quote-form-field quote-form-dropdown w-full rounded-none border border-white/20 bg-black py-3.5 pl-4 pr-20 text-left text-base font-bold text-white outline-none transition-[border-color] duration-200 placeholder:font-normal placeholder:text-white/40 focus:border-white focus:bg-black focus:ring-0 sm:text-[17px]",
             inputClassName
           )}
         />
@@ -247,8 +247,8 @@ export function ServiceCombobox({
         <div
           id={listId}
           role="listbox"
-          className="quote-form-dropdown-menu absolute left-0 right-0 top-full z-50 mt-2 max-h-60 overflow-y-auto overscroll-contain rounded-none border border-white/12 bg-zinc-950 py-2 shadow-2xl"
-          style={{ backgroundColor: "#09090b", color: "#ffffff" }}
+          className="quote-form-dropdown-menu absolute inset-x-0 top-full z-50 mt-2 max-h-60 overflow-y-auto overscroll-contain rounded-none border border-white bg-black py-2 shadow-none"
+          style={{ backgroundColor: "#000000", color: "#ffffff" }}
           data-lenis-prevent
           onWheel={containDropdownWheelScroll}
         >

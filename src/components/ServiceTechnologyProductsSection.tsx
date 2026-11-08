@@ -32,7 +32,7 @@ export function ServiceTechnologyProductsSection({
     >
       <div className="site-container py-16 lg:py-16">
         <Reveal>
-          <h2 id={headingId} className="mb-2 text-left font-title text-3xl font-bold text-black sm:text-4xl">
+          <h2 id={headingId} className="mb-2 text-left font-title text-4xl font-bold tracking-normal text-black sm:text-5xl">
             {toTitleCase(title)}
           </h2>
         </Reveal>

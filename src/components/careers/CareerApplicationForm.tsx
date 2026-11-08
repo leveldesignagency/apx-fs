@@ -1,17 +1,59 @@
 "use client"
 
 import Link from "next/link"
-import { useCallback, useState } from "react"
-import { CheckCircle2 } from "lucide-react"
+import { useCallback, useState, type ReactNode } from "react"
+import { Check, CheckCircle2 } from "lucide-react"
 import type { CareerRole } from "@/components/careers/careers-types"
 import { FormSubmitButton } from "@/components/ui/FormSubmitButton"
 import { TurnstileWidget } from "@/components/TurnstileWidget"
 
+function ConsentCheckbox({
+  id,
+  checked,
+  onChange,
+  required,
+  children,
+}: {
+  id: string
+  checked: boolean
+  onChange: (next: boolean) => void
+  required?: boolean
+  children: ReactNode
+}) {
+  return (
+    <label
+      htmlFor={id}
+      className="careers-apply-body group flex cursor-pointer items-start gap-3.5 text-sm leading-relaxed"
+    >
+      <span className="relative mt-0.5 inline-flex shrink-0">
+        <input
+          id={id}
+          type="checkbox"
+          className="peer sr-only"
+          checked={checked}
+          onChange={(e) => onChange(e.target.checked)}
+          required={required}
+        />
+        <span
+          aria-hidden
+          className="careers-apply-check flex h-6 w-6 items-center justify-center border border-white/45 bg-black transition-[border-color,background-color,box-shadow] peer-checked:border-white peer-checked:bg-white peer-focus-visible:ring-2 peer-focus-visible:ring-white/55 peer-focus-visible:ring-offset-2 peer-focus-visible:ring-offset-black group-hover:border-white/70"
+        >
+          <Check
+            className={`h-3.5 w-3.5 text-black transition-opacity ${checked ? "opacity-100" : "opacity-0"}`}
+            strokeWidth={3}
+          />
+        </span>
+      </span>
+      <span className="min-w-0 pt-0.5">{children}</span>
+    </label>
+  )
+}
+
 const fieldClass =
-  "w-full rounded-none border border-black/15 bg-white px-4 py-3.5 text-sm text-black placeholder:text-black/35 outline-none transition-[border,box-shadow] focus:border-black/45 focus:ring-0"
+  "w-full rounded-none border border-white/30 bg-black px-4 py-3.5 text-sm text-white placeholder:text-white/35 outline-none transition-[border,box-shadow] focus:border-white/55 focus:ring-0"
 
 const outlineBtnClass =
-  "careers-apply-outline-btn rounded-none border border-black/20 px-6 py-3 text-sm font-semibold text-black transition-colors enabled:hover:border-black/40 enabled:hover:bg-black/[0.03] disabled:cursor-not-allowed disabled:opacity-40"
+  "careers-apply-outline-btn rounded-none border border-white/30 px-6 py-3 text-sm font-semibold text-white transition-colors enabled:hover:border-white/55 enabled:hover:bg-white/5 disabled:cursor-not-allowed disabled:opacity-40"
 
 const MAX_CV_BYTES = 5 * 1024 * 1024
 const ACCEPT_CV =
@@ -95,10 +137,10 @@ export function CareerApplicationForm({
   if (done) {
     return (
       <div className="mx-auto w-full max-w-lg text-center">
-        <CheckCircle2 className="mx-auto h-14 w-14 text-emerald-600" aria-hidden />
-        <h2 className="mt-6 font-title text-2xl font-bold text-black sm:text-3xl">Application Sent</h2>
-        <p className="mt-4 text-base leading-relaxed text-black/65">
-          Thank you, we have received your application for <span className="font-medium text-black">{role.title}</span>.
+        <CheckCircle2 className="mx-auto h-14 w-14 text-emerald-400" aria-hidden />
+        <h2 className="mt-6 font-title text-2xl font-bold text-white sm:text-3xl">Application Sent</h2>
+        <p className="careers-apply-body mt-4 text-base leading-relaxed">
+          Thank you, we have received your application for <span className="font-medium text-white">{role.title}</span>.
           If your profile matches the role, our team will be in touch.
         </p>
         <Link href="/careers" className={`${outlineBtnClass} mt-10 inline-flex`}>
@@ -112,16 +154,16 @@ export function CareerApplicationForm({
     <div className="mx-auto w-full max-w-xl">
       <Link
         href="/careers"
-        className="inline-block text-sm font-semibold text-black/55 transition-colors hover:text-black hover:underline"
+        className="inline-block text-sm font-semibold transition-colors hover:underline"
       >
         Back to careers
       </Link>
 
       <div className="mt-8">
-        <p className="text-center text-[11px] font-semibold uppercase tracking-[0.22em] text-black/40">
+        <p className="careers-apply-muted text-center text-[11px] font-semibold uppercase tracking-[0.22em]">
           Job application
         </p>
-        <h1 className="mt-3 text-center font-title text-2xl font-bold leading-tight text-black sm:text-3xl">
+        <h1 className="mt-3 text-center font-title text-2xl font-bold leading-tight text-white sm:text-3xl">
           {role.title}
         </h1>
       </div>
@@ -133,15 +175,11 @@ export function CareerApplicationForm({
           const complete = step > n
           return (
             <li key={label} className="flex min-w-0 items-center gap-2 sm:gap-4">
-              {i > 0 ? <span className="hidden h-px w-4 shrink-0 bg-black/15 sm:block sm:w-8" aria-hidden /> : null}
+              {i > 0 ? <span className="hidden h-px w-4 shrink-0 bg-white/20 sm:block sm:w-8" aria-hidden /> : null}
               <div className="flex min-w-0 items-center gap-2">
                 <span
                   className={`flex h-8 w-8 shrink-0 items-center justify-center rounded-full border text-xs font-bold ${
-                    complete
-                      ? "border-emerald-600/70 bg-emerald-50 text-emerald-700"
-                      : active
-                        ? "border-black bg-black text-white"
-                        : "border-black/20 text-black/40"
+                    complete ? "careers-step-done" : active ? "careers-step-active" : "careers-step-idle"
                   }`}
                   aria-current={active ? "step" : undefined}
                 >
@@ -149,7 +187,7 @@ export function CareerApplicationForm({
                 </span>
                 <span
                   className={`hidden text-xs font-medium uppercase tracking-wide sm:inline ${
-                    active ? "text-black" : "text-black/40"
+                    active ? "careers-step-label-active" : "careers-step-label-idle"
                   }`}
                 >
                   {label}
@@ -160,13 +198,16 @@ export function CareerApplicationForm({
         })}
       </ol>
 
-      <p className="mt-4 text-center text-sm text-black/45 sm:hidden">
+      <p className="careers-apply-muted mt-4 text-center text-sm sm:hidden">
         Step {step} of 3, {STEPS[step - 1]}
       </p>
 
-      <div className="mt-10 rounded-none border border-black/10 bg-white p-6 shadow-[0_1px_0_rgba(0,0,0,0.04)] sm:p-8">
+      <div className="careers-apply-panel mt-10 rounded-none border border-white/20 bg-black/40 p-6 sm:p-8">
         {error ? (
-          <p className="mb-6 rounded-none border border-red-300 bg-red-50 px-4 py-3 text-sm text-red-800" role="alert">
+          <p
+            className="mb-6 rounded-none border border-red-400/40 bg-red-500/10 px-4 py-3 text-sm text-red-200"
+            role="alert"
+          >
             {error}
           </p>
         ) : null}
@@ -191,7 +232,7 @@ export function CareerApplicationForm({
             <div>
               <label
                 htmlFor="ca-name"
-                className="mb-2 block text-[11px] font-semibold uppercase tracking-[0.18em] text-black/45"
+                className="careers-apply-label mb-2 block text-[11px] font-semibold uppercase tracking-[0.18em]"
               >
                 Full name
               </label>
@@ -209,7 +250,7 @@ export function CareerApplicationForm({
             <div>
               <label
                 htmlFor="ca-email"
-                className="mb-2 block text-[11px] font-semibold uppercase tracking-[0.18em] text-black/45"
+                className="careers-apply-label mb-2 block text-[11px] font-semibold uppercase tracking-[0.18em]"
               >
                 Email
               </label>
@@ -227,7 +268,7 @@ export function CareerApplicationForm({
             <div>
               <label
                 htmlFor="ca-phone"
-                className="mb-2 block text-[11px] font-semibold uppercase tracking-[0.18em] text-black/45"
+                className="careers-apply-label mb-2 block text-[11px] font-semibold uppercase tracking-[0.18em]"
               >
                 Contact number
               </label>
@@ -255,7 +296,7 @@ export function CareerApplicationForm({
             <div>
               <label
                 htmlFor="ca-exp"
-                className="mb-2 block text-[11px] font-semibold uppercase tracking-[0.18em] text-black/45"
+                className="careers-apply-label mb-2 block text-[11px] font-semibold uppercase tracking-[0.18em]"
               >
                 Relevant experience
               </label>
@@ -270,7 +311,7 @@ export function CareerApplicationForm({
                 maxLength={2000}
                 className={`${fieldClass} min-h-[180px] resize-y`}
               />
-              <p className="mt-2 text-xs text-black/40">
+              <p className="careers-apply-muted mt-2 text-xs">
                 {experience.trim().length}/2000, minimum 40 characters
               </p>
             </div>
@@ -290,7 +331,7 @@ export function CareerApplicationForm({
             <div>
               <label
                 htmlFor="ca-cv"
-                className="mb-2 block text-[11px] font-semibold uppercase tracking-[0.18em] text-black/45"
+                className="careers-apply-label mb-2 block text-[11px] font-semibold uppercase tracking-[0.18em]"
               >
                 CV upload
               </label>
@@ -301,42 +342,38 @@ export function CareerApplicationForm({
                 accept={ACCEPT_CV}
                 required
                 onChange={(e) => setCvFile(e.target.files?.[0] ?? null)}
-                className="block w-full text-sm text-black/70 file:mr-4 file:rounded-none file:border file:border-black/15 file:bg-white file:px-4 file:py-2 file:text-sm file:font-semibold file:text-black"
+                className="block w-full text-sm text-white/70 file:mr-4 file:rounded-none file:border file:border-white/30 file:bg-black file:px-4 file:py-2 file:text-sm file:font-semibold file:text-white"
               />
-              <p className="mt-2 text-xs text-black/45">PDF or Word, max 5 MB</p>
+              <p className="careers-apply-muted mt-2 text-xs">PDF or Word, max 5 MB</p>
               {cvFile ? (
-                <p className="mt-2 text-sm text-black/65">
+                <p className="careers-apply-body mt-2 text-sm">
                   Selected: {cvFile.name} ({(cvFile.size / 1024).toFixed(0)} KB)
                 </p>
               ) : null}
             </div>
-            <p className="text-xs leading-relaxed text-black/45">
+            <p className="careers-apply-muted text-xs leading-relaxed">
               By submitting, you confirm the information is accurate and agree that we may contact you about this
               application. CVs contain personal data: please read our{" "}
-              <Link href="/recruitment-privacy" className="font-semibold underline underline-offset-2">
+              <Link href="/recruitment-privacy" className="careers-apply-link-strong font-semibold underline underline-offset-2">
                 recruitment privacy notice
               </Link>{" "}
               and{" "}
-              <Link href="/privacy" className="font-semibold underline underline-offset-2">
+              <Link href="/privacy" className="careers-apply-link-strong font-semibold underline underline-offset-2">
                 privacy policy
               </Link>
               . APX Fire &amp; Security is an equal-opportunities employer.
             </p>
-            <label className="flex cursor-pointer items-start gap-3 text-sm leading-relaxed text-black/70">
-              <input
-                type="checkbox"
-                checked={privacyConsent}
-                onChange={(e) => setPrivacyConsent(e.target.checked)}
-                required
-                className="mt-1 h-4 w-4 shrink-0 rounded-none border border-black/25"
-              />
-              <span>
-                I confirm I have read the recruitment privacy notice and privacy policy, and I understand APX will
-                process my application for recruitment purposes.{" "}
-                <span className="text-black/45">(required)</span>
-              </span>
-            </label>
-            <TurnstileWidget onToken={setTurnstileToken} theme="light" />
+            <ConsentCheckbox
+              id="careers-privacy-consent"
+              checked={privacyConsent}
+              onChange={setPrivacyConsent}
+              required
+            >
+              I confirm I have read the recruitment privacy notice and privacy policy, and I understand APX will
+              process my application for recruitment purposes.{" "}
+              <span className="careers-apply-muted">(required)</span>
+            </ConsentCheckbox>
+            <TurnstileWidget onToken={setTurnstileToken} theme="dark" />
             <div className="flex flex-col gap-3 pt-2 sm:flex-row sm:justify-between sm:gap-4">
               <button type="button" onClick={goBack} disabled={submitting} className={outlineBtnClass}>
                 Back

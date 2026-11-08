@@ -10,7 +10,7 @@ import { FsFireSubpageHeroButtons } from "@/components/FsFireSubpageHeroButtons"
 import { Reveal } from "@/components/Reveal"
 import { ServiceItemReveal } from "@/components/ServiceItemReveal"
 import { ServiceFeatureImageCard } from "@/components/ServiceFeatureImageCard"
-import { serviceHeroImages, serviceSectionImages } from "@/lib/serviceHeroImages"
+import { serviceHeroImages } from "@/lib/serviceHeroImages"
 import { SERVICE_HERO_BRIDGE_GRADIENT } from "@/lib/heroBackgroundGradients"
 
 const IMG = "/service%20images/refuge-capabilities"
@@ -115,7 +115,7 @@ export default function RefugeDisabledCommunicationPage() {
 
         <section className="site-container relative z-[1] py-16 lg:py-16">
           <Reveal>
-            <h2 className="mb-4 text-left font-title text-3xl font-bold text-white sm:text-4xl">
+            <h2 className="mb-4 text-left font-title text-4xl font-bold text-white sm:text-5xl">
               Full EVC Scope
             </h2>
           </Reveal>
@@ -135,7 +135,6 @@ export default function RefugeDisabledCommunicationPage() {
                   description={description}
                   imageSrc={imageSrc}
                   imageAlt={imageAlt}
-                  className="transition-transform duration-300 hover:scale-[1.02]"
                 />
               </ServiceItemReveal>
             ))}
@@ -181,7 +180,7 @@ export default function RefugeDisabledCommunicationPage() {
 
         <ServicePageClosingSections
           serviceTitleShort="Refuge, fire telephone & toilet alarms"
-          ctaImageSrc={serviceSectionImages.refugeCta}
+          ctaImageSrc={serviceHeroImages.refuge}
           ctaHeadline="Need Refuge, Fire Telephone or"
           ctaHeadlineAccent="Toilet Alarm Systems?"
           ctaDescription="Tell us about your building and evacuation strategy. We can survey, specify and deliver BS 5839-9 emergency voice communication, including disabled refuge, fire telephones and disabled toilet alarms."

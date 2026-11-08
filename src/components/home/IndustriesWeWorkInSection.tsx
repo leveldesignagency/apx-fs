@@ -90,8 +90,10 @@ const FEATURES: readonly IndustryFeature[] = [
  */
 export function IndustriesWeWorkInSection() {
   const scrollerRef = useRef<HTMLDivElement>(null)
+  const featuresRef = useRef<HTMLUListElement>(null)
   const [canPrev, setCanPrev] = useState(false)
   const [canNext, setCanNext] = useState(true)
+  const [featuresIn, setFeaturesIn] = useState(false)
 
   const syncArrows = useCallback(() => {
     const el = scrollerRef.current
@@ -119,6 +121,27 @@ export function IndustriesWeWorkInSection() {
       ro.disconnect()
     }
   }, [syncArrows])
+
+  // Scroll-in: icon → title → paragraph for each capability, then the next item
+  useEffect(() => {
+    const el = featuresRef.current
+    if (!el) return
+    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
+      setFeaturesIn(true)
+      return
+    }
+    const io = new IntersectionObserver(
+      (entries) => {
+        if (entries[0]?.isIntersecting) {
+          setFeaturesIn(true)
+          io.disconnect()
+        }
+      },
+      { rootMargin: "0px 0px -12% 0px", threshold: 0.18 }
+    )
+    io.observe(el)
+    return () => io.disconnect()
+  }, [])
 
   const scrollByCard = (dir: -1 | 1) => {
     const el = scrollerRef.current
@@ -188,7 +211,7 @@ export function IndustriesWeWorkInSection() {
                     }
                     sizes="(min-width: 1024px) 24rem, (min-width: 640px) 55vw, 85vw"
                   />
-                  <div className="home-photo-swarm absolute inset-0" aria-hidden />
+                  <div className="home-photo-swarm home-photo-swarm--page-bg absolute inset-0" aria-hidden />
                   <div
                     className="pointer-events-none absolute inset-0 bg-gradient-to-t from-black/80 via-black/30 to-black/15"
                     aria-hidden
@@ -223,36 +246,55 @@ export function IndustriesWeWorkInSection() {
           </div>
         </div>
 
-        <ul className="industries-features m-0 flex list-none flex-col justify-center p-0">
-          {FEATURES.map(({ Icon, title, text, href }, index) => (
-            <li
-              key={title}
-              className={cn(
-                "py-7 first:pt-0 last:pb-0",
-                index < FEATURES.length - 1 && "border-b border-white/15"
-              )}
-            >
-              <Link
-                href={href}
-                className="group grid grid-cols-[auto_minmax(0,1fr)] gap-x-5 gap-y-2 text-inherit no-underline"
+        <ul
+          ref={featuresRef}
+          className={cn(
+            "industries-features m-0 flex list-none flex-col justify-center p-0",
+            featuresIn && "industries-features--in"
+          )}
+        >
+          {FEATURES.map(({ Icon, title, text, href }, index) => {
+            const step = index * 3
+            return (
+              <li
+                key={title}
+                className={cn(
+                  "py-7 first:pt-0 last:pb-0",
+                  index < FEATURES.length - 1 && "border-b border-white/15"
+                )}
               >
-                <Icon
-                  className="mt-0.5 h-10 w-10 shrink-0 text-white transition-opacity group-hover:opacity-80 sm:h-11 sm:w-11"
-                  strokeWidth={1.35}
-                  aria-hidden
-                />
-                <div className="min-w-0">
-                  <h3 className="font-title text-lg font-bold tracking-tight text-white sm:text-xl">
-                    {toTitleCase(title)}
-                  </h3>
-                  <p className="mt-2 text-sm leading-relaxed text-white/60 sm:text-[0.95rem]">
-                    {text}
-                  </p>
-                </div>
-              </Link>
-            </li>
-          ))}
-          <li className="pt-8">
+                <Link
+                  href={href}
+                  className="group grid grid-cols-[auto_minmax(0,1fr)] gap-x-5 gap-y-2 text-inherit no-underline"
+                >
+                  <Icon
+                    className="industries-feature__part industries-feature__icon mt-0.5 h-10 w-10 shrink-0 text-white transition-opacity group-hover:opacity-80 sm:h-11 sm:w-11"
+                    style={{ ["--feat-step" as string]: step }}
+                    strokeWidth={1.35}
+                    aria-hidden
+                  />
+                  <div className="min-w-0">
+                    <h3
+                      className="industries-feature__part industries-feature__title font-title text-lg font-bold tracking-tight text-white sm:text-xl"
+                      style={{ ["--feat-step" as string]: step + 1 }}
+                    >
+                      {toTitleCase(title)}
+                    </h3>
+                    <p
+                      className="industries-feature__part industries-feature__text mt-2 text-sm leading-relaxed text-white/60 sm:text-[0.95rem]"
+                      style={{ ["--feat-step" as string]: step + 2 }}
+                    >
+                      {text}
+                    </p>
+                  </div>
+                </Link>
+              </li>
+            )
+          })}
+          <li
+            className="industries-feature__part industries-feature__footer pt-8"
+            style={{ ["--feat-step" as string]: FEATURES.length * 3 }}
+          >
             <p className="flex items-start gap-3 text-sm text-white/55">
               <Headphones className="mt-0.5 h-5 w-5 shrink-0 text-white/70" strokeWidth={1.5} aria-hidden />
               <span>

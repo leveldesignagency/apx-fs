@@ -270,7 +270,7 @@ export default function AccessControlPage() {
 
         <section className="site-container relative z-[1] py-16 lg:py-16">
           <Reveal>
-            <h2 className="mb-4 text-left font-title text-3xl font-bold text-white sm:text-4xl">
+            <h2 className="mb-4 text-left font-title text-4xl font-bold text-white sm:text-5xl">
               What We Deliver
             </h2>
           </Reveal>
@@ -289,7 +289,6 @@ export default function AccessControlPage() {
                   description={text}
                   imageSrc={imageSrc}
                   imageAlt={imageAlt}
-                  className="transition-transform duration-300 hover:scale-[1.02]"
                 />
               </ServiceItemReveal>
             ))}
@@ -306,7 +305,7 @@ export default function AccessControlPage() {
             <Reveal>
               <h2
                 id="access-control-benefits-heading"
-                className="mb-10 text-left font-title text-3xl font-bold text-white sm:mb-12 sm:text-4xl"
+                className="mb-10 text-left font-title text-4xl font-bold text-white sm:mb-12 sm:text-5xl"
               >
                 Benefits of Access Control
               </h2>
@@ -402,7 +401,7 @@ export default function AccessControlPage() {
 
         <section className="site-container py-16 lg:py-16">
           <Reveal>
-            <h2 className="mb-4 text-left font-title text-3xl font-bold text-white sm:text-4xl">Our Access Control System Installations</h2>
+            <h2 className="fs-service-installations-heading mb-4 text-left font-title text-5xl font-bold text-white sm:text-6xl">Our Access Control System Installations</h2>
           </Reveal>
           <Reveal delayMs={70}>
             <p className="mb-8 max-w-2xl text-left text-gray-300">

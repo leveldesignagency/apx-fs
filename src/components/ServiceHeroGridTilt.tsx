@@ -4,7 +4,6 @@ import Image from "next/image"
 import {
   useCallback,
   useEffect,
-  useMemo,
   useRef,
   useState,
   type CSSProperties,
@@ -23,12 +22,22 @@ import { toTitleCase } from "@/lib/titleCase"
 import { cn } from "@/lib/utils"
 
 type GridFill = {
+  id: number
   row: number
   col: number
   cols: number
+  /** Resting opacity - always below 1 */
   opacity: number
+  /** Drawn opacity (blink / fade may differ) */
+  drawOpacity: number
   hideOnMobile?: boolean
 }
+
+const FILL_COUNT = 10
+const OPACITY_MIN = 0.035
+const OPACITY_MAX = 0.15
+const GRID_ROWS = 10
+const GRID_COLS = 12
 
 type ServiceHeroGridTiltProps = {
   title: string
@@ -80,56 +89,60 @@ function mulberry32(seed: number) {
   }
 }
 
-/** Build 3 light squares snapped to the grid; layout stable per seed. */
+function randomOpacity(rand: () => number) {
+  return OPACITY_MIN + rand() * (OPACITY_MAX - OPACITY_MIN)
+}
+
+function occupiedKeys(fills: GridFill[]) {
+  const set = new Set<string>()
+  for (const f of fills) {
+    for (let c = 0; c < f.cols; c++) set.add(`${f.row}:${f.col + c}`)
+  }
+  return set
+}
+
+function pickFreeCell(
+  rand: () => number,
+  fills: GridFill[],
+  excludeId?: number
+): { row: number; col: number; cols: number } | null {
+  const others = excludeId == null ? fills : fills.filter((f) => f.id !== excludeId)
+  const taken = occupiedKeys(others)
+  const wantWide = rand() > 0.72
+  const span = wantWide ? 2 : 1
+  for (let attempt = 0; attempt < 40; attempt++) {
+    const row = Math.floor(rand() * GRID_ROWS)
+    const col = Math.floor(rand() * (GRID_COLS - span + 1))
+    let ok = true
+    for (let c = 0; c < span; c++) {
+      if (taken.has(`${row}:${col + c}`)) {
+        ok = false
+        break
+      }
+    }
+    if (ok) return { row, col, cols: span }
+  }
+  return null
+}
+
+/** Seeded starting squares - then live loop randomizes blink / fade / relocate. */
 function buildGridFills(seed: string): GridFill[] {
   const rand = mulberry32(hashSeed(seed))
-  const pick = (min: number, max: number) => Math.floor(rand() * (max - min + 1)) + min
-  const occupied = new Set<string>()
-  const mark = (row: number, col: number, cols: number) => {
-    for (let c = 0; c < cols; c++) occupied.add(`${row}:${col + c}`)
-  }
-  const free = (row: number, col: number, cols: number) => {
-    for (let c = 0; c < cols; c++) {
-      if (occupied.has(`${row}:${col + c}`)) return false
-    }
-    return true
-  }
-
   const fills: GridFill[] = []
-  const opacities = [0.06, 0.1, 0.04]
-
-  // Pair of adjacent 1x1 cells
-  const pairRow = pick(1, 4)
-  const pairCol = pick(0, 8)
-  fills.push({ row: pairRow, col: pairCol, cols: 1, opacity: opacities[0] })
-  mark(pairRow, pairCol, 1)
-  const pairDir = rand() > 0.5 ? 1 : -1
-  const pairCol2 = Math.max(0, Math.min(11, pairCol + pairDir))
-  if (free(pairRow, pairCol2, 1) && pairCol2 !== pairCol) {
-    fills.push({ row: pairRow, col: pairCol2, cols: 1, opacity: opacities[1] })
-    mark(pairRow, pairCol2, 1)
-  } else if (free(pairRow, pairCol + 1, 1)) {
-    fills.push({ row: pairRow, col: pairCol + 1, cols: 1, opacity: opacities[1] })
-    mark(pairRow, pairCol + 1, 1)
-  } else {
-    fills.push({ row: pairRow + 1, col: pairCol, cols: 1, opacity: opacities[1] })
-    mark(pairRow + 1, pairCol, 1)
+  for (let i = 0; i < FILL_COUNT; i++) {
+    const spot = pickFreeCell(rand, fills)
+    if (!spot) break
+    const opacity = randomOpacity(rand)
+    fills.push({
+      id: i + 1,
+      row: spot.row,
+      col: spot.col,
+      cols: spot.cols,
+      opacity,
+      drawOpacity: opacity,
+      hideOnMobile: spot.cols > 1 || i >= 6,
+    })
   }
-
-  // Wider accent square elsewhere
-  for (let attempt = 0; attempt < 24; attempt++) {
-    const row = pick(4, 8)
-    const col = pick(4, 10)
-    if (!free(row, col, 2)) continue
-    fills.push({ row, col, cols: 2, opacity: opacities[2], hideOnMobile: true })
-    mark(row, col, 2)
-    break
-  }
-
-  if (fills.length < 3) {
-    fills.push({ row: 6, col: 9, cols: 2, opacity: opacities[2], hideOnMobile: true })
-  }
-
   return fills
 }
 
@@ -160,7 +173,16 @@ export function ServiceHeroGridTilt({
     transform: `perspective(1600px) rotateX(0deg) rotateY(0deg) scale(${BASE_SCALE}) translate3d(0,0,0)`,
   })
 
-  const fills = useMemo(() => buildGridFills(fillSeed ?? title), [fillSeed, title])
+  const seedKey = fillSeed ?? title
+  const [fills, setFills] = useState<GridFill[]>(() => buildGridFills(seedKey))
+  const fillsRef = useRef(fills)
+  fillsRef.current = fills
+  const nextIdRef = useRef(FILL_COUNT + 1)
+
+  useEffect(() => {
+    setFills(buildGridFills(seedKey))
+    nextIdRef.current = FILL_COUNT + 1
+  }, [seedKey])
 
   useEffect(() => {
     if (typeof window === "undefined") return
@@ -171,6 +193,107 @@ export function ServiceHeroGridTilt({
     const id = requestAnimationFrame(() => setHeroReveal(true))
     return () => cancelAnimationFrame(id)
   }, [])
+
+  // Nuanced randomize: blink, opacity drift, fade-out + relocate
+  useEffect(() => {
+    if (typeof window === "undefined") return
+    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return
+
+    let cancelled = false
+    let timer = 0
+    const timers: number[] = []
+    const rand = () => Math.random()
+
+    const schedule = () => {
+      if (cancelled) return
+      // Snappier cadence - often fire two actions close together
+      const wait = 280 + rand() * 520
+      timer = window.setTimeout(tickEvent, wait)
+    }
+
+    const applyAction = () => {
+      const current = fillsRef.current
+      if (!current.length) return
+
+      const roll = rand()
+      const idx = Math.floor(rand() * current.length)
+      const target = current[idx]!
+
+      if (roll < 0.4) {
+        // Quick blink / flash - never reaches full white
+        const peak = Math.min(OPACITY_MAX + 0.04, target.opacity * (1.6 + rand() * 0.9))
+        setFills((prev) =>
+          prev.map((f) => (f.id === target.id ? { ...f, drawOpacity: peak } : f))
+        )
+        const back = window.setTimeout(() => {
+          if (cancelled) return
+          setFills((prev) =>
+            prev.map((f) =>
+              f.id === target.id ? { ...f, drawOpacity: f.opacity } : f
+            )
+          )
+        }, 70 + rand() * 140)
+        timers.push(back)
+      } else if (roll < 0.62) {
+        // Soft opacity retarget while staying put
+        const nextOp = randomOpacity(rand)
+        setFills((prev) =>
+          prev.map((f) =>
+            f.id === target.id
+              ? { ...f, opacity: nextOp, drawOpacity: nextOp }
+              : f
+          )
+        )
+      } else {
+        // Fade out, then reappear elsewhere
+        setFills((prev) =>
+          prev.map((f) => (f.id === target.id ? { ...f, drawOpacity: 0 } : f))
+        )
+        const relocate = window.setTimeout(() => {
+          if (cancelled) return
+          setFills((prev) => {
+            const spot = pickFreeCell(rand, prev, target.id)
+            if (!spot) {
+              return prev.map((f) =>
+                f.id === target.id ? { ...f, drawOpacity: f.opacity } : f
+              )
+            }
+            const opacity = randomOpacity(rand)
+            const newId = nextIdRef.current++
+            return prev.map((f) =>
+              f.id === target.id
+                ? {
+                    id: newId,
+                    row: spot.row,
+                    col: spot.col,
+                    cols: spot.cols,
+                    opacity,
+                    drawOpacity: opacity,
+                    hideOnMobile: spot.cols > 1 || rand() > 0.55,
+                  }
+                : f
+            )
+          })
+        }, 220 + rand() * 260)
+        timers.push(relocate)
+      }
+    }
+
+    const tickEvent = () => {
+      if (cancelled) return
+      applyAction()
+      // Often nudge a second square in the same beat
+      if (rand() > 0.35) applyAction()
+      schedule()
+    }
+
+    schedule()
+    return () => {
+      cancelled = true
+      window.clearTimeout(timer)
+      timers.forEach((t) => window.clearTimeout(t))
+    }
+  }, [seedKey])
 
   const tick = useCallback(() => {
     const cur = currentRef.current
@@ -260,9 +383,9 @@ export function ServiceHeroGridTilt({
 
       <div className="service-hero-grid__canvas" aria-hidden>
         <div className="service-hero-grid__lines" />
-        {fills.map((fill, i) => (
+        {fills.map((fill) => (
           <div
-            key={`${fill.row}-${fill.col}-${i}`}
+            key={fill.id}
             className={cn(
               "service-hero-grid__fill",
               fill.hideOnMobile && "service-hero-grid__fill--wide"
@@ -271,7 +394,7 @@ export function ServiceHeroGridTilt({
               top: `calc(var(--grid-cell) * ${fill.row})`,
               left: `calc(var(--grid-cell) * ${fill.col})`,
               width: `calc(var(--grid-cell) * ${fill.cols})`,
-              background: `rgba(255, 255, 255, ${fill.opacity})`,
+              background: `rgba(255, 255, 255, ${fill.drawOpacity})`,
             }}
           />
         ))}

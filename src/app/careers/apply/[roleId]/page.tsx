@@ -40,7 +40,7 @@ export default async function CareersApplyPage({ params }: Props) {
   const description = [role.description, role.location, role.baseLocation].filter(Boolean).join(" ")
 
   return (
-    <div className="careers-page careers-apply-page min-h-screen bg-white text-black">
+    <div className="careers-page careers-apply-page min-h-screen bg-[var(--page-bg)] text-white">
       <JsonLd
         data={[
           buildBreadcrumbJsonLd(

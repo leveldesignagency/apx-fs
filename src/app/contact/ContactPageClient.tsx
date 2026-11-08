@@ -37,7 +37,7 @@ const FS_CONTACT_SERVICES = [
 
 /** Shared with homepage quote form: dark field, white type */
 const fieldClass =
-  "quote-form-field w-full rounded-none border border-white/15 bg-black px-3.5 py-2.5 text-base font-bold text-white placeholder:text-white/40 placeholder:font-normal outline-none transition-[border,box-shadow] focus:border-white/50 focus:ring-0 focus:bg-black"
+  "quote-form-field w-full rounded-none border border-white/20 bg-black px-3.5 py-2.5 text-base font-bold text-white placeholder:text-white/40 placeholder:font-normal outline-none transition-[border-color] duration-200 focus:border-white focus:ring-0 focus:bg-black"
 
 const CONTACT_EMAIL = "enquiries@apx-fs.co.uk"
 const CONTACT_ADDRESS_LINES = ["365-369 Bexley Road", "Northumberland Heath, Erith", "Kent, DA8 3EZ"] as const
@@ -63,7 +63,10 @@ function ConsentCheckbox({
   children: ReactNode
 }) {
   return (
-    <label htmlFor={id} className="group flex cursor-pointer items-start gap-3.5 text-sm leading-relaxed text-white/75">
+    <label
+      htmlFor={id}
+      className="contact-consent group flex cursor-pointer items-start gap-3.5 text-sm leading-relaxed text-white/75"
+    >
       <span className="relative mt-0.5 inline-flex shrink-0">
         <input
           id={id}
@@ -83,7 +86,7 @@ function ConsentCheckbox({
           />
         </span>
       </span>
-      <span className="min-w-0 pt-0.5">{children}</span>
+      <span className="contact-consent__text min-w-0 pt-0.5">{children}</span>
     </label>
   )
 }
@@ -102,12 +105,146 @@ function FieldLabel({
   return (
     <label
       htmlFor={htmlFor}
-      className="mb-2 flex flex-wrap items-baseline gap-x-2 gap-y-0.5 text-xs font-semibold uppercase tracking-[0.12em] text-white/50"
+      className="quote-form-label mb-2 flex flex-wrap items-baseline gap-x-2 gap-y-0.5 text-sm font-semibold uppercase tracking-[0.12em] text-white/55"
     >
       <span>{children}</span>
-      {required ? <span className="normal-case tracking-normal text-white/70">(required)</span> : null}
-      {optional ? <span className="normal-case tracking-normal text-white/40">(optional)</span> : null}
+      {required ? <span className="text-[0.8125rem] normal-case tracking-normal text-white/70">(required)</span> : null}
+      {optional ? <span className="text-[0.8125rem] normal-case tracking-normal text-white/40">(optional)</span> : null}
     </label>
+  )
+}
+
+function useCanHoverRedact() {
+  const [canHover, setCanHover] = useState(false)
+  useEffect(() => {
+    const mq = window.matchMedia("(hover: hover) and (pointer: fine)")
+    const sync = () => setCanHover(mq.matches)
+    sync()
+    mq.addEventListener("change", sync)
+    return () => mq.removeEventListener("change", sync)
+  }, [])
+  return canHover
+}
+
+/**
+ * Solid **** run crossfades into naturally spaced letters on parent `.group` hover.
+ * Stars and letters are separate layers (not locked into shared fixed-width slots).
+ */
+function RedactedChars({ text, startIndex = 0 }: { text: string; startIndex?: number }) {
+  const chars = text.split("")
+  return (
+    <span className="contact-redact__swap">
+      <span className="contact-redact__stars" aria-hidden>
+        {chars.map((_, i) => (
+          <span
+            key={`star-${startIndex + i}`}
+            className="contact-redact__star"
+            style={{ ["--redact-i" as string]: startIndex + i }}
+          >
+            *
+          </span>
+        ))}
+      </span>
+      <span className="contact-redact__letters" aria-hidden>
+        {chars.map((ch, i) => (
+          <span
+            key={`letter-${startIndex + i}`}
+            className="contact-redact__letter"
+            style={{ ["--redact-i" as string]: startIndex + i }}
+          >
+            {ch === " " ? "\u00a0" : ch}
+          </span>
+        ))}
+      </span>
+    </span>
+  )
+}
+
+function RedactedEnquiryEmail({ email }: { email: string }) {
+  const at = email.indexOf("@")
+  const local = at >= 0 ? email.slice(0, at) : email
+  const domain = at >= 0 ? email.slice(at) : ""
+
+  return (
+    <span className="contact-redact break-all" aria-hidden>
+      <RedactedChars text={local} />
+      <span className="contact-redact__plain">{domain}</span>
+    </span>
+  )
+}
+
+/** Last N digits as one redacted run; leading digits + spaces stay plain. */
+function RedactedPhone({ display, lastDigits = 7 }: { display: string; lastDigits?: number }) {
+  const digitIdxs: number[] = []
+  for (let i = 0; i < display.length; i++) {
+    if (/\d/.test(display[i]!)) digitIdxs.push(i)
+  }
+  const redactFrom = new Set(digitIdxs.slice(-lastDigits))
+  const parts: { type: "plain" | "redact"; text: string }[] = []
+  let buf = ""
+  let mode: "plain" | "redact" | null = null
+
+  const flush = () => {
+    if (!buf || !mode) return
+    parts.push({ type: mode, text: buf })
+    buf = ""
+  }
+
+  for (let i = 0; i < display.length; i++) {
+    const ch = display[i]!
+    const next: "plain" | "redact" = redactFrom.has(i) ? "redact" : "plain"
+    if (mode && next !== mode) flush()
+    mode = next
+    buf += ch
+  }
+  flush()
+
+  let delay = 0
+  return (
+    <span className="contact-redact" aria-hidden>
+      {parts.map((part, i) => {
+        if (part.type === "plain") {
+          return (
+            <span key={`pp-${i}`} className="contact-redact__plain">
+              {part.text}
+            </span>
+          )
+        }
+        const start = delay
+        delay += part.text.length
+        return <RedactedChars key={`pr-${i}`} text={part.text} startIndex={start} />
+      })}
+    </span>
+  )
+}
+
+function RedactedAddress({ lines }: { lines: readonly string[] }) {
+  const redactChunks = new Set(["365-369", "DA8 3EZ"])
+  let delay = 0
+
+  return (
+    <span className="contact-redact" aria-hidden>
+      {lines.map((line, lineIdx) => {
+        const parts = line.split(/(365-369|DA8 3EZ)/g)
+        return (
+          <span key={line} className="block">
+            {parts.map((part, partIdx) => {
+              if (!part) return null
+              if (redactChunks.has(part)) {
+                const start = delay
+                delay += part.length
+                return <RedactedChars key={`${lineIdx}-${partIdx}`} text={part} startIndex={start} />
+              }
+              return (
+                <span key={`${lineIdx}-${partIdx}`} className="contact-redact__plain">
+                  {part}
+                </span>
+              )
+            })}
+          </span>
+        )
+      })}
+    </span>
   )
 }
 
@@ -153,38 +290,70 @@ export function ContactPageClient() {
   const [smsConsent, setSmsConsent] = useState(false)
   const [submitError, setSubmitError] = useState<string | null>(null)
   const [turnstileToken, setTurnstileToken] = useState<string | null>(null)
-  const [emailCopied, setEmailCopied] = useState(false)
-  const emailCopiedTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null)
+  const [contactPopup, setContactPopup] = useState<null | "email" | "phone">(null)
+  const [copiedKind, setCopiedKind] = useState<null | "email" | "phone">(null)
+  const copiedTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null)
+  const canHoverRedact = useCanHoverRedact()
 
   useEffect(() => {
     setMounted(true)
     formStartedAtRef.current = Date.now()
     return () => {
-      if (emailCopiedTimerRef.current) clearTimeout(emailCopiedTimerRef.current)
+      if (copiedTimerRef.current) clearTimeout(copiedTimerRef.current)
     }
   }, [])
+
+  useEffect(() => {
+    if (!contactPopup) return
+    const onKey = (e: KeyboardEvent) => {
+      if (e.key === "Escape") setContactPopup(null)
+    }
+    window.addEventListener("keydown", onKey)
+    return () => window.removeEventListener("keydown", onKey)
+  }, [contactPopup])
+
+  const markCopied = (kind: "email" | "phone") => {
+    setCopiedKind(kind)
+    if (copiedTimerRef.current) clearTimeout(copiedTimerRef.current)
+    copiedTimerRef.current = setTimeout(() => setCopiedKind(null), 2200)
+  }
 
   const copyContactEmail = async () => {
     try {
       await navigator.clipboard.writeText(CONTACT_EMAIL)
-      setEmailCopied(true)
-      if (emailCopiedTimerRef.current) clearTimeout(emailCopiedTimerRef.current)
-      emailCopiedTimerRef.current = setTimeout(() => setEmailCopied(false), 1800)
+      markCopied("email")
+    } catch {
+      /* ignore */
+    }
+  }
+
+  const copyContactPhone = async () => {
+    try {
+      await navigator.clipboard.writeText(FS_PHONE_DISPLAY)
+      markCopied("phone")
     } catch {
       /* ignore */
     }
   }
 
   const handleEmail = () => {
+    // Mobile / touch: open mail app directly (no custom modal)
     if (isTouchLikeDevice()) {
       window.location.href = `mailto:${CONTACT_EMAIL}`
       return
     }
+    setContactPopup("email")
     void copyContactEmail()
   }
 
   const handlePhone = () => {
-    window.location.href = FS_PHONE_HREF
+    // Mobile / touch: start a call directly (no custom modal)
+    if (isTouchLikeDevice()) {
+      window.location.href = FS_PHONE_HREF
+      return
+    }
+    setContactPopup("phone")
+    void copyContactPhone()
   }
 
   const handleMaps = () => {
@@ -207,6 +376,72 @@ export function ContactPageClient() {
 
   return (
     <main className="contact-page relative min-h-screen overflow-hidden bg-[var(--page-bg)] text-white">
+      {contactPopup ? (
+        <div
+          className="contact-email-popup"
+          role="dialog"
+          aria-modal="true"
+          aria-labelledby="contact-email-popup-title"
+        >
+          <button
+            type="button"
+            className="contact-email-popup__backdrop"
+            aria-label="Close"
+            onClick={() => setContactPopup(null)}
+          />
+          <div className="contact-email-popup__card">
+            <p id="contact-email-popup-title" className="contact-email-popup__eyebrow">
+              {contactPopup === "email" ? "Email" : "Phone"}
+            </p>
+            <p className="contact-email-popup__address">
+              {contactPopup === "email" ? CONTACT_EMAIL : FS_PHONE_DISPLAY}
+            </p>
+            <p className="contact-email-popup__status" aria-live="polite">
+              {copiedKind === contactPopup ? "Copied to clipboard" : "Ready to copy"}
+            </p>
+            <div className="contact-email-popup__actions">
+              <button
+                type="button"
+                className="contact-email-popup__btn contact-email-popup__btn--primary"
+                onClick={() =>
+                  void (contactPopup === "email" ? copyContactEmail() : copyContactPhone())
+                }
+              >
+                {copiedKind === contactPopup
+                  ? "Copied"
+                  : contactPopup === "email"
+                    ? "Copy email"
+                    : "Copy number"}
+              </button>
+              {contactPopup === "email" ? (
+                <a
+                  href={`mailto:${CONTACT_EMAIL}`}
+                  className="contact-email-popup__btn contact-email-popup__btn--ghost"
+                  onClick={() => setContactPopup(null)}
+                >
+                  Open mail app
+                </a>
+              ) : (
+                <a
+                  href={FS_PHONE_HREF}
+                  className="contact-email-popup__btn contact-email-popup__btn--ghost"
+                  onClick={() => setContactPopup(null)}
+                >
+                  Call now
+                </a>
+              )}
+            </div>
+            <button
+              type="button"
+              className="contact-email-popup__close"
+              onClick={() => setContactPopup(null)}
+            >
+              Close
+            </button>
+          </div>
+        </div>
+      ) : null}
+
       <div className="relative z-10">
         <section id="contact" className="contact-page-section about-section-px page-title-top pb-16 md:pb-24 lg:pb-28">
           <div className="about-section-inner mx-auto max-w-6xl">
@@ -229,11 +464,17 @@ export function ContactPageClient() {
                       label="Email"
                       detail={
                         <>
-                          <span className="break-all">{CONTACT_EMAIL}</span>
-                          {emailCopied ? <span className="contact-method-row__copied">Copied</span> : null}
+                          {canHoverRedact ? (
+                            <>
+                              <span className="sr-only">{CONTACT_EMAIL}</span>
+                              <RedactedEnquiryEmail email={CONTACT_EMAIL} />
+                            </>
+                          ) : (
+                            <span className="break-all">{CONTACT_EMAIL}</span>
+                          )}
                         </>
                       }
-                      hint="Click to copy"
+                      hint={canHoverRedact ? "Hover to reveal · click for options" : "Tap to email"}
                       icon={<PiEnvelopeDuotone />}
                       onActivate={handleEmail}
                       ariaLabel={`Email ${CONTACT_EMAIL}`}
@@ -243,11 +484,20 @@ export function ContactPageClient() {
                   <Reveal show={mounted} delayMs={140} className="w-full">
                     <ContactMethodRow
                       label="Phone"
-                      detail={FS_PHONE_DISPLAY}
-                      hint="24/7 call-out available"
+                      detail={
+                        canHoverRedact ? (
+                          <>
+                            <span className="sr-only">{FS_PHONE_DISPLAY}</span>
+                            <RedactedPhone display={FS_PHONE_DISPLAY} lastDigits={7} />
+                          </>
+                        ) : (
+                          FS_PHONE_DISPLAY
+                        )
+                      }
+                      hint={canHoverRedact ? "Hover to reveal · click for options" : "Tap to call"}
                       icon={<PiHeadsetDuotone />}
                       onActivate={handlePhone}
-                      ariaLabel={`Call ${FS_PHONE_DISPLAY}`}
+                      ariaLabel={`Phone ${FS_PHONE_DISPLAY}`}
                     />
                   </Reveal>
 
@@ -255,13 +505,18 @@ export function ContactPageClient() {
                     <ContactMethodRow
                       label="Address"
                       detail={
-                        <>
-                          {CONTACT_ADDRESS_LINES.map((line) => (
+                        canHoverRedact ? (
+                          <>
+                            <span className="sr-only">{CONTACT_ADDRESS_LINES.join(", ")}</span>
+                            <RedactedAddress lines={CONTACT_ADDRESS_LINES} />
+                          </>
+                        ) : (
+                          CONTACT_ADDRESS_LINES.map((line) => (
                             <span key={line} className="block">
                               {line}
                             </span>
-                          ))}
-                        </>
+                          ))
+                        )
                       }
                       hint="Open in Google Maps"
                       icon={<PiMapPinAreaDuotone />}
@@ -377,55 +632,8 @@ export function ContactPageClient() {
                               placeholder="Select or type a service"
                               emptyLabel="Select a service"
                               allowCustom
+                              inputClassName="border-white/20 px-3.5 py-2.5 text-base focus:border-white sm:text-base"
                             />
-                          </div>
-
-                          <div>
-                            <p className="mb-2 text-xs font-semibold uppercase tracking-[0.12em] text-white/50">
-                              Preferred contact{" "}
-                              <span className="normal-case tracking-normal text-white/70">(required)</span>
-                            </p>
-                            <div className="flex flex-wrap gap-5">
-                              <label className="flex cursor-pointer items-center gap-2.5">
-                                <input
-                                  type="radio"
-                                  name="contact-method"
-                                  value="phone"
-                                  checked={contactMethod === "phone"}
-                                  onChange={() => setContactMethod("phone")}
-                                />
-                                <span className="text-sm text-white/85">Phone</span>
-                              </label>
-                              <label className="flex cursor-pointer items-center gap-2.5">
-                                <input
-                                  type="radio"
-                                  name="contact-method"
-                                  value="email"
-                                  checked={contactMethod === "email"}
-                                  onChange={() => setContactMethod("email")}
-                                />
-                                <span className="text-sm text-white/85">Email</span>
-                              </label>
-                              <label className="flex cursor-pointer items-center gap-2.5">
-                                <input
-                                  type="radio"
-                                  name="contact-method"
-                                  value="text"
-                                  checked={contactMethod === "text"}
-                                  onChange={() => setContactMethod("text")}
-                                />
-                                <span className="text-sm text-white/85">Text message</span>
-                              </label>
-                            </div>
-                            {contactMethod === "text" ? (
-                              <div className="mt-4">
-                                <ConsentCheckbox id="sms-consent" checked={smsConsent} onChange={setSmsConsent} required>
-                                  I consent to APX Fire &amp; Security contacting me by SMS / text message about this
-                                  enquiry. Message and data rates may apply.{" "}
-                                  <span className="text-white/55">(required for text message)</span>
-                                </ConsentCheckbox>
-                              </div>
-                            ) : null}
                           </div>
 
                           <div>
@@ -440,6 +648,54 @@ export function ContactPageClient() {
                               className={`${fieldClass} min-h-[96px] resize-y`}
                               placeholder="Tell us about your project or enquiry…"
                             />
+                          </div>
+
+                          <div>
+                            <p className="quote-form-label mb-2 text-sm font-semibold uppercase tracking-[0.12em] text-white/55">
+                              Preferred contact{" "}
+                              <span className="text-[0.8125rem] normal-case tracking-normal text-white/70">(required)</span>
+                            </p>
+                            <div className="flex flex-wrap gap-5">
+                              <label className="flex cursor-pointer items-center gap-2.5">
+                                <input
+                                  type="radio"
+                                  name="contact-method"
+                                  value="phone"
+                                  checked={contactMethod === "phone"}
+                                  onChange={() => setContactMethod("phone")}
+                                />
+                                <span className="contact-pref-option text-base text-white/90">Phone</span>
+                              </label>
+                              <label className="flex cursor-pointer items-center gap-2.5">
+                                <input
+                                  type="radio"
+                                  name="contact-method"
+                                  value="email"
+                                  checked={contactMethod === "email"}
+                                  onChange={() => setContactMethod("email")}
+                                />
+                                <span className="contact-pref-option text-base text-white/90">Email</span>
+                              </label>
+                              <label className="flex cursor-pointer items-center gap-2.5">
+                                <input
+                                  type="radio"
+                                  name="contact-method"
+                                  value="text"
+                                  checked={contactMethod === "text"}
+                                  onChange={() => setContactMethod("text")}
+                                />
+                                <span className="contact-pref-option text-base text-white/90">Text message</span>
+                              </label>
+                            </div>
+                            {contactMethod === "text" ? (
+                              <div className="mt-4">
+                                <ConsentCheckbox id="sms-consent" checked={smsConsent} onChange={setSmsConsent} required>
+                                  I consent to APX Fire &amp; Security contacting me by SMS / text message about this
+                                  enquiry. Message and data rates may apply.{" "}
+                                  <span className="text-white/55">(required for text message)</span>
+                                </ConsentCheckbox>
+                              </div>
+                            ) : null}
                           </div>
 
                           <ConsentCheckbox
@@ -469,9 +725,9 @@ export function ContactPageClient() {
                             <TurnstileWidget onToken={setTurnstileToken} theme="dark" />
                           </div>
 
-                          <div className="flex w-full justify-center">
+                          <div className="flex w-full justify-end">
                             <FormSubmitButton
-                              className="w-full max-w-[14rem]"
+                              className="contact-form-submit"
                               onSubmit={async () => {
                                 setSubmitError(null)
                                 const form = formRef.current

@@ -3,8 +3,9 @@
 import { createContext, useContext, useEffect, type ReactNode } from "react"
 
 /**
- * Locks the title face to Plus Jakarta Sans from next/font (see layout.tsx).
- * Avoids runtime Google Fonts injection of dozens of alternate families.
+ * Homepage type system (extend sitewide later):
+ * - Titles / menu: Teko
+ * - Paragraphs / items / buttons: Oxanium
  */
 interface TitleFontContextType {
   titleFontFamily: string
@@ -18,11 +19,15 @@ export const useTitleFont = () => {
   return ctx
 }
 
-const TITLE_FAMILY = "var(--font-jakarta), \"Plus Jakarta Sans\", sans-serif"
+const TITLE_FAMILY = 'var(--font-teko), "Teko", sans-serif'
+const BODY_FAMILY = 'var(--font-oxanium), "Oxanium", sans-serif'
 
 export function TitleFontProvider({ children }: { children: ReactNode }) {
   useEffect(() => {
     document.documentElement.style.setProperty("--font-title", TITLE_FAMILY)
+    document.documentElement.style.setProperty("--font-subtitle", BODY_FAMILY)
+    document.documentElement.style.setProperty("--font-body", BODY_FAMILY)
+    document.documentElement.style.setProperty("--font-menu", TITLE_FAMILY)
   }, [])
 
   return (

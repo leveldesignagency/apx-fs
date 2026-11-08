@@ -282,7 +282,7 @@ export default function FireSafetySystemsPage() {
 
         <section className="site-container relative z-[1] py-16 lg:py-16">
           <Reveal>
-            <h2 className="mb-4 text-left font-title text-3xl font-bold text-white sm:text-4xl">
+            <h2 className="mb-4 text-left font-title text-4xl font-bold text-white sm:text-5xl">
               Fire Alarm Capabilities
             </h2>
           </Reveal>
@@ -302,7 +302,6 @@ export default function FireSafetySystemsPage() {
                   description={description}
                   imageSrc={imageSrc}
                   imageAlt={imageAlt}
-                  className="transition-transform duration-300 hover:scale-[1.02]"
                 />
               </ServiceItemReveal>
             ))}
@@ -451,7 +450,7 @@ export default function FireSafetySystemsPage() {
 
         <section className="site-container py-16 lg:py-16">
           <Reveal>
-            <h2 className="mb-4 text-left font-title text-3xl font-bold text-white sm:text-4xl">Our Fire Alarm System Installations</h2>
+            <h2 className="fs-service-installations-heading mb-4 text-left font-title text-5xl font-bold text-white sm:text-6xl">Our Fire Alarm System Installations</h2>
           </Reveal>
           <Reveal delayMs={70}>
             <p className="mb-8 max-w-2xl text-left text-gray-300">Examples of fire alarm systems that we have installed for our customers:</p>
@@ -474,7 +473,7 @@ export default function FireSafetySystemsPage() {
 
         <ServicePageClosingSections
           serviceTitleShort="Fire alarm"
-          ctaImageSrc="/service%20images/fire%20alarm%20systems/green-emergency-exit-sign-ceiling%20hero%20image.jpg"
+          ctaImageSrc={FIRE_ALARM_HERO_IMAGE_SRC}
           ctaHeadline="Need a Fire"
           ctaHeadlineAccent="Alarm System?"
           ctaDescription="Contact us for a free survey and expert advice on fire detection and alarm design for your premises."

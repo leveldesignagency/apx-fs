@@ -40,33 +40,32 @@ export function ClientLogosGrid() {
         <Reveal delayMs={70 + CLIENT_LOGO_PATHS.length * 55} className="h-full">
           <Link
             href="/contact"
-            className="our-customers-logo-grid__cta group relative flex h-full min-h-[5.5rem] items-end justify-start overflow-hidden rounded-xl rounded-tr-none rounded-bl-none px-4 py-4 text-left no-underline sm:min-h-[6.5rem] sm:px-5 sm:py-5 md:min-h-[7.25rem]"
+            className="our-customers-logo-grid__cta group relative flex h-full min-h-[5.5rem] items-center justify-center overflow-hidden rounded-xl rounded-tr-none rounded-bl-none px-4 py-4 text-center no-underline sm:min-h-[6.5rem] sm:px-5 sm:py-5 md:min-h-[7.25rem]"
           >
             <span className="our-customers-logo-grid__cta-pattern" aria-hidden />
             <span className="our-customers-logo-grid__cta-sheen" aria-hidden />
-            <span className="our-customers-logo-grid__cta-corners" aria-hidden />
-            <span className="relative z-[1] flex w-full flex-col gap-2.5">
+            <span className="relative z-[1] flex w-full flex-col items-center justify-center gap-2.5">
               <span className="font-menu text-[0.625rem] font-semibold uppercase tracking-[0.18em] text-white/45 transition-colors duration-300 group-hover:text-white/70">
                 Get in touch
               </span>
-              <span className="flex items-end justify-between gap-3">
-                <span className="max-w-[10.5rem] font-title text-[0.9375rem] font-extrabold leading-snug tracking-tight text-white sm:text-base">
-                  Want to be our next client?
-                </span>
-                <span
-                  className="our-customers-logo-grid__cta-arrow mb-0.5 inline-flex h-7 w-7 shrink-0 items-center justify-center rounded-full border border-white/25 text-white transition-[border-color,background-color,transform] duration-300 ease-out group-hover:border-white/55 group-hover:bg-white/10 motion-safe:group-hover:rotate-45"
-                  aria-hidden
-                >
-                  <svg width="12" height="12" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg">
-                    <path
-                      d="M2 6h7.5M6.5 2.5 10 6l-3.5 3.5"
-                      stroke="currentColor"
-                      strokeWidth="1.35"
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                    />
-                  </svg>
-                </span>
+              <span className="font-title text-lg font-extrabold leading-[1.05] tracking-normal text-white sm:text-xl">
+                Want to be our
+                <br />
+                next client?
+              </span>
+              <span
+                className="our-customers-logo-grid__cta-arrow inline-flex h-7 w-7 shrink-0 items-center justify-center rounded-full border border-white/25 text-white transition-[border-color,background-color,transform] duration-300 ease-out group-hover:border-white/55 group-hover:bg-white/10 motion-safe:group-hover:rotate-45"
+                aria-hidden
+              >
+                <svg width="12" height="12" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <path
+                    d="M2 6h7.5M6.5 2.5 10 6l-3.5 3.5"
+                    stroke="currentColor"
+                    strokeWidth="1.35"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                  />
+                </svg>
               </span>
             </span>
           </Link>

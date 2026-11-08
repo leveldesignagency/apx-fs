@@ -180,6 +180,9 @@ export default function AboutPage() {
   const [heritageReveal, setHeritageReveal] = useState(false);
   const [heritageYear, setHeritageYear] = useState(HERITAGE_YEAR_START);
   const heritageYearTrackRef = useRef<HTMLDivElement>(null);
+  const heritageCopyRef = useRef<HTMLDivElement>(null);
+  const heritageYearElRef = useRef<HTMLParagraphElement>(null);
+  const heritageYearSlotRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     const mq = window.matchMedia("(prefers-reduced-motion: reduce)");
@@ -215,9 +218,9 @@ export default function AboutPage() {
       const track = heritageYearTrackRef.current;
       if (!track) return;
       const trackTop = window.scrollY + track.getBoundingClientRect().top;
-      const start = trackTop - window.innerHeight * 0.55;
-      /* Short span = faster year tick through 1986-2026 while heritage is on screen */
-      const span = window.innerHeight * 0.32;
+      const start = trackTop - window.innerHeight * 0.58;
+      /* Slightly quicker year tick through 1986-2026 while heritage is on screen */
+      const span = window.innerHeight * 0.58;
       const t = Math.min(1, Math.max(0, (window.scrollY - start) / span));
       const eased = t * t * (3 - 2 * t);
       const next = Math.round(
@@ -240,6 +243,44 @@ export default function AboutPage() {
     };
   }, [reduceMotion]);
 
+  /* Lock rotated year string length to the heritage paragraph block height */
+  useEffect(() => {
+    const copy = heritageCopyRef.current;
+    const yearEl = heritageYearElRef.current;
+    const slot = heritageYearSlotRef.current;
+    if (!copy || !yearEl || !slot) return;
+
+    const sync = () => {
+      if (window.matchMedia("(max-width: 1023px)").matches) {
+        yearEl.style.fontSize = "";
+        slot.style.width = "";
+        slot.style.height = "";
+        return;
+      }
+      const targetH = copy.offsetHeight;
+      if (targetH < 40) return;
+      yearEl.style.fontSize = "100px";
+      /* offsetWidth is pre-transform; after -90deg that length becomes visual height */
+      const naturalW = yearEl.offsetWidth;
+      if (naturalW < 1) return;
+      const nextSize = ((100 * targetH) / naturalW) * 0.88;
+      yearEl.style.fontSize = `${nextSize}px`;
+      slot.style.width = `${nextSize}px`;
+      slot.style.height = `${targetH}px`;
+    };
+
+    const ro = new ResizeObserver(() => {
+      requestAnimationFrame(sync);
+    });
+    ro.observe(copy);
+    sync();
+    window.addEventListener("resize", sync);
+    return () => {
+      ro.disconnect();
+      window.removeEventListener("resize", sync);
+    };
+  }, [heritageReveal, heritageYear]);
+
   return (
     <div className="about-parallax-page about-page-shell">
       <ServiceHeroGridTilt
@@ -259,23 +300,28 @@ export default function AboutPage() {
               }`}
               aria-hidden
             />
-            <div className="mt-8 grid gap-8 sm:mt-10 lg:grid-cols-[12.5rem_minmax(0,1fr)] lg:items-start lg:gap-x-12 xl:grid-cols-[14rem_minmax(0,1fr)] xl:gap-x-14">
-              <Reveal show={heritageReveal} delayMs={80} className="about-hero-blend__year-slot hidden lg:block">
-                <p
-                  className="about-hero-blend__year select-none font-bold leading-none text-white/[0.67]"
-                  style={{ fontFamily: "var(--font-menu)" }}
-                  aria-hidden
-                >
-                  {heritageYear}
-                </p>
+            <div className="mt-8 grid gap-8 sm:mt-10 lg:ml-10 lg:grid-cols-[auto_minmax(0,1fr)] lg:items-stretch lg:gap-x-10 xl:ml-14 xl:gap-x-12">
+              <Reveal show={heritageReveal} delayMs={80} className="hidden lg:block">
+                <div ref={heritageYearSlotRef} className="about-hero-blend__year-slot">
+                  <p
+                    ref={heritageYearElRef}
+                    className="about-hero-blend__year select-none font-title font-bold leading-none text-white/[0.67]"
+                    aria-hidden
+                  >
+                    {heritageYear}
+                  </p>
+                </div>
               </Reveal>
-              <div className="min-w-0 max-w-5xl space-y-5 sm:space-y-6 xl:max-w-6xl">
+              <div
+                ref={heritageCopyRef}
+                className="min-w-0 max-w-5xl space-y-5 sm:space-y-6 xl:max-w-6xl"
+              >
                 {ABOUT_HERO_PARAS.map((para, i) => (
                   <LineReveal
                     key={i}
                     as="p"
                     text={para}
-                    className="relative text-[0.95rem] font-normal leading-relaxed tracking-tight text-white/82 sm:text-base md:text-[1.05rem] md:leading-[1.7]"
+                    className="relative text-base font-normal leading-relaxed tracking-normal text-white/82 sm:text-lg md:text-[1.125rem] md:leading-[1.7]"
                     delayMs={120 + i * 150}
                     staggerMs={48}
                     active={heritageReveal}
@@ -297,7 +343,7 @@ export default function AboutPage() {
               <LetterReveal
                 as="h2"
                 text={"Delivery-First Partner\nfor Complex Projects"}
-                className="text-3xl font-bold leading-tight text-white md:text-4xl lg:text-5xl [font-family:var(--font-menu)]"
+                className="about-section-title text-white"
                 desktopOnly={false}
               />
             </div>
@@ -328,7 +374,7 @@ export default function AboutPage() {
                       delayMs={i * 40}
                       desktopOnly={false}
                     />
-                    <p className="max-w-xl text-sm leading-relaxed text-white/90 sm:text-[0.9375rem]">
+                    <p className="max-w-xl text-sm leading-relaxed text-white/90 max-md:mt-0 sm:text-base md:mt-0 md:max-h-0 md:overflow-hidden md:opacity-0 md:transition-[max-height,opacity,margin] md:duration-300 md:ease-out md:group-hover:mt-1 md:group-hover:max-h-40 md:group-hover:opacity-100 motion-reduce:md:mt-1 motion-reduce:md:max-h-none motion-reduce:md:opacity-100">
                       {description}
                     </p>
                     <div className="inline-flex w-fit max-w-full rounded-2xl bg-white px-3 py-2 shadow-[0_12px_36px_rgba(0,0,0,0.25)] sm:px-3.5 sm:py-2.5">
@@ -352,7 +398,7 @@ export default function AboutPage() {
             <LetterReveal
               as="h2"
               text="Quality, Safety & Environment"
-              className="mb-10 max-w-3xl text-3xl font-bold leading-tight text-white md:mb-12 md:text-4xl lg:text-5xl [font-family:var(--font-menu)]"
+              className="about-section-title mb-10 max-w-3xl text-white md:mb-12"
               desktopOnly={false}
             />
           </Reveal>
@@ -365,7 +411,7 @@ export default function AboutPage() {
               >
                 <article className="group relative flex min-h-[18rem] w-full flex-col items-center justify-center overflow-hidden rounded-3xl border border-white/15 px-6 py-10 text-center sm:min-h-[20rem] sm:px-5 sm:py-12 md:min-h-[22rem] md:rounded-[1.75rem]">
                   <div
-                    className="pointer-events-none absolute inset-[-12%] scale-110 transition-transform duration-700 ease-out motion-safe:group-hover:scale-100"
+                    className="about-commitments-card__bg pointer-events-none absolute inset-[-12%] scale-110 transition-transform duration-700 ease-out motion-safe:group-hover:scale-100"
                     style={{
                       backgroundImage: `url('${item.bgSrc}')`,
                       backgroundPosition: item.bgPosition,
@@ -427,10 +473,10 @@ export default function AboutPage() {
                   as="h2"
                   id="about-our-story-heading"
                   text="Built on Recommendations"
-                  className="text-3xl font-bold leading-tight tracking-tight text-white md:text-4xl lg:text-5xl [font-family:var(--font-menu)]"
+                  className="about-section-title text-white"
                   desktopOnly={false}
                 />
-                <p className="mt-6 max-w-xl text-base leading-relaxed text-white/85 md:text-lg">
+                <p className="mt-6 max-w-xl text-base leading-relaxed tracking-normal text-white/85 md:text-lg">
                   Founded as Smiths Technical Systems in 1986, APX designs, installs and maintains{" "}
                   <Link href="/services" className={ABOUT_TEXT_LINK}>
                     fire, life-safety and security systems
@@ -498,7 +544,7 @@ export default function AboutPage() {
                   className="about-join-team-title font-title text-5xl font-bold tracking-tight text-black sm:text-6xl lg:text-7xl xl:text-[5.25rem]"
                   desktopOnly={false}
                 />
-                <p className="mt-6 max-w-md text-base leading-relaxed text-black/65 sm:mt-8 sm:text-lg">
+                <p className="mt-6 max-w-md text-base leading-relaxed tracking-normal text-black/65 sm:mt-8 sm:text-lg">
                   Open roles for Fire and Security engineers and office staff. We are a growing company looking for people
                   who want to build a long-term career with us across London and the Home Counties.
                 </p>
@@ -522,7 +568,7 @@ export default function AboutPage() {
               <LetterReveal
                 as="h2"
                 text="Certified Fire & Security Specialists"
-                className="mb-8 text-4xl font-bold leading-tight text-black lg:text-5xl [font-family:var(--font-menu)]"
+                className="about-section-title mb-8 text-black"
                 desktopOnly={false}
               />
               <p className="mb-8 text-lg leading-relaxed text-black/80">
@@ -571,7 +617,7 @@ export default function AboutPage() {
             <LetterReveal
               as="h2"
               text="Disciplines & Integrated Delivery"
-              className="text-2xl font-bold leading-tight text-black md:text-3xl lg:text-4xl [font-family:var(--font-menu)]"
+              className="about-section-title text-black"
               desktopOnly={false}
             />
           </Reveal>

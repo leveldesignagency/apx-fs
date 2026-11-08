@@ -1,7 +1,7 @@
 "use client"
 
 import Link from "next/link"
-import { useEffect, useRef, type CSSProperties } from "react"
+import { useEffect, useRef, useState, type CSSProperties } from "react"
 import { CustomPillButton } from "@/components/ui/CustomPillButton"
 import { cn } from "@/lib/utils"
 
@@ -22,17 +22,29 @@ type HomeAccreditationsSectionProps = {
 const delayStyle = (ms: number): CSSProperties =>
   ({ "--acc-delay": `${ms}ms` }) as CSSProperties
 
-/** Accreditations band, viewport-fixed photo, content scrolls over it */
+/** Accreditations band: desktop uses clipped fixed photo; mobile uses static in-section bg (no scroll fight). */
 export function HomeAccreditationsSection({ visible = true }: HomeAccreditationsSectionProps) {
   const sectionRef = useRef<HTMLElement>(null)
   const fixedBgRef = useRef<HTMLDivElement>(null)
+  const [useFixedParallax, setUseFixedParallax] = useState(false)
 
   useEffect(() => {
+    const allow =
+      !window.matchMedia("(prefers-reduced-motion: reduce)").matches &&
+      !window.matchMedia("(pointer: coarse)").matches &&
+      window.matchMedia("(min-width: 768px)").matches
+    setUseFixedParallax(allow)
+  }, [])
+
+  useEffect(() => {
+    if (!useFixedParallax) return
     const section = sectionRef.current
     const fixedBg = fixedBgRef.current
     if (!section || !fixedBg) return
 
+    let frame = 0
     const syncFixedBackground = () => {
+      frame = 0
       const rect = section.getBoundingClientRect()
       const viewportHeight = window.innerHeight
 
@@ -47,43 +59,64 @@ export function HomeAccreditationsSection({ visible = true }: HomeAccreditations
       fixedBg.style.clipPath = `inset(${insetTop}px 0px ${insetBottom}px 0px)`
     }
 
+    const onScroll = () => {
+      if (frame) return
+      frame = requestAnimationFrame(syncFixedBackground)
+    }
+
     syncFixedBackground()
-    window.addEventListener("scroll", syncFixedBackground, { passive: true })
-    window.addEventListener("resize", syncFixedBackground)
+    window.addEventListener("scroll", onScroll, { passive: true })
+    window.addEventListener("resize", onScroll)
 
     return () => {
-      window.removeEventListener("scroll", syncFixedBackground)
-      window.removeEventListener("resize", syncFixedBackground)
+      window.removeEventListener("scroll", onScroll)
+      window.removeEventListener("resize", onScroll)
+      if (frame) cancelAnimationFrame(frame)
     }
-  }, [])
+  }, [useFixedParallax])
 
   return (
     <>
-      <div
-        ref={fixedBgRef}
-        className="home-accreditations-section__fixed-bg pointer-events-none fixed inset-0 z-[15]"
-        style={{ visibility: "hidden" }}
-        aria-hidden
-      >
-        {/* eslint-disable-next-line @next/next/no-img-element */}
-        <img
-          src={HOME_ACCREDITATIONS_BG}
-          alt=""
-          className="h-full w-full object-cover object-center"
-        />
-        <div className="home-photo-swarm absolute inset-0" aria-hidden />
-      </div>
+      {useFixedParallax ? (
+        <div
+          ref={fixedBgRef}
+          className="home-accreditations-section__fixed-bg pointer-events-none fixed inset-0 z-[15]"
+          style={{ visibility: "hidden" }}
+          aria-hidden
+        >
+          {/* eslint-disable-next-line @next/next/no-img-element */}
+          <img
+            src={HOME_ACCREDITATIONS_BG}
+            alt=""
+            className="h-full w-full object-cover object-center"
+          />
+          <div className="home-photo-swarm home-photo-swarm--page-bg absolute inset-0" aria-hidden />
+        </div>
+      ) : null}
 
       <section
         ref={sectionRef}
         id="accreditations"
         className={cn(
           "home-accreditations-section relative z-[16] bg-transparent",
+          !useFixedParallax && "home-accreditations-section--static-bg",
           visible && "home-accreditations-section--in",
         )}
         aria-labelledby="home-accreditations-heading"
       >
-        <div className="pointer-events-none absolute inset-0 bg-black/58" aria-hidden />
+        {!useFixedParallax ? (
+          <div className="pointer-events-none absolute inset-0 overflow-hidden" aria-hidden>
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img
+              src={HOME_ACCREDITATIONS_BG}
+              alt=""
+              className="home-accreditations-section__static-img h-full w-full object-cover object-center"
+            />
+            <div className="absolute inset-0 bg-black/58" />
+          </div>
+        ) : (
+          <div className="pointer-events-none absolute inset-0 bg-black/58" aria-hidden />
+        )}
 
         <div className="site-container section-spacing relative z-10 text-center">
           <div className="home-acc-clip mx-auto" style={delayStyle(0)}>
@@ -125,7 +158,7 @@ export function HomeAccreditationsSection({ visible = true }: HomeAccreditations
                 <img
                   src={src}
                   alt=""
-                  className="h-20 w-auto max-w-[85%] object-contain opacity-90 transition-transform duration-300 ease-out group-hover:scale-[1.06] sm:h-24"
+                  className="home-acc-logo-img h-20 w-auto max-w-[85%] object-contain opacity-90 sm:h-24"
                   aria-hidden
                 />
               </Link>

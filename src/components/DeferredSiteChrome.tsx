@@ -16,6 +16,10 @@ const FsHomeHeroScrollGuard = dynamic(
   () => import("@/components/FsHomeHeroScrollGuard").then((m) => m.FsHomeHeroScrollGuard),
   { ssr: false }
 )
+const FsRouteScrollTop = dynamic(
+  () => import("@/components/FsRouteScrollTop").then((m) => m.FsRouteScrollTop),
+  { ssr: false }
+)
 const MobileHomeContactFab = dynamic(
   () => import("@/components/MobileHomeContactFab").then((m) => m.MobileHomeContactFab),
   { ssr: false }
@@ -26,6 +30,7 @@ export function DeferredSiteChrome() {
   return (
     <>
       <FsHomeHeroScrollGuard />
+      <FsRouteScrollTop />
       <HomeSearchIntentBanner />
       <SearchAnchorFlash />
       <CustomCursor />

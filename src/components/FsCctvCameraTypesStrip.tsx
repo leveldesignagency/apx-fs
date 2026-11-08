@@ -57,7 +57,7 @@ export function FsCctvCameraTypesStrip() {
           <Reveal show={stripShow} delayMs={STRIP_TITLE_DELAY_MS}>
             <h2
               id="cctv-camera-types-heading"
-              className="mb-6 max-w-3xl text-left font-title text-3xl font-bold text-white sm:mb-8 sm:text-4xl"
+              className="mb-6 max-w-3xl text-left font-title text-4xl font-bold text-white sm:mb-8 sm:text-5xl"
             >
               {toTitleCase("CCTV Camera Types")}
             </h2>

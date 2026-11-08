@@ -119,7 +119,12 @@ export function AboutIntroSection({ intro = DEFAULT_INTRO, steps = ABOUT_STEPS }
           style={{ backgroundImage: `url("${ABOUT_INTRO_BACKGROUND_IMAGE}")` }}
           aria-hidden
         />
-        <div className="home-photo-swarm home-photo-swarm--corners absolute inset-0" aria-hidden />
+        {/* Top-right charcoal (page bg), bottom-left white */}
+        <div
+          className="home-photo-swarm home-photo-swarm--page-bg home-photo-swarm--corner-tr absolute inset-0"
+          aria-hidden
+        />
+        <div className="home-photo-swarm home-photo-swarm--corner-bl absolute inset-0" aria-hidden />
         <div className="pointer-events-none absolute inset-0 bg-[rgb(10_10_10/0.35)]" aria-hidden />
         <div
           className="pointer-events-none absolute inset-0 bg-gradient-to-r from-[rgb(10_10_10/0.75)] via-[rgb(10_10_10/0.45)] to-[rgb(10_10_10/0.25)]"
@@ -181,10 +186,10 @@ export function AboutIntroSection({ intro = DEFAULT_INTRO, steps = ABOUT_STEPS }
                       {step.number}
                     </span>
                     <span className="mt-3 block h-px w-full bg-white/70" aria-hidden />
-                    <h3 className="mt-4 text-xs font-semibold uppercase tracking-[0.14em] text-white sm:text-[0.8125rem]">
+                    <h3 className="about-intro-step__title mt-4 text-sm font-semibold uppercase tracking-[0.14em] text-white sm:text-base">
                       {step.title}
                     </h3>
-                    <p className="mt-2.5 max-w-[18rem] text-sm leading-relaxed text-white/78 sm:text-[0.9375rem] sm:leading-relaxed lg:max-w-none">
+                    <p className="about-intro-step__body mt-2.5 max-w-[18rem] text-base leading-relaxed text-white/78 sm:text-lg sm:leading-relaxed lg:max-w-none">
                       {step.body}
                     </p>
                   </article>

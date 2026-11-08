@@ -684,7 +684,7 @@ export default function Header() {
                                 >
                                   <span className="absolute top-0 left-0 w-full h-0.5 transform scale-x-0 origin-left transition-transform duration-500 group-hover:scale-x-100" style={{ backgroundColor: "#fff" }} />
                                   <span className="absolute bottom-0 left-0 w-full h-0.5 transform scale-x-0 origin-left transition-transform duration-500 group-hover:scale-x-100" style={{ backgroundColor: "#fff" }} />
-                                  Domestic CCTV (residential)
+                                  Domestic CCTV
                                 </a>
                               </>
                             )}
@@ -742,7 +742,7 @@ export default function Header() {
               </div>
             </div>
             {/* Chip keeps the icon readable on light and dark page tops */}
-            <span className="pointer-events-auto relative z-20 inline-flex h-11 w-11 shrink-0 items-center justify-center rounded-full border border-white/35 bg-black shadow-[0_6px_20px_rgba(0,0,0,0.35)] lg:hidden">
+            <span className="pointer-events-auto relative z-20 inline-flex h-11 w-11 shrink-0 items-center justify-center rounded-full border border-white bg-black shadow-[0_6px_20px_rgba(0,0,0,0.35)] lg:hidden">
               <button
                 type="button"
                 onClick={() => (isMenuOpen ? closeFsMenu() : setIsMenuOpen(true))}
@@ -766,7 +766,7 @@ export default function Header() {
       </nav>
 
       {/* Contact tab under the bar (z below nav). Nav is pointer-events-none so these buttons still receive hover. */}
-      <div className="pointer-events-auto absolute top-full right-[54px] z-[1] hidden lg:block">
+      <div className="pointer-events-auto absolute top-full right-[6.75rem] z-[1] hidden lg:block">
         <div className="relative">
           <div
             className="header-contact-tab--dark header-contact-tab-drop-in flex items-center space-x-3 rounded-t-none rounded-b-xl border border-t-0 px-4 py-2"
@@ -780,16 +780,16 @@ export default function Header() {
               onClick={() => handleContactClick('phone', '020 8303 2280')}
               className="header-contact-btn relative flex items-center space-x-1.5 px-2.5 py-1.5 rounded-full cursor-pointer"
             >
-              <Phone className="h-3.5 w-3.5" />
-              <span className="text-xs">020 8303 2280</span>
+              <Phone className="h-4 w-4" />
+              <span className="header-contact-btn__label text-sm font-medium">020 8303 2280</span>
             </button>
             <button
               type="button"
               onClick={() => handleContactClick('email', 'enquiries@apx-fs.co.uk')}
               className="header-contact-btn relative flex items-center space-x-1.5 px-2.5 py-1.5 rounded-full cursor-pointer"
             >
-              <Mail className="h-3.5 w-3.5" />
-              <span className="text-xs">enquiries@apx-fs.co.uk</span>
+              <Mail className="h-4 w-4" />
+              <span className="header-contact-btn__label text-sm font-medium">enquiries@apx-fs.co.uk</span>
             </button>
           </div>
           {toast && (

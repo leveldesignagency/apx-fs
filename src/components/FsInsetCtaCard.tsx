@@ -99,13 +99,13 @@ export function FsInsetCtaCard({
               />
             ) : null}
 
-            <div className="relative z-[2] grid grid-cols-1 items-center gap-8 lg:grid-cols-[minmax(0,1.15fr)_minmax(0,0.85fr)] lg:gap-12 xl:gap-16">
+            <div className="relative z-[2] grid grid-cols-1 items-center gap-8 text-center lg:grid-cols-[minmax(0,1.15fr)_minmax(0,0.85fr)] lg:gap-12 lg:text-left xl:gap-16">
               <div className="min-w-0">
                 <h2
                   id={headingId}
                   aria-label={`${toTitleCase(headline.trimEnd())} ${toTitleCase(headlineAccent.trimStart())}`}
                   className={cn(
-                    "font-title text-4xl font-bold leading-[1.02] tracking-tight sm:text-5xl lg:text-[3.35rem] xl:text-6xl",
+                    "font-title text-5xl font-bold leading-[0.88] tracking-normal sm:text-6xl lg:text-7xl xl:text-[4.75rem]",
                     isDarkPanel ? "text-white" : "text-black"
                   )}
                 >
@@ -119,17 +119,17 @@ export function FsInsetCtaCard({
                 </h2>
               </div>
 
-              <div className="min-w-0">
+              <div className="mx-auto min-w-0 max-w-xl lg:mx-0 lg:max-w-none">
                 <p
                   className={cn(
-                    "text-lg leading-relaxed sm:text-xl",
+                    "text-center text-lg leading-relaxed sm:text-xl lg:text-left",
                     isDarkPanel ? "text-white/75" : "text-neutral-600"
                   )}
                 >
                   {description}
                 </p>
                 <Reveal delayMs={80}>
-                  <div className="mt-7 flex flex-col items-center gap-4 sm:flex-row sm:flex-wrap sm:items-center sm:gap-3">
+                  <div className="mt-7 flex flex-col items-center justify-center gap-4 sm:flex-row sm:flex-wrap sm:gap-3 lg:justify-start">
                     {children}
                   </div>
                 </Reveal>

@@ -27,7 +27,9 @@ export function FsServiceFaqSection({ items = FS_SERVICE_FAQ_FALLBACK, variant =
     <section
       className={cn(
         "border-t pb-24 pt-14 sm:pb-28 sm:pt-16 lg:pb-32",
-        isLight ? "service-page-white-band fs-service-faq-section--light border-black/10" : "border-white/10 bg-black"
+        isLight
+          ? "fs-service-faq-section service-page-white-band fs-service-faq-section--light border-black/10"
+          : "fs-service-faq-section border-white/10 bg-black"
       )}
       aria-labelledby="fs-service-faq-heading"
     >
@@ -37,7 +39,7 @@ export function FsServiceFaqSection({ items = FS_SERVICE_FAQ_FALLBACK, variant =
             <h2
               id="fs-service-faq-heading"
               className={cn(
-                "font-title text-3xl font-bold normal-case leading-tight tracking-tight sm:text-4xl",
+                "font-title text-5xl font-bold normal-case leading-[0.92] tracking-normal sm:text-6xl",
                 !isLight && "text-white"
               )}
             >

@@ -252,7 +252,7 @@ export default function VideoDoorEntrySystemsPage() {
 
         <section className="site-container relative z-[1] py-16 lg:py-16">
           <Reveal>
-            <h2 className="mb-4 text-left font-title text-3xl font-bold text-white sm:text-4xl">
+            <h2 className="mb-4 text-left font-title text-4xl font-bold text-white sm:text-5xl">
               What We Deliver
             </h2>
           </Reveal>
@@ -271,7 +271,6 @@ export default function VideoDoorEntrySystemsPage() {
                   description={text}
                   imageSrc={imageSrc}
                   imageAlt={imageAlt}
-                  className="transition-transform duration-300 hover:scale-[1.02]"
                 />
               </ServiceItemReveal>
             ))}
@@ -383,7 +382,7 @@ export default function VideoDoorEntrySystemsPage() {
 
         <section className="site-container py-16 lg:py-16">
           <Reveal>
-            <h2 className="mb-4 text-left font-title text-3xl font-bold text-white sm:text-4xl">
+            <h2 className="mb-4 text-left font-title text-4xl font-bold text-white sm:text-5xl">
               Our Video Entry Installations
             </h2>
           </Reveal>
