@@ -8,7 +8,7 @@ import { toTitleCase } from "@/lib/titleCase"
 type LegalPageShellProps = {
   title: string
   children: ReactNode
-  /** Fixed “Last updated” date string, e.g. "30 September 2026". Defaults to today if omitted. */
+  /** Fixed "Last updated" date string, e.g. "30 September 2026". Defaults to today if omitted. */
   lastUpdated?: string
 }
 

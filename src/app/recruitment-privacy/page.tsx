@@ -12,7 +12,7 @@ export const metadata: Metadata = buildFsMetadata({
 export default function RecruitmentPrivacyPage() {
   return (
     <div className="min-h-screen bg-white text-black">
-      <section className="site-container max-w-3xl pb-24 pt-16 sm:pb-28 sm:pt-20">
+      <section className="page-title-top site-container max-w-3xl pb-24 sm:pb-28">
         <p className="text-[11px] font-semibold uppercase tracking-[0.22em] text-black/45">Legal</p>
         <h1 className="mt-3 font-title text-3xl font-bold leading-tight text-black sm:text-4xl">
           Recruitment Privacy Notice

@@ -1006,8 +1006,7 @@ section#services.home-services-band.section-spacing {
 @media (max-width: 639.98px) {
   /* Exclude grid-tilt service / about heroes - they keep their own display scale */
   .site-shell main h1.font-title:not([class~="text-xl"]):not([class~="text-lg"]):not([class~="text-base"]):not([class~="text-sm"]):not(.service-hero-grid__title),
-  .site-shell main h2.font-title:not([class~="text-xl"]):not([class~="text-lg"]):not([class~="text-base"]):not([class~="text-sm"]):not(.home-section-title):not(.about-section-title),
-  .site-shell main #about-intro .about-intro-heading,
+  .site-shell main h2.font-title:not([class~="text-xl"]):not([class~="text-lg"]):not([class~="text-base"]):not([class~="text-sm"]):not(.home-section-title):not(.about-section-title):not(.about-intro-heading),
   .site-shell main #fs-service-faq-heading {
     font-size: 1.875rem !important;
     line-height: 1.1 !important;
@@ -1019,7 +1018,8 @@ section#services.home-services-band.section-spacing {
   .site-shell main h3.home-section-title,
   .site-shell main .home-page-trial .home-section-title,
   .site-shell main .about-page-shell .about-section-title,
-  .site-shell main .about-block h2.about-section-title {
+  .site-shell main .about-block h2.about-section-title,
+  .site-shell main #about-intro .about-intro-heading {
     font-size: 2.625rem !important;
     line-height: 0.92 !important;
     letter-spacing: 0 !important;
@@ -6038,6 +6038,18 @@ html.about-page-active {
   letter-spacing: 0 !important;
   line-height: 0.88 !important;
 }
+@media (max-width: 639.98px) {
+  /* Match other mobile display heroes / homepage section scale */
+  .about-parallax-page > .service-hero-grid--about .service-hero-grid__title {
+    font-size: clamp(3.75rem, 17vw, 5rem) !important;
+    line-height: 0.88 !important;
+  }
+  .about-page-shell .about-section-title,
+  .about-page-shell .about-block h2.about-section-title {
+    font-size: 2.625rem !important;
+    line-height: 0.92 !important;
+  }
+}
 .about-parallax-page > .service-hero-grid--about .service-hero-grid__inner {
   position: relative;
   z-index: 4;
@@ -7903,24 +7915,29 @@ footer a.footer-level-credit:hover {
   z-index: 2;
 }
 
-/* Footer expand: collapse/expand on hover, start behind the bar (negative margin), so bar’s rounded top shows */
+/* Footer expand: collapse/expand on hover, start behind the bar (negative margin), so bar's rounded top shows */
 .footer-expand {
   max-height: 0;
   overflow: hidden;
-  transition: max-height 0.45s ease-out;
+  transition: max-height 0.95s cubic-bezier(0.22, 1, 0.36, 1);
   background-color: var(--page-bg);
 }
 .footer-expand-wrapper:hover .footer-expand {
-  max-height: 1800px;
+  /* Tall enough for desktop columns + legal strip */
+  max-height: 3200px;
 }
 .footer-expand-wrapper:hover .footer-hint {
   opacity: 0.4;
+  transition: opacity 0.6s ease;
 }
 .footer-expand-wrapper:hover .footer-chevron {
   transform: rotate(180deg);
 }
+.footer-hint {
+  transition: opacity 0.6s ease;
+}
 .footer-chevron {
-  transition: transform 0.3s ease;
+  transition: transform 0.7s cubic-bezier(0.22, 1, 0.36, 1);
 }
 
 /*

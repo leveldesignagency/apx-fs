@@ -169,7 +169,9 @@ export function IndustriesWeWorkInSection() {
             id="industries-heading"
             className="home-section-title text-white font-title"
           >
-            Industries We Work In
+            Industries We
+            <br />
+            Work In
           </h2>
           <p className="section-intro-gap max-w-2xl text-pretty text-sm leading-relaxed text-white/65 sm:text-base">
             From education and hospitals to commercial offices, high-end housing and hotels, we design and install

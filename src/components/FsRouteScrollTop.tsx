@@ -6,7 +6,7 @@ import { forceDocumentScrollTop } from "@/lib/lenisBridge"
 
 /**
  * Soft client navigations (footer / in-page links) must land at the top of the new route.
- * `history.scrollRestoration = "manual"` + mobile soft-nav otherwise often resumes mid-page
+ * history.scrollRestoration = "manual" + mobile soft-nav otherwise often resumes mid-page
  * past the hero. Homepage hero pinning stays in FsHomeHeroScrollGuard.
  */
 export function FsRouteScrollTop() {

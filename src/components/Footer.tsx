@@ -279,7 +279,7 @@ export default function Footer() {
         </div>
 
         <div className="footer-expand">
-          <div className="site-container py-12 pt-8 pb-28 md:pt-16 md:pb-12">
+          <div className="site-container py-12 pt-8 pb-8 md:pt-16 md:pb-12">
             {/* Mobile: centred accordion menu */}
             <div className="footer-mobile-acc md:hidden">
               <div className="mx-auto flex max-w-md flex-col items-center text-center">
@@ -659,6 +659,13 @@ export default function Footer() {
                     className="group relative inline-block cursor-pointer pb-0.5 transition-colors hover:text-white"
                   >
                     Terms of Service
+                    <FooterUnderline />
+                  </Link>
+                  <Link
+                    href="/modern-slavery"
+                    className="group relative inline-block cursor-pointer pb-0.5 transition-colors hover:text-white"
+                  >
+                    Modern Slavery
                     <FooterUnderline />
                   </Link>
                   <Link
