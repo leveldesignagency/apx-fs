@@ -5,5 +5,6 @@ export const sanityClient = createClient({
   projectId,
   dataset,
   apiVersion,
-  useCdn: true,
+  // Skip the Sanity CDN so revalidation after Studio publish/delete sees fresh data.
+  useCdn: false,
 })

@@ -1,11 +1,26 @@
 import { revalidatePath, revalidateTag } from "next/cache"
 import { type NextRequest, NextResponse } from "next/server"
 
+type WebhookBody = {
+  _type?: string
+  slug?: { current?: string } | string
+}
+
+function readSlug(body: WebhookBody | null): string | undefined {
+  if (!body?.slug) return undefined
+  if (typeof body.slug === "string") return body.slug
+  return body.slug.current
+}
+
 /**
- * Sanity webhook target. Configure in Sanity Manage ? API ? Webhooks:
+ * Sanity webhook target (does NOT redeploy - busts Next/Vercel cache only).
+ *
+ * Manage ? API ? Webhooks ? Create:
  * URL: https://apx-fs.vercel.app/api/revalidate?secret=YOUR_SECRET
- * Dataset: production, trigger on create/update/delete for type project.
- * Optional: set SANITY_REVALIDATE_SECRET in Vercel env to match.
+ * Trigger: Create, Update, Delete
+ * Filter: _type == "project"
+ * Projection: {"slug": coalesce(slug.current, before().slug.current)}
+ * Secret: same value as SANITY_REVALIDATE_SECRET in Vercel
  */
 export async function POST(request: NextRequest) {
   const secret = request.nextUrl.searchParams.get("secret")
@@ -17,18 +32,18 @@ export async function POST(request: NextRequest) {
 
   let slug: string | undefined
   try {
-    const body = (await request.json()) as {
-      slug?: { current?: string } | string
-      _type?: string
-    }
-    if (typeof body.slug === "string") slug = body.slug
-    else if (body.slug && typeof body.slug === "object") slug = body.slug.current
+    const body = (await request.json()) as WebhookBody
+    slug = readSlug(body)
   } catch {
     // Body optional - still revalidate project list
   }
 
+  // Brief wait so Content Lake / CDN have propagated deletes before next fetch.
+  await new Promise((resolve) => setTimeout(resolve, 1500))
+
   revalidateTag("sanity-project")
   revalidatePath("/projects")
+  revalidatePath("/projects", "layout")
   if (slug) {
     revalidateTag(`project:${slug}`)
     revalidatePath(`/projects/${slug}`)
