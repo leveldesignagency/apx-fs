@@ -37,6 +37,7 @@ export function getApxMepSiteUrl(): string {
 }
 
 export function fsAbsoluteUrl(path: string): string {
+  if (/^https?:\/\//i.test(path)) return path
   const base = getFsSiteUrl()
   const p = path.startsWith("/") ? path : `/${path}`
   return `${base}${p}`

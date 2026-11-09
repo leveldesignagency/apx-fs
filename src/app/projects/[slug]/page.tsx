@@ -2,7 +2,6 @@ import type { Metadata } from "next"
 import Image from "next/image"
 import Link from "next/link"
 import { notFound } from "next/navigation"
-import { MAIN_CASE_STUDIES, getProjectBySlug } from "@/data/projects"
 import { buildFsMetadata } from "@/lib/seo-metadata"
 import { FS_PROJECTS_CONTENT_MAX, FS_PROJECTS_SECTION_PX } from "@/lib/fsProjectsLayout"
 import { ProjectDetailStory } from "@/components/projects/ProjectDetailStory"
@@ -17,18 +16,26 @@ import { CallPhoneCta } from "@/components/ui/CallPhoneCta"
 import { JsonLd } from "@/components/seo/JsonLd"
 import { breadcrumbsSimple, buildBreadcrumbJsonLd, buildProjectJsonLd } from "@/lib/seo-jsonld"
 import { fsAbsoluteUrl } from "@/lib/seo"
+import {
+  getSanityProjectBySlug,
+  getSanityProjectSlugs,
+  getSanityProjects,
+} from "@/sanity/projects"
 
 type Props = {
   params: Promise<{ slug: string }>
 }
 
-export function generateStaticParams() {
-  return MAIN_CASE_STUDIES.map((project) => ({ slug: project.slug }))
+export const revalidate = 60
+
+export async function generateStaticParams() {
+  const slugs = await getSanityProjectSlugs()
+  return slugs.map((slug) => ({ slug }))
 }
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { slug } = await params
-  const project = getProjectBySlug(slug)
+  const project = await getSanityProjectBySlug(slug)
   if (!project) {
     return { title: "Project | APX Fire & Security" }
   }
@@ -45,10 +52,11 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 
 export default async function ProjectDetailPage({ params }: Props) {
   const { slug } = await params
-  const project = getProjectBySlug(slug)
+  const project = await getSanityProjectBySlug(slug)
   if (!project) notFound()
 
-  const related = MAIN_CASE_STUDIES.filter((item) => item.slug !== project.slug).slice(0, 6)
+  const allProjects = await getSanityProjects()
+  const related = allProjects.filter((item) => item.slug !== project.slug).slice(0, 6)
   const galleryImages = Array.from(new Set(project.gallery))
 
   return (

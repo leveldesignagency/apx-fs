@@ -185,7 +185,7 @@ export function ProjectDetailClientReview({ review }: ProjectDetailClientReviewP
       </p>
       <blockquote className="mt-6 border-l border-white/25 pl-5 md:pl-7">
         <div className="space-y-5 text-sm font-normal leading-relaxed text-white/85 md:text-base md:leading-relaxed">
-          {review.paragraphs.map((p, i) => (
+          {(review.paragraphs || []).map((p, i) => (
             <p key={i}>{p}</p>
           ))}
         </div>
