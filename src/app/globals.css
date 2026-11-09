@@ -1744,7 +1744,7 @@ main .service-page-white-band .pill-btn .pill-text,
   background: var(--page-bg);
   color: #ffffff;
   isolation: isolate;
-  cursor: crosshair;
+  cursor: default;
 }
 .service-hero-grid__media-layer {
   pointer-events: none;
@@ -7658,169 +7658,40 @@ html:not(.dark) body {
   }
 }
 
-/* Custom Cursor - Curzr BigCircle: white circle + black dot (cursor-2 style) */
-.curzr-big-circle-active *,
-.curzr-big-circle-active *::before,
-.curzr-big-circle-active *::after {
-  cursor: none !important;
+/* Native system cursors (no JS follower / no image cursor). Premium = clean OS pointer. */
+html,
+body {
+  cursor: default;
 }
 
-/* When BigCircle cursor is active, hide default cursor everywhere */
-html.curzr-big-circle-active,
-html.curzr-big-circle-active body {
-  cursor: none !important;
+a,
+button,
+[role="button"],
+summary,
+label[for],
+.cursor-pointer,
+input[type="button"],
+input[type="submit"],
+input[type="reset"],
+input[type="checkbox"],
+input[type="radio"],
+input[type="file"] {
+  cursor: pointer;
 }
 
-/* Fallback when custom cursor is not active - APX image cursor */
-html:not(.curzr-big-circle-active) * {
-  cursor: url('/APXCursor.png') 16 16, auto !important;
+input:not([type="button"]):not([type="submit"]):not([type="reset"]):not([type="checkbox"]):not([type="radio"]):not([type="file"]),
+textarea,
+select,
+[contenteditable="true"] {
+  cursor: text;
 }
 
-html:not(.curzr-big-circle-active) html,
-html:not(.curzr-big-circle-active) body {
-  cursor: url('/APXCursor.png') 16 16, auto !important;
-}
-
-html:not(.curzr-big-circle-active) .apx-site-table tbody tr.apx-site-table__row,
-html:not(.curzr-big-circle-active) .apx-site-table .apx-capability-list__item {
-  cursor: url('/APXCursor.png') 16 16, auto !important;
-}
-
-html:not(.curzr-big-circle-active) button,
-html:not(.curzr-big-circle-active) a,
-html:not(.curzr-big-circle-active) [role="button"],
-html:not(.curzr-big-circle-active) .cursor-pointer {
-  cursor: url('/APXCursor.png') 16 16, pointer !important;
-}
-
-html:not(.curzr-big-circle-active) input,
-html:not(.curzr-big-circle-active) textarea,
-html:not(.curzr-big-circle-active) select {
-  cursor: url('/APXCursor.png') 16 16, text !important;
-}
-
-html:not(.curzr-big-circle-active) .cursor-pointer {
-  cursor: url('/APXCursor.png') 16 16, pointer !important;
-}
-
-html:not(.curzr-big-circle-active) .cursor-auto {
-  cursor: url('/APXCursor.png') 16 16, auto !important;
-}
-
-/* BigCircle cursor: outer circle black, middle dot white; on hover outer circle is border only */
-.apx-cursor-big-circle {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 0;
-  height: 0;
-  z-index: 2147483647;
-  pointer-events: none;
+footer a[href^="tel:"],
+footer a[href^="mailto:"],
+footer a[href*="maps.google.com"] {
+  cursor: pointer;
   user-select: none;
-  transition: opacity 300ms ease;
-}
-
-.apx-cursor-big-circle[hidden] {
-  display: block !important;
-  visibility: hidden;
-}
-
-/* Outer circle: black fill by default */
-.apx-cursor-big-circle__circle {
-  position: fixed;
-  top: -25px;
-  left: -25px;
-  width: 50px;
-  height: 50px;
-  border-radius: 50%;
-  background-color: rgba(0, 0, 0, 0.95);
-  border: 2px solid rgba(0, 0, 0, 0.9);
-  box-sizing: border-box;
-  transition: width 200ms, height 200ms, background-color 200ms, border-color 200ms;
-  pointer-events: none;
-  will-change: transform;
-}
-
-/* Hover (links / buttons / inputs): outer circle grows, border only (no fill), light / image surfaces */
-.apx-cursor-big-circle--surface-light.apx-cursor-big-circle--hover .apx-cursor-big-circle__circle,
-.apx-cursor-big-circle--surface-image.apx-cursor-big-circle--hover .apx-cursor-big-circle__circle {
-  width: 64px;
-  height: 64px;
-  top: -32px;
-  left: -32px;
-  background-color: transparent !important;
-  border: 2px solid rgba(0, 0, 0, 0.95) !important;
-  box-sizing: border-box;
-}
-
-/* Dark surfaces (black UI, header): white ring + black dot; hover = white ring outline */
-.apx-cursor-big-circle--surface-dark .apx-cursor-big-circle__circle,
-.apx-cursor-big-circle--header .apx-cursor-big-circle__circle {
-  background-color: rgba(255, 255, 255, 0.95);
-  border-color: rgba(255, 255, 255, 0.9);
-}
-.apx-cursor-big-circle--surface-dark.apx-cursor-big-circle--hover .apx-cursor-big-circle__circle,
-.apx-cursor-big-circle--header.apx-cursor-big-circle--hover .apx-cursor-big-circle__circle {
-  width: 64px;
-  height: 64px;
-  top: -32px;
-  left: -32px;
-  background-color: transparent !important;
-  border: 2px solid rgba(255, 255, 255, 0.95) !important;
-  box-sizing: border-box;
-}
-.apx-cursor-big-circle--surface-dark .apx-cursor-big-circle__dot,
-.apx-cursor-big-circle--header .apx-cursor-big-circle__dot {
-  background-color: #000;
-}
-
-/* Images / light backgrounds: black ring + white dot (default fill) */
-.apx-cursor-big-circle--surface-image .apx-cursor-big-circle__circle,
-.apx-cursor-big-circle--surface-light .apx-cursor-big-circle__circle {
-  background-color: rgba(0, 0, 0, 0.95);
-  border-color: rgba(0, 0, 0, 0.9);
-}
-.apx-cursor-big-circle--surface-image .apx-cursor-big-circle__dot,
-.apx-cursor-big-circle--surface-light .apx-cursor-big-circle__dot {
-  background-color: #fff;
-}
-
-/* Middle dot, transform scale for “magnify” on text (see CustomCursor.tsx) */
-.apx-cursor-big-circle__dot {
-  position: fixed;
-  top: -3px;
-  left: -3px;
-  width: 6px;
-  height: 6px;
-  border-radius: 50%;
-  background-color: #ffffff;
-  box-sizing: border-box;
-  pointer-events: none;
-  will-change: transform;
-  transition: transform 140ms cubic-bezier(0.22, 1, 0.36, 1);
-}
-.apx-cursor-big-circle--text-mag .apx-cursor-big-circle__circle {
-  transition:
-    width 200ms,
-    height 200ms,
-    background-color 200ms,
-    border-color 200ms,
-    transform 140ms ease;
-}
-
-/* Optional: invert for light backgrounds (add .cursor-invert to html if needed) */
-html.cursor-invert.curzr-big-circle-active .apx-cursor-big-circle__circle {
-  background-color: rgba(255, 255, 255, 0.92);
-  border-color: rgba(255, 255, 255, 0.9);
-}
-
-html.cursor-invert.curzr-big-circle-active .apx-cursor-big-circle--hover .apx-cursor-big-circle__circle {
-  background-color: transparent !important;
-  border-color: rgba(255, 255, 255, 0.95) !important;
-}
-
-html.cursor-invert.curzr-big-circle-active .apx-cursor-big-circle__dot {
-  background-color: #000;
+  -webkit-user-select: none;
 }
 
 /* Wrapper so precede-section fill sits behind footer without clipping radius */
@@ -8076,42 +7947,6 @@ footer a.footer-level-credit:hover {
     user-select: text;
     touch-action: manipulation;
   }
-}
-
-/* Footer contact links cursor fix - pointer when using image cursor */
-html:not(.curzr-big-circle-active) footer a[href^="tel:"], 
-html:not(.curzr-big-circle-active) footer a[href^="mailto:"], 
-html:not(.curzr-big-circle-active) footer a[href*="maps.google.com"] {
-  cursor: pointer !important;
-  user-select: none !important;
-  -webkit-user-select: none !important;
-  -moz-user-select: none !important;
-  -ms-user-select: none !important;
-}
-
-/* Override for footer contact links hover (image cursor only) */
-html:not(.curzr-big-circle-active) footer a[href^="tel:"]:hover, 
-html:not(.curzr-big-circle-active) footer a[href^="mailto:"]:hover, 
-html:not(.curzr-big-circle-active) footer a[href*="maps.google.com"]:hover {
-  cursor: pointer !important;
-  user-select: none !important;
-  -webkit-user-select: none !important;
-  -moz-user-select: none !important;
-  -ms-user-select: none !important;
-}
-
-/* Ensure all clickable elements show pointer when using image cursor */
-html:not(.curzr-big-circle-active) a:hover,
-html:not(.curzr-big-circle-active) button:hover,
-html:not(.curzr-big-circle-active) [role="button"]:hover,
-html:not(.curzr-big-circle-active) .cursor-pointer:hover {
-  cursor: url('/APXCursor.png') 16 16, pointer !important;
-}
-
-html:not(.curzr-big-circle-active) footer a[href^="tel:"]:hover, 
-html:not(.curzr-big-circle-active) footer a[href^="mailto:"]:hover, 
-html:not(.curzr-big-circle-active) footer a[href*="maps.google.com"]:hover {
-  cursor: pointer !important;
 }
 
 /* Hide scrollbar globally */
@@ -9481,9 +9316,17 @@ header.site-header nav a.nav-menu-item,
 header.site-header nav .nav-menu-item {
   display: inline-flex;
   align-items: center;
-  padding: 0.4rem 0.85rem;
+  justify-content: center;
+  text-align: center;
+  /*
+   * letter-spacing adds trailing space after the last glyph, which makes the
+   * label look right-shifted inside the pill. Trim right padding by the same
+   * amount so the word sits optically centred.
+   */
+  padding: 0.4rem calc(0.85rem + 0.04em) 0.4rem 0.85rem;
   margin-block: -0.4rem;
   border-radius: 9999px;
+  letter-spacing: 0.04em;
   font-size: 1rem !important; /* bigger than default text-sm; contact tab stays smaller */
   transition:
     background-color 0.25s ease,
