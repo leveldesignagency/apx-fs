@@ -7658,10 +7658,10 @@ html:not(.dark) body {
   }
 }
 
-/* Custom pointer: black fill, white border, sharp, compact */
+/* Custom pointer: user's shape, black fill, white border, sharper, slightly smaller */
 html,
 body {
-  cursor: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24"><path fill="%23000" stroke="%23FFF" stroke-width="1.75" stroke-linejoin="miter" stroke-linecap="square" d="M4 2 L4 20 L9.2 14.8 L13.8 22 L16.2 20.7 L11.5 13.3 L18 13.3 Z"/></svg>') 4 2, auto;
+  cursor: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" width="36" height="36" viewBox="0 0 24 24"><path fill="%23000" stroke="%23FFF" stroke-width="1.75" stroke-linejoin="miter" stroke-linecap="square" d="M5.5 3.21V20.8c0 .45.54.67.85.35l4.86-4.86a.5.5 0 0 1 .35-.15h6.87a.5.5 0 0 0 .35-.85L6.35 2.85a.5.5 0 0 0-.85.35Z"/></svg>') 8 5, auto;
 }
 
 a,
@@ -7676,7 +7676,7 @@ input[type="reset"],
 input[type="checkbox"],
 input[type="radio"],
 input[type="file"] {
-  cursor: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24"><path fill="%23000" stroke="%23FFF" stroke-width="1.75" stroke-linejoin="miter" stroke-linecap="square" d="M4 2 L4 20 L9.2 14.8 L13.8 22 L16.2 20.7 L11.5 13.3 L18 13.3 Z"/></svg>') 4 2, pointer;
+  cursor: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" width="36" height="36" viewBox="0 0 24 24"><path fill="%23000" stroke="%23FFF" stroke-width="1.75" stroke-linejoin="miter" stroke-linecap="square" d="M5.5 3.21V20.8c0 .45.54.67.85.35l4.86-4.86a.5.5 0 0 1 .35-.15h6.87a.5.5 0 0 0 .35-.85L6.35 2.85a.5.5 0 0 0-.85.35Z"/></svg>') 8 5, pointer;
 }
 
 input:not([type="button"]):not([type="submit"]):not([type="reset"]):not([type="checkbox"]):not([type="radio"]):not([type="file"]),
@@ -7689,7 +7689,7 @@ select,
 footer a[href^="tel:"],
 footer a[href^="mailto:"],
 footer a[href*="maps.google.com"] {
-  cursor: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24"><path fill="%23000" stroke="%23FFF" stroke-width="1.75" stroke-linejoin="miter" stroke-linecap="square" d="M4 2 L4 20 L9.2 14.8 L13.8 22 L16.2 20.7 L11.5 13.3 L18 13.3 Z"/></svg>') 4 2, pointer;
+  cursor: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" width="36" height="36" viewBox="0 0 24 24"><path fill="%23000" stroke="%23FFF" stroke-width="1.75" stroke-linejoin="miter" stroke-linecap="square" d="M5.5 3.21V20.8c0 .45.54.67.85.35l4.86-4.86a.5.5 0 0 1 .35-.15h6.87a.5.5 0 0 0 .35-.85L6.35 2.85a.5.5 0 0 0-.85.35Z"/></svg>') 8 5, pointer;
   user-select: none;
   -webkit-user-select: none;
 }
