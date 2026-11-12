@@ -28,14 +28,14 @@ export function ProjectsPageClient({ projects }: Props) {
               </h1>
               <p className="mt-4 max-w-2xl text-left text-base font-normal leading-relaxed tracking-tight text-white/70 sm:text-lg md:text-xl">
                 A selection of fire and security installations we have delivered for commercial, public-sector and
-                domestic clients across London and the Home Counties.
+                residential clients across London and the Home Counties.
               </p>
             </Reveal>
           </div>
         </div>
       </section>
 
-      <section className={`border-b border-white/10 py-16 sm:py-20 lg:py-24 ${FS_PROJECTS_SECTION_PX}`}>
+      <section className={`border-b border-white/10 pt-8 pb-16 sm:pt-10 sm:pb-20 lg:pt-12 lg:pb-24 ${FS_PROJECTS_SECTION_PX}`}>
         <div className={FS_PROJECTS_CONTENT_MAX}>
           <ul className="m-0 grid list-none grid-cols-1 gap-8 p-0 md:grid-cols-2 md:gap-10 xl:grid-cols-3">
             {projects.map((project, index) => (

@@ -94,6 +94,7 @@ export default function CctvSecurityPage() {
       <ServicePageHero
         title="CCTV Systems"
         imageSrc={serviceHeroImages.cctv}
+        imageAlt="Hikvision CCTV camera at City of London Cemetery (CC BY-SA 4.0)"
         heroCompliance={["BS EN 62676"]}
         heroSummary="Commercial CCTV design, installation and maintenance, IP systems, recording and retention across London and the Home Counties."
         afterIntro={<FsCctvSubpageHeroButtons />}

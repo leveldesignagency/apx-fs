@@ -103,6 +103,21 @@ header.site-header {
   }
 }
 
+/* Projects hub: tighter space under the title band (all breakpoints) */
+.fs-projects-page > .page-title-band {
+  padding-bottom: 2.5rem;
+}
+@media (min-width: 640px) {
+  .fs-projects-page > .page-title-band {
+    padding-bottom: 3rem;
+  }
+}
+@media (min-width: 1024px) {
+  .fs-projects-page > .page-title-band {
+    padding-bottom: 3.25rem;
+  }
+}
+
 /* Careers: Apply uses homepage CustomPillButton (TL/BR radius). Search stays fully rounded. */
 .careers-page .careers-search-input {
   border-radius: 9999px !important;
@@ -3105,13 +3120,42 @@ html.dark #about {
 #contact.contact-section--light .contact-section-head p {
   color: rgba(0, 0, 0, 0.62) !important;
 }
-/* Form stays dark on the white band — dark draw-shell stroke on white */
+/* Homepage Ready form: no black outer panel — fields sit on white */
 #contact.contact-section--light .quote-form-draw-shell {
-  color: #0a0a0a;
-  outline-color: rgba(0, 0, 0, 0.35);
+  color: transparent;
+  outline: none !important;
+  background: transparent !important;
 }
 #contact.contact-section--light .home-quote-form-stroke {
-  stroke: #0a0a0a;
+  stroke: transparent;
+  opacity: 0;
+}
+#contact.contact-section--light #quote-form .quote-form-label,
+#contact.contact-section--light #quote-form .quote-form-label span,
+#contact.contact-section--light #quote-form .contact-pref-option,
+#contact.contact-section--light #quote-form .contact-consent,
+#contact.contact-section--light #quote-form .contact-consent__text {
+  color: rgba(0, 0, 0, 0.7) !important;
+}
+#contact.contact-section--light #quote-form .quote-form-label {
+  color: rgba(0, 0, 0, 0.55) !important;
+}
+#contact.contact-section--light #quote-form .contact-pref-option {
+  color: rgba(0, 0, 0, 0.9) !important;
+}
+#contact.contact-section--light #quote-form a {
+  color: #000000 !important;
+}
+/* Keep typed field chrome black with white text */
+#contact.contact-section--light #quote-form .quote-form-field,
+#contact.contact-section--light #quote-form input.quote-form-field,
+#contact.contact-section--light #quote-form textarea.quote-form-field {
+  background-color: #000000 !important;
+  color: #ffffff !important;
+  border-color: rgba(255, 255, 255, 0.2) !important;
+}
+#contact.contact-section--light #quote-form .quote-form-field::placeholder {
+  color: rgba(255, 255, 255, 0.4) !important;
 }
 /* Beat ThemeToggle global white text on the light contact copy column */
 #contact.contact-section--light .contact-section-head .section-label,
@@ -3331,6 +3375,23 @@ html:not(.dark) .services-drawer-list-item::before {
 }
 .industries-carousel__card {
   width: min(72vw, 18.5rem);
+  opacity: 0;
+  transform: translate3d(0, 1.25rem, 0);
+  transition:
+    opacity 0.95s ease-out calc(var(--card-step, 0) * 180ms),
+    transform 1.15s cubic-bezier(0.22, 1, 0.36, 1) calc(var(--card-step, 0) * 180ms);
+  will-change: opacity, transform;
+}
+.industries-carousel--in .industries-carousel__card {
+  opacity: 1;
+  transform: translate3d(0, 0, 0);
+}
+@media (prefers-reduced-motion: reduce) {
+  .industries-carousel__card {
+    opacity: 1 !important;
+    transform: none !important;
+    transition: none !important;
+  }
 }
 .industries-carousel__nav {
   display: flex;
@@ -5362,14 +5423,14 @@ html:not(.dark) body:has(.fs-projects-page) {
   min-height: 96px !important;
 }
 
-/* Homepage Ready band only — contact page form stays borderless on black */
+/* Homepage Ready band only — no filled outer form shell on white */
 #contact.contact-section--light #quote-form {
-  background: rgba(0, 0, 0, 0.5) !important;
-  backdrop-filter: blur(16px);
-  -webkit-backdrop-filter: blur(16px);
-  border: 1px solid #ffffff !important;
+  background: transparent !important;
+  backdrop-filter: none !important;
+  -webkit-backdrop-filter: none !important;
+  border: none !important;
   border-radius: 0 !important;
-  box-shadow: 0 25px 50px rgba(0, 0, 0, 0.3);
+  box-shadow: none !important;
 }
 .contact-page #contact #quote-form.contact-page-form-shell {
   background: transparent !important;
@@ -5704,9 +5765,47 @@ html:not(.dark) #contact #quote-form input[type="radio"]:checked {
   border: 2px solid #000000 !important;
   box-shadow: inset 0 0 0 2px #ffffff !important;
 }
-/* Contact Send message: compact solid white fill (no hollow / black hairline) */
-#contact #quote-form .form-submit-btn.contact-form-submit,
-#contact #quote-form .form-submit-btn.pill-btn.contact-form-submit {
+/* Homepage Ready Send message: solid black on white band */
+#contact.contact-section--light #quote-form .form-submit-btn.contact-form-submit,
+#contact.contact-section--light #quote-form .form-submit-btn.pill-btn.contact-form-submit {
+  width: auto !important;
+  max-width: none !important;
+  min-width: 11rem;
+  height: 3rem !important;
+  margin: 0 !important;
+  padding: 0 1.35rem;
+  background-color: #000000 !important;
+  border: none !important;
+  box-shadow: none !important;
+  box-sizing: border-box !important;
+}
+#contact.contact-section--light #quote-form .form-submit-btn.contact-form-submit .pill-btn-inner {
+  background-color: #000000;
+}
+#contact.contact-section--light #quote-form .form-submit-btn.contact-form-submit .pill-btn-inner::before {
+  background-color: #ffffff;
+}
+#contact.contact-section--light #quote-form .form-submit-btn.contact-form-submit .pill-btn-border {
+  border: 1px solid #000000 !important;
+}
+#contact.contact-section--light #quote-form .form-submit-btn.contact-form-submit .form-submit-btn__text,
+#contact.contact-section--light #quote-form .form-submit-btn.contact-form-submit .pill-text {
+  width: auto !important;
+  padding: 0 !important;
+  color: #ffffff !important;
+}
+#contact.contact-section--light #quote-form .form-submit-btn.contact-form-submit:hover:not(:disabled) .form-submit-btn__text,
+#contact.contact-section--light #quote-form .form-submit-btn.contact-form-submit:hover:not(:disabled) .pill-text {
+  color: #000000 !important;
+}
+#contact.contact-section--light #quote-form .form-submit-btn.contact-form-submit:hover:not(:disabled) {
+  background-color: #000000 !important;
+  border: none !important;
+  box-shadow: none !important;
+}
+/* Contact page (dark): compact solid white fill */
+#contact:not(.contact-section--light) #quote-form .form-submit-btn.contact-form-submit,
+#contact:not(.contact-section--light) #quote-form .form-submit-btn.pill-btn.contact-form-submit {
   width: auto !important;
   max-width: none !important;
   min-width: 11rem;
@@ -5718,26 +5817,26 @@ html:not(.dark) #contact #quote-form input[type="radio"]:checked {
   box-shadow: none !important;
   box-sizing: border-box !important;
 }
-#contact #quote-form .form-submit-btn.contact-form-submit .pill-btn-inner {
+#contact:not(.contact-section--light) #quote-form .form-submit-btn.contact-form-submit .pill-btn-inner {
   background-color: #ffffff;
 }
-#contact #quote-form .form-submit-btn.contact-form-submit .pill-btn-inner::before {
+#contact:not(.contact-section--light) #quote-form .form-submit-btn.contact-form-submit .pill-btn-inner::before {
   background-color: #000000;
 }
-#contact #quote-form .form-submit-btn.contact-form-submit .pill-btn-border {
+#contact:not(.contact-section--light) #quote-form .form-submit-btn.contact-form-submit .pill-btn-border {
   border: 1px solid #ffffff !important;
 }
-#contact #quote-form .form-submit-btn.contact-form-submit .form-submit-btn__text,
-#contact #quote-form .form-submit-btn.contact-form-submit .pill-text {
+#contact:not(.contact-section--light) #quote-form .form-submit-btn.contact-form-submit .form-submit-btn__text,
+#contact:not(.contact-section--light) #quote-form .form-submit-btn.contact-form-submit .pill-text {
   width: auto !important;
   padding: 0 !important;
   color: #000000 !important;
 }
-#contact #quote-form .form-submit-btn.contact-form-submit:hover:not(:disabled) .form-submit-btn__text,
-#contact #quote-form .form-submit-btn.contact-form-submit:hover:not(:disabled) .pill-text {
+#contact:not(.contact-section--light) #quote-form .form-submit-btn.contact-form-submit:hover:not(:disabled) .form-submit-btn__text,
+#contact:not(.contact-section--light) #quote-form .form-submit-btn.contact-form-submit:hover:not(:disabled) .pill-text {
   color: #ffffff !important;
 }
-#contact #quote-form .form-submit-btn.contact-form-submit:hover:not(:disabled) {
+#contact:not(.contact-section--light) #quote-form .form-submit-btn.contact-form-submit:hover:not(:disabled) {
   background-color: #ffffff !important;
   border: none !important;
   box-shadow: none !important;
@@ -6028,10 +6127,37 @@ html.about-page-active {
 }
 /* About grid hero: at least one viewport, grows for heritage body, feathers into Who We Support */
 .about-parallax-page > .service-hero-grid--about {
+  /*
+    Stable spacing tokens (rem + vw) — avoid vh so short/tall phones don't
+    reflow title↔copy↔year relationships when the viewport height changes.
+  */
+  --about-hero-pad-top: clamp(7.25rem, 10.5vw, 10.25rem);
+  --about-hero-pad-bottom: clamp(4.25rem, 7.5vw, 6.75rem);
+  --about-hero-title-stage: clamp(9.25rem, 16vw, 13.5rem);
+  --about-hero-body-gap: clamp(0.95rem, 1.8vw, 1.55rem);
+  --about-hero-rule-gap: clamp(1.15rem, 2vw, 1.5rem);
+  --about-hero-year-gap: 0.75rem;
+  --about-hero-media-h: min(100dvh, 52rem);
   height: auto;
   min-height: 100vh;
   min-height: 100dvh;
   max-height: none;
+}
+/*
+  Pin the photo to one viewport — heritage copy grows the section, but
+  object-cover must not stretch over that full height (that over-zooms/pixelates).
+*/
+.about-parallax-page > .service-hero-grid--about .service-hero-grid__media-layer {
+  inset: auto;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: var(--about-hero-media-h);
+  max-height: 100%;
+}
+.about-parallax-page > .service-hero-grid--about .service-hero-grid__tilt {
+  inset: 0;
+  transform: none !important;
 }
 .about-parallax-page > .service-hero-grid--about .service-hero-grid__title {
   font-size: clamp(3.35rem, 12.5vw, 5.35rem) !important;
@@ -6039,6 +6165,14 @@ html.about-page-active {
   line-height: 0.88 !important;
 }
 @media (max-width: 639.98px) {
+  .about-parallax-page > .service-hero-grid--about {
+    --about-hero-pad-top: clamp(6.75rem, 18vw, 8.5rem);
+    --about-hero-pad-bottom: clamp(3.75rem, 10vw, 5.5rem);
+    --about-hero-title-stage: clamp(8.5rem, 28vw, 11rem);
+    --about-hero-body-gap: 1rem;
+    --about-hero-rule-gap: 1.15rem;
+    --about-hero-media-h: min(78dvh, 36rem);
+  }
   /* Match other mobile display heroes / homepage section scale */
   .about-parallax-page > .service-hero-grid--about .service-hero-grid__title {
     font-size: clamp(3.75rem, 17vw, 5rem) !important;
@@ -6054,30 +6188,20 @@ html.about-page-active {
   position: relative;
   z-index: 4;
   justify-content: flex-start;
-  padding-top: clamp(7.5rem, 22vh, 12rem);
-  padding-bottom: clamp(5rem, 12vh, 8rem);
+  padding-top: var(--about-hero-pad-top);
+  padding-bottom: var(--about-hero-pad-bottom);
 }
 .about-parallax-page > .service-hero-grid--about .service-hero-grid__content {
   flex: 0 0 auto;
   align-content: center;
-  min-height: clamp(14rem, 36vh, 22rem);
+  /* Keep title stage shorter so heritage copy sits nearer the title */
+  min-height: var(--about-hero-title-stage);
 }
 .about-parallax-page > .service-hero-grid--about .service-hero-grid__copy,
 .about-parallax-page > .service-hero-grid--about .service-hero-grid__aside {
   justify-content: flex-end;
   align-items: flex-start;
   text-align: left;
-}
-/* Mobile: keep hero photo sharp (tilt inset + scale was over-zooming) */
-@media (max-width: 1023.98px) {
-  .about-parallax-page > .service-hero-grid--about .service-hero-grid__tilt {
-    inset: 0;
-    transform: none !important;
-  }
-  .about-parallax-page > .service-hero-grid--about .service-hero-grid__tilt img,
-  .about-parallax-page > .service-hero-grid--about .service-hero-grid__tilt span {
-    object-position: 55% 35% !important;
-  }
 }
 @media (min-width: 1024px) {
   .about-parallax-page > .service-hero-grid--about .service-hero-grid__content {
@@ -6096,8 +6220,28 @@ html.about-page-active {
   margin-top: clamp(2rem, 5vh, 3.25rem);
   width: 100%;
 }
+.about-parallax-page > .service-hero-grid--about .service-hero-grid__body {
+  margin-top: var(--about-hero-body-gap);
+}
 .service-hero-grid__heritage {
   width: 100%;
+}
+.service-hero-grid__heritage-rule {
+  margin: 0;
+}
+.service-hero-grid__heritage-grid {
+  display: grid;
+  align-items: start;
+  gap: var(--about-hero-rule-gap);
+  margin-top: var(--about-hero-rule-gap);
+}
+@media (min-width: 1024px) {
+  .service-hero-grid__heritage-grid {
+    grid-template-columns: auto minmax(0, 1fr);
+    column-gap: var(--about-hero-year-gap);
+    row-gap: 0;
+    margin-top: var(--about-hero-rule-gap);
+  }
 }
 /* Bottom feather into Who We Support — tall wash so heritage copy sits on charcoal */
 .about-parallax-page > .service-hero-grid--about::after {
@@ -6247,11 +6391,12 @@ html.about-page-active {
 .about-hero-blend__year-slot {
   --about-year-size: clamp(5.75rem, 12vw, 9.5rem);
   position: relative;
-  align-self: stretch;
+  align-self: start;
   width: var(--about-year-size);
   min-width: var(--about-year-size);
-  height: 100%;
-  min-height: clamp(14rem, 24vw, 20rem);
+  height: clamp(11rem, 20vw, 16.5rem);
+  /* Locked flush with copy top — JS syncs glyph size to paragraph block height */
+  margin-top: 0;
 }
 .about-hero-blend__year {
   position: absolute;
@@ -6263,8 +6408,7 @@ html.about-page-active {
   line-height: 1;
   /*
     rotate(-90deg) around left-bottom: glyph tops swing left by 1em.
-    left: 1em keeps visual left on the slot left (heritage block is
-    shifted right via margin). Size is JS-synced at ~88% of copy height.
+    left: 1em keeps visual left on the slot. Size is JS-synced to copy height.
   */
   left: 1em;
   transform: rotate(-90deg);
@@ -7010,33 +7154,22 @@ html.about-page-active {
   }
 }
 
+/* Open CTA on white: no card container */
 .our-customers-logo-grid__cta {
   isolation: isolate;
   z-index: 0;
   transform-origin: center center;
-  border: 1px solid rgba(255, 255, 255, 0.16);
-  background:
-    radial-gradient(120% 90% at 0% 100%, rgba(255, 255, 255, 0.1) 0%, transparent 55%),
-    linear-gradient(155deg, #141414 0%, #0a0a0a 48%, #050505 100%);
-  box-shadow:
-    inset 0 1px 0 rgba(255, 255, 255, 0.08),
-    0 10px 28px rgba(0, 0, 0, 0.18);
+  border: none;
+  background: transparent;
+  box-shadow: none;
   transition:
-    border-color 0.35s ease,
-    box-shadow 0.35s ease,
     transform 0.35s cubic-bezier(0.22, 1, 0.36, 1),
     z-index 0s linear 0.35s;
 }
 .our-customers-logo-grid__cta:hover {
   z-index: 2;
-  transform: scale(1.045);
-  border-color: rgba(255, 255, 255, 0.38);
-  box-shadow:
-    inset 0 1px 0 rgba(255, 255, 255, 0.14),
-    0 14px 34px rgba(0, 0, 0, 0.28);
+  transform: scale(1.03);
   transition:
-    border-color 0.35s ease,
-    box-shadow 0.35s ease,
     transform 0.35s cubic-bezier(0.22, 1, 0.36, 1),
     z-index 0s;
 }
@@ -7045,60 +7178,11 @@ html.about-page-active {
   outline-offset: 3px;
 }
 
-.our-customers-logo-grid__cta-pattern {
-  position: absolute;
-  inset: 0;
-  z-index: 0;
-  pointer-events: none;
-  opacity: 0.55;
-  background-image:
-    linear-gradient(rgba(255, 255, 255, 0.045) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(255, 255, 255, 0.045) 1px, transparent 1px),
-    repeating-linear-gradient(
-      -32deg,
-      transparent 0,
-      transparent 5px,
-      rgba(255, 255, 255, 0.035) 5px,
-      rgba(255, 255, 255, 0.035) 6px
-    );
-  background-size: 14px 14px, 14px 14px, auto;
-  mask-image: radial-gradient(135% 120% at 100% 0%, #000 18%, transparent 72%);
-  transition: opacity 0.35s ease, transform 0.55s cubic-bezier(0.22, 1, 0.36, 1);
-}
-.our-customers-logo-grid__cta:hover .our-customers-logo-grid__cta-pattern {
-  opacity: 0.85;
-  transform: translate3d(-2px, 2px, 0) scale(1.03);
-}
-
-.our-customers-logo-grid__cta-sheen {
-  position: absolute;
-  inset: -40% -30%;
-  z-index: 0;
-  pointer-events: none;
-  background: linear-gradient(
-    115deg,
-    transparent 38%,
-    rgba(255, 255, 255, 0.07) 49%,
-    transparent 60%
-  );
-  transform: translateX(-28%) rotate(8deg);
-  transition: transform 0.7s cubic-bezier(0.22, 1, 0.36, 1), opacity 0.35s ease;
-  opacity: 0.55;
-}
-.our-customers-logo-grid__cta:hover .our-customers-logo-grid__cta-sheen {
-  transform: translateX(18%) rotate(8deg);
-  opacity: 0.95;
-}
-
 @media (prefers-reduced-motion: reduce) {
-  .our-customers-logo-grid__cta,
-  .our-customers-logo-grid__cta-pattern,
-  .our-customers-logo-grid__cta-sheen {
+  .our-customers-logo-grid__cta {
     transition: none;
   }
-  .our-customers-logo-grid__cta:hover,
-  .our-customers-logo-grid__cta:hover .our-customers-logo-grid__cta-pattern,
-  .our-customers-logo-grid__cta:hover .our-customers-logo-grid__cta-sheen {
+  .our-customers-logo-grid__cta:hover {
     transform: none;
   }
 }
@@ -7267,6 +7351,23 @@ html.about-page-active {
 
 .projects-card-shelf {
   flex-shrink: 0;
+  opacity: 0;
+  transform: translate3d(0, 1.25rem, 0);
+  transition:
+    opacity 0.95s ease-out calc(var(--card-step, 0) * 180ms),
+    transform 1.15s cubic-bezier(0.22, 1, 0.36, 1) calc(var(--card-step, 0) * 180ms);
+  will-change: opacity, transform;
+}
+.projects-strip--in .projects-card-shelf {
+  opacity: 1;
+  transform: translate3d(0, 0, 0);
+}
+@media (prefers-reduced-motion: reduce) {
+  .projects-card-shelf {
+    opacity: 1 !important;
+    transform: none !important;
+    transition: none !important;
+  }
 }
 
 @media (min-width: 1024px) {
@@ -9426,8 +9527,9 @@ header nav .fs-services-cctv-toggle-btn svg {
 /* Desktop Services dropdown, 1px border matches header-bar-expand / contact chrome */
 .site-header {
   --fs-header-border-width: 1px;
-  --fs-services-dropdown-width: 20rem;
-  --fs-services-dropdown-inset-x: -2.03125rem;
+  --fs-services-dropdown-width: 22.25rem;
+  /* Negative = shift panel right of the Services trigger */
+  --fs-services-dropdown-inset-right: -12.5rem;
   --fs-services-dropdown-offset-y: 1.2rem;
 }
 
@@ -9436,7 +9538,9 @@ header nav .fs-services-cctv-toggle-btn svg {
     position: absolute;
     z-index: 40;
     top: calc(100% + var(--fs-services-dropdown-offset-y));
-    left: var(--fs-services-dropdown-inset-x);
+    /* Keep width growing left; nudge whole panel right */
+    left: auto;
+    right: var(--fs-services-dropdown-inset-right);
     width: var(--fs-services-dropdown-width);
     overflow-x: hidden;
     overflow-y: auto;
@@ -9461,10 +9565,15 @@ header nav .fs-services-cctv-toggle-btn svg {
     overflow: hidden;
     background-color: #000;
     text-transform: none;
-    font-family: var(--font-menu), var(--font-teko), "Teko", sans-serif !important;
-    font-size: 1.125rem !important;
+    /* Secondary body face — Teko was soft/blurry at dropdown sizes */
+    font-family: var(--font-body), var(--font-oxanium), "Oxanium", sans-serif !important;
+    font-size: 0.9375rem !important;
+    font-weight: 500;
+    letter-spacing: 0.01em;
     line-height: 1.45;
     white-space: normal;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
   }
 
   /* Hover rules only on top edge inside dropdown, bottom lines were bleeding past the panel */

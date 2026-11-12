@@ -1,6 +1,11 @@
 import { unstable_cache } from "next/cache"
 import type { FsProject } from "@/data/projects"
-import { FS_PROJECTS, MAIN_CASE_STUDIES, getProjectBySlug } from "@/data/projects"
+import {
+  FS_PROJECTS,
+  MAIN_CASE_STUDIES,
+  RESIDENTIAL_PROJECT_SLUGS,
+  getProjectBySlug,
+} from "@/data/projects"
 import { sanityClient } from "./client"
 import { urlFor } from "./image"
 import {
@@ -85,16 +90,24 @@ function mapDoc(doc: SanityProjectDoc, fallback?: FsProject): FsProject | null {
   }
 }
 
+function withResidentialCoverage(projects: FsProject[]): FsProject[] {
+  const seen = new Set(projects.map((p) => p.slug))
+  const extras = RESIDENTIAL_PROJECT_SLUGS.map((slug) => getProjectBySlug(slug)).filter(
+    (p): p is FsProject => Boolean(p) && !seen.has(p.slug)
+  )
+  return extras.length ? [...projects, ...extras] : projects
+}
+
 async function fetchProjects(): Promise<FsProject[]> {
   try {
     const docs = await sanityClient.fetch<SanityProjectDoc[]>(PROJECTS_LIST_QUERY)
     const mapped = (docs || [])
       .map((doc) => mapDoc(doc, getProjectBySlug(doc.slug || "")))
       .filter((p): p is FsProject => Boolean(p))
-    return mapped.length ? mapped : MAIN_CASE_STUDIES
+    return withResidentialCoverage(mapped.length ? mapped : MAIN_CASE_STUDIES)
   } catch (err) {
     console.error("[sanity] getSanityProjects failed, using static data", err)
-    return MAIN_CASE_STUDIES
+    return withResidentialCoverage(MAIN_CASE_STUDIES)
   }
 }
 
@@ -121,7 +134,9 @@ async function fetchProjectSlugs(): Promise<string[]> {
   } catch (err) {
     console.error("[sanity] getSanityProjectSlugs failed", err)
   }
-  return FS_PROJECTS.map((p) => p.slug)
+  const local = FS_PROJECTS.map((p) => p.slug)
+  const missingResidential = RESIDENTIAL_PROJECT_SLUGS.filter((slug) => !local.includes(slug))
+  return [...local, ...missingResidential]
 }
 
 export function getSanityProjects() {

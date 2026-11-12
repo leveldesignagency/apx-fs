@@ -8,7 +8,7 @@ Projects on `/projects` and `/projects/[slug]` load from Sanity project `v7rfd3p
 
 - Vercel project `apx-fs`: `SANITY_REVALIDATE_SECRET` (Production + Preview)
 - Sanity webhook **Vercel projects revalidate** (`VCZAaiqv87T0Zl9q`):
-  - URL: `https://apx-fs.vercel.app/api/revalidate?secret=…`
+  - URL: `https://apx-fs.vercel.app/api/revalidate?secret=ï¿½`
   - Dataset: `production`
   - Triggers: Create, Update, Delete
   - Filter: `_type == "project"`

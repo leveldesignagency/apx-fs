@@ -766,7 +766,7 @@ export default function Header() {
       </nav>
 
       {/* Contact tab under the bar (z below nav). Nav is pointer-events-none so these buttons still receive hover. */}
-      <div className="pointer-events-auto absolute top-full right-[6.75rem] z-[1] hidden lg:block">
+      <div className="pointer-events-auto absolute top-full right-[5rem] z-[1] hidden lg:block">
         <div className="relative">
           <div
             className="header-contact-tab--dark header-contact-tab-drop-in flex items-center space-x-3 rounded-t-none rounded-b-xl border border-t-0 px-4 py-2"

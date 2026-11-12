@@ -2,8 +2,8 @@ export const DELIVERY_METHODOLOGY_STEPS = [
   {
     title: "Survey and Consultation",
     paragraphs: [
-      "Every project starts with understanding the site and what you need the systems to do. We walk the building, review existing equipment where relevant, and talk through access, programme and how the space will be used day to day.",
-      "You leave this stage with a clear brief: what needs protecting or detecting, which standards apply, and how fire, life-safety and security systems should work together, before drawings or programmes are locked in.",
+      "Every project starts with a thorough understanding of your site, your operational requirements, and the outcomes you would expect the system design to deliver. We carry out a detailed site survey, assess any existing equipment where relevant, and discuss access requirements, programme constraints, and how the site will be used on a day-to-day basis.",
+      "At the end of this stage, you will have a clear and defined brief outlining what needs to be protected, monitored, or detected, the applicable standards and compliance requirements, and how fire, life-safety, security, and access control systems should integrate. This ensures key decisions are agreed before designs are finalized and installation programs are established.",
     ],
     items: [
       "Site survey and existing-system review",

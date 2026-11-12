@@ -5,7 +5,7 @@ export const CONTACT_FAQ_ITEMS: ContactFaqItem[] = [
   {
     question: "How quickly will you respond to my enquiry?",
     answer:
-      "We aim to respond to new enquiries within one working day. For urgent faults or emergencies, call 020 8303 2280 and ask for call-out support.",
+      "Call 020 8303 2280 for the fastest response, or email enquiries@apx-fs.co.uk. One of our team will reply as soon as possible.",
   },
   {
     question: "Do you offer free surveys and quotes?",
@@ -50,6 +50,6 @@ export const CONTACT_FAQ_ITEMS: ContactFaqItem[] = [
   {
     question: "Who should I contact for an existing system fault?",
     answer:
-      "Call 020 8303 2280 for the fastest response, or email enquiries@apx-fs.co.uk with your site name, system type and a short description of the fault. Existing contract customers should quote their account or site reference if available.",
+      "Call 020 8303 2280 for the fastest response, or email enquiries@apx-fs.co.uk with your site name, system type and a short description of the fault. One of our team will reply as soon as possible. Existing contract customers should quote their account or site reference if available.",
   },
 ]

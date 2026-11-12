@@ -88,12 +88,12 @@ export const FS_NEWS_ARTICLES: FsNewsArticle[] = [
     publishedAt: "2026-07-22",
     publishedLabel: "22nd July 2026",
     excerpt:
-      "Structured commissioning, cause-and-effect testing and clear handover remain central to how we finish fire detection and CCTV packages on commercial and public-sector sites.",
+      "From cause-and-effect witnessing on fire systems to proving camera views and recording on CCTV, structured commissioning is how we close out packages so operators can trust the system from day one.",
     body: [
-      "Commissioning is where design intent becomes a working system. For fire detection that means device testing, cause-and-effect verification and interface checks with related life-safety systems. For CCTV it means camera views, recording, network arrangements and operator handover that match the brief.",
-      "Through 2025 and 2026 our engineers have continued to commission fire and CCTV packages across London and the Home Counties, coordinating with principal contractors, consultants and facilities teams so acceptance is evidence-led rather than assumed.",
-      "Every project is different, but the constants stay the same: competent engineers, documented testing and a handover pack that duty holders can use from day one.",
-      "If you need commissioning support on a live programme, contact APX Fire & Security to discuss programme, witnessing and documentation.",
+      "Commissioning is the point where drawings and equipment become a system a duty holder can operate. On fire detection that means device-level testing, cause-and-effect verification, interface checks with related life-safety systems, and a clear record of what was witnessed and signed off.",
+      "On CCTV the same discipline applies to live views, recording and retention, network arrangements, camera health, and operator handover. Multi-screen monitoring only helps if naming, layout and evidence paths match how the site will actually be used.",
+      "Through 2025 and 2026 our engineers have continued to commission fire and CCTV packages across London and the Home Counties, working with principal contractors, consultants and facilities teams so acceptance is evidence-led rather than assumed. Programme pressure is real; shortcuts at handover create larger costs later.",
+      "If you need commissioning support on a live programme, contact APX Fire & Security to discuss witnessing, documentation and practical operator training.",
     ],
     inlineLinks: [
       {
@@ -102,8 +102,8 @@ export const FS_NEWS_ARTICLES: FsNewsArticle[] = [
         href: "/contact",
       },
     ],
-    imageSrc: "/projects/library/commercial-cctv-monitor-business.jpg",
-    imageAlt: "Commercial CCTV monitoring and commissioning",
+    imageSrc: "/news/fire-cctv-commissioning-london-2026.jpg",
+    imageAlt: "Multi-camera CCTV live view on a commercial monitoring workstation",
     categories: ["company-news", "fire-alarm-systems", "cctv-systems"],
     relatedServices: [
       { label: "Fire alarm systems", href: "/services/fire-alarm-systems" },

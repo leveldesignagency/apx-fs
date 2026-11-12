@@ -80,7 +80,7 @@ function HomeConsentCheckbox({
   return (
     <label
       htmlFor={id}
-      className="contact-consent group flex cursor-pointer items-start gap-3.5 text-sm leading-relaxed text-white/75"
+      className="contact-consent group flex cursor-pointer items-start gap-3.5 text-sm leading-relaxed text-black/70"
     >
       <span className="relative mt-0.5 inline-flex shrink-0">
         <input
@@ -93,10 +93,10 @@ function HomeConsentCheckbox({
         />
         <span
           aria-hidden
-          className="flex h-6 w-6 items-center justify-center border border-white/45 bg-[var(--page-bg)] transition-[border-color,background-color,box-shadow] peer-checked:border-white peer-checked:bg-white peer-focus-visible:ring-2 peer-focus-visible:ring-white/55 peer-focus-visible:ring-offset-2 peer-focus-visible:ring-offset-black group-hover:border-white/70"
+          className="flex h-6 w-6 items-center justify-center border border-black/40 bg-white transition-[border-color,background-color,box-shadow] peer-checked:border-black peer-checked:bg-black peer-focus-visible:ring-2 peer-focus-visible:ring-black/35 peer-focus-visible:ring-offset-2 peer-focus-visible:ring-offset-white group-hover:border-black/70"
         >
           <Check
-            className={`h-3.5 w-3.5 text-black transition-opacity ${checked ? "opacity-100" : "opacity-0"}`}
+            className={`h-3.5 w-3.5 text-white transition-opacity ${checked ? "opacity-100" : "opacity-0"}`}
             strokeWidth={3}
           />
         </span>
@@ -120,11 +120,11 @@ function HomeFieldLabel({
   return (
     <label
       htmlFor={htmlFor}
-      className="quote-form-label mb-2 flex flex-wrap items-baseline gap-x-2 gap-y-0.5 text-sm font-semibold uppercase tracking-[0.12em] text-white/55"
+      className="quote-form-label mb-2 flex flex-wrap items-baseline gap-x-2 gap-y-0.5 text-sm font-semibold uppercase tracking-[0.12em] text-black/55"
     >
       <span>{children}</span>
-      {required ? <span className="text-[0.8125rem] normal-case tracking-normal text-white/70">(required)</span> : null}
-      {optional ? <span className="text-[0.8125rem] normal-case tracking-normal text-white/40">(optional)</span> : null}
+      {required ? <span className="text-[0.8125rem] normal-case tracking-normal text-black/65">(required)</span> : null}
+      {optional ? <span className="text-[0.8125rem] normal-case tracking-normal text-black/40">(optional)</span> : null}
     </label>
   )
 }
@@ -1036,12 +1036,12 @@ export default function Home() {
           className="projects-section__sticky sticky top-0 z-[1]"
           style={{ backgroundColor: "#ffffff" }}
         >
-          <div
-            className={`projects-section__split home-scroll-rise ${
-              sectionMotion.projects ? "opacity-100 translate-y-0" : "opacity-0 translate-y-16"
-            }`}
-          >
-            <div className="projects-section__intro">
+          <div className="projects-section__split">
+            <div
+              className={`projects-section__intro home-scroll-rise ${
+                sectionMotion.projects ? "opacity-100 translate-y-0" : "opacity-0 translate-y-16"
+              }`}
+            >
               <span className="section-label section-label--black">Projects</span>
               <LetterReveal
                 as="h2"
@@ -1081,10 +1081,16 @@ export default function Home() {
               />
               <div
                 ref={projectsScrollRef}
-                className="projects-strip flex w-max items-stretch lg:will-change-transform"
+                className={`projects-strip flex w-max items-stretch lg:will-change-transform${
+                  sectionMotion.projects ? " projects-strip--in" : ""
+                }`}
               >
                 {projects.map((p, i) => (
-                  <div key={i} className="projects-card-shelf shrink-0">
+                  <div
+                    key={i}
+                    className="projects-card-shelf shrink-0"
+                    style={{ ["--card-step" as string]: i }}
+                  >
                     <Link
                       href={p.href}
                       className="projects-card projects-card--lift group flex flex-col overflow-hidden rounded-[1.25rem] bg-black"
@@ -1513,7 +1519,7 @@ export default function Home() {
             {/* Right side - Contact Form (glassmorphic), animated SVG border + delayed inner fade */}
             <HomeQuoteFormDrawShell active={sectionMotion.contact} allowOverflow={isServicesDropdownOpen}>
             <div id="quote-form" className={`relative w-full ${isServicesDropdownOpen ? "overflow-visible" : ""}`}>
-              <GlassFormPanel>
+              <GlassFormPanel bare>
               <form
                 ref={homeFormRef}
                 className="contact-page-form space-y-3.5"
@@ -1641,9 +1647,9 @@ export default function Home() {
                 </div>
 
                 <div>
-                  <p className="quote-form-label mb-2 text-sm font-semibold uppercase tracking-[0.12em] text-white/55">
+                  <p className="quote-form-label mb-2 text-sm font-semibold uppercase tracking-[0.12em] text-black/55">
                     Preferred contact{" "}
-                    <span className="text-[0.8125rem] normal-case tracking-normal text-white/70">(required)</span>
+                    <span className="text-[0.8125rem] normal-case tracking-normal text-black/65">(required)</span>
                   </p>
                   <div className="flex flex-wrap gap-5">
                     <label className="flex cursor-pointer items-center gap-2.5">
@@ -1654,7 +1660,7 @@ export default function Home() {
                         checked={contactMethod === "phone"}
                         onChange={() => setContactMethod("phone")}
                       />
-                      <span className="contact-pref-option text-base text-white/90">Phone</span>
+                      <span className="contact-pref-option text-base text-black/90">Phone</span>
                     </label>
                     <label className="flex cursor-pointer items-center gap-2.5">
                       <input
@@ -1664,7 +1670,7 @@ export default function Home() {
                         checked={contactMethod === "email"}
                         onChange={() => setContactMethod("email")}
                       />
-                      <span className="contact-pref-option text-base text-white/90">Email</span>
+                      <span className="contact-pref-option text-base text-black/90">Email</span>
                     </label>
                     <label className="flex cursor-pointer items-center gap-2.5">
                       <input
@@ -1674,7 +1680,7 @@ export default function Home() {
                         checked={contactMethod === "text"}
                         onChange={() => setContactMethod("text")}
                       />
-                      <span className="contact-pref-option text-base text-white/90">Text message</span>
+                      <span className="contact-pref-option text-base text-black/90">Text message</span>
                     </label>
                   </div>
                   {contactMethod === "text" ? (
@@ -1682,7 +1688,7 @@ export default function Home() {
                       <HomeConsentCheckbox id="home-sms-consent" checked={smsConsent} onChange={setSmsConsent} required>
                         I consent to APX Fire &amp; Security contacting me by SMS / text message about this enquiry.
                         Message and data rates may apply.{" "}
-                        <span className="text-white/55">(required for text message)</span>
+                        <span className="text-black/55">(required for text message)</span>
                       </HomeConsentCheckbox>
                     </div>
                   ) : null}
@@ -1697,12 +1703,12 @@ export default function Home() {
                   I have read the{" "}
                   <Link
                     href="/privacy"
-                    className="font-semibold text-white underline decoration-white/40 underline-offset-2 hover:decoration-white"
+                    className="font-semibold text-black underline decoration-black/35 underline-offset-2 hover:decoration-black"
                   >
                     Privacy Policy
                   </Link>{" "}
                   and understand APX Fire &amp; Security will process my details to respond to this enquiry.{" "}
-                  <span className="text-white/55">(required)</span>
+                  <span className="text-black/55">(required)</span>
                 </HomeConsentCheckbox>
 
                 {submitError ? (
@@ -1712,7 +1718,7 @@ export default function Home() {
                 ) : null}
 
                 <div className="flex w-full justify-center">
-                  <TurnstileWidget onToken={setTurnstileToken} theme="dark" />
+                  <TurnstileWidget onToken={setTurnstileToken} theme="light" />
                 </div>
 
                 <div className="flex w-full justify-end">

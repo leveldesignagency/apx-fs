@@ -62,6 +62,10 @@ type ServiceHeroGridTiltProps = {
    * `false` - no bottom nav (About, etc).
    */
   heroNav?: "quick-links" | "cctv-tabs" | false
+  /**
+   * Skip tilt inset/scale so object-cover framing stays sharp (About hero).
+   */
+  lockMedia?: boolean
 }
 
 /** Subtle parallax / tilt - keep small so it feels premium, not gimmicky */
@@ -163,15 +167,21 @@ export function ServiceHeroGridTilt({
   body,
   className,
   heroNav = "quick-links",
+  lockMedia = false,
 }: ServiceHeroGridTiltProps) {
   const stageRef = useRef<HTMLElement>(null)
   const frameRef = useRef(0)
   const targetRef = useRef({ x: 0, y: 0 })
   const currentRef = useRef({ x: 0, y: 0 })
+  const mediaScale = lockMedia ? 1 : BASE_SCALE
   const [heroReveal, setHeroReveal] = useState(false)
-  const [tiltStyle, setTiltStyle] = useState<CSSProperties>({
-    transform: `perspective(1600px) rotateX(0deg) rotateY(0deg) scale(${BASE_SCALE}) translate3d(0,0,0)`,
-  })
+  const [tiltStyle, setTiltStyle] = useState<CSSProperties>(() =>
+    lockMedia
+      ? { transform: "none" }
+      : {
+          transform: `perspective(1600px) rotateX(0deg) rotateY(0deg) scale(${BASE_SCALE}) translate3d(0,0,0)`,
+        }
+  )
 
   const seedKey = fillSeed ?? title
   const [fills, setFills] = useState<GridFill[]>(() => buildGridFills(seedKey))
@@ -307,7 +317,7 @@ export function ServiceHeroGridTilt({
     const ty = cur.y * MAX_SHIFT_PX
 
     setTiltStyle({
-      transform: `perspective(1600px) rotateX(${rotateX.toFixed(3)}deg) rotateY(${rotateY.toFixed(3)}deg) scale(${BASE_SCALE}) translate3d(${tx.toFixed(2)}px, ${ty.toFixed(2)}px, 0)`,
+      transform: `perspective(1600px) rotateX(${rotateX.toFixed(3)}deg) rotateY(${rotateY.toFixed(3)}deg) scale(${mediaScale}) translate3d(${tx.toFixed(2)}px, ${ty.toFixed(2)}px, 0)`,
     })
 
     if (Math.abs(tgt.x - cur.x) > 0.0008 || Math.abs(tgt.y - cur.y) > 0.0008) {
@@ -315,7 +325,7 @@ export function ServiceHeroGridTilt({
     } else {
       frameRef.current = 0
     }
-  }, [])
+  }, [mediaScale])
 
   const queueTick = useCallback(() => {
     if (frameRef.current) return
@@ -323,6 +333,10 @@ export function ServiceHeroGridTilt({
   }, [tick])
 
   useEffect(() => {
+    if (lockMedia) {
+      setTiltStyle({ transform: "none" })
+      return
+    }
     const el = stageRef.current
     if (!el || typeof window === "undefined") return
     if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return
@@ -351,7 +365,7 @@ export function ServiceHeroGridTilt({
       el.removeEventListener("pointerleave", onLeave)
       if (frameRef.current) cancelAnimationFrame(frameRef.current)
     }
-  }, [queueTick])
+  }, [lockMedia, queueTick])
 
   const showNav = heroNav === "quick-links" || heroNav === "cctv-tabs"
 
@@ -368,7 +382,7 @@ export function ServiceHeroGridTilt({
             alt={imageAlt}
             fill
             priority
-            quality={90}
+            quality={lockMedia ? 95 : 90}
             sizes="100vw"
             className={cn(
               "object-cover object-center",

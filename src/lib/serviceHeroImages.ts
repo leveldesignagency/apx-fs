@@ -1,6 +1,7 @@
 /** Next/Image `src`, paths under /public (spaces URL-encoded). */
 export const serviceHeroImages = {
-  cctv: "/client%20logos/service%20pages%20image/home-cctv-system-installer-800x533.jpg",
+  /* UK Hikvision CCTV (City of London). Swap for APX engineer + turret set when Chris supplies. */
+  cctv: "/service%20images/cctv%20/hero-cctv-installer-modern.jpg",
   domesticCctv: "/service%20images/cctv%20/domestic%20cctv%20hero.jpg",
   commercialCctv: "/industries/commercial.jpg",
   cctvAdvice: "/service%20images/cctv%20/hero-useful-cctv-advice.jpg",

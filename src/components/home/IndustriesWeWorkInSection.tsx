@@ -94,6 +94,7 @@ export function IndustriesWeWorkInSection() {
   const [canPrev, setCanPrev] = useState(false)
   const [canNext, setCanNext] = useState(true)
   const [featuresIn, setFeaturesIn] = useState(false)
+  const [cardsIn, setCardsIn] = useState(false)
 
   const syncArrows = useCallback(() => {
     const el = scrollerRef.current
@@ -122,25 +123,44 @@ export function IndustriesWeWorkInSection() {
     }
   }, [syncArrows])
 
-  // Scroll-in: icon → title → paragraph for each capability, then the next item
+  // Scroll-in: sector cards left → right, then capability list
   useEffect(() => {
-    const el = featuresRef.current
-    if (!el) return
+    const cardsEl = scrollerRef.current
+    const featuresEl = featuresRef.current
+    if (!cardsEl && !featuresEl) return
     if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
+      setCardsIn(true)
       setFeaturesIn(true)
       return
     }
-    const io = new IntersectionObserver(
-      (entries) => {
-        if (entries[0]?.isIntersecting) {
-          setFeaturesIn(true)
-          io.disconnect()
-        }
-      },
-      { rootMargin: "0px 0px -12% 0px", threshold: 0.18 }
-    )
-    io.observe(el)
-    return () => io.disconnect()
+    const observers: IntersectionObserver[] = []
+    if (cardsEl) {
+      const io = new IntersectionObserver(
+        (entries) => {
+          if (entries[0]?.isIntersecting) {
+            setCardsIn(true)
+            io.disconnect()
+          }
+        },
+        { rootMargin: "0px 0px -10% 0px", threshold: 0.12 }
+      )
+      io.observe(cardsEl)
+      observers.push(io)
+    }
+    if (featuresEl) {
+      const io = new IntersectionObserver(
+        (entries) => {
+          if (entries[0]?.isIntersecting) {
+            setFeaturesIn(true)
+            io.disconnect()
+          }
+        },
+        { rootMargin: "0px 0px -12% 0px", threshold: 0.18 }
+      )
+      io.observe(featuresEl)
+      observers.push(io)
+    }
+    return () => observers.forEach((io) => io.disconnect())
   }, [])
 
   const scrollByCard = (dir: -1 | 1) => {
@@ -184,13 +204,17 @@ export function IndustriesWeWorkInSection() {
         <div className="industries-carousel-col">
           <div
             ref={scrollerRef}
-            className="industries-carousel flex snap-x snap-mandatory gap-5 overflow-x-auto pb-1 [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden"
+            className={cn(
+              "industries-carousel flex snap-x snap-mandatory gap-5 overflow-x-auto pb-1 [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden",
+              cardsIn && "industries-carousel--in"
+            )}
           >
-            {INDUSTRIES.map((item) => (
+            {INDUSTRIES.map((item, index) => (
               <article
                 key={item.label}
                 data-industry-card
                 className="industries-carousel__card group relative aspect-[3/4] shrink-0 snap-start overflow-hidden rounded-2xl"
+                style={{ ["--card-step" as string]: index }}
               >
                 <Link
                   href={item.href}

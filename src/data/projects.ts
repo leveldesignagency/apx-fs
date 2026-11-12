@@ -33,8 +33,20 @@ export type FsProject = {
 export const MAIN_CASE_STUDY_SLUGS = [
   "sancroft-building",
   "ledian-farm",
+  "aspire-herschel-street",
+  "fizzy-living-lewisham",
+  "oaklands-house",
   "kings-college-hospital",
   "pa-va-system-city-of-london",
+] as const
+
+/** Always surface these residential / living schemes on the Projects index when missing from CMS. */
+export const RESIDENTIAL_PROJECT_SLUGS = [
+  "ledian-farm",
+  "aspire-herschel-street",
+  "fizzy-living-lewisham",
+  "oaklands-house",
+  "united-living-welbourne",
 ] as const
 
 export const FS_PROJECTS: FsProject[] = [
@@ -306,6 +318,81 @@ export const FS_PROJECTS: FsProject[] = [
     gallery: [
       "/fire%20alarm%20system%20installations/access-control-system-installation-aspire-herschel-street-exterior-800x533.jpg",
       "/projects/case-studies/aspire-herschel-street/video-door-entry-installation-aspire-herschel-street-exterior.jpg",
+    ],
+  },
+  {
+    slug: "fizzy-living-lewisham",
+    title: "Fizzy Living Lewisham Video Door Entry",
+    sector: "Residential",
+    location: "Lewisham, London",
+    scope: "Resident and visitor entry across a build-to-rent scheme",
+    systems: "Video Door Entry",
+    status: "Delivered",
+    shortDescription:
+      "Video door entry installation supporting secure resident access across a Fizzy Living residential scheme.",
+    summary:
+      "APX Fire & Security delivered video door entry for Fizzy Living in Lewisham, giving residents and building teams clear, reliable control at the front door.",
+    challenge:
+      "Provide modern video door entry that fits a high-turnover residential living brand, with intuitive resident use and simple management for on-site teams.",
+    solution:
+      "APX installed and commissioned video door entry covering primary resident and visitor entry points, with clear handover so the managing team could support day-to-day use.",
+    outcome:
+      "A cleaner front-of-house experience for residents and visitors, with video verification and controlled access aligned to the scheme's residential living model.",
+    heroImage:
+      "/projects/case-studies/fizzy-living-lewisham/video-door-entry-installation-fizzy-living-lewisham-exterior.jpg",
+    gallery: [
+      "/projects/case-studies/fizzy-living-lewisham/video-door-entry-installation-fizzy-living-lewisham-exterior.jpg",
+      "/projects/case-studies/fizzy-living-lewisham/video-door-entry-installation-fizzy-living-lewisham-interior.jpg",
+    ],
+  },
+  {
+    slug: "oaklands-house",
+    title: "Oaklands House Fire Alarm Installation",
+    sector: "Residential",
+    location: "London",
+    scope: "Fire detection upgrade for a residential building",
+    systems: "Fire Alarm",
+    status: "Delivered",
+    shortDescription:
+      "Fire alarm installation for Oaklands House, supporting life-safety compliance in a residential setting.",
+    summary:
+      "APX Fire & Security delivered a fire alarm installation at Oaklands House, focused on reliable detection and clear evacuation signalling for residents and building management.",
+    challenge:
+      "Upgrade fire detection for a residential building so residents, visitors and facilities teams have a clear, compliant life-safety system without unnecessary disruption.",
+    solution:
+      "APX surveyed the building, installed and commissioned the fire alarm package, and handed over documentation suited to ongoing residential management and maintenance.",
+    outcome:
+      "A maintained fire detection system with clearer coverage for residents and a documented platform ready for ongoing testing and support.",
+    heroImage:
+      "/projects/case-studies/oaklands-house/fire-alarm-installation-oaklands-house-london.jpg",
+    gallery: [
+      "/projects/case-studies/oaklands-house/fire-alarm-installation-oaklands-house-london.jpg",
+      "/projects/case-studies/oaklands-house/fire-alarm-installation-oaklands-house-london-distance.jpg",
+    ],
+  },
+  {
+    slug: "united-living-welbourne",
+    title: "United Living Welbourne Access and Entry",
+    sector: "Residential",
+    location: "London",
+    scope: "Access control and video door entry for a residential development",
+    systems: "Access Control, Video Door Entry",
+    status: "Delivered",
+    shortDescription:
+      "Access control and video door entry for United Living at Welbourne, supporting secure residential living.",
+    summary:
+      "APX Fire & Security installed access control and video door entry across the Welbourne residential scheme for United Living, aligning entry control with day-to-day resident use.",
+    challenge:
+      "Deliver secure, easy-to-use access and video entry for residents and visitors across a residential development managed by United Living.",
+    solution:
+      "APX combined access control and video door entry at key residential entry points, with commissioning and handover for the on-site management team.",
+    outcome:
+      "Stronger perimeter and lobby control for residents, clearer visitor handling, and access systems suited to ongoing residential management.",
+    heroImage:
+      "/projects/case-studies/united-living-welbourne/access-control-system-installation-united-living-welbourne.jpg",
+    gallery: [
+      "/projects/case-studies/united-living-welbourne/access-control-system-installation-united-living-welbourne.jpg",
+      "/projects/case-studies/united-living-welbourne/video-door-entry-systems-installation-united-living-welbourne.jpg",
     ],
   },
 ]

@@ -288,19 +288,24 @@ export default function AboutPage() {
         fillSeed="about"
         imageSrc={ABOUT_HERO_BG_SRC}
         imageAlt="APX Fire and Security engineer on site"
-        imageClassName="object-cover object-[55%_35%] sm:object-[62%_center] lg:object-[62%_center]"
+        imageClassName="object-cover object-[48%_42%] sm:object-[58%_45%] lg:object-[62%_center]"
         titleDetail="Est. 2025"
         heroNav={false}
+        lockMedia
         className="service-hero-grid--about"
         body={
           <div ref={heritageYearTrackRef} className="service-hero-grid__heritage">
             <div
-              className={`h-px w-14 bg-white/30 transition-opacity duration-700 ${
+              className={`service-hero-grid__heritage-rule h-px w-14 bg-white/30 transition-opacity duration-700 ${
                 heritageReveal ? "opacity-100" : "opacity-0"
               }`}
               aria-hidden
             />
-            <div className="mt-8 grid gap-8 sm:mt-10 lg:ml-10 lg:grid-cols-[auto_minmax(0,1fr)] lg:items-stretch lg:gap-x-10 xl:ml-14 xl:gap-x-12">
+            {/*
+              Title + heritage share the site-container left edge (no lg/xl indent).
+              Year sits tight beside the copy; gaps locked via --about-hero-* tokens.
+            */}
+            <div className="service-hero-grid__heritage-grid">
               <Reveal show={heritageReveal} delayMs={80} className="hidden lg:block">
                 <div ref={heritageYearSlotRef} className="about-hero-blend__year-slot">
                   <p

@@ -40,21 +40,19 @@ export function ClientLogosGrid() {
         <Reveal delayMs={70 + CLIENT_LOGO_PATHS.length * 55} className="h-full">
           <Link
             href="/contact"
-            className="our-customers-logo-grid__cta group relative flex h-full min-h-[5.5rem] items-center justify-center overflow-hidden rounded-xl rounded-tr-none rounded-bl-none px-4 py-4 text-center no-underline sm:min-h-[6.5rem] sm:px-5 sm:py-5 md:min-h-[7.25rem]"
+            className="our-customers-logo-grid__cta group relative flex h-full min-h-[5.5rem] items-center justify-center px-4 py-4 text-center no-underline sm:min-h-[6.5rem] sm:px-5 sm:py-5 md:min-h-[7.25rem]"
           >
-            <span className="our-customers-logo-grid__cta-pattern" aria-hidden />
-            <span className="our-customers-logo-grid__cta-sheen" aria-hidden />
             <span className="relative z-[1] flex w-full flex-col items-center justify-center gap-2.5">
-              <span className="font-menu text-[0.625rem] font-semibold uppercase tracking-[0.18em] text-white/45 transition-colors duration-300 group-hover:text-white/70">
+              <span className="font-menu text-[0.625rem] font-semibold uppercase tracking-[0.18em] text-black/45 transition-colors duration-300 group-hover:text-black/70">
                 Get in touch
               </span>
-              <span className="font-title text-lg font-extrabold leading-[1.05] tracking-normal text-white sm:text-xl">
+              <span className="font-title text-lg font-extrabold leading-[1.05] tracking-normal text-black sm:text-xl">
                 Want to be our
                 <br />
                 next client?
               </span>
               <span
-                className="our-customers-logo-grid__cta-arrow inline-flex h-7 w-7 shrink-0 items-center justify-center rounded-full border border-white/25 text-white transition-[border-color,background-color,transform] duration-300 ease-out group-hover:border-white/55 group-hover:bg-white/10 motion-safe:group-hover:rotate-45"
+                className="our-customers-logo-grid__cta-arrow inline-flex h-7 w-7 shrink-0 items-center justify-center rounded-full border border-black/30 text-black transition-[border-color,background-color,transform] duration-300 ease-out group-hover:border-black/70 group-hover:bg-black/[0.04] motion-safe:group-hover:rotate-45"
                 aria-hidden
               >
                 <svg width="12" height="12" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg">
