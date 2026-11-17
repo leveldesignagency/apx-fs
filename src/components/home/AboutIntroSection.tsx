@@ -186,7 +186,7 @@ export function AboutIntroSection({ intro = DEFAULT_INTRO, steps = ABOUT_STEPS }
                       {step.number}
                     </span>
                     <span className="mt-3 block h-px w-full bg-white/70" aria-hidden />
-                    <h3 className="about-intro-step__title mt-4 text-sm font-semibold uppercase tracking-[0.14em] text-white sm:text-base">
+                    <h3 className="about-intro-step__title mt-4 text-base font-semibold uppercase tracking-[0.14em] text-white sm:text-lg">
                       {step.title}
                     </h3>
                     <p className="about-intro-step__body mt-2.5 max-w-[18rem] text-base leading-relaxed text-white/78 sm:text-lg sm:leading-relaxed lg:max-w-none">

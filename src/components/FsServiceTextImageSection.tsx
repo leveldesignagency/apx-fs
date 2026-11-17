@@ -45,6 +45,8 @@ export type FsServiceTextImageSectionProps = {
    * taller copy still stretches the image to match.
    */
   imageMinHeightClassName?: string
+  /** Mobile stack order. Default keeps the photo above the title. */
+  mobileStack?: "image-first" | "text-first"
 }
 
 /**
@@ -67,11 +69,13 @@ export function FsServiceTextImageSection({
   imageSide: imageSideProp,
   variant = "dark",
   imageMinHeightClassName = "lg:min-h-[26rem]",
+  mobileStack = "image-first",
 }: FsServiceTextImageSectionProps) {
   const headingId = titleId ?? "fs-service-text-image-heading"
   const resolvedImageSrc = imageSrc ?? fsPlaceholderImageForKey(headingId)
   const isLight = variant === "light"
   const imageOnLeft = (imageSideProp ?? "left") === "left"
+  const textFirstOnMobile = mobileStack === "text-first"
   const titleContent = typeof title === "string" ? toTitleCase(title) : title
 
   const textColumn = (
@@ -174,11 +178,17 @@ export function FsServiceTextImageSection({
     >
       <div className="site-container py-10 sm:py-16 lg:py-20">
         <div className="grid grid-cols-1 items-stretch gap-6 sm:gap-10 lg:grid-cols-2 lg:gap-12 xl:gap-16">
-          {/* Mobile: image above title; desktop places image by imageSide */}
+          {/* Mobile: image-first by default; desktop places image by imageSide */}
           <div
             className={cn(
               "min-h-0 min-w-0",
-              imageOnLeft ? "order-2 lg:order-2" : "order-2 lg:order-1"
+              textFirstOnMobile
+                ? imageOnLeft
+                  ? "order-1 lg:order-2"
+                  : "order-1 lg:order-1"
+                : imageOnLeft
+                  ? "order-2 lg:order-2"
+                  : "order-2 lg:order-1"
             )}
           >
             {textColumn}
@@ -187,7 +197,13 @@ export function FsServiceTextImageSection({
             className={cn(
               "min-h-0 min-w-0",
               imageMinHeightClassName,
-              imageOnLeft ? "order-1 lg:order-1" : "order-1 lg:order-2"
+              textFirstOnMobile
+                ? imageOnLeft
+                  ? "order-2 lg:order-1"
+                  : "order-2 lg:order-2"
+                : imageOnLeft
+                  ? "order-1 lg:order-1"
+                  : "order-1 lg:order-2"
             )}
           >
             {imageColumn}

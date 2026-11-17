@@ -10,7 +10,7 @@ export const FS_ACCREDITATION_COLOURED_ICONS: Record<FsAccreditationSlug, string
   bafe: "/accreditations%20mono/Coloured/BAFE-01.svg",
   nsi: "/accreditations%20mono/Coloured/NSI-01.png",
   constructionline: "/accreditations%20mono/Coloured/ConstructionOnline-01.svg",
-  fia: "/accreditations%20mono/Coloured/FIA-01.svg",
+  fia: "/accreditations%20mono/Coloured/FIA-official.png",
 }
 
 /** Square-corner pill CTAs, same pattern as projects listing */

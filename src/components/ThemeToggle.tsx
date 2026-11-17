@@ -935,7 +935,7 @@ const GlobalStyles = createGlobalStyle<{ theme: typeof lightTheme }>`
     color: #000000 !important;
   }
 
-  /* Mobile contact FAB: circular / long pill; black fill, white border */
+  /* Mobile contact FAB: always circular; tap = white circle + black icon (no square flash) */
   .apx-mobile-contact-fab {
     background: #0a0a0a !important;
     background-color: #0a0a0a !important;
@@ -943,6 +943,7 @@ const GlobalStyles = createGlobalStyle<{ theme: typeof lightTheme }>`
     border: 1px solid #ffffff !important;
     border-color: #ffffff !important;
     border-radius: 9999px !important;
+    -webkit-tap-highlight-color: transparent !important;
   }
   .apx-mobile-contact-fab button,
   .apx-mobile-contact-fab a {
@@ -950,8 +951,15 @@ const GlobalStyles = createGlobalStyle<{ theme: typeof lightTheme }>`
     background-color: transparent !important;
     border: none !important;
     box-shadow: none !important;
-    border-radius: 0 !important;
+    border-radius: 9999px !important;
     color: #ffffff !important;
+    -webkit-tap-highlight-color: transparent !important;
+    outline: none !important;
+  }
+  .apx-mobile-contact-fab button svg,
+  .apx-mobile-contact-fab a svg {
+    color: #ffffff !important;
+    stroke: #ffffff !important;
   }
   .apx-mobile-contact-fab button:hover,
   .apx-mobile-contact-fab a:hover {
@@ -965,14 +973,27 @@ const GlobalStyles = createGlobalStyle<{ theme: typeof lightTheme }>`
     color: #ffffff !important;
     border-color: #ffffff !important;
   }
+  .apx-mobile-contact-fab button:active,
   .apx-mobile-contact-fab button:focus,
   .apx-mobile-contact-fab button:focus-visible,
+  .apx-mobile-contact-fab a:active,
   .apx-mobile-contact-fab a:focus,
   .apx-mobile-contact-fab a:focus-visible {
-    background: transparent !important;
-    color: #ffffff !important;
-    outline: 2px solid rgba(255, 255, 255, 0.45) !important;
-    outline-offset: -2px !important;
+    background: #ffffff !important;
+    background-color: #ffffff !important;
+    border-radius: 9999px !important;
+    color: #000000 !important;
+    box-shadow: none !important;
+    outline: none !important;
+  }
+  .apx-mobile-contact-fab button:active svg,
+  .apx-mobile-contact-fab button:focus svg,
+  .apx-mobile-contact-fab button:focus-visible svg,
+  .apx-mobile-contact-fab a:active svg,
+  .apx-mobile-contact-fab a:focus svg,
+  .apx-mobile-contact-fab a:focus-visible svg {
+    color: #000000 !important;
+    stroke: #000000 !important;
   }
 
   /* Form inputs: theme background and text */

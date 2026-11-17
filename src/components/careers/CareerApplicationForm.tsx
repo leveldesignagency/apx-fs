@@ -1,11 +1,12 @@
 "use client"
 
 import Link from "next/link"
-import { useCallback, useState, type ReactNode } from "react"
-import { Check, CheckCircle2 } from "lucide-react"
+import { useCallback, useEffect, useId, useRef, useState, type DragEvent, type ReactNode } from "react"
+import { Check, CheckCircle2, FileText, Upload, X } from "lucide-react"
 import type { CareerRole } from "@/components/careers/careers-types"
 import { FormSubmitButton } from "@/components/ui/FormSubmitButton"
 import { TurnstileWidget } from "@/components/TurnstileWidget"
+import { cn } from "@/lib/utils"
 
 function ConsentCheckbox({
   id,
@@ -62,12 +63,44 @@ const ACCEPT_CV =
 const STEPS = ["Your details", "Experience", "CV & submit"] as const
 
 type Step = 1 | 2 | 3
+type CvPhase = "empty" | "uploading" | "ready"
+
+function isAllowedCv(file: File) {
+  const name = file.name.toLowerCase()
+  return (
+    name.endsWith(".pdf") ||
+    name.endsWith(".doc") ||
+    name.endsWith(".docx") ||
+    file.type === "application/pdf" ||
+    file.type === "application/msword" ||
+    file.type === "application/vnd.openxmlformats-officedocument.wordprocessingml.document"
+  )
+}
+
+function truncateFileName(name: string, max = 28) {
+  if (name.length <= max) return name
+  const dot = name.lastIndexOf(".")
+  const ext = dot > 0 ? name.slice(dot) : ""
+  const base = dot > 0 ? name.slice(0, dot) : name
+  const keep = Math.max(8, max - ext.length - 1)
+  return `${base.slice(0, keep)}…${ext}`
+}
+
+function formatFileSize(bytes: number) {
+  if (bytes < 1024) return `${bytes} B`
+  if (bytes < 1024 * 1024) return `${(bytes / 1024).toFixed(0)} KB`
+  return `${(bytes / (1024 * 1024)).toFixed(1)} MB`
+}
 
 export function CareerApplicationForm({
   role,
 }: {
   role: CareerRole
 }) {
+  const cvInputId = useId()
+  const cvInputRef = useRef<HTMLInputElement>(null)
+  const uploadTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null)
+
   const [step, setStep] = useState<Step>(1)
   const [done, setDone] = useState(false)
   const [error, setError] = useState<string | null>(null)
@@ -78,10 +111,66 @@ export function CareerApplicationForm({
   const [phone, setPhone] = useState("")
   const [experience, setExperience] = useState("")
   const [cvFile, setCvFile] = useState<File | null>(null)
+  const [cvPhase, setCvPhase] = useState<CvPhase>("empty")
+  const [cvProgress, setCvProgress] = useState(0)
+  const [cvError, setCvError] = useState<string | null>(null)
+  const [cvDragging, setCvDragging] = useState(false)
   /** honeypot */
   const [hp, setHp] = useState("")
   const [turnstileToken, setTurnstileToken] = useState<string | null>(null)
   const [privacyConsent, setPrivacyConsent] = useState(false)
+
+  useEffect(() => {
+    return () => {
+      if (uploadTimerRef.current) clearTimeout(uploadTimerRef.current)
+    }
+  }, [])
+
+  const clearCv = useCallback(() => {
+    if (uploadTimerRef.current) clearTimeout(uploadTimerRef.current)
+    setCvFile(null)
+    setCvPhase("empty")
+    setCvProgress(0)
+    setCvError(null)
+    if (cvInputRef.current) cvInputRef.current.value = ""
+  }, [])
+
+  const acceptCvFile = useCallback((file: File | null | undefined) => {
+    if (!file) return
+    setCvError(null)
+    if (!isAllowedCv(file)) {
+      setCvError("Please upload a PDF or Word document.")
+      clearCv()
+      return
+    }
+    if (file.size <= 0 || file.size > MAX_CV_BYTES) {
+      setCvError("File must be under 5 MB.")
+      clearCv()
+      return
+    }
+
+    if (uploadTimerRef.current) clearTimeout(uploadTimerRef.current)
+    setCvFile(file)
+    setCvPhase("uploading")
+    setCvProgress(8)
+
+    const started = performance.now()
+    const tick = () => {
+      const elapsed = performance.now() - started
+      const next = Math.min(96, 8 + (elapsed / 700) * 88)
+      setCvProgress(next)
+      if (elapsed < 700) {
+        uploadTimerRef.current = setTimeout(tick, 40)
+        return
+      }
+      setCvProgress(100)
+      uploadTimerRef.current = setTimeout(() => {
+        setCvPhase("ready")
+        setCvProgress(100)
+      }, 180)
+    }
+    uploadTimerRef.current = setTimeout(tick, 40)
+  }, [clearCv])
 
   const canNext1 =
     fullName.trim().length >= 2 && /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email.trim()) && phone.trim().length >= 8
@@ -329,27 +418,155 @@ export function CareerApplicationForm({
         {step === 3 ? (
           <div className="space-y-5">
             <div>
-              <label
-                htmlFor="ca-cv"
-                className="careers-apply-label mb-2 block text-[11px] font-semibold uppercase tracking-[0.18em]"
-              >
+              <p className="careers-apply-label mb-2 block text-[11px] font-semibold uppercase tracking-[0.18em]">
                 CV upload
-              </label>
+              </p>
               <input
-                id="ca-cv"
+                ref={cvInputRef}
+                id={cvInputId}
                 name="cv"
                 type="file"
                 accept={ACCEPT_CV}
-                required
-                onChange={(e) => setCvFile(e.target.files?.[0] ?? null)}
-                className="block w-full text-sm text-white/70 file:mr-4 file:rounded-none file:border file:border-white/30 file:bg-black file:px-4 file:py-2 file:text-sm file:font-semibold file:text-white"
+                required={!cvFile}
+                className="sr-only"
+                onChange={(e) => acceptCvFile(e.target.files?.[0] ?? null)}
               />
-              <p className="careers-apply-muted mt-2 text-xs">PDF or Word, max 5 MB</p>
-              {cvFile ? (
-                <p className="careers-apply-body mt-2 text-sm">
-                  Selected: {cvFile.name} ({(cvFile.size / 1024).toFixed(0)} KB)
+
+              <div
+                className={cn(
+                  "careers-cv-dropzone relative overflow-hidden rounded-xl border border-dashed transition-colors",
+                  cvDragging
+                    ? "border-white bg-white/[0.07]"
+                    : cvPhase === "ready"
+                      ? "border-white/45 bg-white/[0.04]"
+                      : "border-white/35 bg-black/30 hover:border-white/55 hover:bg-white/[0.05]",
+                  cvPhase === "empty" && "cursor-pointer"
+                )}
+                onDragEnter={(e: DragEvent) => {
+                  e.preventDefault()
+                  e.stopPropagation()
+                  setCvDragging(true)
+                }}
+                onDragOver={(e: DragEvent) => {
+                  e.preventDefault()
+                  e.stopPropagation()
+                  setCvDragging(true)
+                }}
+                onDragLeave={(e: DragEvent) => {
+                  e.preventDefault()
+                  e.stopPropagation()
+                  setCvDragging(false)
+                }}
+                onDrop={(e: DragEvent) => {
+                  e.preventDefault()
+                  e.stopPropagation()
+                  setCvDragging(false)
+                  acceptCvFile(e.dataTransfer.files?.[0] ?? null)
+                }}
+                onClick={() => {
+                  if (cvPhase === "empty") cvInputRef.current?.click()
+                }}
+                onKeyDown={(e) => {
+                  if (cvPhase !== "empty") return
+                  if (e.key === "Enter" || e.key === " ") {
+                    e.preventDefault()
+                    cvInputRef.current?.click()
+                  }
+                }}
+                role={cvPhase === "empty" ? "button" : undefined}
+                tabIndex={cvPhase === "empty" ? 0 : undefined}
+                aria-label={cvPhase === "empty" ? "Upload CV" : undefined}
+              >
+                {cvPhase === "empty" ? (
+                  <div className="flex min-h-[11.5rem] flex-col items-center justify-center gap-3 px-5 py-8 text-center">
+                    <span className="flex h-12 w-12 items-center justify-center rounded-full border border-white/25 bg-white/5">
+                      <Upload className="h-5 w-5 text-white" aria-hidden />
+                    </span>
+                    <div>
+                      <p className="text-sm font-semibold text-white">Upload here</p>
+                      <p className="careers-apply-muted mt-1.5 text-xs leading-relaxed">
+                        Drag &amp; drop your CV, or tap to browse
+                      </p>
+                    </div>
+                    <p className="careers-apply-muted text-[11px] uppercase tracking-[0.14em]">
+                      PDF or Word · max 5 MB
+                    </p>
+                  </div>
+                ) : null}
+
+                {cvPhase === "uploading" && cvFile ? (
+                  <div className="flex min-h-[11.5rem] flex-col justify-center gap-4 px-5 py-8">
+                    <div className="flex items-center gap-3">
+                      <span className="flex h-11 w-11 shrink-0 items-center justify-center rounded-lg border border-white/20 bg-white/5">
+                        <FileText className="h-5 w-5 text-white" aria-hidden />
+                      </span>
+                      <div className="min-w-0 flex-1">
+                        <p className="truncate text-sm font-semibold text-white">{truncateFileName(cvFile.name, 36)}</p>
+                        <p className="careers-apply-muted mt-0.5 text-xs">Uploading…</p>
+                      </div>
+                    </div>
+                    <div
+                      className="h-1.5 w-full overflow-hidden rounded-full bg-white/15"
+                      role="progressbar"
+                      aria-valuemin={0}
+                      aria-valuemax={100}
+                      aria-valuenow={Math.round(cvProgress)}
+                      aria-label="Upload progress"
+                    >
+                      <div
+                        className="h-full rounded-full bg-white transition-[width] duration-75 ease-out"
+                        style={{ width: `${cvProgress}%` }}
+                      />
+                    </div>
+                  </div>
+                ) : null}
+
+                {cvPhase === "ready" && cvFile ? (
+                  <div className="flex min-h-[11.5rem] flex-col items-center justify-center px-5 py-7 text-center">
+                    <div className="relative flex h-[4.75rem] w-[4.75rem] items-center justify-center rounded-xl border border-white/25 bg-white/[0.07]">
+                      <FileText className="h-8 w-8 text-white" aria-hidden />
+                      <span className="absolute -right-1.5 -top-1.5 flex h-6 w-6 items-center justify-center rounded-full bg-emerald-400 text-black">
+                        <Check className="h-3.5 w-3.5" strokeWidth={3} aria-hidden />
+                      </span>
+                    </div>
+                    <p className="mt-4 max-w-full truncate px-2 text-sm font-semibold text-white" title={cvFile.name}>
+                      {truncateFileName(cvFile.name, 34)}
+                    </p>
+                    <p className="careers-apply-muted mt-1 text-xs">{formatFileSize(cvFile.size)}</p>
+                    <div className="mt-5 flex flex-wrap items-center justify-center gap-2">
+                      <button
+                        type="button"
+                        className="rounded-none border border-white/30 px-3.5 py-2 text-xs font-semibold text-white transition-colors hover:border-white/55 hover:bg-white/5"
+                        onClick={(e) => {
+                          e.stopPropagation()
+                          cvInputRef.current?.click()
+                        }}
+                      >
+                        Replace
+                      </button>
+                      <button
+                        type="button"
+                        className="inline-flex items-center gap-1.5 rounded-none border border-white/30 px-3.5 py-2 text-xs font-semibold text-white transition-colors hover:border-white/55 hover:bg-white/5"
+                        onClick={(e) => {
+                          e.stopPropagation()
+                          clearCv()
+                        }}
+                      >
+                        <X className="h-3.5 w-3.5" aria-hidden />
+                        Remove
+                      </button>
+                    </div>
+                  </div>
+                ) : null}
+              </div>
+
+              {cvError ? (
+                <p className="mt-2 text-sm text-red-300" role="alert">
+                  {cvError}
                 </p>
-              ) : null}
+              ) : (
+                <p className="careers-apply-muted mt-2 text-xs">PDF or Word, max 5 MB</p>
+              )}
             </div>
             <p className="careers-apply-muted text-xs leading-relaxed">
               By submitting, you confirm the information is accurate and agree that we may contact you about this
@@ -374,14 +591,14 @@ export function CareerApplicationForm({
               <span className="careers-apply-muted">(required)</span>
             </ConsentCheckbox>
             <TurnstileWidget onToken={setTurnstileToken} theme="dark" />
-            <div className="flex flex-col gap-3 pt-2 sm:flex-row sm:justify-between sm:gap-4">
+            <div className="flex flex-col gap-3 pt-2 sm:flex-row sm:items-center sm:justify-between sm:gap-4">
               <button type="button" onClick={goBack} disabled={submitting} className={outlineBtnClass}>
                 Back
               </button>
               <FormSubmitButton
-                disabled={submitting || !canSubmit}
+                disabled={submitting || !canSubmit || cvPhase !== "ready"}
                 onSubmit={onSubmit}
-                className="min-w-[200px]"
+                className="careers-apply-submit w-full min-w-0 sm:min-w-[200px] sm:w-auto"
               >
                 {submitting ? "Sending…" : "Submit application"}
               </FormSubmitButton>

@@ -12,6 +12,7 @@ import { cn } from "@/lib/utils"
 import { openFsHomeSearch } from "@/lib/fsHomeSearchUi"
 import { FS_CCTV_TAB_LINKS, FS_FIRE_TAB_LINKS, FS_SERVICE_NAV_LINKS } from "@/lib/fs-service-navigation"
 import { forceDocumentScrollTop } from "@/lib/lenisBridge"
+import { lockBodyScroll } from "@/lib/bodyScrollLock"
 
 export default function Header() {
   const pathname = usePathname()
@@ -180,11 +181,7 @@ export default function Header() {
 
   useEffect(() => {
     if (!isMenuOpen) return
-    const prev = document.body.style.overflow
-    document.body.style.overflow = "hidden"
-    return () => {
-      document.body.style.overflow = prev
-    }
+    return lockBodyScroll()
   }, [isMenuOpen])
 
   useEffect(() => {
@@ -444,7 +441,7 @@ export default function Header() {
               }}
             />
           </div>
-          <div className="relative z-10 flex h-14 min-h-[3.5rem] w-full items-center justify-between px-2 sm:h-16 sm:px-3 lg:h-16 lg:min-h-0 lg:px-3">
+          <div className="relative z-10 flex h-14 min-h-[3.5rem] w-full items-center justify-between pl-2 pr-0 sm:h-16 sm:px-3 lg:h-16 lg:min-h-0 lg:px-3">
             {/* Mobile: balance the hamburger chip so the logo can sit truly centred */}
             <span className="pointer-events-none invisible h-11 w-11 shrink-0 lg:hidden" aria-hidden />
             <Link
@@ -898,7 +895,10 @@ export default function Header() {
                 </button>
               </div>
 
-              <div className="flex min-h-0 flex-1 flex-col overflow-y-auto overscroll-y-contain px-5 pb-4 sm:px-8">
+              <div
+                className="flex min-h-0 flex-1 flex-col overflow-y-auto overscroll-y-contain px-5 pb-4 sm:px-8"
+                data-scroll-lock-allow
+              >
                 <nav className="flex flex-col pt-2" aria-label="Main">
                   {/* Services accordion */}
                   <div className="border-b border-white/10">
@@ -1105,15 +1105,15 @@ export default function Header() {
                   )}
                 </nav>
 
-                <div className="mt-auto flex flex-col gap-3 pt-8">
+                <div className="mt-auto flex flex-col gap-3.5 pt-8">
                   <a
                     href="tel:02083032280"
                     onClick={closeFsMenu}
                     className="inline-flex items-center gap-3 text-white transition-opacity hover:opacity-80"
                   >
-                    <Phone className="h-4 w-4 shrink-0 opacity-70" strokeWidth={1.75} aria-hidden />
+                    <Phone className="h-5 w-5 shrink-0 opacity-70" strokeWidth={1.75} aria-hidden />
                     <span
-                      className="text-[0.95rem] font-semibold tracking-wide"
+                      className="text-lg font-semibold tracking-wide sm:text-xl"
                       style={{ fontFamily: "var(--font-menu), sans-serif" }}
                     >
                       020 8303 2280
@@ -1124,9 +1124,9 @@ export default function Header() {
                     onClick={closeFsMenu}
                     className="inline-flex items-center gap-3 text-white transition-opacity hover:opacity-80"
                   >
-                    <Mail className="h-4 w-4 shrink-0 opacity-70" strokeWidth={1.75} aria-hidden />
+                    <Mail className="h-5 w-5 shrink-0 opacity-70" strokeWidth={1.75} aria-hidden />
                     <span
-                      className="text-sm font-medium tracking-wide break-all"
+                      className="text-base font-semibold tracking-wide break-all sm:text-lg"
                       style={{ fontFamily: "var(--font-menu), sans-serif" }}
                     >
                       enquiries@apx-fs.co.uk

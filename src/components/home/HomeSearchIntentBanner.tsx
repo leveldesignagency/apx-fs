@@ -6,6 +6,7 @@ import { usePathname, useRouter } from "next/navigation"
 import { Search, X, ArrowUpRight } from "lucide-react"
 import { searchFsHomeOfferings, type FsHomeSearchEntry } from "@/data/fsHomeSearchIndex"
 import { FS_HOME_SEARCH_OPEN_EVENT } from "@/lib/fsHomeSearchUi"
+import { lockBodyScroll } from "@/lib/bodyScrollLock"
 import { queueSearchAnchorFlash, requestSearchAnchorFlash } from "@/components/home/SearchAnchorFlash"
 import { cn } from "@/lib/utils"
 
@@ -18,15 +19,23 @@ export function HomeSearchIntentBanner() {
   const inputId = useId()
   const listId = useId()
   const inputRef = useRef<HTMLInputElement>(null)
+  const shellRef = useRef<HTMLDivElement>(null)
+  const unlockScrollRef = useRef<(() => void) | null>(null)
 
   const [open, setOpen] = useState(false)
   const [query, setQuery] = useState("")
   const [activeIndex, setActiveIndex] = useState(0)
   const [entered, setEntered] = useState(false)
+  const [viewportBox, setViewportBox] = useState<{ top: number; height: number } | null>(null)
 
   const results = useMemo(() => searchFsHomeOfferings(query, 7), [query])
   const hasQuery = query.trim().length > 0
   const selected = results[activeIndex] ?? null
+
+  const releaseScrollLock = useCallback(() => {
+    unlockScrollRef.current?.()
+    unlockScrollRef.current = null
+  }, [])
 
   const dismiss = useCallback(() => {
     setEntered(false)
@@ -34,10 +43,15 @@ export function HomeSearchIntentBanner() {
       setOpen(false)
       setQuery("")
       setActiveIndex(0)
+      releaseScrollLock()
     }, 220)
-  }, [])
+  }, [releaseScrollLock])
 
   const openBanner = useCallback(() => {
+    // Lock immediately (same turn as menu close) so background never unlocks
+    if (!unlockScrollRef.current) {
+      unlockScrollRef.current = lockBodyScroll()
+    }
     setQuery("")
     setActiveIndex(0)
     setOpen(true)
@@ -127,22 +141,59 @@ export function HomeSearchIntentBanner() {
   }, [open, dismiss])
 
   useEffect(() => {
-    if (!open) return
-    const prev = document.body.style.overflow
-    document.body.style.overflow = "hidden"
+    if (open) return
+    releaseScrollLock()
+  }, [open, releaseScrollLock])
+
+  // Keep the overlay inside the visual viewport so iOS keyboard does not cover it
+  useEffect(() => {
+    if (!open) {
+      setViewportBox(null)
+      return
+    }
+
+    const sync = () => {
+      const vv = window.visualViewport
+      if (!vv) {
+        setViewportBox({ top: 0, height: window.innerHeight })
+        return
+      }
+      setViewportBox({
+        top: vv.offsetTop,
+        height: vv.height,
+      })
+    }
+
+    sync()
+    const vv = window.visualViewport
+    vv?.addEventListener("resize", sync)
+    vv?.addEventListener("scroll", sync)
+    window.addEventListener("resize", sync)
     return () => {
-      document.body.style.overflow = prev
+      vv?.removeEventListener("resize", sync)
+      vv?.removeEventListener("scroll", sync)
+      window.removeEventListener("resize", sync)
     }
   }, [open])
 
   if (!open) return null
 
+  const shellStyle = viewportBox
+    ? {
+        top: viewportBox.top,
+        height: viewportBox.height,
+        bottom: "auto" as const,
+      }
+    : undefined
+
   return (
     <div
+      ref={shellRef}
       className={cn(
-        "home-search-intent fixed inset-0 z-[220] flex items-center justify-center p-4 sm:p-6",
+        "home-search-intent fixed inset-x-0 top-0 bottom-0 z-[220] flex flex-col items-center justify-start overflow-hidden p-3 sm:justify-center sm:p-6",
         entered ? "home-search-intent--entered" : ""
       )}
+      style={shellStyle}
       role="dialog"
       aria-modal="true"
       aria-labelledby={titleId}
@@ -153,156 +204,162 @@ export function HomeSearchIntentBanner() {
         onClick={dismiss}
       />
 
-      <div className="home-search-intent__card relative z-[1] flex w-full max-w-[min(100%,26rem)] flex-col overflow-hidden sm:max-w-[28rem]">
-        <div className="relative isolate min-h-[11.5rem] shrink-0 sm:min-h-[13rem]">
-          <Image
-            src={HERO_IMAGE}
-            alt=""
-            fill
-            priority={false}
-            className="object-cover object-center"
-            sizes="28rem"
-          />
-          <div
-            className="absolute inset-0 bg-[linear-gradient(160deg,rgba(0,0,0,0.35)_0%,rgba(0,0,0,0.55)_45%,rgba(0,0,0,0.92)_100%)]"
-            aria-hidden
-          />
-          <button
-            type="button"
-            onClick={dismiss}
-            className="home-search-intent__close absolute right-3 top-3 z-[2] inline-flex h-9 w-9 items-center justify-center rounded-full"
-            aria-label="Close"
-          >
-            <X className="h-4 w-4" strokeWidth={2} />
-          </button>
-          <div className="relative z-[1] flex h-full flex-col justify-end px-5 pb-5 pt-14 sm:px-6 sm:pb-6">
-            <p className="home-search-intent__eyebrow mb-2 text-[0.7rem] font-semibold uppercase tracking-[0.16em] text-white/65">
-              APX Fire &amp; Security
-            </p>
-            <h2
-              id={titleId}
-              className="home-search-intent__title font-title text-[2.15rem] font-bold leading-[0.95] tracking-normal text-white sm:text-[2.55rem]"
-              style={{ textTransform: "none" }}
-            >
-              What Are You
-              <br />
-              Searching For?
-            </h2>
-          </div>
-          <div
-            className="pointer-events-none absolute inset-x-0 bottom-0 h-8 bg-gradient-to-b from-transparent to-black/80"
-            aria-hidden
-          />
-        </div>
-
-        <div className="home-search-intent__glass relative flex flex-1 flex-col gap-4 px-5 py-5 sm:px-6 sm:py-6">
-          <div className="relative">
-            <label htmlFor={inputId} className="sr-only">
-              Search services
-            </label>
-            <Search
-              className="pointer-events-none absolute left-3.5 top-1/2 h-4 w-4 -translate-y-1/2 text-white/45"
-              strokeWidth={2}
+      <div
+        className="home-search-intent__card relative z-[1] flex max-h-full w-full max-w-[min(100%,26rem)] flex-col overflow-hidden sm:max-w-[28rem]"
+        data-scroll-lock-allow
+      >
+        <div className="home-search-intent__scroll min-h-0 flex-1 overflow-y-auto overscroll-y-contain">
+          <div className="relative isolate min-h-[7.5rem] shrink-0 sm:min-h-[13rem]">
+            <Image
+              src={HERO_IMAGE}
+              alt=""
+              fill
+              priority={false}
+              className="object-cover object-center"
+              sizes="28rem"
+            />
+            <div
+              className="absolute inset-0 bg-[linear-gradient(160deg,rgba(0,0,0,0.35)_0%,rgba(0,0,0,0.55)_45%,rgba(0,0,0,0.92)_100%)]"
               aria-hidden
             />
-            <input
-              ref={inputRef}
-              id={inputId}
-              type="search"
-              inputMode="search"
-              enterKeyHint="search"
-              autoComplete="off"
-              autoCorrect="off"
-              autoCapitalize="off"
-              spellCheck={false}
-              value={query}
-              onChange={(e) => setQuery(e.target.value)}
-              onKeyDown={(e) => {
-                if (e.key === "ArrowDown") {
-                  e.preventDefault()
-                  if (!results.length) return
-                  setActiveIndex((i) => (i + 1) % results.length)
-                } else if (e.key === "ArrowUp") {
-                  e.preventDefault()
-                  if (!results.length) return
-                  setActiveIndex((i) => (i - 1 + results.length) % results.length)
-                } else if (e.key === "Enter") {
-                  e.preventDefault()
-                  if (selected) goTo(selected)
-                }
-              }}
-              placeholder="Search..."
-              className="home-search-intent__input w-full rounded-full border border-white/40 bg-black/55 py-3 pl-10 pr-4 text-base font-medium text-white outline-none placeholder:text-white/40 transition-[border-color,box-shadow] focus:border-white/70 focus:shadow-[0_0_0_3px_rgba(255,255,255,0.08)]"
-              aria-controls={listId}
-              aria-autocomplete="list"
-              aria-expanded={hasQuery}
+            <button
+              type="button"
+              onClick={dismiss}
+              className="home-search-intent__close absolute right-3 top-3 z-[2] inline-flex h-9 w-9 items-center justify-center rounded-full"
+              aria-label="Close"
+            >
+              <X className="h-4 w-4" strokeWidth={2} />
+            </button>
+            <div className="relative z-[1] flex h-full flex-col justify-end px-5 pb-4 pt-12 sm:px-6 sm:pb-6 sm:pt-14">
+              <p className="home-search-intent__eyebrow mb-2 text-[0.7rem] font-semibold uppercase tracking-[0.16em] text-white/65">
+                APX Fire &amp; Security
+              </p>
+              <h2
+                id={titleId}
+                className="home-search-intent__title font-title text-[1.85rem] font-bold leading-[0.95] tracking-normal text-white sm:text-[2.55rem]"
+                style={{ textTransform: "none" }}
+              >
+                What Are You
+                <br />
+                Searching For?
+              </h2>
+            </div>
+            <div
+              className="pointer-events-none absolute inset-x-0 bottom-0 h-8 bg-gradient-to-b from-transparent to-black/80"
+              aria-hidden
             />
           </div>
 
-          {hasQuery ? (
-            <div
-              id={listId}
-              role="listbox"
-              aria-label="Suggested services"
-              className="home-search-intent__results max-h-[13.5rem] overflow-y-auto rounded-2xl border border-white/25 bg-black/70 p-1.5"
-            >
-              {results.length === 0 ? (
-                <p className="home-search-intent__empty px-3 py-3 text-sm text-white/55">
-                  No matching APX services. Try CCTV, fire alarm, access, gates...
-                </p>
-              ) : (
-                <ul className="m-0 list-none p-0">
-                  {results.map((item, i) => {
-                    const active = i === activeIndex
-                    return (
-                      <li key={item.id} role="option" aria-selected={active}>
-                        <button
-                          type="button"
-                          onMouseEnter={() => setActiveIndex(i)}
-                          onClick={() => goTo(item)}
-                          className={cn(
-                            "home-search-intent__result flex w-full items-start gap-2 rounded-xl px-3 py-2.5 text-left transition-colors",
-                            active && "home-search-intent__result--active"
-                          )}
-                        >
-                          <span className="min-w-0 flex-1">
-                            <span className="home-search-intent__result-title block text-sm font-semibold leading-snug">
-                              {item.title}
-                            </span>
-                            {item.parentLabel ? (
-                              <span className="home-search-intent__result-parent mt-0.5 block text-[0.72rem] uppercase tracking-[0.14em]">
-                                {item.parentLabel}
-                              </span>
-                            ) : null}
-                          </span>
-                          <ArrowUpRight
-                            className="home-search-intent__result-icon mt-0.5 h-4 w-4 shrink-0"
-                            strokeWidth={2}
-                            aria-hidden
-                          />
-                        </button>
-                      </li>
-                    )
-                  })}
-                </ul>
-              )}
+          <div className="home-search-intent__glass relative flex flex-col gap-4 px-5 py-4 sm:px-6 sm:py-6">
+            <div className="relative">
+              <label htmlFor={inputId} className="sr-only">
+                Search services
+              </label>
+              <Search
+                className="pointer-events-none absolute left-3.5 top-1/2 h-4 w-4 -translate-y-1/2 text-white/45"
+                strokeWidth={2}
+                aria-hidden
+              />
+              <input
+                ref={inputRef}
+                id={inputId}
+                type="search"
+                inputMode="search"
+                enterKeyHint="search"
+                autoComplete="off"
+                autoCorrect="off"
+                autoCapitalize="off"
+                spellCheck={false}
+                value={query}
+                onChange={(e) => setQuery(e.target.value)}
+                onKeyDown={(e) => {
+                  if (e.key === "ArrowDown") {
+                    e.preventDefault()
+                    if (!results.length) return
+                    setActiveIndex((i) => (i + 1) % results.length)
+                  } else if (e.key === "ArrowUp") {
+                    e.preventDefault()
+                    if (!results.length) return
+                    setActiveIndex((i) => (i - 1 + results.length) % results.length)
+                  } else if (e.key === "Enter") {
+                    e.preventDefault()
+                    if (selected) goTo(selected)
+                  }
+                }}
+                placeholder="Search..."
+                className="home-search-intent__input w-full rounded-full border border-white/40 bg-black/55 py-3 pl-10 pr-4 text-base font-medium text-white outline-none placeholder:text-white/40 transition-[border-color,box-shadow] focus:border-white/70 focus:shadow-[0_0_0_3px_rgba(255,255,255,0.08)]"
+                aria-controls={listId}
+                aria-autocomplete="list"
+                aria-expanded={hasQuery}
+              />
             </div>
-          ) : null}
 
-          <div className="mt-auto flex justify-center pt-1">
-            <button
-              type="button"
-              disabled={!selected}
-              onClick={() => selected && goTo(selected)}
-              className={cn(
-                "home-search-intent__go inline-flex items-center justify-center rounded-full border px-5 py-2.5 text-sm font-bold tracking-normal transition-colors",
-                selected
-                  ? "home-search-intent__go--ready"
-                  : "cursor-not-allowed border-white/25 text-white/35"
-              )}
-            >
-              Go to page
-            </button>
+            {hasQuery ? (
+              <div
+                id={listId}
+                role="listbox"
+                aria-label="Suggested services"
+                className="home-search-intent__results max-h-[min(40vh,13.5rem)] overflow-y-auto rounded-2xl border border-white/25 bg-black/70 p-1.5"
+                data-scroll-lock-allow
+              >
+                {results.length === 0 ? (
+                  <p className="home-search-intent__empty px-3 py-3 text-sm text-white/55">
+                    No matching APX services. Try CCTV, fire alarm, access, gates...
+                  </p>
+                ) : (
+                  <ul className="m-0 list-none p-0">
+                    {results.map((item, i) => {
+                      const active = i === activeIndex
+                      return (
+                        <li key={item.id} role="option" aria-selected={active}>
+                          <button
+                            type="button"
+                            onMouseEnter={() => setActiveIndex(i)}
+                            onClick={() => goTo(item)}
+                            className={cn(
+                              "home-search-intent__result flex w-full items-start gap-2 rounded-xl px-3 py-2.5 text-left transition-colors",
+                              active && "home-search-intent__result--active"
+                            )}
+                          >
+                            <span className="min-w-0 flex-1">
+                              <span className="home-search-intent__result-title block text-sm font-semibold leading-snug">
+                                {item.title}
+                              </span>
+                              {item.parentLabel ? (
+                                <span className="home-search-intent__result-parent mt-0.5 block text-[0.72rem] uppercase tracking-[0.14em]">
+                                  {item.parentLabel}
+                                </span>
+                              ) : null}
+                            </span>
+                            <ArrowUpRight
+                              className="home-search-intent__result-icon mt-0.5 h-4 w-4 shrink-0"
+                              strokeWidth={2}
+                              aria-hidden
+                            />
+                          </button>
+                        </li>
+                      )
+                    })}
+                  </ul>
+                )}
+              </div>
+            ) : null}
+
+            <div className="flex justify-center pt-1 pb-[max(0.25rem,env(safe-area-inset-bottom,0px))]">
+              <button
+                type="button"
+                disabled={!selected}
+                onClick={() => selected && goTo(selected)}
+                className={cn(
+                  "home-search-intent__go inline-flex items-center justify-center rounded-full border px-5 py-2.5 text-sm font-bold tracking-normal transition-colors",
+                  selected
+                    ? "home-search-intent__go--ready"
+                    : "cursor-not-allowed border-white/25 text-white/35"
+                )}
+              >
+                Go to page
+              </button>
+            </div>
           </div>
         </div>
       </div>

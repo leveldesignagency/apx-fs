@@ -311,7 +311,7 @@ export default function FireSafetySystemsPage() {
 
         <FsServiceTextImageSectionGroup>
         <FsServiceTextImageSection
-          title="Fire Alarm System Installer London"
+          title="Fire Alarm System Installer in London"
           titleId="fire-alarm-installer-london-heading"
           imageSrc={FIRE_ALARM_BODY_IMAGE_SRC}
           imageAlt="Red manual call point on a commercial concrete wall"
@@ -405,6 +405,7 @@ export default function FireSafetySystemsPage() {
           title="BAFE Registered"
           titleId="bafe-registered-heading"
           variant="light"
+          mobileStack="text-first"
           imageSrc={FIRE_ALARM_BAFE_IMAGE_SRC}
           imageAlt="Commercial interior prepared for fire detection and alarm installation"
           imageClassName="object-cover object-center brightness-[0.72]"

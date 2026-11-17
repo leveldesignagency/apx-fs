@@ -143,9 +143,9 @@ export function AccreditationsHubClient() {
               <span className="section-label mb-3 block text-white/75">Credentials</span>
               <LetterReveal
                 as="h1"
-                text="Accreditations & Memberships"
+                text={"Accreditations\n& Memberships"}
                 desktopOnly={false}
-                className="text-left font-title text-4xl font-bold leading-[1.05] tracking-tight sm:text-5xl sm:leading-[1.05] md:text-6xl md:leading-[1.02] lg:text-7xl lg:leading-[1.02]"
+                className="accreditations-hub-title text-left font-title text-[2.35rem] font-bold leading-[1.05] tracking-tight sm:text-5xl sm:leading-[1.05] md:text-6xl md:leading-[1.02] lg:text-7xl lg:leading-[1.02]"
               />
               <p className="mt-4 max-w-2xl text-left text-base font-normal leading-relaxed tracking-tight text-white/70 sm:text-lg md:text-xl">
                 Independent certifications and registration first; industry memberships listed separately so it is clear

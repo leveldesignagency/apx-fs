@@ -48,14 +48,17 @@ export function MobileHomeContactFab({
   return (
     <div
       ref={rootRef}
-      className="apx-mobile-contact-fab-root md:hidden fixed right-6 z-[9990]"
-      style={{ bottom: "calc(6rem + env(safe-area-inset-bottom, 0px))" }}
+      className="apx-mobile-contact-fab-root md:hidden fixed z-[9990]"
+      style={{
+        right: "var(--site-gutter)",
+        bottom: "calc(6rem + env(safe-area-inset-bottom, 0px))",
+      }}
     >
       <div
         className={[
           "apx-mobile-contact-fab relative flex w-11 flex-col items-center justify-center overflow-hidden border border-white bg-black shadow-[0_4px_24px_rgba(0,0,0,0.45)]",
           "origin-bottom transition-[height,box-shadow] duration-300 ease-[cubic-bezier(0.22,1,0.36,1)]",
-          open ? "h-[10.25rem] rounded-full" : "h-11 rounded-full active:scale-[0.98]",
+          open ? "h-[10.25rem] rounded-full" : "h-11 rounded-full",
         ].join(" ")}
         role={open ? "dialog" : undefined}
         aria-label={open ? "Contact" : undefined}
@@ -65,7 +68,7 @@ export function MobileHomeContactFab({
         <button
           type="button"
           className={[
-            "absolute inset-0 flex items-center justify-center text-white transition-opacity duration-200",
+            "absolute inset-0 flex items-center justify-center rounded-full text-white transition-opacity duration-200",
             open ? "pointer-events-none opacity-0" : "opacity-100",
           ].join(" ")}
           aria-label="Open contact"
@@ -86,7 +89,7 @@ export function MobileHomeContactFab({
         >
           <a
             href={emergencyHref}
-            className="flex h-10 w-10 items-center justify-center text-white transition-opacity active:opacity-70"
+            className="flex h-10 w-10 items-center justify-center rounded-full text-white"
             aria-label="24/7 emergency call-out"
             tabIndex={open ? 0 : -1}
           >
@@ -94,7 +97,7 @@ export function MobileHomeContactFab({
           </a>
           <a
             href={phoneHref}
-            className="flex h-10 w-10 items-center justify-center text-white transition-opacity active:opacity-70"
+            className="flex h-10 w-10 items-center justify-center rounded-full text-white"
             aria-label={`Call ${phoneDisplay}`}
             tabIndex={open ? 0 : -1}
           >
@@ -102,7 +105,7 @@ export function MobileHomeContactFab({
           </a>
           <a
             href={`mailto:${email}`}
-            className="flex h-10 w-10 items-center justify-center text-white transition-opacity active:opacity-70"
+            className="flex h-10 w-10 items-center justify-center rounded-full text-white"
             aria-label={`Email ${email}`}
             tabIndex={open ? 0 : -1}
           >
