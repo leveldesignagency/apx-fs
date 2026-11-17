@@ -3,6 +3,7 @@
 import { useState } from "react"
 import { ChevronRight } from "lucide-react"
 import { Reveal } from "@/components/Reveal"
+import { LetterReveal } from "@/components/LetterReveal"
 import { ServiceItemReveal } from "@/components/ServiceItemReveal"
 import { cn } from "@/lib/utils"
 
@@ -36,17 +37,16 @@ export function FsServiceFaqSection({ items = FS_SERVICE_FAQ_FALLBACK, variant =
       <div className={FS_SERVICE_CONTENT_OUTER_CLASS}>
         <div className="grid grid-cols-1 gap-10 lg:grid-cols-[minmax(0,16rem)_minmax(0,1fr)] lg:gap-x-16 xl:gap-x-24">
           <Reveal className="lg:pt-1">
-            <h2
+            <LetterReveal
+              as="h2"
               id="fs-service-faq-heading"
+              text={"Frequently\nAsked Questions"}
+              desktopOnly={false}
               className={cn(
                 "font-title text-5xl font-bold normal-case leading-[0.92] tracking-normal sm:text-6xl",
                 !isLight && "text-white"
               )}
-            >
-              Frequently
-              <br />
-              Asked Questions
-            </h2>
+            />
           </Reveal>
 
           <div className="min-w-0 space-y-3 sm:space-y-4">

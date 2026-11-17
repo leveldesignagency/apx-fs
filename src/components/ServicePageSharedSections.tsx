@@ -2,6 +2,7 @@
 
 import Link from "next/link"
 import { Reveal } from "@/components/Reveal"
+import { LetterReveal } from "@/components/LetterReveal"
 import { toTitleCase } from "@/lib/titleCase"
 
 const CLIENT_LOGO_PATHS = [
@@ -80,9 +81,12 @@ export function OurCustomers({ serviceTitleShort }: { serviceTitleShort: string 
       <section className="bg-white pt-12 pb-20 text-black sm:pb-24 lg:pt-16 lg:pb-32">
         <div className="site-container relative mb-10 w-full">
           <Reveal>
-            <h2 className="text-left font-title text-4xl font-bold text-black">
-              {toTitleCase(`Our ${serviceTitleShort} Customers`)}
-            </h2>
+            <LetterReveal
+              as="h2"
+              text={`Our ${serviceTitleShort} Customers`}
+              desktopOnly={false}
+              className="text-left font-title text-4xl font-bold text-black"
+            />
           </Reveal>
         </div>
         <div className="site-container">

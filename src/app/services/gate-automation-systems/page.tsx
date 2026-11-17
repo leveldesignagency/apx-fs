@@ -14,6 +14,7 @@ import { CustomPillButton } from "@/components/ui/CustomPillButton"
 import { CallPhoneCta } from "@/components/ui/CallPhoneCta"
 import { ServicePageHero } from "@/components/ServicePageHero"
 import { Reveal } from "@/components/Reveal"
+import { LetterReveal } from "@/components/LetterReveal"
 import { ServiceItemReveal } from "@/components/ServiceItemReveal"
 import { ServiceFeatureImageCard } from "@/components/ServiceFeatureImageCard"
 import { FsServiceTextImageSection } from "@/components/FsServiceTextImageSection"
@@ -91,9 +92,7 @@ export default function GateAutomationSystemsPage() {
 
         <section className="site-container relative z-[1] py-16 lg:py-16">
           <Reveal>
-            <h2 className="mb-4 text-left font-title text-4xl font-bold text-white sm:text-5xl">
-              What We Deliver
-            </h2>
+            <LetterReveal as="h2" text={'What We Deliver'} desktopOnly={false} className="mb-4 text-left font-title text-4xl font-bold text-white sm:text-5xl" />
           </Reveal>
           <Reveal delayMs={70}>
             <p className="mb-10 max-w-3xl text-left text-gray-300">
@@ -173,9 +172,7 @@ export default function GateAutomationSystemsPage() {
                   <p className="mb-3 text-xs font-semibold uppercase tracking-[0.2em] text-white/55">
                     Site survey focus
                   </p>
-                  <h2 className="max-w-xl text-left font-title text-4xl font-bold leading-[1.05] text-white sm:text-5xl">
-                    Risks We Look For
-                  </h2>
+                  <LetterReveal as="h2" text={'Risks We Look For'} desktopOnly={false} className="max-w-xl text-left font-title text-4xl font-bold leading-[1.05] text-white sm:text-5xl" />
                 </Reveal>
                 <Reveal delayMs={70}>
                   <p className="mt-5 max-w-md text-left text-base leading-relaxed text-white/70 sm:text-lg">
@@ -340,9 +337,7 @@ export default function GateAutomationSystemsPage() {
           ctaHeadlineAccent="Survey"
           ctaDescription="Contact us to book a survey for gates, barriers or bollards, new installs, servicing, repairs or maintenance."
         >
-          <CustomPillButton href="/contact?service=gate-automation-systems" size="md">
-            Arrange a survey
-          </CustomPillButton>
+          <CustomPillButton href="/contact?service=gate-automation-systems" size="md">Book survey</CustomPillButton>
           <CallPhoneCta size="md" />
         </ServicePageClosingSections>
       </div>

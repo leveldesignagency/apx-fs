@@ -1,4 +1,5 @@
 import type { FsNewsArticle } from "@/data/fsNewsArticles"
+import { LetterReveal } from "@/components/LetterReveal"
 import { NewsArticleCard } from "@/components/news/NewsArticleCard"
 import { CustomPillButton } from "@/components/ui/CustomPillButton"
 import { FS_PROJECTS_CONTENT_MAX, FS_PROJECTS_SECTION_PX } from "@/lib/fsProjectsLayout"
@@ -25,12 +26,13 @@ export function NewsMoreArticlesStrip({ articles }: NewsMoreArticlesStripProps) 
             <p className="text-[11px] font-bold uppercase tracking-[0.16em] text-black/55">
               Keep reading
             </p>
-            <h2
+            <LetterReveal
+              as="h2"
               id="news-more-articles-heading"
+              text="More Articles"
+              desktopOnly={false}
               className="mt-2 font-title text-2xl font-bold normal-case tracking-tight text-black md:text-3xl lg:text-4xl"
-            >
-              More Articles
-            </h2>
+            />
           </div>
           <CustomPillButton href="/news" size="sm" variant="onLight">
             View all

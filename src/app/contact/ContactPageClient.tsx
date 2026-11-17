@@ -4,6 +4,7 @@ import Link from "next/link"
 import { useEffect, useRef, useState, type ReactNode } from "react"
 import { useRouter, useSearchParams } from "next/navigation"
 import { Reveal } from "@/components/Reveal"
+import { LetterReveal } from "@/components/LetterReveal"
 import { FormSubmitButton } from "@/components/ui/FormSubmitButton"
 import { ServiceCombobox } from "@/components/ui/ServiceCombobox"
 import {
@@ -449,9 +450,13 @@ export function ContactPageClient() {
               <div className="contact-page-copy flex min-h-0 flex-col">
                 <Reveal show={mounted} delayMs={0}>
                   <span className="section-label mb-5 block text-white/55">Contact</span>
-                  <h1 className="contact-page-title font-title text-left text-4xl font-bold text-white sm:text-5xl md:text-6xl lg:text-7xl">
-                    Let&apos;s Start a Conversation
-                  </h1>
+                  <LetterReveal
+                    as="h1"
+                    text="Let's Start a Conversation"
+                    active={mounted}
+                    desktopOnly={false}
+                    className="contact-page-title font-title text-left text-4xl font-bold text-white sm:text-5xl md:text-6xl lg:text-7xl"
+                  />
                   <p className="contact-page-credibility mt-5 max-w-md text-sm leading-relaxed text-white/55 sm:text-base">
                     NSI Gold for security and fire. Surveys, quotes and specialist advice across London and the Home
                     Counties.

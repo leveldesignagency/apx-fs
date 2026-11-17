@@ -17,6 +17,7 @@ import { NewsArticleShareBanner } from "@/components/news/NewsArticleShareBanner
 import { NewsMoreArticlesStrip } from "@/components/news/NewsMoreArticlesStrip"
 import { FsInsetCtaCard } from "@/components/FsInsetCtaCard"
 import { CustomPillButton } from "@/components/ui/CustomPillButton"
+import { LetterReveal } from "@/components/LetterReveal"
 import { CallPhoneCta } from "@/components/ui/CallPhoneCta"
 import { JsonLd } from "@/components/seo/JsonLd"
 import { breadcrumbsSimple, buildArticleJsonLd, buildBreadcrumbJsonLd } from "@/lib/seo-jsonld"
@@ -101,7 +102,7 @@ export default async function NewsArticlePage({ params }: Props) {
             </Link>
 
             <div className="mt-8 grid grid-cols-1 gap-8 lg:grid-cols-2 lg:items-start lg:gap-10 xl:gap-12">
-              <div className="order-2 min-w-0 lg:order-1">
+              <div className="order-1 min-w-0 lg:order-1">
                 <div className="news-card__meta flex flex-wrap items-center gap-x-3 gap-y-2 text-[11px] font-bold uppercase tracking-[0.16em] text-black/55">
                   <time dateTime={article.publishedAt}>{article.publishedLabel}</time>
                   {article.categories.map((cat) => (
@@ -110,15 +111,18 @@ export default async function NewsArticlePage({ params }: Props) {
                     </span>
                   ))}
                 </div>
-                <h1 className="mt-4 font-title text-3xl font-bold normal-case leading-tight text-black md:text-4xl lg:text-[clamp(2rem,3.2vw,3.25rem)]">
-                  {toTitleCase(article.title)}
-                </h1>
+                <LetterReveal
+                  as="h1"
+                  text={article.title}
+                  desktopOnly={false}
+                  className="mt-4 font-title text-[1.875rem] font-bold normal-case leading-tight tracking-tight text-black sm:text-3xl md:text-4xl lg:text-[clamp(2rem,3.2vw,3.25rem)]"
+                />
                 {article.body[0] ? (
                   <NewsArticleHeroLead text={article.body[0]} inlineLinks={article.inlineLinks} />
                 ) : null}
               </div>
 
-              <div className="news-article-page__hero relative order-1 aspect-[16/10] w-full min-w-0 overflow-hidden bg-neutral-100 sm:aspect-[3/2] lg:order-2 lg:aspect-[16/10]">
+              <div className="news-article-page__hero relative order-2 aspect-[16/10] w-full min-w-0 overflow-hidden bg-neutral-100 sm:aspect-[3/2] lg:order-2 lg:aspect-[16/10]">
                 <Image
                   src={article.imageSrc}
                   alt={article.imageAlt}
@@ -193,9 +197,7 @@ export default async function NewsArticlePage({ params }: Props) {
         headlineAccent="Fire & Security"
         description="Discuss a similar fire or security project, maintenance plan or survey across London and the Home Counties."
       >
-        <CustomPillButton href="/contact" size="lg">
-          Contact APX Fire &amp; Security
-        </CustomPillButton>
+        <CustomPillButton href="/contact" size="lg">Contact</CustomPillButton>
         <CallPhoneCta size="lg" />
       </FsInsetCtaCard>
     </div>

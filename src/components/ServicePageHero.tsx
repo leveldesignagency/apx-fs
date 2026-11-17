@@ -2,6 +2,7 @@
 
 import { useEffect, useState, type ReactNode } from "react"
 import { Reveal } from "@/components/Reveal"
+import { LetterReveal } from "@/components/LetterReveal"
 import { ServiceHeroGridTilt } from "@/components/ServiceHeroGridTilt"
 import { toTitleCase } from "@/lib/titleCase"
 
@@ -126,9 +127,13 @@ export function ServicePageHero({
         >
           <div className="service-page-hero__copy-block w-full min-w-0 max-w-full md:max-w-[min(52rem,68vw)] lg:max-w-[min(60rem,72vw)]">
             <Reveal show={heroReveal} delayMs={0}>
-              <h1 className="service-page-hero__title mb-0 font-title text-3xl font-bold text-left text-white sm:text-4xl md:text-5xl lg:text-6xl">
-                {toTitleCase(title)}
-              </h1>
+              <LetterReveal
+                as="h1"
+                text={title}
+                active={heroReveal}
+                desktopOnly={false}
+                className="service-page-hero__title mb-0 font-title text-3xl font-bold text-left text-white sm:text-4xl md:text-5xl lg:text-6xl"
+              />
               {titleDetail ? (
                 <p className="mt-2 text-[0.7rem] font-normal uppercase tracking-[0.16em] text-white/70 sm:mt-3 sm:text-xs md:text-sm">
                   {titleDetail}

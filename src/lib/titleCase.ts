@@ -15,6 +15,8 @@ const SMALL_WORDS = new Set([
   "from",
   "in",
   "into",
+  "it",
+  "its",
   "nor",
   "of",
   "off",

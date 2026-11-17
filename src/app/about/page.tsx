@@ -217,10 +217,14 @@ export default function AboutPage() {
       raf = 0;
       const track = heritageYearTrackRef.current;
       if (!track) return;
+      const vh = window.innerHeight;
       const trackTop = window.scrollY + track.getBoundingClientRect().top;
-      const start = trackTop - window.innerHeight * 0.58;
-      /* Slightly quicker year tick through 1986-2026 while heritage is on screen */
-      const span = window.innerHeight * 0.58;
+      /*
+       * 1986 while heritage is entering view; reach 2026 before it leaves
+       * the upper viewport (short span so the ease-out tail still completes).
+       */
+      const start = trackTop - vh * 0.5;
+      const span = vh * 0.4; /* finishes ~trackTop - 0.1*vh */
       const t = Math.min(1, Math.max(0, (window.scrollY - start) / span));
       const eased = t * t * (3 - 2 * t);
       const next = Math.round(
@@ -708,9 +712,7 @@ export default function AboutPage() {
         headlineAccent="touch"
         description="Ready to discuss your fire safety or security requirements? We would love to hear from you."
       >
-        <CustomPillButton href="/contact" size="md">
-          Contact us
-        </CustomPillButton>
+        <CustomPillButton href="/contact" size="md">Contact</CustomPillButton>
         <CallPhoneCta size="md" />
       </FsInsetCtaCard>
     </div>

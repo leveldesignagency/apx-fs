@@ -1,5 +1,6 @@
 import type { Metadata } from "next"
 import Link from "next/link"
+import { LetterReveal } from "@/components/LetterReveal"
 import { CareersSearchAndRoles } from "@/components/careers/CareersSearchAndRoles"
 import { FS_SITE_NAME } from "@/lib/seo"
 import { buildFsMetadata } from "@/lib/seo-metadata"
@@ -20,9 +21,12 @@ export default function CareersPage() {
       <section className="site-container page-title-top max-w-[1920px] pb-24 sm:pb-28">
         <div className="careers-page-header careers-divider-b max-w-2xl border-b border-white/12 pb-10 sm:pb-12">
           <p className="text-[11px] font-semibold uppercase tracking-[0.22em] text-white/45">Careers</p>
-          <h1 className="mt-3 font-title text-3xl font-bold leading-tight tracking-tight text-white sm:text-4xl md:text-5xl">
-            Find Your Next Role
-          </h1>
+          <LetterReveal
+            as="h1"
+            text="Find Your Next Role"
+            desktopOnly={false}
+            className="mt-3 font-title text-3xl font-bold leading-tight tracking-tight text-white sm:text-4xl md:text-5xl"
+          />
           <p className="mt-4 text-base leading-relaxed text-white/65 sm:text-lg">
             Skilled engineers and installers who share our standards for compliant, quality delivery on site across
             London and the Home Counties.
@@ -32,7 +36,7 @@ export default function CareersPage() {
         <CareersSearchAndRoles roles={FS_CAREER_ROLES} />
 
         <aside className="mt-16 max-w-3xl border-t border-white/12 pt-10 sm:mt-20 sm:pt-12">
-          <h2 className="font-title text-xl font-bold text-white sm:text-2xl">Equal Opportunities &amp; Privacy</h2>
+          <LetterReveal as="h2" text="Equal Opportunities & Privacy" desktopOnly={false} className="font-title text-xl font-bold text-white sm:text-2xl" />
           <p className="mt-4 text-sm leading-relaxed text-white/65 sm:text-base">
             APX Fire &amp; Security is an equal-opportunities employer. We welcome applications from all suitably
             qualified candidates. Decisions are based on experience, skills and ability to do the job.

@@ -3,6 +3,7 @@
 import { useCallback, useEffect, useRef, useState } from "react"
 import Image from "next/image"
 import Link from "next/link"
+import { LetterReveal } from "@/components/LetterReveal"
 import {
   ChevronLeft,
   ChevronRight,
@@ -185,14 +186,13 @@ export function IndustriesWeWorkInSection() {
           >
             Sectors
           </span>
-          <h2
+          <LetterReveal
+            as="h2"
             id="industries-heading"
+            text={"Industries We\nWork In"}
+            desktopOnly={false}
             className="home-section-title text-white font-title"
-          >
-            Industries We
-            <br />
-            Work In
-          </h2>
+          />
           <p className="section-intro-gap max-w-2xl text-pretty text-sm leading-relaxed text-white/65 sm:text-base">
             From education and hospitals to commercial offices, high-end housing and hotels, we design and install
             fire and security systems that fit how each site actually operates.
@@ -205,7 +205,7 @@ export function IndustriesWeWorkInSection() {
           <div
             ref={scrollerRef}
             className={cn(
-              "industries-carousel flex snap-x snap-mandatory gap-5 overflow-x-auto pb-1 [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden",
+              "industries-carousel fs-scroll-edge-feather flex snap-x snap-mandatory gap-5 overflow-x-auto pb-1 [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden",
               cardsIn && "industries-carousel--in"
             )}
           >

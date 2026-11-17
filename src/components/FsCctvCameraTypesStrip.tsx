@@ -4,6 +4,7 @@ import { useEffect, useState } from "react"
 import Image from "next/image"
 import Link from "next/link"
 import { Reveal } from "@/components/Reveal"
+import { LetterReveal } from "@/components/LetterReveal"
 import { CCTV_CAMERA_TYPE_PAGES } from "@/data/cctvCameraTypePages"
 import { toTitleCase } from "@/lib/titleCase"
 
@@ -55,12 +56,14 @@ export function FsCctvCameraTypesStrip() {
       >
         <div className="site-container relative z-[1] py-10 sm:py-12 lg:py-12">
           <Reveal show={stripShow} delayMs={STRIP_TITLE_DELAY_MS}>
-            <h2
+            <LetterReveal
+              as="h2"
               id="cctv-camera-types-heading"
+              text="CCTV Camera Types"
+              active={stripShow}
+              desktopOnly={false}
               className="mb-6 max-w-3xl text-left font-title text-4xl font-bold text-white sm:mb-8 sm:text-5xl"
-            >
-              {toTitleCase("CCTV Camera Types")}
-            </h2>
+            />
           </Reveal>
           <Reveal show={stripShow} delayMs={STRIP_INTRO_DELAY_MS}>
             <p className="mb-8 max-w-3xl text-left text-base leading-relaxed text-gray-300 sm:mb-10">

@@ -81,7 +81,7 @@ export const FS_ACCREDITATIONS: Record<string, FsAccreditationEntry> = {
     title: "Fire Industry Association membership",
     shortLabel: "FIA Full Member · trade association",
     kind: "membership",
-    icon: "/accreditations%20mono/Coloured/FIA-01.svg",
+    icon: "/accreditations%20mono/Coloured/FIA-official.png",
     intro:
       "The Fire Industry Association (FIA) is the UK's major trade association for fire protection and fire safety professionals. It supports standards, training and technical guidance across the industry.",
     apxStatus: "APX Fire & Security is a Full Member of the Fire Industry Association (FIA).",

@@ -257,20 +257,28 @@ const GlobalStyles = createGlobalStyle<{ theme: typeof lightTheme }>`
     color: #ffffff !important;
   }
 
-  /* Locations postcode check: white off-hover, black fill on hover */
-  .fs-coverage-check-btn {
-    position: relative;
-    background: #ffffff !important;
-    background-color: #ffffff !important;
-    color: #000000 !important;
-    border-color: #ffffff !important;
-  }
+  /* Locations postcode check: keep black shell so rising white fill reads; label → black on hover */
+  .fs-coverage-check-btn,
   .fs-coverage-check-btn:hover,
   .fs-coverage-check-btn:focus-visible {
+    position: relative;
     background: #000000 !important;
     background-color: #000000 !important;
-    color: #ffffff !important;
     border-color: #ffffff !important;
+  }
+  .fs-coverage-check-btn,
+  .fs-coverage-check-btn span.fs-coverage-check-btn__label {
+    color: #ffffff !important;
+    -webkit-text-fill-color: #ffffff !important;
+  }
+  .fs-coverage-check-btn:hover,
+  .fs-coverage-check-btn:focus-visible,
+  .fs-coverage-check-btn:hover span.fs-coverage-check-btn__label,
+  .fs-coverage-check-btn:focus-visible span.fs-coverage-check-btn__label,
+  .fs-coverage-check-btn:hover *,
+  .fs-coverage-check-btn:focus-visible * {
+    color: #000000 !important;
+    -webkit-text-fill-color: #000000 !important;
   }
   .fs-coverage-check-btn.fs-coverage-check-btn--success,
   .fs-coverage-check-btn.fs-coverage-check-btn--success:hover,
@@ -278,8 +286,15 @@ const GlobalStyles = createGlobalStyle<{ theme: typeof lightTheme }>`
     background: #16a34a !important;
     background-color: #16a34a !important;
     color: #ffffff !important;
+    -webkit-text-fill-color: #ffffff !important;
     border-color: #16a34a !important;
     cursor: default;
+  }
+  .fs-coverage-check-btn.fs-coverage-check-btn--success span.fs-coverage-check-btn__label,
+  .fs-coverage-check-btn.fs-coverage-check-btn--success:hover *,
+  .fs-coverage-check-btn.fs-coverage-check-btn--success:focus-visible * {
+    color: #ffffff !important;
+    -webkit-text-fill-color: #ffffff !important;
   }
 
   /* Quote / contact form — shared dark fields + ServiceCombobox (homepage + /contact) */

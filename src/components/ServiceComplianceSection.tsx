@@ -3,6 +3,7 @@
 import type { ReactNode } from "react"
 import { CheckCircle } from "lucide-react"
 import { Reveal } from "@/components/Reveal"
+import { LetterReveal } from "@/components/LetterReveal"
 import { ServiceItemReveal } from "@/components/ServiceItemReveal"
 import { toTitleCase } from "@/lib/titleCase"
 import { cn } from "@/lib/utils"
@@ -47,9 +48,12 @@ export function ServiceComplianceSection({
         <div className="site-container py-16 lg:py-16">
           {sectionTitle ? (
             <Reveal>
-              <h2 className="mb-4 text-left font-title text-4xl font-bold text-black sm:text-5xl">
-                {toTitleCase(sectionTitle)}
-              </h2>
+              <LetterReveal
+                as="h2"
+                text={sectionTitle}
+                desktopOnly={false}
+                className="mb-4 text-left font-title text-4xl font-bold text-black sm:text-5xl"
+              />
             </Reveal>
           ) : null}
           {intro ? (

@@ -7,6 +7,7 @@ import { CallPhoneCta } from "@/components/ui/CallPhoneCta"
 import { ServicePageHero } from "@/components/ServicePageHero"
 import { FsFireSubpageHeroButtons } from "@/components/FsFireSubpageHeroButtons"
 import { Reveal } from "@/components/Reveal"
+import { LetterReveal } from "@/components/LetterReveal"
 import { ServiceItemReveal } from "@/components/ServiceItemReveal"
 import { ServiceInstallationsGrid } from "@/components/ServiceInstallationsGrid"
 import { ServiceInstallationCard } from "@/components/ServiceInstallationCard"
@@ -282,9 +283,7 @@ export default function FireSafetySystemsPage() {
 
         <section className="site-container relative z-[1] py-16 lg:py-16">
           <Reveal>
-            <h2 className="mb-4 text-left font-title text-4xl font-bold text-white sm:text-5xl">
-              Fire Alarm Capabilities
-            </h2>
+            <LetterReveal as="h2" text={'Fire Alarm Capabilities'} desktopOnly={false} className="mb-4 text-left font-title text-4xl font-bold text-white sm:text-5xl" />
           </Reveal>
           <Reveal delayMs={70}>
             <p className="mb-10 max-w-3xl text-left text-gray-300">
@@ -450,7 +449,7 @@ export default function FireSafetySystemsPage() {
 
         <section className="site-container py-16 lg:py-16">
           <Reveal>
-            <h2 className="fs-service-installations-heading mb-4 text-left font-title text-5xl font-bold text-white sm:text-6xl">Our Fire Alarm System Installations</h2>
+            <LetterReveal as="h2" text={'Our Fire Alarm System Installations'} desktopOnly={false} className="fs-service-installations-heading mb-4 text-left font-title text-5xl font-bold text-white sm:text-6xl" />
           </Reveal>
           <Reveal delayMs={70}>
             <p className="mb-8 max-w-2xl text-left text-gray-300">Examples of fire alarm systems that we have installed for our customers:</p>
@@ -478,9 +477,7 @@ export default function FireSafetySystemsPage() {
           ctaHeadlineAccent="Alarm System?"
           ctaDescription="Contact us for a free survey and expert advice on fire detection and alarm design for your premises."
         >
-          <CustomPillButton href="/contact" size="md">
-            Get a free quote
-          </CustomPillButton>
+          <CustomPillButton href="/contact" size="md">Get quote</CustomPillButton>
           <CallPhoneCta size="md" />
         </ServicePageClosingSections>
 

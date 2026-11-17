@@ -27,7 +27,7 @@ const FOOTER_ACCREDITATION_LOGOS = [
   { href: "/accreditations/nsi", src: `${ACC_MONO}/Coloured/NSI-01.png`, alt: "NSI Gold" },
   { href: "/accreditations/bafe", src: `${ACC_MONO}/Coloured/BAFE-01.svg`, alt: "BAFE" },
   { href: "/accreditations/constructionline", src: `${ACC_MONO}/Coloured/ConstructionOnline-01.svg`, alt: "Constructionline" },
-  { href: "/accreditations/fia", src: `${ACC_MONO}/Coloured/FIA-01.svg`, alt: "FIA" },
+  { href: "/accreditations/fia", src: `${ACC_MONO}/Coloured/FIA-official.png`, alt: "FIA" },
 ] as const
 
 function isTransparentBg(color: string) {
@@ -388,7 +388,7 @@ export default function Footer() {
                       <Link
                         key={href}
                         href={href}
-                        className="footer-accred-logos__link inline-flex h-9 items-center opacity-85 transition-opacity duration-200 hover:opacity-100 focus-visible:opacity-100"
+                        className="inline-flex h-9 items-center bg-transparent p-0 opacity-85 transition-opacity duration-200 hover:opacity-100 focus-visible:opacity-100"
                         aria-label={`${alt}, view accreditation page`}
                       >
                         {/* eslint-disable-next-line @next/next/no-img-element */}
@@ -595,7 +595,7 @@ export default function Footer() {
                     <Link
                       key={href}
                       href={href}
-                      className="footer-accred-logos__link inline-flex h-9 items-center opacity-85 transition-opacity duration-200 hover:opacity-100 focus-visible:opacity-100"
+                      className="inline-flex h-9 items-center bg-transparent p-0 opacity-85 transition-opacity duration-200 hover:opacity-100 focus-visible:opacity-100"
                       aria-label={`${alt}, view accreditation page`}
                     >
                       {/* eslint-disable-next-line @next/next/no-img-element */}

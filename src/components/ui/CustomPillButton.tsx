@@ -1,6 +1,7 @@
 "use client"
 
 import { cn } from "@/lib/utils"
+import { ChevronRight } from "lucide-react"
 import Link from "next/link"
 import { forwardRef, type ButtonHTMLAttributes } from "react"
 
@@ -25,6 +26,8 @@ export interface CustomPillButtonProps
   /** Outline = white fill + black border off hover; black fill on hover */
   /** onLight = for white-background sections: black border, white fill, black text; hover black fill, white text */
   variant?: "default" | "outline" | "onLight"
+  /** Trailing chevron that jumps right on hover */
+  arrow?: boolean
 }
 
 const sizeClasses = {
@@ -34,20 +37,26 @@ const sizeClasses = {
 }
 
 const CustomPillButton = forwardRef<HTMLAnchorElement, CustomPillButtonProps>(
-  ({ href, children, className, size = "md", variant = "default", ...props }, ref) => {
+  ({ href, children, className, size = "md", variant = "default", arrow = false, ...props }, ref) => {
     const sizeClass = sizeClasses[size]
     const classes = cn(
       pillBaseStyles,
       sizeClass,
       variant === "outline" && "pill-btn--outline",
       variant === "onLight" && "pill-btn--onLight",
+      arrow && "pill-btn--arrow",
       className
     )
     return (
       <Link ref={ref} href={href} className={classes} {...props}>
         <span className="pill-btn-inner" aria-hidden />
         <span className="pill-btn-border" aria-hidden />
-        <span className="pill-text font-bold">{children}</span>
+        <span className="pill-text font-bold">
+          {children}
+          {arrow ? (
+            <ChevronRight className="pill-btn-arrow" strokeWidth={2.25} aria-hidden />
+          ) : null}
+        </span>
       </Link>
     )
   }

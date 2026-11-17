@@ -2,6 +2,7 @@
 
 import { useMemo, useState } from "react"
 import Link from "next/link"
+import { LetterReveal } from "@/components/LetterReveal"
 import { Search, X } from "lucide-react"
 import { FS_TEAM_MEMBERS, type FsTeamMember } from "@/data/fsTeam"
 import { cn } from "@/lib/utils"
@@ -66,9 +67,7 @@ export function TeamDirectoryClient() {
             >
               People
             </p>
-            <h1 className="font-title text-4xl font-bold leading-[1.02] tracking-tight text-black sm:text-5xl lg:text-6xl">
-              The Team
-            </h1>
+            <LetterReveal as="h1" text={'The Team'} desktopOnly={false} className="font-title text-4xl font-bold leading-[1.02] tracking-tight text-black sm:text-5xl lg:text-6xl" />
             <p className="mt-4 max-w-md text-base leading-relaxed text-black/60 sm:text-lg">
               Everyone behind APX Fire &amp; Security. Search by name or role.
             </p>

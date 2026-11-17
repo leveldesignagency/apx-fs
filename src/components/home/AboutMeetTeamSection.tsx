@@ -1,6 +1,7 @@
 "use client"
 
 import { Reveal } from "@/components/Reveal"
+import { LetterReveal } from "@/components/LetterReveal"
 import { CustomPillButton } from "@/components/ui/CustomPillButton"
 import { FS_FEATURED_TEAM, type FsTeamMember } from "@/data/fsTeam"
 import { cn } from "@/lib/utils"
@@ -121,12 +122,13 @@ export function AboutMeetTeamSection() {
               >
                 People
               </p>
-              <h2
+              <LetterReveal
+                as="h2"
                 id="about-meet-the-team-heading"
+                text="Meet the Team"
+                desktopOnly={false}
                 className="font-title text-4xl font-bold leading-[1.02] tracking-tight text-black sm:text-5xl lg:text-6xl"
-              >
-                Meet the Team
-              </h2>
+              />
             </div>
           </Reveal>
           <Reveal delayMs={70}>
@@ -137,7 +139,7 @@ export function AboutMeetTeamSection() {
         </div>
 
         <Reveal delayMs={100}>
-          <ul className="about-featured-team-row m-0 mt-10 flex list-none gap-3 overflow-x-auto pb-2 sm:mt-12 sm:gap-4 lg:mt-14 lg:gap-5 lg:overflow-visible">
+          <ul className="about-featured-team-row fs-scroll-edge-feather m-0 mt-10 flex list-none gap-3 overflow-x-auto pb-2 sm:mt-12 sm:gap-4 lg:mt-14 lg:gap-5 lg:overflow-visible">
             {members.map((member, i) => (
               <li
                 key={member.id}

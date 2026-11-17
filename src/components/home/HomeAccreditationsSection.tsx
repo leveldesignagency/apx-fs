@@ -3,6 +3,7 @@
 import Link from "next/link"
 import { useEffect, useRef, useState, type CSSProperties } from "react"
 import { CustomPillButton } from "@/components/ui/CustomPillButton"
+import { LetterReveal } from "@/components/LetterReveal"
 import { cn } from "@/lib/utils"
 
 const HOME_ACCREDITATIONS_BG = "/accredited-apx-fs.jpg"
@@ -129,12 +130,13 @@ export function HomeAccreditationsSection({ visible = true }: HomeAccreditations
           </div>
 
           <div className="home-acc-clip mx-auto mt-3" style={delayStyle(70)}>
-            <h3
+            <LetterReveal
+              as="h3"
               id="home-accreditations-heading"
+              text="Accredited & Fully Qualified"
+              desktopOnly={false}
               className="home-acc-clip__inner home-section-title font-title text-white"
-            >
-              Accredited &amp; Fully Qualified
-            </h3>
+            />
           </div>
 
           <div className="home-acc-clip mx-auto mt-4 max-w-2xl" style={delayStyle(140)}>

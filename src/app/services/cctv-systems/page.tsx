@@ -9,6 +9,7 @@ import { CustomPillButton } from "@/components/ui/CustomPillButton"
 import { CallPhoneCta } from "@/components/ui/CallPhoneCta"
 import { ServicePageHero } from "@/components/ServicePageHero"
 import { Reveal } from "@/components/Reveal"
+import { LetterReveal } from "@/components/LetterReveal"
 import { ServiceItemReveal } from "@/components/ServiceItemReveal"
 import { ServiceFeatureImageCard } from "@/components/ServiceFeatureImageCard"
 import { serviceHeroImages } from "@/lib/serviceHeroImages"
@@ -128,9 +129,7 @@ export default function CctvSecurityPage() {
 
         <section className="site-container relative z-[1] py-16 lg:py-16">
           <Reveal>
-            <h2 className="mb-4 text-left font-title text-4xl font-bold text-white sm:text-5xl">
-              Commercial CCTV Capabilities
-            </h2>
+            <LetterReveal as="h2" text={'Commercial CCTV Capabilities'} desktopOnly={false} className="mb-4 text-left font-title text-4xl font-bold text-white sm:text-5xl" />
           </Reveal>
           <Reveal delayMs={70}>
             <p className="mb-10 max-w-3xl text-left text-gray-300">
@@ -199,9 +198,7 @@ export default function CctvSecurityPage() {
           ctaHeadlineAccent="CCTV?"
           ctaDescription="Our specialists can survey your site and recommend IP, HD analogue upgrade, remote viewing and retention options for your premises, with clear guidance on operator responsibilities."
         >
-          <CustomPillButton href="/contact?service=cctv-systems" size="md">
-            Get free consultation
-          </CustomPillButton>
+          <CustomPillButton href="/contact?service=cctv-systems" size="md">Enquire</CustomPillButton>
           <CallPhoneCta size="md" />
         </ServicePageClosingSections>
       </div>

@@ -10,6 +10,7 @@ import { CustomPillButton } from "@/components/ui/CustomPillButton"
 import { CallPhoneCta } from "@/components/ui/CallPhoneCta"
 import { ServiceHeroGridTilt } from "@/components/ServiceHeroGridTilt"
 import { Reveal } from "@/components/Reveal"
+import { LetterReveal } from "@/components/LetterReveal"
 import { ServiceItemReveal } from "@/components/ServiceItemReveal"
 import { ServiceInstallationsGrid } from "@/components/ServiceInstallationsGrid"
 import { ServiceInstallationCard } from "@/components/ServiceInstallationCard"
@@ -123,7 +124,7 @@ export default function IntruderAlarmSystemsPage() {
 
         <section className="site-container relative z-[1] py-16 lg:py-16">
           <Reveal>
-            <h2 className="mb-10 text-left font-title text-4xl font-bold text-white sm:text-5xl">Constant Protection</h2>
+            <LetterReveal as="h2" text={'Constant Protection'} desktopOnly={false} className="mb-10 text-left font-title text-4xl font-bold text-white sm:text-5xl" />
           </Reveal>
           <div className="grid grid-cols-1 gap-8 md:grid-cols-2 lg:grid-cols-3">
             {MONITORING_BENEFITS.map((item, index) => (
@@ -277,7 +278,7 @@ export default function IntruderAlarmSystemsPage() {
 
         <section className="site-container py-16 lg:py-16">
           <Reveal>
-            <h2 className="fs-service-installations-heading mb-4 text-left font-title text-5xl font-bold text-white sm:text-6xl">Our Intruder Alarm System Installations</h2>
+            <LetterReveal as="h2" text={'Our Intruder Alarm System Installations'} desktopOnly={false} className="fs-service-installations-heading mb-4 text-left font-title text-5xl font-bold text-white sm:text-6xl" />
           </Reveal>
           <Reveal delayMs={70}>
             <p className="mb-8 max-w-2xl text-left text-gray-300">Examples of intruder alarm systems that we have installed for our customers:</p>
@@ -307,9 +308,7 @@ export default function IntruderAlarmSystemsPage() {
           ctaHeadlineAccent="Secure Your Property?"
           ctaDescription="Book a free survey, arrange a monitored-alarm upgrade, or talk to us about taking over maintenance on an existing system."
         >
-          <CustomPillButton href="/contact?service=intruder-alarm-systems" size="md">
-            Get a free quote
-          </CustomPillButton>
+          <CustomPillButton href="/contact?service=intruder-alarm-systems" size="md">Get quote</CustomPillButton>
           <CallPhoneCta size="md" />
         </ServicePageClosingSections>
 

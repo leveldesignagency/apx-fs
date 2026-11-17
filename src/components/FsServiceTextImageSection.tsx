@@ -3,6 +3,7 @@
 import { type ReactNode } from "react"
 import Image from "next/image"
 import { Reveal } from "@/components/Reveal"
+import { LetterReveal } from "@/components/LetterReveal"
 import { fsPlaceholderImageForKey } from "@/lib/fsPlaceholderImages"
 import { toTitleCase } from "@/lib/titleCase"
 import { cn } from "@/lib/utils"
@@ -86,16 +87,30 @@ export function FsServiceTextImageSection({
             {eyebrow}
           </p>
         ) : null}
-        <h2
-          id={headingId}
-          className={cn(
-            "fs-service-text-image__title mb-5 text-left font-title text-5xl font-bold tracking-normal sm:mb-6 sm:text-6xl",
-            eyebrow ? "mt-0" : null,
-            isLight ? "text-black" : "text-white"
-          )}
-        >
-          {titleContent}
-        </h2>
+        {typeof title === "string" ? (
+          <LetterReveal
+            as="h2"
+            id={headingId}
+            text={title}
+            desktopOnly={false}
+            className={cn(
+              "fs-service-text-image__title mb-5 text-left font-title text-5xl font-bold tracking-normal sm:mb-6 sm:text-6xl",
+              eyebrow ? "mt-0" : null,
+              isLight ? "text-black" : "text-white"
+            )}
+          />
+        ) : (
+          <h2
+            id={headingId}
+            className={cn(
+              "fs-service-text-image__title mb-5 text-left font-title text-5xl font-bold tracking-normal sm:mb-6 sm:text-6xl",
+              eyebrow ? "mt-0" : null,
+              isLight ? "text-black" : "text-white"
+            )}
+          >
+            {titleContent}
+          </h2>
+        )}
         <div
           className={cn(
             "fs-service-text-image__body space-y-4 text-lg leading-relaxed sm:text-xl",

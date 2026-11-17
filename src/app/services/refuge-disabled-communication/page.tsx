@@ -8,6 +8,7 @@ import { CallPhoneCta } from "@/components/ui/CallPhoneCta"
 import { ServicePageHero } from "@/components/ServicePageHero"
 import { FsFireSubpageHeroButtons } from "@/components/FsFireSubpageHeroButtons"
 import { Reveal } from "@/components/Reveal"
+import { LetterReveal } from "@/components/LetterReveal"
 import { ServiceItemReveal } from "@/components/ServiceItemReveal"
 import { ServiceFeatureImageCard } from "@/components/ServiceFeatureImageCard"
 import { serviceHeroImages } from "@/lib/serviceHeroImages"
@@ -115,9 +116,7 @@ export default function RefugeDisabledCommunicationPage() {
 
         <section className="site-container relative z-[1] py-16 lg:py-16">
           <Reveal>
-            <h2 className="mb-4 text-left font-title text-4xl font-bold text-white sm:text-5xl">
-              Full EVC Scope
-            </h2>
+            <LetterReveal as="h2" text={'Full EVC Scope'} desktopOnly={false} className="mb-4 text-left font-title text-4xl font-bold text-white sm:text-5xl" />
           </Reveal>
           <Reveal delayMs={70}>
             <p className="mb-10 max-w-3xl text-left text-gray-300">
@@ -185,9 +184,7 @@ export default function RefugeDisabledCommunicationPage() {
           ctaHeadlineAccent="Toilet Alarm Systems?"
           ctaDescription="Tell us about your building and evacuation strategy. We can survey, specify and deliver BS 5839-9 emergency voice communication, including disabled refuge, fire telephones and disabled toilet alarms."
         >
-          <CustomPillButton href="/contact?service=refuge-disabled-communication" size="md">
-            Get in touch
-          </CustomPillButton>
+          <CustomPillButton href="/contact?service=refuge-disabled-communication" size="md">Contact</CustomPillButton>
           <CallPhoneCta size="md" />
         </ServicePageClosingSections>
       </div>

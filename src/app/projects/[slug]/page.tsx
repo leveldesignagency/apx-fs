@@ -12,6 +12,7 @@ import {
 import { ProjectDetailGalleryCarousel } from "@/components/projects/ProjectDetailGalleryCarousel"
 import { FsInsetCtaCard } from "@/components/FsInsetCtaCard"
 import { CustomPillButton } from "@/components/ui/CustomPillButton"
+import { LetterReveal } from "@/components/LetterReveal"
 import { CallPhoneCta } from "@/components/ui/CallPhoneCta"
 import { JsonLd } from "@/components/seo/JsonLd"
 import { breadcrumbsSimple, buildBreadcrumbJsonLd, buildProjectJsonLd } from "@/lib/seo-jsonld"
@@ -89,9 +90,12 @@ export default async function ProjectDetailPage({ params }: Props) {
             <Link href="/projects" className="text-sm uppercase tracking-[0.18em] text-white/70 hover:text-white">
               Back to projects
             </Link>
-            <h1 className="mt-3 max-w-full text-4xl font-title font-bold leading-tight min-[900px]:max-w-[75%] md:text-6xl">
-              {project.title}
-            </h1>
+            <LetterReveal
+              as="h1"
+              text={project.title}
+              desktopOnly={false}
+              className="mt-3 max-w-full text-4xl font-title font-bold leading-tight min-[900px]:max-w-[75%] md:text-6xl"
+            />
             <p className="mt-2 text-sm uppercase tracking-[0.16em] text-white/75">
               <span>{project.sector}</span>
               <span aria-hidden="true"> · </span>
@@ -149,9 +153,7 @@ export default async function ProjectDetailPage({ params }: Props) {
         headlineAccent="next project"
         description="Discuss a similar fire or security project with our team. We offer free surveys across London and the Home Counties."
       >
-        <CustomPillButton href={`/contact?project=${encodeURIComponent(project.slug)}`} size="lg">
-          Get in touch
-        </CustomPillButton>
+        <CustomPillButton href={`/contact?project=${encodeURIComponent(project.slug)}`} size="lg" arrow>Contact</CustomPillButton>
         <CallPhoneCta size="lg" />
       </FsInsetCtaCard>
     </div>

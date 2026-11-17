@@ -2,6 +2,7 @@
 
 import Link from "next/link"
 import { Reveal } from "@/components/Reveal"
+import { LetterReveal } from "@/components/LetterReveal"
 import { ServiceItemReveal } from "@/components/ServiceItemReveal"
 import { useState } from "react"
 import { FS_SERVICE_NAV_LINKS } from "@/lib/fs-service-navigation"
@@ -51,9 +52,12 @@ export function ServicesHubClient() {
       <main className="pb-20">
         <section className="site-container page-title-top">
           <Reveal>
-            <h1 className="font-title text-5xl font-bold tracking-tight text-white sm:text-6xl md:text-6xl lg:text-7xl">
-              APX Fire & Security Services
-            </h1>
+            <LetterReveal
+              as="h1"
+              text="APX Fire & Security Services"
+              desktopOnly={false}
+              className="font-title text-5xl font-bold tracking-tight text-white sm:text-6xl md:text-6xl lg:text-7xl"
+            />
             <p className="mt-4 max-w-3xl text-base leading-relaxed text-gray-300 md:text-lg">
               Design, installation, commissioning and maintenance of Fire and Security systems across London and the Home Counties, listed in the same order as our site menu.
             </p>

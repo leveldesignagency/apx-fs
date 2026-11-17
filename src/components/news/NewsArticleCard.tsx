@@ -2,6 +2,7 @@ import Image from "next/image"
 import Link from "next/link"
 import type { FsNewsArticle } from "@/data/fsNewsArticles"
 import { NEWS_CATEGORY_LABELS } from "@/data/fsNewsArticles"
+import { toTitleCase } from "@/lib/titleCase"
 
 type NewsArticleCardProps = {
   article: FsNewsArticle
@@ -46,7 +47,7 @@ export function NewsArticleCard({ article, featured = false }: NewsArticleCardPr
         </div>
         <h2 className={`mt-3 font-title font-bold leading-tight text-black ${featured ? "text-2xl md:text-3xl lg:text-4xl" : "text-xl md:text-2xl"}`}>
           <Link href={`/news/${article.slug}`} className="news-card__title-link">
-            {article.title}
+            {toTitleCase(article.title)}
           </Link>
         </h2>
         <p className={`news-card__excerpt mt-3 flex-1 text-sm leading-relaxed text-black/75 md:text-base ${featured ? "md:text-lg" : ""}`}>

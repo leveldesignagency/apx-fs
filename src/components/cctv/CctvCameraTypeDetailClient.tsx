@@ -7,6 +7,7 @@ import { ArrowLeft } from "lucide-react"
 import { FsCctvHeroNav } from "@/components/FsCctvHeroNav"
 import { FsInsetCtaCard } from "@/components/FsInsetCtaCard"
 import { CustomPillButton } from "@/components/ui/CustomPillButton"
+import { LetterReveal } from "@/components/LetterReveal"
 import { CallPhoneCta } from "@/components/ui/CallPhoneCta"
 import {
   CCTV_CAMERA_TYPES_FOLDER,
@@ -76,9 +77,7 @@ export function CctvCameraTypeDetailClient({ page }: { page: CctvCameraTypePage 
 
           <div className="grid grid-cols-1 gap-10 lg:grid-cols-12 lg:items-center lg:gap-12 xl:gap-16">
             <div className="min-w-0 lg:col-span-7">
-              <h1 className="font-title text-4xl font-bold leading-tight tracking-tight text-white sm:text-5xl lg:text-[2.75rem] lg:leading-[1.08]">
-                {toTitleCase(page.title)}
-              </h1>
+              <LetterReveal as="h1" text={page.title} desktopOnly={false} className="font-title text-4xl font-bold leading-tight tracking-tight text-white sm:text-5xl lg:text-[2.75rem] lg:leading-[1.08]" />
               <p className="mt-6 max-w-3xl text-lg leading-relaxed text-gray-300 sm:text-xl">{page.heroIntro}</p>
               <div className="mt-8 flex flex-col items-start gap-4 sm:flex-row sm:flex-wrap sm:items-center">
                 <CustomPillButton href="/contact?service=cctv-systems" size="md">
@@ -152,9 +151,7 @@ export function CctvCameraTypeDetailClient({ page }: { page: CctvCameraTypePage 
         headlineAccent="specify CCTV?"
         description="Book a survey or ask about commercial CCTV design, installation and commissioning across London and the Home Counties. We match camera type to your site, then quote after survey."
       >
-        <CustomPillButton href="/contact?service=cctv-systems" size="md">
-          CCTV enquiry
-        </CustomPillButton>
+        <CustomPillButton href="/contact?service=cctv-systems" size="md">Enquire</CustomPillButton>
         <CallPhoneCta size="md" />
       </FsInsetCtaCard>
     </div>

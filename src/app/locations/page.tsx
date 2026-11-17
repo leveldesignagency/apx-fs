@@ -1,6 +1,7 @@
 import Link from "next/link"
 import { LocationsPostcodeCheck } from "@/components/locations/LocationsPostcodeCheck"
 import { CallPhoneCta } from "@/components/ui/CallPhoneCta"
+import { LetterReveal } from "@/components/LetterReveal"
 import { FS_SERVICE_NAV_LINKS } from "@/lib/fs-service-navigation"
 import { HOME_COUNTIES_AND_REGIONS, LONDON_BOROUGHS } from "@/lib/seo-geo-areas"
 
@@ -20,16 +21,16 @@ const ALL_SERVICES = FS_SERVICE_NAV_LINKS.map(({ href, label }) => ({ href, labe
 
 export default function LocationsPage() {
   return (
-    <div className="min-h-screen overflow-x-hidden bg-[var(--page-bg)] text-white">
+    <div className="locations-page min-h-screen overflow-x-hidden bg-[var(--page-bg)] text-white">
       <section className="page-title-band site-container">
         <div className="max-w-3xl">
           <span className="section-label mb-3 block text-white/75">Service area</span>
-          <h1
-            className="text-left text-3xl font-bold sm:text-4xl md:text-5xl lg:text-6xl"
-            style={{ fontFamily: "var(--font-menu)" }}
-          >
-            Locations We Cover
-          </h1>
+          <LetterReveal
+            as="h1"
+            text="Locations We Cover"
+            className="text-left font-title text-3xl font-bold tracking-tight sm:text-4xl md:text-5xl lg:text-6xl"
+            desktopOnly={false}
+          />
           <p className="mt-4 max-w-2xl text-left text-base font-normal tracking-tight text-white/70 sm:text-lg md:text-xl">
             APX Fire &amp; Security designs, installs and maintains fire and electronic security systems across
             Greater London and the Home Counties. Based in Erith, Kent, we support commercial, public-sector and
@@ -42,13 +43,17 @@ export default function LocationsPage() {
         </div>
       </section>
 
-      <section className="site-container border-t border-white/15 py-12 sm:py-16 lg:py-20" aria-labelledby="locations-primary-heading">
-        <h2
+      <section
+        className="locations-page__section site-container border-t border-white/15"
+        aria-labelledby="locations-primary-heading"
+      >
+        <LetterReveal
+          as="h2"
           id="locations-primary-heading"
+          text="Primary Coverage"
           className="font-title text-2xl font-bold tracking-tight sm:text-3xl"
-        >
-          Primary Coverage
-        </h2>
+          desktopOnly={false}
+        />
         <p className="mt-4 max-w-2xl text-base leading-relaxed text-white/70">
           Our core service area is Greater London plus neighbouring Home Counties. We regularly install and maintain
           systems in:
@@ -76,16 +81,17 @@ export default function LocationsPage() {
       </section>
 
       <section
-        className="border-t border-white/15 bg-black/40 py-12 sm:py-16 lg:py-20"
+        className="locations-page__section border-t border-white/15 bg-black/40"
         aria-labelledby="locations-boroughs-heading"
       >
         <div className="site-container">
-          <h2
+          <LetterReveal
+            as="h2"
             id="locations-boroughs-heading"
+            text="Greater London Boroughs"
             className="font-title text-2xl font-bold tracking-tight sm:text-3xl"
-          >
-            Greater London Boroughs
-          </h2>
+            desktopOnly={false}
+          />
           <p className="mt-4 max-w-2xl text-base leading-relaxed text-white/70">
             We install and support fire detection, CCTV, access control and related systems across London boroughs,
             including:
@@ -100,13 +106,17 @@ export default function LocationsPage() {
         </div>
       </section>
 
-      <section className="site-container border-t border-white/15 py-12 sm:py-16 lg:py-20" aria-labelledby="locations-services-heading">
-        <h2
+      <section
+        className="locations-page__section site-container border-t border-white/15"
+        aria-labelledby="locations-services-heading"
+      >
+        <LetterReveal
+          as="h2"
           id="locations-services-heading"
+          text="What We Install Across Our Service Area"
           className="font-title text-2xl font-bold tracking-tight sm:text-3xl"
-        >
-          What We Install Across Our Service Area
-        </h2>
+          desktopOnly={false}
+        />
         <p className="mt-4 max-w-2xl text-base leading-relaxed text-white/70">
           From single-door access control to networked fire alarms and multi-site CCTV, our engineers deliver NSI
           Gold-aligned systems with clear documentation and ongoing support.

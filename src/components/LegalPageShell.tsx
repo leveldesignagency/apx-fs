@@ -3,6 +3,7 @@
 import Link from "next/link"
 import { useTheme } from "@/contexts/ThemeContext"
 import type { ReactNode } from "react"
+import { LetterReveal } from "@/components/LetterReveal"
 import { toTitleCase } from "@/lib/titleCase"
 
 type LegalPageShellProps = {
@@ -44,13 +45,14 @@ export function LegalPageShell({ title, children, lastUpdated }: LegalPageShellP
             Back to Home
           </Link>
 
-          <h1
-            className={`mb-4 text-4xl font-bold leading-tight tracking-normal md:mb-5 md:text-5xl ${
+          <LetterReveal
+            as="h1"
+            text={title}
+            desktopOnly={false}
+            className={`mb-4 font-title text-4xl font-bold leading-tight tracking-normal md:mb-5 md:text-5xl ${
               isDark ? "text-white" : "text-black"
             }`}
-          >
-            {toTitleCase(title)}
-          </h1>
+          />
 
           <p
             className={`mb-10 text-base leading-relaxed md:mb-12 md:text-lg ${
@@ -87,13 +89,14 @@ export function LegalSection({
 
   return (
     <section className="legal-page__section">
-      <h2
-        className={`mb-4 text-2xl font-bold leading-snug tracking-normal md:mb-5 md:text-[1.65rem] ${
+      <LetterReveal
+        as="h2"
+        text={title}
+        desktopOnly={false}
+        className={`mb-4 font-title text-2xl font-bold leading-snug tracking-normal md:mb-5 md:text-[1.65rem] ${
           isDark ? "text-white" : "text-black"
         }`}
-      >
-        {toTitleCase(title)}
-      </h2>
+      />
       <div className="space-y-4 leading-relaxed">{children}</div>
     </section>
   )

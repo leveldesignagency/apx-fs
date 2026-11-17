@@ -7,6 +7,7 @@ import { CustomPillButton } from "@/components/ui/CustomPillButton"
 import { CallPhoneCta } from "@/components/ui/CallPhoneCta"
 import { ServicePageHero } from "@/components/ServicePageHero"
 import { Reveal } from "@/components/Reveal"
+import { LetterReveal } from "@/components/LetterReveal"
 import { ServiceItemReveal } from "@/components/ServiceItemReveal"
 import { ServiceFeatureImageCard } from "@/components/ServiceFeatureImageCard"
 import { FsServiceTextImageSection } from "@/components/FsServiceTextImageSection"
@@ -31,7 +32,7 @@ const CAPABILITIES = [
     description:
       "Fault and false-alarm attendance on fire detection systems so sites can return to normal operation quickly.",
     imageSrc: `${IMG}/fire.jpg`,
-    imageAlt: "Red fire alarm call point and fire sign on a concrete wall",
+    imageAlt: "People leaving a building through an emergency exit during a fire alarm",
   },
   {
     title: "Security system support",
@@ -123,7 +124,7 @@ export default function EmergencyCallOutPage() {
 
         <section className="site-container relative z-[1] py-16 lg:py-16">
           <Reveal>
-            <h2 className="mb-4 text-left font-title text-4xl font-bold text-white sm:text-5xl">Capabilities</h2>
+            <LetterReveal as="h2" text={'Capabilities'} desktopOnly={false} className="mb-4 text-left font-title text-4xl font-bold text-white sm:text-5xl" />
           </Reveal>
           <Reveal delayMs={70}>
             <p className="mb-10 max-w-3xl text-left text-gray-300">
@@ -209,9 +210,7 @@ export default function EmergencyCallOutPage() {
           ctaHeadlineAccent="24/7 Cover?"
           ctaDescription="Tell us about your systems and whether you need contracted call-out, ad-hoc attendance, or a full maintenance agreement."
         >
-          <CustomPillButton href="/contact?service=emergency-call-out" size="md">
-            Arrange call-out cover
-          </CustomPillButton>
+          <CustomPillButton href="/contact?service=emergency-call-out" size="md">Call-out</CustomPillButton>
           <CallPhoneCta size="md" />
         </ServicePageClosingSections>
       </div>

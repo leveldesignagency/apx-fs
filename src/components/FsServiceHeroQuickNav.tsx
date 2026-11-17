@@ -12,20 +12,27 @@ export const fsServiceHeroPillLinkClassLg =
 
 const pillClass = fsServiceHeroPillLinkClass
 
+type FsServiceHeroQuickNavProps = {
+  /** Hero keeps the scroll hint; closing banner hides it. Default true. */
+  showHint?: boolean
+}
+
 /** Same as MEP: scroll strip on small screens only; `sm+` wraps, no scroll container. */
-export function FsServiceHeroQuickNav() {
+export function FsServiceHeroQuickNav({ showHint = true }: FsServiceHeroQuickNavProps) {
   const path = normalizeFsPath(usePathname())
   const items = FS_SERVICE_QUICK_LINKS.filter((l) => l.href !== path)
 
   return (
     <nav aria-label="Other services" className="w-full min-w-0 max-w-full overflow-hidden">
-      <p className="fs-service-quick-nav__hint mb-3 text-sm font-semibold uppercase tracking-[0.16em] text-white/45 sm:text-base">
-        Quick navigation: scroll for more
-      </p>
-      <div className="w-full min-w-0 max-w-full">
+      {showHint ? (
+        <p className="fs-service-quick-nav__hint mb-3 text-sm font-semibold uppercase tracking-[0.16em] text-white/45 sm:text-base">
+          Quick navigation: scroll for more
+        </p>
+      ) : null}
+      <div className="fs-service-quick-nav__scroller-wrap w-full min-w-0 max-w-full">
         <ul
           data-lenis-prevent=""
-          className="flex max-w-full min-w-0 flex-nowrap items-stretch gap-2 touch-pan-x overflow-x-auto overflow-y-hidden overscroll-x-contain scroll-smooth pb-0.5 scrollbar-hide sm:flex-wrap sm:overflow-visible sm:overscroll-auto sm:scroll-auto sm:touch-auto sm:gap-2.5"
+          className="fs-service-quick-nav__scroller flex max-w-full min-w-0 flex-nowrap items-stretch gap-2 touch-pan-x overflow-x-auto overflow-y-hidden overscroll-x-contain scroll-smooth pb-0.5 scrollbar-hide sm:flex-wrap sm:overflow-visible sm:overscroll-auto sm:scroll-auto sm:touch-auto sm:gap-2.5"
         >
           {items.map(({ href, label }) => (
             <li

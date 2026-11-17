@@ -2,6 +2,7 @@
 
 import type { ReactNode } from "react"
 import { useCallback, useEffect, useLayoutEffect, useMemo, useRef, useState } from "react"
+import { createPortal } from "react-dom"
 import { ChevronDown, Search, X } from "lucide-react"
 import { CustomPillButton } from "@/components/ui/CustomPillButton"
 import { careerApplyHref, type CareerRole } from "@/components/careers/careers-types"
@@ -69,10 +70,12 @@ function JobDescriptionModal({ role, onClose }: { role: CareerRole; onClose: () 
   }, [role])
 
   const titleId = `careers-modal-title-${role.id}`
+  const [mounted, setMounted] = useState(false)
+  useEffect(() => setMounted(true), [])
 
-  return (
+  const modal = (
     <div
-      className="careers-job-modal fixed inset-0 z-[300] flex items-end justify-center p-3 sm:items-center sm:p-6 md:p-8"
+      className="careers-job-modal fixed inset-0 z-[10000] flex items-end justify-center p-3 sm:items-center sm:p-6 md:p-8"
       role="presentation"
     >
       <button
@@ -85,7 +88,7 @@ function JobDescriptionModal({ role, onClose }: { role: CareerRole; onClose: () 
         role="dialog"
         aria-modal="true"
         aria-labelledby={titleId}
-        className="relative z-[301] flex max-h-[min(92vh,960px)] w-full max-w-5xl flex-col overflow-hidden rounded-none border border-white/20 bg-black shadow-[0_24px_80px_rgba(0,0,0,0.85)]"
+        className="relative z-[10001] flex max-h-[min(92vh,960px)] w-full max-w-5xl flex-col overflow-hidden rounded-none border border-white/20 bg-black shadow-[0_24px_80px_rgba(0,0,0,0.85)]"
       >
         <div className="flex shrink-0 items-start justify-between gap-4 careers-divider-b border-b border-white/[0.085] px-5 py-5 sm:px-8 sm:py-6">
           <div className="min-w-0 flex-1 pr-2">
@@ -244,28 +247,51 @@ function JobDescriptionModal({ role, onClose }: { role: CareerRole; onClose: () 
       </div>
     </div>
   )
+
+  if (!mounted) return null
+  return createPortal(modal, document.body)
+}
+
+function roleSearchHaystack(r: CareerRole): string {
+  return [
+    r.title,
+    r.description,
+    r.department,
+    r.location,
+    r.salary ?? "",
+    r.employmentType ?? "",
+    r.baseLocation ?? "",
+    ...(r.responsibilities ?? []),
+    ...(r.requirements ?? []),
+    ...(r.requiredExperience ?? []),
+    ...(r.certifications ?? []),
+    ...(r.benefits ?? []),
+    ...(r.workingAreas ?? []),
+  ]
+    .join(" ")
+    .toLowerCase()
+}
+
+/** Every search token must appear somewhere in the role copy. */
+function roleMatchesSearch(r: CareerRole, query: string): boolean {
+  const q = query.trim().toLowerCase()
+  if (!q) return true
+  const hay = roleSearchHaystack(r)
+  const tokens = q.split(/\s+/).filter(Boolean)
+  return tokens.every((token) => hay.includes(token))
 }
 
 function filterRoles(roles: CareerRole[], query: string, department: string, location: string): CareerRole[] {
-  const q = query.trim().toLowerCase()
   return roles.filter((r) => {
-    const hay = [
-      r.title,
-      r.description,
-      r.department,
-      r.location,
-      r.salary ?? "",
-      ...(r.responsibilities ?? []),
-      ...(r.requirements ?? []),
-      ...(r.workingAreas ?? []),
-    ]
-      .join(" ")
-      .toLowerCase()
-    const matchQ = !q || hay.includes(q)
+    const matchQ = roleMatchesSearch(r, query)
     const matchDept = department === "all" || r.department === department
     const matchLoc = location === "all" || r.location === location
     return matchQ && matchDept && matchLoc
   })
+}
+
+function uniqueSorted(values: string[]): string[] {
+  return Array.from(new Set(values)).sort((a, b) => a.localeCompare(b))
 }
 
 export function CareersSearchAndRoles({
@@ -280,21 +306,47 @@ export function CareersSearchAndRoles({
   const [department, setDepartment] = useState("all")
   const [location, setLocation] = useState("all")
   const [modalRole, setModalRole] = useState<CareerRole | null>(null)
-  /** Mobile/tablet: filters collapsed by default; always open from lg up. */
-  const [filtersOpen, setFiltersOpen] = useState(false)
+  /** Mobile: team/location facets collapsed by default; search always visible. */
+  const [facetsOpen, setFacetsOpen] = useState(false)
   const closeModal = useCallback(() => setModalRole(null), [])
 
-  const departmentOptions: Option[] = useMemo(() => {
-    const set = new Set(roles.map((r) => r.department))
-    const list = Array.from(set).sort()
-    return [{ value: "all", label: "All teams" }, ...list.map((d) => ({ value: d, label: d }))]
-  }, [roles])
+  const searchMatched = useMemo(
+    () => roles.filter((r) => roleMatchesSearch(r, search)),
+    [roles, search]
+  )
 
+  /** Team options from roles that match search (+ current location). */
+  const departmentOptions: Option[] = useMemo(() => {
+    const pool =
+      location === "all" ? searchMatched : searchMatched.filter((r) => r.location === location)
+    const list = uniqueSorted(pool.map((r) => r.department))
+    return [{ value: "all", label: "All teams" }, ...list.map((d) => ({ value: d, label: d }))]
+  }, [searchMatched, location])
+
+  /** Location options from roles that match search (+ current team). */
   const locationOptions: Option[] = useMemo(() => {
-    const set = new Set(roles.map((r) => r.location))
-    const list = Array.from(set).sort()
+    const pool =
+      department === "all" ? searchMatched : searchMatched.filter((r) => r.department === department)
+    const list = uniqueSorted(pool.map((r) => r.location))
     return [{ value: "all", label: "All locations" }, ...list.map((d) => ({ value: d, label: d }))]
-  }, [roles])
+  }, [searchMatched, department])
+
+  const showTeamFacet = departmentOptions.length > 1
+  const showLocationFacet = locationOptions.length > 1
+  const showFacets = showTeamFacet || showLocationFacet
+
+  // Drop facet selections that no longer exist for the current search.
+  useEffect(() => {
+    if (department !== "all" && !departmentOptions.some((o) => o.value === department)) {
+      setDepartment("all")
+    }
+  }, [department, departmentOptions])
+
+  useEffect(() => {
+    if (location !== "all" && !locationOptions.some((o) => o.value === location)) {
+      setLocation("all")
+    }
+  }, [location, locationOptions])
 
   const filtered = useMemo(
     () => filterRoles(roles, search, department, location),
@@ -302,6 +354,12 @@ export function CareersSearchAndRoles({
   )
 
   const filtersActive = search.trim() !== "" || department !== "all" || location !== "all"
+  const matchLabel =
+    roles.length === 0
+      ? "No positions listed"
+      : filtered.length === 0
+        ? "No roles match your filters"
+        : `${filtered.length} ${filtered.length === 1 ? "role" : "roles"} matching your filters`
 
   const clearFilters = () => {
     setSearch("")
@@ -313,26 +371,12 @@ export function CareersSearchAndRoles({
     <div className="mt-12 w-full lg:mt-14">
       {modalRole ? <JobDescriptionModal role={modalRole} onClose={closeModal} /> : null}
 
-      <div className="grid grid-cols-1 gap-8 lg:grid-cols-[16.5rem_minmax(0,1fr)] lg:gap-10 xl:grid-cols-[18rem_minmax(0,1fr)] xl:gap-12">
-        {/* Left filter rail */}
+      <div className="grid grid-cols-1 gap-6 lg:grid-cols-[16.5rem_minmax(0,1fr)] lg:gap-10 xl:grid-cols-[18rem_minmax(0,1fr)] xl:gap-12">
+        {/* Left filter rail — search always visible; team/location adapt to search */}
         <aside className="careers-filter-rail lg:sticky lg:top-28 lg:self-start">
           <div className="careers-panel rounded-none border border-white/15 bg-black p-5 sm:p-6">
             <div className="flex items-center justify-between gap-3">
-              <button
-                type="button"
-                className="flex min-w-0 flex-1 items-center justify-between gap-3 text-left lg:pointer-events-none"
-                onClick={() => setFiltersOpen((o) => !o)}
-                aria-expanded={filtersOpen}
-                aria-controls="careers-filter-panel"
-              >
-                <p className="text-[11px] font-semibold uppercase tracking-[0.22em] text-white/45">Filters</p>
-                <ChevronDown
-                  className={`h-4 w-4 shrink-0 text-white/55 transition-transform duration-200 lg:hidden ${
-                    filtersOpen ? "rotate-180" : ""
-                  }`}
-                  aria-hidden
-                />
-              </button>
+              <p className="text-[11px] font-semibold uppercase tracking-[0.22em] text-white/45">Filters</p>
               {filtersActive ? (
                 <button
                   type="button"
@@ -344,64 +388,110 @@ export function CareersSearchAndRoles({
               ) : null}
             </div>
 
-            <div
-              id="careers-filter-panel"
-              className={`${filtersOpen ? "mt-5 block" : "hidden"} lg:mt-5 lg:block`}
-            >
-              <div>
-                <label
-                  htmlFor="careers-search"
-                  className="mb-2 block text-[11px] font-semibold uppercase tracking-[0.18em] text-white/45"
+            <div className="mt-5">
+              <label
+                htmlFor="careers-search"
+                className="mb-2 block text-[11px] font-semibold uppercase tracking-[0.18em] text-white/45"
+              >
+                Search
+              </label>
+              <div className="relative">
+                <Search
+                  className="pointer-events-none absolute left-3.5 top-1/2 h-4 w-4 -translate-y-1/2 text-white/40"
+                  aria-hidden
+                />
+                <input
+                  id="careers-search"
+                  type="search"
+                  inputMode="search"
+                  enterKeyHint="search"
+                  value={search}
+                  onChange={(e) => setSearch(e.target.value)}
+                  placeholder="Role, skill or keyword"
+                  autoComplete="off"
+                  autoCorrect="off"
+                  autoCapitalize="off"
+                  spellCheck={false}
+                  className="careers-search-input w-full min-h-[44px] rounded-full border border-white/20 bg-black py-2.5 pl-10 pr-10 text-base text-white placeholder:text-white/35 focus:border-white/45 focus:outline-none focus:ring-0"
+                />
+                {search.trim() !== "" ? (
+                  <button
+                    type="button"
+                    onClick={() => setSearch("")}
+                    className="absolute right-2.5 top-1/2 flex h-7 w-7 -translate-y-1/2 items-center justify-center rounded-full text-white/55 transition-colors hover:bg-white/10 hover:text-white"
+                    aria-label="Clear search"
+                  >
+                    <X className="h-3.5 w-3.5" strokeWidth={2.25} aria-hidden />
+                  </button>
+                ) : null}
+              </div>
+            </div>
+
+            {/* Live match count under search (helps mobile before scrolling to roles) */}
+            {roles.length > 0 ? (
+              <p className="mt-4 text-sm text-white/50" aria-live="polite">
+                {matchLabel}
+              </p>
+            ) : null}
+
+            {showFacets ? (
+              <div className="careers-divider-t mt-5 border-t border-white/12 pt-5">
+                <button
+                  type="button"
+                  className="flex w-full items-center justify-between gap-3 text-left lg:pointer-events-none"
+                  onClick={() => setFacetsOpen((o) => !o)}
+                  aria-expanded={facetsOpen}
+                  aria-controls="careers-facet-panel"
                 >
-                  Search
-                </label>
-                <div className="relative">
-                  <Search
-                    className="pointer-events-none absolute left-3.5 top-1/2 h-4 w-4 -translate-y-1/2 text-white/40"
+                  <span className="text-[11px] font-semibold uppercase tracking-[0.18em] text-white/45">
+                    Team &amp; location
+                  </span>
+                  <ChevronDown
+                    className={`h-4 w-4 shrink-0 text-white/55 transition-transform duration-200 lg:hidden ${
+                      facetsOpen ? "rotate-180" : ""
+                    }`}
                     aria-hidden
                   />
-                  <input
-                    id="careers-search"
-                    type="search"
-                    inputMode="search"
-                    enterKeyHint="search"
-                    value={search}
-                    onChange={(e) => setSearch(e.target.value)}
-                    placeholder="Role, skill or keyword"
-                    autoComplete="off"
-                    autoCorrect="off"
-                    autoCapitalize="off"
-                    spellCheck={false}
-                    className="careers-search-input w-full min-h-[44px] rounded-full border border-white/20 bg-black py-2.5 pl-10 pr-10 text-base text-white placeholder:text-white/35 focus:border-white/45 focus:outline-none focus:ring-0"
-                  />
-                  {search.trim() !== "" ? (
-                    <button
-                      type="button"
-                      onClick={() => setSearch("")}
-                      className="absolute right-2.5 top-1/2 flex h-7 w-7 -translate-y-1/2 items-center justify-center rounded-full text-white/55 transition-colors hover:bg-white/10 hover:text-white"
-                      aria-label="Clear search"
-                    >
-                      <X className="h-3.5 w-3.5" strokeWidth={2.25} aria-hidden />
-                    </button>
+                </button>
+
+                <div
+                  id="careers-facet-panel"
+                  className={`${facetsOpen ? "mt-5 block" : "hidden"} space-y-7 lg:mt-5 lg:block`}
+                >
+                  {showTeamFacet ? (
+                    <FilterOptionList
+                      legend="Team"
+                      value={department}
+                      options={departmentOptions}
+                      onChange={setDepartment}
+                    />
+                  ) : null}
+                  {showLocationFacet ? (
+                    <FilterOptionList
+                      legend="Location"
+                      value={location}
+                      options={locationOptions}
+                      onChange={setLocation}
+                    />
                   ) : null}
                 </div>
               </div>
+            ) : search.trim() !== "" && roles.length > 0 ? (
+              <p className="mt-5 text-sm text-white/45">No team or location options for this search.</p>
+            ) : null}
 
-              <div className="careers-divider-t mt-7 space-y-7 border-t border-white/12 pt-7">
-                <FilterOptionList
-                  legend="Team"
-                  value={department}
-                  options={departmentOptions}
-                  onChange={setDepartment}
-                />
-                <FilterOptionList
-                  legend="Location"
-                  value={location}
-                  options={locationOptions}
-                  onChange={setLocation}
-                />
+            {roles.length > 0 && filtered.length === 0 ? (
+              <div className="mt-5 rounded-none border border-dashed border-white/15 px-4 py-5 text-center lg:hidden">
+                <p className="text-sm text-white/55">No roles match your search or filters.</p>
+                <button
+                  type="button"
+                  onClick={clearFilters}
+                  className="mt-3 text-sm font-semibold text-white underline decoration-white/35 underline-offset-4 hover:decoration-white"
+                >
+                  Clear filters
+                </button>
               </div>
-            </div>
+            ) : null}
           </div>
         </aside>
 
@@ -410,10 +500,8 @@ export function CareersSearchAndRoles({
           <div className="careers-divider-b flex flex-col gap-1 border-b border-white/12 pb-5 sm:flex-row sm:items-end sm:justify-between sm:gap-4">
             <div>
               <h2 className="font-title text-xl font-bold text-white sm:text-2xl">Open Roles</h2>
-              <p className="mt-1 text-sm text-white/50">
-                {roles.length === 0
-                  ? "No positions listed"
-                  : `${filtered.length} ${filtered.length === 1 ? "role" : "roles"} matching your filters`}
+              <p className="mt-1 text-sm text-white/50" aria-live="polite">
+                {matchLabel}
               </p>
             </div>
             {roles.length > 0 ? (
@@ -432,7 +520,7 @@ export function CareersSearchAndRoles({
               )}
             </div>
           ) : filtered.length === 0 ? (
-            <div className="careers-panel mt-10 rounded-none border border-dashed border-white/15 px-6 py-12 text-center sm:mt-12">
+            <div className="careers-panel mt-6 hidden rounded-none border border-dashed border-white/15 px-6 py-12 text-center lg:mt-10 lg:block">
               <p className="text-base text-white/55">No roles match your search or filters.</p>
               <button
                 type="button"

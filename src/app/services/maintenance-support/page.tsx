@@ -7,6 +7,7 @@ import { CustomPillButton } from "@/components/ui/CustomPillButton"
 import { CallPhoneCta } from "@/components/ui/CallPhoneCta"
 import { ServicePageHero } from "@/components/ServicePageHero"
 import { Reveal } from "@/components/Reveal"
+import { LetterReveal } from "@/components/LetterReveal"
 import { ServiceItemReveal } from "@/components/ServiceItemReveal"
 import { ServiceFeatureImageCard } from "@/components/ServiceFeatureImageCard"
 import { FsServiceTextImageSection } from "@/components/FsServiceTextImageSection"
@@ -142,7 +143,7 @@ export default function MaintenanceSupportPage() {
 
         <section className="site-container relative z-[1] py-16 lg:py-16">
           <Reveal>
-            <h2 className="mb-4 text-left font-title text-4xl font-bold text-white sm:text-5xl">Capabilities</h2>
+            <LetterReveal as="h2" text={'Capabilities'} desktopOnly={false} className="mb-4 text-left font-title text-4xl font-bold text-white sm:text-5xl" />
           </Reveal>
           <Reveal delayMs={70}>
             <p className="mb-10 max-w-3xl text-left text-gray-300">
@@ -229,9 +230,7 @@ export default function MaintenanceSupportPage() {
           ctaHeadlineAccent="Maintenance & Repairs?"
           ctaDescription="Tell us about your systems and sites. We can propose PPM, takeovers and call-out cover that match how you operate."
         >
-          <CustomPillButton href="/contact?service=maintenance-support" size="md">
-            Discuss maintenance &amp; repairs
-          </CustomPillButton>
+          <CustomPillButton href="/contact?service=maintenance-support" size="md">Enquire</CustomPillButton>
           <CallPhoneCta size="md" />
         </ServicePageClosingSections>
       </div>

@@ -2,6 +2,7 @@
 
 import { CheckCircle } from "lucide-react"
 import { Reveal } from "@/components/Reveal"
+import { LetterReveal } from "@/components/LetterReveal"
 import { ServiceItemReveal } from "@/components/ServiceItemReveal"
 import { toTitleCase } from "@/lib/titleCase"
 
@@ -26,12 +27,13 @@ export function CctvWhatWeOfferSection({
         <div className="site-container pt-14 pb-24 lg:pt-20 lg:pb-32">
           <Reveal>
             <span className="section-label mb-3 block text-neutral-500">{eyebrow}</span>
-            <h2
+            <LetterReveal
+              as="h2"
               id="cctv-what-we-offer-heading"
+              text={title}
+              desktopOnly={false}
               className={`max-w-3xl font-title text-3xl font-bold tracking-tight text-black sm:text-4xl ${description ? "mb-6 sm:mb-8" : "mb-10"}`}
-            >
-              {toTitleCase(title)}
-            </h2>
+            />
           </Reveal>
           {description ? (
             <Reveal delayMs={70}>

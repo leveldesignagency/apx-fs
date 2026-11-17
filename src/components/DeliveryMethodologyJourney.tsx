@@ -1,5 +1,6 @@
 "use client"
 
+import { LetterReveal } from "@/components/LetterReveal"
 import { useCallback, useEffect, useRef, useState } from "react"
 import { ChevronLeft, ChevronRight } from "lucide-react"
 import { cn } from "@/lib/utils"
@@ -133,12 +134,12 @@ function StageCopy({
 }) {
   return (
     <div data-phase={phase} className="dm-journey-content w-full min-w-0">
-      <h2
+      <LetterReveal
+        as="h2"
+        text={step.title}
+        desktopOnly={false}
         className="font-title text-[1.5rem] font-semibold leading-[1.1] tracking-tight text-white !normal-case sm:text-[1.75rem] md:text-[clamp(2rem,3.6vw,3.5rem)]"
-        style={{ textTransform: "none" }}
-      >
-        {toTitleCase(step.title)}
-      </h2>
+      />
       <div className="mt-4 space-y-3.5 text-[0.95rem] leading-relaxed text-white/78 sm:mt-5 sm:space-y-4 sm:text-base md:mt-6 md:text-[clamp(1rem,1.9vw,1.125rem)] md:leading-[1.65]">
         {step.paragraphs.map((paragraph) => (
           <p key={paragraph} className="dm-journey-copy">
@@ -247,13 +248,12 @@ export function DeliveryMethodologyJourney({ steps }: Props) {
           <div className="flex flex-col gap-8 sm:gap-10 md:flex-row md:items-end md:justify-between md:gap-12">
             <div className="min-w-0 max-w-5xl">
               <span className="section-label mb-3 block text-white/75">Delivery methodology</span>
-              <h1
+              <LetterReveal
+                as="h1"
+                text={"Clear Stages from\nSurvey to Support"}
+                desktopOnly={false}
                 className="text-left font-title text-4xl font-bold tracking-tight text-white sm:text-5xl md:text-6xl lg:text-7xl"
-              >
-                Clear Stages from
-                <br />
-                Survey to Support
-              </h1>
+              />
               <p className="mt-3 max-w-4xl text-left text-base font-normal leading-snug text-white/75 sm:mt-4 sm:text-lg md:text-xl">
                 Six stages we follow on Fire and Security projects, so you can see how survey, design, installation,
                 commissioning and handover fit together.

@@ -11,6 +11,7 @@ import { FsServiceTextImageSectionGroup } from "@/components/FsServiceTextImageS
 import { FsCctvSubpageHeroButtons } from "@/components/FsCctvSubpageHeroButtons"
 import { ServicePageHero } from "@/components/ServicePageHero"
 import { Reveal } from "@/components/Reveal"
+import { LetterReveal } from "@/components/LetterReveal"
 import { ServiceItemReveal } from "@/components/ServiceItemReveal"
 import { CustomPillButton } from "@/components/ui/CustomPillButton"
 import { CallPhoneCta } from "@/components/ui/CallPhoneCta"
@@ -94,9 +95,7 @@ export default function DomesticCctvPage() {
 
         <section className="site-container relative z-[1] py-16 lg:py-16">
           <Reveal>
-            <h2 className="mb-10 text-left font-title text-4xl font-bold text-white sm:text-5xl">
-              Residential CCTV, Surveyed Properly
-            </h2>
+            <LetterReveal as="h2" text={'Residential CCTV, Surveyed Properly'} desktopOnly={false} className="mb-10 text-left font-title text-4xl font-bold text-white sm:text-5xl" />
           </Reveal>
           <div className="grid grid-cols-1 gap-8 md:grid-cols-3">
             {[
@@ -238,9 +237,7 @@ export default function DomesticCctvPage() {
           ctaHeadlineAccent="Residential Survey"
           ctaDescription="Free site visit and recommendations for homes in London and the Home Counties. Quotes follow the survey, no online package pricing. No obligation."
         >
-          <CustomPillButton href={RESIDENTIAL_ENQUIRY_HREF} size="md">
-            Residential CCTV enquiry
-          </CustomPillButton>
+          <CustomPillButton href={RESIDENTIAL_ENQUIRY_HREF} size="md">Enquire</CustomPillButton>
           <CallPhoneCta size="md" />
         </ServicePageClosingSections>
       </div>

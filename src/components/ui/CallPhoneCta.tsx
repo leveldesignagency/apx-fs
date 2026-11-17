@@ -45,7 +45,7 @@ export function CallPhoneCta({
     >
       <span
         className={cn(
-          "call-phone-cta__icon relative hidden shrink-0 items-center justify-center rounded-full transition-transform duration-300 ease-out motion-reduce:transition-none motion-safe:group-hover:scale-[1.05] sm:inline-flex",
+          "call-phone-cta__icon relative hidden shrink-0 items-center justify-center rounded-full sm:inline-flex",
           iconBox,
           onDark
             ? "bg-black ring-2 ring-white shadow-[0_0_0_1px_rgba(255,255,255,0.2)]"
@@ -53,10 +53,11 @@ export function CallPhoneCta({
         )}
         aria-hidden
       >
+        <span className="call-phone-cta__fill" />
         <span className="call-phone-cta__radar" />
         <span className="call-phone-cta__radar" />
         <span className="call-phone-cta__radar" />
-        <Phone className={cn("relative z-[1]", iconSize, "text-white")} strokeWidth={2} />
+        <Phone className={cn("call-phone-cta__glyph relative z-[2]", iconSize)} strokeWidth={2} />
       </span>
       <span className="flex min-w-0 flex-col items-center gap-0.5 text-center sm:items-start sm:text-left">
         <span

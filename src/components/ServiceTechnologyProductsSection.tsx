@@ -2,6 +2,7 @@
 
 import type { ReactNode } from "react"
 import { Reveal } from "@/components/Reveal"
+import { LetterReveal } from "@/components/LetterReveal"
 import { toTitleCase } from "@/lib/titleCase"
 import { cn } from "@/lib/utils"
 
@@ -32,9 +33,13 @@ export function ServiceTechnologyProductsSection({
     >
       <div className="site-container py-16 lg:py-16">
         <Reveal>
-          <h2 id={headingId} className="mb-2 text-left font-title text-4xl font-bold tracking-normal text-black sm:text-5xl">
-            {toTitleCase(title)}
-          </h2>
+          <LetterReveal
+            as="h2"
+            id={headingId}
+            text={title}
+            desktopOnly={false}
+            className="mb-2 text-left font-title text-4xl font-bold tracking-normal text-black sm:text-5xl"
+          />
         </Reveal>
         {description ? (
           <Reveal delayMs={70}>

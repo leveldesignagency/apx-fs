@@ -29,10 +29,10 @@ export function FsCctvHeroNav({
       <p className="fs-service-quick-nav__hint mb-3 text-sm font-semibold uppercase tracking-[0.16em] text-white/45 sm:text-base">
         {eyebrow}
       </p>
-      <div className="w-full min-w-0 max-w-full">
+      <div className="fs-service-quick-nav__scroller-wrap w-full min-w-0 max-w-full">
         <ul
           data-lenis-prevent=""
-          className="flex max-w-full min-w-0 flex-nowrap items-stretch gap-2 touch-pan-x overflow-x-auto overflow-y-hidden overscroll-x-contain scroll-smooth pb-0.5 scrollbar-hide sm:flex-wrap sm:overflow-visible sm:overscroll-auto sm:scroll-auto sm:touch-auto sm:gap-2.5"
+          className="fs-service-quick-nav__scroller flex max-w-full min-w-0 flex-nowrap items-stretch gap-2 touch-pan-x overflow-x-auto overflow-y-hidden overscroll-x-contain scroll-smooth pb-0.5 scrollbar-hide sm:flex-wrap sm:overflow-visible sm:overscroll-auto sm:scroll-auto sm:touch-auto sm:gap-2.5"
         >
           {links.map(({ href, label }) => {
             const active = path === href

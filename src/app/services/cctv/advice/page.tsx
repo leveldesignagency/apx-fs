@@ -10,6 +10,7 @@ import { ServicePageClosingSections } from "@/components/ServicePageClosingSecti
 import { FsCctvSubpageHeroButtons } from "@/components/FsCctvSubpageHeroButtons"
 import { ServicePageHero } from "@/components/ServicePageHero"
 import { Reveal } from "@/components/Reveal"
+import { LetterReveal } from "@/components/LetterReveal"
 import { ServiceItemReveal } from "@/components/ServiceItemReveal"
 import { CustomPillButton } from "@/components/ui/CustomPillButton"
 import { CallPhoneCta } from "@/components/ui/CallPhoneCta"
@@ -58,7 +59,7 @@ export default function UsefulCctvAdvicePage() {
 
         <section className="site-container relative z-[1] py-16 lg:py-16">
           <Reveal>
-            <h2 className="mb-10 text-left font-title text-4xl font-bold text-white sm:text-5xl">CCTV Advice & Guidance</h2>
+            <LetterReveal as="h2" text={'CCTV Advice & Guidance'} desktopOnly={false} className="mb-10 text-left font-title text-4xl font-bold text-white sm:text-5xl" />
           </Reveal>
           <div className="grid grid-cols-1 gap-8 md:grid-cols-3">
             {[
@@ -221,9 +222,7 @@ export default function UsefulCctvAdvicePage() {
           ctaHeadlineAccent="CCTV Advice"
           ctaDescription="Book a free, no-obligation survey and we will recommend the right camera coverage, recording and compliance approach for your home or business."
         >
-          <CustomPillButton href="/contact?service=cctv-systems" size="md">
-            CCTV enquiry
-          </CustomPillButton>
+          <CustomPillButton href="/contact?service=cctv-systems" size="md">Enquire</CustomPillButton>
           <CallPhoneCta size="md" />
         </ServicePageClosingSections>
       </div>

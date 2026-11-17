@@ -1071,7 +1071,7 @@ export default function Home() {
 
             <div
               ref={projectsViewportRef}
-              className="projects-section__track relative min-w-0 overflow-x-auto overscroll-x-contain touch-pan-x scroll-smooth [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden lg:overflow-x-hidden lg:overscroll-auto lg:touch-auto lg:scroll-auto"
+              className="projects-section__track fs-scroll-edge-feather relative min-w-0 overflow-x-auto overscroll-x-contain touch-pan-x scroll-smooth [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden lg:overflow-x-hidden lg:overscroll-auto lg:touch-auto lg:scroll-auto"
               data-lenis-prevent
             >
               <div
@@ -1400,7 +1400,7 @@ export default function Home() {
                   <LetterReveal
                     as="h2"
                     text="Insights and Updates"
-                    className="news-section__title"
+                    className="news-section__title home-section-title"
                     active={sectionMotion.news}
                   />
                 </header>

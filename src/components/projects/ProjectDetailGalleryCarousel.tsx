@@ -4,6 +4,7 @@ import { useCallback, useEffect, useRef, useState } from "react"
 import Image from "next/image"
 import { ChevronLeft, ChevronRight } from "lucide-react"
 import { Reveal } from "@/components/Reveal"
+import { LetterReveal } from "@/components/LetterReveal"
 import { cn } from "@/lib/utils"
 
 type ProjectDetailGalleryCarouselProps = {
@@ -84,9 +85,7 @@ export function ProjectDetailGalleryCarousel({ title, images }: ProjectDetailGal
         >
           Gallery
         </span>
-        <h2 className="font-title text-2xl font-bold text-white md:text-3xl lg:text-4xl">
-          Project Images
-        </h2>
+        <LetterReveal as="h2" text={'Project Images'} desktopOnly={false} className="font-title text-2xl font-bold text-white md:text-3xl lg:text-4xl" />
         <p className="mt-3 max-w-xl text-sm text-white/60 md:text-base">
           Scroll or use the arrows to browse installation photos from this project.
         </p>
@@ -95,7 +94,7 @@ export function ProjectDetailGalleryCarousel({ title, images }: ProjectDetailGal
       <div
         ref={scrollerRef}
         className={cn(
-          "mt-8 flex snap-x snap-mandatory gap-5 overflow-x-auto pb-1",
+          "fs-scroll-edge-feather mt-8 flex snap-x snap-mandatory gap-5 overflow-x-auto pb-1",
           "[-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden",
           "md:mt-10"
         )}

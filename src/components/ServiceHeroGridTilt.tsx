@@ -10,6 +10,7 @@ import {
   type ReactNode,
 } from "react"
 import { Reveal } from "@/components/Reveal"
+import { LetterReveal } from "@/components/LetterReveal"
 import { FsCctvHeroNav } from "@/components/FsCctvHeroNav"
 import { FsServiceHeroQuickNav } from "@/components/FsServiceHeroQuickNav"
 import {
@@ -419,9 +420,13 @@ export function ServiceHeroGridTilt({
         <div className="service-hero-grid__content">
           <div className="service-hero-grid__copy">
             <Reveal show={heroReveal} delayMs={0}>
-              <h1 className="service-hero-grid__title font-title font-bold text-white">
-                {toTitleCase(title)}
-              </h1>
+              <LetterReveal
+                as="h1"
+                text={title}
+                active={heroReveal}
+                desktopOnly={false}
+                className="service-hero-grid__title font-title font-bold text-white"
+              />
               {titleDetail ? (
                 <p className="service-hero-grid__title-detail">{titleDetail}</p>
               ) : null}

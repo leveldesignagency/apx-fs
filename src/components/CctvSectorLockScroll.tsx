@@ -1,5 +1,6 @@
 "use client"
 
+import { LetterReveal } from "@/components/LetterReveal"
 import Image from "next/image"
 import { useCallback, useEffect, useRef, useState } from "react"
 import { ChevronLeft, ChevronRight } from "lucide-react"
@@ -75,9 +76,13 @@ export function CctvSectorLockScroll({
           >
             Sectors
           </span>
-          <h2 id={headingId} className="home-section-title text-white font-title">
-            CCTV for Businesses
-          </h2>
+          <LetterReveal
+            as="h2"
+            id={headingId}
+            text="CCTV for Businesses"
+            desktopOnly={false}
+            className="home-section-title text-white font-title"
+          />
           <p className="section-intro-gap max-w-2xl text-pretty text-sm leading-relaxed text-white/65 sm:text-base">
             We design and install commercial CCTV across the sectors we work in every day.
           </p>
@@ -88,7 +93,7 @@ export function CctvSectorLockScroll({
         <div className="industries-carousel-col">
           <div
             ref={scrollerRef}
-            className="industries-carousel flex snap-x snap-mandatory gap-5 overflow-x-auto pb-1 [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden"
+            className="industries-carousel fs-scroll-edge-feather flex snap-x snap-mandatory gap-5 overflow-x-auto pb-1 [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden"
           >
             {sectors.map((item) => (
               <article

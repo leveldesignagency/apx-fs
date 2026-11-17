@@ -91,6 +91,12 @@ header.site-header {
   padding-top: clamp(7.5rem, 14vh, 10rem);
   padding-bottom: 6rem;
 }
+@media (max-width: 639.98px) {
+  /* Room for display-scale page heroes so copy/CTAs don’t collide with the next band */
+  .page-title-band {
+    padding-bottom: clamp(5.5rem, 14vh, 7.5rem);
+  }
+}
 @media (min-width: 768px) {
   .page-title-band {
     padding-top: clamp(8.5rem, 13vh, 11rem);
@@ -103,17 +109,95 @@ header.site-header {
   }
 }
 
-/* Projects hub: tighter space under the title band (all breakpoints) */
-.fs-projects-page > .page-title-band {
+/* Locations hub: significant space between title band and the first divider */
+.locations-page > .page-title-band {
+  padding-bottom: clamp(4.5rem, 10vh, 7.5rem);
+}
+.locations-page > .locations-page__section {
+  padding-top: clamp(3.5rem, 8vh, 5.5rem);
+  padding-bottom: clamp(3.5rem, 8vh, 5.5rem);
+}
+@media (min-width: 1024px) {
+  .locations-page > .page-title-band {
+    padding-bottom: clamp(5.5rem, 11vh, 8.5rem);
+  }
+  .locations-page > .locations-page__section {
+    padding-top: clamp(4.25rem, 9vh, 6.5rem);
+    padding-bottom: clamp(4.25rem, 9vh, 6.5rem);
+  }
+}
+
+/* Coverage check: rising white fill; label stays white then flips black on hover */
+.fs-coverage-check-btn {
+  isolation: isolate;
+  color: #ffffff !important;
+  -webkit-text-fill-color: #ffffff !important;
+}
+.fs-coverage-check-btn__fill {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  background: #ffffff;
+  transform: scaleY(0);
+  transform-origin: 50% 100%;
+  transition: transform 0.28s cubic-bezier(0.22, 1, 0.36, 1);
+  pointer-events: none;
+}
+.fs-coverage-check-btn:hover .fs-coverage-check-btn__fill,
+.fs-coverage-check-btn:focus-visible .fs-coverage-check-btn__fill {
+  transform: scaleY(1);
+}
+.fs-coverage-check-btn.fs-coverage-check-btn--success .fs-coverage-check-btn__fill {
+  transform: scaleY(0);
+}
+.fs-coverage-check-btn__label {
+  position: relative;
+  z-index: 1;
+  color: #ffffff !important;
+  -webkit-text-fill-color: #ffffff !important;
+  transition: color 0.2s ease, -webkit-text-fill-color 0.2s ease;
+}
+.fs-coverage-check-btn:hover,
+.fs-coverage-check-btn:focus-visible,
+.fs-coverage-check-btn:hover .fs-coverage-check-btn__label,
+.fs-coverage-check-btn:focus-visible .fs-coverage-check-btn__label {
+  color: #000000 !important;
+  -webkit-text-fill-color: #000000 !important;
+}
+.fs-coverage-check-btn.fs-coverage-check-btn--success,
+.fs-coverage-check-btn.fs-coverage-check-btn--success .fs-coverage-check-btn__label,
+.fs-coverage-check-btn.fs-coverage-check-btn--success:hover,
+.fs-coverage-check-btn.fs-coverage-check-btn--success:hover .fs-coverage-check-btn__label {
+  color: #ffffff !important;
+  -webkit-text-fill-color: #ffffff !important;
+}
+@media (prefers-reduced-motion: reduce) {
+  .fs-coverage-check-btn__fill,
+  .fs-coverage-check-btn__label {
+    transition: none;
+  }
+}
+
+/* Projects / Accreditations hubs: space under the title band */
+.fs-projects-page > .page-title-band,
+.fs-accreditations-page > .page-title-band {
   padding-bottom: 2.5rem;
 }
+@media (max-width: 639.98px) {
+  .fs-projects-page > .page-title-band,
+  .fs-accreditations-page > .page-title-band {
+    padding-bottom: clamp(4rem, 12vh, 6rem);
+  }
+}
 @media (min-width: 640px) {
-  .fs-projects-page > .page-title-band {
+  .fs-projects-page > .page-title-band,
+  .fs-accreditations-page > .page-title-band {
     padding-bottom: 3rem;
   }
 }
 @media (min-width: 1024px) {
-  .fs-projects-page > .page-title-band {
+  .fs-projects-page > .page-title-band,
+  .fs-accreditations-page > .page-title-band {
     padding-bottom: 3.25rem;
   }
 }
@@ -137,7 +221,7 @@ header.site-header {
 }
 
 .careers-job-modal {
-  z-index: 300;
+  z-index: 10000 !important;
   --careers-bw: 1.5px;
 }
 
@@ -1016,25 +1100,59 @@ section#services.home-services-band.section-spacing {
   }
 }
 
-/* Mobile only (< sm): default section titles; homepage/about display titles override below. */
-/* Skip small UI subheads (text-xl and below). Home display hero + delivery-methodology stage copy keep their own scale. */
+/* Mobile only (< sm): page heroes match service-hero-grid; in-page h2s stay compact. */
 @media (max-width: 639.98px) {
-  /* Exclude grid-tilt service / about heroes - they keep their own display scale */
-  .site-shell main h1.font-title:not([class~="text-xl"]):not([class~="text-lg"]):not([class~="text-base"]):not([class~="text-sm"]):not(.service-hero-grid__title),
-  .site-shell main h2.font-title:not([class~="text-xl"]):not([class~="text-lg"]):not([class~="text-base"]):not([class~="text-sm"]):not(.home-section-title):not(.about-section-title):not(.about-intro-heading),
+  /*
+   * Compact in-page section titles only (h2+). Do NOT target h1 here —
+   * stacked :not() specificity was beating page-hero overrides.
+   */
+  .site-shell main h2.font-title:not(.home-section-title):not(.about-section-title):not(.about-intro-heading):not(.news-section__title):not(.fs-inset-cta-card__title):not([class~="text-xl"]):not([class~="text-lg"]):not([class~="text-base"]):not([class~="text-sm"]),
   .site-shell main #fs-service-faq-heading {
     font-size: 1.875rem !important;
     line-height: 1.1 !important;
     letter-spacing: -0.025em !important;
   }
 
-  /* Homepage + About section titles share the same mobile display size */
+  .site-shell main .fs-inset-cta-card h2.fs-inset-cta-card__title,
+  .site-shell main h2.fs-inset-cta-card__title {
+    font-size: clamp(3.35rem, 12vw, 4rem) !important;
+    line-height: 0.88 !important;
+    letter-spacing: 0 !important;
+  }
+
+  /*
+   * Page heroes = same display scale as service heroes.
+   * Covers hubs, contact, careers, legal, detail pages using page-title-* / letter-reveal h1s.
+   */
+  .site-shell main h1.font-title,
+  .site-shell main h1.letter-reveal,
+  .site-shell main h1.contact-page-title,
+  .site-shell main .service-hero-grid__title,
+  .site-shell main .page-title-band h1,
+  .site-shell main .page-title-top h1 {
+    font-size: clamp(3.75rem, 17vw, 5rem) !important;
+    line-height: 0.88 !important;
+    letter-spacing: 0 !important;
+  }
+
+  /* Article pages: ~half the hub/service hero scale */
+  .site-shell main .news-article-page h1.font-title,
+  .site-shell main .news-article-page h1.letter-reveal,
+  .site-shell main .news-article-page .page-title-top h1 {
+    font-size: clamp(1.875rem, 8vw, 2.35rem) !important;
+    line-height: 1.12 !important;
+    letter-spacing: -0.02em !important;
+  }
+
+  /* Homepage + About + Insights section titles */
   .site-shell main h2.home-section-title,
   .site-shell main h3.home-section-title,
   .site-shell main .home-page-trial .home-section-title,
   .site-shell main .about-page-shell .about-section-title,
   .site-shell main .about-block h2.about-section-title,
-  .site-shell main #about-intro .about-intro-heading {
+  .site-shell main #about-intro .about-intro-heading,
+  .site-shell main h2.news-section__title,
+  .site-shell main .news-section__title {
     font-size: 2.625rem !important;
     line-height: 0.92 !important;
     letter-spacing: 0 !important;
@@ -1048,8 +1166,9 @@ section#services.home-services-band.section-spacing {
     letter-spacing: 0 !important;
   }
 
-  .site-shell main #hero h1.font-title {
-    font-size: 3rem !important; /* text-5xl display */
+  .site-shell main #hero h1.font-title,
+  .site-shell main #hero h1.letter-reveal {
+    font-size: 3rem !important;
     line-height: 0.72 !important;
     letter-spacing: normal !important;
   }
@@ -1058,22 +1177,6 @@ section#services.home-services-band.section-spacing {
     font-size: 1.5rem !important;
     line-height: 1.1 !important;
     letter-spacing: -0.025em !important;
-  }
-
-  .site-shell main .fs-inset-cta-card h2.font-title {
-    font-size: 2.75rem !important; /* a step up from text-4xl on mobile CTA banners */
-    line-height: 0.9 !important;
-    letter-spacing: -0.025em !important;
-  }
-
-  /* Main page titles stay display-scale on mobile */
-  .site-shell main .contact-page-title,
-  .site-shell main .fs-projects-page h1.font-title,
-  .site-shell main .dm-page h1.font-title,
-  .site-shell main .services-hub-page h1.font-title {
-    font-size: clamp(2.5rem, 11vw, 3.25rem) !important;
-    line-height: 0.95 !important;
-    letter-spacing: 0 !important;
   }
 
   .site-shell main #about-join-the-team-heading.about-join-team-title {
@@ -1498,10 +1601,23 @@ section h2 {
 }
 @media (prefers-reduced-motion: reduce) {
   #hero .hero-services-quick-nav__marquee {
-    mask-image: none;
-    -webkit-mask-image: none;
     overflow-x: auto;
     -webkit-overflow-scrolling: touch;
+    /* Keep L/R feather when the marquee becomes a manual scroll strip */
+    mask-image: linear-gradient(
+      to right,
+      transparent 0%,
+      #000 8%,
+      #000 92%,
+      transparent 100%
+    );
+    -webkit-mask-image: linear-gradient(
+      to right,
+      transparent 0%,
+      #000 8%,
+      #000 92%,
+      transparent 100%
+    );
   }
   #hero .hero-services-quick-nav__marquee-track {
     animation: none;
@@ -1655,6 +1771,50 @@ main .service-page-white-band .pill-btn .pill-text,
 /* Bottom CTA banner: tighter title leading */
 .fs-inset-cta-card h2.font-title {
   line-height: 0.9 !important;
+}
+
+/* CTA actions: phone left, pill right on mobile; hug label width */
+.fs-inset-cta-card__actions .pill-btn,
+.fs-inset-cta-card__actions a.pill-btn {
+  width: auto !important;
+  max-width: 100%;
+  flex: 0 0 auto;
+  padding-left: 1.35rem !important;
+  padding-right: 1.35rem !important;
+}
+.fs-inset-cta-card__actions .call-phone-cta {
+  width: auto !important;
+  max-width: 100%;
+  flex: 0 1 auto;
+  justify-content: flex-start !important;
+  padding-left: 0.15rem;
+  padding-right: 0.35rem;
+}
+@media (max-width: 639.98px) {
+  /* DOM is usually pill then phone — flip so number sits left, button forced right */
+  .fs-inset-cta-card__actions .call-phone-cta {
+    order: 1;
+    margin-right: auto;
+  }
+  .fs-inset-cta-card__actions .pill-btn,
+  .fs-inset-cta-card__actions a.pill-btn {
+    order: 2;
+    margin-left: auto;
+  }
+}
+@media (min-width: 640px) {
+  .fs-inset-cta-card__actions .pill-btn,
+  .fs-inset-cta-card__actions a.pill-btn,
+  .fs-inset-cta-card__actions .call-phone-cta {
+    order: 0;
+    margin-left: 0;
+    margin-right: 0;
+  }
+  .fs-inset-cta-card__actions .pill-btn,
+  .fs-inset-cta-card__actions a.pill-btn {
+    padding-left: 1.5rem !important;
+    padding-right: 1.5rem !important;
+  }
 }
 
 /* Capability pillar tabs + compliance / standards headings */
@@ -1935,7 +2095,7 @@ main .service-page-white-band .pill-btn .pill-text,
   }
 }
 
-/* Mobile: display title + quick nav bleeds to the right edge + feather */
+/* Mobile: display title + quick nav bleeds to the right edge */
 @media (max-width: 639.98px) {
   .service-hero-grid__title {
     font-size: clamp(3.75rem, 17vw, 5rem) !important;
@@ -1965,20 +2125,70 @@ main .service-page-white-band .pill-btn .pill-text,
   .service-hero-grid__nav nav {
     overflow: visible;
   }
-  .service-hero-grid__nav ul {
+}
+
+/*
+ * Feathered L/R edges on horizontal scroll navs / strips.
+ * Quick-nav pills wrap from sm; carousels keep scrolling until lg.
+ */
+@media (max-width: 639.98px) {
+  .fs-service-quick-nav__scroller {
+    padding-left: 0.35rem;
     padding-right: 2.75rem;
     -webkit-mask-image: linear-gradient(
       to right,
-      #000 0%,
-      #000 calc(100% - 2.75rem),
+      transparent 0%,
+      #000 1.5rem,
+      #000 calc(100% - 2.5rem),
       transparent 100%
     );
     mask-image: linear-gradient(
       to right,
-      #000 0%,
-      #000 calc(100% - 2.75rem),
+      transparent 0%,
+      #000 1.5rem,
+      #000 calc(100% - 2.5rem),
       transparent 100%
     );
+  }
+}
+@media (min-width: 640px) {
+  .fs-service-quick-nav__scroller {
+    padding-left: 0;
+    padding-right: 0;
+    -webkit-mask-image: none;
+    mask-image: none;
+  }
+}
+@media (max-width: 1023.98px) {
+  .fs-scroll-edge-feather,
+  .industries-carousel,
+  .about-featured-team-row,
+  .projects-section__track,
+  .about-horizontal-scroll {
+    -webkit-mask-image: linear-gradient(
+      to right,
+      transparent 0%,
+      #000 1.5rem,
+      #000 calc(100% - 2.5rem),
+      transparent 100%
+    );
+    mask-image: linear-gradient(
+      to right,
+      transparent 0%,
+      #000 1.5rem,
+      #000 calc(100% - 2.5rem),
+      transparent 100%
+    );
+  }
+}
+@media (min-width: 1024px) {
+  .fs-scroll-edge-feather,
+  .industries-carousel,
+  .about-featured-team-row,
+  .projects-section__track,
+  .about-horizontal-scroll {
+    -webkit-mask-image: none;
+    mask-image: none;
   }
 }
 
@@ -2191,35 +2401,77 @@ main .service-page-white-band .pill-btn .pill-text,
 .pill-btn .pill-text {
   position: relative;
   z-index: 1;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4em;
   color: #ffffff !important;
-  transition: color 0.12s ease 0.09s;
+  transition: color 0.12s ease 0.09s, transform 0.28s cubic-bezier(0.22, 1, 0.36, 1);
+}
+/* Beat ThemeToggle `span { color }` on nested label/icon nodes inside pills */
+.pill-btn .pill-text,
+.pill-btn .pill-text * {
+  color: #ffffff !important;
 }
 .pill-btn:hover .pill-text,
+.pill-btn:hover .pill-text *,
 #hero .pill-btn:hover .pill-text,
-#services .pill-btn:hover .pill-text {
+#hero .pill-btn:hover .pill-text *,
+#services .pill-btn:hover .pill-text,
+#services .pill-btn:hover .pill-text * {
   color: #000000 !important;
-  transition: color 0.125s ease;
+  transition: color 0.125s ease, transform 0.28s cubic-bezier(0.22, 1, 0.36, 1);
+}
+.pill-btn--arrow:hover .pill-text {
+  transform: translateX(0.12rem);
+}
+.pill-btn-arrow {
+  display: inline-block;
+  width: 1.05em;
+  height: 1.05em;
+  flex-shrink: 0;
+  transition: transform 0.28s cubic-bezier(0.22, 1, 0.36, 1);
+}
+.pill-btn--arrow:hover .pill-btn-arrow,
+.pill-btn--arrow:focus-visible .pill-btn-arrow {
+  transform: translateX(0.32rem);
+}
+@media (prefers-reduced-motion: reduce) {
+  .pill-btn--arrow:hover .pill-text,
+  .pill-btn--arrow:hover .pill-btn-arrow,
+  .pill-btn--arrow:focus-visible .pill-btn-arrow {
+    transform: none;
+  }
 }
 
-/*
- * Services outline CTA (Contact): must beat `#services .pill-btn:hover .pill-text` so label stays white on black fill.
- */
-#services .pill-btn.pill-btn--outline:hover .pill-text,
-#services .fs-what-we-offer .pill-btn.pill-btn--outline:hover .pill-text {
-  color: #ffffff !important;
+/* Inset CTA pills: keep fill hover obvious on photo panels */
+.fs-inset-cta-card .pill-btn:hover .pill-btn-inner::before,
+.fs-inset-cta-card .pill-btn:focus-visible .pill-btn-inner::before {
+  transform: scaleY(1);
+}
+.fs-inset-cta-card .pill-btn:hover .pill-text,
+.fs-inset-cta-card .pill-btn:hover .pill-text *,
+.fs-inset-cta-card .pill-btn:focus-visible .pill-text,
+.fs-inset-cta-card .pill-btn:focus-visible .pill-text * {
+  color: #000000 !important;
 }
 
 /* Call button variant: white fill + black border off hover; black fill on hover */
 .pill-btn--outline {
   background-color: #ffffff !important;
 }
-.pill-btn--outline .pill-text {
+.pill-btn--outline .pill-text,
+.pill-btn--outline .pill-text * {
   color: #000000 !important;
 }
 .pill-btn--outline .pill-btn-inner::before {
   background-color: #000000;
 }
-.pill-btn.pill-btn--outline:hover .pill-text {
+.pill-btn.pill-btn--outline:hover .pill-text,
+.pill-btn.pill-btn--outline:hover .pill-text *,
+#services .pill-btn.pill-btn--outline:hover .pill-text,
+#services .pill-btn.pill-btn--outline:hover .pill-text *,
+#services .fs-what-we-offer .pill-btn.pill-btn--outline:hover .pill-text,
+#services .fs-what-we-offer .pill-btn.pill-btn--outline:hover .pill-text * {
   color: #ffffff !important;
 }
 
@@ -2233,13 +2485,15 @@ main .service-page-white-band .pill-btn .pill-text,
 .pill-btn--onLight:hover .pill-btn-border {
   border-color: #000000 !important;
 }
-.pill-btn--onLight .pill-text {
+.pill-btn--onLight .pill-text,
+.pill-btn--onLight .pill-text * {
   color: #000000 !important;
 }
 .pill-btn--onLight .pill-btn-inner::before {
   background-color: #000000;
 }
-.pill-btn--onLight:hover .pill-text {
+.pill-btn--onLight:hover .pill-text,
+.pill-btn--onLight:hover .pill-text * {
   color: #ffffff !important;
 }
 
@@ -2763,23 +3017,26 @@ main .service-page-white-band .pill-btn .pill-text,
   display: none;
 }
 
-/* Mobile: bleed to right edge + feather mask (same idea as service hero quick nav) */
+/* Mobile: bleed + feathered L/R edges on homepage services tab strip */
 @media (max-width: 767.98px) {
   #services .fs-what-we-offer .fs-offer-tablist {
     width: calc(100% + var(--site-gutter, 1.25rem));
     max-width: none;
     margin-right: calc(-1 * var(--site-gutter, 1.25rem));
+    padding-left: 0.35rem;
     padding-right: 2.75rem;
     -webkit-mask-image: linear-gradient(
       to right,
-      #000 0%,
-      #000 calc(100% - 2.75rem),
+      transparent 0%,
+      #000 1.5rem,
+      #000 calc(100% - 2.5rem),
       transparent 100%
     );
     mask-image: linear-gradient(
       to right,
-      #000 0%,
-      #000 calc(100% - 2.75rem),
+      transparent 0%,
+      #000 1.5rem,
+      #000 calc(100% - 2.5rem),
       transparent 100%
     );
   }
@@ -3537,18 +3794,18 @@ html:not(.dark) .services-drawer-list-item::before {
 }
 .news-section__title {
   font-family: var(--font-title, "Oxanium", sans-serif);
-  font-size: 1.875rem;
+  font-size: 2.625rem; /* match .home-section-title mobile */
   font-weight: 700;
   color: #fff;
   margin: 0;
-  line-height: 1.1;
-  letter-spacing: -0.025em;
+  line-height: 0.92;
+  letter-spacing: 0;
   text-transform: none;
 }
 @media (min-width: 640px) {
   .news-section__title {
     font-size: clamp(2.25rem, 8vw, 4rem);
-    line-height: 1.03;
+    line-height: 0.96;
   }
 }
 /* Mobile: title → image → list. Desktop: image left, title+list right. */
@@ -3928,6 +4185,19 @@ html:not(.dark) .news-article-page {
 .news-article-page .news-card__meta,
 .news-article-page .news-article-page__back-link {
   font-family: var(--font-title, var(--font-teko), "Teko", sans-serif) !important;
+}
+
+/* Article / card titles: title case from copy, not CSS all-caps */
+.news-page h1.font-title,
+.news-page h2.font-title,
+.news-page .news-card h2.font-title,
+.news-page .news-card .font-title,
+.news-article-page h1.font-title,
+.news-article-page h2.font-title,
+.news-article-page .font-title.letter-reveal,
+.news-article-page .news-card h2.font-title,
+.news-article-page .news-card .font-title {
+  text-transform: none !important;
 }
 
 .news-page .news-hub__intro-copy,
@@ -6495,6 +6765,29 @@ html.about-page-active {
   }
 }
 
+/* BlurText titles — per-word hover focus */
+.blur-text.blur-text--focus-hover {
+  cursor: default;
+}
+
+/* Accreditation / project cards: overlay link steals hover — drive pill fill from card group */
+.fs-accreditations-page article.group:hover .pill-btn .pill-btn-inner::before,
+.fs-accreditations-page article.group:focus-within .pill-btn .pill-btn-inner::before,
+.fs-projects-page article.group:hover .pill-btn .pill-btn-inner::before,
+.fs-projects-page article.group:focus-within .pill-btn .pill-btn-inner::before {
+  transform: scaleY(1);
+}
+.fs-accreditations-page article.group:hover .pill-btn .pill-text,
+.fs-accreditations-page article.group:hover .pill-btn .pill-text *,
+.fs-accreditations-page article.group:focus-within .pill-btn .pill-text,
+.fs-accreditations-page article.group:focus-within .pill-btn .pill-text *,
+.fs-projects-page article.group:hover .pill-btn .pill-text,
+.fs-projects-page article.group:hover .pill-btn .pill-text *,
+.fs-projects-page article.group:focus-within .pill-btn .pill-text,
+.fs-projects-page article.group:focus-within .pill-btn .pill-text * {
+  color: #000000 !important;
+}
+
 /* Paragraph line reveal (desktop) */
 .line-reveal {
   position: relative;
@@ -7201,23 +7494,80 @@ html.about-page-active {
     opacity: 0;
   }
 }
+/* Call phone icon: white fill grows from the rim inward; glyph turns black */
+.call-phone-cta__icon {
+  isolation: isolate;
+}
+.call-phone-cta__fill {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  border-radius: 9999px;
+  pointer-events: none;
+  box-shadow: inset 0 0 0 0 #ffffff;
+  transition: box-shadow 0.42s cubic-bezier(0.22, 1, 0.36, 1);
+}
+.call-phone-cta:hover .call-phone-cta__fill,
+.call-phone-cta:focus-visible .call-phone-cta__fill {
+  /* Spread reaches past the radius so the disc fills solid white */
+  box-shadow: inset 0 0 0 2.75rem #ffffff;
+}
+.call-phone-cta__glyph {
+  color: #ffffff !important;
+  transition: color 0.28s ease 0.06s;
+}
+.call-phone-cta__glyph * {
+  stroke: currentColor;
+}
+.call-phone-cta:hover .call-phone-cta__glyph,
+.call-phone-cta:focus-visible .call-phone-cta__glyph,
+.call-phone-cta:hover .call-phone-cta__glyph *,
+.call-phone-cta:focus-visible .call-phone-cta__glyph * {
+  color: #000000 !important;
+}
+@media (prefers-reduced-motion: reduce) {
+  .call-phone-cta__fill {
+    transition: none;
+  }
+  .call-phone-cta:hover .call-phone-cta__fill,
+  .call-phone-cta:focus-visible .call-phone-cta__fill {
+    box-shadow: inset 0 0 0 2.75rem #ffffff;
+  }
+  .call-phone-cta__glyph {
+    transition: none;
+  }
+}
+
+/* Radar rings expand outside the icon — only while hovered (CTA banner) */
 .fs-inset-cta-card .call-phone-cta__radar {
   display: none;
 }
 @media (min-width: 640px) {
+  .fs-inset-cta-card .call-phone-cta__icon {
+    overflow: visible;
+  }
   .fs-inset-cta-card .call-phone-cta__radar {
     display: block;
     position: absolute;
     inset: 0;
+    z-index: 0;
     border-radius: 9999px;
     border: 1.5px solid rgba(255, 255, 255, 0.55);
     pointer-events: none;
+    opacity: 0;
+    transform: scale(1);
+    animation: none;
+  }
+  .fs-inset-cta-card .call-phone-cta:hover .call-phone-cta__radar,
+  .fs-inset-cta-card .call-phone-cta:focus-visible .call-phone-cta__radar {
     animation: call-phone-radar 3.2s ease-out infinite;
   }
-  .fs-inset-cta-card .call-phone-cta__radar:nth-child(2) {
+  .fs-inset-cta-card .call-phone-cta:hover .call-phone-cta__radar:nth-child(3),
+  .fs-inset-cta-card .call-phone-cta:focus-visible .call-phone-cta__radar:nth-child(3) {
     animation-delay: 1.05s;
   }
-  .fs-inset-cta-card .call-phone-cta__radar:nth-child(3) {
+  .fs-inset-cta-card .call-phone-cta:hover .call-phone-cta__radar:nth-child(4),
+  .fs-inset-cta-card .call-phone-cta:focus-visible .call-phone-cta__radar:nth-child(4) {
     animation-delay: 2.1s;
   }
 }
@@ -10010,6 +10360,11 @@ html:not(.dark) .mep-cards-section .mep-cards-grid li {
 }
 .dm-page .page-title-band {
   padding-bottom: 2.5rem;
+}
+@media (max-width: 639.98px) {
+  .dm-page .page-title-band {
+    padding-bottom: clamp(4rem, 12vh, 6rem);
+  }
 }
 @media (min-width: 640px) {
   .dm-page .page-title-band {

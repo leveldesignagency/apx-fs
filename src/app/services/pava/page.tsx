@@ -8,6 +8,7 @@ import { CallPhoneCta } from "@/components/ui/CallPhoneCta"
 import { ServicePageHero } from "@/components/ServicePageHero"
 import { FsFireSubpageHeroButtons } from "@/components/FsFireSubpageHeroButtons"
 import { Reveal } from "@/components/Reveal"
+import { LetterReveal } from "@/components/LetterReveal"
 import { ServiceItemReveal } from "@/components/ServiceItemReveal"
 import { ServiceInstallationsGrid } from "@/components/ServiceInstallationsGrid"
 import { ServiceInstallationCard } from "@/components/ServiceInstallationCard"
@@ -149,7 +150,7 @@ export default function PavaSystemsPage() {
 
         <section className="site-container relative z-[1] py-16 lg:py-16">
           <Reveal>
-            <h2 className="mb-4 text-left font-title text-4xl font-bold text-white sm:text-5xl">Capabilities</h2>
+            <LetterReveal as="h2" text={'Capabilities'} desktopOnly={false} className="mb-4 text-left font-title text-4xl font-bold text-white sm:text-5xl" />
           </Reveal>
           <Reveal delayMs={70}>
             <p className="mb-10 max-w-3xl text-left text-gray-300">
@@ -223,9 +224,7 @@ export default function PavaSystemsPage() {
 
         <section className="site-container py-16 lg:py-16">
           <Reveal>
-            <h2 className="mb-4 text-left font-title text-4xl font-bold text-white sm:text-5xl">
-              Completed Project
-            </h2>
+            <LetterReveal as="h2" text={'Completed Project'} desktopOnly={false} className="mb-4 text-left font-title text-4xl font-bold text-white sm:text-5xl" />
           </Reveal>
           <Reveal delayMs={70}>
             <p className="mb-8 max-w-2xl text-left text-gray-300">
@@ -257,9 +256,7 @@ export default function PavaSystemsPage() {
           ctaHeadlineAccent="PAVA System?"
           ctaDescription="Share your drawings and fire strategy. We can advise on zoning, phased evacuation, amplifiers, loudspeakers and BS 5839-8 commissioning for a compliant PAVA installation."
         >
-          <CustomPillButton href="/contact?service=pava" size="md">
-            Discuss your project
-          </CustomPillButton>
+          <CustomPillButton href="/contact?service=pava" size="md">Enquire</CustomPillButton>
           <CallPhoneCta size="md" />
         </ServicePageClosingSections>
       </div>

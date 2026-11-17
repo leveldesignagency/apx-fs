@@ -9,6 +9,7 @@ import { CustomPillButton } from "@/components/ui/CustomPillButton"
 import { CallPhoneCta } from "@/components/ui/CallPhoneCta"
 import { ServicePageHero } from "@/components/ServicePageHero"
 import { Reveal } from "@/components/Reveal"
+import { LetterReveal } from "@/components/LetterReveal"
 import { ServiceItemReveal } from "@/components/ServiceItemReveal"
 import { ServiceInstallationsGrid } from "@/components/ServiceInstallationsGrid"
 import { ServiceInstallationCard } from "@/components/ServiceInstallationCard"
@@ -252,9 +253,7 @@ export default function VideoDoorEntrySystemsPage() {
 
         <section className="site-container relative z-[1] py-16 lg:py-16">
           <Reveal>
-            <h2 className="mb-4 text-left font-title text-4xl font-bold text-white sm:text-5xl">
-              What We Deliver
-            </h2>
+            <LetterReveal as="h2" text={'What We Deliver'} desktopOnly={false} className="mb-4 text-left font-title text-4xl font-bold text-white sm:text-5xl" />
           </Reveal>
           <Reveal delayMs={70}>
             <p className="mb-10 max-w-3xl text-left text-gray-300">
@@ -382,9 +381,7 @@ export default function VideoDoorEntrySystemsPage() {
 
         <section className="site-container py-16 lg:py-16">
           <Reveal>
-            <h2 className="mb-4 text-left font-title text-4xl font-bold text-white sm:text-5xl">
-              Our Video Entry Installations
-            </h2>
+            <LetterReveal as="h2" text={'Our Video Entry Installations'} desktopOnly={false} className="mb-4 text-left font-title text-4xl font-bold text-white sm:text-5xl" />
           </Reveal>
           <Reveal delayMs={70}>
             <p className="mb-8 max-w-2xl text-left text-gray-300">
@@ -416,9 +413,7 @@ export default function VideoDoorEntrySystemsPage() {
           ctaHeadlineAccent="Video Entry"
           ctaDescription="Expert design, installation, access-control and gate integration, plus maintenance and upgrades for residential and commercial buildings."
         >
-          <CustomPillButton href="/contact?service=video-door-entry-systems" size="md">
-            Get a free quote
-          </CustomPillButton>
+          <CustomPillButton href="/contact?service=video-door-entry-systems" size="md">Get quote</CustomPillButton>
           <CallPhoneCta size="md" />
         </ServicePageClosingSections>
       </div>

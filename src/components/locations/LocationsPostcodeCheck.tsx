@@ -123,11 +123,13 @@ export function LocationsPostcodeCheck() {
             aria-label="Check coverage"
             className={cn(
               "fs-coverage-check-btn relative inline-flex h-[3.25rem] w-full min-w-[10.5rem] shrink-0 items-center justify-center overflow-hidden rounded-full border-[0.5px] border-white px-6 py-3.5 text-sm font-semibold uppercase tracking-[0.12em] sm:w-auto sm:self-stretch sm:h-auto sm:text-[0.9375rem]",
-              "transition-colors duration-300"
+              "transition-colors duration-300",
+              success && "fs-coverage-check-btn--success"
             )}
             style={{ fontFamily: "var(--font-menu), sans-serif" }}
           >
-            Check coverage
+            <span className="fs-coverage-check-btn__fill" aria-hidden />
+            <span className="fs-coverage-check-btn__label">Check coverage</span>
           </button>
         </div>
 

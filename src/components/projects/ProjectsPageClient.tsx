@@ -6,6 +6,7 @@ import { CustomPillButton } from "@/components/ui/CustomPillButton"
 import { CallPhoneCta } from "@/components/ui/CallPhoneCta"
 import { FsInsetCtaCard } from "@/components/FsInsetCtaCard"
 import { Reveal } from "@/components/Reveal"
+import { LetterReveal } from "@/components/LetterReveal"
 import { ServiceItemReveal } from "@/components/ServiceItemReveal"
 import type { FsProject } from "@/data/projects"
 import { FS_PROJECTS_CONTENT_MAX, FS_PROJECTS_SECTION_PX } from "@/lib/fsProjectsLayout"
@@ -23,9 +24,12 @@ export function ProjectsPageClient({ projects }: Props) {
           <div className="max-w-3xl">
             <Reveal>
               <span className="section-label mb-3 block text-white/75">Work in Focus</span>
-              <h1 className="text-left font-title text-4xl font-bold tracking-tight sm:text-5xl md:text-6xl lg:text-7xl">
-                Built to Sign Off, Fire &amp; Security That Endures
-              </h1>
+              <LetterReveal
+                as="h1"
+                text="Built to Sign Off, Fire & Security That Endures"
+                desktopOnly={false}
+                className="text-left font-title text-4xl font-bold tracking-tight sm:text-5xl md:text-6xl lg:text-7xl"
+              />
               <p className="mt-4 max-w-2xl text-left text-base font-normal leading-relaxed tracking-tight text-white/70 sm:text-lg md:text-xl">
                 A selection of fire and security installations we have delivered for commercial, public-sector and
                 residential clients across London and the Home Counties.
@@ -96,13 +100,12 @@ export function ProjectsPageClient({ projects }: Props) {
       <FsInsetCtaCard
         variant="service"
         backgroundImageSrc="/projects/cta-architectural-blueprints.jpg"
+        eyebrow="Ready when you are"
         headline="Start Your"
         headlineAccent="Next Project"
         description="Discuss your fire or security requirements with our team. We offer free surveys and tailored solutions across London and the Home Counties."
       >
-        <CustomPillButton href="/contact" size="lg">
-          Get in Touch
-        </CustomPillButton>
+        <CustomPillButton href="/contact" size="lg" arrow>Contact</CustomPillButton>
         <CallPhoneCta size="lg" />
       </FsInsetCtaCard>
     </div>

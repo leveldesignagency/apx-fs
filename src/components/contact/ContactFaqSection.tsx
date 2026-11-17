@@ -1,6 +1,7 @@
 "use client"
 
 import Link from "next/link"
+import { LetterReveal } from "@/components/LetterReveal"
 import { useState } from "react"
 import { ChevronDown, ChevronRight } from "lucide-react"
 import { CONTACT_FAQ_ITEMS, type ContactFaqItem } from "@/lib/contact-faq-content"
@@ -91,9 +92,13 @@ export function ContactFaqSection({ items = CONTACT_FAQ_ITEMS }: Props) {
     <section className="contact-faq" aria-labelledby="contact-faq-heading">
       <div className="site-container">
         <header className="contact-faq__header">
-          <h2 id="contact-faq-heading" className="contact-faq__title font-title">
-            Looking for Answers?
-          </h2>
+          <LetterReveal
+            as="h2"
+            id="contact-faq-heading"
+            text="Looking for Answers?"
+            desktopOnly={false}
+            className="contact-faq__title font-title"
+          />
           <p className="contact-faq__subtitle">
             Common questions about surveys, quotes, coverage and getting in touch with APX Fire &amp; Security.
           </p>

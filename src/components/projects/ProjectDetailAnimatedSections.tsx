@@ -5,6 +5,7 @@ import Image from "next/image"
 import Link from "next/link"
 import { ChevronLeft, ChevronRight, X } from "lucide-react"
 import { Reveal } from "@/components/Reveal"
+import { LetterReveal } from "@/components/LetterReveal"
 import { ServiceItemReveal } from "@/components/ServiceItemReveal"
 import type { FsProject } from "@/data/projects"
 
@@ -60,7 +61,7 @@ export function ProjectDetailGallery({ title, images }: ProjectDetailGalleryProp
         >
           Gallery
         </span>
-        <h2 className="font-title text-2xl font-bold text-white md:text-3xl lg:text-4xl">Project Images</h2>
+        <LetterReveal as="h2" text={'Project Images'} desktopOnly={false} className="font-title text-2xl font-bold text-white md:text-3xl lg:text-4xl" />
         <p className="mt-3 max-w-2xl text-sm text-white/60 md:text-base">
           Tap or click an image to open the gallery. Use arrows or keyboard left/right to move between photos.
         </p>
@@ -145,7 +146,7 @@ export function ProjectDetailGallery({ title, images }: ProjectDetailGalleryProp
             </div>
 
             {images.length > 1 ? (
-              <div className="mt-3 flex gap-2 overflow-x-auto pb-1 [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
+              <div className="fs-scroll-edge-feather mt-3 flex gap-2 overflow-x-auto pb-1 [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
                 {images.map((img, idx) => (
                   <button
                     key={`${img}-thumb-${idx}`}
@@ -223,7 +224,7 @@ export function ProjectDetailRelated({ related }: ProjectDetailRelatedProps) {
   return (
     <>
       <Reveal>
-        <h2 className="pt-4 text-2xl font-title font-semibold md:pt-6 md:text-3xl">Explore Other Projects</h2>
+        <LetterReveal as="h2" text={'Explore Other Projects'} desktopOnly={false} className="pt-4 text-2xl font-title font-semibold md:pt-6 md:text-3xl" />
       </Reveal>
       <div className="mt-7 grid grid-cols-2 gap-4 md:grid-cols-3 lg:grid-cols-6">
         {related.map((item, idx) => (

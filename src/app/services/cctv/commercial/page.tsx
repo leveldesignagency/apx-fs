@@ -13,6 +13,7 @@ import { FsServiceTextImageSectionGroup } from "@/components/FsServiceTextImageS
 import { ServicePageHero } from "@/components/ServicePageHero"
 import { ServiceFeatureImageCard } from "@/components/ServiceFeatureImageCard"
 import { Reveal } from "@/components/Reveal"
+import { LetterReveal } from "@/components/LetterReveal"
 import { ServiceItemReveal } from "@/components/ServiceItemReveal"
 import { ServiceInstallationsGrid } from "@/components/ServiceInstallationsGrid"
 import { ServiceInstallationCard } from "@/components/ServiceInstallationCard"
@@ -201,9 +202,7 @@ export default function CommercialCctvPage() {
 
         <section className="site-container relative z-[1] py-16 lg:py-16">
           <Reveal>
-            <h2 className="mb-4 text-left font-title text-4xl font-bold text-white sm:text-5xl">
-              Integration &amp; Monitoring
-            </h2>
+            <LetterReveal as="h2" text={'Integration & Monitoring'} desktopOnly={false} className="mb-4 text-left font-title text-4xl font-bold text-white sm:text-5xl" />
           </Reveal>
           <Reveal delayMs={70}>
             <p className="mb-10 max-w-3xl text-left text-gray-300">
@@ -231,9 +230,7 @@ export default function CommercialCctvPage() {
 
         <section className="site-container py-16 lg:py-16">
           <Reveal>
-            <h2 className="mb-4 text-left font-title text-4xl font-bold text-white sm:text-5xl">
-              APX Commercial Examples
-            </h2>
+            <LetterReveal as="h2" text={'APX Commercial Examples'} desktopOnly={false} className="mb-4 text-left font-title text-4xl font-bold text-white sm:text-5xl" />
           </Reveal>
           <Reveal delayMs={70}>
             <p className="mb-8 max-w-2xl text-left text-gray-300">
@@ -398,9 +395,7 @@ export default function CommercialCctvPage() {
           ctaHeadlineAccent="Free Commercial Survey"
           ctaDescription="Site visit, coverage review and written recommendations. No obligation. We respond promptly across London and the Home Counties."
         >
-          <CustomPillButton href="/contact?service=cctv-systems" size="md">
-            Book a survey
-          </CustomPillButton>
+          <CustomPillButton href="/contact?service=cctv-systems" size="md">Book survey</CustomPillButton>
           <CallPhoneCta size="md" />
         </ServicePageClosingSections>
       </div>

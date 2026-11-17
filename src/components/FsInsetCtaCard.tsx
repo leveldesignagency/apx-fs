@@ -3,6 +3,7 @@
 import type { ReactNode } from "react"
 import Image from "next/image"
 import { Reveal } from "@/components/Reveal"
+import { LetterReveal } from "@/components/LetterReveal"
 import { toTitleCase } from "@/lib/titleCase"
 import { cn } from "@/lib/utils"
 
@@ -15,6 +16,8 @@ export type FsInsetCtaCardProps = {
   variant?: "service" | "light" | "dark-card"
   /** Faint background photo (service / dark-card). */
   backgroundImageSrc?: string
+  /** Small label above the headline */
+  eyebrow?: string
   headline: string
   headlineAccent: string
   description: string
@@ -27,11 +30,12 @@ export type FsInsetCtaCardProps = {
 }
 
 /**
- * Contained editorial CTA card: headline left, proof + actions right.
+ * Contained editorial CTA: headline left, copy + actions right.
  */
 export function FsInsetCtaCard({
   variant = "service",
   backgroundImageSrc,
+  eyebrow = "Talk to us",
   headline,
   headlineAccent,
   description,
@@ -55,21 +59,22 @@ export function FsInsetCtaCard({
       )}
       aria-labelledby={headingId}
     >
-      <div className="site-container py-14 sm:py-16 lg:py-20">
+      <div className="site-container py-12 sm:py-14 lg:py-16">
         <Reveal>
           <div
             className={cn(
-              "fs-inset-cta-card__panel group relative isolate min-h-[17rem] overflow-hidden rounded-[1.75rem] p-8 sm:min-h-[18rem] sm:p-10 lg:p-12 xl:p-14",
+              "fs-inset-cta-card__panel group relative isolate overflow-hidden rounded-[1.75rem] border",
+              "min-h-[17rem] p-8 sm:min-h-[18rem] sm:p-10 lg:p-12 xl:p-14",
               isDarkPanel
-                ? "border border-white/20 shadow-[0_24px_64px_rgba(0,0,0,0.45)]"
-                : "fs-inset-cta-card__panel--light border border-black/10 shadow-[0_20px_50px_rgba(15,23,42,0.08)]",
+                ? "border-white/20 shadow-[0_24px_64px_rgba(0,0,0,0.45)]"
+                : "fs-inset-cta-card__panel--light border-black/10 shadow-[0_20px_50px_rgba(15,23,42,0.08)]",
               variant === "dark-card" && "bg-[var(--page-bg)]"
             )}
           >
             {isDarkPanel && backgroundImageSrc ? (
               <>
                 <div className="pointer-events-none absolute inset-0 z-0 overflow-hidden" aria-hidden>
-                  <div className="absolute inset-0 origin-center transition-transform duration-700 ease-out motion-reduce:transition-none motion-safe:group-hover:scale-[1.04]">
+                  <div className="absolute inset-0 origin-center transition-transform duration-700 ease-out motion-reduce:transition-none motion-safe:group-hover:scale-[1.035]">
                     <Image
                       src={backgroundImageSrc}
                       alt=""
@@ -81,7 +86,7 @@ export function FsInsetCtaCard({
                   </div>
                 </div>
                 <div
-                  className="pointer-events-none absolute inset-0 z-[1] bg-[linear-gradient(118deg,rgba(0,0,0,0.88)_0%,rgba(0,0,0,0.78)_42%,rgba(0,0,0,0.62)_100%)]"
+                  className="pointer-events-none absolute inset-0 z-[1] bg-[linear-gradient(105deg,rgba(0,0,0,0.92)_0%,rgba(0,0,0,0.82)_38%,rgba(0,0,0,0.55)_72%,rgba(0,0,0,0.7)_100%)]"
                   aria-hidden
                 />
               </>
@@ -99,37 +104,41 @@ export function FsInsetCtaCard({
               />
             ) : null}
 
-            <div className="relative z-[2] grid grid-cols-1 items-center gap-8 text-center lg:grid-cols-[minmax(0,1.15fr)_minmax(0,0.85fr)] lg:gap-12 lg:text-left xl:gap-16">
-              <div className="min-w-0">
-                <h2
+            <div className="relative z-[2] grid grid-cols-1 items-end gap-8 lg:grid-cols-[minmax(0,1.05fr)_minmax(0,0.95fr)] lg:gap-12 xl:gap-16">
+              <div className="min-w-0 text-left">
+                {eyebrow ? (
+                  <p
+                    className={cn(
+                      "mb-3 text-[0.6875rem] font-semibold uppercase tracking-[0.16em] sm:mb-4",
+                      isDarkPanel ? "text-white/55" : "text-neutral-500"
+                    )}
+                  >
+                    {eyebrow}
+                  </p>
+                ) : null}
+                <LetterReveal
+                  as="h2"
                   id={headingId}
-                  aria-label={`${toTitleCase(headline.trimEnd())} ${toTitleCase(headlineAccent.trimStart())}`}
+                  text={`${headline.trimEnd()}\n${headlineAccent.trimStart()}`}
+                  desktopOnly={false}
                   className={cn(
-                    "font-title text-6xl font-bold leading-[0.88] tracking-normal sm:text-6xl lg:text-7xl xl:text-[4.75rem]",
+                    "fs-inset-cta-card__title font-title text-[3.35rem] font-bold leading-[0.88] tracking-tight sm:text-5xl lg:text-6xl xl:text-[4.25rem]",
                     isDarkPanel ? "text-white" : "text-black"
                   )}
-                >
-                  <span className={cn("block", isDarkPanel ? "text-white/88" : "text-neutral-600")} aria-hidden>
-                    {toTitleCase(headline.trimEnd())}
-                  </span>
-                  <span className="sr-only"> </span>
-                  <span className={cn("block", isDarkPanel ? "text-white" : "text-black")} aria-hidden>
-                    {toTitleCase(headlineAccent.trimStart())}
-                  </span>
-                </h2>
+                />
               </div>
 
-              <div className="mx-auto min-w-0 max-w-xl lg:mx-0 lg:max-w-none">
+              <div className="mx-auto min-w-0 w-full max-w-xl text-left lg:mx-0 lg:max-w-none">
                 <p
                   className={cn(
-                    "text-center text-lg leading-relaxed sm:text-xl lg:text-left",
-                    isDarkPanel ? "text-white/75" : "text-neutral-600"
+                    "text-base leading-relaxed sm:text-lg lg:text-xl",
+                    isDarkPanel ? "text-white/72" : "text-neutral-600"
                   )}
                 >
                   {description}
                 </p>
                 <Reveal delayMs={80}>
-                  <div className="mt-7 flex flex-col items-center justify-center gap-4 sm:flex-row sm:flex-wrap sm:gap-3 lg:justify-start">
+                  <div className="fs-inset-cta-card__actions mt-7 flex w-full flex-row flex-wrap items-center justify-between gap-3 sm:justify-start sm:gap-3">
                     {children}
                   </div>
                 </Reveal>
