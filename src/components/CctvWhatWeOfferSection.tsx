@@ -4,7 +4,6 @@ import { CheckCircle } from "lucide-react"
 import { Reveal } from "@/components/Reveal"
 import { LetterReveal } from "@/components/LetterReveal"
 import { ServiceItemReveal } from "@/components/ServiceItemReveal"
-import { toTitleCase } from "@/lib/titleCase"
 
 type CctvWhatWeOfferSectionProps = {
   /** Small caps label above the heading */

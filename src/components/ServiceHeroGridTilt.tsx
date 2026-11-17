@@ -19,7 +19,6 @@ import {
   SERVICE_HERO_IMAGE_FILTERS,
   SERVICE_HERO_WASH,
 } from "@/lib/heroBackgroundGradients"
-import { toTitleCase } from "@/lib/titleCase"
 import { cn } from "@/lib/utils"
 
 type GridFill = {

@@ -4,7 +4,6 @@ import Link from "next/link"
 import { useTheme } from "@/contexts/ThemeContext"
 import type { ReactNode } from "react"
 import { LetterReveal } from "@/components/LetterReveal"
-import { toTitleCase } from "@/lib/titleCase"
 
 type LegalPageShellProps = {
   title: string

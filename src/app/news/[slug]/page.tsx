@@ -21,7 +21,6 @@ import { LetterReveal } from "@/components/LetterReveal"
 import { CallPhoneCta } from "@/components/ui/CallPhoneCta"
 import { JsonLd } from "@/components/seo/JsonLd"
 import { breadcrumbsSimple, buildArticleJsonLd, buildBreadcrumbJsonLd } from "@/lib/seo-jsonld"
-import { toTitleCase } from "@/lib/titleCase"
 
 type Props = {
   params: Promise<{ slug: string }>

@@ -4,7 +4,6 @@ import { LetterReveal } from "@/components/LetterReveal"
 import { useCallback, useEffect, useRef, useState } from "react"
 import { ChevronLeft, ChevronRight } from "lucide-react"
 import { cn } from "@/lib/utils"
-import { toTitleCase } from "@/lib/titleCase"
 import type { DELIVERY_METHODOLOGY_STEPS } from "@/data/deliveryMethodology"
 
 type Step = (typeof DELIVERY_METHODOLOGY_STEPS)[number]

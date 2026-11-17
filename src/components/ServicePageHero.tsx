@@ -4,7 +4,6 @@ import { useEffect, useState, type ReactNode } from "react"
 import { Reveal } from "@/components/Reveal"
 import { LetterReveal } from "@/components/LetterReveal"
 import { ServiceHeroGridTilt } from "@/components/ServiceHeroGridTilt"
-import { toTitleCase } from "@/lib/titleCase"
 
 export type ServicePageHeroProps = {
   title: string

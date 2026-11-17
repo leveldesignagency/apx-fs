@@ -20,7 +20,6 @@ import {
   FS_ACCREDITATIONS_HERO_IMAGE,
   FS_ACCREDITATIONS_SECTION_PX,
 } from "@/lib/fsAccreditationsLayout"
-import { toTitleCase } from "@/lib/titleCase"
 import { cn } from "@/lib/utils"
 
 type AccredBody = (typeof FS_ACCREDITATIONS)[FsAccreditationSlug]

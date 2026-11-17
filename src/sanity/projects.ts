@@ -93,7 +93,7 @@ function mapDoc(doc: SanityProjectDoc, fallback?: FsProject): FsProject | null {
 function withResidentialCoverage(projects: FsProject[]): FsProject[] {
   const seen = new Set(projects.map((p) => p.slug))
   const extras = RESIDENTIAL_PROJECT_SLUGS.map((slug) => getProjectBySlug(slug)).filter(
-    (p): p is FsProject => Boolean(p) && !seen.has(p.slug)
+    (p): p is FsProject => p !== undefined && !seen.has(p.slug)
   )
   return extras.length ? [...projects, ...extras] : projects
 }

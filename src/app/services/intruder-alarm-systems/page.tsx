@@ -18,7 +18,6 @@ import { serviceHeroImages } from "@/lib/serviceHeroImages"
 import { FsServiceTextImageSection } from "@/components/FsServiceTextImageSection"
 import { FsServiceTextImageSectionGroup } from "@/components/FsServiceTextImageSectionGroup"
 import { ServiceFeatureImageCard } from "@/components/ServiceFeatureImageCard"
-import { FS_SERVICE_IMAGE_GROW_INNER } from "@/lib/fsServicePageCards"
 import { SERVICE_HERO_BRIDGE_GRADIENT } from "@/lib/heroBackgroundGradients"
 import { toTitleCase } from "@/lib/titleCase"
 

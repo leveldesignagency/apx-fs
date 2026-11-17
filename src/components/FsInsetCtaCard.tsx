@@ -4,7 +4,6 @@ import type { ReactNode } from "react"
 import Image from "next/image"
 import { Reveal } from "@/components/Reveal"
 import { LetterReveal } from "@/components/LetterReveal"
-import { toTitleCase } from "@/lib/titleCase"
 import { cn } from "@/lib/utils"
 
 export type FsInsetCtaCardProps = {

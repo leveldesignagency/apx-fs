@@ -3,7 +3,6 @@
 import Link from "next/link"
 import { Reveal } from "@/components/Reveal"
 import { LetterReveal } from "@/components/LetterReveal"
-import { toTitleCase } from "@/lib/titleCase"
 
 const CLIENT_LOGO_PATHS = [
   "/Clients/_-01.png",
