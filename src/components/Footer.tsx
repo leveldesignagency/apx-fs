@@ -191,7 +191,7 @@ export default function Footer() {
   const wrapperRef = useRef<HTMLDivElement>(null)
   const pathname = usePathname()
   const latestNews = getLatestNewsArticle()
-  const [mobileOpen, setMobileOpen] = useState<FooterAccordionId | null>("services")
+  const [mobileOpen, setMobileOpen] = useState<FooterAccordionId | null>(null)
 
   const toggleMobileSection = (id: FooterAccordionId) => {
     setMobileOpen((prev) => (prev === id ? null : id))

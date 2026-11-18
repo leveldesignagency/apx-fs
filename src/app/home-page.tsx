@@ -40,7 +40,13 @@ import { LineReveal } from "@/components/LineReveal"
 import { ServiceCombobox } from "@/components/ui/ServiceCombobox"
 import { FS_SERVICE_QUICK_LINKS } from "@/lib/fs-service-navigation"
 import { FS_CONTACT_SERVICE_SLUGS } from "@/lib/fs-service-routes"
-import { forceDocumentScrollTop } from "@/lib/lenisBridge"
+import {
+  forceDocumentScrollTop,
+  getDocumentScrollY,
+  scrollDocumentTo,
+  startSmoothScroll,
+  stopSmoothScroll,
+} from "@/lib/lenisBridge"
 
 /** Exact match to /contact form fields */
 const HOME_QUOTE_FIELD_CLASS =
@@ -191,11 +197,12 @@ export default function Home() {
   const mepListRef = useRef<HTMLUListElement>(null)
   const projectsScrollRef = useRef<HTMLDivElement>(null)
   const projectsViewportRef = useRef<HTMLDivElement>(null)
-  const projectsStripAnchorRef = useRef<HTMLDivElement>(null)
   const projectsSectionRef = useRef<HTMLElement>(null)
   const servicesSectionRef = useRef<HTMLElement>(null)
   const servicesLensRef = useRef<HTMLImageElement>(null)
   const projectsHorizontalPxRef = useRef(0)
+  const projectsLockedRef = useRef(false)
+  const projectsDockScrollYRef = useRef(0)
   const testimonialQuoteStackRef = useRef<HTMLDivElement>(null)
   const [testimonialsQuoteMinPx, setTestimonialsQuoteMinPx] = useState<number | undefined>(undefined)
   const [heroAnimation, setHeroAnimation] = useState({
@@ -270,13 +277,21 @@ export default function Home() {
     []
   )
 
-  /** Mobile / touch: native overflow swipe. Desktop: transform + wheel lock. */
+  /** Mobile / touch: native overflow swipe. Desktop: pop-and-lock wheel → horizontal. */
   const projectsUseNativeScroll = useCallback(() => {
     if (typeof window === "undefined") return false
     return (
       window.matchMedia("(pointer: coarse)").matches ||
-      window.matchMedia("(max-width: 1023px)").matches
+      window.matchMedia("(max-width: 1023px)").matches ||
+      window.matchMedia("(prefers-reduced-motion: reduce)").matches
     )
+  }, [])
+
+  const applyProjectsX = useCallback((x: number) => {
+    const strip = projectsScrollRef.current
+    if (!strip) return
+    projectsHorizontalPxRef.current = x
+    strip.style.transform = `translate3d(${-x}px,0,0)`
   }, [])
 
   const scrollProjects = useCallback(
@@ -295,10 +310,9 @@ export default function Home() {
       const maxX = Math.max(0, strip.scrollWidth - view.clientWidth)
       const cur = projectsHorizontalPxRef.current
       const next = dir === "left" ? Math.max(0, cur - step) : Math.min(maxX, cur + step)
-      projectsHorizontalPxRef.current = next
-      strip.style.transform = `translate3d(${-next}px,0,0)`
+      applyProjectsX(next)
     },
-    [projectsUseNativeScroll]
+    [projectsUseNativeScroll, applyProjectsX]
   )
 
   useLayoutEffect(() => {
@@ -307,106 +321,152 @@ export default function Home() {
     const section = projectsSectionRef.current
     if (!strip || !view || !section) return
 
-    const applyTransform = () => {
-      if (projectsUseNativeScroll()) {
-        strip.style.transform = ""
-        return
-      }
-      strip.style.transform = `translate3d(${-projectsHorizontalPxRef.current}px,0,0)`
-    }
+    // Never inflate section height — that was the empty white space.
+    section.style.removeProperty("height")
 
-    const clampToMax = () => {
+    const clamp = () => {
       if (projectsUseNativeScroll()) {
         strip.style.transform = ""
         return
       }
       const maxX = Math.max(0, strip.scrollWidth - view.clientWidth)
-      projectsHorizontalPxRef.current = Math.min(projectsHorizontalPxRef.current, maxX)
-      applyTransform()
+      applyProjectsX(Math.min(projectsHorizontalPxRef.current, maxX))
     }
 
-    const onScrollReset = () => {
-      if (projectsUseNativeScroll()) return
-      const r = section.getBoundingClientRect()
-      if (r.bottom < -80 || r.top > window.innerHeight + 80) {
-        if (projectsHorizontalPxRef.current !== 0) {
-          projectsHorizontalPxRef.current = 0
-          applyTransform()
-        }
-      }
-    }
-
-    clampToMax()
-    const ro = new ResizeObserver(clampToMax)
+    clamp()
+    const ro = new ResizeObserver(clamp)
     ro.observe(strip)
-    window.addEventListener("resize", clampToMax)
-    window.addEventListener("scroll", onScrollReset, { passive: true })
+    ro.observe(view)
+    window.addEventListener("resize", clamp)
     return () => {
       ro.disconnect()
-      window.removeEventListener("resize", clampToMax)
-      window.removeEventListener("scroll", onScrollReset)
+      window.removeEventListener("resize", clamp)
+      section.style.removeProperty("height")
     }
-  }, [projects.length, projectsUseNativeScroll])
+  }, [projects.length, projectsUseNativeScroll, applyProjectsX])
 
-  // Desktop only: strip anchor crosses LOCK_LINE; wheel pans the transform strip.
+  /**
+   * Desktop pop-and-lock:
+   * 1) When the section bottom meets the viewport bottom, snap + lock
+   * 2) Wheel pans the strip only (Lenis stopped)
+   * 3) After the last card, release and continue vertical scroll
+   * No extra section height / no white spacer.
+   */
   useEffect(() => {
     if (typeof window === "undefined") return
-    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return
     if (projectsUseNativeScroll()) return
 
+    const section = projectsSectionRef.current
     const strip = projectsScrollRef.current
     const view = projectsViewportRef.current
-    if (!strip || !view) return
+    if (!section || !strip || !view) return
 
-    /** Higher = horizontal wheel starts sooner (strip anchor can be lower on screen). Tune vs fixed header. */
-    const LOCK_LINE_PX = 252
+    const maxX = () => Math.max(0, strip.scrollWidth - view.clientWidth)
 
-    const anchorAllowsStripPan = () => {
-      const anchor = projectsStripAnchorRef.current
-      const v = projectsViewportRef.current
-      if (!anchor || !v) return false
-      const ar = anchor.getBoundingClientRect()
-      const vr = v.getBoundingClientRect()
-      return ar.top <= LOCK_LINE_PX && vr.bottom > -72
+    const unlock = () => {
+      if (!projectsLockedRef.current) return
+      projectsLockedRef.current = false
+      startSmoothScroll()
     }
 
-    const maxX = () => {
-      const v = projectsViewportRef.current
-      const s = projectsScrollRef.current
-      if (!v || !s) return 0
-      return Math.max(0, s.scrollWidth - v.clientWidth)
+    const lockAtDock = () => {
+      const rect = section.getBoundingClientRect()
+      // Dock so the section bottom sits on the viewport bottom.
+      const dockY = getDocumentScrollY() + (rect.bottom - window.innerHeight)
+      projectsDockScrollYRef.current = Math.max(0, dockY)
+      scrollDocumentTo(projectsDockScrollYRef.current)
+      stopSmoothScroll()
+      projectsLockedRef.current = true
+    }
+
+    const holdDock = () => {
+      scrollDocumentTo(projectsDockScrollYRef.current)
+    }
+
+    /**
+     * True only when Projects is parked in the viewport (bottom near screen bottom,
+     * section still on-screen). False when the section is fully above or below —
+     * the old check treated “fully above” as docked and yanked scroll back up.
+     */
+    const isInDockZone = () => {
+      const rect = section.getBoundingClientRect()
+      const vh = window.innerHeight
+      const bottomFlush = rect.bottom <= vh + 8 && rect.bottom >= vh - 64
+      const stillOnScreen = rect.top < vh * 0.45 && rect.top > -64
+      return bottomFlush && stillOnScreen
     }
 
     const onWheel = (e: WheelEvent) => {
-      const v = projectsViewportRef.current
-      const s = projectsScrollRef.current
-      if (!v || !s) return
       if (Math.abs(e.deltaX) > Math.abs(e.deltaY)) return
-      if (!anchorAllowsStripPan()) return
+
       const mx = maxX()
-      if (mx <= 0) return
+      if (mx <= 0) {
+        unlock()
+        return
+      }
 
       const x = projectsHorizontalPxRef.current
-      const atStart = x <= 0
-      const atEnd = x >= mx - 1
+      const atStart = x <= 0.5
+      const atEnd = x >= mx - 0.5
+      const goingDown = e.deltaY > 0
+      const goingUp = e.deltaY < 0
+      const delta = Math.sign(e.deltaY) * Math.min(280, Math.abs(e.deltaY) || 48)
+      const docked = isInDockZone()
 
-      if (e.deltaY > 0 && atEnd) return
-      if (e.deltaY < 0 && atStart) return
+      if (!projectsLockedRef.current) {
+        // Engage only while the strip still has travel in that direction,
+        // and only when Projects is actually in the docked viewport position.
+        if (goingDown && docked && !atEnd) {
+          e.preventDefault()
+          e.stopPropagation()
+          lockAtDock()
+          applyProjectsX(Math.min(mx, Math.max(0, x + delta)))
+        } else if (goingUp && docked && !atStart) {
+          e.preventDefault()
+          e.stopPropagation()
+          lockAtDock()
+          applyProjectsX(Math.min(mx, Math.max(0, x + delta)))
+        }
+        return
+      }
+
+      // Locked: at the end of travel, release and carry this wheel into page scroll.
+      if (goingDown && atEnd) {
+        e.preventDefault()
+        e.stopPropagation()
+        unlock()
+        scrollDocumentTo(getDocumentScrollY() + Math.abs(delta))
+        return
+      }
+      if (goingUp && atStart) {
+        e.preventDefault()
+        e.stopPropagation()
+        unlock()
+        scrollDocumentTo(Math.max(0, getDocumentScrollY() - Math.abs(delta)))
+        return
+      }
 
       e.preventDefault()
       e.stopPropagation()
+      holdDock()
+      applyProjectsX(Math.min(mx, Math.max(0, x + delta)))
+    }
 
-      const scale = 1.35
-      let delta = e.deltaY * scale
-      delta = Math.sign(delta) * Math.min(380, Math.abs(delta))
-      projectsHorizontalPxRef.current = Math.min(mx, Math.max(0, x + delta))
-      s.style.transform = `translate3d(${-projectsHorizontalPxRef.current}px,0,0)`
+    const onScroll = () => {
+      if (!projectsLockedRef.current) return
+      // Kill any residual page drift while locked
+      holdDock()
     }
 
     const opts: AddEventListenerOptions = { passive: false, capture: true }
     window.addEventListener("wheel", onWheel, opts)
-    return () => window.removeEventListener("wheel", onWheel, opts)
-  }, [projectsUseNativeScroll])
+    window.addEventListener("scroll", onScroll, { passive: true })
+    return () => {
+      window.removeEventListener("wheel", onWheel, opts)
+      window.removeEventListener("scroll", onScroll)
+      unlock()
+    }
+  }, [projectsUseNativeScroll, applyProjectsX])
 
   const testimonials = [
     {
@@ -882,7 +942,8 @@ export default function Home() {
   return (
     <>
       <GlobalStyles theme={themeMode} />
-      <div className="home-page-trial relative z-10 min-h-screen overflow-x-clip">
+      {/* overflow-x only on mobile: desktop clip breaks position:sticky (projects pin) */}
+      <div className="home-page-trial relative z-10 min-h-screen max-lg:overflow-x-clip">
 
       {/* Hero: section can grow with mobile browser chrome (dvh); UI shell stays locked to svh */}
       <section
@@ -1029,11 +1090,11 @@ export default function Home() {
       <section
         ref={projectsSectionRef}
         id="projects"
-        className="projects-section relative z-[1] overflow-x-clip scroll-mt-24"
+        className="projects-section relative z-[1] scroll-mt-24 max-lg:overflow-x-clip"
         style={{ backgroundColor: "#ffffff" }}
       >
         <div
-          className="projects-section__sticky sticky top-0 z-[1]"
+          className="projects-section__sticky relative z-[1] min-h-[100dvh]"
           style={{ backgroundColor: "#ffffff" }}
         >
           <div className="projects-section__split">
@@ -1072,13 +1133,7 @@ export default function Home() {
             <div
               ref={projectsViewportRef}
               className="projects-section__track fs-scroll-edge-feather relative min-w-0 overflow-x-auto overscroll-x-contain touch-pan-x scroll-smooth [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden lg:overflow-x-hidden lg:overscroll-auto lg:touch-auto lg:scroll-auto"
-              data-lenis-prevent
             >
-              <div
-                ref={projectsStripAnchorRef}
-                className="pointer-events-none h-px w-full shrink-0 overflow-hidden opacity-0"
-                aria-hidden
-              />
               <div
                 ref={projectsScrollRef}
                 className={`projects-strip flex w-max items-stretch lg:will-change-transform${

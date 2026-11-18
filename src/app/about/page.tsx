@@ -75,10 +75,11 @@ function whoSupportImage(filename: string): string {
 /** Public folder uses a space in "accreditations mono", literal paths load reliably in <img> */
 const ACC_MONO = "/accreditations mono";
 const EXPERTISE_ACCRED_LOGOS = [
-  { href: "/accreditations/bafe", src: `${ACC_MONO}/Coloured/BAFE-01.svg`, alt: "BAFE" },
-  { href: "/accreditations/nsi", src: `${ACC_MONO}/Coloured/NSI-01.png`, alt: "NSI" },
-  { href: "/accreditations/constructionline", src: `${ACC_MONO}/Coloured/ConstructionOnline-01.svg`, alt: "Constructionline" },
-  { href: "/accreditations/fia", src: `${ACC_MONO}/Coloured/FIA-01.svg`, alt: "FIA" },
+  { href: "/accreditations/bafe", src: `${ACC_MONO}/Coloured/BAFE-01.svg`, alt: "BAFE", imgClassName: "max-h-[5.75rem] sm:max-h-28 lg:max-h-32" },
+  /** Wide asset — nudge scale so optical centre sits level with BAFE beside it */
+  { href: "/accreditations/nsi", src: `${ACC_MONO}/Coloured/NSI-01.png`, alt: "NSI", imgClassName: "max-h-[4.25rem] scale-[1.18] sm:max-h-[5.5rem] sm:scale-[1.12] lg:max-h-28" },
+  { href: "/accreditations/constructionline", src: `${ACC_MONO}/Coloured/ConstructionOnline-01.svg`, alt: "Constructionline", imgClassName: "max-h-[5rem] sm:max-h-28 lg:max-h-32" },
+  { href: "/accreditations/fia", src: `${ACC_MONO}/Coloured/FIA-official.png`, alt: "FIA", imgClassName: "max-h-[5.75rem] sm:max-h-28 lg:max-h-32" },
 ] as const;
 
 type WhoWeSupportItem = {
@@ -570,10 +571,12 @@ export default function AboutPage() {
 
       {/* Accreditations — after Careers */}
       <section className="about-block about-block--white about-section-y about-section-px border-t border-black/10 !pb-24 sm:!pb-28 lg:!pb-36">
-        <div className="about-section-inner grid grid-cols-1 justify-items-center gap-12 lg:grid-cols-2 lg:items-center lg:justify-items-stretch lg:gap-x-20 lg:gap-y-12 xl:gap-x-28">
+        <div className="about-section-inner grid grid-cols-1 justify-items-stretch gap-12 lg:grid-cols-2 lg:items-center lg:gap-x-20 lg:gap-y-12 xl:gap-x-28">
           <Reveal>
-            <div className="w-full max-w-xl text-center lg:max-w-none lg:text-left">
-              <span className="section-label section-label--black mb-4 block leading-none tracking-[0.12em]">Accreditations &amp; Memberships</span>
+            <div className="w-full max-w-xl text-left lg:max-w-none">
+              <span className="section-label section-label--black !mb-8 block text-left leading-none tracking-[0.12em]">
+                Accreditations &amp; Memberships
+              </span>
               <LetterReveal
                 as="h2"
                 text="Certified Fire & Security Specialists"
@@ -591,12 +594,12 @@ export default function AboutPage() {
               </ul>
             </div>
           </Reveal>
-          <div className="grid w-full min-w-0 max-w-md grid-cols-2 justify-items-center gap-3 sm:gap-4 lg:max-w-none">
+          <div className="grid w-full min-w-0 max-w-md grid-cols-2 items-stretch gap-2 sm:gap-4 lg:max-w-none">
             {EXPERTISE_ACCRED_LOGOS.map((item, i) => (
-              <Reveal key={item.alt} delayMs={i * 70}>
+              <Reveal key={item.alt} delayMs={i * 70} className="h-full w-full">
                 <Link
                   href={item.href}
-                  className="group flex w-full max-w-[230px] items-center justify-center px-5 py-6 transition-opacity hover:opacity-90"
+                  className="group flex h-28 w-full items-center justify-center px-3 py-3 transition-opacity hover:opacity-90 sm:h-32 sm:px-4 lg:h-36"
                   aria-label={`Learn more about ${item.alt}`}
                 >
                   {/* eslint-disable-next-line @next/next/no-img-element */}
@@ -607,7 +610,7 @@ export default function AboutPage() {
                     height={200}
                     loading="lazy"
                     decoding="async"
-                    className="h-auto max-h-28 w-full max-w-full object-contain transition-transform duration-300 group-hover:scale-[1.03] sm:max-h-32 lg:max-h-36"
+                    className={`h-auto w-auto max-w-full object-contain transition-transform duration-300 group-hover:scale-[1.03] ${item.imgClassName}`}
                   />
                 </Link>
               </Reveal>

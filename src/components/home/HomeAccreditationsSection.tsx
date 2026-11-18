@@ -13,7 +13,7 @@ const ACCREDITATIONS_LOGOS: { slug: string; src: string; alt: string }[] = [
   { slug: "nsi", src: "/accreditations%20mono/Coloured/NSI-01.png", alt: "NSI Gold" },
   { slug: "bafe", src: "/accreditations%20mono/Coloured/BAFE-01.svg", alt: "BAFE" },
   { slug: "constructionline", src: "/accreditations%20mono/Coloured/ConstructionOnline-01.svg", alt: "Constructionline" },
-  { slug: "fia", src: "/accreditations%20mono/Coloured/FIA-01.svg", alt: "FIA" },
+  { slug: "fia", src: "/accreditations%20mono/Coloured/FIA-official.svg", alt: "FIA" },
 ]
 
 type HomeAccreditationsSectionProps = {

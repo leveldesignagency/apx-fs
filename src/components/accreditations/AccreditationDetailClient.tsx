@@ -93,8 +93,39 @@ export function AccreditationDetailClient({
                 })}
               </nav>
 
-              <div className="mt-10 grid grid-cols-1 items-start gap-10 lg:grid-cols-[minmax(0,1fr)_minmax(12rem,20rem)] lg:items-center lg:gap-14">
-                <div className="min-w-0 max-w-3xl">
+              <div className="mt-6 grid grid-cols-1 items-start gap-7 lg:mt-7 lg:grid-cols-[minmax(0,1fr)_minmax(14rem,24rem)] lg:gap-12">
+                <div className="relative z-10 order-1 flex shrink-0 justify-start lg:order-2 lg:justify-end">
+                  <a
+                    href={accred.registerUrl ?? "/accreditations"}
+                    target={accred.registerUrl ? "_blank" : undefined}
+                    rel={accred.registerUrl ? "noopener noreferrer" : undefined}
+                    className="block w-full max-w-[24rem] transition-opacity hover:opacity-90 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-white"
+                    aria-label={
+                      accred.registerUrl
+                        ? `${accred.name} official website (opens in a new tab)`
+                        : `${accred.name} credentials`
+                    }
+                  >
+                    <div className="flex w-full items-center justify-center bg-white px-7 py-6 sm:px-9 sm:py-7">
+                      <AccreditationLogo
+                        src={FS_ACCREDITATION_COLOURED_ICONS[activeSlug]}
+                        alt=""
+                        priority
+                        width={activeSlug === "fia" ? 560 : 480}
+                        height={activeSlug === "fia" ? 320 : 240}
+                        className={cn(
+                          activeSlug === "bafe"
+                            ? "max-h-[7.5rem] max-w-[17rem] sm:max-h-[8.25rem] sm:max-w-[19rem]"
+                            : activeSlug === "fia"
+                              ? "max-h-[7rem] max-w-[19rem] sm:max-h-[7.75rem] sm:max-w-[21rem]"
+                              : "max-h-[6.75rem] max-w-[17rem] sm:max-h-[7.5rem] sm:max-w-[18.5rem]",
+                        )}
+                      />
+                    </div>
+                  </a>
+                </div>
+
+                <div className="order-2 min-w-0 max-w-3xl lg:order-1">
                   <p className="text-xs font-semibold uppercase tracking-[0.14em] text-white/60">
                     {accred.shortLabel}
                   </p>
@@ -102,25 +133,6 @@ export function AccreditationDetailClient({
                   <p className="mt-5 max-w-2xl pb-2 text-base leading-relaxed text-white/85 md:mt-6 md:pb-4 md:text-lg lg:pb-6">
                     {accred.apxStatus}
                   </p>
-                </div>
-
-                <div className="relative z-10 flex shrink-0 justify-start lg:justify-end">
-                  <div className="flex w-full max-w-[20rem] items-center justify-center bg-white px-6 py-7 sm:px-8 sm:py-8">
-                    <AccreditationLogo
-                      src={FS_ACCREDITATION_COLOURED_ICONS[activeSlug]}
-                      alt={accred.name}
-                      priority
-                      width={activeSlug === "fia" ? 480 : 400}
-                      height={activeSlug === "fia" ? 280 : 200}
-                      className={cn(
-                        activeSlug === "bafe"
-                          ? "max-h-[6.5rem] max-w-[14.5rem] sm:max-h-[7.25rem] sm:max-w-[16rem]"
-                          : activeSlug === "fia"
-                            ? "max-h-[5.75rem] max-w-[16rem] sm:max-h-[6.5rem] sm:max-w-[17.5rem]"
-                            : "max-h-[5.5rem] max-w-[14rem] sm:max-h-[6.25rem] sm:max-w-[15.5rem]",
-                      )}
-                    />
-                  </div>
                 </div>
               </div>
             </Reveal>

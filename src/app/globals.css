@@ -483,6 +483,13 @@ section + section {
 main.accreditations-hub section + section {
   margin-top: 0;
 }
+/*
+ * Accreditations CTA: global `section + section` -5rem pull slides the card under the
+ * preceding band. Detail pages use z-20 on that band, which clips the card’s top radius.
+ */
+.fs-accreditations-page section + .fs-inset-cta-card {
+  margin-top: 0 !important;
+}
 /* Homepage trial dividers sit between sections, disable negative overlap */
 .home-page-trial section + section,
 .home-page-trial section + .home-section-divider,
@@ -7647,7 +7654,14 @@ html.about-page-active {
   color: #000000 !important;
 }
 
+/* Projects: natural height (no pin spacer). Desktop lock is wheel-based in JS. */
+#projects.projects-section {
+  position: relative;
+  overflow: visible;
+  height: auto !important;
+}
 #projects .projects-section__sticky {
+  position: relative;
   min-height: 100dvh;
   display: flex;
   align-items: stretch;
@@ -7664,11 +7678,9 @@ html.about-page-active {
   box-sizing: border-box;
 }
 
-/* Mobile: no sticky pin (fights vertical scroll); native horizontal swipe on the track */
+/* Mobile: native horizontal swipe on the track */
 @media (max-width: 1023.98px) {
   #projects .projects-section__sticky {
-    position: relative;
-    top: auto;
     min-height: 0;
   }
   .projects-section__split {
