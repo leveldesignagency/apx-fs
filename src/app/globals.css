@@ -2133,16 +2133,22 @@ main .service-page-white-band .pill-btn .pill-text,
 
 @media (max-width: 1023.98px) {
   .service-hero-grid {
-    height: min(80vh, 44rem);
-    min-height: 28rem;
+    /* Grow with long titles/pills instead of clipping under the absolute header */
+    height: auto;
+    min-height: min(80vh, 44rem);
     max-height: none;
   }
   .service-hero-grid__inner {
-    /* Push hero copy into the lower half; closes gap above quick nav */
-    padding-top: clamp(8.5rem, 28vw, 14rem);
+    /* Clear absolute header + centred logo (tight line-height titles sit close otherwise) */
+    padding-top: clamp(9.75rem, 28vw, 13.5rem);
+    flex: 1 0 auto;
   }
   .service-hero-grid__content {
-    align-content: end;
+    /* margin-top:auto pins short copy low without overflowing upward into the header */
+    flex: 0 0 auto;
+    margin-top: auto;
+    align-content: start;
+    min-height: 0;
     gap: 0.85rem;
   }
   .service-hero-grid__fill--wide {
@@ -2159,7 +2165,8 @@ main .service-page-white-band .pill-btn .pill-text,
   .service-hero-grid__title {
     font-size: clamp(3.75rem, 17vw, 5rem) !important;
     line-height: 0.88 !important;
-    max-width: 8.5ch;
+    /* Wider than 8.5ch so long titles (e.g. Disabled Refuge Systems) wrap to ~2 lines */
+    max-width: min(100%, 14ch);
     letter-spacing: 0 !important;
   }
   .service-hero-grid__copy {
