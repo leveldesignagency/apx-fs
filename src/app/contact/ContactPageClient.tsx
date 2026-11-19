@@ -14,8 +14,10 @@ import {
 import { Check } from "lucide-react"
 import { PiEnvelopeDuotone, PiHeadsetDuotone, PiMapPinAreaDuotone } from "react-icons/pi"
 import { TurnstileWidget } from "@/components/TurnstileWidget"
+import { ContactCopyCallPopup, activatePhoneContact, isTouchLikeDevice } from "@/components/contact/ContactCopyCallPopup"
+import { ContactFaultResponseCopy } from "@/components/contact/ContactFaultResponseCopy"
 import { ContactFaqSection } from "@/components/contact/ContactFaqSection"
-import { FS_PHONE_DISPLAY, FS_PHONE_HREF } from "@/components/ui/CallPhoneCta"
+import { FS_PHONE_DISPLAY } from "@/components/ui/CallPhoneCta"
 
 /** Values match `/services/…` path segments for `?service=` deep links */
 const FS_CONTACT_SERVICES = [
@@ -44,11 +46,6 @@ const CONTACT_EMAIL = "enquiries@apx-fs.co.uk"
 const CONTACT_ADDRESS_LINES = ["365-369 Bexley Road", "Northumberland Heath, Erith", "Kent, DA8 3EZ"] as const
 const CONTACT_MAPS_HREF =
   "https://maps.google.com/?q=365-369+Bexley+Road+Northumberland+Heath+Erith+Kent+DA8+3EZ"
-
-function isTouchLikeDevice() {
-  if (typeof window === "undefined") return false
-  return window.matchMedia("(hover: none), (pointer: coarse)").matches
-}
 
 function ConsentCheckbox({
   id,
@@ -292,50 +289,12 @@ export function ContactPageClient() {
   const [submitError, setSubmitError] = useState<string | null>(null)
   const [turnstileToken, setTurnstileToken] = useState<string | null>(null)
   const [contactPopup, setContactPopup] = useState<null | "email" | "phone">(null)
-  const [copiedKind, setCopiedKind] = useState<null | "email" | "phone">(null)
-  const copiedTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null)
   const canHoverRedact = useCanHoverRedact()
 
   useEffect(() => {
     setMounted(true)
     formStartedAtRef.current = Date.now()
-    return () => {
-      if (copiedTimerRef.current) clearTimeout(copiedTimerRef.current)
-    }
   }, [])
-
-  useEffect(() => {
-    if (!contactPopup) return
-    const onKey = (e: KeyboardEvent) => {
-      if (e.key === "Escape") setContactPopup(null)
-    }
-    window.addEventListener("keydown", onKey)
-    return () => window.removeEventListener("keydown", onKey)
-  }, [contactPopup])
-
-  const markCopied = (kind: "email" | "phone") => {
-    setCopiedKind(kind)
-    if (copiedTimerRef.current) clearTimeout(copiedTimerRef.current)
-    copiedTimerRef.current = setTimeout(() => setCopiedKind(null), 2200)
-  }
-
-  const copyContactEmail = async () => {
-    try {
-      await navigator.clipboard.writeText(CONTACT_EMAIL)
-      markCopied("email")
-    } catch {
-      /* ignore */
-    }
-  }
-
-  const copyContactPhone = async () => {
-    try {
-      await navigator.clipboard.writeText(FS_PHONE_DISPLAY)
-      markCopied("phone")
-    } catch {
-      /* ignore */
-    }
-  }
 
   const handleEmail = () => {
     // Mobile / touch: open mail app directly (no custom modal)
@@ -344,17 +303,10 @@ export function ContactPageClient() {
       return
     }
     setContactPopup("email")
-    void copyContactEmail()
   }
 
   const handlePhone = () => {
-    // Mobile / touch: start a call directly (no custom modal)
-    if (isTouchLikeDevice()) {
-      window.location.href = FS_PHONE_HREF
-      return
-    }
-    setContactPopup("phone")
-    void copyContactPhone()
+    activatePhoneContact(() => setContactPopup("phone"))
   }
 
   const handleMaps = () => {
@@ -378,69 +330,7 @@ export function ContactPageClient() {
   return (
     <main className="contact-page relative min-h-screen overflow-hidden bg-[var(--page-bg)] text-white">
       {contactPopup ? (
-        <div
-          className="contact-email-popup"
-          role="dialog"
-          aria-modal="true"
-          aria-labelledby="contact-email-popup-title"
-        >
-          <button
-            type="button"
-            className="contact-email-popup__backdrop"
-            aria-label="Close"
-            onClick={() => setContactPopup(null)}
-          />
-          <div className="contact-email-popup__card">
-            <p id="contact-email-popup-title" className="contact-email-popup__eyebrow">
-              {contactPopup === "email" ? "Email" : "Phone"}
-            </p>
-            <p className="contact-email-popup__address">
-              {contactPopup === "email" ? CONTACT_EMAIL : FS_PHONE_DISPLAY}
-            </p>
-            <p className="contact-email-popup__status" aria-live="polite">
-              {copiedKind === contactPopup ? "Copied to clipboard" : "Ready to copy"}
-            </p>
-            <div className="contact-email-popup__actions">
-              <button
-                type="button"
-                className="contact-email-popup__btn contact-email-popup__btn--primary"
-                onClick={() =>
-                  void (contactPopup === "email" ? copyContactEmail() : copyContactPhone())
-                }
-              >
-                {copiedKind === contactPopup
-                  ? "Copied"
-                  : contactPopup === "email"
-                    ? "Copy email"
-                    : "Copy number"}
-              </button>
-              {contactPopup === "email" ? (
-                <a
-                  href={`mailto:${CONTACT_EMAIL}`}
-                  className="contact-email-popup__btn contact-email-popup__btn--ghost"
-                  onClick={() => setContactPopup(null)}
-                >
-                  Open mail app
-                </a>
-              ) : (
-                <a
-                  href={FS_PHONE_HREF}
-                  className="contact-email-popup__btn contact-email-popup__btn--ghost"
-                  onClick={() => setContactPopup(null)}
-                >
-                  Call now
-                </a>
-              )}
-            </div>
-            <button
-              type="button"
-              className="contact-email-popup__close"
-              onClick={() => setContactPopup(null)}
-            >
-              Close
-            </button>
-          </div>
-        </div>
+        <ContactCopyCallPopup kind={contactPopup} onClose={() => setContactPopup(null)} />
       ) : null}
 
       <div className="relative z-10">
@@ -457,10 +347,12 @@ export function ContactPageClient() {
                     desktopOnly={false}
                     className="contact-page-title font-title text-left text-4xl font-bold text-white sm:text-5xl md:text-6xl lg:text-7xl"
                   />
-                  <p className="contact-page-credibility mt-5 max-w-md text-sm leading-relaxed text-white/55 sm:text-base">
-                    NSI Gold for security and fire. Surveys, quotes and specialist advice across London and the Home
-                    Counties.
-                  </p>
+                  <ContactFaultResponseCopy
+                    variant="onDark"
+                    onPhoneClick={handlePhone}
+                    onEmailClick={handleEmail}
+                    className="mt-5 max-w-xl text-sm leading-relaxed text-white/70 sm:max-w-2xl sm:text-base lg:max-w-none"
+                  />
                 </Reveal>
 
                 <div className="contact-page-methods mt-10 flex flex-col md:mt-12 lg:mt-14">

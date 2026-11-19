@@ -19,6 +19,10 @@ const FURTHER_COUNTIES = HOME_COUNTIES_AND_REGIONS.filter(
 
 const ALL_SERVICES = FS_SERVICE_NAV_LINKS.map(({ href, label }) => ({ href, label }))
 
+function LocationsDivider() {
+  return <div className="locations-page__divider" aria-hidden />
+}
+
 export default function LocationsPage() {
   return (
     <div className="locations-page min-h-screen overflow-x-hidden bg-[var(--page-bg)] text-white">
@@ -43,10 +47,9 @@ export default function LocationsPage() {
         </div>
       </section>
 
-      <section
-        className="locations-page__section site-container border-t border-white/15"
-        aria-labelledby="locations-primary-heading"
-      >
+      <LocationsDivider />
+
+      <section className="locations-page__section site-container" aria-labelledby="locations-primary-heading">
         <LetterReveal
           as="h2"
           id="locations-primary-heading"
@@ -80,8 +83,10 @@ export default function LocationsPage() {
         ) : null}
       </section>
 
+      <LocationsDivider />
+
       <section
-        className="locations-page__section border-t border-white/15 bg-black/40"
+        className="locations-page__section bg-black/40"
         aria-labelledby="locations-boroughs-heading"
       >
         <div className="site-container">
@@ -106,10 +111,9 @@ export default function LocationsPage() {
         </div>
       </section>
 
-      <section
-        className="locations-page__section site-container border-t border-white/15"
-        aria-labelledby="locations-services-heading"
-      >
+      <LocationsDivider />
+
+      <section className="locations-page__section site-container" aria-labelledby="locations-services-heading">
         <LetterReveal
           as="h2"
           id="locations-services-heading"
@@ -121,13 +125,10 @@ export default function LocationsPage() {
           From single-door access control to networked fire alarms and multi-site CCTV, our engineers deliver NSI
           Gold-aligned systems with clear documentation and ongoing support.
         </p>
-        <ul className="mt-8 grid grid-cols-1 gap-3 sm:grid-cols-2 md:max-w-4xl">
+        <ul className="fs-offer-all-services mt-8 grid grid-cols-1 gap-x-3 gap-y-2.5 sm:grid-cols-2 sm:gap-x-4 sm:gap-y-3 md:max-w-4xl">
           {ALL_SERVICES.map((service) => (
-            <li key={service.href}>
-              <Link
-                href={service.href}
-                className="inline-flex border-b border-white/20 pb-1 text-base font-medium text-white transition-colors hover:border-white"
-              >
+            <li key={service.href} className="min-w-0">
+              <Link href={service.href} className="fs-offer-all-services__link">
                 {service.label}
               </Link>
             </li>

@@ -1,5 +1,10 @@
 export type ContactFaqItem = { question: string; answer: string }
 
+/** Shared on homepage + contact form intros and the fault FAQ. */
+export const CONTACT_FAULT_RESPONSE_COPY =
+  // Non-breaking hyphen keeps apx-fs from wrapping mid-domain.
+  "Call 020 8303 2280 for the fastest response, or email enquiries@apx\u2011fs.co.uk with your site name, system type and a short description of the fault. One of our team will reply as soon as possible. Existing contract customers should quote their account or site reference if available."
+
 /** Contact-page FAQ - two columns of five. */
 export const CONTACT_FAQ_ITEMS: ContactFaqItem[] = [
   {
@@ -49,7 +54,6 @@ export const CONTACT_FAQ_ITEMS: ContactFaqItem[] = [
   },
   {
     question: "Who should I contact for an existing system fault?",
-    answer:
-      "Call 020 8303 2280 for the fastest response, or email enquiries@apx-fs.co.uk with your site name, system type and a short description of the fault. One of our team will reply as soon as possible. Existing contract customers should quote their account or site reference if available.",
+    answer: CONTACT_FAULT_RESPONSE_COPY,
   },
 ]

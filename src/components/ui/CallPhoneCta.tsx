@@ -16,8 +16,7 @@ type CallPhoneCtaProps = {
 /**
  * Desktop: circular phone icon + number beside it.
  * Mobile: centered number link only (no icon).
- * Doppler radar rings are scoped via `.fs-inset-cta-card` in globals.css
- * so only bottom CTA banner Call Us icons animate.
+ * Doppler radar rings animate on hover for every CallPhoneCta instance (sm+).
  */
 export function CallPhoneCta({
   variant = "onDark",
@@ -37,8 +36,8 @@ export function CallPhoneCta({
         "call-phone-cta group inline-flex w-full items-center justify-center rounded-sm sm:w-auto sm:justify-start sm:gap-3.5",
         "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2",
         onDark
-          ? "focus-visible:ring-white/50 focus-visible:ring-offset-[var(--page-bg)]"
-          : "focus-visible:ring-black/40 focus-visible:ring-offset-white",
+          ? "call-phone-cta--onDark focus-visible:ring-white/50 focus-visible:ring-offset-[var(--page-bg)]"
+          : "call-phone-cta--onLight focus-visible:ring-black/40 focus-visible:ring-offset-white",
         className
       )}
       aria-label={`Call ${FS_PHONE_DISPLAY}`}

@@ -109,21 +109,38 @@ header.site-header {
   }
 }
 
-/* Locations hub: significant space between title band and the first divider */
+/*
+ * Locations hub: never use section border-t + global section pull together —
+ * the -5rem overlap drew rules through CTAs and copy. Dedicated dividers sit
+ * between sections instead.
+ */
+.locations-page section + section,
+.locations-page .locations-page__divider + section,
+.locations-page section + .locations-page__divider {
+  margin-top: 0 !important;
+}
+.locations-page__divider {
+  height: 1px;
+  width: 100%;
+  margin: 0;
+  border: 0;
+  background: rgba(255, 255, 255, 0.15);
+  pointer-events: none;
+}
 .locations-page > .page-title-band {
-  padding-bottom: clamp(4.5rem, 10vh, 7.5rem);
+  padding-bottom: clamp(3.5rem, 7vh, 5.25rem);
 }
 .locations-page > .locations-page__section {
-  padding-top: clamp(3.5rem, 8vh, 5.5rem);
-  padding-bottom: clamp(3.5rem, 8vh, 5.5rem);
+  padding-top: clamp(3.5rem, 7vh, 5.25rem);
+  padding-bottom: clamp(3.5rem, 7vh, 5.25rem);
 }
 @media (min-width: 1024px) {
   .locations-page > .page-title-band {
-    padding-bottom: clamp(5.5rem, 11vh, 8.5rem);
+    padding-bottom: clamp(4rem, 8vh, 6rem);
   }
   .locations-page > .locations-page__section {
-    padding-top: clamp(4.25rem, 9vh, 6.5rem);
-    padding-bottom: clamp(4.25rem, 9vh, 6.5rem);
+    padding-top: clamp(4rem, 8vh, 6rem);
+    padding-bottom: clamp(4rem, 8vh, 6rem);
   }
 }
 
@@ -3197,8 +3214,9 @@ main .service-page-white-band .pill-btn .pill-text,
   color: #000000 !important;
 }
 
-/* Homepage services: full service list, step-in + underline grows from left, exits to right */
-#services .fs-offer-all-services__link {
+/* Service list rows: step-in + bar shortens; siblings soft-blur (homepage + locations) */
+#services .fs-offer-all-services__link,
+.locations-page .fs-offer-all-services__link {
   position: relative;
   display: inline-flex;
   align-items: center;
@@ -3211,6 +3229,7 @@ main .service-page-white-band .pill-btn .pill-text,
   line-height: 1.35;
   color: #ffffff;
   text-decoration: none;
+  border-bottom: none;
   transform: translateX(0);
   filter: blur(0);
   opacity: 1;
@@ -3220,7 +3239,8 @@ main .service-page-white-band .pill-btn .pill-text,
     filter 0.3s ease,
     opacity 0.3s ease;
 }
-#services .fs-offer-all-services__link::before {
+#services .fs-offer-all-services__link::before,
+.locations-page .fs-offer-all-services__link::before {
   content: "";
   flex-shrink: 0;
   width: 0.5cm;
@@ -3230,7 +3250,9 @@ main .service-page-white-band .pill-btn .pill-text,
   transition: width 0.3s cubic-bezier(0.22, 1, 0.36, 1);
 }
 #services .fs-offer-all-services__link:hover,
-#services .fs-offer-all-services__link:focus-visible {
+#services .fs-offer-all-services__link:focus-visible,
+.locations-page .fs-offer-all-services__link:hover,
+.locations-page .fs-offer-all-services__link:focus-visible {
   color: #ffffff;
   transform: translateX(0.4rem);
   outline: none;
@@ -3239,21 +3261,28 @@ main .service-page-white-band .pill-btn .pill-text,
 }
 /* Hovered item: bullet shortens */
 #services .fs-offer-all-services__link:hover::before,
-#services .fs-offer-all-services__link:focus-visible::before {
+#services .fs-offer-all-services__link:focus-visible::before,
+.locations-page .fs-offer-all-services__link:hover::before,
+.locations-page .fs-offer-all-services__link:focus-visible::before {
   width: 0.18cm;
 }
 /* Sibling items soft-blur while one is hovered */
 #services .fs-offer-all-services:has(.fs-offer-all-services__link:hover) .fs-offer-all-services__link:not(:hover),
-#services .fs-offer-all-services:has(.fs-offer-all-services__link:focus-visible) .fs-offer-all-services__link:not(:focus-visible) {
+#services .fs-offer-all-services:has(.fs-offer-all-services__link:focus-visible) .fs-offer-all-services__link:not(:focus-visible),
+.locations-page .fs-offer-all-services:has(.fs-offer-all-services__link:hover) .fs-offer-all-services__link:not(:hover),
+.locations-page .fs-offer-all-services:has(.fs-offer-all-services__link:focus-visible) .fs-offer-all-services__link:not(:focus-visible) {
   filter: blur(1.4px);
   opacity: 0.42;
 }
 @media (prefers-reduced-motion: reduce) {
   #services .fs-offer-all-services__link,
-  #services .fs-offer-all-services__link::before {
+  #services .fs-offer-all-services__link::before,
+  .locations-page .fs-offer-all-services__link,
+  .locations-page .fs-offer-all-services__link::before {
     transition: none;
   }
-  #services .fs-offer-all-services:has(.fs-offer-all-services__link:hover) .fs-offer-all-services__link:not(:hover) {
+  #services .fs-offer-all-services:has(.fs-offer-all-services__link:hover) .fs-offer-all-services__link:not(:hover),
+  .locations-page .fs-offer-all-services:has(.fs-offer-all-services__link:hover) .fs-offer-all-services__link:not(:hover) {
     filter: none;
     opacity: 0.55;
   }
@@ -3497,6 +3526,9 @@ html.dark #about {
 }
 #contact.contact-section--light .contact-section-head .section-label {
   color: rgba(0, 0, 0, 0.7) !important;
+}
+#contact.contact-section--light .contact-section-head a {
+  color: #000000 !important;
 }
 
 /* Full-page shells + dark containers/fields: near-black (not pure #000) */
@@ -4977,23 +5009,13 @@ html:not(.dark) body:has(.service-page-root) {
   line-height: 1.55;
   color: rgba(255, 255, 255, 0.62) !important;
 }
-.contact-faq__cta {
+.contact-faq__signoff {
   margin: 3rem auto 0;
-  max-width: 36rem;
+  max-width: 28rem;
   text-align: center;
   font-size: 0.975rem;
   line-height: 1.55;
   color: rgba(255, 255, 255, 0.55) !important;
-}
-.contact-faq__cta-link {
-  color: #ffffff !important;
-  font-weight: 600;
-  text-decoration: underline;
-  text-underline-offset: 0.18em;
-  text-decoration-thickness: 1px;
-}
-.contact-faq__cta-link:hover {
-  opacity: 0.7;
 }
 
 .fs-service-faq-section--light {
@@ -7543,7 +7565,7 @@ html.about-page-active {
   }
 }
 
-/* Bottom CTA banner only: Doppler radar rings on Call Us circular icon */
+/* Doppler radar rings on CallPhoneCta circular icon (all instances) */
 @keyframes call-phone-radar {
   0% {
     transform: scale(1);
@@ -7601,15 +7623,15 @@ html.about-page-active {
   }
 }
 
-/* Radar rings expand outside the icon — only while hovered (CTA banner) */
-.fs-inset-cta-card .call-phone-cta__radar {
+/* Radar rings expand outside the icon — all CallPhoneCta instances on sm+ */
+.call-phone-cta__radar {
   display: none;
 }
 @media (min-width: 640px) {
-  .fs-inset-cta-card .call-phone-cta__icon {
+  .call-phone-cta__icon {
     overflow: visible;
   }
-  .fs-inset-cta-card .call-phone-cta__radar {
+  .call-phone-cta__radar {
     display: block;
     position: absolute;
     inset: 0;
@@ -7621,21 +7643,24 @@ html.about-page-active {
     transform: scale(1);
     animation: none;
   }
-  .fs-inset-cta-card .call-phone-cta:hover .call-phone-cta__radar,
-  .fs-inset-cta-card .call-phone-cta:focus-visible .call-phone-cta__radar {
+  .call-phone-cta--onLight .call-phone-cta__radar {
+    border-color: rgba(0, 0, 0, 0.4);
+  }
+  .call-phone-cta:hover .call-phone-cta__radar,
+  .call-phone-cta:focus-visible .call-phone-cta__radar {
     animation: call-phone-radar 3.2s ease-out infinite;
   }
-  .fs-inset-cta-card .call-phone-cta:hover .call-phone-cta__radar:nth-child(3),
-  .fs-inset-cta-card .call-phone-cta:focus-visible .call-phone-cta__radar:nth-child(3) {
+  .call-phone-cta:hover .call-phone-cta__radar:nth-child(3),
+  .call-phone-cta:focus-visible .call-phone-cta__radar:nth-child(3) {
     animation-delay: 1.05s;
   }
-  .fs-inset-cta-card .call-phone-cta:hover .call-phone-cta__radar:nth-child(4),
-  .fs-inset-cta-card .call-phone-cta:focus-visible .call-phone-cta__radar:nth-child(4) {
+  .call-phone-cta:hover .call-phone-cta__radar:nth-child(4),
+  .call-phone-cta:focus-visible .call-phone-cta__radar:nth-child(4) {
     animation-delay: 2.1s;
   }
 }
 @media (prefers-reduced-motion: reduce) {
-  .fs-inset-cta-card .call-phone-cta__radar {
+  .call-phone-cta__radar {
     animation: none !important;
     display: none !important;
   }
@@ -10579,6 +10604,83 @@ html:not(.dark) body:has(.dm-page) {
   }
   .dm-journey-digit-inner {
     animation: none;
+  }
+}
+
+/* Methodology mobile: fixed right FAB step rail — same right gutter + w-11 as hamburger / call FAB */
+.dm-mobile-step-fab {
+  position: fixed;
+  top: 50%;
+  right: var(--site-gutter);
+  z-index: 9985;
+  box-sizing: border-box;
+  display: flex;
+  width: 2.75rem; /* match h-11 / w-11 chrome */
+  flex-direction: column;
+  align-items: center;
+  gap: 0.28rem;
+  padding: 0.4rem 0;
+  border-radius: 9999px;
+  border: 1px solid rgba(255, 255, 255, 0.35);
+  background: rgba(0, 0, 0, 0.88);
+  box-shadow: 0 10px 32px rgba(0, 0, 0, 0.55);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  transform: translateY(-50%);
+}
+
+.dm-mobile-step-fab__btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 2.15rem;
+  height: 2.15rem;
+  border-radius: 9999px;
+  border: 1px solid transparent;
+  background: transparent;
+  color: rgba(255, 255, 255, 0.55);
+  transition:
+    color 0.2s ease,
+    background-color 0.2s ease,
+    border-color 0.2s ease,
+    transform 0.2s ease;
+}
+
+.dm-mobile-step-fab__btn:hover,
+.dm-mobile-step-fab__btn:focus-visible {
+  color: #fff;
+  background: rgba(255, 255, 255, 0.08);
+  outline: none;
+}
+
+.dm-mobile-step-fab__btn--active {
+  color: #000;
+  background: #fff;
+  border-color: #fff;
+  transform: scale(1.06);
+}
+
+.dm-mobile-step-fab__num {
+  font-family: var(--font-menu), var(--font-teko), "Teko", sans-serif;
+  font-size: 0.78rem;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  line-height: 1;
+}
+
+.dm-mobile-stack__step {
+  min-height: min(72vh, 36rem);
+}
+
+@media (min-width: 768px) {
+  .dm-mobile-step-fab {
+    display: none;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .dm-mobile-step-fab__btn {
+    transition: none;
   }
 }
 

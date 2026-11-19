@@ -38,6 +38,12 @@ import { IndustriesWeWorkInSection } from "@/components/home/IndustriesWeWorkInS
 import { LetterReveal } from "@/components/LetterReveal"
 import { LineReveal } from "@/components/LineReveal"
 import { ServiceCombobox } from "@/components/ui/ServiceCombobox"
+import {
+  ContactCopyCallPopup,
+  activateEmailContact,
+  activatePhoneContact,
+} from "@/components/contact/ContactCopyCallPopup"
+import { ContactFaultResponseCopy } from "@/components/contact/ContactFaultResponseCopy"
 import { FS_SERVICE_QUICK_LINKS } from "@/lib/fs-service-navigation"
 import { FS_CONTACT_SERVICE_SLUGS } from "@/lib/fs-service-routes"
 import {
@@ -179,6 +185,7 @@ export default function Home() {
   const [, setActiveSection] = useState(0)
   const [isServicesDropdownOpen, setIsServicesDropdownOpen] = useState(false)
   const [selectedService, setSelectedService] = useState('')
+  const [contactPopup, setContactPopup] = useState<null | "email" | "phone">(null)
   const [contactMethod, setContactMethod] = useState<"phone" | "email" | "text">("email")
   const [privacyConsent, setPrivacyConsent] = useState(false)
   const [smsConsent, setSmsConsent] = useState(false)
@@ -942,6 +949,9 @@ export default function Home() {
   return (
     <>
       <GlobalStyles theme={themeMode} />
+      {contactPopup ? (
+        <ContactCopyCallPopup kind={contactPopup} onClose={() => setContactPopup(null)} />
+      ) : null}
       {/* overflow-x only on mobile: desktop clip breaks position:sticky (projects pin) */}
       <div className="home-page-trial relative z-10 min-h-screen max-lg:overflow-x-clip">
 
@@ -1552,13 +1562,27 @@ export default function Home() {
                 delayMs={HOME_QUOTE_FORM_INNER_DELAY_MS}
               />
 
-              <div className="section-intro-gap max-w-lg space-y-5">
+              <div className="section-intro-gap w-full max-w-none space-y-5 pr-0 lg:pr-2">
+                <ContactFaultResponseCopy
+                  variant="onLight"
+                  onPhoneClick={() => activatePhoneContact(() => setContactPopup("phone"))}
+                  onEmailClick={() => activateEmailContact(() => setContactPopup("email"))}
+                  className={`text-base leading-relaxed text-gray-300 home-scroll-rise ${
+                    sectionMotion.contact ? "opacity-100 translate-y-0" : "opacity-0 translate-y-14"
+                  }`}
+                  style={
+                    sectionMotion.contact
+                      ? { transitionDelay: `${HOME_QUOTE_FORM_INNER_DELAY_MS + 80}ms` }
+                      : undefined
+                  }
+                />
+
                 <LineReveal
                   as="p"
                   text="As one of the leading Fire and Security system installers in London and the South East, we are pleased to offer a free survey and report for your property. Our systems are designed in accordance with NSI Gold standards for both security and fire, covering domestic and commercial sites."
                   className="text-base leading-relaxed text-gray-300"
                   active={sectionMotion.contact}
-                  delayMs={HOME_QUOTE_FORM_INNER_DELAY_MS + 80}
+                  delayMs={HOME_QUOTE_FORM_INNER_DELAY_MS + 160}
                 />
 
                 <LineReveal
@@ -1566,12 +1590,19 @@ export default function Home() {
                   text="Whether you need security, fire detection, monitoring and ARC signalling, or 24/7 call-out support, contact us for a chat about your requirements. We respond promptly and provide detailed, competitive quotes tailored to your needs."
                   className="text-base leading-relaxed text-gray-300"
                   active={sectionMotion.contact}
-                  delayMs={HOME_QUOTE_FORM_INNER_DELAY_MS + 200}
+                  delayMs={HOME_QUOTE_FORM_INNER_DELAY_MS + 240}
                 />
               </div>
             </div>
             
-            {/* Right side - Contact Form (glassmorphic), animated SVG border + delayed inner fade */}
+            {/* Right side - Contact Form; lg spacer matches CONTACT label so form top meets the title */}
+            <div className="contact-section-form w-full pt-0 lg:pt-28">
+              <span
+                className="section-label pointer-events-none invisible mb-0 hidden select-none lg:block"
+                aria-hidden
+              >
+                Contact
+              </span>
             <HomeQuoteFormDrawShell active={sectionMotion.contact} allowOverflow={isServicesDropdownOpen}>
             <div id="quote-form" className={`relative w-full ${isServicesDropdownOpen ? "overflow-visible" : ""}`}>
               <GlassFormPanel bare>
@@ -1852,6 +1883,7 @@ export default function Home() {
               </GlassFormPanel>
             </div>
             </HomeQuoteFormDrawShell>
+            </div>
           </div>
         </div>
       </section>

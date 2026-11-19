@@ -14,7 +14,7 @@ type Props = {
 
 type Phase = "idle" | "exiting" | "entering"
 
-/** Short labels for mobile arrow nav (same pattern as homepage services). */
+/** Short labels for nav (same pattern as homepage services). */
 const STEP_SHORT_LABELS = [
   "Survey",
   "Design",
@@ -28,6 +28,10 @@ const STEP_SHORT_LABELS = [
 const MS_OUT = 140
 /** Enter overlaps digit tick: slide-from-top + stagger (≥ last delay + duration) */
 const MS_IN = 180
+
+function stepAnchorId(index: number) {
+  return `dm-step-${index + 1}`
+}
 
 function RollingPair({
   value,
@@ -163,12 +167,63 @@ function StageCopy({
   )
 }
 
+function scrollWindowToStep(index: number) {
+  const el = document.getElementById(stepAnchorId(index))
+  if (!el) return
+  // scroll-mt on each stage handles header offset; IntoView follows the real scrollport
+  el.scrollIntoView({ behavior: "smooth", block: "start" })
+  try {
+    window.history.replaceState(null, "", `#${stepAnchorId(index)}`)
+  } catch {
+    /* ignore */
+  }
+}
+
+/** Mobile: fixed right rail of step anchors; click scrolls that stage into view. */
+function MobileStepFab({
+  steps,
+  activeIndex,
+  onJump,
+}: {
+  steps: readonly Step[]
+  activeIndex: number
+  onJump: (index: number) => void
+}) {
+  return (
+    <nav
+      className="dm-mobile-step-fab md:hidden"
+      aria-label="Jump to methodology stage"
+    >
+      {steps.map((step, i) => {
+        const active = i === activeIndex
+        const short = STEP_SHORT_LABELS[i] ?? step.title
+        return (
+          <button
+            key={step.title}
+            type="button"
+            onClick={() => onJump(i)}
+            className={cn(
+              "dm-mobile-step-fab__btn",
+              active && "dm-mobile-step-fab__btn--active"
+            )}
+            aria-current={active ? "true" : undefined}
+            aria-label={`Go to stage ${i + 1}: ${short}`}
+          >
+            <span className="dm-mobile-step-fab__num">{String(i + 1).padStart(2, "0")}</span>
+          </button>
+        )
+      })}
+    </nav>
+  )
+}
+
 export function DeliveryMethodologyJourney({ steps }: Props) {
   const n = steps.length
   const [index, setIndex] = useState(0)
   const [phase, setPhase] = useState<Phase>("idle")
   const [tickPulse, setTickPulse] = useState(0)
   const [reduceMotion, setReduceMotion] = useState(false)
+  const [mobileActive, setMobileActive] = useState(0)
   const busyRef = useRef(false)
   const timersRef = useRef<number[]>([])
   const targetRef = useRef(0)
@@ -188,8 +243,52 @@ export function DeliveryMethodologyJourney({ steps }: Props) {
 
   useEffect(() => () => clearTimers(), [clearTimers])
 
+  // Mobile scroll-spy: which stacked stage is in view
+  useEffect(() => {
+    const nodes = steps
+      .map((_, i) => document.getElementById(stepAnchorId(i)))
+      .filter((el): el is HTMLElement => Boolean(el))
+    if (!nodes.length) return
+
+    const io = new IntersectionObserver(
+      (entries) => {
+        const visible = entries
+          .filter((e) => e.isIntersecting)
+          .sort((a, b) => b.intersectionRatio - a.intersectionRatio)
+        const top = visible[0]
+        if (!top?.target) return
+        const id = top.target.id
+        const match = /^dm-step-(\d+)$/.exec(id)
+        if (!match) return
+        setMobileActive(Number(match[1]) - 1)
+      },
+      { rootMargin: "-28% 0px -48% 0px", threshold: [0.15, 0.35, 0.55] }
+    )
+    nodes.forEach((el) => io.observe(el))
+    return () => io.disconnect()
+  }, [steps])
+
+  // Honour deep link on load (mobile stacked anchors)
+  useEffect(() => {
+    if (typeof window === "undefined") return
+    const hash = window.location.hash.replace(/^#/, "")
+    const match = /^dm-step-(\d+)$/.exec(hash)
+    if (!match) return
+    const idx = Number(match[1]) - 1
+    if (idx < 0 || idx >= steps.length) return
+    const t = window.setTimeout(() => {
+      setMobileActive(idx)
+      scrollWindowToStep(idx)
+    }, 80)
+    return () => window.clearTimeout(t)
+  }, [steps.length])
+
+  const jumpMobileStep = useCallback((i: number) => {
+    setMobileActive(i)
+    scrollWindowToStep(i)
+  }, [])
+
   const step = steps[index]!
-  const shortLabel = STEP_SHORT_LABELS[index] ?? step.title
 
   useEffect(() => {
     return () => {
@@ -264,37 +363,35 @@ export function DeliveryMethodologyJourney({ steps }: Props) {
         </div>
       </section>
 
-      <div className="relative mx-auto w-full max-w-[min(100%,92rem)] px-4 sm:px-6 lg:px-8">
+      {/* Mobile: full stacked stages + right FAB */}
+      <div className="relative mx-auto w-full max-w-[min(100%,92rem)] px-4 pr-[calc(var(--site-gutter)+2.75rem+0.75rem)] sm:px-6 md:hidden">
+        <ol className="dm-mobile-stack m-0 list-none space-y-0 p-0">
+          {steps.map((s, i) => {
+            const short = STEP_SHORT_LABELS[i] ?? s.title
+            return (
+              <li
+                key={s.title}
+                id={stepAnchorId(i)}
+                className="dm-mobile-stack__step scroll-mt-3 border-t border-white/12 py-10 first:border-t-0 first:pt-2"
+              >
+                <p className="mb-3 text-xs font-semibold uppercase tracking-[0.16em] text-white/50">
+                  Stage {String(i + 1).padStart(2, "0")} · {short}
+                </p>
+                <StageCopy step={s} phase="idle" />
+              </li>
+            )
+          })}
+        </ol>
+      </div>
+
+      <MobileStepFab steps={steps} activeIndex={mobileActive} onJump={jumpMobileStep} />
+
+      {/* Desktop: single-step journey with transitions */}
+      <div className="relative mx-auto hidden w-full max-w-[min(100%,92rem)] px-4 sm:px-6 md:block lg:px-8">
         <div
           className="mx-auto mb-5 hidden h-px max-w-md bg-gradient-to-r from-transparent via-white/30 to-transparent md:mb-8 md:block md:max-w-lg"
           aria-hidden
         />
-
-        {/* Mobile: same pattern as homepage services, arrows flanking stage label */}
-        <div className="mb-4 flex items-center justify-between gap-3 md:hidden">
-          <button
-            type="button"
-            onClick={() => goDelta(-1)}
-            className="flex h-11 w-11 shrink-0 items-center justify-center rounded-full border border-white/70 text-white transition-colors hover:border-white hover:bg-white/10"
-            aria-label="Previous stage"
-          >
-            <ChevronLeft className="h-5 w-5" strokeWidth={2} />
-          </button>
-          <p
-            className="min-w-0 flex-1 text-center text-sm font-semibold uppercase tracking-[0.14em] text-white"
-            aria-live="polite"
-          >
-            {String(index + 1).padStart(2, "0")} · {shortLabel}
-          </p>
-          <button
-            type="button"
-            onClick={() => goDelta(1)}
-            className="flex h-11 w-11 shrink-0 items-center justify-center rounded-full border border-white/70 text-white transition-colors hover:border-white hover:bg-white/10"
-            aria-label="Next stage"
-          >
-            <ChevronRight className="h-5 w-5" strokeWidth={2} />
-          </button>
-        </div>
 
         <section aria-label="Delivery methodology steps">
           <div className="flex w-full flex-row items-start gap-0 md:gap-14 lg:gap-16 xl:gap-20">
@@ -320,24 +417,6 @@ export function DeliveryMethodologyJourney({ steps }: Props) {
             </div>
           </div>
         </section>
-
-        {/* Mobile pill indicators */}
-        <div className="mt-6 flex justify-center gap-2 md:hidden" role="tablist" aria-label="Stage progress">
-          {steps.map((s, i) => (
-            <button
-              key={`pill-${s.title}`}
-              type="button"
-              role="tab"
-              aria-selected={i === index}
-              onClick={() => runNavigate(i)}
-              className={cn(
-                "h-1.5 rounded-full transition-all",
-                i === index ? "w-6 bg-white" : "w-1.5 bg-white/35"
-              )}
-              aria-label={`Go to ${s.title}`}
-            />
-          ))}
-        </div>
 
         <div
           className="mx-auto mt-8 hidden h-px max-w-md bg-gradient-to-r from-transparent via-white/22 to-transparent md:mt-12 md:block"
@@ -366,6 +445,8 @@ function KeyboardNav({
   useEffect(() => {
     const onKey = (e: KeyboardEvent) => {
       if (!enabled) return
+      // Only drive desktop carousel with keys when the md journey is in use
+      if (window.matchMedia("(max-width: 767px)").matches) return
       if (e.key === "ArrowLeft") {
         e.preventDefault()
         onLeft()

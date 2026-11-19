@@ -1,6 +1,5 @@
 "use client"
 
-import Link from "next/link"
 import { LetterReveal } from "@/components/LetterReveal"
 import { useState } from "react"
 import { ChevronDown, ChevronRight } from "lucide-react"
@@ -119,17 +118,7 @@ export function ContactFaqSection({ items = CONTACT_FAQ_ITEMS }: Props) {
           />
         </div>
 
-        <p className="contact-faq__cta">
-          Still have a question?{" "}
-          <a href="tel:02083032280" className="contact-faq__cta-link">
-            Call 020 8303 2280
-          </a>{" "}
-          or{" "}
-          <Link href="#contact" className="contact-faq__cta-link">
-            send us a message
-          </Link>
-          .
-        </p>
+        <p className="contact-faq__signoff">We&apos;re here when you need us.</p>
       </div>
     </section>
   )
