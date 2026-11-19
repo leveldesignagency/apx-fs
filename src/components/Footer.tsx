@@ -202,6 +202,11 @@ export default function Footer() {
     if (wrapper) {
       wrapper.style.setProperty("--footer-precede-bg", resolvePrecedeBackground(wrapper))
     }
+    // Mobile/touch: footer is always open. Skip scroll-to-end so accordion taps
+    // (Services, etc.) don't yank the viewport away from the control you pressed.
+    if (typeof window !== "undefined") {
+      if (window.matchMedia("(hover: none), (max-width: 767.98px)").matches) return
+    }
     setTimeout(() => {
       footerRef.current?.scrollIntoView({ behavior: "smooth", block: "end" })
     }, 200)
