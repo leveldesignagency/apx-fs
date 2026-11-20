@@ -92,8 +92,8 @@ const CAPABILITIES = [
     description:
       "Structured audio commissioning, configuration records and operator familiarisation at handover.",
     id: "pava-commissioning",
-    imageSrc: `${IMG}/commissioning.jpg`,
-    imageAlt: "Commercial reception with PA/VA loudspeakers and access ready for commissioning handover"
+    imageSrc: "/comissioning%20and%20handover.png",
+    imageAlt: "APX engineer in black polo demonstrating a fire alarm and security panel during commissioning and handover"
   },
   {
     title: "Maintenance",

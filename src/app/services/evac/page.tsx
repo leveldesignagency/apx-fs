@@ -62,8 +62,8 @@ const CAPABILITIES = [
     description:
       "Witnessed testing, as-built information and operator / duty-holder guidance so the system can be demonstrated at completion.",
     id: "evac-commissioning",
-    imageSrc: `${IMG}/handover.jpg`,
-    imageAlt: "Apollo fire system commissioning test kit used for loop diagnostics and handover",
+    imageSrc: "/comissioning%20and%20handover.png",
+    imageAlt: "APX engineer in black polo demonstrating a fire alarm and security panel during commissioning and handover",
   },
   {
     title: "Maintenance & testing",

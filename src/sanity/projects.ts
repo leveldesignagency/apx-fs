@@ -57,9 +57,21 @@ function mapDoc(doc: SanityProjectDoc, fallback?: FsProject): FsProject | null {
   const heroImage = imageUrl(doc.heroImage, 2000) || fallback?.heroImage || ""
   if (!heroImage) return null
 
-  const galleryFromSanity = (doc.gallery || [])
-    .map((img) => imageUrl(img, 1600))
-    .filter((src): src is string => Boolean(src))
+  const seenAssetIds = new Set<string>()
+  const heroAssetId = doc.heroImage?.asset?._ref
+  if (heroAssetId) seenAssetIds.add(heroAssetId)
+
+  const galleryFromSanity: string[] = []
+  for (const img of doc.gallery || []) {
+    const assetId = img.asset?._ref
+    if (assetId) {
+      if (seenAssetIds.has(assetId)) continue
+      seenAssetIds.add(assetId)
+    }
+    const src = imageUrl(img, 1600)
+    if (!src || src === heroImage || galleryFromSanity.includes(src)) continue
+    galleryFromSanity.push(src)
+  }
 
   const review = doc.clientReview
   const clientReview =
@@ -83,7 +95,7 @@ function mapDoc(doc: SanityProjectDoc, fallback?: FsProject): FsProject | null {
     heroImage,
     gallery: galleryFromSanity.length
       ? galleryFromSanity
-      : fallback?.gallery || [heroImage],
+      : (fallback?.gallery || []).filter((src) => src !== heroImage),
     engagementNote: doc.engagementNote || fallback?.engagementNote,
     contractorOrClient: doc.contractorOrClient || fallback?.contractorOrClient,
     clientReview,

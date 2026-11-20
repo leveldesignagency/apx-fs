@@ -391,7 +391,6 @@ export const FS_PROJECTS: FsProject[] = [
     heroImage:
       "/projects/case-studies/united-living-welbourne/access-control-system-installation-united-living-welbourne.jpg",
     gallery: [
-      "/projects/case-studies/united-living-welbourne/access-control-system-installation-united-living-welbourne.jpg",
       "/projects/case-studies/united-living-welbourne/video-door-entry-systems-installation-united-living-welbourne.jpg",
     ],
   },

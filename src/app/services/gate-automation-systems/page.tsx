@@ -131,25 +131,25 @@ export default function GateAutomationSystemsPage() {
                 description:
                   "Photocells, safety edges and related protective devices configured so the installation is safe for users and the public.",
                 id: "gate-safety",
-                imageSrc: "/service%20images/gate-capabilities/safety.jpg",
+                imageSrc: "/service%20images/gate-capabilities/safety-devices-barrier.jpg",
                 imageAlt:
-                  "Commercial sliding gate with yellow and black safety bollards and a flashing warning beacon",
+                  "Automated parking barrier arm with red safety markings at a vehicle entrance",
               },
               {
                 title: "Vehicle entrance control",
                 description:
                   "Barriers and gate lines for car parks, yards and shared residential entrances, coordinated with how traffic actually moves on site.",
                 id: "gate-barriers",
-                imageSrc: "/service%20images/gate-capabilities/vehicle.jpg",
-                imageAlt: "Vehicle roadway coverage used for barrier and ANPR control",
+                imageSrc: "/service%20images/gate-capabilities/vehicle-entrance-london.jpg",
+                imageAlt: "Automated barrier at Baynard House car park entrance in the City of London",
               },
               {
                 title: "Risk recognition",
                 description:
                   "We look for compliance issues, crushing and dragging points, inadequate safety devices and incorrectly installed equipment before they become incidents.",
                 id: "gate-risks",
-                imageSrc: "/service%20images/gate-capabilities/risk.jpg",
-                imageAlt: "Engineers reviewing drawings for crushing and dragging hazards",
+                imageSrc: "/service%20images/gate-capabilities/risk-recognition-gate-hazard.jpg",
+                imageAlt: "Warning sign at a powered gate: stop here, gates open toward vehicle — crushing and collision hazard",
               },
             ].map(({ title, description, id, imageSrc, imageAlt }, index) => (
               <ServiceItemReveal key={title} index={index} className="h-full min-h-0">

@@ -49,7 +49,7 @@ export function ServiceFeatureImageCard({
           draggable={false}
         />
         <div
-          className="pointer-events-none absolute inset-x-0 bottom-0 h-[82%] bg-gradient-to-t from-black from-[22%] via-black/80 via-[52%] to-transparent md:h-[85%] md:from-[12%] md:via-[40%]"
+          className="pointer-events-none absolute inset-x-0 bottom-0 h-[82%] bg-gradient-to-t from-black/75 from-[22%] via-black/55 via-[52%] to-transparent md:h-[85%] md:from-[12%] md:via-[40%]"
           aria-hidden
         />
         <div className="absolute inset-x-0 bottom-0 z-[1] flex flex-col px-5 pb-5 pt-6 sm:px-7 sm:pb-7 sm:pt-8 md:px-6 md:pb-5 md:pt-6">

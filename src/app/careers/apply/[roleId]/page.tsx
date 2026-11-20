@@ -11,8 +11,12 @@ import {
   buildJobPostingJsonLd,
 } from "@/lib/seo-jsonld"
 
+/**
+ * Clear absolute header. Contact strip only appears at xl+ (desktop chrome).
+ * Mid padding covers phone/tablet hamburger header; xl clears the hanging contact tab.
+ */
 const inset =
-  "site-container max-w-[1920px] pb-28 pt-[max(7.5rem,calc(var(--site-header-offset,1.25rem)+6.5rem))] sm:pb-32"
+  "site-container max-w-[1920px] pb-28 pt-[clamp(8.75rem,18vh,12rem)] sm:pb-32 xl:pt-[clamp(12.75rem,16vh,14.5rem)]"
 
 type Props = { params: Promise<{ roleId: string }> }
 

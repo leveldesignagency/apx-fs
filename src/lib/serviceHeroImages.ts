@@ -17,8 +17,8 @@ export const serviceHeroImages = {
   evacVoice: "/service%20images/evac/hero-hd-pava-retail-concourse.jpg",
   /** EVAC (BS 8629): hotel corridor with emergency lighting on the right (HD) */
   evac: "/service%20images/evac/hero-hd-evac-exit-right-v2.jpg",
-  /** Disabled refuge / EVC hero (tracked asset — root webp was local-only / not deployed) */
-  refuge: "/service%20images/refuge/hero-disabled-refuge-exit-corridor-wheelchair.jpg",
+  /** Disabled refuge / EVC hero — wheelchair POV down lit corridor (Pexels) */
+  refuge: "/pexels-marcus-aurelius-4064229.jpg",
   monitoring: "/projects/library/intruder-alarm-monitoring-company-sq.jpg",
   maintenance: "/service%20images/MAINTAINENCE%20AND%20SUPPORT.jpg",
   emergencyCallOut: "/service%20images/callout-capabilities/hero-24-hour-call-out.png",

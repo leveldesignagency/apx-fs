@@ -72,6 +72,8 @@ export const viewport: Viewport = {
   themeColor: "#000000",
   width: "device-width",
   initialScale: 1,
+  /** iPad / notched tablets: respect safe areas with env(safe-area-inset-*) */
+  viewportFit: "cover",
 }
 
 export const metadata: Metadata = {

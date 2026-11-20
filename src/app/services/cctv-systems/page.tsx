@@ -70,8 +70,8 @@ const CAPABILITIES = [
     title: "Analytics where offered",
     description: "Motion, line-crossing and other analytics options where the selected system and site policy support them.",
     id: "cctv-analytics",
-    imageSrc: "/service%20images/cctv-capabilities/analytics-web.jpg",
-    imageAlt: "Live thermal video analytics with person detection bounding box and temperature overlay",
+    imageSrc: "/service%20images/cctv-capabilities/analytics-control-room.jpg",
+    imageAlt: "Operator reviewing multi-camera CCTV feeds in a security control room for video analytics",
   },
   {
     title: "Network segregation",

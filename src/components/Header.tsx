@@ -212,8 +212,8 @@ export default function Header() {
   }
 
   const handleContactClick = (type: 'phone' | 'email', value: string) => {
-    // Aligned with MEP: same breakpoint as `lg` nav / contact tab
-    if (window.innerWidth < 1024) {
+    // Match Tailwind `xl` (1280): keep tablet/iPad landscape on tel/mailto + hamburger chrome
+    if (window.innerWidth < 1280) {
       if (type === 'phone') {
         window.open(`tel:${value}`, '_self')
       } else {
@@ -426,9 +426,9 @@ export default function Header() {
         </>
       )}
 
-      <nav className="pointer-events-none relative z-10 w-full site-gutter-x pt-4 pb-3 lg:pt-5 lg:pb-4">
-        <div className="relative flex w-full min-h-[4.75rem] items-center lg:min-h-[6.5rem]">
-            <div className="pointer-events-none absolute left-[8rem] right-0 top-1/2 z-0 hidden h-16 -translate-y-1/2 overflow-hidden lg:block">
+      <nav className="pointer-events-none relative z-10 w-full site-gutter-x pt-4 pb-3 xl:pt-5 xl:pb-4">
+        <div className="relative flex w-full min-h-[4.75rem] items-center xl:min-h-[6.5rem]">
+            <div className="pointer-events-none absolute left-[8rem] right-0 top-1/2 z-0 hidden h-16 -translate-y-1/2 overflow-hidden xl:block">
             <div
               className="header-bar-expand h-full w-full rounded-br-[30px] border"
               style={{
@@ -441,12 +441,12 @@ export default function Header() {
               }}
             />
           </div>
-          <div className="relative z-10 flex h-14 min-h-[3.5rem] w-full items-center justify-between pl-2 pr-0 sm:h-16 sm:px-3 lg:h-16 lg:min-h-0 lg:px-3">
-            {/* Mobile: balance the hamburger chip so the logo can sit truly centred */}
-            <span className="pointer-events-none invisible h-11 w-11 shrink-0 lg:hidden" aria-hidden />
+          <div className="relative z-10 flex h-14 min-h-[3.5rem] w-full items-center justify-between pl-2 pr-0 sm:h-16 sm:px-3 xl:h-16 xl:min-h-0 xl:px-3">
+            {/* Phone/tablet: balance the hamburger chip so the logo can sit truly centred */}
+            <span className="pointer-events-none invisible h-11 w-11 shrink-0 xl:hidden" aria-hidden />
             <Link
               href="/"
-              className="pointer-events-auto absolute left-1/2 top-1/2 z-10 flex -translate-x-1/2 -translate-y-1/2 shrink-0 cursor-pointer items-center lg:static lg:translate-x-0 lg:translate-y-0"
+              className="pointer-events-auto absolute left-1/2 top-1/2 z-10 flex -translate-x-1/2 -translate-y-1/2 shrink-0 cursor-pointer items-center xl:static xl:translate-x-0 xl:translate-y-0"
               onClick={(e) => {
                 e.preventDefault()
                 if (isMenuOpen) closeFsMenu()
@@ -477,7 +477,7 @@ export default function Header() {
             >
               <span
                 className={cn(
-                  "header-logo-mask inline-flex h-14 items-center sm:h-[3.75rem] lg:h-28 lg:overflow-hidden",
+                  "header-logo-mask inline-flex h-14 items-center sm:h-[3.75rem] xl:h-28 xl:overflow-hidden",
                   !isServicesPage &&
                     (logoAnimArmed ? "header-logo-drop-in" : "header-logo-drop-in-pending"),
                 )}
@@ -496,14 +496,14 @@ export default function Header() {
                 >
                   <span className="header-logo-hover-wrap relative inline-block">
                     {/* Native img keeps SVG vector-sharp; next/image rasterises SVGs and looks soft on large displays */}
-                    {/* Mobile / tablet: footer wordmark. Desktop: boxed web logo. */}
+                    {/* Phone / tablet (incl. iPad landscape): footer wordmark. Desktop xl+: boxed web logo. */}
                     {/* eslint-disable-next-line @next/next/no-img-element */}
                     <img
                       src="/__APX_FS_Footer.svg"
                       alt="APX Fire & Security Logo"
                       width={280}
                       height={94}
-                      className="relative z-10 h-[3.35rem] w-auto sm:h-14 lg:hidden"
+                      className="relative z-10 h-[3.35rem] w-auto sm:h-14 xl:hidden"
                       decoding="async"
                     />
                     {/* eslint-disable-next-line @next/next/no-img-element */}
@@ -512,15 +512,15 @@ export default function Header() {
                       alt="APX Fire & Security Logo"
                       width={643}
                       height={371}
-                      className="relative z-10 hidden h-28 w-auto lg:block"
+                      className="relative z-10 hidden h-28 w-auto xl:block"
                       decoding="async"
                     />
                   </span>
                 </span>
               </span>
             </Link>
-            {/* FIRE & SECURITY: same positioning as MEP mech tag, only at lg+ (web); hidden on phone/tablet */}
-            <div className="hidden lg:block absolute left-[11.5rem] top-1/2 -translate-y-1/2 z-0 w-[17rem] overflow-hidden pointer-events-none">
+            {/* FIRE & SECURITY: desktop xl+ only; hidden on phone/tablet */}
+            <div className="hidden xl:block absolute left-[11.5rem] top-1/2 -translate-y-1/2 z-0 w-[17rem] overflow-hidden pointer-events-none">
               <div
                 className="flex w-fit items-center rounded-br-2xl header-mech-security-in pl-7 pr-3.5 py-1"
                 style={{
@@ -536,7 +536,7 @@ export default function Header() {
                 </span>
               </div>
             </div>
-            <div className="relative z-10 ml-auto hidden flex-shrink-0 items-center gap-x-4 text-white lg:flex [&_a_svg]:stroke-white">
+            <div className="relative z-10 ml-auto hidden flex-shrink-0 items-center gap-x-4 text-white xl:flex [&_a_svg]:stroke-white">
               <div className="pointer-events-auto relative header-nav-item-in flex items-center" style={{ animationDelay: '2.9s' }}>
                 <Link
                   href="/services"
@@ -739,7 +739,7 @@ export default function Header() {
               </div>
             </div>
             {/* Chip keeps the icon readable on light and dark page tops */}
-            <span className="pointer-events-auto relative z-20 inline-flex h-11 w-11 shrink-0 items-center justify-center rounded-full border border-white bg-black shadow-[0_6px_20px_rgba(0,0,0,0.35)] lg:hidden">
+            <span className="pointer-events-auto relative z-20 inline-flex h-11 w-11 shrink-0 items-center justify-center rounded-full border border-white bg-black shadow-[0_6px_20px_rgba(0,0,0,0.35)] xl:hidden">
               <button
                 type="button"
                 onClick={() => (isMenuOpen ? closeFsMenu() : setIsMenuOpen(true))}
@@ -763,7 +763,7 @@ export default function Header() {
       </nav>
 
       {/* Contact tab under the bar (z below nav). Nav is pointer-events-none so these buttons still receive hover. */}
-      <div className="pointer-events-auto absolute top-full right-[5rem] z-[1] hidden lg:block">
+      <div className="pointer-events-auto absolute top-full right-[5rem] z-[1] hidden xl:block">
         <div className="relative">
           <div
             className="header-contact-tab--dark header-contact-tab-drop-in flex items-center space-x-3 rounded-t-none rounded-b-xl border border-t-0 px-4 py-2"
@@ -808,7 +808,7 @@ export default function Header() {
     {isMenuOpen && fsMenuPortalReady
       ? createPortal(
           <div
-            className="fixed inset-0 z-[200] lg:hidden"
+            className="fixed inset-0 z-[200] xl:hidden"
             id="fs-mobile-nav"
             role="dialog"
             aria-modal="true"

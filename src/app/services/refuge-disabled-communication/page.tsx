@@ -11,7 +11,7 @@ import { Reveal } from "@/components/Reveal"
 import { LetterReveal } from "@/components/LetterReveal"
 import { ServiceItemReveal } from "@/components/ServiceItemReveal"
 import { ServiceFeatureImageCard } from "@/components/ServiceFeatureImageCard"
-import { serviceHeroImages } from "@/lib/serviceHeroImages"
+import { serviceHeroImages, serviceSectionImages } from "@/lib/serviceHeroImages"
 import { SERVICE_HERO_BRIDGE_GRADIENT } from "@/lib/heroBackgroundGradients"
 
 const IMG = "/service%20images/refuge-capabilities"
@@ -54,16 +54,16 @@ const CAPABILITIES = [
     description:
       "Speech paths between refuge points, fire telephones, toilet alarms and the central panel so staff and the fire service can communicate during an incident.",
     id: "fire-two-way",
-    imageSrc: `${IMG}/two-way-lexicomm-outstations-tight.jpg`,
-    imageAlt: "Lexicomm refuge and fire telephone outstations for two-way emergency speech",
+    imageSrc: "/London%20Fire%20Brigade%20at%20a%20Glass%20Office%20Emergency.png",
+    imageAlt: "London Fire Brigade response at a glass office building during an emergency",
   },
   {
     title: "Commissioning and handover",
     description:
       "BS 5839-9 aligned commissioning, witnessed testing, user guidance and records so the system is demonstrably compliant at completion.",
     id: "fire-evc-commissioning",
-    imageSrc: `${IMG}/commissioning.jpg`,
-    imageAlt: "Apollo fire system commissioning test kit used for loop diagnostics and handover",
+    imageSrc: "/comissioning%20and%20handover.png",
+    imageAlt: "APX engineer in black polo demonstrating a fire alarm and security panel during commissioning and handover",
   },
   {
     title: "Routine testing and maintenance",
@@ -82,8 +82,8 @@ export default function RefugeDisabledCommunicationPage() {
         title="Disabled Refuge Systems"
         titleDetail="Disabled refuge, fire telephone and toilet alarms"
         imageSrc={serviceHeroImages.refuge}
-        imageAlt="Disabled refuge emergency voice communication — accessible evacuation provision"
-        imageClassName="object-cover object-center"
+        imageAlt="Person in a wheelchair looking down a lit corridor — accessible evacuation and refuge context"
+        imageClassName="object-cover object-left"
         heroCompliance={["BS 5839-9"]}
         heroSummary="Disabled refuge, fire telephone and toilet alarm systems that keep emergency communication clear when it matters most."
         afterIntro={<FsFireSubpageHeroButtons />}
@@ -179,9 +179,9 @@ export default function RefugeDisabledCommunicationPage() {
 
         <ServicePageClosingSections
           serviceTitleShort="Refuge, fire telephone & toilet alarms"
-          ctaImageSrc={serviceHeroImages.refuge}
-          ctaHeadline="Need Refuge, Fire Telephone or"
-          ctaHeadlineAccent="Toilet Alarm Systems?"
+          ctaImageSrc={serviceSectionImages.refugeCta}
+          ctaHeadline="Need Refuge, Fire Telephone"
+          ctaHeadlineAccent="or Toilet Alarm Systems?"
           ctaDescription="Tell us about your building and evacuation strategy. We can survey, specify and deliver BS 5839-9 emergency voice communication, including disabled refuge, fire telephones and disabled toilet alarms."
         >
           <CustomPillButton href="/contact?service=refuge-disabled-communication" size="md">Contact</CustomPillButton>
