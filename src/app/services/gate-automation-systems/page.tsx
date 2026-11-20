@@ -132,7 +132,8 @@ export default function GateAutomationSystemsPage() {
                   "Photocells, safety edges and related protective devices configured so the installation is safe for users and the public.",
                 id: "gate-safety",
                 imageSrc: "/service%20images/gate-capabilities/safety.jpg",
-                imageAlt: "Site engineers reviewing safety records on a live entrance project",
+                imageAlt:
+                  "Commercial sliding gate with yellow and black safety bollards and a flashing warning beacon",
               },
               {
                 title: "Vehicle entrance control",
@@ -277,11 +278,11 @@ export default function GateAutomationSystemsPage() {
               </Link>{" "}
               at the same entrance? We can survey the whole package together.
             </p>
-            <div className="flex flex-wrap gap-3 pt-2">
+            <div className="flex w-full flex-col items-center gap-3 pt-2 sm:flex-row sm:flex-wrap sm:justify-start">
               <CustomPillButton href="/contact?service=gate-automation-systems" size="md">
                 Arrange a survey
               </CustomPillButton>
-              <CallPhoneCta size="md" />
+              <CallPhoneCta size="md" className="w-auto justify-center sm:justify-start" />
             </div>
           </FsServiceTextImageSection>
         </FsServiceTextImageSectionGroup>

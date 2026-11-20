@@ -93,7 +93,7 @@ const CAPABILITIES = [
       "Structured audio commissioning, configuration records and operator familiarisation at handover.",
     id: "pava-commissioning",
     imageSrc: `${IMG}/commissioning.jpg`,
-    imageAlt: "Site engineers reviewing commissioning records on a live project",
+    imageAlt: "Commercial reception with PA/VA loudspeakers and access ready for commissioning handover"
   },
   {
     title: "Maintenance",

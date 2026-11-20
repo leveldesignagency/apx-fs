@@ -63,7 +63,7 @@ const CAPABILITIES = [
       "BS 5839-9 aligned commissioning, witnessed testing, user guidance and records so the system is demonstrably compliant at completion.",
     id: "fire-evc-commissioning",
     imageSrc: `${IMG}/commissioning.jpg`,
-    imageAlt: "Site engineers reviewing commissioning records on a live project",
+    imageAlt: "Apollo fire system commissioning test kit used for loop diagnostics and handover",
   },
   {
     title: "Routine testing and maintenance",

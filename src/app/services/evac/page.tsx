@@ -63,7 +63,7 @@ const CAPABILITIES = [
       "Witnessed testing, as-built information and operator / duty-holder guidance so the system can be demonstrated at completion.",
     id: "evac-commissioning",
     imageSrc: `${IMG}/handover.jpg`,
-    imageAlt: "Site engineers reviewing commissioning records on a live project",
+    imageAlt: "Apollo fire system commissioning test kit used for loop diagnostics and handover",
   },
   {
     title: "Maintenance & testing",

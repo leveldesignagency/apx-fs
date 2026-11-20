@@ -5,9 +5,13 @@
 export const FS_SERVICE_SHIMMER_CARD =
   "rounded-tl-[1.25rem] rounded-br-[1.25rem] border border-white/18 bg-[var(--page-bg)] text-white transition-colors hover:border-white/45"
 
-/** Shared image grow-on-hover (wrap fill Image; parent needs `group` + `overflow-hidden`). */
+/**
+ * Shared image grow-on-hover (parent needs `group` + `overflow-hidden`).
+ * inset 1px keeps the photo inside the card border (avoids bottom-edge bleed).
+ * Scale only on fine-pointer hover so sticky mobile :hover doesn’t leave it enlarged.
+ */
 export const FS_SERVICE_IMAGE_GROW_INNER =
-  "absolute inset-0 origin-center transition-transform duration-500 ease-out group-hover:scale-105"
+  "absolute inset-[1px] origin-center transition-transform duration-500 ease-out [@media(hover:hover)_and_(pointer:fine)]:group-hover:scale-[1.04]"
 
 /** Installation / case-study card shell, image area uses {@link FS_SERVICE_IMAGE_GROW_INNER}. */
 export const FS_SERVICE_INSTALLATION_CARD = `${FS_SERVICE_SHIMMER_CARD} group overflow-hidden p-0`

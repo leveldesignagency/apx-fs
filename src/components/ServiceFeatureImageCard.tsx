@@ -34,12 +34,12 @@ export function ServiceFeatureImageCard({
       id={id}
       className={cn(
         FS_SERVICE_SHIMMER_CARD,
-        "group relative h-full overflow-hidden p-0",
+        "group relative isolate h-full overflow-hidden p-0",
         id ? "scroll-mt-28" : null,
         className
       )}
     >
-      <div className="relative aspect-[4/3] w-full overflow-hidden rounded-tl-[1.25rem] rounded-br-[1.25rem] bg-white/5 sm:aspect-[5/4] md:aspect-[16/10]">
+      <div className="relative aspect-[4/3] w-full overflow-hidden rounded-[inherit] bg-white/5 sm:aspect-[5/4] md:aspect-[16/10]">
         <Image
           src={imageSrc}
           alt={imageAlt}
