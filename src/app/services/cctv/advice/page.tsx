@@ -216,7 +216,6 @@ export default function UsefulCctvAdvicePage() {
         />
 
         <ServicePageClosingSections
-          serviceTitleShort="CCTV advice"
           ctaImageSrc={serviceHeroImages.cctvAdvice}
           ctaHeadline="Get Tailored"
           ctaHeadlineAccent="CCTV Advice"

@@ -46,8 +46,8 @@ export const VIDEO_DOOR_TECH_PARTNERS: readonly PartnerLogoEntry[] = [
 ]
 
 export const INTRUDER_ALARM_TECHNOLOGY_PARTNERS: readonly PartnerLogoEntry[] = [
-  { name: "Honeywell", href: "https://buildings.honeywell.com/uk/en", logoSrc: `${INTRUDER_ALARM_BRANDS_DIR}/honeywell-logo-1.svg`, logoScaleClass: "scale-[1]" },
-  { name: "Eaton", href: "https://www.eaton.com/gb/en-gb/catalog/security-intrusion---detection.html", logoSrc: `${INTRUDER_ALARM_BRANDS_DIR}/eaton-6-1.svg`, logoScaleClass: "scale-[1]" },
+  { name: "Orisec", href: "https://www.orisec.co.uk/", logoSrc: `${INTRUDER_ALARM_BRANDS_DIR}/orisec-logo.png`, logoScaleClass: "scale-[1.05]" },
+  { name: "Elmdene", href: "https://www.elmdene.co.uk/", logoSrc: `${INTRUDER_ALARM_BRANDS_DIR}/elmdene-logo.svg`, logoScaleClass: "scale-[1]" },
   { name: "Optex", href: "https://www.optex.eu/", logoSrc: `${INTRUDER_ALARM_BRANDS_DIR}/optex-vehicle-sensors-vector-logo.svg`, logoScaleClass: "scale-[1]" },
   { name: "Texecom", href: "https://www.texe.com/", logoSrc: `${INTRUDER_ALARM_BRANDS_DIR}/texecom.png`, logoScaleClass: "scale-[1]", logoLightClassName: "brightness-0" },
   { name: "CQR", href: "https://www.cqr-alarms.com/", logoSrc: "/service%20images/intruders/cqr%20logo.png", logoScaleClass: "scale-[1]", logoLightClassName: "brightness-0" },

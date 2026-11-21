@@ -389,7 +389,6 @@ export default function CommercialCctvPage() {
         <CctvWhatWeOfferSection eyebrow="Commercial" items={WHAT_WE_OFFER_ITEMS} />
 
         <ServicePageClosingSections
-          serviceTitleShort="Commercial CCTV"
           ctaImageSrc={serviceHeroImages.commercialCctv}
           ctaHeadline="Request Your"
           ctaHeadlineAccent="Free Commercial Survey"

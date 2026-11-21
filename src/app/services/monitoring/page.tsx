@@ -219,7 +219,6 @@ export default function MonitoringServicePage() {
         />
 
         <ServicePageClosingSections
-          serviceTitleShort="Monitoring"
           ctaImageSrc={serviceHeroImages.monitoring}
           ctaHeadline="Need"
           ctaHeadlineAccent="Monitored Protection?"

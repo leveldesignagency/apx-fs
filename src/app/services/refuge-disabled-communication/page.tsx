@@ -178,7 +178,6 @@ export default function RefugeDisabledCommunicationPage() {
         />
 
         <ServicePageClosingSections
-          serviceTitleShort="Refuge, fire telephone & toilet alarms"
           ctaImageSrc={serviceSectionImages.refugeCta}
           ctaHeadline="Need Refuge, Fire Telephone"
           ctaHeadlineAccent="or Toilet Alarm Systems?"

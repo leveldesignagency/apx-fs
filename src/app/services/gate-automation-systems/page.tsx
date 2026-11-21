@@ -332,7 +332,6 @@ export default function GateAutomationSystemsPage() {
         />
 
         <ServicePageClosingSections
-          serviceTitleShort="Gate automation"
           ctaImageSrc={serviceHeroImages.gateAutomation}
           ctaHeadline="Arrange a"
           ctaHeadlineAccent="Survey"

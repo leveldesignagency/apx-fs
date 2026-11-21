@@ -425,7 +425,6 @@ export default function AccessControlPage() {
         </section>
 
         <ServicePageClosingSections
-          serviceTitleShort="Access control"
           ctaImageSrc={serviceHeroImages.accessControl}
           ctaHeadline="Talk to Us About"
           ctaHeadlineAccent="Access Control"

@@ -301,7 +301,6 @@ export default function IntruderAlarmSystemsPage() {
         </section>
 
         <ServicePageClosingSections
-          serviceTitleShort="Intruder alarm"
           ctaImageSrc={serviceHeroImages.intruder}
           ctaHeadline="Ready to"
           ctaHeadlineAccent="Secure Your Property?"

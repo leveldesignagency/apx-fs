@@ -189,7 +189,6 @@ export default function EvacSystemsPage() {
         />
 
         <ServicePageClosingSections
-          serviceTitleShort="EVAC"
           ctaImageSrc={serviceHeroImages.evac}
           ctaHeadline="Need an"
           ctaHeadlineAccent="EVAC System?"

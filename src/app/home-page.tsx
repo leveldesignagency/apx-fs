@@ -306,11 +306,23 @@ export default function Home() {
       const strip = projectsScrollRef.current
       const view = projectsViewportRef.current
       if (!strip || !view) return
-      const card = strip.querySelector("a.projects-card") as HTMLElement | null
-      const step = (card?.offsetWidth ?? 360) + 24
+      const shelf = strip.querySelector(".projects-card-shelf") as HTMLElement | null
+      const gap = Number.parseFloat(getComputedStyle(strip).columnGap || getComputedStyle(strip).gap) || 20
+      const step = (shelf?.offsetWidth ?? 360) + gap
 
       if (projectsUseNativeScroll()) {
-        view.scrollBy({ left: dir === "left" ? -step : step, behavior: "smooth" })
+        // Land on snap points: scroll to the next/prev shelf start (+ strip padding)
+        const shelves = Array.from(strip.querySelectorAll<HTMLElement>(".projects-card-shelf"))
+        const padLeft = Number.parseFloat(getComputedStyle(strip).paddingLeft) || 0
+        const cur = view.scrollLeft
+        const targets = shelves.map((el) => Math.max(0, el.offsetLeft - padLeft))
+        let next = cur
+        if (dir === "right") {
+          next = targets.find((t) => t > cur + 2) ?? targets[targets.length - 1] ?? cur + step
+        } else {
+          next = [...targets].reverse().find((t) => t < cur - 2) ?? 0
+        }
+        view.scrollTo({ left: next, behavior: "smooth" })
         return
       }
 

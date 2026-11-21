@@ -224,7 +224,6 @@ export default function MaintenanceSupportPage() {
         />
 
         <ServicePageClosingSections
-          serviceTitleShort="Maintenance"
           ctaImageSrc={serviceHeroImages.maintenance}
           ctaHeadline="Need"
           ctaHeadlineAccent="Maintenance & Repairs?"

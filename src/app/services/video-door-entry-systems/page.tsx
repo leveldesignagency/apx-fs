@@ -405,7 +405,6 @@ export default function VideoDoorEntrySystemsPage() {
         </section>
 
         <ServicePageClosingSections
-          serviceTitleShort="Video door entry"
           ctaImageSrc={serviceHeroImages.videoDoor}
           ctaHeadline="Upgrade Your"
           ctaHeadlineAccent="Video Entry"

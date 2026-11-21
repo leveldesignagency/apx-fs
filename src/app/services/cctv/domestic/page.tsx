@@ -231,7 +231,6 @@ export default function DomesticCctvPage() {
         <CctvWhatWeOfferSection eyebrow="Domestic" items={WHAT_WE_OFFER_ITEMS} />
 
         <ServicePageClosingSections
-          serviceTitleShort="Domestic CCTV"
           ctaImageSrc={serviceHeroImages.domesticCctv}
           ctaHeadline="Request a"
           ctaHeadlineAccent="Residential Survey"

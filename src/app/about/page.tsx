@@ -60,7 +60,7 @@ const ABOUT_COMMITMENTS = [
 ] as const;
 
 /** Full-bleed About hero (Fire & Security) */
-const ABOUT_HERO_BG_SRC = "/About Page Image.jpg";
+const ABOUT_HERO_BG_SRC = "/About%20Page%20Image.png";
 
 /** Left image for Join the Team */
 const JOIN_THE_TEAM_IMAGE_SRC = "/join%20the%20team%201.png";

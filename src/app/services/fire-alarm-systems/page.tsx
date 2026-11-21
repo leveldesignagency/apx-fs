@@ -472,7 +472,6 @@ export default function FireSafetySystemsPage() {
         </section>
 
         <ServicePageClosingSections
-          serviceTitleShort="Fire alarm"
           ctaImageSrc={FIRE_ALARM_HERO_IMAGE_SRC}
           ctaHeadline="Need a Fire"
           ctaHeadlineAccent="Alarm System?"

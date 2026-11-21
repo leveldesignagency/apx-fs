@@ -2253,8 +2253,7 @@ main .service-page-white-band .pill-btn .pill-text,
     );
   }
 
-  /* Homepage projects + sectors: no left feather — phone edge is the hard mask */
-  #projects .projects-section__track,
+  /* Sectors: full-bleed strip, hard left / soft right fade */
   #industries .industries-carousel {
     margin-left: calc(-1 * var(--site-gutter));
     margin-right: calc(-1 * var(--site-gutter));
@@ -2272,6 +2271,43 @@ main .service-page-white-band .pill-btn .pill-text,
       #000 calc(100% - 2.5rem),
       transparent 100%
     );
+  }
+
+  /*
+   * Projects mobile carousel:
+   * Full-bleed track + padding on the strip + matching scroll-padding/snap so
+   * every card parks at the same left gutter (not further left as you advance).
+   */
+  #projects .projects-section__track {
+    margin-left: calc(-1 * var(--site-gutter));
+    margin-right: calc(-1 * var(--site-gutter));
+    width: calc(100% + 2 * var(--site-gutter));
+    max-width: none;
+    scroll-snap-type: x mandatory;
+    scroll-padding-inline: var(--site-gutter);
+    -webkit-overflow-scrolling: touch;
+    -webkit-mask-image: linear-gradient(
+      to right,
+      #000 0%,
+      #000 calc(100% - 2.5rem),
+      transparent 100%
+    );
+    mask-image: linear-gradient(
+      to right,
+      #000 0%,
+      #000 calc(100% - 2.5rem),
+      transparent 100%
+    );
+  }
+
+  #projects .projects-strip {
+    padding-left: var(--site-gutter);
+    --projects-strip-end-inset: var(--site-gutter);
+  }
+
+  #projects .projects-card-shelf {
+    scroll-snap-align: start;
+    scroll-snap-stop: normal;
   }
 }
 @media (min-width: 1024px) {
@@ -7725,9 +7761,6 @@ html.about-page-active {
     min-height: 0;
     padding-top: 4rem;
     padding-bottom: 3rem;
-  }
-  #projects .projects-section__track {
-    -webkit-overflow-scrolling: touch;
   }
   #projects .projects-strip {
     transform: none !important;

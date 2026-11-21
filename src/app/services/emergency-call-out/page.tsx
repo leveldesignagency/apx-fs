@@ -204,7 +204,6 @@ export default function EmergencyCallOutPage() {
         />
 
         <ServicePageClosingSections
-          serviceTitleShort="Call-out"
           ctaImageSrc={serviceHeroImages.emergencyCallOut}
           ctaHeadline="Need"
           ctaHeadlineAccent="24/7 Cover?"

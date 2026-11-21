@@ -192,7 +192,6 @@ export default function CctvSecurityPage() {
         />
 
         <ServicePageClosingSections
-          serviceTitleShort="CCTV"
           ctaImageSrc={serviceHeroImages.cctv}
           ctaHeadline="Need Commercial"
           ctaHeadlineAccent="CCTV?"

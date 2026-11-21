@@ -250,7 +250,6 @@ export default function PavaSystemsPage() {
         </section>
 
         <ServicePageClosingSections
-          serviceTitleShort="PAVA"
           ctaImageSrc={serviceHeroImages.pava}
           ctaHeadline="Planning a"
           ctaHeadlineAccent="PAVA System?"
