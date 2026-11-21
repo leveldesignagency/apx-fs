@@ -17,6 +17,14 @@
 /.next/
 /out/
 
+# OpenNext / Cloudflare Workers
+.open-next
+.wrangler
+.dev.vars
+
+# Agent tooling (installed locally / globally; not app runtime)
+.agents/
+
 # production
 /build
 

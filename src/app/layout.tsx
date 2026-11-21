@@ -24,8 +24,6 @@ import {
   fsKeywordsMetaString,
   getFsSiteUrl,
 } from "@/lib/seo"
-import { Analytics } from "@vercel/analytics/next"
-import { SpeedInsights } from "@vercel/speed-insights/next"
 import Script from "next/script"
 
 const inter = Inter({
@@ -208,8 +206,6 @@ export default function RootLayout({
             </TitleFontProvider>
           </ThemeProvider>
         </PremiumScroll>
-        <Analytics />
-        <SpeedInsights />
       </body>
     </html>
   )

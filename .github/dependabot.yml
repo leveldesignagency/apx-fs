@@ -1,0 +1,11 @@
+# Keep npm dependencies patched (Wix vibe-coding security checklist).
+version: 2
+updates:
+  - package-ecosystem: npm
+    directory: "/"
+    schedule:
+      interval: weekly
+    open-pull-requests-limit: 5
+    labels:
+      - dependencies
+      - security

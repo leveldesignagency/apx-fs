@@ -1,0 +1,37 @@
+{
+  "$schema": "node_modules/wrangler/config-schema.json",
+  "name": "apx-fs-website",
+  "main": ".open-next/worker.js",
+  "compatibility_date": "2026-11-21",
+  "compatibility_flags": [
+    "nodejs_compat",
+    "global_fetch_strictly_public"
+  ],
+  "upload_source_maps": true,
+  "assets": {
+    "directory": ".open-next/assets",
+    "binding": "ASSETS"
+  },
+  "images": {
+    "binding": "IMAGES"
+  },
+  "services": [
+    {
+      "binding": "WORKER_SELF_REFERENCE",
+      "service": "apx-fs-website"
+    }
+  ],
+  "workers_dev": true,
+  "vars": {
+    "NEXT_PUBLIC_SITE_URL": "https://www.apx-fs.co.uk",
+    "NEXT_PUBLIC_APX_MEP_URL": "https://www.apx-mep.co.uk",
+    "NEXT_PUBLIC_SANITY_PROJECT_ID": "v7rfd3px",
+    "NEXT_PUBLIC_SANITY_DATASET": "production",
+    "NEXT_PUBLIC_TURNSTILE_SITE_KEY": "0x4AAAAAAFKJuUj1eQwXswQ_",
+    "RESEND_FROM_EMAIL": "APX Fire & Security <enquiries@apx-fs.co.uk>",
+    "NOTIFY_EMAIL": "enquiries@apx-fs.co.uk"
+  },
+  "observability": {
+    "enabled": true
+  }
+}

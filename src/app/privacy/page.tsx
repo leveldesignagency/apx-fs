@@ -148,16 +148,12 @@ export default function PrivacyPolicyPage() {
         <p>We may share personal data with:</p>
         <ul className="list-disc list-inside space-y-2">
           <li>
-            <strong>Vercel</strong>: website hosting and delivery, plus cookieless Web Analytics and Speed Insights used
-            to understand traffic and page performance;
+            <strong>Cloudflare</strong>: website hosting and delivery, Turnstile bot protection on forms, and (when
+            enabled) Cloudflare analytics used to understand traffic and performance;
           </li>
           <li>
             <strong>Resend</strong>: email delivery for form notifications and confirmation messages (processor acting on our
             instructions);
-          </li>
-          <li>
-            <strong>Cloudflare</strong>: Turnstile bot protection on forms (processes a verification token / limited technical
-            data);
           </li>
           <li>other service providers who support IT, telephony or office systems we use to run the business;</li>
           <li>professional advisers such as insurers, auditors or legal advisers where reasonably required;</li>
