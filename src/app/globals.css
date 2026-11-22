@@ -369,6 +369,8 @@ body:has(.job-pdf-page) main {
   width: 100%;
   max-width: none;
   margin: 0 !important;
+  /* One outline only: pill-btn-border draws the edge (form-submit-btn also paints a border). */
+  border: none !important;
   border-top-left-radius: 0.5rem !important;
   border-bottom-right-radius: 0.5rem !important;
   border-top-right-radius: 0 !important;
@@ -376,10 +378,10 @@ body:has(.job-pdf-page) main {
 }
 .careers-apply-page .form-submit-btn.careers-apply-submit .pill-btn-inner,
 .careers-apply-page .form-submit-btn.careers-apply-submit .pill-btn-border {
-  border-top-left-radius: 0.5rem;
-  border-bottom-right-radius: 0.5rem;
-  border-top-right-radius: 0;
-  border-bottom-left-radius: 0;
+  border-top-left-radius: 0.5rem !important;
+  border-bottom-right-radius: 0.5rem !important;
+  border-top-right-radius: 0 !important;
+  border-bottom-left-radius: 0 !important;
 }
 .careers-apply-page .form-submit-btn.careers-apply-submit .form-submit-btn__text,
 .careers-apply-page .form-submit-btn.careers-apply-submit .pill-text {
