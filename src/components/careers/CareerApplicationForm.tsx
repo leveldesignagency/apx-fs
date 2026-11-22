@@ -276,7 +276,7 @@ export function CareerApplicationForm({
         <p className="careers-apply-muted text-center text-[11px] font-semibold uppercase tracking-[0.22em]">
           Job application
         </p>
-        <h1 className="mt-3 text-center font-title text-2xl font-bold leading-tight text-white sm:text-3xl">
+        <h1 className="mt-3 text-center font-title text-[1.35rem] font-bold leading-snug tracking-tight text-white break-words sm:text-3xl sm:leading-tight">
           {role.title}
         </h1>
       </div>
@@ -312,7 +312,7 @@ export function CareerApplicationForm({
       </ol>
 
       <p className="careers-apply-muted mt-4 text-center text-sm sm:hidden">
-        Step {step} of 3, {STEPS[step - 1]}
+        Step {step} of 3: {STEPS[step - 1]}
       </p>
 
       <div className="careers-apply-panel mt-10 rounded-none border border-white/20 bg-black/40 p-6 sm:p-8">
