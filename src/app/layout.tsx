@@ -16,6 +16,7 @@ import { PremiumScroll } from "@/components/PremiumScroll"
 import { RootJsonLd } from "@/components/RootJsonLd"
 import { DeferredSiteChrome } from "@/components/DeferredSiteChrome"
 import { ImageProtect } from "@/components/ImageProtect"
+import { CloudflareWebAnalytics } from "@/components/CloudflareWebAnalytics"
 import {
   FS_DEFAULT_OG_PATH,
   FS_SITE_NAME,
@@ -206,6 +207,7 @@ export default function RootLayout({
             </TitleFontProvider>
           </ThemeProvider>
         </PremiumScroll>
+        <CloudflareWebAnalytics />
       </body>
     </html>
   )

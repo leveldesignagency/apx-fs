@@ -6,6 +6,8 @@ type Attachment = {
   filename: string
   content: string
   contentId?: string
+  /** MIME type — set for real file attachments (e.g. application/pdf) */
+  contentType?: string
 }
 
 export async function sendSiteEmailViaResend(body: {
@@ -57,6 +59,7 @@ export async function sendSiteEmailViaResend(body: {
               filename: a.filename,
               content: a.content,
               ...(a.contentId ? { content_id: a.contentId } : {}),
+              ...(a.contentType && !a.contentId ? { content_type: a.contentType } : {}),
             })),
           }
         : {}),
@@ -64,7 +67,8 @@ export async function sendSiteEmailViaResend(body: {
   })
 
   if (!res.ok) {
-    console.error("Resend error:", res.status)
+    const detail = await res.text().catch(() => "")
+    console.error("Resend error:", res.status, detail.slice(0, 500))
     return { ok: false, status: 502, message: "Could not send email. Please try again later." }
   }
 

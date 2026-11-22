@@ -149,7 +149,7 @@ export default function PrivacyPolicyPage() {
         <ul className="list-disc list-inside space-y-2">
           <li>
             <strong>Cloudflare</strong>: website hosting and delivery, Turnstile bot protection on forms, and (when
-            enabled) Cloudflare analytics used to understand traffic and performance;
+            enabled) Cloudflare Web Analytics used to understand traffic and Core Web Vitals;
           </li>
           <li>
             <strong>Resend</strong>: email delivery for form notifications and confirmation messages (processor acting on our

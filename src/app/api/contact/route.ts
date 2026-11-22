@@ -161,20 +161,18 @@ export async function POST(req: Request) {
 
   const rows = [
     { label: "Name", value: name },
-    { label: "Company", value: companyName || "(not provided)" },
-    { label: "Email", value: emailOk ? email : "(not provided)" },
-    { label: "Phone", value: phoneOk ? phone : "(not provided)" },
-    { label: "Service", value: serviceLabel || "(not selected)" },
+    ...(companyName ? [{ label: "Company", value: companyName }] : []),
+    ...(emailOk ? [{ label: "Email", value: email }] : []),
+    ...(phoneOk ? [{ label: "Phone", value: phone }] : []),
+    ...(serviceLabel ? [{ label: "Service", value: serviceLabel }] : []),
     { label: "Preferred contact method", value: methodLabel },
-    {
-      label: "SMS consent",
-      value: contactMethod === "text" ? (body.smsConsent ? "Yes" : "No") : "N/A",
-    },
-    { label: "Privacy policy acknowledged", value: "Yes" },
+    ...(contactMethod === "text"
+      ? [{ label: "SMS consent", value: body.smsConsent ? "Yes" : "No" }]
+      : []),
   ]
 
   const text = [
-    "CONTACT FORM SUBMISSION: APX Fire & Security",
+    "CONTACT FORM SUBMISSION",
     "",
     ...rows.map((r) => `${r.label}: ${r.value}`),
     "",
@@ -184,11 +182,11 @@ export async function POST(req: Request) {
 
   const html = buildFsBrandedEmailHtml({
     title: "Contact Form Submission",
-    intro: "A new enquiry was submitted via the APX Fire & Security website.",
+    intro: "New enquiry from the website contact form.",
     rows,
     messageLabel: "Message",
     messageBody: message,
-    footerNote: "Reply to this email to respond to the enquirer (reply-to is set to their address when provided).",
+    footerNote: "Reply to this email to respond to the enquirer.",
   })
 
   const sent = await sendSiteEmailViaResend({
@@ -229,10 +227,10 @@ export async function POST(req: Request) {
         rows: [
           { label: "Preferred contact method", value: methodLabel },
           ...(serviceLabel ? [{ label: "Service", value: serviceLabel }] : []),
-          { label: "Urgent?", value: "Call 020 8303 2280" },
+          { label: "Your message", value: message.length > 280 ? `${message.slice(0, 280)}…` : message },
         ],
         footerNote:
-          "We process your details to respond to this enquiry. You can read our privacy policy at https://www.apx-fs.co.uk/privacy. This is an automated confirmation: reply to this email if you need to add anything.",
+          "Urgent? Call 020 8303 2280. Privacy: https://www.apx-fs.co.uk/privacy. Reply to this email if you need to add anything.",
       }),
     }).catch(() => null)
   }

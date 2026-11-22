@@ -121,9 +121,9 @@ export default function CookiePolicyPage() {
             </p>
             <p className="text-sm">
               <strong>Current status:</strong> No cookie-based analytics tools (such as Google Analytics) are installed.
-              Site traffic may be measured with Cloudflare analytics (server-side / cookieless where configured), which
-              is not part of this optional category. This category stays reserved if a cookie-based analytics tool is
-              added later; nothing in this category loads unless you consent and a tool is actually configured.
+              When configured, Cloudflare Web Analytics (cookieless) measures traffic and Core Web Vitals. That tool is
+              not part of this optional category. This category stays reserved if a cookie-based analytics tool is added
+              later; nothing in this category loads unless you consent and a tool is actually configured.
             </p>
           </CookieTypeCard>
 

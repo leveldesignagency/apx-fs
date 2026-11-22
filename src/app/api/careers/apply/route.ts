@@ -135,17 +135,24 @@ export async function POST(req: Request) {
     return Response.json({ error: "CV file content does not look like a PDF or Word document." }, { status: 400 })
   }
   const base64 = buf.toString("base64")
-  const safeOriginal = file.name.replace(/[^\w.\- ()]/g, "_").slice(0, 180) || "cv.pdf"
+  let safeOriginal = file.name.replace(/[^\w.\- ()]/g, "_").slice(0, 180) || "cv.pdf"
+  const lowerName = safeOriginal.toLowerCase()
+  const contentType = lowerName.endsWith(".docx")
+    ? "application/vnd.openxmlformats-officedocument.wordprocessingml.document"
+    : lowerName.endsWith(".doc")
+      ? "application/msword"
+      : "application/pdf"
+  if (contentType === "application/pdf" && !lowerName.endsWith(".pdf")) {
+    safeOriginal = `${safeOriginal.replace(/\.[^.]+$/, "") || "cv"}.pdf`
+  }
 
   const subject = buildJobApplicantSubject(role.title)
 
   const rows = [
     { label: "Position", value: role.title },
-    { label: "Role ID", value: role.id },
     { label: "Name", value: fullName },
     { label: "Email", value: email },
     { label: "Phone", value: phone },
-    { label: "Recruitment privacy acknowledged", value: "Yes" },
     { label: "CV attached", value: safeOriginal },
   ]
 
@@ -156,17 +163,15 @@ export async function POST(req: Request) {
     "",
     "Relevant experience:",
     experience,
-    "",
-    "Site: APX Fire & Security",
   ].join("\n")
 
   const html = buildFsBrandedEmailHtml({
     title: "Job Application",
-    intro: "A new job application was submitted via the APX Fire & Security careers page.",
+    intro: "New application from the website careers form.",
     rows,
     messageLabel: "Relevant experience",
     messageBody: experience,
-    footerNote: "CV is attached to this email. Reply to contact the applicant directly.",
+    footerNote: "CV is attached. Reply to contact the applicant.",
   })
 
   const sent = await sendSiteEmailViaResend({
@@ -174,7 +179,7 @@ export async function POST(req: Request) {
     text,
     html,
     replyTo: email,
-    attachments: [{ filename: safeOriginal, content: base64 }],
+    attachments: [{ filename: safeOriginal, content: base64, contentType }],
   })
 
   if (!sent.ok) {
@@ -201,10 +206,12 @@ export async function POST(req: Request) {
       intro: `Hello ${fullName}, thank you for applying for ${role.title} at APX Fire & Security. We have received your application and will be in touch if we progress it.`,
       rows: [
         { label: "Position", value: role.title },
-        { label: "Next steps", value: "Our team will review your application and contact you if suitable." },
+        { label: "Name", value: fullName },
+        { label: "Email", value: email },
+        { label: "Phone", value: phone },
       ],
       footerNote:
-        "We process application data under our recruitment privacy notice: https://www.apx-fs.co.uk/recruitment-privacy. This is an automated confirmation.",
+        "Recruitment privacy: https://www.apx-fs.co.uk/recruitment-privacy. This is an automated confirmation.",
     }),
   }).catch(() => null)
 
