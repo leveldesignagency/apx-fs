@@ -23,3 +23,8 @@ export type CareerRole = {
 export function careerApplyHref(roleId: string): string {
   return `/careers/apply/${roleId}`
 }
+
+/** Printable job sheet (Save as PDF from the browser). */
+export function careerPdfHref(roleId: string): string {
+  return `/careers/${roleId}/pdf`
+}

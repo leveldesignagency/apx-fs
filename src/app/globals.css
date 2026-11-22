@@ -219,6 +219,35 @@ header.site-header {
   }
 }
 
+/* Printable job sheet: hide site chrome; clean A4-style print */
+body:has(.job-pdf-page) header,
+body:has(.job-pdf-page) footer,
+body:has(.job-pdf-page) .mobile-home-contact-fab,
+body:has(.job-pdf-page) [data-fs-route-scroll-top],
+body:has(.job-pdf-page) .cookie-banner-wrapper {
+  display: none !important;
+}
+body:has(.job-pdf-page) main {
+  padding: 0 !important;
+}
+@media print {
+  body:has(.job-pdf-page) {
+    background: #fff !important;
+  }
+  .job-pdf-screen-only {
+    display: none !important;
+  }
+  .job-pdf-page {
+    background: #fff !important;
+  }
+  .job-pdf-sheet {
+    margin: 0 !important;
+    max-width: none !important;
+    box-shadow: none !important;
+    padding: 0 !important;
+  }
+}
+
 /* Careers: Apply uses CustomPillButton with tighter TL/BR corners than homepage CTAs. Search stays fully rounded. */
 .careers-page .careers-search-input {
   border-radius: 9999px !important;

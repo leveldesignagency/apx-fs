@@ -3,9 +3,10 @@
 import type { ReactNode } from "react"
 import { useCallback, useEffect, useLayoutEffect, useMemo, useRef, useState } from "react"
 import { createPortal } from "react-dom"
-import { ChevronDown, Search, X } from "lucide-react"
+import { ChevronDown, FileText, Search, X } from "lucide-react"
 import { CustomPillButton } from "@/components/ui/CustomPillButton"
-import { careerApplyHref, type CareerRole } from "@/components/careers/careers-types"
+import { JobDescriptionBody } from "@/components/careers/JobDescriptionBody"
+import { careerApplyHref, careerPdfHref, type CareerRole } from "@/components/careers/careers-types"
 
 type Option = { value: string; label: string }
 
@@ -102,8 +103,15 @@ function JobDescriptionModal({ role, onClose }: { role: CareerRole; onClose: () 
                 ·
               </span>
               {role.location}
+              {role.employmentType ? (
+                <>
+                  <span className="mx-2 text-white/25" aria-hidden>
+                    ·
+                  </span>
+                  {role.employmentType}
+                </>
+              ) : null}
             </p>
-            {role.salary ? <p className="mt-2 text-sm font-medium text-white/65 sm:text-base">{role.salary}</p> : null}
           </div>
           <button
             ref={closeRef}
@@ -117,114 +125,8 @@ function JobDescriptionModal({ role, onClose }: { role: CareerRole; onClose: () 
         </div>
 
         <div className="min-h-0 flex-1 overflow-y-auto px-5 py-6 sm:px-8 sm:py-8">
-          <div className="grid gap-8 lg:grid-cols-2 lg:gap-10">
-            <div className="space-y-6">
-              <div>
-                <h4 className="text-[11px] font-semibold uppercase tracking-[0.18em] text-white/45">Overview</h4>
-                <p className="mt-3 text-base leading-relaxed text-white/75 sm:text-lg">{role.description}</p>
-              </div>
-
-              <dl className="grid grid-cols-1 gap-4 sm:grid-cols-2">
-                {role.employmentType ? (
-                  <div>
-                    <dt className="text-[11px] font-semibold uppercase tracking-[0.18em] text-white/45">
-                      Employment type
-                    </dt>
-                    <dd className="mt-2 text-sm leading-relaxed text-white/75 sm:text-base">{role.employmentType}</dd>
-                  </div>
-                ) : null}
-                {role.hours ? (
-                  <div>
-                    <dt className="text-[11px] font-semibold uppercase tracking-[0.18em] text-white/45">Hours</dt>
-                    <dd className="mt-2 text-sm leading-relaxed text-white/75 sm:text-base">{role.hours}</dd>
-                  </div>
-                ) : null}
-                {role.baseLocation ? (
-                  <div className="sm:col-span-2">
-                    <dt className="text-[11px] font-semibold uppercase tracking-[0.18em] text-white/45">
-                      Base location
-                    </dt>
-                    <dd className="mt-2 text-sm leading-relaxed text-white/75 sm:text-base">{role.baseLocation}</dd>
-                  </div>
-                ) : null}
-                {role.companyVehicle ? (
-                  <div className="sm:col-span-2">
-                    <dt className="text-[11px] font-semibold uppercase tracking-[0.18em] text-white/45">
-                      Company vehicle
-                    </dt>
-                    <dd className="mt-2 text-sm leading-relaxed text-white/75 sm:text-base">{role.companyVehicle}</dd>
-                  </div>
-                ) : null}
-              </dl>
-
-              {role.benefits?.length ? (
-                <div>
-                  <h4 className="text-[11px] font-semibold uppercase tracking-[0.18em] text-white/45">Benefits</h4>
-                  <ul className="mt-3 list-disc space-y-2 pl-5 text-base leading-relaxed text-white/75">
-                    {role.benefits.map((line) => (
-                      <li key={line}>{line}</li>
-                    ))}
-                  </ul>
-                </div>
-              ) : null}
-
-              {role.workingAreas?.length ? (
-                <div>
-                  <h4 className="text-[11px] font-semibold uppercase tracking-[0.18em] text-white/45">Working areas</h4>
-                  <ul className="mt-3 list-disc space-y-2 pl-5 text-base leading-relaxed text-white/75">
-                    {role.workingAreas.map((line) => (
-                      <li key={line}>{line}</li>
-                    ))}
-                  </ul>
-                </div>
-              ) : null}
-            </div>
-            <div className="space-y-6">
-              {role.responsibilities?.length ? (
-                <div>
-                  <h4 className="text-[11px] font-semibold uppercase tracking-[0.18em] text-white/45">Responsibilities</h4>
-                  <ul className="mt-3 list-disc space-y-2 pl-5 text-base leading-relaxed text-white/75">
-                    {role.responsibilities.map((line) => (
-                      <li key={line}>{line}</li>
-                    ))}
-                  </ul>
-                </div>
-              ) : null}
-              {role.requiredExperience?.length ? (
-                <div>
-                  <h4 className="text-[11px] font-semibold uppercase tracking-[0.18em] text-white/45">
-                    Required experience
-                  </h4>
-                  <ul className="mt-3 list-disc space-y-2 pl-5 text-base leading-relaxed text-white/75">
-                    {role.requiredExperience.map((line) => (
-                      <li key={line}>{line}</li>
-                    ))}
-                  </ul>
-                </div>
-              ) : null}
-              {role.certifications?.length ? (
-                <div>
-                  <h4 className="text-[11px] font-semibold uppercase tracking-[0.18em] text-white/45">
-                    Certifications &amp; licences
-                  </h4>
-                  <ul className="mt-3 list-disc space-y-2 pl-5 text-base leading-relaxed text-white/75">
-                    {role.certifications.map((line) => (
-                      <li key={line}>{line}</li>
-                    ))}
-                  </ul>
-                </div>
-              ) : null}
-              {role.requirements?.length ? (
-                <div>
-                  <h4 className="text-[11px] font-semibold uppercase tracking-[0.18em] text-white/45">Requirements</h4>
-                  <ul className="mt-3 list-disc space-y-2 pl-5 text-base leading-relaxed text-white/75">
-                    {role.requirements.map((line) => (
-                      <li key={line}>{line}</li>
-                    ))}
-                  </ul>
-                </div>
-              ) : null}
-            </div>
+          <div className="mx-auto max-w-3xl">
+            <JobDescriptionBody role={role} tone="dark" />
           </div>
         </div>
 
@@ -232,14 +134,23 @@ function JobDescriptionModal({ role, onClose }: { role: CareerRole; onClose: () 
           <button
             type="button"
             onClick={onClose}
-            className="careers-outline-btn order-2 inline-flex h-12 min-w-[8.5rem] items-center justify-center rounded-none border border-white/25 px-6 text-sm font-semibold text-white/90 transition-colors hover:border-white/45 hover:bg-white/5 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/40 sm:order-1"
+            className="careers-outline-btn order-3 inline-flex h-12 min-w-[8.5rem] items-center justify-center rounded-none border border-white/25 px-6 text-sm font-semibold text-white/90 transition-colors hover:border-white/45 hover:bg-white/5 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/40 sm:order-1"
           >
             Close
           </button>
+          <a
+            href={careerPdfHref(role.id)}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="careers-outline-btn order-2 inline-flex h-12 items-center justify-center gap-2 rounded-none border border-white/25 px-5 text-sm font-semibold text-white/90 transition-colors hover:border-white/45 hover:bg-white/5 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/40"
+          >
+            <FileText className="h-4 w-4" aria-hidden />
+            Open PDF
+          </a>
           <CustomPillButton
             href={careerApplyHref(role.id)}
             size="md"
-            className="order-1 inline-flex h-12 min-w-[8.5rem] w-full items-center justify-center !px-6 !py-0 !text-sm sm:order-2 sm:w-auto"
+            className="order-1 inline-flex h-12 min-w-[8.5rem] w-full items-center justify-center !px-6 !py-0 !text-sm sm:order-3 sm:w-auto"
           >
             Apply
           </CustomPillButton>
@@ -546,7 +457,7 @@ export function CareersSearchAndRoles({
                         {role.description}
                       </p>
                     </div>
-                    <div className="flex shrink-0 flex-col gap-2.5 sm:flex-row sm:items-center lg:flex-col lg:items-stretch xl:flex-row">
+                    <div className="flex shrink-0 flex-col gap-2.5 sm:flex-row sm:flex-wrap sm:items-center lg:flex-col lg:items-stretch xl:flex-row xl:flex-wrap">
                       <button
                         type="button"
                         onClick={() => setModalRole(role)}
@@ -554,6 +465,15 @@ export function CareersSearchAndRoles({
                       >
                         View description
                       </button>
+                      <a
+                        href={careerPdfHref(role.id)}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="careers-outline-btn inline-flex items-center justify-center gap-2 rounded-none border border-white/25 px-4 py-2.5 text-sm font-semibold text-white/90 transition-colors hover:border-white/45 hover:bg-white/5 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/40"
+                      >
+                        <FileText className="h-4 w-4" aria-hidden />
+                        Open PDF
+                      </a>
                       <CustomPillButton
                         href={careerApplyHref(role.id)}
                         size="md"
