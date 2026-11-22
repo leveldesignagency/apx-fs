@@ -5,7 +5,6 @@ import { useRouter } from "next/navigation"
 import { useCallback, useEffect, useId, useRef, useState, type DragEvent, type ReactNode } from "react"
 import { Check, FileText, Upload, X } from "lucide-react"
 import type { CareerRole } from "@/components/careers/careers-types"
-import { FormSubmitButton } from "@/components/ui/FormSubmitButton"
 import {
   TurnstileWidget,
   isTurnstileSiteKeyPresent,
@@ -215,23 +214,23 @@ export function CareerApplicationForm({
   }, [step])
 
   const onSubmit = async () => {
+    if (submitting) return
     setError(null)
-    if (!canSubmit || !cvFile) {
+    if (!canSubmit || !cvFile || cvPhase !== "ready") {
       setError("Please attach your CV and confirm the privacy notice before submitting.")
-      throw new Error("incomplete")
+      return
     }
     // Autofill sometimes fills old honeypot names; never block a real applicant silently.
-    if (hp.trim() !== "") {
-      setHp("")
-    }
+    if (hp.trim() !== "") setHp("")
     if (turnstileRequired && !turnstileToken) {
       setError(
         turnstileStatus === "error"
           ? "Security check failed to load. Refresh the page (and try without browser extensions), then submit again."
           : "Please complete the security check above, then submit again."
       )
-      throw new Error("turnstile")
+      return
     }
+
     setSubmitting(true)
     try {
       const fd = new FormData()
@@ -254,15 +253,11 @@ export function CareerApplicationForm({
       if (!res.ok) {
         setError(data.error ?? "Something went wrong. Please try again or email us directly.")
         setTurnstileToken(null)
-        throw new Error("apply-failed")
+        return
       }
       router.push(`/careers/thank-you?role=${encodeURIComponent(role.id)}`)
-    } catch (err) {
-      if (err instanceof Error && (err.message === "apply-failed" || err.message === "turnstile" || err.message === "incomplete")) {
-        throw err
-      }
+    } catch {
       setError("Network error. Please check your connection and try again.")
-      throw new Error("network")
     } finally {
       setSubmitting(false)
     }
@@ -666,13 +661,14 @@ export function CareerApplicationForm({
               >
                 Back
               </button>
-              <FormSubmitButton
+              <button
+                type="button"
                 disabled={submitting || !canSubmit || cvPhase !== "ready"}
-                onSubmit={onSubmit}
-                className="careers-apply-submit w-full min-w-0 sm:min-w-[12.5rem] sm:w-auto"
+                onClick={() => void onSubmit()}
+                className="careers-apply-submit inline-flex h-12 w-full min-w-0 items-center justify-center rounded-tl-lg rounded-br-lg border border-white bg-white px-6 text-sm font-bold text-black transition-colors hover:bg-neutral-100 disabled:cursor-not-allowed disabled:opacity-40 sm:w-auto sm:min-w-[12.5rem]"
               >
                 {submitting ? "Sending…" : "Submit application"}
-              </FormSubmitButton>
+              </button>
             </div>
           </div>
         ) : null}

@@ -209,7 +209,7 @@ export async function POST(req: Request) {
     return Response.json({ error: sent.message }, { status: sent.status })
   }
 
-  await sendSiteEmailViaResend({
+  const confirm = await sendSiteEmailViaResend({
     to: email,
     subject: `We received your application: ${role.title}`,
     replyTo: "enquiries@apx-fs.co.uk",
@@ -236,7 +236,11 @@ export async function POST(req: Request) {
       footerNote:
         "Recruitment privacy: https://www.apx-fs.co.uk/recruitment-privacy. This is an automated confirmation.",
     }),
-  }).catch(() => null)
+  })
 
-  return Response.json({ ok: true })
+  if (!confirm.ok) {
+    console.error("Careers applicant confirmation email failed:", confirm.message)
+  }
+
+  return Response.json({ ok: true, confirmationSent: confirm.ok })
 }
