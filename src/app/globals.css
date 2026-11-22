@@ -273,7 +273,7 @@ header.site-header {
   appearance: none;
 }
 .careers-page .careers-panel,
-.careers-page .careers-role-list,
+.careers-page .careers-role-list > li,
 .careers-page .careers-outline-btn,
 .careers-job-modal [role="dialog"],
 .careers-job-modal .careers-outline-btn {
@@ -291,7 +291,7 @@ header.site-header {
   --careers-divider: rgba(255, 255, 255, 0.102);
 }
 .careers-page .careers-panel,
-.careers-page .careers-role-list,
+.careers-page .careers-role-list > li,
 .careers-page .careers-search-input,
 .careers-page .careers-outline-btn,
 .careers-job-modal .careers-outline-btn,
@@ -308,11 +308,6 @@ header.site-header {
   border-top-width: var(--careers-bw) !important;
   border-top-style: solid;
   border-top-color: var(--careers-divider) !important;
-}
-.careers-page .careers-role-list > li + li {
-  border-top-width: var(--careers-bw) !important;
-  border-top-style: solid;
-  border-top-color: var(--careers-divider);
 }
 .careers-job-modal .careers-divider-b {
   border-bottom-width: var(--careers-bw) !important;

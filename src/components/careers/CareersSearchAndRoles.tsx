@@ -253,23 +253,7 @@ function JobDescriptionModal({ role, onClose }: { role: CareerRole; onClose: () 
 }
 
 function roleSearchHaystack(r: CareerRole): string {
-  return [
-    r.title,
-    r.description,
-    r.department,
-    r.location,
-    r.salary ?? "",
-    r.employmentType ?? "",
-    r.baseLocation ?? "",
-    ...(r.responsibilities ?? []),
-    ...(r.requirements ?? []),
-    ...(r.requiredExperience ?? []),
-    ...(r.certifications ?? []),
-    ...(r.benefits ?? []),
-    ...(r.workingAreas ?? []),
-  ]
-    .join(" ")
-    .toLowerCase()
+  return [r.title, r.department, r.location].join(" ").toLowerCase()
 }
 
 /** Every search token must appear somewhere in the role copy. */
@@ -531,9 +515,9 @@ export function CareersSearchAndRoles({
               </button>
             </div>
           ) : (
-            <ul className="careers-role-list mt-6 overflow-hidden rounded-none border border-white/15">
+            <ul className="careers-role-list mt-6 flex flex-col gap-4">
               {filtered.map((role) => (
-                <li key={role.id} className="bg-black">
+                <li key={role.id} className="rounded-none border border-white/15 bg-black">
                   <article className="flex flex-col gap-5 p-5 transition-colors hover:bg-white/[0.03] sm:p-6 lg:flex-row lg:items-center lg:justify-between lg:gap-8">
                     <div className="min-w-0 flex-1">
                       <p className="text-xs font-medium uppercase tracking-wide text-white/40">
