@@ -335,8 +335,8 @@ export default function VideoDoorEntrySystemsPage() {
           <FsServiceTextImageSection
             title="Comprehensive Security Systems"
             titleId="comprehensive-security-systems-heading"
-            imageSrc="/Comprehensive%20Security%20Systems.jpg"
-            imageAlt="Comprehensive security systems with video door entry"
+            imageSrc="/projects/library/blog-xts-video-door-entry-monitor-290323.jpg"
+            imageAlt="Video door entry monitor showing a live visitor at the entrance"
           >
             <p>
               We work closely with building specifiers, architects and our residential customers to understand exactly

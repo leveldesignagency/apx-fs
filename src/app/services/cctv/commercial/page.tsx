@@ -323,6 +323,7 @@ export default function CommercialCctvPage() {
           <FsServiceTextImageSection
             title="How commercial CCTV is used"
             titleId="commercial-cctv-benefits-heading"
+            imageSrc="/projects/library/home-video-door-entry-system-installer.jpg"
             imageAlt="How commercial CCTV is used on business premises"
             imageClassName="object-cover object-[62%_center]"
           >

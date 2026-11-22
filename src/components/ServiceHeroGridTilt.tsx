@@ -376,7 +376,13 @@ export function ServiceHeroGridTilt({
       aria-label="Introduction"
     >
       <div className="service-hero-grid__media-layer" aria-hidden={!imageAlt}>
-        <div className="service-hero-grid__tilt" style={tiltStyle}>
+        <div
+          className={cn(
+            "service-hero-grid__tilt",
+            lockMedia && "service-hero-grid__tilt--locked"
+          )}
+          style={tiltStyle}
+        >
           <Image
             src={imageSrc}
             alt={imageAlt}

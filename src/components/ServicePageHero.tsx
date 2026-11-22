@@ -33,6 +33,11 @@ export type ServicePageHeroProps = {
   afterIntro?: ReactNode
   /** Small line directly under the H1 (scope, not a second heading) */
   titleDetail?: string
+  /**
+   * Skip hero media tilt/scale so object-cover framing matches the asset
+   * (useful for vehicle / wide product shots that need full subject visible).
+   */
+  lockMedia?: boolean
 }
 
 function HeroIntro({ children }: { children: ReactNode }) {
@@ -63,6 +68,7 @@ export function ServicePageHero({
   heroCompliance,
   afterIntro,
   titleDetail,
+  lockMedia = false,
 }: ServicePageHeroProps) {
   const showImage = Boolean(imageSrc)
   const compactLayout = Boolean(compact && !showImage && heroNav === false)
@@ -92,6 +98,7 @@ export function ServicePageHero({
         titleDetail={titleDetail}
         afterSummary={afterIntro}
         heroNav={heroNav}
+        lockMedia={lockMedia}
       />
     )
   }

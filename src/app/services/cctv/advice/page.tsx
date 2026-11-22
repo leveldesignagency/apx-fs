@@ -21,10 +21,10 @@ import { SERVICE_HERO_BRIDGE_GRADIENT } from "@/lib/heroBackgroundGradients"
 const WHAT_WE_OFFER_ITEMS = [
   "Free, no-obligation survey of your property",
   "Discussion of risks, coverage and budget (quotes follow survey)",
-  "Guidance on camera types: dome, bullet, PTZ, wireless, infrared",
+  "Guidance on camera types: dome, bullet, PTZ, infrared",
   "Advice on recording, retention, signage and lawful use under UK GDPR",
   "What to expect from a professional installer",
-  "Wired vs wireless options, wireless still needs power",
+  "Wired installation, power and network planning",
   "Indoor, outdoor and low-light placement guidance",
   "Lawful recording, signage and sharing footage",
   "Clear next steps: specification, quote and installation",
@@ -65,7 +65,7 @@ export default function UsefulCctvAdvicePage() {
             {[
               {
                 title: "Choosing the right system",
-                text: "Indoor vs outdoor, resolution, night vision, and wired vs wireless (wireless still needs power).",
+                text: "Indoor vs outdoor, resolution, night vision, and wired power and network planning.",
                 imageSrc: "/service%20images/cctv-capabilities/ip-cctv.jpg",
                 imageAlt: "IP turret camera mounted on a commercial ceiling grid",
               },

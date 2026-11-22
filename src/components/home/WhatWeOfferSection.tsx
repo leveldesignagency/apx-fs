@@ -69,7 +69,7 @@ const OFFERS: WhatWeOfferItem[] = [
     headline: "CCTV Design, Installation\n& Commissioning",
     description:
       "IP and HD analogue systems specified for your site, camera placement, secure recording, network segregation and handover documentation aligned with NSI Gold expectations.",
-    image: "/service%20images/cctv%20/hero-cctv-installer-modern.jpg",
+    image: "/heroes/cctv-installer-modern.jpg",
     href: "/services/cctv-systems",
     features: [
       "Site survey & risk-based coverage",

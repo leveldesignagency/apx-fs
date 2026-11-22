@@ -55,6 +55,11 @@ const nextConfig: NextConfig = {
         destination: "/delivery-methodology",
         permanent: true,
       },
+      {
+        source: "/services/cctv/camera-types/wireless",
+        destination: "/services/cctv-systems",
+        permanent: true,
+      },
     ];
   },
   async headers() {

@@ -1,7 +1,7 @@
 /** Next/Image `src`, paths under /public (spaces URL-encoded). */
 export const serviceHeroImages = {
   /* UK Hikvision CCTV (City of London). Swap for APX engineer + turret set when Chris supplies. */
-  cctv: "/service%20images/cctv%20/hero-cctv-installer-modern.jpg",
+  cctv: "/heroes/cctv-installer-modern.jpg",
   domesticCctv: "/service%20images/cctv%20/domestic%20cctv%20hero.jpg",
   commercialCctv: "/industries/commercial.jpg",
   cctvAdvice: "/service%20images/cctv%20/hero-useful-cctv-advice.jpg",
@@ -21,7 +21,7 @@ export const serviceHeroImages = {
   refuge: "/pexels-marcus-aurelius-4064229.jpg",
   monitoring: "/projects/library/intruder-alarm-monitoring-company-sq.jpg",
   maintenance: "/service%20images/MAINTAINENCE%20AND%20SUPPORT.jpg",
-  emergencyCallOut: "/service%20images/callout-capabilities/hero-24-hour-call-out.png",
+  emergencyCallOut: "/heroes/emergency-call-out.jpg",
 } as const
 
 /**
@@ -29,7 +29,7 @@ export const serviceHeroImages = {
  * the same full-bleed crop in hero + body.
  */
 export const serviceSectionImages = {
-  gateDidYouKnow: "/Comprehensive%20Security%20Systems.jpg",
+  gateDidYouKnow: "/projects/library/home-video-door-entry-system-installer.jpg",
   gateManagedSites: "/projects/library/access-control-systems-door-entry-card-sq.jpg",
   refuge: "/Fire%20Telephone.jpeg",
   /** Refuge closing CTA: keep distinct from hero (school corridor, not the exit-wheelchair hero) */
@@ -44,7 +44,7 @@ export const serviceSectionImages = {
   pavaBody: "/projects/library/case-study-pa-va-system-installation-reception.jpg",
   /** EVAC mid-page: keep distinct from PAVA speaker hero */
   evacBody: "/projects/library/home-fire-alarm-system-installer.jpg",
-  monitoringBody: "/projects/library/monitoring-cctv-display-sharp.jpg",
+  monitoringBody: "/projects/library/commercial-cctv-monitor-business.jpg",
   maintenanceBody: "/projects/library/hero-fire-alarm-system-installer.jpg",
   emergencyCallOutBody: "/projects/library/apx-fire-security-alarm-box.jpg",
 } as const

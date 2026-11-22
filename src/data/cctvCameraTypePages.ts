@@ -2,8 +2,8 @@
  * Dedicated CCTV camera-type pages - slugs match `/services/cctv/camera-types/[slug]`.
  * Images: `public/cctv camera types/*.png`
  *
- * Retained as short guides linked from CCTV hubs. Confirm with client whether all six
- * should stay long-term (especially thermal-imaging) vs consolidating into the advice page.
+ * Retained as short guides linked from CCTV hubs. Confirm with client whether thermal-imaging
+ * should stay long-term vs consolidating into the advice page.
  */
 export type CctvCameraTypeSection = {
   heading: string
@@ -96,32 +96,6 @@ export const CCTV_CAMERA_TYPE_PAGES: CctvCameraTypePage[] = [
         heading: "Bandwidth and storage",
         body:
           "Moving streams can increase network load. We size switches and recording retention with realistic bitrate assumptions so recording and live view remain stable under load.",
-      },
-    ],
-  },
-  {
-    slug: "wireless",
-    file: "cctv-camera-wireless.png",
-    label: "Wireless",
-    imageAlt: "Wireless CCTV camera, APX Fire & Security, London and Home Counties.",
-    title: "Wireless CCTV cameras",
-    heroIntro:
-      "Wireless (typically Wi-Fi or dedicated radio) cameras can reduce data cabling where containment is impractical. They are not cable-free installs: cameras still need a reliable power supply (mains, PoE nearby, or battery with charging cycles). We assess radio conditions, encryption and resilience on survey.",
-    sections: [
-      {
-        heading: "Site survey and radio conditions",
-        body:
-          "Concrete, foil insulation and competing access points affect reliability. We survey signal paths and, where needed, prefer dedicated links over consumer Wi-Fi for critical views.",
-      },
-      {
-        heading: "Power is still required",
-        body:
-          "Wireless does not mean no cabling. Most commercial and residential cameras need continuous power. Battery models introduce charging and maintenance cycles; mains or local PoE injectors must be safe and accessible. We clarify power and maintenance access at design stage so facilities teams are not surprised later.",
-      },
-      {
-        heading: "Hardening and policy",
-        body:
-          "Encryption, firmware updates and strong credentials are essential. We align wireless segments with your network policy and document segmentation so CCTV traffic does not weaken wider IT security.",
       },
     ],
   },

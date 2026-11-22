@@ -2117,6 +2117,11 @@ main .service-page-white-band .pill-btn .pill-text,
   will-change: transform;
   backface-visibility: hidden;
 }
+/* No zoom inset — keep full subject framing (e.g. call-out van hero). */
+.service-hero-grid__tilt--locked {
+  inset: 0;
+  will-change: auto;
+}
 .service-hero-grid__tilt > img,
 .service-hero-grid__tilt > span {
   position: absolute !important;

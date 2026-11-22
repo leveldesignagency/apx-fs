@@ -213,7 +213,7 @@ export default function GateAutomationSystemsPage() {
             title="Did you know?"
             titleId="gate-did-you-know-heading"
             imageSrc={serviceSectionImages.gateDidYouKnow}
-            imageAlt="Integrated Fire and Security systems protecting a site entrance"
+            imageAlt="Resident reviewing live entrance video on a wall-mounted security panel"
           >
             <p>
               As a homeowner, you are responsible for ensuring that your electric gate is safe and does not pose a risk to

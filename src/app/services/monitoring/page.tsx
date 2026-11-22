@@ -160,7 +160,7 @@ export default function MonitoringServicePage() {
           title="How monitoring fits your site"
           titleId="monitoring-how-it-fits-heading"
           imageSrc={serviceSectionImages.monitoringBody}
-          imageAlt="Operators reviewing live multi-camera CCTV feeds in a monitoring centre"
+          imageAlt="Commercial CCTV monitoring screen showing multi-camera site coverage"
           imageSide="right"
         >
           <p>

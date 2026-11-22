@@ -73,7 +73,7 @@ const CCTV_CONSIDERATION_ITEMS = [
   {
     question: "How will I run the cables to the cameras?",
     answer:
-      "Wired cameras offer reliable power and bandwidth. Wireless options can reduce data cabling in some locations, but cameras normally still need power (mains, local PoE or battery with charging cycles), wireless is not a cabling-free install. We plan routes, containment and power on survey.",
+      "Wired cameras offer reliable power and bandwidth. We plan cable routes, containment and power (mains or PoE) on survey so installs stay maintainable and recording remains stable.",
   },
   {
     question:

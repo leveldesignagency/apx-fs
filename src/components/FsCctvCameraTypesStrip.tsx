@@ -22,7 +22,7 @@ const jsonLd = {
   "@type": "ItemList",
   name: "CCTV camera types",
   description:
-    "Dome, bullet, PTZ (pan, tilt and zoom), wireless, infrared and thermal imaging CCTV camera guides from APX Fire & Security in Greater London and the Home Counties.",
+    "Dome, bullet, PTZ (pan, tilt and zoom), infrared and thermal imaging CCTV camera guides from APX Fire & Security in Greater London and the Home Counties.",
   numberOfItems: CCTV_CAMERA_TYPE_PAGES.length,
   itemListElement: CCTV_CAMERA_TYPE_PAGES.map((item, index) => ({
     "@type": "ListItem",
@@ -67,7 +67,7 @@ export function FsCctvCameraTypesStrip() {
           </Reveal>
           <Reveal show={stripShow} delayMs={STRIP_INTRO_DELAY_MS}>
             <p className="mb-8 max-w-3xl text-left text-base leading-relaxed text-gray-300 sm:mb-10">
-              Dome, bullet, PTZ (pan, tilt and zoom), wireless, infrared and thermal options, specified on survey for
+              Dome, bullet, PTZ (pan, tilt and zoom), infrared and thermal options, specified on survey for
               commercial and residential sites across London and the Home Counties. Select a type for a short guide, then
               enquire via the main{" "}
               <Link href="/services/cctv-systems" className="underline decoration-white/45 underline-offset-[3px] hover:decoration-white">
@@ -77,7 +77,7 @@ export function FsCctvCameraTypesStrip() {
             </p>
           </Reveal>
 
-          <ul className="mx-auto grid w-full max-w-md list-none grid-cols-1 gap-6 overflow-visible py-1 sm:mx-0 sm:max-w-none sm:grid-cols-3 sm:gap-5 lg:grid-cols-6 lg:gap-6">
+          <ul className="mx-auto grid w-full max-w-md list-none grid-cols-1 gap-6 overflow-visible py-1 sm:mx-0 sm:max-w-none sm:grid-cols-3 sm:gap-5 lg:grid-cols-5 lg:gap-6">
             {CCTV_CAMERA_TYPE_PAGES.map(({ slug, file, label, imageAlt }, index) => (
               <li key={slug} className="flex flex-col items-center text-center">
                 <Reveal
