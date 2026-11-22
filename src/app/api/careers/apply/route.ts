@@ -60,7 +60,8 @@ export async function POST(req: Request) {
     return Response.json({ error: "Invalid form data." }, { status: 400 })
   }
 
-  const hp = String(form.get("company") ?? "")
+  // Prefer new honeypot key; keep reading legacy "company" for old clients.
+  const hp = String(form.get("fs_cf_hp") ?? form.get("company") ?? "").trim()
   if (hp.length > 0) {
     return Response.json({ ok: true })
   }

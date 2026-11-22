@@ -134,6 +134,11 @@ export function CareerApplicationForm({
     }
   }, [])
 
+  // Chrome may autofill leftover honeypot values when entering the final step.
+  useEffect(() => {
+    if (step === 3 && hp.trim() !== "") setHp("")
+  }, [step, hp])
+
   const clearCv = useCallback(() => {
     if (uploadTimerRef.current) clearTimeout(uploadTimerRef.current)
     setCvFile(null)
@@ -211,8 +216,13 @@ export function CareerApplicationForm({
 
   const onSubmit = async () => {
     setError(null)
-    if (!canSubmit || !cvFile || hp !== "") {
+    if (!canSubmit || !cvFile) {
+      setError("Please attach your CV and confirm the privacy notice before submitting.")
       throw new Error("incomplete")
+    }
+    // Autofill sometimes fills old honeypot names; never block a real applicant silently.
+    if (hp.trim() !== "") {
+      setHp("")
     }
     if (turnstileRequired && !turnstileToken) {
       setError(
@@ -231,7 +241,8 @@ export function CareerApplicationForm({
       fd.append("phone", phone.trim())
       fd.append("experience", experience.trim())
       fd.append("cv", cvFile)
-      fd.append("company", hp)
+      // Nonsense name so Chrome/password managers do not autofill this trap field.
+      fd.append("fs_cf_hp", "")
       fd.append("turnstileToken", turnstileToken ?? "")
       fd.append("privacyConsent", privacyConsent ? "true" : "false")
 
@@ -319,19 +330,26 @@ export function CareerApplicationForm({
           </p>
         ) : null}
 
-        {/* Honeypot */}
-        <label className="absolute -left-[9999px] h-0 w-0 overflow-hidden" htmlFor="careers-company-hp">
-          Company
+        {/* Honeypot — avoid autofillable names like company/email/website */}
+        <label className="absolute -left-[9999px] h-0 w-0 overflow-hidden" htmlFor="careers-fs-cf-hp">
+          Leave blank
         </label>
         <input
-          id="careers-company-hp"
-          name="company"
+          id="careers-fs-cf-hp"
+          name="fs_cf_hp"
           type="text"
           tabIndex={-1}
           autoComplete="off"
+          autoCapitalize="off"
+          autoCorrect="off"
+          spellCheck={false}
+          aria-hidden
+          data-lpignore="true"
+          data-1p-ignore="true"
+          data-form-type="other"
           value={hp}
           onChange={(e) => setHp(e.target.value)}
-          className="absolute -left-[9999px] h-0 w-0"
+          className="absolute -left-[9999px] h-0 w-0 opacity-0"
         />
 
         {step === 1 ? (
