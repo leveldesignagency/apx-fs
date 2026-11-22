@@ -219,9 +219,23 @@ header.site-header {
   }
 }
 
-/* Careers: Apply uses homepage CustomPillButton (TL/BR radius). Search stays fully rounded. */
+/* Careers: Apply uses CustomPillButton with tighter TL/BR corners than homepage CTAs. Search stays fully rounded. */
 .careers-page .careers-search-input {
   border-radius: 9999px !important;
+}
+.careers-page a.pill-btn,
+.careers-page .pill-btn {
+  border-top-left-radius: 0.5rem !important;
+  border-bottom-right-radius: 0.5rem !important;
+  border-top-right-radius: 0 !important;
+  border-bottom-left-radius: 0 !important;
+}
+.careers-page .pill-btn .pill-btn-inner,
+.careers-page .pill-btn .pill-btn-border {
+  border-top-left-radius: 0.5rem;
+  border-bottom-right-radius: 0.5rem;
+  border-top-right-radius: 0;
+  border-bottom-left-radius: 0;
 }
 
 /* Apply form submit: keep label truly centred on mobile (pill text was left-biased) */
