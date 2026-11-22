@@ -38,7 +38,7 @@ export default async function CareerRolePdfPage({ params }: Props) {
             Back to careers
           </Link>
           <div className="flex flex-wrap items-center gap-2">
-            <JobPdfActions />
+            <JobPdfActions role={role} />
             <Link
               href={careerApplyHref(role.id)}
               className="inline-flex h-11 items-center justify-center border border-neutral-900 px-5 text-sm font-semibold text-neutral-900 transition-colors hover:bg-neutral-900 hover:text-white"

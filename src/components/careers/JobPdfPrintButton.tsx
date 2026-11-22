@@ -1,9 +1,28 @@
 "use client"
 
-const btnBase =
-  "job-pdf-screen-only inline-flex h-11 items-center justify-center px-5 text-sm font-semibold transition-colors"
+import { useState } from "react"
+import type { CareerRole } from "@/components/careers/careers-types"
+import { downloadCareerRolePdf } from "@/lib/career-role-pdf"
 
-export function JobPdfActions() {
+const btnBase =
+  "job-pdf-screen-only inline-flex h-11 items-center justify-center px-5 text-sm font-semibold transition-colors disabled:cursor-wait disabled:opacity-60"
+
+export function JobPdfActions({ role }: { role: CareerRole }) {
+  const [saving, setSaving] = useState(false)
+
+  const onSavePdf = async () => {
+    if (saving) return
+    setSaving(true)
+    try {
+      await downloadCareerRolePdf(role)
+    } catch {
+      // Fall back only if PDF generation fails
+      window.print()
+    } finally {
+      setSaving(false)
+    }
+  }
+
   return (
     <div className="job-pdf-screen-only flex flex-wrap items-center gap-2">
       <button
@@ -15,17 +34,17 @@ export function JobPdfActions() {
       </button>
       <button
         type="button"
-        onClick={() => window.print()}
+        onClick={() => void onSavePdf()}
+        disabled={saving}
         className={`${btnBase} border border-neutral-900 bg-neutral-900 text-white hover:bg-black`}
-        title="Opens the print dialog. Choose Save as PDF as the destination."
       >
-        Save as PDF
+        {saving ? "Preparing PDF…" : "Save as PDF"}
       </button>
     </div>
   )
 }
 
 /** @deprecated use JobPdfActions */
-export function JobPdfPrintButton() {
-  return <JobPdfActions />
+export function JobPdfPrintButton({ role }: { role: CareerRole }) {
+  return <JobPdfActions role={role} />
 }
