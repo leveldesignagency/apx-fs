@@ -60,13 +60,13 @@ export default async function CareerRolePdfPage({ params }: Props) {
           <p className="mt-3 text-sm text-neutral-600 sm:text-base">
             {role.department}
             <span className="mx-2 text-neutral-300" aria-hidden>
-              ·
+              {"\u00b7"}
             </span>
             {role.location}
             {role.employmentType ? (
               <>
                 <span className="mx-2 text-neutral-300" aria-hidden>
-                  ·
+                  {"\u00b7"}
                 </span>
                 {role.employmentType}
               </>
@@ -84,7 +84,7 @@ export default async function CareerRolePdfPage({ params }: Props) {
           <p className="mt-1">
             {FS_PHONE_DISPLAY}
             <span className="mx-2 text-neutral-300" aria-hidden>
-              ·
+              {"\u00b7"}
             </span>
             {FS_EMAIL}
           </p>
