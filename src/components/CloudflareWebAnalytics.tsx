@@ -1,9 +1,9 @@
 import Script from "next/script"
 
 /**
- * Cloudflare Web Analytics (includes Core Web Vitals / “speed” metrics).
- * Cookieless — only loads when NEXT_PUBLIC_CF_BEACON_TOKEN is set.
- * Create a site in Dashboard ? Analytics & Logs ? Web Analytics, then paste the token.
+ * Cloudflare Web Analytics (includes Core Web Vitals / speed metrics).
+ * Cookieless - only loads when NEXT_PUBLIC_CF_BEACON_TOKEN is set.
+ * Create a site in Dashboard > Analytics & Logs > Web Analytics, then paste the token.
  */
 export function CloudflareWebAnalytics() {
   const token = process.env.NEXT_PUBLIC_CF_BEACON_TOKEN?.trim()
