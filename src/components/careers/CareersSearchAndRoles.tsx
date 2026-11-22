@@ -131,18 +131,11 @@ function JobDescriptionModal({ role, onClose }: { role: CareerRole; onClose: () 
         </div>
 
         <div className="flex shrink-0 flex-col gap-3 careers-divider-t border-t border-white/[0.085] px-5 py-5 sm:flex-row sm:items-center sm:justify-end sm:gap-3 sm:px-8">
-          <button
-            type="button"
-            onClick={onClose}
-            className="careers-outline-btn order-3 inline-flex h-12 min-w-[8.5rem] items-center justify-center rounded-none border border-white/25 px-6 text-sm font-semibold text-white/90 transition-colors hover:border-white/45 hover:bg-white/5 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/40 sm:order-1"
-          >
-            Close
-          </button>
           <a
             href={careerPdfHref(role.id)}
             target="_blank"
             rel="noopener noreferrer"
-            className="careers-outline-btn order-2 inline-flex h-12 items-center justify-center gap-2 rounded-none border border-white/25 px-5 text-sm font-semibold text-white/90 transition-colors hover:border-white/45 hover:bg-white/5 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/40"
+            className="careers-outline-btn order-2 inline-flex h-12 w-full items-center justify-center gap-2 rounded-none border border-white/25 px-5 text-sm font-semibold text-white/90 transition-colors hover:border-white/45 hover:bg-white/5 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/40 sm:order-1 sm:w-auto"
           >
             <FileText className="h-4 w-4" aria-hidden />
             Open PDF
@@ -150,7 +143,7 @@ function JobDescriptionModal({ role, onClose }: { role: CareerRole; onClose: () 
           <CustomPillButton
             href={careerApplyHref(role.id)}
             size="md"
-            className="order-1 inline-flex h-12 min-w-[8.5rem] w-full items-center justify-center !px-6 !py-0 !text-sm sm:order-3 sm:w-auto"
+            className="order-1 inline-flex h-12 min-w-[8.5rem] w-full items-center justify-center !px-6 !py-0 !text-sm sm:order-2 sm:w-auto"
           >
             Apply
           </CustomPillButton>
@@ -457,7 +450,7 @@ export function CareersSearchAndRoles({
                         {role.description}
                       </p>
                     </div>
-                    <div className="flex shrink-0 flex-col gap-2.5 sm:flex-row sm:flex-wrap sm:items-center lg:flex-col lg:items-stretch xl:flex-row xl:flex-wrap">
+                    <div className="flex shrink-0 flex-col gap-2.5 sm:flex-row sm:items-center lg:flex-col lg:items-stretch xl:flex-row">
                       <button
                         type="button"
                         onClick={() => setModalRole(role)}
@@ -465,15 +458,6 @@ export function CareersSearchAndRoles({
                       >
                         View description
                       </button>
-                      <a
-                        href={careerPdfHref(role.id)}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="careers-outline-btn inline-flex items-center justify-center gap-2 rounded-none border border-white/25 px-4 py-2.5 text-sm font-semibold text-white/90 transition-colors hover:border-white/45 hover:bg-white/5 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/40"
-                      >
-                        <FileText className="h-4 w-4" aria-hidden />
-                        Open PDF
-                      </a>
                       <CustomPillButton
                         href={careerApplyHref(role.id)}
                         size="md"
