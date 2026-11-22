@@ -6,7 +6,11 @@ import { useCallback, useEffect, useId, useRef, useState, type DragEvent, type R
 import { Check, FileText, Upload, X } from "lucide-react"
 import type { CareerRole } from "@/components/careers/careers-types"
 import { FormSubmitButton } from "@/components/ui/FormSubmitButton"
-import { TurnstileWidget, isTurnstileSiteKeyPresent } from "@/components/TurnstileWidget"
+import {
+  TurnstileWidget,
+  isTurnstileSiteKeyPresent,
+  type TurnstileStatus,
+} from "@/components/TurnstileWidget"
 import { cvFileLooksPlausibleInBrowser } from "@/lib/cv-magic"
 import { cn } from "@/lib/utils"
 
@@ -121,6 +125,7 @@ export function CareerApplicationForm({
   /** honeypot */
   const [hp, setHp] = useState("")
   const [turnstileToken, setTurnstileToken] = useState<string | null>(null)
+  const [turnstileStatus, setTurnstileStatus] = useState<TurnstileStatus>("idle")
   const [privacyConsent, setPrivacyConsent] = useState(false)
 
   useEffect(() => {
@@ -159,13 +164,12 @@ export function CareerApplicationForm({
 
     const started = performance.now()
     void (async () => {
+      // Advisory only — never block attach on client sniff; API re-checks bytes.
       const ok = await cvFileLooksPlausibleInBrowser(file)
       if (!ok) {
         setCvError(
-          "That file does not look like a PDF or Word document. Export or save as PDF / .docx and try again."
+          "This file may not be a standard PDF or Word document. You can still submit; we will validate on send."
         )
-        clearCv()
-        return
       }
 
       const tick = () => {
@@ -189,12 +193,9 @@ export function CareerApplicationForm({
   const canNext1 =
     fullName.trim().length >= 2 && /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email.trim()) && phone.trim().length >= 8
   const canNext2 = experience.trim().length >= 40
+  // Do not gate the button on Turnstile token — a broken widget was leaving Submit dead (no loader).
   const canSubmit =
-    cvFile !== null &&
-    cvFile.size > 0 &&
-    cvFile.size <= MAX_CV_BYTES &&
-    privacyConsent &&
-    (!turnstileRequired || Boolean(turnstileToken))
+    cvFile !== null && cvFile.size > 0 && cvFile.size <= MAX_CV_BYTES && privacyConsent
 
   const goNext = useCallback(() => {
     setError(null)
@@ -214,7 +215,11 @@ export function CareerApplicationForm({
       throw new Error("incomplete")
     }
     if (turnstileRequired && !turnstileToken) {
-      setError("Please complete the security check before submitting.")
+      setError(
+        turnstileStatus === "error"
+          ? "Security check failed to load. Refresh the page (and try without browser extensions), then submit again."
+          : "Please complete the security check above, then submit again."
+      )
       throw new Error("turnstile")
     }
     setSubmitting(true)
@@ -619,9 +624,19 @@ export function CareerApplicationForm({
               <span className="careers-apply-muted">(required)</span>
             </ConsentCheckbox>
             <div className="pt-1">
-              <TurnstileWidget onToken={setTurnstileToken} theme="dark" appearance="always" />
-              {turnstileRequired && !turnstileToken ? (
-                <p className="careers-apply-muted mt-2 text-xs">Complete the security check to enable submit.</p>
+              <TurnstileWidget
+                onToken={setTurnstileToken}
+                onStatus={setTurnstileStatus}
+                theme="dark"
+                appearance="always"
+              />
+              {turnstileRequired && turnstileStatus === "error" ? (
+                <p className="mt-2 text-sm text-red-300" role="alert">
+                  Security check could not load. Refresh this page, or try another browser / disable extensions, then
+                  tick the checkbox.
+                </p>
+              ) : turnstileRequired && !turnstileToken ? (
+                <p className="careers-apply-muted mt-2 text-xs">Tick the security checkbox before submitting.</p>
               ) : null}
             </div>
             <div className="careers-apply-actions flex flex-col gap-3 pt-2 sm:flex-row sm:items-stretch sm:justify-between sm:gap-4">
