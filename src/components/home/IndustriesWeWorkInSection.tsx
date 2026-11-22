@@ -20,7 +20,6 @@ type IndustrySlide = {
   label: string
   imageSrc: string
   imageAlt: string
-  href: string
   /** object-position when the focal point is not centre (e.g. building emblem) */
   objectPosition?: string
 }
@@ -35,33 +34,28 @@ type IndustryFeature = {
 const INDUSTRIES: readonly IndustrySlide[] = [
   {
     label: "Education & Schools",
-    imageSrc: "/industries/education-london-school.jpg",
-    imageAlt: "BRIT School for Performing Arts and Technology, Croydon, London",
-    href: "/projects/university-of-west-london",
+    imageSrc: "/industries/education-university-of-west-london.jpg",
+    imageAlt: "University of West London",
   },
   {
     label: "Commercial",
     imageSrc: "/industries/commercial.jpg",
     imageAlt: "Fire and security systems for commercial offices",
-    href: "/projects/sancroft-building",
   },
   {
     label: "Hospitals",
     imageSrc: "/industries/hospitals-london.jpg",
     imageAlt: "King's College Hospital, Denmark Hill, London",
-    href: "/projects/kings-college-hospital",
   },
   {
     label: "Housing",
     imageSrc: "/industries/housing-london-integrated-entry.jpg",
     imageAlt: "High-end London home with integrated entry and access",
-    href: "/projects/mayfair-townhouse",
   },
   {
     label: "Hotels",
     imageSrc: "/industries/hotels.jpg",
     imageAlt: "Fire and security systems for hotels",
-    href: "/projects",
   },
 ]
 
@@ -216,11 +210,7 @@ export function IndustriesWeWorkInSection() {
                 className="industries-carousel__card group relative aspect-[3/4] shrink-0 snap-start overflow-hidden rounded-2xl"
                 style={{ ["--card-step" as string]: index }}
               >
-                <Link
-                  href={item.href}
-                  className="absolute inset-0 z-[1] block text-inherit no-underline"
-                  aria-label={`${item.label}, view projects`}
-                >
+                <div className="absolute inset-0 z-[1]">
                   <Image
                     src={item.imageSrc}
                     alt={item.imageAlt}
@@ -245,7 +235,7 @@ export function IndustriesWeWorkInSection() {
                   <h3 className="absolute bottom-5 left-5 right-5 origin-bottom-left font-title text-xl font-bold tracking-tight text-white transition-transform duration-500 ease-out motion-reduce:transition-none motion-safe:group-hover:scale-[1.04] sm:text-2xl">
                     {toTitleCase(item.label)}
                   </h3>
-                </Link>
+                </div>
               </article>
             ))}
           </div>
