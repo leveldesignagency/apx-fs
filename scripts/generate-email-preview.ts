@@ -74,7 +74,16 @@ const labels: Record<keyof typeof samples, string> = {
 
 const sections = (Object.keys(samples) as (keyof typeof samples)[])
   .map((key) => {
-    const html = buildFsBrandedEmailHtml({ ...samples[key], logoMode: "data" })
+    const sample = samples[key]
+    const html = buildFsBrandedEmailHtml({
+      title: sample.title,
+      intro: sample.intro,
+      rows: [...sample.rows],
+      messageLabel: "messageLabel" in sample ? sample.messageLabel : undefined,
+      messageBody: "messageBody" in sample ? sample.messageBody : undefined,
+      footerNote: sample.footerNote,
+      logoMode: "data",
+    })
     return `
       <div class="card">
         <h2>${labels[key]}</h2>
