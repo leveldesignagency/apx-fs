@@ -125,7 +125,9 @@ export function CareerApplicationForm({
   const [hp, setHp] = useState("")
   const [turnstileToken, setTurnstileToken] = useState<string | null>(null)
   const [turnstileStatus, setTurnstileStatus] = useState<TurnstileStatus>("idle")
+  const [turnstileKey, setTurnstileKey] = useState(0)
   const [privacyConsent, setPrivacyConsent] = useState(false)
+  const submitErrorRef = useRef<HTMLParagraphElement>(null)
 
   useEffect(() => {
     return () => {
@@ -137,6 +139,19 @@ export function CareerApplicationForm({
   useEffect(() => {
     if (step === 3 && hp.trim() !== "") setHp("")
   }, [step, hp])
+
+  // Remount Turnstile when opening the final step so the checkbox reliably appears.
+  useEffect(() => {
+    if (step !== 3) return
+    setTurnstileToken(null)
+    setTurnstileStatus("idle")
+    setTurnstileKey((k) => k + 1)
+  }, [step])
+
+  useEffect(() => {
+    if (!error) return
+    submitErrorRef.current?.scrollIntoView({ behavior: "smooth", block: "center" })
+  }, [error])
 
   const clearCv = useCallback(() => {
     if (uploadTimerRef.current) clearTimeout(uploadTimerRef.current)
@@ -636,23 +651,54 @@ export function CareerApplicationForm({
               process my application for recruitment purposes.{" "}
               <span className="careers-apply-muted">(required)</span>
             </ConsentCheckbox>
-            <div className="pt-1">
-              <TurnstileWidget
-                onToken={setTurnstileToken}
-                onStatus={setTurnstileStatus}
-                theme="dark"
-                appearance="always"
-              />
+            <div className="space-y-2 pt-2">
+              <p className="careers-apply-label text-[11px] font-semibold uppercase tracking-[0.18em]">
+                Security check
+              </p>
+              <div className="min-h-[70px] overflow-visible rounded-none border border-white/20 bg-black/60 px-3 py-3">
+                <TurnstileWidget
+                  key={turnstileKey}
+                  onToken={setTurnstileToken}
+                  onStatus={setTurnstileStatus}
+                  theme="dark"
+                  appearance="always"
+                />
+              </div>
               {turnstileRequired && turnstileStatus === "error" ? (
-                <p className="mt-2 text-sm text-red-300" role="alert">
-                  Security check could not load. Refresh this page, or try another browser / disable extensions, then
-                  tick the checkbox.
-                </p>
-              ) : turnstileRequired && !turnstileToken ? (
-                <p className="careers-apply-muted mt-2 text-xs">Tick the security checkbox before submitting.</p>
+                <div className="flex flex-wrap items-center gap-3">
+                  <p className="text-sm text-red-300" role="alert">
+                    Security check could not load. Try again, or refresh without browser extensions.
+                  </p>
+                  <button
+                    type="button"
+                    className={`${outlineBtnClass} !h-9 !px-3 !text-xs`}
+                    onClick={() => {
+                      setTurnstileToken(null)
+                      setTurnstileStatus("idle")
+                      setTurnstileKey((k) => k + 1)
+                    }}
+                  >
+                    Retry check
+                  </button>
+                </div>
+              ) : turnstileRequired && turnstileToken ? (
+                <p className="text-xs text-emerald-300/90">Security check complete.</p>
+              ) : turnstileRequired ? (
+                <p className="careers-apply-muted text-xs">Tick the checkbox above, then submit.</p>
               ) : null}
             </div>
-            <div className="careers-apply-actions flex flex-col gap-3 pt-2 sm:flex-row sm:items-stretch sm:justify-between sm:gap-4">
+
+            {error ? (
+              <p
+                ref={submitErrorRef}
+                className="rounded-none border border-red-400/40 bg-red-500/10 px-4 py-3 text-sm text-red-200"
+                role="alert"
+              >
+                {error}
+              </p>
+            ) : null}
+
+            <div className="careers-apply-actions flex flex-col gap-3 pt-1 sm:flex-row sm:items-stretch sm:justify-between sm:gap-4">
               <button
                 type="button"
                 onClick={goBack}
