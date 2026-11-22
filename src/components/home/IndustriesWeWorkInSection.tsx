@@ -45,7 +45,7 @@ const INDUSTRIES: readonly IndustrySlide[] = [
   {
     label: "Hospitals",
     imageSrc: "/industries/hospitals-london.jpg",
-    imageAlt: "King's College Hospital, Denmark Hill, London",
+    imageAlt: "King's College Hospital, London",
   },
   {
     label: "Housing",

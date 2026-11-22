@@ -72,7 +72,7 @@ const COMMERCIAL_CCTV_SECTORS = [
     label: "Hospitals",
     text: "Wards, clinics and car parks with discreet camera placement aligned with healthcare site requirements and privacy expectations.",
     imageSrc: "/industries/hospitals-london.jpg",
-    imageAlt: "King's College Hospital, Denmark Hill, London",
+    imageAlt: "King's College Hospital, London",
   },
   {
     label: "Housing",
