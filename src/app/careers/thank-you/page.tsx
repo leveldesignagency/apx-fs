@@ -68,11 +68,14 @@ export default async function CareersThankYouPage({ searchParams }: Props) {
         <p className="mt-6 max-w-xl text-base leading-relaxed text-white/70 sm:text-lg">
           {role ? (
             <>
-              Thank you  we have your application for{" "}
+              Thank you{" "}
+              <span aria-hidden>{"\u2014"}</span> we have your application for{" "}
               <span className="font-semibold text-white">{role.title}</span>.
             </>
           ) : (
-            <>Thank you  we have received your application.</>
+            <>
+              Thank you <span aria-hidden>{"\u2014"}</span> we have received your application.
+            </>
           )}{" "}
           A confirmation email is on its way. If your experience matches the role, our recruitment team will be in
           touch.
@@ -87,7 +90,10 @@ export default async function CareersThankYouPage({ searchParams }: Props) {
             </li>
             <li className="flex gap-3">
               <span className="mt-2 h-1.5 w-1.5 shrink-0 bg-white" aria-hidden />
-              <span>Shortlisted candidates are contacted for a conversation  there is no need to chase.</span>
+              <span>
+                Shortlisted candidates are contacted for a conversation{" "}
+                <span aria-hidden>{"\u2014"}</span> there is no need to chase.
+              </span>
             </li>
             <li className="flex gap-3">
               <span className="mt-2 h-1.5 w-1.5 shrink-0 bg-white" aria-hidden />
