@@ -30,11 +30,13 @@ const ALLOWED_MIME = new Set([
   "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
 ])
 
-function cvLooksValid(file: File): boolean {
+function cvLooksValid(file: { name: string; type: string }): boolean {
   const name = file.name.toLowerCase()
   const extOk = name.endsWith(".pdf") || name.endsWith(".doc") || name.endsWith(".docx")
   if (ALLOWED_MIME.has(file.type)) return true
   if ((!file.type || file.type === "application/octet-stream") && extOk) return true
+  // Some mobile browsers omit MIME; trust a clear extension.
+  if (extOk) return true
   return false
 }
 
@@ -118,24 +120,44 @@ export async function POST(req: Request) {
     )
   }
 
-  const file = form.get("cv")
-  if (!(file instanceof File) || file.size === 0) {
+  const cvField = form.get("cv")
+  // Some runtimes hand back Blob (not File); accept either.
+  const isBlob = typeof Blob !== "undefined" && cvField instanceof Blob
+  if (!isBlob || cvField.size === 0) {
     return Response.json({ error: "Please attach your CV." }, { status: 400 })
   }
-  if (file.size > MAX_CV_BYTES) {
+  if (cvField.size > MAX_CV_BYTES) {
     return Response.json({ error: "CV file is too large (max 5 MB)." }, { status: 400 })
   }
 
-  if (!cvLooksValid(file)) {
+  const originalName =
+    (typeof File !== "undefined" && cvField instanceof File && cvField.name) ||
+    (typeof (cvField as Blob & { name?: string }).name === "string"
+      ? (cvField as Blob & { name?: string }).name
+      : "") ||
+    "cv.pdf"
+  const fileLike = {
+    name: originalName,
+    type: cvField.type || "",
+    size: cvField.size,
+  }
+
+  if (!cvLooksValid(fileLike)) {
     return Response.json({ error: "CV must be a PDF or Word document." }, { status: 400 })
   }
 
-  const buf = Buffer.from(await file.arrayBuffer())
-  if (!cvBytesLookPlausible(buf, file.name)) {
-    return Response.json({ error: "CV file content does not look like a PDF or Word document." }, { status: 400 })
+  const buf = Buffer.from(await cvField.arrayBuffer())
+  if (!cvBytesLookPlausible(buf, originalName)) {
+    return Response.json(
+      {
+        error:
+          "We could not read that CV. Please upload a PDF or Word (.doc / .docx) file — not Pages, images, or zip archives.",
+      },
+      { status: 400 }
+    )
   }
   const base64 = buf.toString("base64")
-  let safeOriginal = file.name.replace(/[^\w.\- ()]/g, "_").slice(0, 180) || "cv.pdf"
+  let safeOriginal = originalName.replace(/[^\w.\- ()]/g, "_").slice(0, 180) || "cv.pdf"
   const lowerName = safeOriginal.toLowerCase()
   const contentType = lowerName.endsWith(".docx")
     ? "application/vnd.openxmlformats-officedocument.wordprocessingml.document"

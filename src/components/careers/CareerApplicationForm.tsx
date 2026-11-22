@@ -7,6 +7,7 @@ import { Check, FileText, Upload, X } from "lucide-react"
 import type { CareerRole } from "@/components/careers/careers-types"
 import { FormSubmitButton } from "@/components/ui/FormSubmitButton"
 import { TurnstileWidget, isTurnstileSiteKeyPresent } from "@/components/TurnstileWidget"
+import { cvFileLooksPlausibleInBrowser } from "@/lib/cv-magic"
 import { cn } from "@/lib/utils"
 
 function ConsentCheckbox({
@@ -141,7 +142,7 @@ export function CareerApplicationForm({
     if (!file) return
     setCvError(null)
     if (!isAllowedCv(file)) {
-      setCvError("Please upload a PDF or Word document.")
+      setCvError("Please upload a PDF or Word (.doc / .docx) file.")
       clearCv()
       return
     }
@@ -157,21 +158,32 @@ export function CareerApplicationForm({
     setCvProgress(8)
 
     const started = performance.now()
-    const tick = () => {
-      const elapsed = performance.now() - started
-      const next = Math.min(96, 8 + (elapsed / 700) * 88)
-      setCvProgress(next)
-      if (elapsed < 700) {
-        uploadTimerRef.current = setTimeout(tick, 40)
+    void (async () => {
+      const ok = await cvFileLooksPlausibleInBrowser(file)
+      if (!ok) {
+        setCvError(
+          "That file does not look like a PDF or Word document. Export or save as PDF / .docx and try again."
+        )
+        clearCv()
         return
       }
-      setCvProgress(100)
-      uploadTimerRef.current = setTimeout(() => {
-        setCvPhase("ready")
+
+      const tick = () => {
+        const elapsed = performance.now() - started
+        const next = Math.min(96, 8 + (elapsed / 700) * 88)
+        setCvProgress(next)
+        if (elapsed < 700) {
+          uploadTimerRef.current = setTimeout(tick, 40)
+          return
+        }
         setCvProgress(100)
-      }, 180)
-    }
-    uploadTimerRef.current = setTimeout(tick, 40)
+        uploadTimerRef.current = setTimeout(() => {
+          setCvPhase("ready")
+          setCvProgress(100)
+        }, 180)
+      }
+      tick()
+    })()
   }, [clearCv])
 
   const canNext1 =
