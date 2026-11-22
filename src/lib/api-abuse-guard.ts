@@ -97,15 +97,30 @@ export function originAllowed(req: Request, allowedHosts: string[]): boolean {
   }
 }
 
+/** Add host plus www/apex twin so forms work on both. */
+function addHostWithWwwTwin(hosts: Set<string>, host: string) {
+  const h = host.toLowerCase().trim()
+  if (!h) return
+  hosts.add(h)
+  if (h.startsWith("www.")) {
+    hosts.add(h.slice(4))
+  } else if (h.includes(".") && !h.startsWith("localhost") && !/^\d{1,3}(\.\d{1,3}){3}(:\d+)?$/.test(h)) {
+    hosts.add(`www.${h}`)
+  }
+}
+
 export function defaultAllowedHosts(siteUrl?: string): string[] {
   const hosts = new Set<string>()
   if (siteUrl) {
     try {
-      hosts.add(new URL(siteUrl).host)
+      addHostWithWwwTwin(hosts, new URL(siteUrl).host)
     } catch {
       /* ignore */
     }
   }
+  // Always allow production FS hosts (covers apex vs www mismatch with SITE_URL)
+  addHostWithWwwTwin(hosts, "www.apx-fs.co.uk")
+  hosts.add("apx-fs.vercel.app")
   hosts.add("localhost:3003")
   hosts.add("localhost:3001")
   hosts.add("127.0.0.1:3003")
