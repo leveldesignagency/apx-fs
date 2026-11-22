@@ -434,12 +434,12 @@ export function CareerApplicationForm({
 
               <div
                 className={cn(
-                  "careers-cv-dropzone relative overflow-hidden rounded-xl border border-dashed transition-colors",
+                  "careers-cv-dropzone relative overflow-hidden rounded-tl-2xl rounded-br-2xl border border-dashed transition-colors",
                   cvDragging
-                    ? "border-white bg-white/[0.07]"
+                    ? "border-white bg-white/[0.08]"
                     : cvPhase === "ready"
-                      ? "border-white/45 bg-white/[0.04]"
-                      : "border-white/35 bg-black/30 hover:border-white/55 hover:bg-white/[0.05]",
+                      ? "border-white/50 bg-black"
+                      : "border-white/35 bg-black hover:border-white/60 hover:bg-white/[0.03]",
                   cvPhase === "empty" && "cursor-pointer"
                 )}
                 onDragEnter={(e: DragEvent) => {
@@ -478,35 +478,35 @@ export function CareerApplicationForm({
                 aria-label={cvPhase === "empty" ? "Upload CV" : undefined}
               >
                 {cvPhase === "empty" ? (
-                  <div className="flex min-h-[11.5rem] flex-col items-center justify-center gap-3 px-5 py-8 text-center">
-                    <span className="flex h-12 w-12 items-center justify-center rounded-full border border-white/25 bg-white/5">
-                      <Upload className="h-5 w-5 text-white" aria-hidden />
+                  <div className="flex min-h-[12rem] flex-col items-center justify-center gap-4 px-6 py-9 text-center">
+                    <span className="flex h-14 w-14 items-center justify-center rounded-tl-xl rounded-br-xl border border-white/40 bg-white/[0.04]">
+                      <Upload className="h-6 w-6 text-white" strokeWidth={1.75} aria-hidden />
                     </span>
-                    <div>
-                      <p className="text-sm font-semibold text-white">Upload here</p>
-                      <p className="careers-apply-muted mt-1.5 text-xs leading-relaxed">
-                        Drag &amp; drop your CV, or tap to browse
+                    <div className="max-w-xs">
+                      <p className="font-title text-lg font-bold tracking-tight text-white">Upload your CV</p>
+                      <p className="careers-apply-muted mt-2 text-sm leading-relaxed">
+                        Drag and drop here, or click to browse
                       </p>
                     </div>
-                    <p className="careers-apply-muted text-[11px] uppercase tracking-[0.14em]">
+                    <p className="text-[11px] font-semibold uppercase tracking-[0.18em] text-white/45">
                       PDF or Word · max 5 MB
                     </p>
                   </div>
                 ) : null}
 
                 {cvPhase === "uploading" && cvFile ? (
-                  <div className="flex min-h-[11.5rem] flex-col justify-center gap-4 px-5 py-8">
-                    <div className="flex items-center gap-3">
-                      <span className="flex h-11 w-11 shrink-0 items-center justify-center rounded-lg border border-white/20 bg-white/5">
-                        <FileText className="h-5 w-5 text-white" aria-hidden />
+                  <div className="flex min-h-[12rem] flex-col justify-center gap-5 px-5 py-8 sm:px-6">
+                    <div className="flex items-center gap-4">
+                      <span className="flex h-12 w-12 shrink-0 items-center justify-center rounded-tl-xl rounded-br-xl border border-white/35 bg-white/[0.04]">
+                        <FileText className="h-5 w-5 text-white" strokeWidth={1.75} aria-hidden />
                       </span>
                       <div className="min-w-0 flex-1">
                         <p className="truncate text-sm font-semibold text-white">{truncateFileName(cvFile.name, 36)}</p>
-                        <p className="careers-apply-muted mt-0.5 text-xs">Uploading…</p>
+                        <p className="careers-apply-muted mt-1 text-xs">Uploading… {Math.round(cvProgress)}%</p>
                       </div>
                     </div>
                     <div
-                      className="h-1.5 w-full overflow-hidden rounded-full bg-white/15"
+                      className="h-1 w-full overflow-hidden bg-white/15"
                       role="progressbar"
                       aria-valuemin={0}
                       aria-valuemax={100}
@@ -514,7 +514,7 @@ export function CareerApplicationForm({
                       aria-label="Upload progress"
                     >
                       <div
-                        className="h-full rounded-full bg-white transition-[width] duration-75 ease-out"
+                        className="h-full bg-white transition-[width] duration-75 ease-out"
                         style={{ width: `${cvProgress}%` }}
                       />
                     </div>
@@ -522,21 +522,28 @@ export function CareerApplicationForm({
                 ) : null}
 
                 {cvPhase === "ready" && cvFile ? (
-                  <div className="flex min-h-[11.5rem] flex-col items-center justify-center px-5 py-7 text-center">
-                    <div className="relative flex h-[4.75rem] w-[4.75rem] items-center justify-center rounded-xl border border-white/25 bg-white/[0.07]">
-                      <FileText className="h-8 w-8 text-white" aria-hidden />
-                      <span className="absolute -right-1.5 -top-1.5 flex h-6 w-6 items-center justify-center rounded-full bg-emerald-400 text-black">
-                        <Check className="h-3.5 w-3.5" strokeWidth={3} aria-hidden />
+                  <div className="flex min-h-[12rem] flex-col justify-center gap-5 px-5 py-7 sm:flex-row sm:items-center sm:justify-between sm:px-6">
+                    <div className="flex min-w-0 items-center gap-4">
+                      <span className="relative flex h-12 w-12 shrink-0 items-center justify-center rounded-tl-xl rounded-br-xl border border-white bg-white text-black">
+                        <FileText className="h-5 w-5" strokeWidth={1.75} aria-hidden />
+                        <span className="absolute -bottom-1.5 -right-1.5 flex h-5 w-5 items-center justify-center rounded-tl-md rounded-br-md border border-black bg-white text-black">
+                          <Check className="h-3 w-3" strokeWidth={3} aria-hidden />
+                        </span>
                       </span>
+                      <div className="min-w-0">
+                        <p className="text-[11px] font-semibold uppercase tracking-[0.16em] text-white/45">
+                          CV attached
+                        </p>
+                        <p className="mt-1 truncate text-sm font-semibold text-white" title={cvFile.name}>
+                          {truncateFileName(cvFile.name, 40)}
+                        </p>
+                        <p className="careers-apply-muted mt-0.5 text-xs">{formatFileSize(cvFile.size)}</p>
+                      </div>
                     </div>
-                    <p className="mt-4 max-w-full truncate px-2 text-sm font-semibold text-white" title={cvFile.name}>
-                      {truncateFileName(cvFile.name, 34)}
-                    </p>
-                    <p className="careers-apply-muted mt-1 text-xs">{formatFileSize(cvFile.size)}</p>
-                    <div className="mt-5 flex flex-wrap items-center justify-center gap-2">
+                    <div className="flex flex-wrap items-center gap-2 sm:shrink-0">
                       <button
                         type="button"
-                        className="rounded-none border border-white/30 px-3.5 py-2 text-xs font-semibold text-white transition-colors hover:border-white/55 hover:bg-white/5"
+                        className="rounded-none border border-white/35 px-3.5 py-2 text-xs font-semibold text-white transition-colors hover:border-white hover:bg-white/5"
                         onClick={(e) => {
                           e.stopPropagation()
                           cvInputRef.current?.click()
@@ -546,7 +553,7 @@ export function CareerApplicationForm({
                       </button>
                       <button
                         type="button"
-                        className="inline-flex items-center gap-1.5 rounded-none border border-white/30 px-3.5 py-2 text-xs font-semibold text-white transition-colors hover:border-white/55 hover:bg-white/5"
+                        className="inline-flex items-center gap-1.5 rounded-none border border-white/35 px-3.5 py-2 text-xs font-semibold text-white transition-colors hover:border-white hover:bg-white/5"
                         onClick={(e) => {
                           e.stopPropagation()
                           clearCv()
@@ -564,18 +571,26 @@ export function CareerApplicationForm({
                 <p className="mt-2 text-sm text-red-300" role="alert">
                   {cvError}
                 </p>
-              ) : (
-                <p className="careers-apply-muted mt-2 text-xs">PDF or Word, max 5 MB</p>
-              )}
+              ) : null}
             </div>
             <p className="careers-apply-muted text-xs leading-relaxed">
               By submitting, you confirm the information is accurate and agree that we may contact you about this
               application. CVs contain personal data: please read our{" "}
-              <Link href="/recruitment-privacy" className="careers-apply-link-strong font-semibold underline underline-offset-2">
+              <Link
+                href="/recruitment-privacy"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="careers-apply-link-strong font-semibold underline underline-offset-2"
+              >
                 recruitment privacy notice
               </Link>{" "}
               and{" "}
-              <Link href="/privacy" className="careers-apply-link-strong font-semibold underline underline-offset-2">
+              <Link
+                href="/privacy"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="careers-apply-link-strong font-semibold underline underline-offset-2"
+              >
                 privacy policy
               </Link>
               . APX Fire &amp; Security is an equal-opportunities employer.
