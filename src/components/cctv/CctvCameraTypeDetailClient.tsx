@@ -77,22 +77,22 @@ export function CctvCameraTypeDetailClient({ page }: { page: CctvCameraTypePage 
 
           <div className="grid grid-cols-1 gap-10 lg:grid-cols-12 lg:items-center lg:gap-12 xl:gap-16">
             <div className="min-w-0 lg:col-span-7">
+              <Link
+                href="/services/cctv-systems"
+                className="group mb-5 inline-flex items-center gap-2 text-xs font-semibold uppercase tracking-[0.18em] text-white/55 transition-colors hover:text-white sm:mb-6 sm:text-sm sm:tracking-widest"
+              >
+                <ArrowLeft
+                  className="h-4 w-4 shrink-0 transition-transform group-hover:-translate-x-0.5"
+                  aria-hidden
+                />
+                Back to CCTV
+              </Link>
               <LetterReveal as="h1" text={page.title} desktopOnly={false} className="font-title text-4xl font-bold leading-tight tracking-tight text-white sm:text-5xl lg:text-[2.75rem] lg:leading-[1.08]" />
               <p className="mt-6 max-w-3xl text-lg leading-relaxed text-gray-300 sm:text-xl">{page.heroIntro}</p>
               <div className="mt-8 flex flex-col items-start gap-4 sm:flex-row sm:flex-wrap sm:items-center">
                 <CustomPillButton href="/contact?service=cctv-systems" size="md">
                   CCTV enquiry
                 </CustomPillButton>
-                <Link
-                  href="/services/cctv-systems"
-                  className="group inline-flex items-center gap-2 text-sm font-semibold uppercase tracking-widest text-white/55 transition-colors hover:text-white"
-                >
-                  <ArrowLeft
-                    className="h-4 w-4 shrink-0 transition-transform group-hover:-translate-x-0.5"
-                    aria-hidden
-                  />
-                  CCTV systems overview
-                </Link>
               </div>
             </div>
 
