@@ -7082,7 +7082,8 @@ html.about-page-active {
   visibility: hidden;
   white-space: normal;
 }
-.line-reveal__line {
+.line-reveal__line,
+.line-reveal__plain {
   opacity: 0;
   transform: translate3d(0, 0.75em, 0);
   transition:
@@ -7090,13 +7091,15 @@ html.about-page-active {
     transform 0.6s cubic-bezier(0.22, 1, 0.36, 1);
   transition-delay: 0ms;
 }
-.line-reveal__line--in {
+.line-reveal__line--in,
+.line-reveal__plain--in {
   opacity: 1;
   transform: translate3d(0, 0, 0);
   transition-delay: var(--line-delay, 0ms);
 }
 @media (prefers-reduced-motion: reduce) {
-  .line-reveal__line {
+  .line-reveal__line,
+  .line-reveal__plain {
     opacity: 1;
     transform: none;
     transition: none;

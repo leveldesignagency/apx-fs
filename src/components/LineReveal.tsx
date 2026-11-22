@@ -159,7 +159,12 @@ export function LineReveal({
           </span>
         ))
       ) : (
-        <span aria-hidden={false}>{text}</span>
+        <span
+          className={cn("line-reveal__plain block", active && "line-reveal__plain--in")}
+          style={{ "--line-delay": `${delayMs}ms` } as CSSProperties}
+        >
+          {text}
+        </span>
       )}
     </Tag>
   )

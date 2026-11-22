@@ -1595,6 +1595,7 @@ export default function Home() {
                   className="text-base leading-relaxed text-gray-300"
                   active={sectionMotion.contact}
                   delayMs={HOME_QUOTE_FORM_INNER_DELAY_MS + 160}
+                  desktopOnly={false}
                 />
 
                 <LineReveal
@@ -1603,6 +1604,7 @@ export default function Home() {
                   className="text-base leading-relaxed text-gray-300"
                   active={sectionMotion.contact}
                   delayMs={HOME_QUOTE_FORM_INNER_DELAY_MS + 240}
+                  desktopOnly={false}
                 />
               </div>
             </div>
