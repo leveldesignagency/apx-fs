@@ -54,7 +54,7 @@ const fieldClass =
   "careers-apply-field w-full rounded-none border border-white/30 bg-black px-4 py-3.5 text-sm text-white placeholder:text-white/35 outline-none transition-[border,box-shadow] focus:border-white/55 focus:ring-0"
 
 const outlineBtnClass =
-  "careers-apply-outline-btn rounded-none border border-white/30 px-6 py-3 text-sm font-semibold text-white transition-colors enabled:hover:border-white/55 enabled:hover:bg-white/5 disabled:cursor-not-allowed disabled:opacity-40"
+  "careers-apply-outline-btn inline-flex h-12 items-center justify-center rounded-none border border-white/30 px-6 text-sm font-semibold text-white transition-colors enabled:hover:border-white/55 enabled:hover:bg-white/5 disabled:cursor-not-allowed disabled:opacity-40"
 
 const MAX_CV_BYTES = 5 * 1024 * 1024
 const ACCEPT_CV =
@@ -591,14 +591,19 @@ export function CareerApplicationForm({
               <span className="careers-apply-muted">(required)</span>
             </ConsentCheckbox>
             <TurnstileWidget onToken={setTurnstileToken} theme="dark" />
-            <div className="flex flex-col gap-3 pt-2 sm:flex-row sm:items-center sm:justify-between sm:gap-4">
-              <button type="button" onClick={goBack} disabled={submitting} className={outlineBtnClass}>
+            <div className="careers-apply-actions flex flex-col gap-3 pt-2 sm:flex-row sm:items-stretch sm:justify-between sm:gap-4">
+              <button
+                type="button"
+                onClick={goBack}
+                disabled={submitting}
+                className={`${outlineBtnClass} w-full sm:w-auto sm:min-w-[7.5rem]`}
+              >
                 Back
               </button>
               <FormSubmitButton
                 disabled={submitting || !canSubmit || cvPhase !== "ready"}
                 onSubmit={onSubmit}
-                className="careers-apply-submit w-full min-w-0 sm:min-w-[200px] sm:w-auto"
+                className="careers-apply-submit w-full min-w-0 sm:min-w-[12.5rem] sm:w-auto"
               >
                 {submitting ? "Sending…" : "Submit application"}
               </FormSubmitButton>
