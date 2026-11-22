@@ -11,16 +11,18 @@ const tones = {
     metaDt: "text-[11px] font-semibold uppercase tracking-[0.18em] text-white/45",
     metaDd: "mt-2 text-sm leading-relaxed text-white/75 sm:text-base",
     list: "mt-3 list-disc space-y-2 pl-5 text-base leading-relaxed text-white/75",
-    rule: "border-white/12",
+    rule: "border-t border-solid border-white/12",
+    block: "pt-7 pb-7",
   },
   print: {
     sectionLabel: "text-[11px] font-semibold uppercase tracking-[0.16em] text-neutral-500",
     body: "text-[15px] leading-relaxed text-neutral-800",
     bodyLg: "text-[15px] leading-relaxed text-neutral-800 sm:text-base",
     metaDt: "text-[11px] font-semibold uppercase tracking-[0.16em] text-neutral-500",
-    metaDd: "mt-1.5 text-sm leading-relaxed text-neutral-800",
-    list: "mt-3 list-disc space-y-1.5 pl-5 text-[15px] leading-relaxed text-neutral-800",
-    rule: "border-neutral-200",
+    metaDd: "mt-2 text-sm leading-relaxed text-neutral-800",
+    list: "mt-3 list-disc space-y-2 pl-5 text-[15px] leading-relaxed text-neutral-800",
+    rule: "border-t border-solid border-neutral-200",
+    block: "pt-7 pb-7",
   },
 } as const
 
@@ -28,17 +30,19 @@ function Section({
   title,
   tone,
   children,
+  first = false,
 }: {
-  title: string
+  title?: string
   tone: Tone
   children: ReactNode
+  first?: boolean
 }) {
   const t = tones[tone]
   return (
-    <section className={`border-t pt-6 ${t.rule}`}>
-      <h4 className={t.sectionLabel}>{title}</h4>
-      <div className="mt-3">{children}</div>
-    </section>
+    <div className={`${t.block} ${first ? "" : t.rule}`}>
+      {title ? <h4 className={`${t.sectionLabel} mb-3`}>{title}</h4> : null}
+      {children}
+    </div>
   )
 }
 
@@ -63,15 +67,13 @@ export function JobDescriptionBody({
   const t = tones[tone]
 
   return (
-    <div className="space-y-0">
-      <section className="pb-6">
-        <h4 className={t.sectionLabel}>Overview</h4>
-        <p className={`mt-3 ${t.bodyLg}`}>{role.description}</p>
-      </section>
+    <div className="job-description-body">
+      <Section tone={tone} title="Overview" first>
+        <p className={t.bodyLg}>{role.description}</p>
+      </Section>
 
-      <section className={`border-t py-6 ${t.rule}`}>
-        <h4 className={t.sectionLabel}>Role details</h4>
-        <dl className="mt-4 grid grid-cols-1 gap-4 sm:grid-cols-2">
+      <Section tone={tone} title="Role details">
+        <dl className="mt-1 grid grid-cols-1 gap-5 sm:grid-cols-2">
           {role.employmentType ? (
             <div>
               <dt className={t.metaDt}>Employment type</dt>
@@ -101,50 +103,50 @@ export function JobDescriptionBody({
             </div>
           ) : null}
         </dl>
-      </section>
+      </Section>
 
       {role.responsibilities?.length ? (
-        <Section title="Key responsibilities" tone={tone}>
+        <Section tone={tone} title="Key responsibilities">
           <BulletList items={role.responsibilities} tone={tone} />
         </Section>
       ) : null}
 
       {role.requiredExperience?.length ? (
-        <Section title="Required experience" tone={tone}>
+        <Section tone={tone} title="Required experience">
           <BulletList items={role.requiredExperience} tone={tone} />
         </Section>
       ) : null}
 
       {role.certifications?.length ? (
-        <Section title="Certifications & licences" tone={tone}>
+        <Section tone={tone} title="Certifications & licences">
           <BulletList items={role.certifications} tone={tone} />
         </Section>
       ) : null}
 
       {role.requirements?.length ? (
-        <Section title="Requirements" tone={tone}>
+        <Section tone={tone} title="Requirements">
           <BulletList items={role.requirements} tone={tone} />
         </Section>
       ) : null}
 
       {role.benefits?.length ? (
-        <Section title="Benefits" tone={tone}>
+        <Section tone={tone} title="Benefits">
           <BulletList items={role.benefits} tone={tone} />
         </Section>
       ) : null}
 
       {role.workingAreas?.length ? (
-        <Section title="Working areas" tone={tone}>
+        <Section tone={tone} title="Working areas">
           <BulletList items={role.workingAreas} tone={tone} />
         </Section>
       ) : null}
 
-      <section className={`border-t pt-6 ${t.rule}`}>
+      <Section tone={tone}>
         <p className={t.body}>
           APX Fire &amp; Security is an equal-opportunities employer. Applications are considered on experience,
           skills and ability to do the role.
         </p>
-      </section>
+      </Section>
     </div>
   )
 }

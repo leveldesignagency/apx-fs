@@ -230,6 +230,18 @@ body:has(.job-pdf-page) .cookie-banner-wrapper {
 body:has(.job-pdf-page) main {
   padding: 0 !important;
 }
+/* Kill homepage `section + section` -5rem pull — it stacked JD labels/dividers on top of copy */
+.job-pdf-page section + section,
+.careers-job-modal section + section,
+.job-description-body > * + * {
+  margin-top: 0 !important;
+}
+.job-pdf-page .job-description-body,
+.careers-job-modal .job-description-body {
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+}
 @media print {
   body:has(.job-pdf-page) {
     background: #fff !important;
