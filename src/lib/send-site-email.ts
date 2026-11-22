@@ -16,13 +16,15 @@ export async function sendSiteEmailViaResend(body: {
   html: string
   replyTo?: string
   to?: string
+  /** Override Resend From (must be on the verified domain). */
+  from?: string
   attachments?: Attachment[]
   /** Attach footer logo when HTML uses its cid: (default true) */
   includeBrandedLogo?: boolean
 }): Promise<{ ok: true } | { ok: false; status: number; message: string }> {
   const key = getResendApiKey()
   const to = body.to?.trim() || getNotifyEmail()
-  const from = getResendFrom()
+  const from = body.from?.trim() || getResendFrom()
 
   if (!key || !to || !from) {
     return {

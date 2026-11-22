@@ -19,6 +19,13 @@ export function getResendFrom(): string | undefined {
   return v?.trim() || undefined
 }
 
+/** Automated confirmations only (careers applicant receipt). Domain must already be verified in Resend. */
+export function getResendNoReplyFrom(): string {
+  const v = process.env.RESEND_NOREPLY_FROM?.trim()
+  if (v) return v
+  return "APX Fire & Security <noreply@apx-fs.co.uk>"
+}
+
 export function getResendApiKey(): string | undefined {
   return process.env.RESEND_API_KEY?.trim() || undefined
 }

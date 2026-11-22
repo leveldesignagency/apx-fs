@@ -17,7 +17,7 @@ import {
 } from "@/lib/api-abuse-guard"
 import { cvBytesLookPlausible } from "@/lib/cv-magic"
 import { getFsSiteUrl } from "@/lib/seo"
-import { getCareersNotifyEmail } from "@/lib/site-email-env"
+import { getCareersNotifyEmail, getResendNoReplyFrom } from "@/lib/site-email-env"
 import { verifyTurnstileToken } from "@/lib/turnstile"
 
 export const runtime = "nodejs"
@@ -221,18 +221,20 @@ export async function POST(req: Request) {
 
   const confirm = await sendSiteEmailViaResend({
     to: email,
+    from: getResendNoReplyFrom(),
     subject: `We received your application: ${role.title}`,
-    replyTo: "enquiries@apx-fs.co.uk",
+    // No Reply-To — automated receipt only; Tracey contacts shortlisted applicants separately.
     text: [
       `Hello ${fullName},`,
       "",
       `Thank you for applying for ${role.title} at APX Fire & Security. We have received your application and will be in touch if we progress your application.`,
       "",
+      "Please do not reply to this email — it is an automated confirmation.",
+      "",
       "We process your application data under our recruitment privacy notice:",
       "https://www.apx-fs.co.uk/recruitment-privacy",
       "",
       "APX Fire & Security",
-      "enquiries@apx-fs.co.uk",
     ].join("\n"),
     html: buildFsBrandedEmailHtml({
       title: "Application Received",
@@ -244,7 +246,7 @@ export async function POST(req: Request) {
         { label: "Phone", value: phone },
       ],
       footerNote:
-        "Recruitment privacy: https://www.apx-fs.co.uk/recruitment-privacy. This is an automated confirmation.",
+        "This is an automated confirmation — please do not reply. Recruitment privacy: https://www.apx-fs.co.uk/recruitment-privacy.",
     }),
   })
 
