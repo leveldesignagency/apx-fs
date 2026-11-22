@@ -2,7 +2,7 @@ import type { Metadata } from "next"
 import Link from "next/link"
 import { notFound } from "next/navigation"
 import { JobDescriptionBody } from "@/components/careers/JobDescriptionBody"
-import { JobPdfPrintButton } from "@/components/careers/JobPdfPrintButton"
+import { JobPdfActions } from "@/components/careers/JobPdfPrintButton"
 import { careerApplyHref } from "@/components/careers/careers-types"
 import { FS_CAREER_ROLES, getFsCareerRoleById } from "@/data/fsCareersRoles"
 import { FS_EMAIL, FS_PHONE_DISPLAY, FS_SITE_NAME } from "@/lib/seo"
@@ -38,7 +38,7 @@ export default async function CareerRolePdfPage({ params }: Props) {
             Back to careers
           </Link>
           <div className="flex flex-wrap items-center gap-2">
-            <JobPdfPrintButton />
+            <JobPdfActions />
             <Link
               href={careerApplyHref(role.id)}
               className="inline-flex h-11 items-center justify-center border border-neutral-900 px-5 text-sm font-semibold text-neutral-900 transition-colors hover:bg-neutral-900 hover:text-white"

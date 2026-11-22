@@ -230,17 +230,50 @@ body:has(.job-pdf-page) .cookie-banner-wrapper {
 body:has(.job-pdf-page) main {
   padding: 0 !important;
 }
-/* Kill homepage `section + section` -5rem pull — it stacked JD labels/dividers on top of copy */
-.job-pdf-page section + section,
-.careers-job-modal section + section,
-.job-description-body > * + * {
+/*
+ * Kill homepage `section + section` -5rem pull inside job descriptions.
+ * That rule stacked Role details / Key responsibilities over Overview copy.
+ */
+@media (min-width: 1024px) {
+  .job-pdf-page section + section,
+  .careers-job-modal section + section,
+  .job-description-body > .job-description-block + .job-description-block {
+    margin-top: 0 !important;
+  }
+}
+.job-description-body {
+  display: block !important;
+  position: relative;
+  z-index: 1;
+  margin: 0 !important;
+}
+.job-description-block {
+  display: block !important;
+  position: relative;
+  clear: both;
+  margin: 0 !important;
+}
+.job-description-block__inner {
+  display: block !important;
+  margin: 0 !important;
+  padding-top: 2rem !important;
+  padding-bottom: 2rem !important;
+}
+.job-description-block__inner > h4 {
+  margin-top: 0 !important;
+  margin-bottom: 1rem !important;
+}
+.job-description-block__inner > p,
+.job-description-block__inner > dl,
+.job-description-block__inner > ul {
   margin-top: 0 !important;
 }
-.job-pdf-page .job-description-body,
-.careers-job-modal .job-description-body {
-  display: flex;
-  flex-direction: column;
-  gap: 0;
+.job-description-block__inner dd {
+  margin-top: 0.5rem !important;
+  margin-left: 0 !important;
+}
+.job-description-block__inner ul {
+  margin-top: 0.75rem !important;
 }
 @media print {
   body:has(.job-pdf-page) {
