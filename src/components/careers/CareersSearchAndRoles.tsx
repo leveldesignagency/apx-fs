@@ -3,7 +3,7 @@
 import type { ReactNode } from "react"
 import { useCallback, useEffect, useLayoutEffect, useMemo, useRef, useState } from "react"
 import { createPortal } from "react-dom"
-import { ChevronDown, FileText, Search, X } from "lucide-react"
+import { ChevronDown, Search, X } from "lucide-react"
 import { CustomPillButton } from "@/components/ui/CustomPillButton"
 import { JobDescriptionBody } from "@/components/careers/JobDescriptionBody"
 import { careerApplyHref, careerPdfHref, type CareerRole } from "@/components/careers/careers-types"
@@ -118,9 +118,8 @@ function JobDescriptionModal({ role, onClose }: { role: CareerRole; onClose: () 
             href={careerPdfHref(role.id)}
             target="_blank"
             rel="noopener noreferrer"
-            className="careers-outline-btn inline-flex shrink-0 items-center gap-2 rounded-none border border-white/35 px-3.5 py-2.5 text-sm font-semibold text-white transition-colors hover:border-white hover:bg-white/5 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/40"
+            className="careers-outline-btn inline-flex shrink-0 items-center rounded-none border border-white/35 px-3.5 py-2.5 text-sm font-semibold text-white transition-colors hover:border-white hover:bg-white/5 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/40"
           >
-            <FileText className="h-4 w-4" aria-hidden />
             Open PDF
           </a>
         </div>
@@ -449,7 +448,7 @@ export function CareersSearchAndRoles({
                         {role.description}
                       </p>
                     </div>
-                    <div className="flex shrink-0 flex-col gap-2.5 sm:flex-row sm:flex-wrap sm:items-center lg:flex-col lg:items-stretch xl:flex-row xl:flex-wrap">
+                    <div className="flex shrink-0 flex-col gap-2.5 sm:flex-row sm:items-center lg:flex-col lg:items-stretch xl:flex-row">
                       <button
                         type="button"
                         onClick={() => setModalRole(role)}
@@ -457,15 +456,6 @@ export function CareersSearchAndRoles({
                       >
                         View description
                       </button>
-                      <a
-                        href={careerPdfHref(role.id)}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="careers-outline-btn inline-flex items-center justify-center gap-2 rounded-none border border-white/25 px-4 py-2.5 text-sm font-semibold text-white/90 transition-colors hover:border-white/45 hover:bg-white/5 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/40"
-                      >
-                        <FileText className="h-4 w-4" aria-hidden />
-                        Open PDF
-                      </a>
                       <CustomPillButton
                         href={careerApplyHref(role.id)}
                         size="md"
