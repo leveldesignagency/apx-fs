@@ -29,7 +29,7 @@ export async function sendSiteEmailViaResend(body: {
       ok: false,
       status: 503,
       message:
-        "Email is not configured. Set RESEND_API_KEY, NOTIFY_EMAIL (or CAREERS_NOTIFY_EMAIL), and RESEND_FROM_EMAIL (or CAREERS_FROM_EMAIL).",
+        "Email is not configured. Set RESEND_API_KEY, NOTIFY_EMAIL (and CAREERS_NOTIFY_EMAIL for careers), and RESEND_FROM_EMAIL.",
     }
   }
 

@@ -11,7 +11,8 @@
 - `NEXT_PUBLIC_SANITY_DATASET` = `production`
 - `NEXT_PUBLIC_TURNSTILE_SITE_KEY`
 - `RESEND_FROM_EMAIL`
-- `NOTIFY_EMAIL`
+- `NOTIFY_EMAIL` (contact form notifications)
+- `CAREERS_NOTIFY_EMAIL` (job applications — e.g. Tracey)
 - `NEXT_PUBLIC_CF_BEACON_TOKEN` (Web Analytics)
 
 ## Optional

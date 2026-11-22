@@ -17,6 +17,7 @@ import {
 } from "@/lib/api-abuse-guard"
 import { cvBytesLookPlausible } from "@/lib/cv-magic"
 import { getFsSiteUrl } from "@/lib/seo"
+import { getCareersNotifyEmail } from "@/lib/site-email-env"
 import { verifyTurnstileToken } from "@/lib/turnstile"
 
 export const runtime = "nodejs"
@@ -197,7 +198,16 @@ export async function POST(req: Request) {
     footerNote: "CV is attached. Reply to contact the applicant.",
   })
 
+  const careersInbox = getCareersNotifyEmail()
+  if (!careersInbox) {
+    return Response.json(
+      { error: "Careers inbox is not configured. Set CAREERS_NOTIFY_EMAIL or NOTIFY_EMAIL." },
+      { status: 503 }
+    )
+  }
+
   const sent = await sendSiteEmailViaResend({
+    to: careersInbox,
     subject,
     text,
     html,
