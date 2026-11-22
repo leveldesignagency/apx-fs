@@ -8,13 +8,13 @@ export const FS_CAREER_ROLES: CareerRole[] = [
     id: "fire-security-contracts-manager",
     title: "Fire & Security Contracts Manager",
     description:
-      "Lead and manage delivery of fire safety and security systems contracts across our project portfolio — from planning through commissioning — with strong technical oversight, compliance, and client leadership.",
+      "Lead and manage delivery of fire safety and security systems contracts across our project portfolio, from planning through commissioning, with strong technical oversight, compliance, and client leadership.",
     department: "Fire & Security",
     location: "Erith, London & South",
     baseLocation: "Erith, Kent (365-369 Bexley Road), with project delivery across London and the South",
     employmentType: "Permanent, full-time",
     hours: "Full-time; site visits, client meetings and programme attendance as required",
-    salary: "£50,000–£65,000 per annum (depending on experience)",
+    salary: "Competitive, depending on experience",
     benefits: [
       "Bonus scheme or performance incentives",
       "Pension scheme",
@@ -70,12 +70,13 @@ export const FS_CAREER_ROLES: CareerRole[] = [
     id: "fire-security-project-manager",
     title: "Fire & Security Project Manager",
     description:
-      "Lead and manage delivery of fire safety and security systems contracts across our project portfolio — planning, execution and completion of fire alarm, detection, suppression, CCTV, access control and intruder alarm works to regulation and client specification.",
+      "Lead and manage delivery of fire safety and security systems contracts across our project portfolio: planning, execution and completion of fire alarm, detection, suppression, CCTV, access control and intruder alarm works to regulation and client specification.",
     department: "Fire & Security",
     location: "Erith, London & South",
     baseLocation: "Erith, Kent (365-369 Bexley Road), with project delivery across London and the South",
     employmentType: "Permanent, full-time",
     hours: "Full-time; site visits, client meetings and programme attendance as required",
+    salary: "Competitive, depending on experience",
     benefits: [
       "Pension scheme (as applicable under company policy)",
       "Training and professional development support",
@@ -177,11 +178,10 @@ export const FS_CAREER_ROLES: CareerRole[] = [
     baseLocation: "Erith, Kent (365-369 Bexley Road), with travel to project sites",
     employmentType: "Permanent, full-time",
     hours: "Full-time; site attendance and client meetings as the programme requires",
-    salary: "£40,000-£50,000 depending on experience",
+    salary: "Competitive, depending on experience",
     companyVehicle: "Company vehicle provided (subject to licence and company policy)",
     benefits: [
       "Company vehicle",
-      "Competitive salary band £40,000-£50,000 DOE",
       "Technical and standards training support",
       "Pension scheme (as applicable under company policy)",
     ],
