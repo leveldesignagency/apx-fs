@@ -50,7 +50,7 @@ export const INTRUDER_ALARM_TECHNOLOGY_PARTNERS: readonly PartnerLogoEntry[] = [
   { name: "Elmdene", href: "https://www.elmdene.co.uk/", logoSrc: `${INTRUDER_ALARM_BRANDS_DIR}/elmdene-logo.svg`, logoScaleClass: "scale-[1]" },
   { name: "Optex", href: "https://www.optex.eu/", logoSrc: `${INTRUDER_ALARM_BRANDS_DIR}/optex-vehicle-sensors-vector-logo.svg`, logoScaleClass: "scale-[1]" },
   { name: "Texecom", href: "https://www.texe.com/", logoSrc: `${INTRUDER_ALARM_BRANDS_DIR}/texecom.png`, logoScaleClass: "scale-[1]", logoLightClassName: "brightness-0" },
-  { name: "CQR", href: "https://www.cqr-alarms.com/", logoSrc: "/service%20images/intruders/cqr%20logo.png", logoScaleClass: "scale-[1]", logoLightClassName: "brightness-0" },
+  { name: "CQR", href: "https://cqr.co.uk/", logoSrc: "/service%20images/intruders/cqr%20logo.png", logoScaleClass: "scale-[1]", logoLightClassName: "brightness-0" },
 ]
 
 export const FIRE_ALARM_EQUIPMENT_PARTNERS: readonly PartnerLogoEntry[] = [
