@@ -1,9 +1,71 @@
 import type { CareerRole } from "@/components/careers/careers-types"
 
 /**
- * Live vacancy list, confirm both roles remain open before launch (see OUTSTANDING.md).
+ * Live vacancy list. Confirm roles remain open before advertising (see OUTSTANDING.md).
  */
 export const FS_CAREER_ROLES: CareerRole[] = [
+  {
+    id: "fire-security-contracts-manager",
+    title: "Fire & Security Contracts Manager",
+    description:
+      "Lead and manage delivery of fire safety and security systems contracts across our project portfolio — from planning through commissioning — with strong technical oversight, compliance, and client leadership.",
+    department: "Fire & Security",
+    location: "Erith, London & South",
+    baseLocation: "Erith, Kent (365-369 Bexley Road), with project delivery across London and the South",
+    employmentType: "Permanent, full-time",
+    hours: "Full-time; site visits, client meetings and programme attendance as required",
+    salary: "£50,000–£65,000 per annum (depending on experience)",
+    benefits: [
+      "Bonus scheme or performance incentives",
+      "Pension scheme",
+      "Training and professional development support",
+      "22 days annual leave + bank holidays",
+    ],
+    requiredExperience: [
+      "Proven experience in fire and security project management (minimum 5 years preferred)",
+      "Solid understanding of fire protection and security systems and regulations",
+      "Experience managing engineers, subcontractors and multi-site delivery",
+      "Client-facing contract and stakeholder management",
+    ],
+    certifications: [
+      "Certification in fire and/or security system installation and maintenance (e.g. FIA, BAFE, NSI, SSAIB)",
+      "Valid ECS/CSCS card",
+      "Full UK driving licence",
+      "Project management certification (e.g. PRINCE2, APM) desirable",
+      "NEBOSH or IOSH certificate desirable",
+    ],
+    responsibilities: [
+      "Lead and coordinate fire and security system installations from design to commissioning",
+      "Plan project schedules, allocate resources, and manage subcontractors",
+      "Monitor budgets, timelines and quality of work; report progress to senior management",
+      "Conduct regular site visits and ensure project milestones are achieved",
+      "Provide technical support for system design and installation",
+      "Ensure systems comply with BS 5839, BS 5266, BS EN 50131, NSI standards and other relevant regulations",
+      "Review technical drawings, schematics and specifications for accuracy",
+      "Maintain knowledge of health & safety legislation, fire safety regulations and security standards",
+      "Ensure all works adhere to current legislation and internal safety protocols",
+      "Conduct risk assessments and implement corrective actions when required",
+      "Manage and support fire and security engineers and subcontractors",
+      "Conduct performance reviews and support staff development and training",
+      "Foster a safety-first, quality-focused culture within the team",
+      "Act as primary point of contact for clients and consultants on fire and security matters",
+      "Provide regular updates and handle issues or escalations promptly",
+      "Assist with bids, tenders and proposals for new projects",
+      "Build and maintain strong client relationships to support organic growth and new business",
+      "Identify and pursue potential new clients through networking, cold calling and industry events",
+    ],
+    requirements: [
+      "Proven fire and security project management experience (5+ years preferred)",
+      "FIA, BAFE, NSI, SSAIB or equivalent certification",
+      "Knowledge of current industry standards and compliance requirements",
+      "Valid ECS/CSCS card and full UK driving licence",
+      "Strong IT skills (MS Project, Office Suite; AutoCAD familiarity a plus)",
+      "Excellent communication, leadership and organisational skills",
+      "PRINCE2 / APM, NEBOSH / IOSH, or integrated security solutions experience desirable",
+      "Reports to Operations Director / Head of Projects / Senior Manager",
+    ],
+    workingAreas: ["Erith", "London", "South of England", "Project sites as required"],
+  },
   {
     id: "fire-security-engineers",
     title: "Fire and Security Engineers",
