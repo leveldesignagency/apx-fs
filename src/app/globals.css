@@ -267,6 +267,31 @@ body:has(.job-pdf-page) main {
   border-bottom-left-radius: 0;
 }
 
+/* Careers apply: keep dark fields after Google autofill + visible text selection */
+.careers-apply-page .careers-apply-field {
+  color: #ffffff !important;
+  caret-color: #ffffff;
+  background-color: #000000 !important;
+}
+.careers-apply-page .careers-apply-field:-webkit-autofill,
+.careers-apply-page .careers-apply-field:-webkit-autofill:hover,
+.careers-apply-page .careers-apply-field:-webkit-autofill:focus,
+.careers-apply-page .careers-apply-field:-webkit-autofill:active {
+  -webkit-text-fill-color: #ffffff !important;
+  caret-color: #ffffff !important;
+  box-shadow: 0 0 0 1000px #000000 inset !important;
+  transition: background-color 99999s ease-out;
+}
+.careers-apply-page .careers-apply-field::selection {
+  background: rgba(255, 255, 255, 0.35) !important;
+  color: #ffffff !important;
+  -webkit-text-fill-color: #ffffff !important;
+}
+.careers-apply-page .careers-apply-field::-moz-selection {
+  background: rgba(255, 255, 255, 0.35) !important;
+  color: #ffffff !important;
+}
+
 /* Apply form submit: keep label truly centred on mobile (pill text was left-biased) */
 .careers-apply-page .form-submit-btn.careers-apply-submit,
 .careers-apply-page .form-submit-btn.careers-apply-submit.pill-btn {

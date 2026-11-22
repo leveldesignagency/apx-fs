@@ -51,7 +51,7 @@ function ConsentCheckbox({
 }
 
 const fieldClass =
-  "w-full rounded-none border border-white/30 bg-black px-4 py-3.5 text-sm text-white placeholder:text-white/35 outline-none transition-[border,box-shadow] focus:border-white/55 focus:ring-0"
+  "careers-apply-field w-full rounded-none border border-white/30 bg-black px-4 py-3.5 text-sm text-white placeholder:text-white/35 outline-none transition-[border,box-shadow] focus:border-white/55 focus:ring-0"
 
 const outlineBtnClass =
   "careers-apply-outline-btn rounded-none border border-white/30 px-6 py-3 text-sm font-semibold text-white transition-colors enabled:hover:border-white/55 enabled:hover:bg-white/5 disabled:cursor-not-allowed disabled:opacity-40"
