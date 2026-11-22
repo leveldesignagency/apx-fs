@@ -267,29 +267,45 @@ body:has(.job-pdf-page) main {
   border-bottom-left-radius: 0;
 }
 
-/* Careers apply: keep dark fields after Google autofill + visible text selection */
-.careers-apply-page .careers-apply-field {
+/* Careers apply: kill Chrome autofill washout; force grey selection for delete/edit */
+.careers-apply-page .careers-apply-field,
+.careers-apply-page input.careers-apply-field,
+.careers-apply-page textarea.careers-apply-field {
   color: #ffffff !important;
-  caret-color: #ffffff;
+  -webkit-text-fill-color: #ffffff !important;
+  caret-color: #ffffff !important;
   background-color: #000000 !important;
+  background-image: none !important;
 }
 .careers-apply-page .careers-apply-field:-webkit-autofill,
 .careers-apply-page .careers-apply-field:-webkit-autofill:hover,
 .careers-apply-page .careers-apply-field:-webkit-autofill:focus,
-.careers-apply-page .careers-apply-field:-webkit-autofill:active {
+.careers-apply-page .careers-apply-field:-webkit-autofill:active,
+.careers-apply-page input.careers-apply-field:-internal-autofill-selected,
+.careers-apply-page textarea.careers-apply-field:-internal-autofill-selected {
   -webkit-text-fill-color: #ffffff !important;
+  color: #ffffff !important;
   caret-color: #ffffff !important;
+  background-color: #000000 !important;
+  background-image: none !important;
+  /* Override Chrome's autofill paint */
   box-shadow: 0 0 0 1000px #000000 inset !important;
-  transition: background-color 99999s ease-out;
+  -webkit-box-shadow: 0 0 0 1000px #000000 inset !important;
+  transition: background-color 99999s ease-out 0s, color 99999s ease-out 0s !important;
+  filter: none !important;
 }
-.careers-apply-page .careers-apply-field::selection {
-  background: rgba(255, 255, 255, 0.35) !important;
-  color: #ffffff !important;
-  -webkit-text-fill-color: #ffffff !important;
-}
-.careers-apply-page .careers-apply-field::-moz-selection {
-  background: rgba(255, 255, 255, 0.35) !important;
-  color: #ffffff !important;
+/* Solid grey highlight so selected text stays readable on autofill or dark bg */
+.careers-apply-page .careers-apply-field::selection,
+.careers-apply-page .careers-apply-field::-moz-selection,
+.careers-apply-page .careers-apply-field:-webkit-autofill::selection,
+.careers-apply-page .careers-apply-field:-webkit-autofill::-moz-selection,
+.careers-apply-page input.careers-apply-field::selection,
+.careers-apply-page textarea.careers-apply-field::selection {
+  background-color: #8a8a8a !important;
+  background: #8a8a8a !important;
+  color: #000000 !important;
+  -webkit-text-fill-color: #000000 !important;
+  text-shadow: none !important;
 }
 
 /* Apply form submit: keep label truly centred on mobile (pill text was left-biased) */
