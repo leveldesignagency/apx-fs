@@ -885,6 +885,23 @@ const GlobalStyles = createGlobalStyle<{ theme: typeof lightTheme }>`
     color: #ffffff !important;
     border-color: rgba(255, 255, 255, 0.55) !important;
   }
+  /* Primary submit — beat global button { background/border } so it is not a double frame */
+  .careers-apply-page button.careers-apply-submit,
+  .careers-apply-page button.careers-apply-submit:hover,
+  .careers-apply-page button.careers-apply-submit:focus,
+  .careers-apply-page button.careers-apply-submit:focus-visible,
+  .careers-apply-page button.careers-apply-submit:active {
+    background: #ffffff !important;
+    background-color: #ffffff !important;
+    color: #000000 !important;
+    border: 1px solid #ffffff !important;
+    border-radius: 0 !important;
+    box-shadow: none !important;
+    outline: none !important;
+  }
+  .careers-apply-page button.careers-apply-submit:disabled {
+    opacity: 0.4 !important;
+  }
   .careers-apply-page input:not([type="checkbox"]):not([type="file"]):not([type="radio"]),
   .careers-apply-page textarea {
     background: #000000 !important;

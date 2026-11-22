@@ -353,54 +353,21 @@ body:has(.job-pdf-page) main {
   text-shadow: none !important;
 }
 
-/* Apply form submit: keep label truly centred on mobile (pill text was left-biased) */
-/* Final step: Back + Submit same height / vertical rhythm */
+/* Final step: Back + Submit same height */
 .careers-apply-page .careers-apply-actions .careers-apply-outline-btn,
-.careers-apply-page .careers-apply-actions .form-submit-btn.careers-apply-submit {
+.careers-apply-page .careers-apply-actions button.careers-apply-submit {
   height: 3rem !important;
   min-height: 3rem !important;
   box-sizing: border-box;
 }
-.careers-apply-page .form-submit-btn.careers-apply-submit,
-.careers-apply-page .form-submit-btn.careers-apply-submit.pill-btn {
+.careers-apply-page button.careers-apply-submit {
   display: inline-flex !important;
   align-items: center;
   justify-content: center;
-  width: 100%;
-  max-width: none;
   margin: 0 !important;
-  /* One outline only: pill-btn-border draws the edge (form-submit-btn also paints a border). */
-  border: none !important;
-  border-top-left-radius: 0.5rem !important;
-  border-bottom-right-radius: 0.5rem !important;
-  border-top-right-radius: 0 !important;
-  border-bottom-left-radius: 0 !important;
-}
-.careers-apply-page .form-submit-btn.careers-apply-submit .pill-btn-inner,
-.careers-apply-page .form-submit-btn.careers-apply-submit .pill-btn-border {
-  border-top-left-radius: 0.5rem !important;
-  border-bottom-right-radius: 0.5rem !important;
-  border-top-right-radius: 0 !important;
-  border-bottom-left-radius: 0 !important;
-}
-.careers-apply-page .form-submit-btn.careers-apply-submit .form-submit-btn__text,
-.careers-apply-page .form-submit-btn.careers-apply-submit .pill-text {
-  display: flex !important;
-  width: 100%;
-  height: 100%;
-  align-items: center;
-  justify-content: center;
-  text-align: center;
-  padding: 0 1.25rem !important;
-  box-sizing: border-box;
-  font-size: 0.875rem !important;
-  line-height: 1.25rem !important;
-}
-@media (min-width: 640px) {
-  .careers-apply-page .form-submit-btn.careers-apply-submit,
-  .careers-apply-page .form-submit-btn.careers-apply-submit.pill-btn {
-    width: auto;
-  }
+  border-radius: 0 !important;
+  box-shadow: none !important;
+  outline: none !important;
 }
 
 .careers-cv-dropzone {

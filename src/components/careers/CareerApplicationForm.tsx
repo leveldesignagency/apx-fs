@@ -665,7 +665,7 @@ export function CareerApplicationForm({
                 type="button"
                 disabled={submitting || !canSubmit || cvPhase !== "ready"}
                 onClick={() => void onSubmit()}
-                className="careers-apply-submit inline-flex h-12 w-full min-w-0 items-center justify-center rounded-tl-lg rounded-br-lg border border-white bg-white px-6 text-sm font-bold text-black transition-colors hover:bg-neutral-100 disabled:cursor-not-allowed disabled:opacity-40 sm:w-auto sm:min-w-[12.5rem]"
+                className="careers-apply-submit inline-flex h-12 w-full min-w-0 items-center justify-center rounded-none border border-white bg-white px-6 text-sm font-bold text-black transition-colors hover:bg-neutral-100 disabled:cursor-not-allowed disabled:opacity-40 sm:w-auto sm:min-w-[12.5rem]"
               >
                 {submitting ? "Sending…" : "Submit application"}
               </button>
