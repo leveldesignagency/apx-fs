@@ -10,9 +10,9 @@
 - `NEXT_PUBLIC_SANITY_PROJECT_ID` = `v7rfd3px`
 - `NEXT_PUBLIC_SANITY_DATASET` = `production`
 - `NEXT_PUBLIC_TURNSTILE_SITE_KEY`
-- `RESEND_FROM_EMAIL`
-- `NOTIFY_EMAIL` (contact form notifications)
-- `CAREERS_NOTIFY_EMAIL` (job applications — e.g. Tracey)
+- `RESEND_FROM_EMAIL` = `APX Fire & Security <enquiries@apx-fs.co.uk>`
+- `NOTIFY_EMAIL` = `enquiries@apx-fs.co.uk` (contact form notifications)
+- `CAREERS_NOTIFY_EMAIL` = `tracey.harrison@apx-fs.co.uk` (job application notifications; no Resend recipient verify needed — domain already verified)
 - `NEXT_PUBLIC_CF_BEACON_TOKEN` (Web Analytics)
 
 ## Optional
