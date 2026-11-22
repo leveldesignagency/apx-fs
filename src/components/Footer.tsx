@@ -7,7 +7,7 @@ import { useEffect, useRef, useState, type ReactNode } from "react"
 import { Phone, Mail, MapPin, ChevronUp, ChevronDown, Award } from "lucide-react"
 import { ApxSocialLinks } from "@/components/ApxSocialLinks"
 import { careerApplyHref } from "@/components/careers/careers-types"
-import { FS_CAREER_ROLES } from "@/data/fsCareersRoles"
+import { FS_FOOTER_CAREER_ROLES } from "@/data/fsCareersRoles"
 import { FS_CORE_SERVICE_LINKS } from "@/lib/fs-service-navigation"
 import { getLatestNewsArticle, NEWS_HUB_PATH } from "@/data/fsNewsArticles"
 import { forceDocumentScrollTop } from "@/lib/lenisBridge"
@@ -363,7 +363,7 @@ export default function Footer() {
                     <li>
                       <FooterLink href="/careers">View all careers</FooterLink>
                     </li>
-                    {FS_CAREER_ROLES.map((role) => (
+                    {FS_FOOTER_CAREER_ROLES.map((role) => (
                       <li key={role.id}>
                         <FooterLink href={careerApplyHref(role.id)}>{role.title}</FooterLink>
                       </li>
@@ -517,7 +517,7 @@ export default function Footer() {
                     <li>
                       <FooterLink href="/careers">View all careers</FooterLink>
                     </li>
-                    {FS_CAREER_ROLES.map((role) => (
+                    {FS_FOOTER_CAREER_ROLES.map((role) => (
                       <li key={role.id}>
                         <FooterLink href={careerApplyHref(role.id)}>{role.title}</FooterLink>
                       </li>

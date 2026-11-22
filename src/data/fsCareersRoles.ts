@@ -216,3 +216,6 @@ export const FS_CAREER_ROLES: CareerRole[] = [
 export function getFsCareerRoleById(id: string): CareerRole | undefined {
   return FS_CAREER_ROLES.find((r) => r.id === id)
 }
+
+/** Newest vacancies first in FS_CAREER_ROLES; footer shows at most three. */
+export const FS_FOOTER_CAREER_ROLES = FS_CAREER_ROLES.slice(0, 3)
