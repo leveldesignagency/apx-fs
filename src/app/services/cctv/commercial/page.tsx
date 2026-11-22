@@ -59,8 +59,8 @@ const COMMERCIAL_CCTV_SECTORS = [
   {
     label: "Education & Schools",
     text: "Entrances, playgrounds and shared areas to help schools and colleges manage access, monitor activity and respond to incidents.",
-    imageSrc: "/industries/education-university-london.jpg",
-    imageAlt: "University of London campus, Senate House",
+    imageSrc: "/industries/education-london-school.jpg",
+    imageAlt: "BRIT School for Performing Arts and Technology, Croydon, London",
   },
   {
     label: "Commercial",
@@ -71,8 +71,8 @@ const COMMERCIAL_CCTV_SECTORS = [
   {
     label: "Hospitals",
     text: "Wards, clinics and car parks with discreet camera placement aligned with healthcare site requirements and privacy expectations.",
-    imageSrc: "/industries/hospitals.jpg",
-    imageAlt: "Fire and security systems for hospitals and healthcare sites",
+    imageSrc: "/industries/hospitals-london.jpg",
+    imageAlt: "King's College Hospital, Denmark Hill, London",
   },
   {
     label: "Housing",

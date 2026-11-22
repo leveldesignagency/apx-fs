@@ -35,8 +35,8 @@ type IndustryFeature = {
 const INDUSTRIES: readonly IndustrySlide[] = [
   {
     label: "Education & Schools",
-    imageSrc: "/industries/education-university-london.jpg",
-    imageAlt: "University of London campus, Senate House",
+    imageSrc: "/industries/education-london-school.jpg",
+    imageAlt: "BRIT School for Performing Arts and Technology, Croydon, London",
     href: "/projects/university-of-west-london",
   },
   {
@@ -47,8 +47,8 @@ const INDUSTRIES: readonly IndustrySlide[] = [
   },
   {
     label: "Hospitals",
-    imageSrc: "/industries/hospitals.jpg",
-    imageAlt: "Fire and security systems for hospitals and healthcare sites",
+    imageSrc: "/industries/hospitals-london.jpg",
+    imageAlt: "King's College Hospital, Denmark Hill, London",
     href: "/projects/kings-college-hospital",
   },
   {
