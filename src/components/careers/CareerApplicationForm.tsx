@@ -1,11 +1,12 @@
 "use client"
 
 import Link from "next/link"
+import { useRouter } from "next/navigation"
 import { useCallback, useEffect, useId, useRef, useState, type DragEvent, type ReactNode } from "react"
-import { Check, CheckCircle2, FileText, Upload, X } from "lucide-react"
+import { Check, FileText, Upload, X } from "lucide-react"
 import type { CareerRole } from "@/components/careers/careers-types"
 import { FormSubmitButton } from "@/components/ui/FormSubmitButton"
-import { TurnstileWidget } from "@/components/TurnstileWidget"
+import { TurnstileWidget, isTurnstileSiteKeyPresent } from "@/components/TurnstileWidget"
 import { cn } from "@/lib/utils"
 
 function ConsentCheckbox({
@@ -97,12 +98,13 @@ export function CareerApplicationForm({
 }: {
   role: CareerRole
 }) {
+  const router = useRouter()
   const cvInputId = useId()
   const cvInputRef = useRef<HTMLInputElement>(null)
   const uploadTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null)
+  const turnstileRequired = isTurnstileSiteKeyPresent()
 
   const [step, setStep] = useState<Step>(1)
-  const [done, setDone] = useState(false)
   const [error, setError] = useState<string | null>(null)
   const [submitting, setSubmitting] = useState(false)
 
@@ -176,7 +178,11 @@ export function CareerApplicationForm({
     fullName.trim().length >= 2 && /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email.trim()) && phone.trim().length >= 8
   const canNext2 = experience.trim().length >= 40
   const canSubmit =
-    cvFile !== null && cvFile.size > 0 && cvFile.size <= MAX_CV_BYTES && privacyConsent
+    cvFile !== null &&
+    cvFile.size > 0 &&
+    cvFile.size <= MAX_CV_BYTES &&
+    privacyConsent &&
+    (!turnstileRequired || Boolean(turnstileToken))
 
   const goNext = useCallback(() => {
     setError(null)
@@ -192,7 +198,13 @@ export function CareerApplicationForm({
 
   const onSubmit = async () => {
     setError(null)
-    if (!canSubmit || !cvFile || hp !== "") return
+    if (!canSubmit || !cvFile || hp !== "") {
+      throw new Error("incomplete")
+    }
+    if (turnstileRequired && !turnstileToken) {
+      setError("Please complete the security check before submitting.")
+      throw new Error("turnstile")
+    }
     setSubmitting(true)
     try {
       const fd = new FormData()
@@ -213,30 +225,19 @@ export function CareerApplicationForm({
       const data = (await res.json().catch(() => ({}))) as { error?: string }
       if (!res.ok) {
         setError(data.error ?? "Something went wrong. Please try again or email us directly.")
-        return
+        setTurnstileToken(null)
+        throw new Error("apply-failed")
       }
-      setDone(true)
-    } catch {
+      router.push(`/careers/thank-you?role=${encodeURIComponent(role.id)}`)
+    } catch (err) {
+      if (err instanceof Error && (err.message === "apply-failed" || err.message === "turnstile" || err.message === "incomplete")) {
+        throw err
+      }
       setError("Network error. Please check your connection and try again.")
+      throw new Error("network")
     } finally {
       setSubmitting(false)
     }
-  }
-
-  if (done) {
-    return (
-      <div className="mx-auto w-full max-w-lg text-center">
-        <CheckCircle2 className="mx-auto h-14 w-14 text-emerald-400" aria-hidden />
-        <h2 className="mt-6 font-title text-2xl font-bold text-white sm:text-3xl">Application Sent</h2>
-        <p className="careers-apply-body mt-4 text-base leading-relaxed">
-          Thank you, we have received your application for <span className="font-medium text-white">{role.title}</span>.
-          If your profile matches the role, our team will be in touch.
-        </p>
-        <Link href="/careers" className={`${outlineBtnClass} mt-10 inline-flex`}>
-          Back to careers
-        </Link>
-      </div>
-    )
   }
 
   return (
@@ -605,7 +606,12 @@ export function CareerApplicationForm({
               process my application for recruitment purposes.{" "}
               <span className="careers-apply-muted">(required)</span>
             </ConsentCheckbox>
-            <TurnstileWidget onToken={setTurnstileToken} theme="dark" />
+            <div className="pt-1">
+              <TurnstileWidget onToken={setTurnstileToken} theme="dark" appearance="always" />
+              {turnstileRequired && !turnstileToken ? (
+                <p className="careers-apply-muted mt-2 text-xs">Complete the security check to enable submit.</p>
+              ) : null}
+            </div>
             <div className="careers-apply-actions flex flex-col gap-3 pt-2 sm:flex-row sm:items-stretch sm:justify-between sm:gap-4">
               <button
                 type="button"

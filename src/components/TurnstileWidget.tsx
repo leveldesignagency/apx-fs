@@ -28,10 +28,17 @@ const SCRIPT_SRC = "https://challenges.cloudflare.com/turnstile/v0/api.js?render
 type Props = {
   onToken: (token: string | null) => void
   theme?: "light" | "dark" | "auto"
+  /** Careers apply uses `always` so a token is reliably issued before submit. */
+  appearance?: "always" | "execute" | "interaction-only"
   className?: string
 }
 
-export function TurnstileWidget({ onToken, theme = "dark", className }: Props) {
+export function TurnstileWidget({
+  onToken,
+  theme = "dark",
+  appearance = "interaction-only",
+  className,
+}: Props) {
   const siteKey = process.env.NEXT_PUBLIC_TURNSTILE_SITE_KEY?.trim() || ""
   const hostRef = useRef<HTMLDivElement>(null)
   const widgetIdRef = useRef<string | null>(null)
@@ -57,8 +64,7 @@ export function TurnstileWidget({ onToken, theme = "dark", className }: Props) {
         sitekey: siteKey,
         theme,
         // Free plan cannot remove Cloudflare branding (Offlabel is Enterprise-only).
-        // interaction-only keeps the widget hidden unless a challenge is required.
-        appearance: "interaction-only",
+        appearance,
         callback: (token) => onTokenRef.current(token),
         "expired-callback": () => onTokenRef.current(null),
         "error-callback": () => onTokenRef.current(null),
@@ -90,7 +96,7 @@ export function TurnstileWidget({ onToken, theme = "dark", className }: Props) {
         widgetIdRef.current = null
       }
     }
-  }, [siteKey, theme])
+  }, [siteKey, theme, appearance])
 
   if (!siteKey) return null
 

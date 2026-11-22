@@ -85,13 +85,28 @@ export function normalizeEmailKey(email: string): string {
   return email.trim().toLowerCase().slice(0, 320)
 }
 
-/** Soft same-origin: missing Origin ok, clear cross-site Origins rejected */
+function hostMatchesAllowed(host: string, allowedHosts: string[]): boolean {
+  const h = host.toLowerCase()
+  if (allowedHosts.some((allowed) => allowed.toLowerCase() === h)) return true
+  // Project preview / alias deploys (Origin is the deployment host, not production)
+  if (h.endsWith(".vercel.app") && (h === "apx-fs.vercel.app" || h.startsWith("apx-"))) return true
+  return false
+}
+
+/** Soft same-origin: missing Origin ok; clear cross-site Origins rejected. Falls back to Referer. */
 export function originAllowed(req: Request, allowedHosts: string[]): boolean {
   const origin = req.headers.get("origin")
-  if (!origin) return true
+  if (origin) {
+    try {
+      return hostMatchesAllowed(new URL(origin).host, allowedHosts)
+    } catch {
+      return false
+    }
+  }
+  const referer = req.headers.get("referer")
+  if (!referer) return true
   try {
-    const host = new URL(origin).host.toLowerCase()
-    return allowedHosts.some((h) => h.toLowerCase() === host)
+    return hostMatchesAllowed(new URL(referer).host, allowedHosts)
   } catch {
     return false
   }
