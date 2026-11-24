@@ -1,6 +1,6 @@
 import type { ContactFaqItem } from "@/lib/contact-faq-content"
 
-/** Homepage FAQ — visible + FAQPage schema. */
+/** Homepage FAQ - visible + FAQPage schema. */
 export const HOME_FAQ_ITEMS: ContactFaqItem[] = [
   {
     question: "What does APX Fire & Security do?",
@@ -34,7 +34,7 @@ export const HOME_FAQ_ITEMS: ContactFaqItem[] = [
   },
 ]
 
-/** About page FAQ — visible + FAQPage schema. */
+/** About page FAQ - visible + FAQPage schema. */
 export const ABOUT_FAQ_ITEMS: ContactFaqItem[] = [
   {
     question: "Who is APX Fire & Security?",
@@ -63,7 +63,7 @@ export const ABOUT_FAQ_ITEMS: ContactFaqItem[] = [
   },
 ]
 
-/** Locations page FAQ — visible + FAQPage schema. */
+/** Locations page FAQ - visible + FAQPage schema. */
 export const LOCATIONS_FAQ_ITEMS: ContactFaqItem[] = [
   {
     question: "Do you cover my postcode?",
