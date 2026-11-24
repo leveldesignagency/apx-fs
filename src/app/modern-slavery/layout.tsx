@@ -1,5 +1,6 @@
 import type { Metadata } from "next"
 import { buildFsMetadata } from "@/lib/seo-metadata"
+import { FsBreadcrumbJsonLd } from "@/components/seo/FsBreadcrumbJsonLd"
 
 export const metadata: Metadata = buildFsMetadata({
   title: "Modern Slavery Statement | APX Fire & Security",
@@ -10,5 +11,10 @@ export const metadata: Metadata = buildFsMetadata({
 })
 
 export default function ModernSlaveryLayout({ children }: { children: React.ReactNode }) {
-  return children
+  return (
+    <>
+      <FsBreadcrumbJsonLd crumbs={[{ name: "Modern Slavery Statement", path: "/modern-slavery" }]} />
+      {children}
+    </>
+  )
 }

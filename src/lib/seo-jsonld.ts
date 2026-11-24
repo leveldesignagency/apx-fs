@@ -1,21 +1,137 @@
+import type { FsTeamMember } from "@/data/fsTeam"
 import type { ServiceFaqItem } from "@/lib/fs-service-faq-content"
-import { FS_SITE_NAME, fsAbsoluteUrl, getFsSiteUrl } from "@/lib/seo"
+import {
+  FS_SITE_NAME,
+  fsAbsoluteUrl,
+  fsOrganizationDescription,
+  getFsSiteUrl,
+} from "@/lib/seo"
 
 export type BreadcrumbCrumb = { name: string; path: string }
 
-export function buildFaqPageJsonLd(items: ServiceFaqItem[]): Record<string, unknown> | null {
+export function buildFaqPageJsonLd(
+  items: ServiceFaqItem[],
+  opts?: { pathname?: string }
+): Record<string, unknown> | null {
   if (!items.length) return null
+  const url = getFsSiteUrl()
+  const pageUrl = opts?.pathname
+    ? opts.pathname === "/"
+      ? url
+      : fsAbsoluteUrl(opts.pathname)
+    : undefined
   return {
     "@context": "https://schema.org",
     "@type": "FAQPage",
-    mainEntity: items.map((item) => ({
+    ...(pageUrl ? { "@id": `${pageUrl}#faq`, url: pageUrl, isPartOf: { "@id": `${url}/#website` } } : {}),
+    mainEntity: items.map((item, index) => ({
       "@type": "Question",
+      ...(pageUrl ? { "@id": `${pageUrl}#faq-q${index + 1}` } : {}),
       name: item.question,
       acceptedAnswer: {
         "@type": "Answer",
         text: item.answer,
       },
     })),
+  }
+}
+
+export function buildAboutPageJsonLd(opts: {
+  name: string
+  description: string
+  pathname?: string
+  speakableSelectors?: string[]
+}): Record<string, unknown> {
+  const url = getFsSiteUrl()
+  const pathname = opts.pathname ?? "/about"
+  const pageUrl = fsAbsoluteUrl(pathname)
+  return {
+    "@context": "https://schema.org",
+    "@type": "AboutPage",
+    "@id": `${pageUrl}#webpage`,
+    url: pageUrl,
+    name: opts.name,
+    description: opts.description || fsOrganizationDescription(),
+    inLanguage: "en-GB",
+    isPartOf: { "@id": `${url}/#website` },
+    about: { "@id": `${url}/#organization` },
+    mainEntity: { "@id": `${url}/#organization` },
+    speakable: {
+      "@type": "SpeakableSpecification",
+      cssSelector: opts.speakableSelectors ?? ["h1", ".aeo-direct-answer"],
+    },
+  }
+}
+
+export function buildContactPageJsonLd(opts: {
+  name: string
+  description: string
+  pathname?: string
+  speakableSelectors?: string[]
+}): Record<string, unknown> {
+  const url = getFsSiteUrl()
+  const pathname = opts.pathname ?? "/contact"
+  const pageUrl = fsAbsoluteUrl(pathname)
+  return {
+    "@context": "https://schema.org",
+    "@type": "ContactPage",
+    "@id": `${pageUrl}#webpage`,
+    url: pageUrl,
+    name: opts.name,
+    description: opts.description,
+    inLanguage: "en-GB",
+    isPartOf: { "@id": `${url}/#website` },
+    about: { "@id": `${url}/#organization` },
+    speakable: {
+      "@type": "SpeakableSpecification",
+      cssSelector: opts.speakableSelectors ?? ["h1", ".aeo-direct-answer"],
+    },
+  }
+}
+
+export function buildPersonJsonLd(member: FsTeamMember): Record<string, unknown> {
+  const url = getFsSiteUrl()
+  const teamUrl = fsAbsoluteUrl("/team")
+  const jobTitle =
+    member.role === "APX Fire & Security" ? "Fire & Security specialist" : member.role
+  return {
+    "@type": "Person",
+    "@id": `${teamUrl}#${member.id}`,
+    name: member.name,
+    jobTitle,
+    worksFor: { "@id": `${url}/#organization` },
+    url: `${teamUrl}#${member.id}`,
+    ...(member.image ? { image: fsAbsoluteUrl(member.image) } : {}),
+  }
+}
+
+export function buildTeamGraphJsonLd(members: FsTeamMember[]): Record<string, unknown> | null {
+  if (!members.length) return null
+  const url = getFsSiteUrl()
+  const teamUrl = fsAbsoluteUrl("/team")
+  return {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": "CollectionPage",
+        "@id": `${teamUrl}#webpage`,
+        url: teamUrl,
+        name: `Our Team | ${FS_SITE_NAME}`,
+        description: `Meet the ${FS_SITE_NAME} team delivering fire and security systems across London and the Home Counties.`,
+        inLanguage: "en-GB",
+        isPartOf: { "@id": `${url}/#website` },
+        about: { "@id": `${url}/#organization` },
+        mainEntity: {
+          "@type": "ItemList",
+          itemListElement: members.map((m, i) => ({
+            "@type": "ListItem",
+            position: i + 1,
+            item: { "@id": `${teamUrl}#${m.id}` },
+          })),
+        },
+      },
+      ...members.map(buildPersonJsonLd),
+    ],
   }
 }
 
@@ -45,6 +161,7 @@ export function buildServiceJsonLd(opts: {
   return {
     "@context": "https://schema.org",
     "@type": "Service",
+    "@id": `${pageUrl}#service`,
     name: opts.name,
     description: opts.description,
     url: pageUrl,
@@ -114,12 +231,8 @@ export function buildProjectJsonLd(opts: {
     articleSection: "Projects",
     ...(opts.imageUrl ? { image: [opts.imageUrl] } : {}),
     ...(opts.location ? { contentLocation: { "@type": "Place", name: opts.location } } : {}),
-    author: { "@type": "Organization", name: FS_SITE_NAME, url },
-    publisher: {
-      "@type": "Organization",
-      name: FS_SITE_NAME,
-      logo: { "@id": `${url}/#logo` },
-    },
+    author: { "@id": `${url}/#organization` },
+    publisher: { "@id": `${url}/#organization` },
   }
 }
 
@@ -167,6 +280,7 @@ export function buildArticleJsonLd(opts: {
   return {
     "@context": "https://schema.org",
     "@type": "NewsArticle",
+    "@id": `${pageUrl}#article`,
     headline: opts.title,
     description: opts.description,
     image: [opts.imageUrl],
@@ -175,12 +289,58 @@ export function buildArticleJsonLd(opts: {
     url: pageUrl,
     inLanguage: "en-GB",
     mainEntityOfPage: { "@type": "WebPage", "@id": pageUrl },
-    author: { "@type": "Organization", name: FS_SITE_NAME, url },
-    publisher: {
-      "@type": "Organization",
-      name: FS_SITE_NAME,
-      logo: { "@id": `${url}/#logo` },
+    author: { "@id": `${url}/#organization` },
+    publisher: { "@id": `${url}/#organization` },
+  }
+}
+
+export function buildDeliveryHowToJsonLd(): Record<string, unknown> {
+  const url = getFsSiteUrl()
+  const pageUrl = fsAbsoluteUrl("/delivery-methodology")
+  const steps = [
+    {
+      name: "Survey and consultation",
+      text: "Site survey and consultation to confirm requirements, constraints and standards.",
     },
+    {
+      name: "Design and coordination",
+      text: "System design and coordination with the project team, M&E packages and stakeholders.",
+    },
+    {
+      name: "Pre-construction planning",
+      text: "Programme, materials and access planning before installation starts.",
+    },
+    {
+      name: "Installation",
+      text: "On-site installation by APX engineers to the agreed design and programme.",
+    },
+    {
+      name: "Commissioning and certification",
+      text: "Commissioning, testing and certification aligned to British Standards and scheme requirements.",
+    },
+    {
+      name: "Handover, maintenance and support",
+      text: "Handover documentation, training where required, then maintenance and ongoing support.",
+    },
+  ]
+  return {
+    "@context": "https://schema.org",
+    "@type": "HowTo",
+    "@id": `${pageUrl}#howto`,
+    name: "How APX Fire & Security delivers fire and security projects",
+    description:
+      "Survey, design, planning, installation, commissioning and handover for fire and security projects across London and the Home Counties.",
+    url: pageUrl,
+    inLanguage: "en-GB",
+    totalTime: "P4W",
+    provider: { "@id": `${url}/#organization` },
+    step: steps.map((step, index) => ({
+      "@type": "HowToStep",
+      position: index + 1,
+      name: step.name,
+      text: step.text,
+      url: `${pageUrl}#step-${index + 1}`,
+    })),
   }
 }
 
@@ -200,12 +360,7 @@ export function buildJobPostingJsonLd(opts: {
     title: opts.title,
     description: opts.description,
     datePosted: opts.datePosted ?? new Date().toISOString().slice(0, 10),
-    hiringOrganization: {
-      "@type": "Organization",
-      name: FS_SITE_NAME,
-      sameAs: url,
-      logo: fsAbsoluteUrl("/icon-512.png"),
-    },
+    hiringOrganization: { "@id": `${url}/#organization` },
     jobLocation: {
       "@type": "Place",
       address: {

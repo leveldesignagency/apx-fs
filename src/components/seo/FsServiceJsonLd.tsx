@@ -45,7 +45,7 @@ export function FsServiceJsonLd({ pathname, name, description }: Props) {
     <JsonLd
       data={[
         buildBreadcrumbJsonLd(breadcrumbsForServicePath(pathname, serviceName)),
-        buildFaqPageJsonLd(faqs),
+        buildFaqPageJsonLd(faqs, { pathname }),
         buildServiceJsonLd({
           name: serviceName,
           description,

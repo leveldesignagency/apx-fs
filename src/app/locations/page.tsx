@@ -1,7 +1,9 @@
 import Link from "next/link"
+import { ContactFaqSection } from "@/components/contact/ContactFaqSection"
 import { LocationsPostcodeCheck } from "@/components/locations/LocationsPostcodeCheck"
 import { CallPhoneCta } from "@/components/ui/CallPhoneCta"
 import { LetterReveal } from "@/components/LetterReveal"
+import { LOCATIONS_FAQ_ITEMS } from "@/lib/hub-faq-content"
 import { FS_SERVICE_NAV_LINKS } from "@/lib/fs-service-navigation"
 import { HOME_COUNTIES_AND_REGIONS, LONDON_BOROUGHS } from "@/lib/seo-geo-areas"
 
@@ -29,13 +31,10 @@ export default function LocationsPage() {
       <section className="page-title-band site-container">
         <div className="max-w-3xl">
           <span className="section-label mb-3 block text-white/75">Service area</span>
-          <LetterReveal
-            as="h1"
-            text="Locations We Cover"
-            className="text-left font-title text-3xl font-bold tracking-tight sm:text-4xl md:text-5xl lg:text-6xl"
-            desktopOnly={false}
-          />
-          <p className="mt-4 max-w-2xl text-left text-base font-normal tracking-tight text-white/70 sm:text-lg md:text-xl">
+          <h1 className="text-left font-title text-3xl font-bold tracking-tight sm:text-4xl md:text-5xl lg:text-6xl">
+            <LetterReveal as="span" text="Locations We Cover" desktopOnly={false} />
+          </h1>
+          <p className="aeo-direct-answer mt-4 max-w-2xl text-left text-base font-normal tracking-tight text-white/70 sm:text-lg md:text-xl">
             APX Fire &amp; Security designs, installs and maintains fire and electronic security systems across
             Greater London and the Home Counties. Based in Erith, Kent, we support commercial, public-sector and
             residential sites throughout the South East.
@@ -142,6 +141,16 @@ export default function LocationsPage() {
           for a survey or quote.
         </p>
       </section>
+
+      <LocationsDivider />
+
+      <ContactFaqSection
+        items={LOCATIONS_FAQ_ITEMS}
+        heading="Coverage Questions"
+        headingId="locations-faq-heading"
+        subtitle="Where we work, how to check your postcode, and how to book a survey in your area."
+        signoff="Tell us your postcode and we will confirm coverage."
+      />
     </div>
   )
 }

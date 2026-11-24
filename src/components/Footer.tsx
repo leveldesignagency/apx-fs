@@ -339,6 +339,9 @@ export default function Footer() {
                       <FooterLink href="/about">About</FooterLink>
                     </li>
                     <li>
+                      <FooterLink href="/team">Team</FooterLink>
+                    </li>
+                    <li>
                       <FooterLink href="/projects">Projects</FooterLink>
                     </li>
                     <li>
@@ -495,6 +498,9 @@ export default function Footer() {
                     </li>
                     <li>
                       <FooterLink href="/about">About</FooterLink>
+                    </li>
+                    <li>
+                      <FooterLink href="/team">Team</FooterLink>
                     </li>
                     <li>
                       <FooterLink href="/projects">Projects</FooterLink>

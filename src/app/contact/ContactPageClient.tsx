@@ -340,13 +340,18 @@ export function ContactPageClient() {
               <div className="contact-page-copy flex min-h-0 flex-col">
                 <Reveal show={mounted} delayMs={0}>
                   <span className="section-label mb-5 block text-white/55">Contact</span>
-                  <LetterReveal
-                    as="h1"
-                    text="Let's Start a Conversation"
-                    active={mounted}
-                    desktopOnly={false}
-                    className="contact-page-title font-title text-left text-4xl font-bold text-white sm:text-5xl md:text-6xl lg:text-7xl"
-                  />
+                  <h1 className="contact-page-title font-title text-left text-4xl font-bold text-white sm:text-5xl md:text-6xl lg:text-7xl">
+                    <LetterReveal
+                      as="span"
+                      text="Let's Start a Conversation"
+                      active={mounted}
+                      desktopOnly={false}
+                    />
+                  </h1>
+                  <p className="aeo-direct-answer mt-4 max-w-xl text-sm leading-relaxed text-white/80 sm:max-w-2xl sm:text-base lg:max-w-none">
+                    Contact APX Fire &amp; Security for fire alarm, CCTV, access control and maintenance
+                    enquiries across London and the Home Counties.
+                  </p>
                   <ContactFaultResponseCopy
                     variant="onDark"
                     onPhoneClick={handlePhone}

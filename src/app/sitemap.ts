@@ -8,12 +8,13 @@ import { getFsSiteUrl } from "@/lib/seo"
 const ACCREDITOR_SLUGS = ["bafe", "nsi", "constructionline", "fia"] as const
 
 /** Honest lastmod for static URLs. Do not stamp "now" on every request. */
-const STATIC_LASTMOD = new Date("2026-11-02T12:00:00.000Z")
+const STATIC_LASTMOD = new Date("2026-11-24T12:00:00.000Z")
 
 const STATIC: Array<{
   path: string
   changeFrequency: MetadataRoute.Sitemap[number]["changeFrequency"]
   priority: number
+  lastModified?: Date
 }> = [
   { path: "", changeFrequency: "weekly", priority: 1 },
   { path: "services", changeFrequency: "weekly", priority: 0.95 },
@@ -48,6 +49,12 @@ const STATIC: Array<{
   { path: "terms", changeFrequency: "yearly", priority: 0.3 },
   { path: "accessibility", changeFrequency: "yearly", priority: 0.35 },
   { path: "recruitment-privacy", changeFrequency: "yearly", priority: 0.35 },
+  {
+    path: "modern-slavery",
+    changeFrequency: "yearly",
+    priority: 0.35,
+    lastModified: new Date("2026-11-08T12:00:00.000Z"),
+  },
 ]
 
 export default function sitemap(): MetadataRoute.Sitemap {
@@ -57,7 +64,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
   for (const item of STATIC) {
     urls.push({
       url: item.path ? `${base}/${item.path}` : base,
-      lastModified: STATIC_LASTMOD,
+      lastModified: item.lastModified ?? STATIC_LASTMOD,
       changeFrequency: item.changeFrequency,
       priority: item.priority,
     })

@@ -1,8 +1,11 @@
 import type { Metadata } from "next"
 import { TeamDirectoryClient } from "@/components/team/TeamDirectoryClient"
+import { FS_TEAM_MEMBERS } from "@/data/fsTeam"
 import { FS_SITE_NAME } from "@/lib/seo"
 import { buildFsMetadata } from "@/lib/seo-metadata"
 import { FsBreadcrumbJsonLd } from "@/components/seo/FsBreadcrumbJsonLd"
+import { JsonLd } from "@/components/seo/JsonLd"
+import { buildTeamGraphJsonLd } from "@/lib/seo-jsonld"
 
 export const metadata: Metadata = buildFsMetadata({
   title: `Our Team | Engineers & Project Leads | ${FS_SITE_NAME}`,
@@ -14,9 +17,10 @@ export default function TeamPage() {
   return (
     <>
       <FsBreadcrumbJsonLd crumbs={[{ name: "Team", path: "/team" }]} />
-      <main className="team-page min-h-screen bg-white text-black">
+      <JsonLd data={buildTeamGraphJsonLd(FS_TEAM_MEMBERS)} />
+      <div className="team-page min-h-screen bg-white text-black">
         <TeamDirectoryClient />
-      </main>
+      </div>
     </>
   )
 }

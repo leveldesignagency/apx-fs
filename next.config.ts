@@ -60,6 +60,13 @@ const nextConfig: NextConfig = {
         destination: "/services/cctv-systems",
         permanent: true,
       },
+      // Consolidate apex → www (both hosts must be attached on the host platform).
+      {
+        source: "/:path*",
+        has: [{ type: "host", value: "apx-fs.co.uk" }],
+        destination: "https://www.apx-fs.co.uk/:path*",
+        permanent: true,
+      },
     ];
   },
   async headers() {

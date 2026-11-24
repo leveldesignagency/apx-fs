@@ -8,6 +8,12 @@ import { cn } from "@/lib/utils"
 
 type Props = {
   items?: ContactFaqItem[]
+  /** Override default contact FAQ heading / intro for hub pages. */
+  heading?: string
+  headingId?: string
+  subtitle?: string
+  signoff?: string
+  className?: string
 }
 
 function FaqColumn({
@@ -79,28 +85,33 @@ function FaqColumn({
 }
 
 /**
- * Contact page FAQ - two-column accordion (reference layout, APX black/white).
+ * Two-column FAQ accordion (contact + hub pages). Schema is emitted by page layouts.
  */
-export function ContactFaqSection({ items = CONTACT_FAQ_ITEMS }: Props) {
+export function ContactFaqSection({
+  items = CONTACT_FAQ_ITEMS,
+  heading = "Looking for Answers?",
+  headingId = "contact-faq-heading",
+  subtitle = "Common questions about surveys, quotes, coverage and getting in touch with APX Fire & Security.",
+  signoff = "We're here when you need us.",
+  className,
+}: Props) {
   const [openKey, setOpenKey] = useState<string | null>(null)
   const mid = Math.ceil(items.length / 2)
   const left = items.slice(0, mid)
   const right = items.slice(mid)
 
   return (
-    <section className="contact-faq" aria-labelledby="contact-faq-heading">
+    <section className={cn("contact-faq", className)} aria-labelledby={headingId}>
       <div className="site-container">
         <header className="contact-faq__header">
           <LetterReveal
             as="h2"
-            id="contact-faq-heading"
-            text="Looking for Answers?"
+            id={headingId}
+            text={heading}
             desktopOnly={false}
             className="contact-faq__title font-title"
           />
-          <p className="contact-faq__subtitle">
-            Common questions about surveys, quotes, coverage and getting in touch with APX Fire &amp; Security.
-          </p>
+          <p className="contact-faq__subtitle">{subtitle}</p>
         </header>
 
         <div className="contact-faq__grid">
@@ -118,7 +129,7 @@ export function ContactFaqSection({ items = CONTACT_FAQ_ITEMS }: Props) {
           />
         </div>
 
-        <p className="contact-faq__signoff">We&apos;re here when you need us.</p>
+        {signoff ? <p className="contact-faq__signoff">{signoff}</p> : null}
       </div>
     </section>
   )

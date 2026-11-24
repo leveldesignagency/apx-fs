@@ -6,10 +6,12 @@ import { useState, useEffect, useRef } from "react";
 import { Reveal } from "@/components/Reveal";
 import { LetterReveal } from "@/components/LetterReveal";
 import { LineReveal } from "@/components/LineReveal";
+import { ContactFaqSection } from "@/components/contact/ContactFaqSection";
 import { FsInsetCtaCard } from "@/components/FsInsetCtaCard";
 import { ServiceHeroGridTilt } from "@/components/ServiceHeroGridTilt";
 import { CustomPillButton } from "@/components/ui/CustomPillButton";
 import { CallPhoneCta } from "@/components/ui/CallPhoneCta";
+import { ABOUT_FAQ_ITEMS } from "@/lib/hub-faq-content";
 
 const ABOUT_HERO_PARAS = [
   "Building on a heritage dating back to 1986, APX Fire & Security (formerly Smiths Technical Systems Ltd) is a trusted provider of fully integrated fire detection, life safety and electronic security systems across London and the Home Counties.",
@@ -331,7 +333,9 @@ export default function AboutPage() {
                     key={i}
                     as="p"
                     text={para}
-                    className="relative text-base font-normal leading-relaxed tracking-normal text-white/82 sm:text-lg md:text-[1.125rem] md:leading-[1.7]"
+                    className={`relative text-base font-normal leading-relaxed tracking-normal text-white/82 sm:text-lg md:text-[1.125rem] md:leading-[1.7]${
+                      i === 0 ? " aeo-direct-answer" : ""
+                    }`}
                     delayMs={120 + i * 150}
                     staggerMs={48}
                     active={heritageReveal}
@@ -706,6 +710,14 @@ export default function AboutPage() {
           </Reveal>
         </div>
       </section>
+
+      <ContactFaqSection
+        items={ABOUT_FAQ_ITEMS}
+        heading="About APX"
+        headingId="about-faq-heading"
+        subtitle="Heritage, accreditations, coverage and how we relate to Smiths Technical Systems."
+        signoff="Questions about who we are? Get in touch."
+      />
 
       <FsInsetCtaCard
         variant="dark-card"

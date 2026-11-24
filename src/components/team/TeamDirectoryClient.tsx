@@ -9,13 +9,16 @@ import { cn } from "@/lib/utils"
 
 function TeamMemberCard({ member }: { member: FsTeamMember }) {
   return (
-    <article className="team-member-card group relative flex aspect-[3/4] flex-col overflow-hidden rounded-[1.5rem] bg-black shadow-[0_18px_44px_rgba(0,0,0,0.18)] transition-transform duration-500 ease-out hover:-translate-y-1 sm:rounded-[1.75rem]">
+    <article
+      id={member.id}
+      className="team-member-card group relative flex aspect-[3/4] flex-col overflow-hidden rounded-[1.5rem] bg-black shadow-[0_18px_44px_rgba(0,0,0,0.18)] transition-transform duration-500 ease-out hover:-translate-y-1 sm:rounded-[1.75rem]"
+    >
       <div className="relative min-h-0 flex-1 overflow-hidden bg-neutral-900">
         {member.image ? (
           // eslint-disable-next-line @next/next/no-img-element
           <img
             src={member.image}
-            alt=""
+            alt={`${member.name}, ${member.role === "APX Fire & Security" ? "APX Fire & Security team" : member.role}`}
             className="absolute inset-0 h-full w-full object-cover object-top transition-transform duration-700 ease-out group-hover:scale-[1.04]"
           />
         ) : (
@@ -67,9 +70,12 @@ export function TeamDirectoryClient() {
             >
               People
             </p>
-            <LetterReveal as="h1" text={'The Team'} desktopOnly={false} className="font-title text-4xl font-bold leading-[1.02] tracking-tight text-black sm:text-5xl lg:text-6xl" />
-            <p className="mt-4 max-w-md text-base leading-relaxed text-black/60 sm:text-lg">
-              Everyone behind APX Fire &amp; Security. Search by name or role.
+            <h1 className="font-title text-4xl font-bold leading-[1.02] tracking-tight text-black sm:text-5xl lg:text-6xl">
+              <LetterReveal as="span" text="The Team" desktopOnly={false} />
+            </h1>
+            <p className="aeo-direct-answer mt-4 max-w-md text-base leading-relaxed text-black/60 sm:text-lg">
+              Everyone behind APX Fire &amp; Security. Engineers, project leads and support staff across London and
+              the Home Counties.
             </p>
             <Link
               href="/about#meet-the-team"

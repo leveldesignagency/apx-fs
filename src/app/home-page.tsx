@@ -35,7 +35,9 @@ import { WhatWeOfferSection } from "@/components/home/WhatWeOfferSection"
 import { HomeQuoteFormDrawShell, HOME_QUOTE_FORM_INNER_DELAY_MS } from "@/components/home/HomeQuoteFormDrawShell"
 import { HomeSectionDivider } from "@/components/home/HomeSectionDivider"
 import { IndustriesWeWorkInSection } from "@/components/home/IndustriesWeWorkInSection"
+import { ContactFaqSection } from "@/components/contact/ContactFaqSection"
 import { LetterReveal } from "@/components/LetterReveal"
+import { HOME_FAQ_ITEMS } from "@/lib/hub-faq-content"
 import { LineReveal } from "@/components/LineReveal"
 import { ServiceCombobox } from "@/components/ui/ServiceCombobox"
 import {
@@ -1002,11 +1004,12 @@ export default function Home() {
               </h1>
             </div>
             <p
-              className={`hero-subtitle-reveal mx-auto mt-2 max-w-3xl text-base font-normal tracking-normal text-white transition-all duration-1000 sm:mt-3 sm:whitespace-nowrap sm:text-lg md:mt-4 md:text-xl lg:mx-0 ${
+              className={`aeo-direct-answer hero-subtitle-reveal mx-auto mt-2 max-w-3xl text-base font-normal tracking-normal text-white transition-all duration-1000 sm:mt-3 sm:text-lg md:mt-4 md:text-xl lg:mx-0 ${
                 heroAnimation.titleVisible ? "opacity-100 translate-y-0 blur-0" : "opacity-0 translate-y-12 blur-[6px]"
               }`}
             >
-              Your NSI Gold Fire &amp; Security Systems Installer.
+              APX Fire &amp; Security is an NSI Gold installer of fire alarms, CCTV and access control across
+              London and the Home Counties.
             </p>
 
             <div
@@ -1901,6 +1904,14 @@ export default function Home() {
           </div>
         </div>
       </section>
+
+      <ContactFaqSection
+        items={HOME_FAQ_ITEMS}
+        heading="Common Questions"
+        headingId="home-faq-heading"
+        subtitle="Who we are, where we work, accreditations, surveys and maintenance cover."
+        signoff="Still unsure? Call 020 8303 2280."
+      />
 
     </div>
     </>

@@ -90,12 +90,24 @@ export function fsKeywordsMetaString(): string {
 }
 
 export function fsDefaultDescription(): string {
-  return `${FS_SITE_NAME}: NSI & BAFE-aligned fire alarms, CCTV, access control, intruder and life-safety systems for commercial, public-sector and residential clients across Greater London, every London borough, and the Home Counties including Kent, Essex, Surrey, Hertfordshire and Berkshire. Design, installation, commissioning and maintenance.`
+  return `${FS_SITE_NAME}: NSI & BAFE-aligned fire alarms, CCTV, access control and life-safety systems across London and the Home Counties. Design, installation, commissioning and maintenance.`
 }
+
+/** Public entity description for Organization / AboutPage schema. */
+export function fsOrganizationDescription(): string {
+  return `${FS_LEGAL_NAME} (formerly Smiths Technical Systems Ltd) designs, installs and maintains fire and security systems across Greater London and the Home Counties. Heritage dating back to 1986.`
+}
+
+const FS_ENTITY_SAME_AS = [
+  "https://www.nsi.org.uk/",
+  "https://www.bafe.org.uk/",
+  "https://www.constructionline.co.uk/",
+  "https://www.fia.uk.com/",
+] as const
 
 function fsSameAs(): string[] {
   const social = APX_SOCIAL_LINKS.map((l) => l.href).filter((href) => !href.includes("google.com/search"))
-  return [...social, FS_COMPANIES_HOUSE_URL]
+  return [...social, FS_COMPANIES_HOUSE_URL, ...FS_ENTITY_SAME_AS]
 }
 
 export function fsJsonLdGraph(): Record<string, unknown> {
@@ -171,7 +183,14 @@ export function fsJsonLdGraph(): Record<string, unknown> {
         "@id": `${url}/#organization`,
         name: FS_SITE_NAME,
         legalName: FS_LEGAL_NAME,
-        alternateName: ["APX FS", "APX Fire and Security", "APX Fire & Security Limited"],
+        alternateName: [
+          "APX FS",
+          "APX Fire and Security",
+          "APX Fire & Security Limited",
+          "Smiths Technical Systems Ltd",
+          "Smiths Technical Systems",
+        ],
+        description: fsOrganizationDescription(),
         slogan: FS_SLOGAN,
         url,
         logo: { "@id": `${url}/#logo` },
@@ -197,6 +216,38 @@ export function fsJsonLdGraph(): Record<string, unknown> {
           "Constructionline Gold",
           "FIA Full Member",
           "BS EN ISO 9001:2015",
+        ],
+        hasCredential: [
+          {
+            "@type": "EducationalOccupationalCredential",
+            name: "NSI Gold — Security",
+            credentialCategory: "accreditation",
+            recognizedBy: { "@type": "Organization", name: "National Security Inspectorate", url: "https://www.nsi.org.uk/" },
+          },
+          {
+            "@type": "EducationalOccupationalCredential",
+            name: "NSI Gold — Fire",
+            credentialCategory: "accreditation",
+            recognizedBy: { "@type": "Organization", name: "National Security Inspectorate", url: "https://www.nsi.org.uk/" },
+          },
+          {
+            "@type": "EducationalOccupationalCredential",
+            name: "BAFE Registered Organisation",
+            credentialCategory: "accreditation",
+            identifier: "301168",
+            recognizedBy: { "@type": "Organization", name: "BAFE Fire Safety Register", url: "https://www.bafe.org.uk/" },
+          },
+          {
+            "@type": "EducationalOccupationalCredential",
+            name: "Constructionline Gold",
+            credentialCategory: "accreditation",
+            recognizedBy: { "@type": "Organization", name: "Constructionline", url: "https://www.constructionline.co.uk/" },
+          },
+          {
+            "@type": "EducationalOccupationalCredential",
+            name: "BS EN ISO 9001:2015",
+            credentialCategory: "certification",
+          },
         ],
         memberOf,
         hasOfferCatalog: { "@id": `${url}/#services` },
@@ -238,13 +289,21 @@ export function fsJsonLdGraph(): Record<string, unknown> {
         "@id": `${url}/#localbusiness`,
         name: FS_SITE_NAME,
         legalName: FS_LEGAL_NAME,
+        alternateName: [
+          "APX FS",
+          "APX Fire and Security",
+          "Smiths Technical Systems Ltd",
+          "Smiths Technical Systems",
+        ],
+        description: fsOrganizationDescription(),
         slogan: FS_SLOGAN,
         image: [logoUrl, googleLogoUrl, fsAbsoluteUrl(FS_DEFAULT_OG_PATH)],
         url,
         telephone: FS_PHONE_E164,
         email: FS_EMAIL,
-        priceRange: "$$",
+        priceRange: "££",
         currenciesAccepted: "GBP",
+        paymentAccepted: "Invoice, Bank transfer",
         address: postalAddress,
         geo: {
           "@type": "GeoCoordinates",
@@ -270,7 +329,6 @@ export function fsJsonLdGraph(): Record<string, unknown> {
         knowsAbout: [...FS_KNOWS_ABOUT],
         memberOf,
         hasOfferCatalog: { "@id": `${url}/#services` },
-        parentOrganization: { "@id": `${url}/#organization` },
         sameAs: fsSameAs(),
       },
     ],
