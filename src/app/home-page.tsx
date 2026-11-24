@@ -35,9 +35,7 @@ import { WhatWeOfferSection } from "@/components/home/WhatWeOfferSection"
 import { HomeQuoteFormDrawShell, HOME_QUOTE_FORM_INNER_DELAY_MS } from "@/components/home/HomeQuoteFormDrawShell"
 import { HomeSectionDivider } from "@/components/home/HomeSectionDivider"
 import { IndustriesWeWorkInSection } from "@/components/home/IndustriesWeWorkInSection"
-import { ContactFaqSection } from "@/components/contact/ContactFaqSection"
 import { LetterReveal } from "@/components/LetterReveal"
-import { HOME_FAQ_ITEMS } from "@/lib/hub-faq-content"
 import { LineReveal } from "@/components/LineReveal"
 import { ServiceCombobox } from "@/components/ui/ServiceCombobox"
 import {
@@ -1904,14 +1902,6 @@ export default function Home() {
           </div>
         </div>
       </section>
-
-      <ContactFaqSection
-        items={HOME_FAQ_ITEMS}
-        heading="Common Questions"
-        headingId="home-faq-heading"
-        subtitle="Who we are, where we work, accreditations, surveys and maintenance cover."
-        signoff="Still unsure? Call 020 8303 2280."
-      />
 
     </div>
     </>
